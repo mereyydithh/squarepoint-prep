@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disc vs Systematic — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link active" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="m-discretionary-vs-systematic">M — DISCRETIONARY VS SYSTEMATIC</h1>
+<h2 id="how-each-approach-works-how-risk-management-differs-and-where-you-sit-at-squarepoint">How each approach works, how risk management differs, and where you sit at Squarepoint</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="part-1-the-two-paradigms">PART 1: THE TWO PARADIGMS</h1>
+<h2 id="systematic-quantitative">Systematic (Quantitative)</h2>
+<p>Decisions are made by ALGORITHMS. Humans build models; models make trades.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Systematic approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signal generation</td>
+<td>Statistical models, machine learning, factor analysis</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Automated. Algorithms route orders optimally.</td>
+</tr>
+<tr>
+<td>Holding period</td>
+<td>Milliseconds (HFT) to weeks (medium-frequency stat arb)</td>
+</tr>
+<tr>
+<td>Positions</td>
+<td>Hundreds to thousands. Highly diversified.</td>
+</tr>
+<tr>
+<td>Edge</td>
+<td>Speed, data processing, statistical patterns across many securities</td>
+</tr>
+<tr>
+<td>Human role</td>
+<td>Build and maintain models. Monitor model behavior. Research new signals.</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Model risk, overfitting, regime change, crowded trades</td>
+</tr>
+</tbody>
+</table>
+<h2 id="discretionary-fundamental">Discretionary (Fundamental)</h2>
+<p>Decisions are made by HUMANS. PMs research, form views, and decide what to trade.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Discretionary approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signal generation</td>
+<td>Fundamental research, earnings models, macro views, sector expertise</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>Human-directed. Trader works the order.</td>
+</tr>
+<tr>
+<td>Holding period</td>
+<td>Days to months (sometimes years)</td>
+</tr>
+<tr>
+<td>Positions</td>
+<td>20-80 typically. Concentrated, high-conviction.</td>
+</tr>
+<tr>
+<td>Edge</td>
+<td>Deep fundamental insight, variant perception, informational edge</td>
+</tr>
+<tr>
+<td>Human role</td>
+<td>Everything — idea generation, research, thesis formation, sizing, execution, exit</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Behavioral biases, concentrated positions, key-person risk</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-2-how-risk-management-differs">PART 2: HOW RISK MANAGEMENT DIFFERS</h1>
+<p>This is the CORE of what your interviewers want to know: why does a discretionary RM do different things than a systematic RM?</p>
+<h2 id="systematic-risk-management">Systematic Risk Management</h2>
+<h3 id="what-the-models-handle">What the models handle:</h3>
+<ul>
+<li>Position sizing (automated, risk-optimized)</li>
+<li>Exposure limits (coded into the system)</li>
+<li>Stop-losses (algorithmic, no emotions)</li>
+<li>Factor neutrality (models are factor-neutral by construction)</li>
+</ul>
+<h3 id="what-the-rm-focuses-on">What the RM focuses on:</h3>
+<table>
+<thead>
+<tr>
+<th>Focus area</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model risk</td>
+<td>Is the model overfitting? Has the regime changed?</td>
+</tr>
+<tr>
+<td>Tail risk</td>
+<td>Models optimize for normal markets. What happens in 5-sigma events?</td>
+</tr>
+<tr>
+<td>Crowding</td>
+<td>Are our signals correlated with every other quant fund? Will everyone unwind at once?</td>
+</tr>
+<tr>
+<td>Technology risk</td>
+<td>System failures, data feed errors, execution glitches</td>
+</tr>
+<tr>
+<td>Correlation monitoring</td>
+<td>Are positions more correlated than the model assumes?</td>
+</tr>
+<tr>
+<td>Liquidity</td>
+<td>Can we actually execute the model's desired trades at the assumed cost?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-it-feels">How it feels:</h3>
+<ul>
+<li>Mostly monitoring dashboards and systems.</li>
+<li>Interventions are rare but critical (model break, flash crash, regime change).</li>
+<li>Less interpersonal — you're watching algorithms, not talking to PMs.</li>
+</ul>
+<h2 id="discretionary-risk-management">Discretionary Risk Management</h2>
+<h3 id="what-the-pm-handles">What the PM handles:</h3>
+<ul>
+<li>Idea generation, research, thesis development</li>
+<li>Trade structuring (entry/exit timing)</li>
+<li>Conviction assessment</li>
+</ul>
+<h3 id="what-the-rm-focuses-on_1">What the RM focuses on:</h3>
+<table>
+<thead>
+<tr>
+<th>Focus area</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Position sizing</td>
+<td>PM may over-size based on conviction or anchoring. RM pushes back.</td>
+</tr>
+<tr>
+<td>Concentration</td>
+<td>Portfolios can become concentrated. RM monitors and flags.</td>
+</tr>
+<tr>
+<td>Drawdown management</td>
+<td>PMs feel losses personally. RM runs the broken-thesis framework.</td>
+</tr>
+<tr>
+<td>Factor drift</td>
+<td>PM may unknowingly accumulate factor bets (all long growth, all long beta).</td>
+</tr>
+<tr>
+<td>Correlation</td>
+<td>PM may think they're diversified but all positions are correlated to one macro factor.</td>
+</tr>
+<tr>
+<td>Behavioral biases</td>
+<td>Anchoring, disposition effect, overconfidence. RM is the behavioral check.</td>
+</tr>
+<tr>
+<td>Scenario analysis</td>
+<td>What happens to this portfolio in a recession? Rate shock? Sector rotation?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-it-feels_1">How it feels:</h3>
+<ul>
+<li>Very interpersonal. You're sitting next to the PM, having daily conversations.</li>
+<li>Constant dialogue: "Why are you holding this? What's your catalyst? When do you cut?"</li>
+<li>You ARE the risk system much more than any dashboard — judgment matters.</li>
+</ul>
+<h2 id="side-by-side-comparison">Side-by-Side Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Systematic RM</th>
+<th>Discretionary RM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main tool</td>
+<td>Dashboards, model monitoring</td>
+<td>Conversations, judgment</td>
+</tr>
+<tr>
+<td>Key risk</td>
+<td>Model failure, crowding</td>
+<td>Behavioral bias, concentration</td>
+</tr>
+<tr>
+<td>Position count</td>
+<td>1000+ positions</td>
+<td>20-80 positions</td>
+</tr>
+<tr>
+<td>Interaction style</td>
+<td>Engineer-to-model</td>
+<td>Human-to-human</td>
+</tr>
+<tr>
+<td>Speed of decisions</td>
+<td>Seconds (automated stops)</td>
+<td>Hours/days (judgment-based)</td>
+</tr>
+<tr>
+<td>Data dependency</td>
+<td>Extremely high</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>Override authority</td>
+<td>Rare (kill switch)</td>
+<td>Frequent (daily dialogue)</td>
+</tr>
+<tr>
+<td>Biggest nightmare</td>
+<td>Quant quake (Aug 2007)</td>
+<td>Single-name blow-up, PM revenge trading</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-3-squarepoints-model">PART 3: SQUAREPOINT'S MODEL</h1>
+<h2 id="systematic-core">Systematic Core</h2>
+<p>Squarepoint was founded and built as a systematic fund. The DNA is quantitative:<br />
+- Multiple systematic strategies across asset classes<br />
+- Technology-driven infrastructure<br />
+- Data-centric decision making<br />
+- Risk systems built for automated monitoring of thousands of positions</p>
+<h2 id="discretionary-build-out">Discretionary Build-Out</h2>
+<p>Squarepoint is adding discretionary teams — this is the team you'd join. This is strategically important:</p>
+<h3 id="why-squarepoint-wants-discretionary">Why Squarepoint wants discretionary:</h3>
+<ol>
+<li><strong>Diversification of alpha:</strong> Systematic and discretionary alphas are largely uncorrelated. Having both improves the fund's Sharpe ratio.</li>
+<li><strong>Capture different opportunities:</strong> Some trades (activist situations, special situations, macro theme trades) can't be captured by models. You need human judgment.</li>
+<li><strong>LP demand:</strong> Allocators like multi-strategy platforms that offer diversified alpha sources.</li>
+<li><strong>Regime robustness:</strong> When systematic models break (regime change, crowding), discretionary PMs may still perform — and vice versa.</li>
+</ol>
+<h3 id="what-makes-this-challenging">What makes this challenging:</h3>
+<ol>
+<li><strong>Culture clash:</strong> Systematic quants think in data and statistics. Discretionary PMs think in stories and conviction. The RM bridges these worlds.</li>
+<li><strong>Infrastructure mismatch:</strong> Risk systems built for thousands of positions need to be adapted for a concentrated 40-position book where each position requires qualitative context.</li>
+<li><strong>Risk language:</strong> Systematic risk = "the model's expected shortfall breached 2.5 standard deviations." Discretionary risk = "the PM is anchoring to a losing thesis." You need to speak BOTH languages.</li>
+<li><strong>Trust building:</strong> The firm's leadership is systematic. The discretionary PM needs to prove they can generate alpha within the firm's risk framework before getting more capital.</li>
+</ol>
+<hr />
+<h1 id="part-4-your-role-the-bridge">PART 4: YOUR ROLE — THE BRIDGE</h1>
+<p>As the RM for the discretionary desk inside a systematic firm, you're uniquely positioned:</p>
+<h2 id="translating-between-worlds">Translating Between Worlds</h2>
+<table>
+<thead>
+<tr>
+<th>You translate</th>
+<th>From</th>
+<th>To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The PM's conviction</td>
+<td>"I think XOM is a buy because..."</td>
+<td>"This adds $2M incremental VaR, 15% sector concentration, and 0.3 portfolio beta"</td>
+</tr>
+<tr>
+<td>The risk system's output</td>
+<td>"Portfolio stress test shows -$8M in a 2008 replay"</td>
+<td>"PM, if we get a credit crunch, your most levered names will get hit hardest — here are the three you should trim"</td>
+</tr>
+<tr>
+<td>Firm-wide risk to PM context</td>
+<td>"CRO wants discretionary VaR under $5M"</td>
+<td>"You can run this portfolio at current gross but need to reduce your correlation to systematic book's positions"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="daily-workflow-likely">Daily Workflow (Likely)</h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Activity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7:00 AM</td>
+<td>Review overnight moves. Check Asian/European session impact on positions.</td>
+</tr>
+<tr>
+<td>7:30 AM</td>
+<td>Pre-market risk report: P&amp;L, VaR, exposure changes, limit utilization.</td>
+</tr>
+<tr>
+<td>8:00 AM</td>
+<td>Morning meeting with PM. Review: positions, catalysts today (earnings, data), risk metrics.</td>
+</tr>
+<tr>
+<td>9:30 AM-4:00 PM</td>
+<td>Live market monitoring. Real-time P&amp;L, delta exposure. Flag intraday limit breaches.</td>
+</tr>
+<tr>
+<td>Throughout day</td>
+<td>Dialogue with PM on new ideas, sizing, exits.</td>
+</tr>
+<tr>
+<td>4:30 PM</td>
+<td>End-of-day reconciliation. Updated risk reports. Overnight exposure review.</td>
+</tr>
+<tr>
+<td>Weekly</td>
+<td>Portfolio deep-dive: factor exposures, concentration, stress scenarios, correlation with systematic book.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-makes-you-valuable">What Makes You Valuable</h2>
+<ol>
+<li><strong>Quantitative fluency:</strong> You understand the risk system, can speak the quant language to the CRO.</li>
+<li><strong>Human judgment:</strong> You can read the PM's behavior, catch biases, push back constructively.</li>
+<li><strong>Bridge credibility:</strong> You help the discretionary PM build trust with the systematic-oriented leadership.</li>
+<li><strong>Risk culture ambassador:</strong> You bring the firm's rigorous risk discipline to a team that might otherwise operate more loosely.</li>
+</ol>
+<hr />
+<h1 id="part-5-hybrid-models-and-the-future">PART 5: HYBRID MODELS AND THE FUTURE</h1>
+<h2 id="the-industry-trend">The Industry Trend</h2>
+<p>The boundary between systematic and discretionary is blurring:</p>
+<table>
+<thead>
+<tr>
+<th>Trend</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Discretionary PMs using quant tools</td>
+<td>Factor-based screening, sentiment analysis, alt data</td>
+</tr>
+<tr>
+<td>Systematic funds adding human overlays</td>
+<td>Quant models + discretionary override in extreme events</td>
+</tr>
+<tr>
+<td>"Quantamental"</td>
+<td>Fundamental research enhanced by data science and machine learning</td>
+</tr>
+<tr>
+<td>Multi-strategy platforms</td>
+<td>Citadel, Millennium, Point72 — run both systematic and discretionary pods</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-this-means-for-you">What This Means for You</h2>
+<ul>
+<li>Don't position yourself as JUST a discretionary RM.</li>
+<li>Show that you understand both worlds.</li>
+<li>Emphasize your ability to use quantitative tools to support discretionary decision-making.</li>
+<li>The future RM is quantitatively sophisticated but emotionally intelligent.</li>
+</ul>
+<hr />
+<h1 id="part-6-key-differences-in-risk-events">PART 6: KEY DIFFERENCES IN RISK EVENTS</h1>
+<h2 id="august-2007-quant-quake-systematic-risk-event">August 2007 Quant Quake — Systematic Risk Event</h2>
+<ul>
+<li>Multiple quant funds had similar factor models.</li>
+<li>One fund started unwinding → positions were correlated across funds → cascade.</li>
+<li>All selling the same names → prices crash → more margin calls → more selling.</li>
+<li>Lesson: CROWDING is existential risk for systematic funds.</li>
+<li>RM response: Monitor strategy overlap with industry. Measure uniqueness of signals.</li>
+</ul>
+<h2 id="archegos-march-2021-discretionary-risk-event">Archegos (March 2021) — Discretionary Risk Event</h2>
+<ul>
+<li>Bill Hwang ran concentrated, leveraged positions through total return swaps.</li>
+<li>Positions were invisible (swaps don't appear in 13F filings).</li>
+<li>When one position (ViacomCBS) dropped, margin calls triggered unwind of everything.</li>
+<li>Banks lost $10B+: Credit Suisse, Nomura.</li>
+<li>Lesson: Concentration + leverage + opacity = catastrophic risk.</li>
+<li>RM response: Monitor concentration limits, leverage, transparency to prime brokers.</li>
+</ul>
+<h2 id="covid-march-2020-both">COVID March 2020 — Both</h2>
+<ul>
+<li>Systematic: models had never seen -30% in 3 weeks. Many signals broke.</li>
+<li>Discretionary: PMs who held through were rewarded by the massive recovery. PMs who panic-sold locked in losses.</li>
+<li>RM lesson: Stress tests must include unprecedented scenarios. The PM who has a plan BEFORE the crisis makes better decisions during it.</li>
+</ul>
+<hr />
+<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<p>If asked "Why do you want to do discretionary risk management specifically, especially at a systematic firm?"</p>
+<p>"Discretionary RM is where judgment matters most. In a systematic setup, the model handles most risk decisions — the RM is a monitor. In discretionary, I'm in daily dialogue with the PM, pushing back on sizing, flagging concentration, running scenario analysis. That human element is what excites me.</p>
+<p>Being at Squarepoint specifically is an advantage because the risk infrastructure is world-class — built for systematic strategies where precision matters. I get to use that quantitative toolkit to support a discretionary PM. For example, I can run factor decomposition on the PM's portfolio to show exposure they might not see, or run systematic-style stress tests on a 40-position concentrated book.</p>
+<p>I'm also aware that this desk is new, which means the RM role goes beyond monitoring — it's about building credibility with the firm's leadership, establishing the risk framework for a new strategy, and acting as the bridge between the discretionary PM's fundamental thinking and the firm's quantitative culture. That's a unique opportunity."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a> — how systematic funds operate in detail<br />
+→ <a href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a> — how discretionary funds operate in detail<br />
+→ <a href="J_Position_Management.html">Position Management</a> — risk budgets and PM interactions<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — quant concepts the RM should know<br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — judgment-based risk management</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

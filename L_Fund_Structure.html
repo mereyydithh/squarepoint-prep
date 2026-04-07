@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fund Structure — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link active" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="l-fund-structure-mechanics">L — FUND STRUCTURE &amp; MECHANICS</h1>
+<h2 id="lpgp-fees-nav-redemptions-prime-brokerage-margin-and-how-the-plumbing-works">LP/GP, fees, NAV, redemptions, prime brokerage, margin, and how the plumbing works</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="part-1-fund-legal-structure">PART 1: FUND LEGAL STRUCTURE</h1>
+<h2 id="the-lpgp-model">The LP/GP Model</h2>
+<p>Almost every hedge fund uses a <strong>limited partnership</strong> structure:</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Who</th>
+<th>Rights</th>
+<th>Liability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>General Partner (GP)</strong></td>
+<td>Fund management company (e.g., Squarepoint Capital)</td>
+<td>Makes ALL investment decisions, manages the fund</td>
+<td>Unlimited liability</td>
+</tr>
+<tr>
+<td><strong>Limited Partners (LPs)</strong></td>
+<td>Investors — pensions, endowments, family offices, sovereign wealth funds</td>
+<td>Provide capital, receive returns</td>
+<td>Limited to their investment</td>
+</tr>
+</tbody>
+</table>
+<p>Why this structure? LPs get limited liability (they can only lose what they invested) while the GP runs the fund with full discretion.</p>
+<h2 id="fund-vehicles">Fund Vehicles</h2>
+<table>
+<thead>
+<tr>
+<th>Vehicle</th>
+<th>Description</th>
+<th>Typical investors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Offshore fund</strong> (Cayman Islands)</td>
+<td>Tax-neutral jurisdiction. Most non-US investors invest here.</td>
+<td>Non-US institutions, tax-exempt US investors</td>
+</tr>
+<tr>
+<td><strong>Onshore fund</strong> (Delaware LP)</td>
+<td>US partnership. Pass-through tax treatment.</td>
+<td>US taxable investors</td>
+</tr>
+<tr>
+<td><strong>Master-feeder</strong></td>
+<td>Offshore + onshore both feed into one master fund that does the actual trading</td>
+<td>Most large funds use this</td>
+</tr>
+<tr>
+<td><strong>Managed account</strong></td>
+<td>Separate account for a single large LP. Custom terms, full transparency.</td>
+<td>Sovereign wealth funds, very large allocators</td>
+</tr>
+</tbody>
+</table>
+<h2 id="squarepoints-structure">Squarepoint's Structure</h2>
+<p>Squarepoint Capital LLP is a London-based global systematic and discretionary investment manager. Like most multi-strategy funds, they likely run a master-feeder with multiple trading pods/teams. The discretionary desk you'd join is one team within this larger structure.</p>
+<hr />
+<h1 id="part-2-fees">PART 2: FEES</h1>
+<h2 id="the-classic-2-and-20">The Classic "2 and 20"</h2>
+<ul>
+<li><strong>Management fee:</strong> 2% of AUM per year. Charged quarterly (0.5% per quarter). Covers operations, salaries, infrastructure.</li>
+<li><strong>Performance fee (incentive fee):</strong> 20% of net profits. Only charged if the fund makes money.</li>
+</ul>
+<h2 id="modern-reality">Modern Reality</h2>
+<p>The "2 and 20" model has compressed:<br />
+- Large allocators negotiate down. Typical now: 1.5% management / 15-20% performance.<br />
+- Some funds do "1 or 30" — lower management fee, higher performance fee. Aligns incentives better.<br />
+- Multi-strat pods: individual PMs often get a SHARE of performance fees (pass-through). Typical PM payout: 10-20% of profits.</p>
+<h2 id="high-water-mark-hwm">High-Water Mark (HWM)</h2>
+<p>The fund only charges performance fees on NEW profits above the previous peak.</p>
+<p><strong>Example:</strong><br />
+| Year | NAV | P&amp;L | HWM | Performance fee |<br />
+|---|---|---|---|---|<br />
+| Year 1 | $100 → $120 | +$20 | $120 | 20% × $20 = $4 |<br />
+| Year 2 | $120 → $105 | -$15 | $120 | $0 (below HWM) |<br />
+| Year 3 | $105 → $125 | +$20 | $125 | 20% × $5 = $1 (only on $120→$125, the NEW high) |</p>
+<p><strong>Why it matters for RM:</strong> After a drawdown, the PM must recover past the HWM before earning performance fees again. This creates pressure to take risk — "I need to make back $15M just to start earning again." The RM must be aware of this incentive and prevent reckless risk-taking to climb back.</p>
+<h2 id="clawback">Clawback</h2>
+<p>Some LP agreements include clawback provisions: if the GP earns performance fees and then loses money, the GP must return some of the previously paid fees. More common in PE than hedge funds, but increasingly seen in side pockets and illiquid strategies.</p>
+<h2 id="hurdle-rate">Hurdle Rate</h2>
+<p>Some funds have a hurdle: the fund must earn above a benchmark return (e.g., T-bill rate + 2%) before performance fees kick in. Becoming more common as LPs push for better alignment.</p>
+<hr />
+<h1 id="part-3-net-asset-value-nav">PART 3: NET ASSET VALUE (NAV)</h1>
+<h2 id="what-nav-is">What NAV Is</h2>
+<p>NAV = Total fund assets - Total fund liabilities.</p>
+<p>Per-share NAV (or per-unit NAV) = NAV / shares outstanding.</p>
+<p>LPs buy and redeem at NAV. It's the "price" of the fund.</p>
+<h2 id="how-nav-is-calculated">How NAV Is Calculated</h2>
+<p>Daily NAV process:<br />
+1. Mark all positions to market (use closing prices).<br />
+2. Add cash, margin deposits, accrued interest.<br />
+3. Subtract liabilities: management fees accrued, expenses, borrowing costs.<br />
+4. = NAV.</p>
+<h2 id="nav-complications">NAV Complications</h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Problem</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Illiquid positions</td>
+<td>No market price — how do you mark them?</td>
+<td>Use models, broker quotes, or third-party valuations</td>
+</tr>
+<tr>
+<td>Side pockets</td>
+<td>Illiquid positions separated into a side pocket with different redemption terms</td>
+<td>LPs can't redeem side pocket until positions are liquidated</td>
+</tr>
+<tr>
+<td>Multi-series NAV</td>
+<td>Different LP classes joined at different times (different HWMs)</td>
+<td>Equalization shares or series accounting</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-4-liquidity-terms-redemptions-gates-lock-ups">PART 4: LIQUIDITY TERMS — REDEMPTIONS, GATES, LOCK-UPS</h1>
+<h2 id="subscription-getting-in">Subscription (Getting In)</h2>
+<ul>
+<li>Minimum investment: typically $1M-$10M for institutional.</li>
+<li>Subscription frequency: monthly or quarterly. Some funds accept daily.</li>
+<li>Notice period: usually 30-45 days before the subscription date.</li>
+</ul>
+<h2 id="redemption-getting-out">Redemption (Getting Out)</h2>
+<ul>
+<li>Redemption frequency: quarterly is standard. Some monthly. Some annually.</li>
+<li>Notice period: 30-90 days. Must notify the fund in advance.</li>
+<li>Settlement: NAV is calculated as of redemption date, but PAYMENT may take 30-60 days after (to allow time to liquidate positions).</li>
+</ul>
+<h2 id="lock-up-period">Lock-Up Period</h2>
+<ul>
+<li>Initial lock-up: 1-2 years. LP cannot redeem during this period.</li>
+<li>Soft lock-up: LP CAN redeem but pays a penalty (e.g., 3-5% early redemption fee).</li>
+<li>Hard lock-up: LP CANNOT redeem. Period.</li>
+</ul>
+<h2 id="gates">Gates</h2>
+<p>When too many LPs try to redeem at once, the fund invokes a gate:<br />
+- Limits total redemptions to a percentage of NAV per period (e.g., 25% per quarter).<br />
+- Remaining redemptions are queued pro rata.<br />
+- Prevents forced liquidation of positions at fire-sale prices.</p>
+<h2 id="suspension">Suspension</h2>
+<p>In extreme cases (market crisis, liquidity freeze), the fund suspends ALL redemptions.<br />
+- 2008: Many funds froze redemptions.<br />
+- Controversial but may protect remaining LPs from fire-sale losses.</p>
+<p><strong>Why this matters for RM:</strong><br />
+- If the fund faces large redemptions, the PM may need to LIQUIDATE positions to raise cash.<br />
+- The RM must know which positions are LIQUID (can be sold quickly) and which are ILLIQUID (would take days/weeks to unwind).<br />
+- Forced liquidation in illiquid names → price impact → further losses → more redemptions. This is a death spiral.</p>
+<hr />
+<h1 id="part-5-prime-brokerage">PART 5: PRIME BROKERAGE</h1>
+<h2 id="what-a-prime-broker-does">What a Prime Broker Does</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Custody</strong></td>
+<td>Holds the fund's securities and cash</td>
+</tr>
+<tr>
+<td><strong>Financing</strong></td>
+<td>Lends money for leveraged positions (margin lending)</td>
+</tr>
+<tr>
+<td><strong>Securities lending</strong></td>
+<td>Provides shares to borrow for short selling</td>
+</tr>
+<tr>
+<td><strong>Execution</strong></td>
+<td>May execute trades (though many funds use separate execution brokers)</td>
+</tr>
+<tr>
+<td><strong>Reporting</strong></td>
+<td>Daily position and P&amp;L reports, risk reports</td>
+</tr>
+<tr>
+<td><strong>Capital introduction</strong></td>
+<td>Introduces the fund to potential LPs</td>
+</tr>
+</tbody>
+</table>
+<h2 id="multi-prime-model">Multi-Prime Model</h2>
+<p>Large funds (like Squarepoint) use MULTIPLE prime brokers:<br />
+- Diversification: don't depend on one PB.<br />
+- Best execution: route flow to whichever PB offers best pricing.<br />
+- Risk management: if one PB fails (Lehman 2008), the fund isn't wiped out.<br />
+- Negotiating leverage: play PBs against each other for better terms.</p>
+<h2 id="how-pbs-make-money">How PBs Make Money</h2>
+<ul>
+<li>Financing spread: they lend at a spread above the risk-free rate.</li>
+<li>Securities lending fees: charge the fund for borrowed shares.</li>
+<li>Execution commissions.</li>
+<li>Cross-selling: FX, OTC derivatives.</li>
+</ul>
+<hr />
+<h1 id="part-6-margin-and-leverage">PART 6: MARGIN AND LEVERAGE</h1>
+<h2 id="types-of-margin">Types of Margin</h2>
+<h3 id="initial-margin">Initial Margin</h3>
+<p>The collateral required to OPEN a position. Set by the exchange (for listed instruments) or the prime broker (for OTC).</p>
+<h3 id="variation-margin">Variation Margin</h3>
+<p>Daily mark-to-market adjustment. If the position moves against you, you must post additional margin. If it moves in your favor, margin is returned.</p>
+<h3 id="maintenance-margin">Maintenance Margin</h3>
+<p>The minimum margin that must be maintained. If your margin drops below this, you get a <strong>margin call</strong> — must post more collateral or positions will be liquidated.</p>
+<h2 id="leverage">Leverage</h2>
+<p>$$\text{Leverage} = \frac{\text{Gross exposure}}{\text{NAV (equity)}}$$</p>
+<p><strong>Example:</strong> Fund has $500M NAV, $1.5B gross exposure. Leverage = 3x.</p>
+<table>
+<thead>
+<tr>
+<th>Leverage level</th>
+<th>Typical fund type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-2x</td>
+<td>Long/short equity, event-driven</td>
+</tr>
+<tr>
+<td>3-5x</td>
+<td>Multi-strategy, relative value</td>
+</tr>
+<tr>
+<td>5-15x</td>
+<td>Fixed income arbitrage, stat arb</td>
+</tr>
+<tr>
+<td>15-50x</td>
+<td>Pure fixed income relative value (e.g., LTCM)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Squarepoint context:</strong> As a systematic fund with a discretionary desk, leverage across the firm varies by strategy. The discretionary equity desk likely runs 2-5x gross leverage, while systematic stat-arb strategies might run higher.</p>
+<h2 id="margin-call-mechanics">Margin Call Mechanics</h2>
+<ol>
+<li>Position moves against you → variation margin owed.</li>
+<li>If equity drops below maintenance margin → margin call.</li>
+<li>Must post additional cash/securities within 24 hours (sometimes same day).</li>
+<li>If you can't → prime broker liquidates positions to bring margin back in line.</li>
+<li>PB has discretion on WHICH positions to liquidate — and they'll choose the most liquid ones, which may be your best positions.</li>
+</ol>
+<p><strong>RM role:</strong> Monitor margin utilization daily. Buffer required — don't run at 95% of margin capacity because one bad day = margin call. Typical buffer: keep 15-25% margin headroom.</p>
+<hr />
+<h1 id="part-7-central-counterparties-ccps-clearing">PART 7: CENTRAL COUNTERPARTIES (CCPs) &amp; CLEARING</h1>
+<h2 id="post-2008-reforms">Post-2008 Reforms</h2>
+<p>After 2008, regulators mandated that most standardized derivatives (interest rate swaps, CDS indices) clear through CCPs instead of bilateral OTC.</p>
+<h2 id="how-ccps-work">How CCPs Work</h2>
+<ul>
+<li>CCP sits between buyer and seller (novation).</li>
+<li>Both parties post initial margin to the CCP.</li>
+<li>Daily variation margin exchange.</li>
+<li>If one party defaults → CCP uses the defaulter's margin, then a default fund (waterfall).</li>
+</ul>
+<h2 id="why-ccps-matter-for-risk">Why CCPs Matter for Risk</h2>
+<ul>
+<li>Reduces bilateral counterparty risk.</li>
+<li>But CONCENTRATES risk at the CCP itself ("too big to fail").</li>
+<li>Margin requirements set by the CCP can change — may spike in volatile markets, forcing funds to raise cash.</li>
+</ul>
+<hr />
+<h1 id="part-8-repo-repurchase-agreements">PART 8: REPO (REPURCHASE AGREEMENTS)</h1>
+<h2 id="what-repo-is">What Repo Is</h2>
+<p>A repurchase agreement is a short-term collateralized loan:<br />
+1. Fund "sells" securities to a counterparty for cash.<br />
+2. Agrees to "repurchase" them the next day (or at term end) at a slightly higher price.<br />
+3. The price difference = the interest rate (repo rate).</p>
+<h2 id="why-funds-use-repo">Why Funds Use Repo</h2>
+<ul>
+<li><strong>Financing long positions:</strong> Instead of using your own cash, pledge your Treasuries as collateral and borrow cash at the repo rate. Use that cash for other investments.</li>
+<li><strong>Leverage:</strong> Repo allows you to hold more positions than your cash would naturally support.</li>
+<li><strong>Shorting:</strong> In reverse repo, you lend cash and receive securities — which you can then sell short.</li>
+</ul>
+<h2 id="repo-risks">Repo Risks</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rollover risk</td>
+<td>Most repo is overnight. If your counterparty refuses to roll → must sell collateral or find new lender</td>
+</tr>
+<tr>
+<td>Haircut changes</td>
+<td>Counterparty demands more collateral per dollar borrowed → effective margin call</td>
+</tr>
+<tr>
+<td>Fire-sale risk</td>
+<td>If you can't roll and must sell → selling pressure → prices drop → more margin calls elsewhere</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-interview-application">PART 9: INTERVIEW APPLICATION</h1>
+<p>If asked "Explain how a fund's structure affects risk management":</p>
+<p>"The fund's structure creates several risk dimensions beyond market risk. Liquidity risk from redemptions — if 20% of LPs redeem in one quarter, we may need to liquidate $100M+ of positions, and the RM needs to ensure the book has enough liquid instruments to handle that without massive market impact.</p>
+<p>Fee structure matters too: after a drawdown, the PM is underwater on the high-water mark, which creates incentive to take excess risk to recover. The RM must be aware of that behavioral pressure.</p>
+<p>Leverage creates fragility — at 3x gross, a 5% adverse move costs 15% of NAV. Prime broker margin terms can change pro-cyclically: exactly when you need leverage most (to buy cheap assets after a sell-off), the PB is increasing margin requirements and reducing your capacity.</p>
+<p>At a firm like Squarepoint, with systematic and discretionary strategies under one roof, the RM also needs to understand how risk budgets are allocated across strategies and how correlation between the systematic and discretionary books affects firm-level risk."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — detailed hedge fund mechanics reference<br />
+→ <a href="J_Position_Management.html">Position Management</a> — risk budgets and drawdown protocols<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, leverage metrics<br />
+→ <a href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a> — counterparty and operational risk</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

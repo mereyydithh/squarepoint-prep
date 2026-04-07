@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Position Management — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link active" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="j-position-portfolio-management">J — POSITION &amp; PORTFOLIO MANAGEMENT</h1>
+<h2 id="sizing-conviction-drawdown-budgets-broken-thesis-exits-and-risk-budgeting">Sizing, conviction, drawdown budgets, broken-thesis exits, and risk budgeting</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="part-1-position-sizing-the-most-important-decision">PART 1: POSITION SIZING — THE MOST IMPORTANT DECISION</h1>
+<p>The PM decides WHAT to trade. The RM helps decide HOW MUCH.</p>
+<h2 id="why-sizing-matters-more-than-selection">Why Sizing Matters More Than Selection</h2>
+<p>If your best idea is 2% of the book and your worst idea is 8%, your PORTFOLIO will underperform even if your selection is perfect. A study of discretionary fund returns shows that sizing explains more P&amp;L variance than stock selection in most years.</p>
+<h2 id="sizing-frameworks">Sizing Frameworks</h2>
+<h3 id="1-equal-weight">1. Equal Weight</h3>
+<p>Every position gets the same notional or risk allocation.<br />
+- <strong>Pros:</strong> Simple, diversified, no overconfidence bias.<br />
+- <strong>Cons:</strong> Doesn't reflect conviction. Your best idea and your 30th-best idea get the same allocation.</p>
+<h3 id="2-conviction-based-sizing">2. Conviction-Based Sizing</h3>
+<p>Size the position proportional to PM conviction level.</p>
+<table>
+<thead>
+<tr>
+<th>Conviction</th>
+<th>Position size (% of book)</th>
+<th>Typical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Highest (top 3 ideas)</td>
+<td>5-10%</td>
+<td>Concentrated, well-researched</td>
+</tr>
+<tr>
+<td>High</td>
+<td>3-5%</td>
+<td>Strong thesis with identified catalysts</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>1-3%</td>
+<td>Good risk/reward but less conviction</td>
+</tr>
+<tr>
+<td>Low / exploratory</td>
+<td>0.5-1%</td>
+<td>"Let me see how this develops"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-risk-based-sizing">3. Risk-Based Sizing</h3>
+<p>Size so each position contributes EQUAL RISK, not equal notional.</p>
+<p>$$\text{Position notional} = \frac{\text{Target risk contribution}}{\text{Asset volatility}}$$</p>
+<p>A 30-vol stock gets half the notional of a 15-vol stock so both contribute the same risk.</p>
+<h3 id="4-kelly-criterion-theoretical">4. Kelly Criterion (Theoretical)</h3>
+<p>$$f^* = \frac{p \cdot b - q}{b}$$<br />
+Where p = win probability, b = win/loss ratio, q = 1-p.</p>
+<p>In practice, nobody uses full Kelly. Half-Kelly or quarter-Kelly is common because:<br />
+- Parameter estimates are uncertain<br />
+- Full Kelly has enormous drawdowns<br />
+- It assumes you can continuously adjust</p>
+<p><strong>Key insight for interview:</strong> "Position sizing should reflect conviction AND volatility. A high-conviction position in a 50-vol stock might be smaller in notional terms than a medium-conviction position in a 15-vol stock, because we want to equalize risk contribution."</p>
+<hr />
+<h1 id="part-2-conviction-and-the-broken-thesis-framework">PART 2: CONVICTION AND THE BROKEN-THESIS FRAMEWORK</h1>
+<h2 id="how-pms-build-conviction">How PMs Build Conviction</h2>
+<p>Conviction isn't "I feel strongly." It should be structured:</p>
+<table>
+<thead>
+<tr>
+<th>Conviction pillar</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variant perception</td>
+<td>What do I see that the market doesn't?</td>
+</tr>
+<tr>
+<td>Catalyst identification</td>
+<td>What will make the market agree with me, and WHEN?</td>
+</tr>
+<tr>
+<td>Downside quantification</td>
+<td>If I'm wrong, how much do I lose?</td>
+</tr>
+<tr>
+<td>Edge durability</td>
+<td>Why won't this edge get arbitraged away immediately?</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-three-broken-thesis-tests">The Three Broken-Thesis Tests</h2>
+<p>When a position is losing money, the PM (and RM) must ask:</p>
+<h3 id="test-1-is-the-original-thesis-intact">Test 1: Is the original thesis intact?</h3>
+<ul>
+<li>"We bought XOM because we expected oil above $85 through Q3."</li>
+<li>Oil is at $78. Is the thesis broken or just delayed?</li>
+<li>If the fundamental thesis is still valid, holding (or adding) may be correct.</li>
+</ul>
+<h3 id="test-2-has-new-information-changed-the-picture">Test 2: Has new information changed the picture?</h3>
+<ul>
+<li>Did something happen that wasn't in the original analysis?</li>
+<li>New regulation, management change, competitor action, macro regime shift?</li>
+<li>If yes → reassess from scratch. Don't anchor to original thesis.</li>
+</ul>
+<h3 id="test-3-would-you-put-the-position-on-today-at-the-current-price">Test 3: Would you put the position on today at the current price?</h3>
+<ul>
+<li>Forget your entry price. If you had no position, would you buy it NOW?</li>
+<li>If no → the position is only alive because of loss aversion. Cut it.</li>
+<li>This is the most powerful test because it strips out anchoring bias.</li>
+</ul>
+<p><strong>RM role:</strong> When a PM is underwater and anchoring, the RM's job is to run these three tests objectively and surface the conversation. Not to force the decision, but to make the PM articulate why they're staying in.</p>
+<hr />
+<h1 id="part-3-drawdown-risk-budgets">PART 3: DRAWDOWN &amp; RISK BUDGETS</h1>
+<h2 id="what-is-a-risk-budget">What Is a Risk Budget?</h2>
+<p>Each PM gets a "risk budget" — the maximum amount of risk (and/or loss) they're allowed to take. This is allocated by the CRO or head of risk.</p>
+<h2 id="typical-risk-budget-structure">Typical Risk Budget Structure</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Soft limit</th>
+<th>Hard limit</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily P&amp;L loss</td>
+<td>-$500K</td>
+<td>-$1M</td>
+<td>Soft: conversation. Hard: mandatory reduction.</td>
+</tr>
+<tr>
+<td>Monthly P&amp;L loss</td>
+<td>-$2M</td>
+<td>-$4M</td>
+<td>Hard: positions partially liquidated.</td>
+</tr>
+<tr>
+<td>VaR (1-day 99%)</td>
+<td>$3M</td>
+<td>$5M</td>
+<td>Hard: no new risk.</td>
+</tr>
+<tr>
+<td>Gross exposure</td>
+<td>$80M</td>
+<td>$100M</td>
+<td>Hard: reduce positions.</td>
+</tr>
+<tr>
+<td>Single-name concentration</td>
+<td>5% NAV</td>
+<td>8% NAV</td>
+<td>Hard: trim to limit.</td>
+</tr>
+<tr>
+<td>Sector concentration</td>
+<td>20% NAV</td>
+<td>30% NAV</td>
+<td>Hard: diversify or hedge.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="drawdown-protocols">Drawdown Protocols</h2>
+<p>As a PM draws down, risk limits typically TIGHTEN:</p>
+<table>
+<thead>
+<tr>
+<th>Drawdown level</th>
+<th>Risk response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-25% of monthly budget used</td>
+<td>Green. Normal operations.</td>
+</tr>
+<tr>
+<td>25-50% used</td>
+<td>Yellow. Review largest positions. RM escalation.</td>
+</tr>
+<tr>
+<td>50-75% used</td>
+<td>Orange. Reduce gross. No new positions without RM discussion.</td>
+</tr>
+<tr>
+<td>75-100%</td>
+<td>Red. Active de-risking. Only hedges or risk-reducing trades allowed.</td>
+</tr>
+<tr>
+<td>Budget exhausted</td>
+<td>Stop-loss: all risk positions closed or hedged to flat. PM sits out until reset.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why this matters for Squarepoint:</strong> The discretionary desk is NEW. Risk limits will be TIGHT initially — the firm needs to build confidence in the PM before extending more budget. As RM, you're the credibility bridge between the discretionary PM and the systematic-oriented CRO.</p>
+<hr />
+<h1 id="part-4-portfolio-construction">PART 4: PORTFOLIO CONSTRUCTION</h1>
+<h2 id="gross-vs-net-exposure">Gross vs Net Exposure</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gross exposure</td>
+<td>|Longs| + |Shorts|</td>
+<td>Total market exposure — how much capital is at work</td>
+</tr>
+<tr>
+<td>Net exposure</td>
+<td>Longs - Shorts</td>
+<td>Directional bias — bullish if positive, bearish if negative</td>
+</tr>
+<tr>
+<td>Net/Gross ratio</td>
+<td>Net / Gross</td>
+<td>How directional the portfolio is (0 = market-neutral, 1 = fully long)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong><br />
+- Longs: $60M, Shorts: $40M<br />
+- Gross: $100M. Net: $20M. Net/Gross: 0.2 (slightly bullish)</p>
+<h2 id="factor-exposure-management">Factor Exposure Management</h2>
+<p>Beyond stock selection, portfolios have factor exposures:</p>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>How it sneaks in</th>
+<th>How to manage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market (beta)</td>
+<td>If you're net long, you have beta exposure</td>
+<td>Adjust net exposure with index futures</td>
+</tr>
+<tr>
+<td>Sector</td>
+<td>Over/underweight sectors vs benchmark</td>
+<td>Track sector weights, use sector ETFs to balance</td>
+</tr>
+<tr>
+<td>Style (value/growth/momentum)</td>
+<td>PMs have natural style biases</td>
+<td>Monitor factor attribution in risk system</td>
+</tr>
+<tr>
+<td>Size (large/small cap)</td>
+<td>Concentrated in one cap band</td>
+<td>Diversify or acknowledge the tilt</td>
+</tr>
+<tr>
+<td>Currency</td>
+<td>Non-USD positions without FX hedges</td>
+<td>FX forwards or options</td>
+</tr>
+</tbody>
+</table>
+<h2 id="concentration-risk">Concentration Risk</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Red flag level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top 5 positions as % of gross</td>
+<td>&gt;50%</td>
+</tr>
+<tr>
+<td>Single name as % of NAV</td>
+<td>&gt;8%</td>
+</tr>
+<tr>
+<td>Single sector as % of gross</td>
+<td>&gt;35%</td>
+</tr>
+<tr>
+<td>Correlated pair as combined %</td>
+<td>&gt;15%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-5-position-lifecycle">PART 5: POSITION LIFECYCLE</h1>
+<p>The RM tracks every position from entry to exit:</p>
+<h3 id="entry">Entry</h3>
+<ul>
+<li>PM presents thesis. RM checks: does this fit within risk limits? Does it add unwanted factor exposure? How does it correlate with existing positions?</li>
+<li>Sizing: RM may push back if the position is too large relative to conviction or liquidity.</li>
+</ul>
+<h3 id="holding">Holding</h3>
+<ul>
+<li>Daily P&amp;L attribution: is the position making/losing money for the right reasons?</li>
+<li>Thesis monitoring: is the catalyst on track? Has anything changed?</li>
+<li>Correlation shifts: has the position become more correlated with the rest of the book?</li>
+</ul>
+<h3 id="exit-profitable">Exit — Profitable</h3>
+<ul>
+<li>Profit target hit or catalyst realized. PM should articulate why they're exiting.</li>
+<li>Is there still edge? Don't close winners too early (disposition effect).</li>
+</ul>
+<h3 id="exit-loss">Exit — Loss</h3>
+<ul>
+<li>Run three broken-thesis tests.</li>
+<li>If thesis is broken → cut immediately, don't wait for a bounce.</li>
+<li>If thesis is intact → is the PM willing to allocate MORE risk? If not, trim to a smaller size reflecting reduced conviction.</li>
+</ul>
+<h3 id="exit-forced">Exit — Forced</h3>
+<ul>
+<li>Risk limit breach → mandatory reduction.</li>
+<li>Liquidity event → position becomes illiquid, must be unwound carefully.</li>
+<li>Correlation event → position is no longer diversifying the book as expected.</li>
+</ul>
+<hr />
+<h1 id="part-6-risk-budgeting-frameworks">PART 6: RISK BUDGETING FRAMEWORKS</h1>
+<h2 id="risk-contribution-approach">Risk Contribution Approach</h2>
+<p>The portfolio's total risk (VaR or vol) can be decomposed into each position's contribution:</p>
+<p>$$\text{Risk Contribution}_i = w_i \cdot \frac{\partial \sigma_p}{\partial w_i}$$</p>
+<p>Where $w_i$ is the weight and $\sigma_p$ is portfolio volatility.</p>
+<p><strong>Insight:</strong> A 5% position in a high-beta, high-correlation stock might contribute 20% of portfolio risk. A 5% position in a low-beta, low-correlation stock might contribute 2%.</p>
+<h2 id="risk-parity">Risk Parity</h2>
+<p>Allocate so each position contributes EQUAL risk. Used at some quant funds as a portfolio construction tool.<br />
+- Forces diversification<br />
+- Naturally underweights volatile, correlated positions<br />
+- Naturally overweights low-vol, uncorrelated positions</p>
+<h2 id="how-squarepoints-discretionary-rm-would-use-this">How Squarepoint's Discretionary RM Would Use This</h2>
+<p>You're not constructing the portfolio. But you're MONITORING the risk decomposition:<br />
+- "PM, your top 3 positions are contributing 65% of portfolio VaR. That's concentration risk."<br />
+- "This new position has 0.7 correlation with your largest holding. You're doubling down on the same bet."<br />
+- "Your risk budget is 70% consumed, and 80% of that consumption comes from one sector."</p>
+<hr />
+<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<p>If asked "A PM wants to add a new position but is already at 85% of their risk budget. What do you do?"</p>
+<p>"First, I'd look at the marginal risk contribution of the new position. If it's diversifying — low correlation to existing positions — it might actually reduce portfolio VaR even though it adds gross exposure. In that case, the risk budget consumption might only go from 85% to 87%.</p>
+<p>But if it's correlated with existing positions (same sector, same factor exposure), it could push consumption to 95%+. In that scenario, I'd have a direct conversation: 'You're at 85% with a month left in the period. Adding this takes you to 95%. If any existing position moves against you, you'll breach the hard limit and face mandatory de-risking. Do you want to trim something else to make room?'</p>
+<p>I'm not saying no. I'm making the trade-off explicit and giving the PM agency in the decision while protecting the firm's risk framework."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="I_Hedging_Strategies.html">Hedging Strategies</a> — hedging tools for position protection<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, stress metrics used in risk budgets<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — portfolio-level risk concepts<br />
+→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a> — anchoring, disposition effect in position management<br />
+→ <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> — Section 5 (position management in interview context)</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

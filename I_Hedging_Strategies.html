@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hedging Strategies — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link active" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="i-hedging-strategies">I — HEDGING STRATEGIES</h1>
+<h2 id="how-to-protect-a-portfolio-puts-collars-spreads-futures-pairs-and-when-to-use-each">How to protect a portfolio — puts, collars, spreads, futures, pairs, and when to use each</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="part-1-why-hedging-is-hard">PART 1: WHY HEDGING IS HARD</h1>
+<p>Hedging sounds simple: "buy protection." In practice, every hedge involves tradeoffs:</p>
+<table>
+<thead>
+<tr>
+<th>Tradeoff</th>
+<th>Tension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cost vs protection</td>
+<td>Better protection = more expensive. Zero-cost structures cap your upside.</td>
+</tr>
+<tr>
+<td>Precision vs liquidity</td>
+<td>A perfect hedge (single-name put) is expensive and illiquid. A liquid hedge (SPX put) has basis risk.</td>
+</tr>
+<tr>
+<td>Horizon mismatch</td>
+<td>Your position has no fixed expiry. Your hedge does. Roll costs compound.</td>
+</tr>
+<tr>
+<td>Upside surrender</td>
+<td>Collars and put spreads cap your gains in exchange for cheaper protection.</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>Hedges are cheapest when you don't need them (low vol) and most expensive when you do (high vol).</td>
+</tr>
+</tbody>
+</table>
+<p>The RM's job isn't to say "hedge everything." It's to help the PM make CONSCIOUS decisions about which risks to keep and which to transfer.</p>
+<hr />
+<h1 id="part-2-the-hedging-decision-framework">PART 2: THE HEDGING DECISION FRAMEWORK</h1>
+<p>Before choosing an instrument, answer these five questions:</p>
+<h3 id="1-what-specific-risk-am-i-hedging">1. What specific risk am I hedging?</h3>
+<p>Not "the portfolio" — the SPECIFIC exposure. Is it:<br />
+- Directional equity risk (delta)?<br />
+- Volatility risk (vega)?<br />
+- Rate risk (duration/DV01)?<br />
+- Sector concentration?<br />
+- Single-name event risk (earnings)?<br />
+- Tail risk (5-sigma events)?</p>
+<p>Different risks require different hedges.</p>
+<h3 id="2-what-horizon">2. What horizon?</h3>
+<ul>
+<li><strong>1-day to 1-week:</strong> Overnight event, earnings. → Short-dated options.</li>
+<li><strong>1-3 months:</strong> Medium-term view adjustment. → Monthly puts/collars, futures.</li>
+<li><strong>Permanent:</strong> Structural portfolio protection. → Rolling put spreads, tail hedges.</li>
+</ul>
+<h3 id="3-how-much-upside-am-i-willing-to-give-up">3. How much upside am I willing to give up?</h3>
+<ul>
+<li><strong>None:</strong> Buy puts outright. Pay premium.</li>
+<li><strong>Some:</strong> Collar (buy put, sell call). Reduce cost but cap upside.</li>
+<li><strong>Don't care about upside:</strong> Sell the position. The cheapest hedge is no position.</li>
+</ul>
+<h3 id="4-what-can-i-afford">4. What can I afford?</h3>
+<ul>
+<li>Premium budget: how much theta bleed is acceptable?</li>
+<li>Rule of thumb: tail hedges cost 0.5-2% of NAV annually. If your expected alpha is 5%, spending 2% on protection leaves 3% net.</li>
+</ul>
+<h3 id="5-what-basis-risk-am-i-accepting">5. What basis risk am I accepting?</h3>
+<ul>
+<li>Hedging XOM with XLE has basis risk (XOM vs sector).</li>
+<li>Hedging XOM with SPX has even more basis risk.</li>
+<li>Hedging with a perfect single-name put has zero basis risk but maximum cost.</li>
+</ul>
+<hr />
+<h1 id="part-3-hedging-instruments">PART 3: HEDGING INSTRUMENTS</h1>
+<h2 id="1-outright-puts">1. Outright Puts</h2>
+<p><strong>What:</strong> Buy put options on the asset or index.</p>
+<p><strong>When to use:</strong><br />
+- Hedging a specific downside level<br />
+- Event protection (earnings, FOMC)<br />
+- When you want asymmetric protection (defined cost, unlimited protection)</p>
+<p><strong>Pros:</strong> Clean, defined cost, no upside surrender.<br />
+<strong>Cons:</strong> Expensive. Theta decay. Need to roll repeatedly for ongoing protection.</p>
+<p><strong>Example:</strong> Long SPX. Buy SPX 5300 put for $12.00.<br />
+- Cost: $1,200 per contract. For 100 contracts = $120K.<br />
+- Protection: below 5300, you're hedged dollar-for-dollar (minus premium). Above 5300, you keep all upside.<br />
+- Breakeven: SPX at 5288 (strike minus premium).</p>
+<h2 id="2-put-spreads">2. Put Spreads</h2>
+<p><strong>What:</strong> Buy a put + sell a lower-strike put. Cheaper than outright puts but caps the protection.</p>
+<p><strong>When to use:</strong><br />
+- Want downside protection but on a budget<br />
+- Believe the tail risk below a certain level is acceptable or unlikely<br />
+- Hedging against a "normal" correction, not a crash</p>
+<p><strong>Example:</strong> Buy SPX 5300 put, sell SPX 5100 put.<br />
+- Cost: $12.00 - $6.00 = $6.00 net. Half the cost of the outright.<br />
+- Protection: between 5300 and 5100 (200 points = $20K per contract).<br />
+- Below 5100: no additional protection. You're exposed again.<br />
+- Trade: you saved 50% on premium but gave up crash protection below 5100.</p>
+<h2 id="3-collars">3. Collars</h2>
+<p><strong>What:</strong> Long stock + buy put + sell call. The call premium finances (partially or fully) the put.</p>
+<p><strong>When to use:</strong><br />
+- PM wants protection but refuses to pay premium<br />
+- Acceptable to cap upside in exchange for downside protection<br />
+- Earnings or event protection where the PM is happy with a bounded outcome</p>
+<p><strong>Zero-cost collar:</strong> choose strikes so put cost = call premium received.</p>
+<p><strong>Example:</strong> Long XOM at $113. Buy $108 put, sell $118 call. Net cost: ~$0.<br />
+- Below $108: hedged. Max loss = $5 per share.<br />
+- Above $118: gains capped. Even if XOM goes to $130, you get $118.<br />
+- Between $108-$118: normal exposure.</p>
+<h2 id="4-futures-hedging">4. Futures Hedging</h2>
+<p><strong>What:</strong> Sell futures against a long equity position to reduce delta.</p>
+<p><strong>When to use:</strong><br />
+- Quick, liquid delta reduction<br />
+- Temporary risk reduction (overnight, over a weekend)<br />
+- Beta hedging: sell SPX futures to reduce portfolio beta</p>
+<p><strong>Pros:</strong> Very liquid, no premium, instant execution.<br />
+<strong>Cons:</strong> Linear — no protection floor, you give up ALL downside AND upside proportionally. Margin required.</p>
+<p><strong>Beta hedge calculation:</strong><br />
+$$\text{Contracts} = \frac{\text{Portfolio value} \times \beta_{\text{target change}}}{\text{Futures notional per contract}}$$</p>
+<p>Portfolio = $50M, beta = 1.2, want beta = 0.7.<br />
+Beta reduction needed = 0.5. SPX future notional = ~$270K (5400 × $50).<br />
+Contracts = ($50M × 0.5) / $270K ≈ 93 contracts short.</p>
+<h2 id="5-pairs-relative-value-hedging">5. Pairs / Relative Value Hedging</h2>
+<p><strong>What:</strong> Long one stock, short a correlated stock or ETF. Isolate the idiosyncratic bet, hedge the common factor.</p>
+<p><strong>When to use:</strong><br />
+- PM has a view on XOM outperforming CVX, but not on oil direction<br />
+- Sector-neutral: long best stock, short worst stock in same sector<br />
+- Reduce beta to sector or market</p>
+<p><strong>Risks:</strong><br />
+- Basis risk: the pair can diverge for non-fundamental reasons (flows, technicals).<br />
+- Short borrow cost: the short leg has borrow fees.<br />
+- Correlation can break: in stress, the pair can move in the same direction with different magnitudes.</p>
+<h2 id="6-cross-asset-hedges">6. Cross-Asset Hedges</h2>
+<p><strong>What:</strong> Hedge equity risk using a different asset class.</p>
+<table>
+<thead>
+<tr>
+<th>Equity risk</th>
+<th>Cross-asset hedge</th>
+<th>How it works</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market sell-off</td>
+<td>Long TLT (long duration Treasuries)</td>
+<td>Flight to quality: stocks down → bonds up</td>
+</tr>
+<tr>
+<td>Inflation spike</td>
+<td>Long commodity futures or TIPS</td>
+<td>Commodities and TIPS benefit from inflation</td>
+</tr>
+<tr>
+<td>Dollar weakness</td>
+<td>Long gold or non-USD assets</td>
+<td>Gold inversely correlated with USD</td>
+</tr>
+<tr>
+<td>Vol spike</td>
+<td>Long VIX calls</td>
+<td>VIX spikes when equities sell off</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Warning:</strong> Cross-asset hedges rely on CORRELATIONS which can flip. Stocks-bonds correlation was negative 2000-2021 but flipped positive in 2022. If you hedge equities with bonds and both sell off → double loss.</p>
+<h2 id="7-tail-hedges">7. Tail Hedges</h2>
+<p><strong>What:</strong> Deep OTM puts or VIX calls designed to pay off only in extreme events (&gt;3 sigma).</p>
+<p><strong>When to use:</strong><br />
+- Fund-level protection against existential risk<br />
+- When you want convex payoff: small, known cost, potentially enormous payout</p>
+<p><strong>The cost problem:</strong> Tail hedges bleed theta constantly. Buying 5% OTM SPX puts every month costs ~1-2% of NAV annually. Most months they expire worthless. But in March 2020, they paid 20-50x.</p>
+<p><strong>Tail hedge structures:</strong><br />
+- Deep OTM put: simple, expensive over time<br />
+- Put ladder: buy several strikes in the tail (5%, 10%, 15% OTM)<br />
+- 1x2 put spread: buy 1 ATM put, sell 2 OTM puts. Cheap but creates a short put position deeper OTM<br />
+- VIX call spreads: cheaper than SPX puts, convex payoff in panic, but VIX doesn't track portfolio precisely</p>
+<hr />
+<h1 id="part-4-dynamic-hedging">PART 4: DYNAMIC HEDGING</h1>
+<h2 id="what-it-is">What It Is</h2>
+<p>Adjusting the hedge as the market moves, rather than setting it and forgetting it.</p>
+<h2 id="delta-hedging">Delta Hedging</h2>
+<ul>
+<li>Continuously adjust futures or stock position to keep portfolio delta at target.</li>
+<li>If you sell as the market rises and buy as it falls → you're long gamma (spending theta).</li>
+<li>If you buy as it rises and sell as it falls → you're short gamma (you're the one providing liquidity — dangerous).</li>
+</ul>
+<h2 id="hedge-rebalancing-triggers">Hedge Rebalancing Triggers</h2>
+<p>Don't rebalance on a schedule — rebalance on TRIGGERS:</p>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta drift &gt;$5M from target</td>
+<td>Rebalance back to target</td>
+</tr>
+<tr>
+<td>VaR breach (&gt;90% of limit)</td>
+<td>Add protection aggressively</td>
+</tr>
+<tr>
+<td>Drawdown &gt;50% of soft limit</td>
+<td>Reduce gross exposure + add hedges</td>
+</tr>
+<tr>
+<td>Correlation regime change</td>
+<td>Reassess which hedges actually work</td>
+</tr>
+<tr>
+<td>Major event (FOMC, earnings cluster)</td>
+<td>Add short-term event protection</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stop-loss-vs-options">Stop-Loss vs Options</h2>
+<ul>
+<li><strong>Stop-loss:</strong> Sell the position if it hits a price level. Free (no premium), but vulnerable to gaps (stock opens below your stop after overnight news) and whipsaws (stock hits stop, you sell, it reverses immediately).</li>
+<li><strong>Options:</strong> Cost premium, but protection works through gaps. An OTM put protects you even if the stock gaps down 20% overnight — unlike a stop-loss which would have been triggered at the gap.</li>
+<li><strong>Recommendation:</strong> Use stops for liquid instruments in normal markets. Use options for illiquid positions, overnight/event risk, and when gaps are a realistic concern.</li>
+</ul>
+<hr />
+<h1 id="part-5-hedge-effectiveness-am-i-actually-hedged">PART 5: HEDGE EFFECTIVENESS — AM I ACTUALLY HEDGED?</h1>
+<h2 id="how-to-measure">How to Measure</h2>
+<h3 id="hedge-ratio">Hedge Ratio</h3>
+<p>$$h = \frac{\text{Change in hedge value}}{\text{Change in position value}}$$</p>
+<p>Perfect hedge: h = -1 (hedge gains $1 for every $1 the position loses). In practice, h is never -1.</p>
+<h3 id="r-squared-of-hedge-vs-position">R-squared of Hedge vs Position</h3>
+<p>Run a regression of hedge P&amp;L against position P&amp;L. R² tells you how much of the position's variance is captured.<br />
+- R² &gt; 0.8: good hedge<br />
+- R² = 0.5: mediocre — half the risk is unhedged<br />
+- R² &lt; 0.3: this isn't really a hedge</p>
+<h3 id="pl-in-stress">P&amp;L in Stress</h3>
+<p>The true test: how did the hedge perform during the actual stress event? If the portfolio dropped 8% and the hedge offset 6% → effective. If the hedge offset 2% → basis risk dominated.</p>
+<hr />
+<h1 id="part-6-common-hedging-mistakes">PART 6: COMMON HEDGING MISTAKES</h1>
+<table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>What happens</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hedging too late (after vol spikes)</td>
+<td>Protection is 3x more expensive than a week ago</td>
+<td>Buy protection when it's cheap (vol is low), not when you're scared</td>
+</tr>
+<tr>
+<td>Over-hedging</td>
+<td>Portfolio can't make money; paying excessive theta</td>
+<td>Size hedges to protect against drawdown limits, not against all movement</td>
+</tr>
+<tr>
+<td>Wrong instrument (basis risk)</td>
+<td>Hedge doesn't move with the position in stress</td>
+<td>Use the most correlated instrument, even if more expensive</td>
+</tr>
+<tr>
+<td>Set-and-forget</td>
+<td>Hedge expires, position is unprotected</td>
+<td>Calendar reminders for expiries, rolling plan</td>
+</tr>
+<tr>
+<td>Ignoring roll costs</td>
+<td>Monthly put buying costs 15-20% annualized</td>
+<td>Use longer-dated options to reduce roll frequency</td>
+</tr>
+<tr>
+<td>"Free" hedges that aren't free</td>
+<td>Zero-cost collars cap upside — that IS the cost</td>
+<td>Quantify the upside surrender and make sure the PM accepts it</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<p>If asked "How would you hedge a concentrated equity position?":</p>
+<p>"It depends on the PM's preferences and constraints. I'd start with the framework: what specific risk are we hedging, what horizon, what's the premium budget, and how much upside are we willing to surrender?</p>
+<p>For a single-name concentration like 15% of the book in XOM: the cleanest hedge is an XOM put, but that's expensive — maybe 3-4% annualized. A put spread (buy the $108 put, sell the $100 put) halves the cost but caps protection at $8 per share. A collar (buy $108 put, sell $118 call) can be near-zero cost but caps upside at $118.</p>
+<p>If the PM refuses to pay premium or surrender upside, we can partially hedge with SPX futures to reduce beta — but that introduces basis risk because XOM doesn't move 1:1 with SPX.</p>
+<p>The key conversation is making the PM aware of the tradeoffs: 'You can have free protection but it caps your upside at 5%. Or you can pay $400K and keep all your upside. Which do you prefer?' That's the RM adding value — making the cost explicit so the decision is conscious."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="D_Greeks.html">Greeks</a> — delta, gamma needed for hedge sizing<br />
+→ <a href="B_Derivatives.html">Derivatives</a> — options strategies used in hedging<br />
+→ <a href="E_Volatility.html">Volatility</a> — vol levels drive hedge costs<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — basis risk, tail risk concepts<br />
+→ <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> — Section 5 (hedging in interview context)</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
