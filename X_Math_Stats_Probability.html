@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Stats Probability — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link active" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+
+</nav>
+
+<main class="content">
+<h1 id="x-math-stats-probability">X — MATH, STATS &amp; PROBABILITY</h1>
+<h2 id="distributions-bayes-hypothesis-testing-regression-monte-carlo-and-interview-puzzles">Distributions, Bayes, hypothesis testing, regression, Monte Carlo, and interview puzzles</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="part-1-key-distributions">PART 1: KEY DISTRIBUTIONS</h1>
+<h2 id="normal-gaussian">Normal (Gaussian)</h2>
+<p>$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>% within</th>
+<th>Tail probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>±1σ</td>
+<td>68.27%</td>
+<td>15.87% per tail</td>
+</tr>
+<tr>
+<td>±1.645σ</td>
+<td>90%</td>
+<td>5% per tail (95% VaR)</td>
+</tr>
+<tr>
+<td>±2σ</td>
+<td>95.45%</td>
+<td>2.28% per tail</td>
+</tr>
+<tr>
+<td>±2.326σ</td>
+<td>98%</td>
+<td>1% per tail (99% VaR)</td>
+</tr>
+<tr>
+<td>±3σ</td>
+<td>99.73%</td>
+<td>0.13% per tail</td>
+</tr>
+</tbody>
+</table>
+<h2 id="log-normal">Log-Normal</h2>
+<ul>
+<li>Asset prices follow log-normal: prices can't go below zero, returns are multiplicative.</li>
+<li>If $\ln(P)$ is normal → $P$ is log-normal.</li>
+<li>Right-skewed: most outcomes clustered left, long right tail (big gains possible, max loss capped at -100%).</li>
+</ul>
+<h2 id="students-t-distribution">Student's t-Distribution</h2>
+<ul>
+<li>Fatter tails than normal, controlled by degrees of freedom $\nu$.</li>
+<li>$\nu = 3$: very fat tails. $\nu \to \infty$: converges to normal.</li>
+<li>Used for small samples and when data exhibits fat tails.</li>
+</ul>
+<h2 id="fat-tails-the-most-important-concept">Fat Tails — The Most Important Concept</h2>
+<p>Financial returns have <strong>excess kurtosis</strong> (kurtosis &gt; 3). Events that should happen once every 10,000 years under normal assumptions occur every 10-20 years in reality.</p>
+<p><strong>Why this matters:</strong><br />
+- VaR under normal assumption UNDERSTATES true tail risk.<br />
+- This is WHY Expected Shortfall (average loss beyond VaR) is preferred.<br />
+- FRTB replaced VaR with ES for regulatory capital.</p>
+<hr />
+<h1 id="part-2-probability-foundations">PART 2: PROBABILITY FOUNDATIONS</h1>
+<h2 id="bayes-theorem">Bayes' Theorem</h2>
+<p>$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</p>
+<p><strong>Classic interview example:</strong> A disease affects 1 in 10,000 people. A test is 99% accurate (both sensitivity and specificity). You test positive. What's the probability you actually have the disease?</p>
+<ul>
+<li>$P(\text{disease}) = 0.0001$</li>
+<li>$P(\text{positive | disease}) = 0.99$</li>
+<li>$P(\text{positive | no disease}) = 0.01$</li>
+<li>$P(\text{positive}) = 0.99 \times 0.0001 + 0.01 \times 0.9999 = 0.010098$</li>
+</ul>
+<p>$$P(\text{disease | positive}) = \frac{0.99 \times 0.0001}{0.010098} = 0.0098 \approx 0.98\%$$</p>
+<p><strong>Answer: ~1%, NOT 99%.</strong> The base rate dominates. This is crucial for risk: a "99% accurate" model doesn't mean a 99% chance you're right — it depends on how rare the event is.</p>
+<h2 id="central-limit-theorem-clt">Central Limit Theorem (CLT)</h2>
+<p>The average of a large number of independent random variables is approximately normally distributed, <strong>regardless of the underlying distribution</strong>.</p>
+<p><strong>Why it matters:</strong> This is why portfolio returns tend toward normal (many positions averaging out) and why sample means are easier to work with than individual observations.</p>
+<h2 id="law-of-large-numbers">Law of Large Numbers</h2>
+<p>Sample mean converges to population mean as $n \to \infty$.</p>
+<p><strong>Application:</strong> Why PMs need long track records. A PM with 6 months of returns can't be distinguished from luck. Years of returns → skill signal emerges.</p>
+<hr />
+<h1 id="part-3-hypothesis-testing">PART 3: HYPOTHESIS TESTING</h1>
+<h2 id="framework">Framework</h2>
+<ol>
+<li>State $H_0$ (null: "no effect") vs $H_1$ (alternative: "there is an effect").</li>
+<li>Choose significance level $\alpha$ (0.05 or 0.01).</li>
+<li>Compute test statistic.</li>
+<li>If p-value &lt; $\alpha$ → reject $H_0$.</li>
+</ol>
+<h2 id="errors">Errors</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>$H_0$ true</th>
+<th>$H_0$ false</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reject $H_0$</td>
+<td><strong>Type I</strong> (false positive)</td>
+<td>Correct</td>
+</tr>
+<tr>
+<td>Fail to reject $H_0$</td>
+<td>Correct</td>
+<td><strong>Type II</strong> (false negative)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pm-alpha-test-is-this-skill-or-luck">PM Alpha Test — Is This Skill or Luck?</h2>
+<p>$$t = \frac{\bar{r} - 0}{s / \sqrt{n}}$$</p>
+<p><strong>Example:</strong> PM averages +5bps/day over 252 trading days. Daily vol = 80bps.<br />
+$$t = \frac{0.05}{0.80 / \sqrt{252}} = \frac{0.05}{0.0504} = 0.99$$</p>
+<p>Need $t &gt; 2.0$ for significance at 5% level. <strong>Result: NOT statistically significant.</strong> 252 days of 5bps daily return with 80bps volatility is indistinguishable from luck.</p>
+<p><strong>Insight for interview:</strong> "When evaluating a PM's track record, I'd compute the t-statistic on their excess returns. A Sharpe of 0.5 needs ~16 years of data to be statistically significant at the 5% level. Most PM track records are too short to prove skill."</p>
+<hr />
+<h1 id="part-4-regression-factor-models">PART 4: REGRESSION &amp; FACTOR MODELS</h1>
+<h2 id="simple-ols">Simple OLS</h2>
+<p>$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$</p>
+<ul>
+<li>$\beta_1$: sensitivity of $y$ to $x$ (e.g., portfolio return to market return = beta)</li>
+<li>$R^2$: fraction of variance explained</li>
+<li>Adjusted $R^2$: penalizes for adding more variables (prevents overfitting)</li>
+</ul>
+<h2 id="multi-factor-regression">Multi-Factor Regression</h2>
+<p>$$r_{\text{portfolio}} = \alpha + \beta_1 r_{\text{market}} + \beta_2 r_{\text{rates}} + \beta_3 r_{\text{oil}} + \epsilon$$</p>
+<p>Decomposes portfolio return into:<br />
+- $\alpha$: genuine skill (the residual after accounting for factor exposure)<br />
+- $\beta_i$: sensitivity to each factor (exposures the PM is taking)<br />
+- $\epsilon$: unexplained noise</p>
+<p><strong>RM use:</strong> "This PM has an alpha of 3%, but their beta to the market is 1.4 and their beta to oil is 0.8. In a rising market with strong oil, most of their return is factor exposure, not skill."</p>
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multicollinearity</td>
+<td>Correlated predictors → unstable $\beta$ estimates</td>
+<td>Check VIF, remove redundant variables</td>
+</tr>
+<tr>
+<td>Heteroscedasticity</td>
+<td>Variance not constant → standard errors wrong</td>
+<td>Newey-West robust errors</td>
+</tr>
+<tr>
+<td>Autocorrelation</td>
+<td>Serial correlation in residuals → overstated significance</td>
+<td>Durbin-Watson test, HAC errors</td>
+</tr>
+<tr>
+<td>Spurious correlation</td>
+<td>Two unrelated series both trending → high $R^2$</td>
+<td>First-difference or de-trend the data</td>
+</tr>
+</tbody>
+</table>
+<h2 id="correlation-vs-causation">Correlation vs Causation</h2>
+<p>$$\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \cdot \sigma_Y}$$</p>
+<p>Correlation measures LINEAR co-movement. It does NOT imply causation. In finance:<br />
+- Ice cream sales and drowning deaths correlate (both driven by summer heat).<br />
+- Oil prices and airline losses correlate (one causes the other).<br />
+- In crisis, EVERYTHING correlates (common factor: risk appetite).</p>
+<hr />
+<h1 id="part-5-monte-carlo-simulation">PART 5: MONTE CARLO SIMULATION</h1>
+<h2 id="how-it-works">How It Works</h2>
+<ol>
+<li>Define the probability distribution of returns (or risk factors).</li>
+<li>Generate thousands of random scenarios from that distribution.</li>
+<li>Compute portfolio P&amp;L for each scenario.</li>
+<li>Extract risk metrics (VaR = percentile, ES = average beyond VaR).</li>
+</ol>
+<h2 id="single-asset-monte-carlo-var">Single-Asset Monte Carlo VaR</h2>
+<div class="highlight"><pre><span></span><code><span class="n">mu</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">simulated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">)</span>
+<span class="n">simulated_pnl</span> <span class="o">=</span> <span class="n">portfolio_value</span> <span class="o">*</span> <span class="n">simulated</span>
+<span class="n">var_99</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">simulated_pnl</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="multi-asset-with-correlation-cholesky">Multi-Asset with Correlation (Cholesky)</h2>
+<p>When assets are correlated, you can't simulate them independently. Use Cholesky decomposition:</p>
+<p>$$\text{correlated_returns} = L \cdot z$$</p>
+<p>Where $L$ = Cholesky factor of the covariance matrix, $z$ = vector of independent standard normals.</p>
+<p>This preserves the correlation structure across assets in simulation.</p>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>Output is only as good as the input distribution (garbage in = garbage out).</li>
+<li>Normal assumptions understate tails.</li>
+<li>Correlations assumed constant (they're not — they spike in crisis).</li>
+<li>Computationally expensive for large portfolios.</li>
+</ul>
+<hr />
+<h1 id="part-6-annualization">PART 6: ANNUALIZATION</h1>
+<p><strong>The most common mental math in risk:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Conversion</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily → annual return</td>
+<td>× 252</td>
+</tr>
+<tr>
+<td>Daily → annual volatility</td>
+<td>× $\sqrt{252}$ ≈ × 15.87</td>
+</tr>
+<tr>
+<td>Monthly → annual vol</td>
+<td>× $\sqrt{12}$ ≈ × 3.46</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong> Daily vol = 1.2% → Annual vol = 1.2% × 15.87 ≈ 19%.</p>
+<p><strong>Why square root?</strong> Variance scales linearly with time (under independence). Standard deviation = square root of variance, so vol scales with $\sqrt{T}$.</p>
+<hr />
+<h1 id="part-7-probability-puzzles-interview-gold">PART 7: PROBABILITY PUZZLES (INTERVIEW GOLD)</h1>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Answer</th>
+<th>Logic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flip coin twice, given ≥1 heads, P(both heads)?</td>
+<td>1/3</td>
+<td>Sample space: {HH, HT, TH}. Only HH out of 3.</td>
+</tr>
+<tr>
+<td>Sum of two dice = 7?</td>
+<td>1/6</td>
+<td>6 favorable out of 36: (1,6)(2,5)(3,4)(4,3)(5,2)(6,1).</td>
+</tr>
+<tr>
+<td>Pull socks in dark to guarantee a pair?</td>
+<td>3 socks</td>
+<td>2 colors → pigeonhole principle: 3rd guarantees a match.</td>
+</tr>
+<tr>
+<td>3 cards (red/red, blue/blue, red/blue). See red side. P(other side red)?</td>
+<td>2/3</td>
+<td>2 red faces on RR card vs 1 on RB card. 2 out of 3 red faces belong to RR.</td>
+</tr>
+<tr>
+<td>Expected flips to get first heads?</td>
+<td>2</td>
+<td>Geometric: $E[X] = 1/p = 1/0.5 = 2$.</td>
+</tr>
+<tr>
+<td>Expected flips for two heads in a row?</td>
+<td>6</td>
+<td>Recursive: $E = 2 + 0.5 \times E_1 + 0.5 \times E$, where $E_1 = 1$. $E = 6$.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-mental-math-shortcuts">PART 8: MENTAL MATH SHORTCUTS</h1>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Shortcut</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>× 5</td>
+<td>÷ 2, × 10</td>
+<td>48 × 5 = 24 × 10 = 240</td>
+</tr>
+<tr>
+<td>× 25</td>
+<td>÷ 4, × 100</td>
+<td>48 × 25 = 12 × 100 = 1,200</td>
+</tr>
+<tr>
+<td>× 11</td>
+<td>Sum adjacent digits, place in middle</td>
+<td>72 × 11 = 7_(7+2)_2 = 792</td>
+</tr>
+<tr>
+<td>% calc</td>
+<td>x% of y = y% of x</td>
+<td>7% of 50 = 50% of 7 = 3.5</td>
+</tr>
+<tr>
+<td>Doubling time</td>
+<td>72 / rate</td>
+<td>6% growth → doubles in 12 years</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Constants to know:</strong><br />
+- $\sqrt{2} = 1.414$, $\sqrt{3} = 1.732$<br />
+- $\ln(2) = 0.693$, $e = 2.718$<br />
+- $\sqrt{252} \approx 15.87$</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — quant model risk and statistical thinking<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, Sharpe that USE these concepts<br />
+→ <a href="D_Greeks.html">Greeks</a> — calculus-based derivatives sensitivity</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

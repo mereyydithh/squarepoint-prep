@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coding Data — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link active" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+
+</nav>
+
+<main class="content">
+<h1 id="y-coding-data">Y — CODING &amp; DATA</h1>
+<h2 id="python-sql-kdb-data-structures-and-practical-risk-code">Python, SQL, kdb+, data structures, and practical risk code</h2>
+<h3 id="depth-well-pythonsql-practical-kdb-awareness">Depth: 🟡 WELL (Python/SQL practical, kdb+ awareness)</h3>
+<hr />
+<h1 id="part-1-python-oop-four-pillars">PART 1: PYTHON OOP — FOUR PILLARS</h1>
+<h2 id="1-encapsulation-hide-internal-state">1. Encapsulation (hide internal state)</h2>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">RiskLimit</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_var</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__max_var</span> <span class="o">=</span> <span class="n">max_var</span>        <span class="c1"># private via name-mangling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__current_var</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_breached</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_var</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_var</span>
+</code></pre></div>
+
+<h2 id="2-inheritance-parent-child">2. Inheritance (parent → child)</h2>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Instrument</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">market_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Equity</span><span class="p">(</span><span class="n">Instrument</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">market_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shares</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">price</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Bond</span><span class="p">(</span><span class="n">Instrument</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">market_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">face</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clean_price</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">accrued</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+</code></pre></div>
+
+<h2 id="3-polymorphism-same-interface-different-behavior">3. Polymorphism (same interface, different behavior)</h2>
+<div class="highlight"><pre><span></span><code><span class="n">portfolio</span> <span class="o">=</span> <span class="p">[</span><span class="n">Equity</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">Bond</span><span class="p">(</span><span class="o">...</span><span class="p">)]</span>
+<span class="n">total_mv</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">market_value</span><span class="p">()</span> <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">portfolio</span><span class="p">)</span>  <span class="c1"># works for any Instrument</span>
+</code></pre></div>
+
+<h2 id="4-abstraction-hide-complexity">4. Abstraction (hide complexity)</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RiskModel</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HistoricalVaR</span><span class="p">(</span><span class="n">RiskModel</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.99</span><span class="p">):</span>
+        <span class="n">returns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_returns</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">confidence</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="key-oop-concepts">Key OOP Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Composition vs Inheritance</td>
+<td>"Has-a" vs "is-a" — prefer composition when not a true parent-child</td>
+</tr>
+<tr>
+<td>@staticmethod</td>
+<td>Utility function that doesn't need instance state</td>
+</tr>
+<tr>
+<td>@classmethod</td>
+<td>Alternative constructor (e.g., <code>from_csv()</code>)</td>
+</tr>
+<tr>
+<td>@property</td>
+<td>Computed attribute that looks like a field</td>
+</tr>
+<tr>
+<td>Dunder methods</td>
+<td><code>__repr__</code>, <code>__eq__</code>, <code>__lt__</code> for custom behavior</td>
+</tr>
+<tr>
+<td>SOLID principles</td>
+<td>Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-2-data-structures">PART 2: DATA STRUCTURES</h1>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Access</th>
+<th>Search</th>
+<th>Insert</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(1) append, O(n) insert</td>
+<td>General purpose</td>
+</tr>
+<tr>
+<td>tuple</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>Immutable</td>
+<td>Dict keys, function returns</td>
+</tr>
+<tr>
+<td>dict</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>Lookup tables, ticker→position</td>
+</tr>
+<tr>
+<td>set</td>
+<td>—</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>Membership checking, dedup</td>
+</tr>
+<tr>
+<td>defaultdict</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>Grouping by key</td>
+</tr>
+<tr>
+<td>deque</td>
+<td>O(1) ends</td>
+<td>O(n)</td>
+<td>O(1) both ends</td>
+<td>Rolling windows, FIFO</td>
+</tr>
+<tr>
+<td>heapq</td>
+<td>—</td>
+<td>—</td>
+<td>O(log n) push/pop</td>
+<td>Priority queues, top-N</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pythonic-patterns">Pythonic Patterns</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># List comprehension</span>
+<span class="n">pnls</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="o">.</span><span class="n">pnl</span><span class="p">()</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">portfolio</span> <span class="k">if</span> <span class="n">pos</span><span class="o">.</span><span class="n">is_active</span><span class="p">]</span>
+
+<span class="c1"># Dict comprehension</span>
+<span class="n">var_by_pm</span> <span class="o">=</span> <span class="p">{</span><span class="n">pm</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">compute_var</span><span class="p">()</span> <span class="k">for</span> <span class="n">pm</span> <span class="ow">in</span> <span class="n">pms</span><span class="p">}</span>
+
+<span class="c1"># Set comprehension</span>
+<span class="n">unique_sectors</span> <span class="o">=</span> <span class="p">{</span><span class="n">pos</span><span class="o">.</span><span class="n">sector</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">portfolio</span><span class="p">}</span>
+
+<span class="c1"># Generator (lazy — memory efficient)</span>
+<span class="n">total_pnl</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">pnl</span><span class="p">()</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">portfolio</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h1 id="part-3-python-libraries-for-finance">PART 3: PYTHON LIBRARIES FOR FINANCE</h1>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Key functions</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>pandas</strong></td>
+<td><code>read_csv</code>, <code>groupby</code>, <code>merge</code>, <code>pivot_table</code>, <code>resample</code>, <code>rolling</code></td>
+<td>DataFrames, time-series</td>
+</tr>
+<tr>
+<td><strong>numpy</strong></td>
+<td><code>np.array</code>, <code>np.dot</code>, <code>np.linalg.inv</code>, <code>np.percentile</code>, <code>np.random</code></td>
+<td>Vectors, matrices, simulation</td>
+</tr>
+<tr>
+<td><strong>scipy</strong></td>
+<td><code>scipy.stats.norm</code>, <code>scipy.optimize.minimize</code>, <code>scipy.linalg</code></td>
+<td>Stats, optimization, calibration</td>
+</tr>
+<tr>
+<td><strong>polars</strong></td>
+<td>Same as pandas but 10-100x faster (Rust backend)</td>
+<td>Large data &gt;1M rows</td>
+</tr>
+<tr>
+<td><strong>QuantLib</strong></td>
+<td><code>BlackScholesMerton</code>, <code>SABRInterpolatedSmileSection</code></td>
+<td>Options pricing, curve building</td>
+</tr>
+<tr>
+<td><strong>scikit-learn</strong></td>
+<td><code>PCA</code>, <code>LinearRegression</code>, <code>StandardScaler</code></td>
+<td>Factor analysis, ML</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pandas-vs-polars">Pandas vs Polars</h3>
+<ul>
+<li><strong>Pandas:</strong> Mature ecosystem, good for &lt;1M rows, everyone knows it.</li>
+<li><strong>Polars:</strong> Rust-backed, 10-100x faster on large data, lazy evaluation, memory-efficient. Use when performance matters.</li>
+</ul>
+<hr />
+<h1 id="part-4-risk-specific-python-code">PART 4: RISK-SPECIFIC PYTHON CODE</h1>
+<h2 id="historical-var">Historical VaR</h2>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">historical_var</span><span class="p">(</span><span class="n">returns</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.99</span><span class="p">,</span>
+                   <span class="n">portfolio_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1_000_000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">sorted_returns</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_returns</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">confidence</span><span class="p">))</span>
+    <span class="n">var_return</span> <span class="o">=</span> <span class="n">sorted_returns</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">var_return</span> <span class="o">*</span> <span class="n">portfolio_value</span>
+</code></pre></div>
+
+<h2 id="sharpe-ratio">Sharpe Ratio</h2>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">sharpe_ratio</span><span class="p">(</span><span class="n">returns</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">risk_free_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0375</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">excess_returns</span> <span class="o">=</span> <span class="n">returns</span> <span class="o">-</span> <span class="n">risk_free_rate</span> <span class="o">/</span> <span class="mi">252</span>
+    <span class="k">return</span> <span class="n">excess_returns</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="n">excess_returns</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="find-drawdown-periods">Find Drawdown Periods</h2>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">find_drawdowns</span><span class="p">(</span><span class="n">cumulative_pnl</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">top_n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+    <span class="n">peak</span> <span class="o">=</span> <span class="n">cumulative_pnl</span><span class="o">.</span><span class="n">cummax</span><span class="p">()</span>
+    <span class="n">drawdown</span> <span class="o">=</span> <span class="n">cumulative_pnl</span> <span class="o">-</span> <span class="n">peak</span>
+    <span class="n">is_drawdown</span> <span class="o">=</span> <span class="n">drawdown</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">is_drawdown</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">worst</span> <span class="o">=</span> <span class="n">drawdown</span><span class="p">[</span><span class="n">is_drawdown</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">top_n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">worst</span>
+</code></pre></div>
+
+<h2 id="monte-carlo-var-correlated-multi-asset">Monte Carlo VaR (Correlated Multi-Asset)</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Cholesky decomposition for correlated simulation</span>
+<span class="n">cov_matrix</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">cov</span><span class="p">()</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">cov_matrix</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_sims</span><span class="p">,</span> <span class="n">n_assets</span><span class="p">))</span>
+<span class="n">correlated_returns</span> <span class="o">=</span> <span class="n">z</span> <span class="o">@</span> <span class="n">L</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># preserves correlation structure</span>
+</code></pre></div>
+
+<h2 id="python-patterns">Python Patterns</h2>
+<h3 id="decorator-timing-a-function">Decorator (timing a function)</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">timer</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> took </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nd">@timer</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_var</span><span class="p">(</span><span class="n">positions</span><span class="p">):</span>
+    <span class="o">...</span>
+</code></pre></div>
+
+<h3 id="generator-streaming-large-data">Generator (streaming large data)</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">read_trades</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+</code></pre></div>
+
+<h3 id="context-manager-safe-resource-handling">Context Manager (safe resource handling)</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">database_connection</span><span class="p">(</span><span class="n">conn_string</span><span class="p">):</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">conn_string</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">conn</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<hr />
+<h1 id="part-5-sql-fundamentals">PART 5: SQL FUNDAMENTALS</h1>
+<h2 id="core-queries">Core Queries</h2>
+<div class="highlight"><pre><span></span><code><span class="c1">-- GROUP BY + HAVING: net position per ticker</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">net_qty</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">positions</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">book</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;DISC_MACRO&#39;</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ticker</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">net_qty</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+
+<span class="c1">-- JOIN: positions with market data</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">last_price</span><span class="p">,</span>
+<span class="w">       </span><span class="n">p</span><span class="p">.</span><span class="n">quantity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">last_price</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">market_value</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">positions</span><span class="w"> </span><span class="n">p</span>
+<span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">market_data</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">ticker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">ticker</span><span class="p">;</span>
+
+<span class="c1">-- Window functions: running P&amp;L + rank</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="n">pnl</span><span class="p">,</span>
+<span class="w">       </span><span class="k">SUM</span><span class="p">(</span><span class="n">pnl</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ticker</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">trade_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">cumulative_pnl</span><span class="p">,</span>
+<span class="w">       </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">pnl</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">pnl_rank</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">daily_pnl</span><span class="p">;</span>
+
+<span class="c1">-- CTE: annualized vol per ticker</span>
+<span class="k">WITH</span><span class="w"> </span><span class="n">daily_returns</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">ticker</span><span class="p">,</span>
+<span class="w">           </span><span class="p">(</span><span class="k">close</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="k">close</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ticker</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="nb">date</span><span class="p">))</span>
+<span class="w">           </span><span class="o">/</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="k">close</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ticker</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="nb">date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">ret</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">prices</span>
+<span class="p">)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="n">STDDEV</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">SQRT</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">annual_vol</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">daily_returns</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ticker</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="key-concepts">Key Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INNER JOIN</td>
+<td>Only matching rows from both tables</td>
+</tr>
+<tr>
+<td>LEFT JOIN</td>
+<td>All rows from left + matches from right (NULLs for non-matches)</td>
+</tr>
+<tr>
+<td>FULL OUTER JOIN</td>
+<td>All rows from both tables</td>
+</tr>
+<tr>
+<td>GROUP BY + HAVING</td>
+<td>GROUP BY aggregates; HAVING filters AFTER aggregation (vs WHERE before)</td>
+</tr>
+<tr>
+<td>Window functions</td>
+<td><code>OVER (PARTITION BY ... ORDER BY ...)</code> — aggregate without collapsing rows</td>
+</tr>
+<tr>
+<td>Key window funcs</td>
+<td><code>ROW_NUMBER</code>, <code>RANK</code>, <code>LAG</code>, <code>LEAD</code>, <code>SUM</code>, <code>AVG</code></td>
+</tr>
+<tr>
+<td>Indexes</td>
+<td>B-tree on ticker → O(log n) lookup vs O(n) scan</td>
+</tr>
+<tr>
+<td>ACID</td>
+<td>Atomicity, Consistency, Isolation, Durability</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-6-kdbq-awareness-not-deep">PART 6: kdb+/q (AWARENESS — NOT DEEP)</h1>
+<h2 id="why-kdb-exists">Why kdb+ Exists</h2>
+<ul>
+<li>Column-oriented: aggregations over billions of rows in milliseconds.</li>
+<li>In-memory: data lives in RAM.</li>
+<li>Time-series native: as-of joins, sliding windows, fills are first-class operations.</li>
+</ul>
+<h2 id="core-syntax">Core Syntax</h2>
+<div class="highlight"><pre><span></span><code><span class="c1">// Read CSV</span>
+<span class="nv">trades</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="s2">&quot;DSFJI&quot;</span><span class="p">;</span><span class="w"> </span><span class="ow">enlist</span><span class="w"> </span><span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="w"> </span><span class="il">0</span><span class="o">:</span><span class="w"> </span><span class="ss">`:trades.csv</span>
+
+<span class="c1">// SQL-like query</span>
+<span class="ow">select</span><span class="w"> </span><span class="ow">avg</span><span class="w"> </span><span class="n">price</span><span class="o">,</span><span class="w"> </span><span class="ow">sum</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="ow">by</span><span class="w"> </span><span class="n">sym</span><span class="w"> </span><span class="ow">from</span><span class="w"> </span><span class="n">trades</span><span class="w"> </span><span class="nb">where</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ld">2026.04.07</span>
+
+<span class="c1">// VWAP (volume-weighted average price)</span>
+<span class="ow">select</span><span class="w"> </span><span class="nv">vwap</span><span class="o">:</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="ow">wavg</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="ow">by</span><span class="w"> </span><span class="n">sym</span><span class="w"> </span><span class="ow">from</span><span class="w"> </span><span class="n">trades</span>
+
+<span class="c1">// As-of join: last quote at each trade time</span>
+<span class="nb">aj</span><span class="p">[</span><span class="ss">`sym`time</span><span class="p">;</span><span class="w"> </span><span class="n">trades</span><span class="p">;</span><span class="w"> </span><span class="n">quotes</span><span class="p">]</span>
+
+<span class="c1">// Rolling 20-day volatility</span>
+<span class="ow">update</span><span class="w"> </span><span class="nv">vol20</span><span class="o">:</span><span class="w"> </span><span class="il">20</span><span class="w"> </span><span class="nb">mdev</span><span class="w"> </span><span class="ow">log</span><span class="w"> </span><span class="nb">ratios</span><span class="w"> </span><span class="n">close</span><span class="w"> </span><span class="ow">by</span><span class="w"> </span><span class="n">sym</span><span class="w"> </span><span class="ow">from</span><span class="w"> </span><span class="n">daily</span>
+</code></pre></div>
+
+<h2 id="what-to-say-if-asked">What to Say If Asked</h2>
+<p>"I used kdb+ at BNP NYC for tick-level market data — FX forwards, swaps, corp hedging. The key advantage is speed: aggregations over millions of rows interactively that would hang in SQL. As-of joins are essential for aligning trade timestamps to market snapshots for P&amp;L attribution."</p>
+<hr />
+<h1 id="part-7-time-complexity-cheat-sheet">PART 7: TIME COMPLEXITY CHEAT SHEET</h1>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Structure</th>
+<th>Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access by index</td>
+<td>list</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>Search unsorted</td>
+<td>list</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>Binary search sorted</td>
+<td>array</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>Insert at end</td>
+<td>list</td>
+<td>O(1) amortized</td>
+</tr>
+<tr>
+<td>Insert at beginning</td>
+<td>list</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>Lookup by key</td>
+<td>dict</td>
+<td>O(1) average</td>
+</tr>
+<tr>
+<td>Insert/remove</td>
+<td>heap</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>Sort</td>
+<td>any</td>
+<td>O(n log n) best</td>
+</tr>
+<tr>
+<td>Matrix multiply n×n</td>
+<td>numpy</td>
+<td>O(n³) naive</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-interview-application">PART 8: INTERVIEW APPLICATION</h1>
+<p>If asked "How would you build a daily risk report?":</p>
+<p>"I'd use Python with pandas for data manipulation and numpy for calculations. The pipeline:</p>
+<ol>
+<li>
+<p><strong>Data ingestion:</strong> Pull positions from the risk database (SQL query with JOINs to get positions + market data). Pull market data from Bloomberg API or internal feed.</p>
+</li>
+<li>
+<p><strong>Risk calculations:</strong> Compute portfolio-level metrics — VaR (historical: sort returns, take percentile), Greeks (delta, gamma, vega per position, summed for portfolio), exposure by sector/factor.</p>
+</li>
+<li>
+<p><strong>Stress tests:</strong> Apply shock scenarios to the portfolio — rate moves, equity drops, vol spikes. Pre-defined scenarios plus ad-hoc ones for current events.</p>
+</li>
+<li>
+<p><strong>Output:</strong> Format into a report — summary dashboard (total VaR, limit utilization, P&amp;L attribution), detailed position-level breakdown, and any limit breaches highlighted.</p>
+</li>
+</ol>
+<p>At BNP I built exactly this — a live stress-testing model that ran 100+ scenarios daily and provided hedging signals to traders. Python OOP design: each risk model as a class inheriting from a base <code>RiskModel</code> interface, making it easy to add new stress scenarios without modifying existing code."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="X_Math_Stats_Probability.html">Math Stats Probability</a> — the math concepts these tools implement<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — model risk and quant concepts<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES calculations in practice<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — P&amp;L decomposition that uses these tools</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

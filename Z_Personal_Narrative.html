@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Narrative — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link active" href="Z_Personal_Narrative.html">Personal Narrative</a>
+
+</nav>
+
+<main class="content">
+<h1 id="z-personal-narrative-delivery">Z — PERSONAL NARRATIVE &amp; DELIVERY</h1>
+<h2 id="resume-walkthrough-story-bank-probe-defense-squarepoint-knowledge-and-questions-to-ask">Resume walkthrough, story bank, probe defense, Squarepoint knowledge, and questions to ask</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="part-1-resume-walkthrough">PART 1: RESUME WALKTHROUGH</h1>
+<p>You need THREE versions. Pick based on context. Practice out loud with a timer.</p>
+<h2 id="full-version-4-min">Full Version (4 min)</h2>
+<p>"Sure — I like to start a bit further back. I was a national judoka with the French team from age 14 to 22. Eight years of competing at highest level taught me pressure tolerance, balance, discipline over long horizons.</p>
+<p>Academics: classe prépa (2-year intensive maths/physics for top engineering schools), then double Master's — quantitative finance + engineering at ECE Paris, plus investment banking + risk at top business school. So I have both quant rigor AND market intuition.</p>
+<p>BNP Paris: OTC commodities desk, sales and trading. I worked across every sub-class — oil, gas, power, emissions, metals, ags. I priced Asian/European options for corporates, wrote daily market commentary for 4,000 clients, and built a Python/VBA pipeline that unified data pulls and pricing: automated what was manual, all sales used it daily.</p>
+<p>BNP New York: what I call a quant swiss army knife role. I sat on front-office risk for the DEC business line — all asset classes, ~$1B client notional. I built the live stress-testing model that gave us position-level granularity on risk drivers. I orchestrated a $2.6B default fire drill with 9 counterparties — full liquidation with &lt;0.2% P&amp;L drag. I built the SOFR/UST options skew scanner for traders. I owned all production code. This role was exceptionally formative — it showed me what risk is AND showed me the environment I want to work in: fast-paced, high-stakes.</p>
+<p>My mentor — 20 years at CME, ICE, Goldman — told me 'risk is being proactively ready for when things turn sour.' That resonated. It's how I work.</p>
+<p>Currently at Natixis as cross-asset quant — FRTB, SABR calibration, correlation monitoring across rates, equities, FX, commodities, credit. Valuable, but the pace doesn't compare to NYC. This is a bridge.</p>
+<p>That's why Squarepoint is exactly what I've been working toward — building risk frameworks for a discretionary team, embedded with traders, back in NYC. It's the natural next step."</p>
+<h2 id="medium-version-230">Medium Version (2:30)</h2>
+<p>"Judo from 14-22, French national team. Taught me pressure and discipline.</p>
+<p>Double Master's — quant finance + engineering (ECE Paris) plus investment banking + risk. So: math rigor AND markets.</p>
+<p>BNP Paris: OTC commodities desk. Priced options across oil, gas, metals, power. Wrote daily market commentary for 4,000 clients. Built Python pipeline desk adopted for data analysis.</p>
+<p>BNP New York: quant swiss army knife role on front-office risk. Built live stress-testing model, orchestrated $2.6B default fire drill with 9 counterparties (full liquidation &lt;0.2% drag). Built options skew scanner for traders. Owned all production code. This role convinced me it's where I belong AND it showed me the environment I want: fast-paced, collaborative, high-stakes.</p>
+<p>Currently Natixis as cross-asset quant — model validation, SABR, FRTB. Bridge role post-NYC cooling-off. Pace doesn't compare to NYC.</p>
+<p>Squarepoint is what I've been targeting — building risk frameworks for a discretionary team, embedded with traders, back in New York."</p>
+<h2 id="short-version-2-min">Short Version (≤2 min)</h2>
+<p>"Judo national team 14-22: pressure, discipline. Double Master's — quant + business. So: math + markets.</p>
+<p>BNP Paris: OTC commodities desk. Priced options, wrote commentary for 4,000 clients, built Python pipeline.</p>
+<p>BNP NYC: front-office risk. Stress-testing model, $2.6B fire drill (9 counterparties, &lt;0.2% drag), SOFR skew scanner, owned all code. Convinced me risk is my path + intense pace is where I thrive.</p>
+<p>Natixis: bridge role — cross-asset quant, FRTB. But NYC is where the real work happens.</p>
+<p>Squarepoint: exactly what I'm targeting — building risk for discretionary, embedded with traders, NYC."</p>
+<h2 id="key-beats-every-version">Key Beats (Every Version)</h2>
+<ul>
+<li>Judo opener → pressure + discipline (unique, memorable)</li>
+<li>Double Master's → quant + market intuition</li>
+<li>Paris → initiative (built tools nobody asked for)</li>
+<li>NYC → anchor point (spend most time here)</li>
+<li>"Quant swiss army knife" → memorable label</li>
+<li>Fire drill → technical + operational + high-stakes</li>
+<li>Mentor quote → emotional beat</li>
+<li>"Bridge role" → honest Natixis framing</li>
+<li>Land on WHY SQUAREPOINT</li>
+</ul>
+<hr />
+<h1 id="part-2-the-5-must-nail-answers">PART 2: THE 5 MUST-NAIL ANSWERS</h1>
+<h2 id="why-squarepoint">"Why Squarepoint?"</h2>
+<p>"Three reasons.</p>
+<p>First: Buy-side risk embedded with trading team. At BNP, I did risk for clients — the insights informed someone else's decisions. Here, risk DIRECTLY shapes how the fund takes risk. I'd be in the room with PMs and researchers.</p>
+<p>Second: Squarepoint has world-class systematic infrastructure — grown from 60 people at the 2014 spinoff to 700+ across 13 offices, ~$182B regulatory AUM. The discretionary team has access to tools, data, and quant rigor most discretionary funds don't. Systematic infrastructure with human judgment is exactly how I think about risk.</p>
+<p>Third — I'll be direct: I spent almost two years in New York and it's where I do my best work. The pace, intensity, proximity to deepest capital markets. I want to be back there."</p>
+<h2 id="why-risk-management-specifically">"Why risk management specifically?"</h2>
+<p>"Risk sits at the intersection of everything I've built: quant skills — models, code, derivatives. Market intuition — three years across commodities, rates, equities, FX. Temperament — eight years competitive judo means pressure and calm.</p>
+<p>What attracts me over quant research or trading: risk is where you need BOTH quantitative rigor AND judgment to say 'this doesn't look right' to a PM. Not pure math, not pure intuition — both.</p>
+<p>My mentor described it: 'Risk is the art of being proactively ready for when things turn sour.' That resonated deeply."</p>
+<h2 id="why-leave-natixis-after-6-months">"Why leave Natixis after 6 months?"</h2>
+<p>"After my NYC VIE ended, I had a contractual cooling-off period. Natixis let me stay active and broaden experience across all asset classes while targeting a buy-side role.</p>
+<p>It's been valuable — model validation, FRTB, working across 5 asset classes. But the work is further from trading decisions than I want. At BNP NYC, I was sitting with traders providing signals that impacted real positions. That intensity is what I want, specifically on the buy-side where risk directly shapes outcomes.</p>
+<p>To be direct — Natixis was always a bridge. My career goal has been a hedge fund risk role since New York. This role at Squarepoint is exactly what I've been working toward."</p>
+<h2 id="what-do-you-think-this-job-involves">"What do you think this job involves?"</h2>
+<p>"Buy-side risk for a discretionary team. Core: enforce the IC's risk budget, monitor strategies before and during trading, analyze P&amp;L and risk holistically, help with portfolio construction from a risk lens, build a scalable risk framework and infrastructure, embed with quants, researchers, and traders.</p>
+<p>Risk is two things at once: proactively prepare for crisis while managing current positions for profit."</p>
+<h2 id="tell-me-about-a-failure">"Tell me about a failure"</h2>
+<p>"Early NYC: I over-explained technical details when traders just wanted the bottom line. Learned to match delivery to audience — 10-second answer for traders, 5-minute walkthrough for risk team, detailed write-up for compliance. By the end, I was the person traders came to directly because they knew I'd give a fast, clear answer."</p>
+<hr />
+<h1 id="part-3-story-bank-by-theme">PART 3: STORY BANK — BY THEME</h1>
+<p>Every story uses <strong>STAR</strong> format: Situation, Task, Action, Result.</p>
+<h2 id="a-initiative-ownership">A. Initiative &amp; Ownership</h2>
+<p><strong>Python/VBA Pipeline — BNP Paris</strong><br />
+- S: Sales doing everything manually — Bloomberg pulls, charts, formatting.<br />
+- T: Nobody asked me to build anything. I saw inefficiency.<br />
+- A: Built VBA macro + Python Bloomberg API. Automated data pulls, pricing, charts. ~1 month side project.<br />
+- R: All 8 sales used daily. Latency down ~20%. MD backed extension for correlation analysis.</p>
+<h2 id="b-problem-solving">B. Problem-Solving</h2>
+<p><strong>SOFR &amp; UST Options Skew Scanner — BNP NYC</strong><br />
+- S: BlackRock + internal traders wanted day-over-day OI + net short gamma on SOFR/UST options.<br />
+- T: Automate what traders were doing manually.<br />
+- A: Pulled CME + Bloomberg data. Computed day-over-day OI change, net short gamma by strike/maturity. Identified gamma concentration + convexity inflection.<br />
+- R: Traders got daily gamma data. Benchmarked against manual work → identical results, fully automated.</p>
+<h2 id="c-pressure-resilience">C. Pressure &amp; Resilience</h2>
+<p><strong>Jet Fuel Options Pricing — BNP Paris</strong><br />
+- S: Close to market close, client needed large batch of jet fuel options quoted. Large notional.<br />
+- T: Get quote priced + through before close. No room for error.<br />
+- A: Priced through Bloomberg OVML + internal pricer. Cross-checked with Python/QuantLib script I'd built.<br />
+- R: Quote through before close. Client executed. MD noticed the extra validation step → led to pipeline support.</p>
+<h2 id="d-teamwork-collaboration">D. Teamwork &amp; Collaboration</h2>
+<p><strong>Constellation-Calpine Merger — BNP NYC</strong><br />
+- S: Highest-profile commodities energy transaction in US. DEC had exposure through multiple clients.<br />
+- T: Understand risk implications — exposure shifts, optimization opportunities.<br />
+- A: Stress testing model provided position-level data + scenario analysis. Provided real-time data to traders, risk, collateral teams.<br />
+- R: Firm engaged at highest level with confidence. My contribution was data enabling informed decisions.</p>
+<p><strong>$2.6B Default Fire Drill — BNP NYC</strong><br />
+- S: Top 3 clients portfolio: long natural gas + short power/carbon. $2.6B notional.<br />
+- T: Validate full liquidation within regulatory timelines.<br />
+- A: Coordinated 9 external counterparties. Full liquidation simulation with CCP margin tests.<br />
+- R: &lt;0.2% P&amp;L drag (~1% of notional). Identified 2 operational gaps in collateral management — fixed preemptively.</p>
+<h2 id="e-motivation-fit">E. Motivation &amp; Fit</h2>
+<p><strong>"Why hedge fund vs sell-side?"</strong><br />
+"Sell-side: risk is a support function. Analysis informed decisions removed by layers. Hedge fund: risk directly shapes portfolio outcomes. When I flag correlation breakage or a dangerous stress scenario, it changes capital allocation. That's the difference."</p>
+<hr />
+<h1 id="part-4-probe-defense-key-claims">PART 4: PROBE DEFENSE — KEY CLAIMS</h1>
+<h2 id="sofr-skew-scanner">SOFR Skew Scanner</h2>
+<p><strong>"What is skew?"</strong><br />
+Implied vol pattern across strikes. Equity indices = puts more expensive (negative skew) because downside is feared. Rates = depends on environment. Skew shows where the market sees risk + where hedging demand creates imbalance.</p>
+<p><strong>"Why focus on OI, delta, gamma?"</strong><br />
+OI shows strike concentration. Delta shows directional exposure. Gamma shows sensitivity. Strikes with high OI + high gamma = where dealers are concentrated. Hedging activity at those strikes amplifies moves. It's a fault-line map.</p>
+<p><strong>"What's net short gamma?"</strong><br />
+Dealers short options at a strike. As underlying approaches that strike, delta changes rapidly — they're forced to buy on up-moves and sell on down-moves to re-hedge. Creates a feedback loop that amplifies direction. Net long gamma does the opposite — creates mean reversion.</p>
+<h2 id="fire-drill">Fire Drill</h2>
+<p><strong>"Walk me through a fire drill"</strong><br />
+Phase 1: Risk assessment — map all positions, identify most illiquid/correlated.<br />
+Phase 2: Counterparty coordination — contact 9 banks/corporates, agree on sequence.<br />
+Phase 3: Execution simulation — validate liquidation within regulatory timelines, test CCP margins.<br />
+Result: &lt;0.2% drag, identified 2 operational gaps, fixed preemptively.</p>
+<p><strong>"Why natural gas short power?"</strong><br />
+Most illiquid + correlated combo. Gas-fired plants set electricity marginal price — long gas/short power is right-way correlated normally but hardest to unwind. Power market has limited liquidity, seasonal contracts, basis risk. We chose it TO FIND PROBLEMS.</p>
+<h2 id="natixis-keep-short">Natixis (Keep SHORT)</h2>
+<p><strong>SABR Calibration</strong><br />
+Four parameters: α (vol level), β (CEV backbone — fixed 0.5 for rates, ~1.0 equities), ρ (skew), ν (smile). Calibrate using Levenberg-Marquardt minimizing squared diff between model + market implied vols. 15bps improvement: legacy 45bps RMSE → SABR 30bps.</p>
+<p><strong>Gold-UST Decoupling</strong><br />
+Historically -0.3 to -0.5 correlation (yields down, gold up). Turned positive Q4 2025 = 3-sigma event. Root cause: China/Russia/Middle East central bank gold buying (de-dollarization). Chow breakpoint test confirmed structural break. Adjusted hedges → 15% drawdown reduction.</p>
+<hr />
+<h1 id="part-5-squarepoint-knowledge">PART 5: SQUAREPOINT KNOWLEDGE</h1>
+<h2 id="the-basics">The Basics</h2>
+<table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Founded</td>
+<td>Dec 16, 2014 (spinoff from Barclays)</td>
+</tr>
+<tr>
+<td>Origins</td>
+<td>nQuant at Lehman Brothers Tokyo (2000) → survived Lehman → absorbed into Barclays → spun off (Volcker Rule)</td>
+</tr>
+<tr>
+<td>Founders</td>
+<td>Olivier Durantel (Chairman), Gregoire Schneider, Antoine Fillet, Maxime Fortin — all French Polytechnique</td>
+</tr>
+<tr>
+<td>HQ</td>
+<td>250 West 55th Street, NYC + London</td>
+</tr>
+<tr>
+<td>AUM</td>
+<td>~$182B regulatory (Nov 2025). ~$30-40B estimated net assets (5:1 leverage typical for systematic)</td>
+</tr>
+<tr>
+<td>Employees</td>
+<td>700+ (likely 900+ by 2026)</td>
+</tr>
+<tr>
+<td>Offices</td>
+<td>13 cities: NYC, London, Bangalore, Boston, Dubai, Geneva, Hong Kong, Houston, Jersey, Madrid, Montreal, Paris, Singapore</td>
+</tr>
+<tr>
+<td>Clients</td>
+<td>80% non-US (public pensions, sovereign wealth funds, European institutions)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-they-do">What They Do</h2>
+<ul>
+<li><strong>Core:</strong> Systematic/quantitative — algorithms make trading decisions. Millions of trades/day.</li>
+<li><strong>Growing:</strong> Discretionary — human PMs, conviction bets, supported by systematic infrastructure. <strong>YOUR TEAM.</strong></li>
+<li><strong>Asset classes:</strong> Equities, rates/FX, commodities, credit.</li>
+<li><strong>Frequencies:</strong> Full spectrum — HFT (microseconds) to medium-term (days/weeks).</li>
+<li><strong>Risk approach:</strong> "Consistent risk-adjusted returns." Risk management is core, not afterthought.</li>
+</ul>
+<h2 id="technology-their-moat">Technology (Their Moat)</h2>
+<ul>
+<li>Millions of trades/day → C++ execution, co-located servers</li>
+<li>Complex simulations → Monte Carlo, backtesting on terabytes</li>
+<li>25-year proprietary tech stack (not off-the-shelf)</li>
+<li>Likely: C++ (HFT), Python (research), kdb+/q (tick data), SQL, AWS</li>
+</ul>
+<p><strong>Your edge:</strong> You know their stack (Python, kdb+, Bloomberg, SQL, AWS) → no ramp-up.</p>
+<h2 id="culture-signals-mirror-these">Culture Signals (Mirror These)</h2>
+<ul>
+<li><strong>Collaborative:</strong> "Teams talk, share ideas" → "I thrive in collaborative environments"</li>
+<li><strong>Pragmatic:</strong> "Realistic, practical" → "I build tools that solve real problems"</li>
+<li><strong>Inquisitive:</strong> "Stay abreast of evolving data" → "I taught myself kdb+" </li>
+<li><strong>Flat structure:</strong> "Spontaneous huddles, access to founders" → "I prefer informal, fast-paced"</li>
+</ul>
+<h2 id="dont-say">Don't Say</h2>
+<ul>
+<li>Specific performance numbers</li>
+<li>Strategy names</li>
+<li>Anything about the Sesum lawsuit or Footnoted.com incident</li>
+</ul>
+<hr />
+<h1 id="part-6-questions-to-ask-by-round">PART 6: QUESTIONS TO ASK BY ROUND</h1>
+<h2 id="round-1-discretionary-trader">Round 1 — Discretionary Trader</h2>
+<ul>
+<li>"How do you think about risk limits — do you prefer hard stops or soft guidelines with RM dialogue?"</li>
+<li>"What does a typical morning look like on the desk?"</li>
+<li>"How do you want the RM to flag concerns — real-time, end of day, formally?"</li>
+</ul>
+<h2 id="round-2-senior-rm">Round 2 — Senior RM</h2>
+<ul>
+<li>"How is risk governance structured between the discretionary and systematic sides?"</li>
+<li>"What tools and infrastructure are available for the discretionary RM?"</li>
+<li>"What's the biggest risk challenge for a new discretionary desk inside a systematic firm?"</li>
+</ul>
+<h2 id="round-3-quant-researcher">Round 3 — Quant Researcher</h2>
+<ul>
+<li>"How does the risk team interact with research — do you share factor models / signals?"</li>
+<li>"What's the tech stack for the discretionary risk infrastructure?"</li>
+<li>"How do you approach model validation for risk models vs alpha models?"</li>
+</ul>
+<h2 id="round-4-constantine-senior">Round 4 — Constantine + Senior</h2>
+<ul>
+<li>"What's the long-term vision for the discretionary business — number of PMs, AUM targets?"</li>
+<li>"How do you see the RM role evolving as the desk scales?"</li>
+<li>"What does success look like in this role at 6 months? At 1 year?"</li>
+</ul>
+<h2 id="universal-closer">Universal Closer</h2>
+<p>"I want to say — I'm genuinely excited about this opportunity. Building risk frameworks for a discretionary team at a firm with Squarepoint's quantitative DNA is exactly what I've been targeting. I'm ready to move quickly if the fit is right."</p>
+<hr />
+<h1 id="part-7-curveball-defense">PART 7: CURVEBALL DEFENSE</h1>
+<p><strong>"Salary expectation?"</strong><br />
+"I saw $125K base minimum. Open to discussing compensation — opportunity and team matter more."</p>
+<p><strong>"Visa/work authorization?"</strong><br />
+"I'm French/EU citizen. Would need visa sponsorship for US. Squarepoint sponsors visas. I'm ready to facilitate the process."</p>
+<p><strong>"What's on your radar in markets?"</strong><br />
+"Middle East and Strait of Hormuz — live supply risk that cascades through every asset class. Also the April 29-30 central bank gauntlet: Fed, ECB, BOE within 48 hours. Q1 showed consensus positioning can turn violently — multi-strat funds had their worst quarter since 2022."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — what good RM looks like (use in answers)<br />
+→ <a href="M_Disc_vs_Systematic.html">Disc vs Systematic</a> — your bridge role framing<br />
+→ <a href="R_Current_Market_Context.html">Current Market Context</a> — market numbers to have cold<br />
+→ <a href="T_Opinion_Formation.html">Opinion Formation</a> — forming views for interview</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
