@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Risk — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link active" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="g-portfolio-risk-concepts">G — PORTFOLIO RISK CONCEPTS</h1>
+<h2 id="correlation-concentration-basis-risk-liquidity-risk-factor-exposure-tail-risk">Correlation, concentration, basis risk, liquidity risk, factor exposure, tail risk</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="part-1-correlation">PART 1: CORRELATION</h1>
+<h2 id="what-it-is">What It Is</h2>
+<p>Correlation measures the degree to which two assets move together. Ranges from -1 (perfect opposite movement) to +1 (perfect co-movement). Zero = no linear relationship.</p>
+<p>$$\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \times \sigma_Y}$$</p>
+<h2 id="why-correlation-is-the-most-dangerous-number-in-risk-management">Why Correlation Is the Most Dangerous Number in Risk Management</h2>
+<p><strong>Correlation is NOT constant.</strong> It changes with:<br />
+- Market regime (risk-on vs risk-off)<br />
+- Volatility level (correlations spike when vol spikes)<br />
+- Macro environment (inflation vs deflation regime)<br />
+- Crisis vs calm</p>
+<p><strong>The critical asymmetry:</strong> When you need diversification most (in a crisis), correlation goes to 1. Assets that were "uncorrelated" in calm markets all sell off together.</p>
+<h2 id="unconditional-vs-conditional-correlation">Unconditional vs Conditional Correlation</h2>
+<p><strong>Unconditional:</strong> The average correlation across all market environments. "SPX and oil have a 0.35 correlation over the past 5 years." This is what most risk models use.</p>
+<p><strong>Conditional (on stress):</strong> The correlation specifically during sell-offs. "SPX and oil have a 0.78 correlation when SPX is down &gt;2% in a day." This is what actually matters for portfolio risk.</p>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Unconditional ρ</th>
+<th>Conditional ρ (in stress)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPX vs single stocks</td>
+<td>0.30</td>
+<td>0.70+</td>
+</tr>
+<tr>
+<td>SPX vs HY credit</td>
+<td>0.50</td>
+<td>0.85+</td>
+</tr>
+<tr>
+<td>SPX vs US Treasury</td>
+<td>-0.30</td>
+<td>-0.50 (usually) BUT +0.40 in 2022 (inflation regime)</td>
+</tr>
+<tr>
+<td>Gold vs SPX</td>
+<td>-0.10</td>
+<td>-0.30 (usually) BUT +0.20 if real rates dominate</td>
+</tr>
+<tr>
+<td>Cross-PM portfolios at same fund</td>
+<td>0.10-0.20</td>
+<td>0.50-0.80 (hidden common factors)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-the-rm-needs-to-do-about-correlation">What the RM Needs to Do About Correlation</h2>
+<ol>
+<li><strong>Don't trust trailing correlations.</strong> They're backward-looking and regime-dependent.</li>
+<li><strong>Stress test with elevated correlations.</strong> Run scenarios where ρ = 0.7 or 0.9 instead of the historical 0.3.</li>
+<li><strong>Monitor correlation regime changes.</strong> If stocks-bonds correlation flips from -0.3 to +0.3 → the entire hedging framework changes.</li>
+<li><strong>Aggregate across PMs.</strong> <a href="U_Scenario_Analysis.html">Scenario Analysis</a> Scenario 5 — the most dangerous risk is when all PMs are loading on the same hidden factor.</li>
+</ol>
+<hr />
+<h1 id="part-2-concentration-risk">PART 2: CONCENTRATION RISK</h1>
+<h2 id="what-it-is_1">What It Is</h2>
+<p>Too much risk in a single position, sector, factor, or counterparty.</p>
+<h2 id="types-of-concentration">Types of Concentration</h2>
+<h3 id="single-name-concentration">Single-Name Concentration</h3>
+<p>"20% of the book is in one stock." If that stock gaps down 15% on earnings, you're down 3% on the whole fund. That's a week's return gone.</p>
+<h3 id="sector-concentration">Sector Concentration</h3>
+<p>"40% of the book is in energy." Even with 10 different names, they'll all move together when oil moves. You don't have 10 positions — you have one oil bet dressed up as 10 positions.</p>
+<h3 id="factor-concentration">Factor Concentration</h3>
+<p>The most dangerous kind because it's HIDDEN. Multiple positions across different sectors can all load on the same factor:<br />
+- Long tech + short utilities + long growth + short value = massive momentum factor bet<br />
+- Long energy + long EM = oil beta bet in disguise<br />
+- Long banks + short Treasuries = rate bet in disguise</p>
+<p><strong>How to detect:</strong> Factor regression. Regress portfolio returns against standard factors (SPX, value, momentum, size, oil, rates, DXY). If R² against one factor is &gt;0.6 → that factor IS your portfolio.</p>
+<h3 id="crowding-concentration">Crowding Concentration</h3>
+<p>Even if YOUR fund is diversified, if every other hedge fund holds the same positions, the aggregate is concentrated. When one fund de-risks, they all need to → amplified selling → crash.</p>
+<p><strong>How to detect:</strong><br />
+- 13F overlap analysis (how many funds hold the same stocks?)<br />
+- Short interest concentration (high short interest = crowded short)<br />
+- Factor-weighted positioning (is the "momentum long" crowded across the industry?)</p>
+<hr />
+<h1 id="part-3-basis-risk">PART 3: BASIS RISK</h1>
+<h2 id="what-it-is_2">What It Is</h2>
+<p>The risk that a hedge doesn't move 1:1 with the position it's supposed to hedge. The "basis" = price of the hedged asset minus price of the hedging instrument.</p>
+<h2 id="examples">Examples</h2>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Hedge</th>
+<th>Basis risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long XOM stock</td>
+<td>Short XLE (energy ETF)</td>
+<td>XOM might outperform XLE → hedge doesn't fully offset</td>
+</tr>
+<tr>
+<td>Long Brent crude</td>
+<td>Short WTI crude</td>
+<td>Brent-WTI spread can widen/narrow independently</td>
+</tr>
+<tr>
+<td>Long corporate bonds</td>
+<td>Short Treasury futures</td>
+<td>Credit spread can move independent of rate moves</td>
+</tr>
+<tr>
+<td>Long foreign stocks</td>
+<td>Short FX</td>
+<td>FX hedge has a different tenor/maturity than equity position</td>
+</tr>
+</tbody>
+</table>
+<h2 id="why-basis-risk-matters">Why Basis Risk Matters</h2>
+<p>A PM says: "I'm hedged — I have a put on SPX against my portfolio." But the portfolio is 60% tech, 20% healthcare, 20% energy. If tech sells off 15% but SPX only drops 7% (because banks and energy hold up), the hedge covers 7% of a 15% loss. That's basis risk.</p>
+<h2 id="how-to-manage">How to Manage</h2>
+<ul>
+<li>Hedge with the MOST CORRELATED instrument to the actual exposure.</li>
+<li>Monitor the basis continuously — it's not static.</li>
+<li>Understand that basis risk is the risk of being "right on the direction, wrong on the hedge."</li>
+<li>If basis is unstable → reduce position size or find a better hedge.</li>
+</ul>
+<hr />
+<h1 id="part-4-liquidity-risk">PART 4: LIQUIDITY RISK</h1>
+<h2 id="two-dimensions-recap-from-market-mechanics">Two Dimensions (recap from <a href="C_Market_Mechanics.html">Market Mechanics</a>)</h2>
+<h3 id="market-liquidity-risk">Market Liquidity Risk</h3>
+<p>Can you exit the position without moving the price?</p>
+<p><strong>Measures:</strong><br />
+- <strong>ADV ratio:</strong> Position size / Average Daily Volume. &gt;5% = illiquid. &gt;20% = you ARE the market.<br />
+- <strong>Bid-ask spread:</strong> Wider spread = more illiquid. Cost of immediate execution.<br />
+- <strong>Market impact:</strong> How much your trade moves the price. Non-linear — 2x the size doesn't just cost 2x; it costs more.<br />
+- <strong>Days to liquidate:</strong> Position / (30% of ADV) = approximate days needed to exit without excessive impact.</p>
+<h3 id="funding-liquidity-risk">Funding Liquidity Risk</h3>
+<p>Can you meet cash obligations (margin calls, redemptions)?</p>
+<p><strong>Liquidity mismatch:</strong> If the fund allows monthly redemptions but holds positions that take 3 weeks to liquidate → mismatch. When redemptions hit during a crisis → fire-sale liquidation.</p>
+<h2 id="liquidity-risk-hierarchy">Liquidity Risk Hierarchy</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Liquidity tier</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US Treasuries</td>
+<td>1 (most liquid)</td>
+<td>Usually — BUT March 2020 proved even Treasuries can become illiquid</td>
+</tr>
+<tr>
+<td>S&amp;P 500 E-mini futures</td>
+<td>1</td>
+<td>Most liquid equity product in the world</td>
+</tr>
+<tr>
+<td>Large cap equities (AAPL, MSFT)</td>
+<td>1-2</td>
+<td>Very liquid in normal markets</td>
+</tr>
+<tr>
+<td>Mid/small cap equities</td>
+<td>2-3</td>
+<td>Can take days to exit in size</td>
+</tr>
+<tr>
+<td>Investment grade bonds</td>
+<td>2-3</td>
+<td>OTC, dealer-intermediated</td>
+</tr>
+<tr>
+<td>High yield bonds</td>
+<td>3-4</td>
+<td>Illiquid in stress, wide bid-ask</td>
+</tr>
+<tr>
+<td>OTC derivatives (IRS, CDS)</td>
+<td>3-4</td>
+<td>Custom terms, dealer dependent</td>
+</tr>
+<tr>
+<td>Exotic OTC derivatives</td>
+<td>4-5</td>
+<td>May have ONE counterparty</td>
+</tr>
+<tr>
+<td>Private credit / loans</td>
+<td>5 (least liquid)</td>
+<td>No secondary market in stress</td>
+</tr>
+</tbody>
+</table>
+<h2 id="liquidity-monitoring-for-the-rm">Liquidity Monitoring for the RM</h2>
+<p>Daily checklist:<br />
+1. What % of the portfolio can be liquidated in 1 day? 3 days? 1 week?<br />
+2. What is margin utilization as % of available credit?<br />
+3. What's the cash buffer? (How many days of negative P&amp;L before margin calls?)<br />
+4. Any position &gt;5% of ADV? Flag it.<br />
+5. In a vol spike, how much does margin increase? Do we have the cash?</p>
+<hr />
+<h1 id="part-5-factor-exposure">PART 5: FACTOR EXPOSURE</h1>
+<h2 id="what-factors-are">What Factors Are</h2>
+<p>Systematic drivers of returns that explain WHY a portfolio moves. The main families:</p>
+<h3 id="equity-style-factors-fama-french-extensions">Equity Style Factors (Fama-French &amp; extensions)</h3>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Long</th>
+<th>Short</th>
+<th>What drives it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market (MKT)</td>
+<td>Equities</td>
+<td>Risk-free</td>
+<td>Equity risk premium</td>
+</tr>
+<tr>
+<td>Size (SMB)</td>
+<td>Small caps</td>
+<td>Large caps</td>
+<td>Liquidity premium, information asymmetry</td>
+</tr>
+<tr>
+<td>Value (HML)</td>
+<td>Low P/B stocks</td>
+<td>High P/B stocks</td>
+<td>Mean reversion, behavioral</td>
+</tr>
+<tr>
+<td>Momentum (MOM)</td>
+<td>Past winners</td>
+<td>Past losers</td>
+<td>Behavioral (herding, underreaction)</td>
+</tr>
+<tr>
+<td>Quality (QMJ)</td>
+<td>High profit, low leverage</td>
+<td>Low profit, high leverage</td>
+<td>Fundamental risk</td>
+</tr>
+<tr>
+<td>Low Vol (BAB)</td>
+<td>Low-beta stocks</td>
+<td>High-beta stocks</td>
+<td>Leverage aversion, benchmark hugging</td>
+</tr>
+</tbody>
+</table>
+<h3 id="macro-factors">Macro Factors</h3>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>What it captures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rates (DV01)</td>
+<td>Sensitivity to interest rate moves</td>
+</tr>
+<tr>
+<td>Credit (CS01)</td>
+<td>Sensitivity to credit spread moves</td>
+</tr>
+<tr>
+<td>Oil</td>
+<td>Sensitivity to energy prices</td>
+</tr>
+<tr>
+<td>Dollar (DXY)</td>
+<td>Sensitivity to USD strength/weakness</td>
+</tr>
+<tr>
+<td>VIX / Vol</td>
+<td>Sensitivity to volatility changes</td>
+</tr>
+<tr>
+<td>Inflation breakeven</td>
+<td>Sensitivity to inflation expectations</td>
+</tr>
+</tbody>
+</table>
+<h2 id="why-factor-exposure-matters-for-risk">Why Factor Exposure Matters for Risk</h2>
+<h3 id="1-alpha-is-often-disguised-factor-exposure">1. "Alpha" is often disguised factor exposure</h3>
+<p>A PM claims they're generating alpha through stock selection. But factor decomposition shows 80% of their returns are explained by long momentum + long growth. They're not picking stocks — they're selling momentum exposure at a 2-and-20 fee.</p>
+<h3 id="2-diversification-is-only-real-at-the-factor-level">2. Diversification is only real at the factor level</h3>
+<p>A fund with 50 equity positions looks diversified. But if all 50 stocks load heavily on momentum → one factor bet. Diversification at the NAME level is meaningless if factor concentration exists.</p>
+<h3 id="3-factor-crowding-creates-systemic-risk">3. Factor crowding creates systemic risk</h3>
+<p>When every fund owns the same factor (e.g., momentum 2015-2020), a factor rotation (momentum crash Q4 2018, or value-momentum rotation 2020) causes coordinated losses across the industry.</p>
+<h2 id="how-to-monitor-factor-exposure">How to Monitor Factor Exposure</h2>
+<ul>
+<li>Daily factor attribution: decompose portfolio returns into factor contributions</li>
+<li>Factor P&amp;L: how much did each factor contribute to today's P&amp;L?</li>
+<li>Factor concentration: is &gt;50% of risk in a single factor?</li>
+<li>Factor tilts vs mandate: if the PM says "stock picker" but 70% of risk is factor → conversation</li>
+</ul>
+<hr />
+<h1 id="part-6-tail-risk-fat-tails">PART 6: TAIL RISK &amp; FAT TAILS</h1>
+<h2 id="what-fat-tails-are">What Fat Tails Are</h2>
+<p>Real financial returns have more extreme moves than a normal distribution predicts. The "tails" of the distribution are "fatter."</p>
+<p><strong>Quantifying:</strong><br />
+- <strong>Kurtosis:</strong> Normal distribution has kurtosis = 3. Financial returns typically have kurtosis = 5-10+. Higher = fatter tails.<br />
+- <strong>Practical:</strong> A 4-sigma daily move should happen once in ~126 years under normal distribution. In equities, it happens roughly every 2-3 years. The models undercount extreme events by a factor of ~50x.</p>
+<h2 id="tail-risk-the-risk-that-matters-most">Tail Risk = The Risk That Matters Most</h2>
+<p>Normal days are boring. The RM's value is in TAIL events. Your job is to ensure the fund survives:<br />
+- A day that VaR said was "impossible"<br />
+- A move that "hasn't happened in 30 years"<br />
+- A correlation that "doesn't exist"</p>
+<h2 id="tail-risk-management-tools">Tail Risk Management Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it does</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OTM put options</td>
+<td>Direct tail protection</td>
+<td>Theta decay (0.5-2% annualized)</td>
+</tr>
+<tr>
+<td>Put spreads</td>
+<td>Cheaper tail protection (caps the payout)</td>
+<td>Less theta but limited payout</td>
+</tr>
+<tr>
+<td>VIX calls</td>
+<td>Convex payoff in vol spikes</td>
+<td>Expensive, roll cost in contango</td>
+</tr>
+<tr>
+<td>Dynamic hedging</td>
+<td>Increase hedges as market drops</td>
+<td>Requires discipline, can be whipsawed</td>
+</tr>
+<tr>
+<td>Position limits</td>
+<td>Prevent catastrophic concentration</td>
+<td>Limits PM flexibility</td>
+</tr>
+<tr>
+<td>Diversification</td>
+<td>Spread risk across uncorrelated assets</td>
+<td>Only works if correlations hold</td>
+</tr>
+<tr>
+<td>Cash buffer</td>
+<td>Reserve for margin calls</td>
+<td>Opportunity cost</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-paradox-of-tail-protection">The Paradox of Tail Protection</h2>
+<ul>
+<li>Tail protection COSTS money. Buying puts every month at 1.5% annualized drag = 7.5% over 5 years.</li>
+<li>But when the tail hits, it SAVES the fund. March 2020: funds with tail hedges survived. Funds without were forced to liquidate.</li>
+<li>The RM's job: articulate this tradeoff. "The tail hedge costs $2M/year. The tail event it protects against could cost $50M. Is $2M good insurance?"</li>
+</ul>
+<hr />
+<h1 id="part-7-putting-it-all-together-portfolio-risk-decomposition">PART 7: PUTTING IT ALL TOGETHER — PORTFOLIO RISK DECOMPOSITION</h1>
+<h2 id="the-complete-view">The Complete View</h2>
+<p>When you look at a portfolio's risk, you need all of these layers:</p>
+<div class="highlight"><pre><span></span><code>Layer 1: WHAT do we own?
+  → Position-level review (names, sizes, Greeks)
+
+Layer 2: WHY is it risky?
+  → Factor decomposition (what&#39;s driving our risk?)
+
+Layer 3: HOW MUCH can we lose?
+  → VaR, ES, stress test results
+
+Layer 4: WHAT IF things get worse?
+  → Correlation stress, liquidity stress, margin stress
+
+Layer 5: CAN WE GET OUT?
+  → Liquidity analysis (days to liquidate, concentration vs ADV)
+</code></pre></div>
+
+<h2 id="the-rms-daily-risk-dashboard">The RM's Daily Risk Dashboard</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What to check</th>
+<th>Threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Net delta</td>
+<td>Directional exposure</td>
+<td>Within mandate</td>
+</tr>
+<tr>
+<td>Gross exposure</td>
+<td>Total leverage</td>
+<td>&lt;4x (typical discretionary)</td>
+</tr>
+<tr>
+<td>VaR (99%, 1-day)</td>
+<td>Probabilistic loss estimate</td>
+<td>Within limit</td>
+</tr>
+<tr>
+<td>Largest single-name</td>
+<td>Concentration</td>
+<td>&lt;5% of NAV</td>
+</tr>
+<tr>
+<td>Largest sector</td>
+<td>Sector concentration</td>
+<td>&lt;25% of NAV</td>
+</tr>
+<tr>
+<td>Top 3 factor contributions</td>
+<td>Hidden factor bets</td>
+<td>No single factor &gt;40% of risk</td>
+</tr>
+<tr>
+<td>Days to liquidate (95th %ile)</td>
+<td>Liquidity</td>
+<td>&lt;5 days for 90% of book</td>
+</tr>
+<tr>
+<td>Margin utilization</td>
+<td>Funding headroom</td>
+<td>&lt;70% in calm, &lt;85% in stress</td>
+</tr>
+<tr>
+<td>Correlation to SPX (rolling 20-day)</td>
+<td>Directional drift</td>
+<td>Within mandate</td>
+</tr>
+<tr>
+<td>Drawdown (month / quarter / YTD)</td>
+<td>Distance to limits</td>
+<td>&gt;80% of soft limit → flag</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-interview-application">PART 8: INTERVIEW APPLICATION</h1>
+<p>If asked "How would you think about portfolio risk beyond VaR?":</p>
+<p>"VaR gives me one number — the 99th percentile loss under normal conditions. I'd layer on four additional views.</p>
+<p>First, Expected Shortfall — what's the average loss in that 1% worst case? This captures tail severity.</p>
+<p>Second, factor decomposition — what's actually DRIVING the portfolio's risk? Two portfolios can have the same VaR but very different factor profiles. One might be diversified across 10 uncorrelated bets. The other might be a single momentum bet disguised as 30 positions.</p>
+<p>Third, stress testing — how does the portfolio perform under specific scenarios like March 2020, or a hypothetical Hormuz closure? This tests what VaR misses: regime changes, correlation spikes, non-linear payoffs.</p>
+<p>Fourth, liquidity analysis — can we actually exit these positions if we need to? A portfolio that takes 3 weeks to liquidate but has daily margin calls has a fundamental mismatch."</p>
+<p>If asked "What's the most underappreciated risk in a multi-PM fund?":</p>
+<p>"Correlation across PMs. Each PM runs their own book and thinks their risk is independent. But in practice, they often load on the same macro factor — rates, oil, momentum — without realizing it. In calm markets, the aggregate looks diversified. In stress, correlations spike and you discover that your 'four independent strategies' are actually one big bet.</p>
+<p>This is exactly what killed multi-strategy funds in past crises. The RM's job is to run factor attribution across ALL PMs — not just each one individually — and flag when the aggregate factor exposure exceeds what any single PM would be allowed to hold."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, stress testing mechanics<br />
+→ <a href="D_Greeks.html">Greeks</a> — position-level risk sensitivities<br />
+→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a> — applying portfolio risk concepts in scenarios<br />
+→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a> — why PMs underestimate correlation and concentration<br />
+→ <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> — Section 3 (portfolio risk in interview context)</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

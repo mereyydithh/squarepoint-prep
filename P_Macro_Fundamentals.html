@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macro Fundamentals — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link active" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="p-macro-fundamentals">P — MACRO FUNDAMENTALS</h1>
+<h2 id="why-things-move-not-just-that-they-moved">WHY things move — not just THAT they moved</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>A trader says "I think the Fed is behind the curve." A quant says "our model shows inflation expectations are de-anchoring." Constantine asks "where are we in the cycle?" If you can't engage with these statements — understand them, challenge them, connect them to portfolio risk — you're a calculator, not a risk manager.</p>
+<hr />
+<h1 id="part-1-gdp-economic-growth">PART 1: GDP &amp; ECONOMIC GROWTH</h1>
+<h3 id="what-gdp-actually-measures">What GDP Actually Measures</h3>
+<p><strong>One-liner:</strong> The total value of goods and services produced in an economy over a period.</p>
+<p><strong>The components (Y = C + I + G + NX):</strong><br />
+- <strong>C — Consumer spending (~68% of US GDP):</strong> The engine. When consumers stop spending, everything else follows. Watch retail sales, consumer confidence, personal income.<br />
+- <strong>I — Business investment (~18%):</strong> CapEx, inventory, residential construction. Forward-looking — companies invest when they expect growth. Watch durable goods orders, ISM manufacturing.<br />
+- <strong>G — Government spending (~17%):</strong> Fiscal policy lever. Deficits stimulate (more spending than taxes). Austerity constrains.<br />
+- <strong>NX — Net exports (-3%):</strong> Exports minus imports. Strong dollar → imports cheaper, exports more expensive → NX worsens. Trade deficits matter for FX.</p>
+<p><strong>Real vs Nominal:</strong> Nominal GDP includes inflation. Real GDP strips it out. If nominal GDP grows 5% and inflation is 4%, real growth is only ~1%. The economy FEELS like it's growing but it's mostly price increases. That's the current problem.</p>
+<p><strong>Growth rate matters more than level:</strong> US GDP ~$28T is meaningless. US GDP growing at 0.5% vs 3% is everything. Below 1% = recession risk. 2-3% = healthy. Above 4% = overheating → inflation risk.</p>
+<h3 id="leading-indicators-for-growth">Leading Indicators for Growth</h3>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>What it tells you</th>
+<th>Release</th>
+<th>Current signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ISM Manufacturing PMI</strong></td>
+<td>&gt;50 = expansion, &lt;50 = contraction</td>
+<td>Monthly, 1st business day</td>
+<td>Weakening — energy costs compressing margins</td>
+</tr>
+<tr>
+<td><strong>ISM Services PMI</strong></td>
+<td>Same but for 80% of the economy</td>
+<td>Monthly, 3rd business day</td>
+<td>Still expanding but decelerating</td>
+</tr>
+<tr>
+<td><strong>Initial jobless claims</strong></td>
+<td>Real-time labor market distress</td>
+<td>Weekly, Thursday</td>
+<td>Low — labor market resilient so far</td>
+</tr>
+<tr>
+<td><strong>Yield curve (2Y-10Y)</strong></td>
+<td>Inverted = recession signal (historically reliable)</td>
+<td>Continuous</td>
+<td>Was inverted, now steepening — normalization or term premium?</td>
+</tr>
+<tr>
+<td><strong>Conference Board LEI</strong></td>
+<td>Composite of 10 indicators</td>
+<td>Monthly</td>
+<td>Has been declining — recessionary signal</td>
+</tr>
+<tr>
+<td><strong>Retail sales</strong></td>
+<td>Consumer health</td>
+<td>Monthly</td>
+<td>Mixed — energy spending up, discretionary down</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-2-inflation-the-mechanism">PART 2: INFLATION — THE MECHANISM</h1>
+<h3 id="what-inflation-is">What Inflation Is</h3>
+<p><strong>One-liner:</strong> The rate at which the general price level rises, eroding purchasing power.</p>
+<h3 id="cpi-components-know-these-they-come-up-in-trader-conversations">CPI Components (know these — they come up in trader conversations)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Weight in CPI</th>
+<th>What drives it</th>
+<th>Current dynamic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Shelter (rent + OER)</strong></td>
+<td>~36%</td>
+<td>Housing market, construction, demographics</td>
+<td>Still elevated, slow to adjust (lease renewal lag)</td>
+</tr>
+<tr>
+<td><strong>Food</strong></td>
+<td>~13%</td>
+<td>Agricultural supply, weather, transport costs</td>
+<td>Rising — oil/transport feeding through</td>
+</tr>
+<tr>
+<td><strong>Energy</strong></td>
+<td>~7%</td>
+<td>Oil, natural gas, electricity</td>
+<td>SPIKING — Hormuz is the headline story</td>
+</tr>
+<tr>
+<td><strong>Used cars</strong></td>
+<td>~4%</td>
+<td>Supply chain, credit conditions</td>
+<td>Normalizing</td>
+</tr>
+<tr>
+<td><strong>Medical care</strong></td>
+<td>~6%</td>
+<td>Insurance costs, drug prices</td>
+<td>Sticky, slow-moving</td>
+</tr>
+<tr>
+<td><strong>Core services ex-housing</strong></td>
+<td>~25%</td>
+<td>Wages, labor market tightness</td>
+<td>The Fed's obsession — this is where "sticky" inflation lives</td>
+</tr>
+</tbody>
+</table>
+<h3 id="headline-vs-core">Headline vs Core</h3>
+<ul>
+<li><strong>Headline CPI:</strong> Includes everything. Volatile because of energy and food. This is what consumers FEEL.</li>
+<li><strong>Core CPI:</strong> Excludes food and energy. This is what the Fed TARGETS because it reflects underlying trend.</li>
+<li><strong>The current problem:</strong> Headline is re-accelerating because of oil (+53% from Hormuz). Core was declining but energy costs are now feeding into core via transportation, production costs, and services. If core re-accelerates, the Fed is trapped.</li>
+</ul>
+<h3 id="inflation-transmission-how-an-oil-shock-becomes-sticky-inflation">Inflation Transmission — How an Oil Shock Becomes Sticky Inflation</h3>
+<div class="highlight"><pre><span></span><code>Oil spike → gasoline prices rise (immediate, 1-2 weeks)
+         → transport costs rise (1-2 months)
+         → food prices rise (2-4 months, transport + fertilizer)
+         → business input costs rise (2-4 months)
+         → businesses raise prices to consumers (3-6 months)
+         → workers demand wage increases (6-12 months)
+         → wages rise → businesses raise prices to cover wages (wage-price spiral)
+</code></pre></div>
+
+<p><strong>The dangerous part:</strong> Steps 1-4 are "cost-push" — temporary. Steps 5-6 are "demand-pull" — self-reinforcing. The Fed can ignore cost-push. The Fed CANNOT ignore a wage-price spiral. The question RIGHT NOW is whether Hormuz oil shock stays at step 4 or progresses to step 6.</p>
+<h3 id="inflation-expectations-why-they-matter-more-than-actual-inflation">Inflation Expectations — Why They Matter More Than Actual Inflation</h3>
+<ul>
+<li><strong>If people EXPECT 2% inflation:</strong> They set wages, prices, contracts at 2%. Inflation stays at 2%. Self-fulfilling.</li>
+<li><strong>If people EXPECT 5% inflation:</strong> They demand higher wages, raise prices preemptively. Inflation goes to 5%. Also self-fulfilling.</li>
+<li><strong>De-anchoring:</strong> When expectations break away from the target. Once de-anchored, it's extremely hard to re-anchor without aggressive policy (Volcker 1980 — raised rates to 20%).</li>
+<li><strong>Measures:</strong> Michigan 1Y and 5Y consumer expectations, TIPS breakevens (market-derived), NY Fed Survey of Consumer Expectations.</li>
+</ul>
+<p><strong>Current risk:</strong> Hormuz oil shock could de-anchor expectations if it persists. Gas prices are the single most visible price to consumers. If they see $5/gallon for 3+ months, expectations shift.</p>
+<hr />
+<h1 id="part-3-monetary-policy-how-the-fed-works">PART 3: MONETARY POLICY — HOW THE FED WORKS</h1>
+<h3 id="the-feds-dual-mandate">The Fed's Dual Mandate</h3>
+<ol>
+<li><strong>Maximum employment</strong> (~4% unemployment target)</li>
+<li><strong>Price stability</strong> (2% inflation target, measured by PCE)</li>
+</ol>
+<p>When these conflict — high inflation AND weakening employment — the Fed is boxed in. That's NOW.</p>
+<h3 id="how-rate-changes-flow-through-the-economy">How Rate Changes Flow Through the Economy</h3>
+<div class="highlight"><pre><span></span><code>Fed raises fed funds rate
+    → Short-term borrowing costs rise (immediately)
+    → Bank lending rates rise (1-3 months)
+    → Mortgage rates rise → housing cools (3-12 months)
+    → Corporate borrowing costs rise → CapEx slows (3-12 months)
+    → Consumer credit costs rise → spending slows (3-12 months)
+    → Demand falls → businesses stop hiring → unemployment rises (6-18 months)
+    → Inflation falls (12-24 months)
+</code></pre></div>
+
+<p><strong>The lag:</strong> Monetary policy operates with a 12-24 month lag. The rate hikes from 2023-2024 are STILL working through the economy. The Fed cut to 3.75% but the effects of prior tightening haven't fully materialized. This is why "behind the curve" cuts both ways — they could be behind on cutting OR they could have been right to wait.</p>
+<h3 id="the-feds-toolkit">The Fed's Toolkit</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it does</th>
+<th>When used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fed funds rate</strong></td>
+<td>Sets the overnight borrowing rate between banks — anchors all short-term rates</td>
+<td>Primary tool. All other rates key off this.</td>
+</tr>
+<tr>
+<td><strong>Forward guidance</strong></td>
+<td>Telling the market what you PLAN to do — moves rates before you actually act</td>
+<td>"Higher for longer" = tightening without hiking. Dot plot.</td>
+</tr>
+<tr>
+<td><strong>QE (Quantitative Easing)</strong></td>
+<td>Buying Treasuries/MBS → pushes long-term rates down, adds liquidity</td>
+<td>Crisis tool. 2008, 2020.</td>
+</tr>
+<tr>
+<td><strong>QT (Quantitative Tightening)</strong></td>
+<td>Letting bonds roll off the balance sheet → withdraws liquidity</td>
+<td>Currently running. ~$60B/month roll-off.</td>
+</tr>
+<tr>
+<td><strong>Emergency lending</strong></td>
+<td>Discount window, special facilities (BTFP in March 2023)</td>
+<td>Bank/market stress events.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-behind-the-curve-means">What "Behind the Curve" Means</h3>
+<ul>
+<li><strong>Behind on hiking:</strong> Inflation is running away and the Fed hasn't raised rates fast enough. They let the fire spread.</li>
+<li><strong>Behind on cutting:</strong> The economy is weakening and the Fed hasn't cut rates fast enough. They're strangling growth unnecessarily.</li>
+<li><strong>The current debate (April 2026):</strong> With oil spiking and inflation re-accelerating, is the Fed behind on hiking (should they raise rates to crush inflation) or should they cut to support growth that's weakening under the oil shock? The answer depends on whether you believe the oil shock is transitory or structural.</li>
+</ul>
+<hr />
+<h1 id="part-4-fiscal-policy-government">PART 4: FISCAL POLICY &amp; GOVERNMENT</h1>
+<h3 id="how-fiscal-policy-interacts-with-monetary-policy">How Fiscal Policy Interacts with Monetary Policy</h3>
+<ul>
+<li><strong>Fiscal stimulus + monetary tightening = conflict.</strong> Government spending adds demand while the Fed is trying to reduce it. This is what happened in 2023-2024 — massive fiscal deficits while the Fed hiked. Result: inflation stickier than expected.</li>
+<li><strong>Fiscal austerity + monetary easing = aligned.</strong> Both removing demand. Deflationary.</li>
+<li><strong>Current US:</strong> Deficit running ~6% of GDP. That's fiscal stimulus. But the Fed is at 3.75% trying to control inflation. They're working against each other.</li>
+</ul>
+<h3 id="why-deficits-matter-for-markets">Why Deficits Matter for Markets</h3>
+<p>Large deficits → more Treasury issuance → more supply → higher yields (all else equal). This is the "term premium" story — investors demand a higher yield to hold long-dated Treasuries when they know the government will keep issuing more. This pushes the long end of the curve up independently of what the Fed does.</p>
+<hr />
+<h1 id="part-5-the-business-cycle">PART 5: THE BUSINESS CYCLE</h1>
+<h3 id="four-phases">Four Phases</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Growth</th>
+<th>Inflation</th>
+<th>Policy</th>
+<th>Asset implications</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Expansion</strong></td>
+<td>Rising</td>
+<td>Rising slowly</td>
+<td>Rates rising gradually</td>
+<td>Equities up, commodities up, yields rising</td>
+</tr>
+<tr>
+<td><strong>Peak/Overheating</strong></td>
+<td>Still strong</td>
+<td>Rising fast</td>
+<td>Rates peaking</td>
+<td>Equities topping, vol rising, curve flattening</td>
+</tr>
+<tr>
+<td><strong>Contraction</strong></td>
+<td>Falling</td>
+<td>Falling</td>
+<td>Rates being cut</td>
+<td>Equities falling, bonds rallying, flight to quality</td>
+</tr>
+<tr>
+<td><strong>Trough/Recovery</strong></td>
+<td>Bottoming</td>
+<td>Low</td>
+<td>Rates at bottom, QE</td>
+<td>Equities bottoming, credit tightening then loosening</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Where are we now (April 2026)?</strong> Ambiguous — and that's the problem. Growth is decelerating but not collapsing. Inflation was falling but is re-accelerating from oil. We might be at Peak/Overheating on the inflation side and early Contraction on the growth side simultaneously. That's stagflation — the worst quadrant.</p>
+<h3 id="the-credit-cycle-nested-within-the-business-cycle">The Credit Cycle (nested within the business cycle)</h3>
+<div class="highlight"><pre><span></span><code>Recovery → banks loosen lending → credit expands → asset prices rise
+   → leverage builds → risk appetite increases → lending standards drop
+   → overextension → defaults begin → banks tighten → credit contracts
+   → asset prices fall → deleveraging → recession → recovery
+</code></pre></div>
+
+<p><strong>Watch:</strong> Bank lending surveys (Senior Loan Officer Survey), high-yield spreads, default rates. When HY spreads start widening from tight levels and bank lending standards start tightening, you're late-cycle.</p>
+<hr />
+<h1 id="part-6-key-relationships-to-internalize">PART 6: KEY RELATIONSHIPS TO INTERNALIZE</h1>
+<h3 id="the-impossible-triangle-for-central-banks-current-version">The Impossible Triangle for Central Banks (current version)</h3>
+<p>Right now the Fed cannot simultaneously:<br />
+1. Control inflation (requires higher rates)<br />
+2. Support growth (requires lower rates)<br />
+3. Maintain financial stability (requires stable rates)</p>
+<p>Pick two. Currently prioritizing #1 (inflation) at the expense of #2 (growth), while hoping #3 (stability) doesn't break.</p>
+<h3 id="rates-everything">Rates → Everything</h3>
+<table>
+<thead>
+<tr>
+<th>If rates rise...</th>
+<th>Effect</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equity valuations fall</td>
+<td>Higher discount rate → future cash flows worth less today</td>
+<td>DCF mechanics</td>
+</tr>
+<tr>
+<td>Dollar strengthens</td>
+<td>Higher US rates attract foreign capital</td>
+<td>Carry flows</td>
+</tr>
+<tr>
+<td>EM currencies weaken</td>
+<td>Capital flows out of EM into US</td>
+<td>Risk-off + carry unwind</td>
+</tr>
+<tr>
+<td>Housing cools</td>
+<td>Mortgages more expensive</td>
+<td>Direct transmission</td>
+</tr>
+<tr>
+<td>Credit spreads can widen</td>
+<td>Higher funding cost → more defaults</td>
+<td>Debt servicing burden</td>
+</tr>
+<tr>
+<td>Gold can fall</td>
+<td>Higher real rates → higher opportunity cost of holding gold</td>
+<td>Gold has no yield</td>
+</tr>
+<tr>
+<td>Growth stocks hurt more than value</td>
+<td>Long-duration equity = more sensitive to discount rate</td>
+<td>Duration of cash flows</td>
+</tr>
+</tbody>
+</table>
+<h3 id="oil-everything-the-current-cascade">Oil → Everything (the current cascade)</h3>
+<table>
+<thead>
+<tr>
+<th>If oil rises...</th>
+<th>Effect</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Headline inflation rises</td>
+<td>Energy is direct CPI component + transport costs</td>
+<td>Direct</td>
+</tr>
+<tr>
+<td>Consumer spending falls</td>
+<td>Gas takes bigger share of wallet</td>
+<td>Disposable income squeeze</td>
+</tr>
+<tr>
+<td>Airlines, transport crushed</td>
+<td>Fuel is biggest cost</td>
+<td>Direct input cost</td>
+</tr>
+<tr>
+<td>Energy equities rally</td>
+<td>Revenue increases</td>
+<td>Direct</td>
+</tr>
+<tr>
+<td>EM importers (India, Thailand) crushed</td>
+<td>Current account worsens, FX weakens</td>
+<td>Trade balance</td>
+</tr>
+<tr>
+<td>Central banks can't cut</td>
+<td>Inflation re-accelerates</td>
+<td>Policy constraint</td>
+</tr>
+<tr>
+<td>Recession risk rises</td>
+<td>Growth hit + inflation = stagflation</td>
+<td>Dual squeeze</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-what-to-follow-and-why">PART 7: WHAT TO FOLLOW AND WHY</h1>
+<h3 id="the-macro-calendar-key-us-releases">The Macro Calendar (key US releases)</h3>
+<table>
+<thead>
+<tr>
+<th>Release</th>
+<th>Frequency</th>
+<th>Why it matters</th>
+<th>Market impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Non-Farm Payrolls (NFP)</strong></td>
+<td>Monthly, 1st Friday</td>
+<td>Labor market health. &gt;200K = strong. &lt;100K = alarm.</td>
+<td>High — moves rates, equities, FX</td>
+</tr>
+<tr>
+<td><strong>CPI</strong></td>
+<td>Monthly, ~10th-15th</td>
+<td>Inflation reading. Core MoM is THE number.</td>
+<td>Very high — directly affects Fed expectations</td>
+</tr>
+<tr>
+<td><strong>FOMC Decision</strong></td>
+<td>8x/year</td>
+<td>Rate decision + statement + dot plot + press conference</td>
+<td>Very high — THE event</td>
+</tr>
+<tr>
+<td><strong>PCE (Personal Consumption)</strong></td>
+<td>Monthly, end of month</td>
+<td>Fed's preferred inflation measure (vs CPI)</td>
+<td>Moderate — but Fed watches this, not CPI</td>
+</tr>
+<tr>
+<td><strong>ISM PMIs</strong></td>
+<td>Monthly, 1st &amp; 3rd</td>
+<td>Manufacturing + services health</td>
+<td>Moderate-high</td>
+</tr>
+<tr>
+<td><strong>Retail Sales</strong></td>
+<td>Monthly</td>
+<td>Consumer spending health</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td><strong>GDP</strong></td>
+<td>Quarterly (3 releases)</td>
+<td>Backward-looking but sets narrative</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td><strong>JOLTS</strong></td>
+<td>Monthly</td>
+<td>Job openings — leading indicator of labor demand</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td><strong>Beige Book</strong></td>
+<td>8x/year</td>
+<td>Anecdotal economic survey from Fed districts</td>
+<td>Low-moderate — qualitative color</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-to-read-a-cpi-print">How to Read a CPI Print</h3>
+<ol>
+<li><strong>Headline MoM and YoY</strong> — the press headline. If MoM is &gt;0.3%, markets react.</li>
+<li><strong>Core MoM</strong> — strip food/energy. This is what matters. Above 0.2% = too hot. Below 0.1% = progress.</li>
+<li><strong>Shelter</strong> — is it finally declining? This is 36% of the index and the stickiest component.</li>
+<li><strong>Core services ex-housing ("supercore")</strong> — Powell's obsession. Driven by wages. If this is sticky, the Fed stays hawkish.</li>
+<li><strong>Energy</strong> — the Hormuz-driven wildcard. How much is feeding through to other categories?</li>
+</ol>
+<hr />
+<h1 id="part-8-connecting-macro-to-risk-management">PART 8: CONNECTING MACRO TO RISK MANAGEMENT</h1>
+<h3 id="why-a-risk-manager-needs-macro">Why a Risk Manager Needs Macro</h3>
+<p>You're not a macro strategist. But you need macro understanding for three reasons:</p>
+<ol>
+<li>
+<p><strong>Stress testing:</strong> Your scenarios need to be macro-coherent. "Equities -20% and rates -100bps" is a recession scenario. "Equities -20% and rates +100bps" is a stagflation scenario. They require completely different hedges. If you don't understand macro, your stress tests are incoherent.</p>
+</li>
+<li>
+<p><strong>Challenging PM theses:</strong> A PM says "I'm long duration because the Fed is about to cut aggressively." You need to be able to say: "But core services ex-housing is re-accelerating from the oil shock — what if the Fed holds? What's your P&amp;L if 10Y goes to 4.75% instead of 3.75%?"</p>
+</li>
+<li>
+<p><strong>Portfolio construction:</strong> If you know we're late-cycle with rising inflation, you know that stock-bond correlation is likely positive (both can sell off together). That means traditional 60/40 diversification doesn't work. You need alternative hedges — and you need to tell the PM that before the correlation regime shift, not after.</p>
+</li>
+</ol>
+<p><strong>Deep dive on current context:</strong> <a href="10_Market_Context_Today.html">Market Context Today</a><br />
+<strong>Cross-asset cascade logic:</strong> <a href="09_Market_Intuition.html">Market Intuition</a></p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

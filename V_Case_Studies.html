@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Studies — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link active" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="v-case-studies-blow-ups-lessons">V — CASE STUDIES: BLOW-UPS &amp; LESSONS</h1>
+<h2 id="learn-from-the-dead-so-you-dont-join-them">Learn from the dead so you don't join them</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="how-to-use-this-file">HOW TO USE THIS FILE</h1>
+<p>For each case study, understand:<br />
+1. <strong>What happened</strong> (facts, not narrative)<br />
+2. <strong>Why it happened</strong> (the risk failure)<br />
+3. <strong>What the RM should have caught</strong> (your job)<br />
+4. <strong>What changed afterward</strong> (regulatory/industry response)<br />
+5. <strong>How it connects to your interview</strong> (the lesson you articulate)</p>
+<hr />
+<h1 id="case-1-ltcm-1998">CASE 1: LTCM (1998)</h1>
+<h2 id="what-happened">What Happened</h2>
+<ul>
+<li>Long-Term Capital Management: hedge fund founded by John Meriwether, with Scholes and Merton (Nobel laureates) on the team.</li>
+<li>Strategy: convergence trades — long cheap bonds, short expensive bonds, wait for spread to close.</li>
+<li>Leverage: ~25:1 at peak. ~$4.7B equity, ~$125B in assets, ~$1.25T in notional derivatives.</li>
+<li>Russian debt default (August 1998) triggered a global flight to quality.</li>
+<li>Every "cheap" bond got cheaper. Every "expensive" bond stayed expensive. Spreads widened instead of converging.</li>
+<li>Correlation between positions went to 1. Every trade lost simultaneously.</li>
+<li>Fed organized a bailout: 14 banks put in $3.6B. LTCM wound down over 1 year.</li>
+</ul>
+<h2 id="why-it-failed">Why It Failed</h2>
+<ul>
+<li><strong>Leverage without liquidity consideration.</strong> The positions were "right" on a multi-year horizon but the fund couldn't survive the drawdown period.</li>
+<li><strong>Correlation assumption was wrong.</strong> The positions were modeled as independent. In crisis, they became perfectly correlated.</li>
+<li><strong>Model over-confidence.</strong> The models said a multi-sigma event was virtually impossible. The models were wrong because they assumed normally distributed returns and stable correlations.</li>
+<li><strong>Concentration of liquidity providers.</strong> When LTCM needed to sell, every other convergence trader also needed to sell. No buyers.</li>
+</ul>
+<h2 id="what-the-rm-should-have-caught">What the RM Should Have Caught</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it meant</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leverage at 25:1</td>
+<td>No margin of safety for any adverse move</td>
+<td>Hard leverage cap, enforced daily</td>
+</tr>
+<tr>
+<td>All positions loading on same factor ("spread compression")</td>
+<td>Diversification was illusory</td>
+<td>Factor decomposition, correlation monitoring</td>
+</tr>
+<tr>
+<td>Liquidity of positions</td>
+<td>Many positions in illiquid instruments (EM debt, swap spreads)</td>
+<td>Liquidity-adjusted position limits, not just notional limits</td>
+</tr>
+<tr>
+<td>No stop losses</td>
+<td>"The position is right, just give it time" mentality</td>
+<td>Time-based and P&amp;L-based stop rules</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-lesson-for-your-interview">The Lesson for Your Interview</h2>
+<p>"LTCM shows why correlation assumptions are the most dangerous assumptions in risk management. Positions that look diversified in normal markets can become perfectly correlated in stress. As an RM, I need to regularly stress test for correlation spikes, not just use trailing correlations. And leverage limits need to account for the illiquidity of the positions, not just the notional."</p>
+<hr />
+<h1 id="case-2-archegos-2021">CASE 2: ARCHEGOS (2021)</h1>
+<h2 id="what-happened_1">What Happened</h2>
+<ul>
+<li>Archegos Capital: family office run by Bill Hwang. Not a registered fund — reported to no one.</li>
+<li>Built massive concentrated positions in ViacomCBS, Discovery, Baidu, GSX Techedu using total return swaps (TRS) with multiple prime brokers.</li>
+<li>Each PB saw only their own exposure. No PB saw the full picture — Hwang was running ~$30B in notional across 6 PBs with only ~$10B in equity.</li>
+<li>ViacomCBS did a stock offering in March 2021. Stock dropped. Margin calls hit.</li>
+<li>When Hwang couldn't meet margin → forced liquidation → every PB tried to sell the same stocks simultaneously.</li>
+<li>Credit Suisse lost $5.5B. Nomura lost $2.9B. Goldman and Morgan Stanley got out early by selling first.</li>
+</ul>
+<h2 id="why-it-failed_1">Why It Failed</h2>
+<ul>
+<li><strong>Prime broker blind spots.</strong> No single PB knew the total exposure. TRS don't appear on 13F filings. Family offices had no SEC reporting requirements.</li>
+<li><strong>Concentration limits failed.</strong> Each PB had limits, but they were based on what THEY saw, not the aggregate.</li>
+<li><strong>Margin terms too generous.</strong> Credit Suisse was hungry for PB fees and gave Hwang favorable margin terms despite red flags (his prior SEC charge at Tiger Asia).</li>
+<li><strong>First-mover advantage in liquidation.</strong> Goldman and Morgan Stanley sold Tuesday night/Wednesday morning. Credit Suisse waited until Friday. In forced liquidation, speed is everything.</li>
+</ul>
+<h2 id="what-the-rm-should-have-caught_1">What the RM Should Have Caught</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it meant</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single client with huge TRS positions in small number of names</td>
+<td>Concentration risk, potential manipulation</td>
+<td>Position limits per name, per client</td>
+</tr>
+<tr>
+<td>Client with prior SEC enforcement action</td>
+<td>Elevated operational/reputational risk</td>
+<td>Enhanced due diligence, tighter margin</td>
+</tr>
+<tr>
+<td>Stock (ViacomCBS) up 300% in months with unusual volume patterns</td>
+<td>Potential artificial price inflation</td>
+<td>Check volume vs float, contact compliance</td>
+</tr>
+<tr>
+<td>Client meeting margin calls with difficulty</td>
+<td>Liquidity problem is coming</td>
+<td>Reduce exposure immediately, don't wait</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-lesson-for-your-interview_1">The Lesson for Your Interview</h2>
+<p>"Archegos is a prime broker risk management failure — the risk wasn't in any single position, it was in the aggregate that no one could see. As an RM at a multi-PM fund, this is directly relevant: I need to think about aggregate factor exposures across all PMs, not just each PM in isolation. And I need to understand the positions held via swaps and other synthetic instruments, not just cash equity."</p>
+<hr />
+<h1 id="case-3-barings-bank-1995">CASE 3: BARINGS BANK (1995)</h1>
+<h2 id="what-happened_2">What Happened</h2>
+<ul>
+<li>Nick Leeson, trader in Singapore, was supposed to be arbitraging Nikkei 225 futures between SIMEX and Osaka exchanges.</li>
+<li>Instead, took massive directional positions. Losses hidden in "error account 88888."</li>
+<li>Kobe earthquake (Jan 1995) killed the Nikkei. Leeson's long Nikkei positions imploded.</li>
+<li>Total losses: ~£827M. More than entire equity of the bank.</li>
+<li>Barings collapsed. 233-year-old bank, dead.</li>
+</ul>
+<h2 id="why-it-failed_2">Why It Failed</h2>
+<ul>
+<li><strong>No separation of duties.</strong> Leeson was both front office (trading) and back office (settling, reconciling). He could hide his own losses.</li>
+<li><strong>No independent risk oversight.</strong> Singapore office had no dedicated RM. London didn't understand the positions.</li>
+<li><strong>Management relied on reported P&amp;L.</strong> Leeson was reporting profits. London thought he was a star. Never questioned where the profits came from.</li>
+<li><strong>Position limits meaningless without enforcement.</strong> Limits existed on paper but no one checked.</li>
+</ul>
+<h2 id="what-the-rm-should-have-caught_2">What the RM Should Have Caught</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it meant</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One person doing trading AND back office</td>
+<td>Zero controls on position reporting</td>
+<td>Immediate segregation of duties</td>
+</tr>
+<tr>
+<td>Reported profits far above what arb should generate</td>
+<td>If it seems too good to be true...</td>
+<td>Independent P&amp;L verification, ask "where is alpha coming from?"</td>
+</tr>
+<tr>
+<td>Margin calls from SIMEX increasing steadily</td>
+<td>Positions growing beyond arb size</td>
+<td>Independent position reconciliation</td>
+</tr>
+<tr>
+<td>Error account with large balance</td>
+<td>Trades being hidden</td>
+<td>Daily error account review, sign-off</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-lesson-for-your-interview_2">The Lesson for Your Interview</h2>
+<p>"Barings is the textbook operational risk failure. The #1 lesson: never let the same person trade and reconcile. As an RM, I need independent access to positions and P&amp;L — I can never rely on the trader's reported numbers alone. And when someone is consistently making money in a strategy that shouldn't generate much alpha, that's a red flag, not a celebration."</p>
+<hr />
+<h1 id="case-4-london-whale-jp-morgan-2012">CASE 4: LONDON WHALE / JP MORGAN (2012)</h1>
+<h2 id="what-happened_3">What Happened</h2>
+<ul>
+<li>Bruno Iksil, trader in JP Morgan's Chief Investment Office (CIO) in London, was supposed to be hedging the bank's overall credit risk.</li>
+<li>Built a massive position in CDX credit index tranches. Position grew from $51B notional to over $150B.</li>
+<li>When other traders started betting against him (he was too visible in the market), losses mounted.</li>
+<li>Total loss: ~$6.2B. JP Morgan's own traders nicknamed him "the whale" because of position size.</li>
+<li>CIO's risk models were changed mid-crisis to hide the extent of losses (VaR model switched to show lower risk).</li>
+</ul>
+<h2 id="why-it-failed_3">Why It Failed</h2>
+<ul>
+<li><strong>Hedging that became a profit center.</strong> The trade started as a hedge but was kept and expanded because it was making money. When does a hedge stop being a hedge?</li>
+<li><strong>Model gaming.</strong> The CIO changed their VaR model in January 2012, which halved the reported VaR overnight. This was done to avoid limit breaches. The old model was showing $129M daily VaR. The new model showed $67M.</li>
+<li><strong>"Portfolio hedging" used to justify anything.</strong> If you call it a "hedge," you don't need the same limits. But a hedge against what, specifically? At what ratio? Iksil's position was too large for any reasonable hedge.</li>
+<li><strong>Senior management ignored warnings.</strong> Internal risk reports flagged the CIO's positions. Management dismissed concerns.</li>
+</ul>
+<h2 id="what-the-rm-should-have-caught_3">What the RM Should Have Caught</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it meant</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VaR model changed → VaR dropped 50% overnight</td>
+<td>Model gaming to avoid limit breach</td>
+<td>Challenge immediately. Model changes require independent review BEFORE implementation.</td>
+</tr>
+<tr>
+<td>Position growing from $51B to $150B notional</td>
+<td>This isn't a hedge anymore, this is a trade</td>
+<td>Hard notional limits, reviewed quarterly</td>
+</tr>
+<tr>
+<td>Market participants trading against "the Whale"</td>
+<td>Position is too large, market knows about it, liquidity risk is extreme</td>
+<td>Reduce position before it becomes forced</td>
+</tr>
+<tr>
+<td>P&amp;L from "hedging" exceeding what a hedge should generate</td>
+<td>Hedging shouldn't be a profit center</td>
+<td>Independent review of hedge effectiveness</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-lesson-for-your-interview_3">The Lesson for Your Interview</h2>
+<p>"The Whale shows why model governance matters. If a trader can change their own VaR model to avoid limit breaches, the entire risk framework is meaningless. As an RM, I need to ensure model changes go through independent validation before they're used for risk limits. And I'd question any 'hedge' that's making significant P&amp;L — a real hedge should be close to P&amp;L neutral if it's actually hedging something."</p>
+<hr />
+<h1 id="case-5-amaranth-2006">CASE 5: AMARANTH (2006)</h1>
+<h2 id="what-happened_4">What Happened</h2>
+<ul>
+<li>Amaranth Advisors: multi-strategy hedge fund, ~$9B AUM.</li>
+<li>Brian Hunter built massive positions in natural gas calendar spreads (long March, short April).</li>
+<li>Strategy: winter/summer NG price differential would widen.</li>
+<li>September 2006: NG prices moved against the spread. Losses of ~$6B in one week.</li>
+<li>Fund collapsed entirely — 65% of capital lost.</li>
+</ul>
+<h2 id="why-it-failed_4">Why It Failed</h2>
+<ul>
+<li><strong>Concentration.</strong> A "multi-strategy" fund had 50%+ of risk in a single trader's NG positions.</li>
+<li><strong>Illiquidity.</strong> The positions were so large relative to the NG futures market that Amaranth couldn't exit without destroying the price.</li>
+<li><strong>Risk limits ignored.</strong> Hunter was making money (NG spread widened after Katrina in 2005), so management let him size up. Sound familiar?</li>
+<li><strong>Margin cascade.</strong> As losses mounted → margin calls → forced to sell other positions to meet margin → other positions also lost money → more margin calls.</li>
+</ul>
+<h2 id="what-the-rm-should-have-caught_4">What the RM Should Have Caught</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it meant</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single trader responsible for &gt;50% of fund risk</td>
+<td>Catastrophic concentration, single point of failure</td>
+<td>Hard cap: no single strategy &gt;20% of fund risk capital</td>
+</tr>
+<tr>
+<td>Position size &gt; X% of open interest in NG futures</td>
+<td>Can't exit without moving the market</td>
+<td>Position limits tied to market liquidity (% of ADV or open interest)</td>
+</tr>
+<tr>
+<td>Risk limits repeatedly raised to accommodate growing position</td>
+<td>"Moving the goalposts" — limits only work if they bind</td>
+<td>Escalation to IC when limits are raised &gt;2x from initial</td>
+</tr>
+<tr>
+<td>Prior year's profits used to justify current risk</td>
+<td>"He made money last year" is NOT a risk argument</td>
+<td>Past P&amp;L is irrelevant to current risk assessment</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-lesson-for-your-interview_4">The Lesson for Your Interview</h2>
+<p>"Amaranth is the classic concentration failure. A 'multi-strategy' fund died because one trader in one commodity was too large. The RM lesson: position limits must be tied to market liquidity, not just notional. If your position is 10% of open interest, you don't have a position — you ARE the market. And the moment you start raising limits because a trader is profitable, you've already lost."</p>
+<hr />
+<h1 id="case-6-march-2020-treasury-basis-trade-unwind">CASE 6: MARCH 2020 — TREASURY BASIS TRADE UNWIND</h1>
+<h2 id="what-happened_5">What Happened</h2>
+<ul>
+<li>Hedge funds were running the "cash-futures basis trade": long Treasury bonds, short Treasury futures, earning the small spread between them.</li>
+<li>Leveraged ~50-100x because the spread was small (~2-5bps) but considered "risk-free."</li>
+<li>COVID hit → panicked selling of everything, including Treasuries (which should've been a safe haven).</li>
+<li>Selling pressure broke the basis → cash Treasuries fell faster than futures.</li>
+<li>Leveraged HFs got margin calls → forced to sell Treasuries → more selling pressure → spiral.</li>
+<li>Fed intervened with unlimited QE (March 15-23, 2020) to stabilize the Treasury market.</li>
+</ul>
+<h2 id="why-it-failed_5">Why It Failed</h2>
+<ul>
+<li><strong>Leverage without considering liquidity stress.</strong> 50-100x leverage is survivable ONLY if markets remain liquid. In March 2020, Treasury market liquidity evaporated for the first time in decades.</li>
+<li><strong>"Risk-free" wasn't.</strong> The basis trade is theoretically risk-free at maturity. But you can go bust before maturity if margin calls force you out.</li>
+<li><strong>Crowded trade.</strong> Too many funds doing the same trade → when one unwinds, they all need to unwind.</li>
+<li><strong>Pro-cyclical margin.</strong> As vol spiked, margin requirements increased exactly when funds could least afford it.</li>
+</ul>
+<h2 id="what-the-rm-should-have-caught_5">What the RM Should Have Caught</h2>
+<p>The basis trade sits in a dangerous space: it looks safe (Treasury bonds, small spread, convergent at maturity) but has extreme leverage. The RM's job is to stress test the leverage path, not just the terminal value.</p>
+<p>"Sure, this converges at maturity. But can we survive the next 3 months? If Treasury vol doubles and margin increases by 4x, do we have the cash? If we need to unwind 20% of our position in one day, what's the market impact?"</p>
+<h2 id="the-lesson-for-your-interview_5">The Lesson for Your Interview</h2>
+<p>"March 2020 taught risk managers that leverage kills even in 'safe' trades. A 50x leveraged Treasury trade blew up not because Treasuries defaulted — obviously they didn't — but because the path to maturity involved margin calls the funds couldn't meet. As an RM, I think about path risk, not just terminal risk. And any trade leveraged &gt;20x needs a liquidity stress test, not just a VaR calculation."</p>
+<hr />
+<h1 id="case-7-april-2020-negative-oil-prices">CASE 7: APRIL 2020 — NEGATIVE OIL PRICES</h1>
+<h2 id="what-happened_6">What Happened</h2>
+<ul>
+<li>WTI May futures contract went to -$37.63/barrel on April 20, 2020.</li>
+<li>COVID lockdowns destroyed oil demand. Storage at Cushing, OK was full.</li>
+<li>Anyone holding May futures had to take physical delivery of oil with nowhere to put it.</li>
+<li>Retail traders (including through USO ETF) and some institutional traders were caught holding May contracts.</li>
+</ul>
+<h2 id="why-it-failed_6">Why It Failed</h2>
+<ul>
+<li><strong>Physical delivery risk misunderstood.</strong> Futures traders forgot (or didn't know) that WTI is physically settled. If you hold to expiry, you get 1,000 barrels of oil. Where do you put it?</li>
+<li><strong>Storage constraints = price discontinuity.</strong> When storage is full, the "floor" on oil isn't $0 — it's negative, because you have to PAY someone to take the oil.</li>
+<li><strong>Models couldn't go negative.</strong> Most risk systems had hard floors at $0 for oil prices. When oil went to -$37, the systems broke.</li>
+<li><strong>Roll risk.</strong> USO had to roll ~80,000 contracts from May to June in a 4-day window. The market front-ran this perfectly.</li>
+</ul>
+<h2 id="what-the-rm-should-have-caught_6">What the RM Should Have Caught</h2>
+<p>The key insight is that "can't go below zero" was an assumption, not a fact. When storage is full:<br />
+- Holding May WTI = obligation to take physical delivery<br />
+- No storage = negative option value on holding<br />
+- The contract can theoretically go to ANY negative price</p>
+<p>"Our models assume oil can't go negative. What if that's wrong? What if storage fills up? Do we need to update our model? Do we have any exposure to the near-dated contract that could be subject to physical delivery?"</p>
+<h2 id="the-lesson-for-your-interview_6">The Lesson for Your Interview</h2>
+<p>"Negative oil showed that risk models are built on assumptions, and those assumptions can break. The RM's job isn't just to run the model — it's to question the model's assumptions. When I see 'this can't happen' in a model, I ask 'why not?' and 'what if it does?'"</p>
+<hr />
+<h1 id="synthesis-patterns-across-all-blow-ups">SYNTHESIS: PATTERNS ACROSS ALL BLOW-UPS</h1>
+<p>Every single case study has at least 3 of these:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>LTCM</th>
+<th>Archegos</th>
+<th>Barings</th>
+<th>Whale</th>
+<th>Amaranth</th>
+<th>Mar 2020</th>
+<th>Apr 2020</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Excessive leverage</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>Concentration</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Correlation assumptions wrong</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>Model failures / model gaming</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Ignoring liquidity risk</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Operational / governance failure</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>"This can't happen"</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Prior profits used to justify current risk</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The top 3 killers:<br />
+1. <strong>Leverage + illiquidity</strong> — you can't survive the drawdown even if your thesis is right<br />
+2. <strong>Illusory diversification</strong> — positions that look independent but load on the same factor<br />
+3. <strong>Model complacency</strong> — trusting the model instead of questioning it</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a> — practicing scenario analysis with worked examples<br />
+→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — macro context for understanding crisis triggers<br />
+→ <a href="07_Risk_Reference.html">Risk Reference</a> — VaR, stress testing, and risk measures<br />
+→ <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — derivatives structures involved in blow-ups</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

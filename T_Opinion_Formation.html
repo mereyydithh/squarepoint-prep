@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opinion Formation — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link active" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="t-opinion-formation">T — OPINION FORMATION</h1>
+<h2 id="having-a-risk-informed-view-not-trading-not-being-useless">Having a risk-informed view — not trading, not being useless</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>The trader will ask: "What do you think the Fed does on April 29?" The senior RM will ask: "Where do you think the biggest risk to the book is right now?" Constantine will ask: "What would YOU be focused on if you started Monday?"</p>
+<p>"I don't have a view" = you're a calculator.<br />
+"I think the Fed should cut because..." = you're playing trader.<br />
+"From a risk perspective, the asymmetry is..." = you're a risk manager with a brain.</p>
+<hr />
+<h1 id="part-1-the-framework">PART 1: THE FRAMEWORK</h1>
+<h3 id="how-a-risk-manager-forms-a-view-different-from-a-trader">How a Risk Manager Forms a View (different from a trader)</h3>
+<p>A trader asks: <strong>"What will happen?"</strong> → forms a directional bet.<br />
+A risk manager asks: <strong>"What COULD happen, and where is the market underpricing the risk?"</strong> → forms a risk view.</p>
+<p>You're not predicting. You're identifying:<br />
+1. <strong>Where consensus is complacent</strong> — the market is pricing X but Y is plausible<br />
+2. <strong>Where the asymmetry sits</strong> — what's the payoff if consensus is wrong?<br />
+3. <strong>What the portfolio implications are</strong> — does our book benefit or suffer in each scenario?</p>
+<h3 id="the-4-step-process">The 4-Step Process</h3>
+<p><strong>Step 1: Know what the market is pricing.</strong><br />
+Before you can have a view, you need to know what the consensus IS. Check:<br />
+- Fed funds futures → how many cuts/hikes priced? By when?<br />
+- VIX level → how much vol is the market expecting?<br />
+- Credit spreads → how much default risk?<br />
+- Oil term structure → contango or backwardation? What does it imply about supply expectations?<br />
+- TIPS breakevens → what inflation is the market expecting?</p>
+<p><strong>Step 2: Identify where consensus could be wrong.</strong><br />
+The market is a voting machine. It's often right on average but terrible at pricing binary outcomes or tail risks. Ask:<br />
+- What assumption is the market making that could break?<br />
+- What's the market ignoring or underweighting?<br />
+- What would change the narrative?</p>
+<p><strong>Step 3: Assess the asymmetry.</strong><br />
+Even if consensus is more likely right, what's the payoff if it's wrong?<br />
+- If the market is pricing 70% chance of Fed cut and 30% chance of hold — what happens to our book in each case? A -20% P&amp;L on the 30% scenario vs +5% on the 70% scenario means the risk-weighted outcome is negative. That's an asymmetric risk.</p>
+<p><strong>Step 4: Connect to portfolio action.</strong><br />
+Your view needs to land somewhere actionable:<br />
+- "Given this asymmetry, I'd recommend adding tail protection ahead of April 29."<br />
+- "Given the market is underpricing an oil escalation scenario, I'd stress-test the book for Brent $130 and have contingency hedges identified."<br />
+- "We're positioned well for the base case but completely exposed to the tail — that's the gap I'd close."</p>
+<hr />
+<h1 id="part-2-current-views-to-have-ready">PART 2: CURRENT VIEWS TO HAVE READY</h1>
+<h3 id="view-1-the-fed-april-29-fomc">View 1: The Fed (April 29 FOMC)</h3>
+<p><strong>What the market is pricing:</strong> Split between cut (to support growth) and hold (because inflation re-accelerating from oil). Roughly 50/50.</p>
+<p><strong>Your risk view:</strong> "The market is pricing a coin flip, but the asymmetry is skewed. If they cut, equities rally 1-2% — modest relief. If they hold AND signal higher-for-longer due to oil, equities could drop 3-5% and rates could spike 20-30bps. The tail risk is on the hawkish side. Additionally, cutting while oil inflation is accelerating would undermine their credibility and could de-anchor inflation expectations — that's the scenario with the worst long-term consequences."</p>
+<p><strong>Portfolio implication:</strong> "If we're positioned for a cut, we should have protection for the hold scenario. The cost of being wrong on the hawkish side is 3x the gain from being right on the dovish side."</p>
+<h3 id="view-2-oil-hormuz">View 2: Oil / Hormuz</h3>
+<p><strong>What the market is pricing:</strong> Some resolution eventually. Brent at $111 but not $140+ (which would imply prolonged blockade).</p>
+<p><strong>Your risk view:</strong> "The market is pricing 'this gets resolved in weeks.' But if Hormuz stays restricted through summer, we're looking at Brent $130-150, gasoline at $6+, and inflation expectations de-anchoring. The base case is resolution — but the tail case is catastrophic. VIX at 24 is pricing a mild shock, not a prolonged supply crisis. The risk premium is too low for the binary nature of this event."</p>
+<p><strong>Portfolio implication:</strong> "Any book with net long equities and no energy hedge is implicitly betting on resolution. That's a view. Is it an intentional view? If not, we need to hedge it."</p>
+<h3 id="view-3-correlation-regime">View 3: Correlation Regime</h3>
+<p><strong>Your risk view:</strong> "We're in a positive stock-bond correlation regime — the first sustained one since early 2023. This means traditional diversification doesn't work. Stocks down + bonds down at the same time. Any PM relying on a rates position to hedge their equity book is exposed. I'd flag this to every PM and recommend re-evaluating hedge composition."</p>
+<p><strong>Portfolio implication:</strong> "In this regime, the only reliable hedges are explicit: put options, vol exposure, or cash. Correlation-based diversification is unreliable."</p>
+<h3 id="view-4-when-you-dont-have-a-strong-view">View 4: When You Don't Have a Strong View</h3>
+<p>It's OK to not have a view — as long as you have a FRAMEWORK:</p>
+<p>"I don't have a strong directional view on whether the Fed cuts or holds — there are compelling arguments both ways. What I do know is that the book is positioned for a cut, and the downside from a hold is larger than the upside from a cut. So regardless of my view, the risk management action is the same: add upside protection for the hawkish scenario."</p>
+<p>This is a perfectly valid answer. You're being honest about uncertainty while still being useful.</p>
+<hr />
+<h1 id="part-3-how-to-defend-a-view-under-pressure">PART 3: HOW TO DEFEND A VIEW UNDER PRESSURE</h1>
+<h3 id="the-trader-will-push-back-always">The trader will push back. Always.</h3>
+<p><strong>Trader:</strong> "But the Fed HAS to cut — growth is slowing, PMIs are weakening."<br />
+<strong>You:</strong> "I agree growth is slowing — that's actually what makes this so dangerous. If they cut into rising inflation, they risk de-anchoring expectations. If they don't cut, growth slows further. There's no good option. The point is that the market is pricing one outcome and the other outcome has a bigger impact on our book. That asymmetry is what I'm flagging."</p>
+<p><strong>Trader:</strong> "You're being too bearish. VIX at 24 is already elevated."<br />
+<strong>You:</strong> "VIX at 24 implies daily moves of about 1.5%. We've had 2-3% daily moves three times in the last two weeks. Realized vol is running above implied. If anything, VIX is underpricing the actual volatility we're experiencing. And that's before the April 29 catalyst."</p>
+<p><strong>Trader:</strong> "So you want me to buy puts? That's expensive and eats into my returns."<br />
+<strong>You:</strong> "Not necessarily. A put spread from 95% to 90% of ATM costs roughly half of a naked put and covers the first 5% of downside. Or a collar — give up some upside via a call to finance the put. The cost depends on how much upside you're willing to cap. I can run the numbers on three structures and you pick what fits your thesis."</p>
+<h3 id="rules-for-defending-your-view">Rules for Defending Your View</h3>
+<ol>
+<li><strong>Acknowledge the other side first.</strong> "You might be right that..." + "My concern is the asymmetry if you're not."</li>
+<li><strong>Use data, not emotion.</strong> Numbers, scenarios, historical precedent — not "I feel like..."</li>
+<li><strong>Frame as risk, not direction.</strong> "I'm not saying the market goes down — I'm saying the downside isn't priced."</li>
+<li><strong>Always offer a solution.</strong> Don't just identify the risk — propose an action.</li>
+<li><strong>Know when to defer.</strong> If the PM has considered the risk, chosen to accept it, and it's within their budget — DOCUMENT IT and move on. You flagged it. That's your job.</li>
+</ol>
+<hr />
+<h1 id="part-4-opinion-formation-as-a-habit">PART 4: OPINION FORMATION AS A HABIT</h1>
+<h3 id="daily-practice">Daily Practice</h3>
+<p>Every morning, before looking at your portfolio, answer these three questions (30 seconds each):<br />
+1. <strong>What's the biggest risk today?</strong> (specific: "CPI print could show core MoM above 0.4%")<br />
+2. <strong>Is the market pricing it?</strong> (check VIX, rates, skew)<br />
+3. <strong>What would I recommend if it materializes?</strong> (specific: "reduce equity delta by 20%, add long 1-month SPX puts")</p>
+<p>This builds the muscle. After two weeks, you'll form views automatically.</p>
+<h3 id="what-to-read">What to Read</h3>
+<ul>
+<li><strong>Pre-market:</strong> BBG TOP, major headlines (5 minutes)</li>
+<li><strong>Daily:</strong> FT Alphaville, Matt Levine (Money Stuff), WSJ markets — for narrative and framing</li>
+<li><strong>Weekly:</strong> Fed minutes (when released), major bank research summaries</li>
+<li><strong>As-needed:</strong> Specific data releases (CPI, NFP, FOMC statements)</li>
+</ul>
+<p>The goal isn't to consume everything. It's to build a mental model of "what's the market narrative right now, and where could it break?"</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — the WHY behind markets<br />
+→ <a href="10_Market_Context_Today.html">Market Context Today</a> — current numbers and cascade<br />
+→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a> — turning views into scenario exercises</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

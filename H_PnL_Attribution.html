@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PnL Attribution — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link active" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="h-pl-attribution">H — P&amp;L ATTRIBUTION</h1>
+<h2 id="decomposing-daily-pl-where-did-the-money-come-from-or-go">Decomposing daily P&amp;L: where did the money come from (or go)?</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>Every morning, the RM looks at yesterday's P&amp;L. The number alone is useless. What matters is WHY.</p>
+<ul>
+<li>PM is down $2M. Is it because their thesis was wrong (delta loss), or because vol spiked (vega), or because time passed (theta)?</li>
+<li>These have completely different implications. A delta loss means the market moved against the view. A vega loss means the cost of optionality changed. A theta loss is expected — that's the price of holding options.</li>
+</ul>
+<p>If you can't decompose P&amp;L, you can't diagnose risk.</p>
+<hr />
+<h1 id="part-1-the-framework">PART 1: THE FRAMEWORK</h1>
+<p>Daily P&amp;L breaks down into components. For a portfolio with equities and options:</p>
+<h2 id="total-pl-delta-pl-gamma-pl-theta-pl-vega-pl-rho-pl-cross-effects-unexplained">Total P&amp;L = Delta P&amp;L + Gamma P&amp;L + Theta P&amp;L + Vega P&amp;L + Rho P&amp;L + Cross Effects + Unexplained</h2>
+<h3 id="delta-pl">Delta P&amp;L</h3>
+<p><strong>What it is:</strong> The P&amp;L from the underlying moving. If you're long 100 shares of AAPL and it goes up $2, your delta P&amp;L is +$200.</p>
+<p><strong>Formula:</strong> Δ P&amp;L = Σ (Delta × ΔS × Multiplier)</p>
+<p>For a portfolio: sum across all positions.</p>
+<p><strong>Why it matters:</strong> This is the "directional bet." If delta P&amp;L dominates, the PM's performance is driven by market direction, not skill.</p>
+<h3 id="gamma-pl">Gamma P&amp;L</h3>
+<p><strong>What it is:</strong> The P&amp;L from convexity — the delta changing as the underlying moves. If you're long gamma (long options), big moves help you. If you're short gamma (short options), big moves hurt you.</p>
+<p><strong>Formula:</strong> Γ P&amp;L = ½ × Gamma × (ΔS)²</p>
+<p><strong>Why it matters:</strong><br />
+- Gamma P&amp;L is always positive for long gamma (regardless of direction). Big up move? Win. Big down move? Also win.<br />
+- Short gamma: opposite. Small moves = ok (collect theta). Big moves = painful losses that accelerate.<br />
+- This is the "insurance" component — long gamma costs theta but protects in tail events.</p>
+<h3 id="theta-pl">Theta P&amp;L</h3>
+<p><strong>What it is:</strong> The P&amp;L from time passage. Options lose value every day (time decay). If you're long options, theta is negative. Short options, theta is positive.</p>
+<p><strong>Formula:</strong> Θ P&amp;L = Theta × Δt (usually 1 day)</p>
+<p><strong>Why it matters:</strong> Theta is the "rent" you pay for holding optionality. A PM who is consistently long options is paying theta every day. That cost needs to be offset by delta or gamma gains.</p>
+<h3 id="vega-pl">Vega P&amp;L</h3>
+<p><strong>What it is:</strong> The P&amp;L from changes in implied volatility. If implied vol rises and you're long options, you make money (even if the underlying doesn't move).</p>
+<p><strong>Formula:</strong> V P&amp;L = Vega × ΔIV</p>
+<p><strong>Why it matters:</strong><br />
+- If a PM's P&amp;L is dominated by vega, they're making a vol bet, not a directional bet.<br />
+- Important to distinguish: did the PM intend to trade vol? If yes, this is alpha. If no, this is unintended risk.</p>
+<h3 id="rho-pl">Rho P&amp;L</h3>
+<p><strong>What it is:</strong> P&amp;L from interest rate changes. Usually small for equity options (short-dated), but material for long-dated options, convertible bonds, or any fixed income.</p>
+<h3 id="cross-effects-higher-order-terms">Cross Effects / Higher-Order Terms</h3>
+<ul>
+<li>Vanna: delta change due to vol change</li>
+<li>Charm: delta change due to time passing</li>
+<li>Volga: vega change due to vol change</li>
+</ul>
+<p>These are usually small but can matter in high-vol regimes or for large gamma/vega positions.</p>
+<h3 id="unexplained-pl">Unexplained P&amp;L</h3>
+<p><strong>What it is:</strong> Whatever's left after you've accounted for all the Greeks. This should be small (ideally &lt;5% of total P&amp;L).</p>
+<p><strong>If unexplained is large:</strong><br />
+- Data issue (bad prices, stale marks)<br />
+- Missing risk factor (exposure not captured by the model)<br />
+- Model calibration issue<br />
+- Someone is hiding something (Barings, London Whale)</p>
+<p><strong>Large unexplained P&amp;L is a red flag. Always investigate.</strong></p>
+<hr />
+<h1 id="part-2-worked-example">PART 2: WORKED EXAMPLE</h1>
+<h2 id="setup">Setup</h2>
+<p>PM runs a long-short equity book with options overlay:<br />
+- Long 10,000 shares of XOM at $110 (delta = +10,000)<br />
+- Short 5,000 shares of CVX at $155 (delta = -5,000)<br />
+- Long 50 XOM June $115 calls (delta per contract = 0.45, gamma = 0.03, theta = -0.15, vega = 0.22)</p>
+<h2 id="what-happened-yesterday">What happened yesterday</h2>
+<ul>
+<li>XOM: $110 → $113 (+$3)</li>
+<li>CVX: $155 → $157 (+$2)</li>
+<li>XOM implied vol: 28% → 31% (+3 vol points)</li>
+</ul>
+<h2 id="pl-decomposition">P&amp;L Decomposition</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Calculation</th>
+<th>P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Delta — XOM shares</strong></td>
+<td>+10,000 × $3</td>
+<td>+$30,000</td>
+</tr>
+<tr>
+<td><strong>Delta — CVX shares</strong></td>
+<td>-5,000 × $2</td>
+<td>-$10,000</td>
+</tr>
+<tr>
+<td><strong>Delta — XOM calls</strong></td>
+<td>50 × 100 × 0.45 × $3</td>
+<td>+$6,750</td>
+</tr>
+<tr>
+<td><strong>Gamma — XOM calls</strong></td>
+<td>50 × 100 × ½ × 0.03 × $3²</td>
+<td>+$675</td>
+</tr>
+<tr>
+<td><strong>Theta — XOM calls</strong></td>
+<td>50 × 100 × (-$0.15)</td>
+<td>-$750</td>
+</tr>
+<tr>
+<td><strong>Vega — XOM calls</strong></td>
+<td>50 × 100 × 0.22 × 3</td>
+<td>+$3,300</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>+$29,975</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-you-tell-the-pm">What you tell the PM:</h3>
+<p>"You're up $30K. Roughly 90% is delta — XOM rallied and your net long paid off. You also picked up $3.3K from vol expanding. Theta cost you $750, which is normal for the long call position. Net delta risk went up because gamma added to your effective long. Your effective XOM delta is now ~+12,600 shares equivalent, up from ~+12,250 yesterday."</p>
+<h3 id="what-you-flag-to-yourself">What you flag to yourself:</h3>
+<ul>
+<li>The PM is net long $5K shares of "oil" — XOM up, CVX up, but XOM outperformed. If this was meant to be a pair trade (long XOM, short CVX), the unhedged residual oil beta is growing.</li>
+<li>Vol expanding on XOM: is there a catalyst? Earnings? Geopolitical (oil)?</li>
+<li>Effective delta growing via gamma: if XOM continues rallying, the PM's long exposure gets bigger automatically. Is the PM aware?</li>
+</ul>
+<hr />
+<h1 id="part-3-common-patterns">PART 3: COMMON PATTERNS</h1>
+<h2 id="pattern-1-the-accidental-vol-trader">Pattern 1: "The Accidental Vol Trader"</h2>
+<p>PM buys options "for hedging" but most of their P&amp;L comes from vega, not delta. They're actually trading vol, not the underlying. Risk: they may not understand their true exposure.</p>
+<p><strong>RM action:</strong> Show the P&amp;L attribution. "80% of your month's return came from vol expansion, not from the stock moving. Is that the trade you intended?"</p>
+<h2 id="pattern-2-theta-bleed">Pattern 2: "Theta Bleed"</h2>
+<p>PM holds long options that slowly decay. Daily theta cost is -$50K. In 20 trading days, that's -$1M. If their delta bets aren't making $1M/month, the options are a drag.</p>
+<p><strong>RM action:</strong> "Your option book is costing $50K/day in theta. You need the underlying to move [this much] just to break even. Are you comfortable with that carry cost?"</p>
+<h2 id="pattern-3-short-gamma-pl-pattern">Pattern 3: "Short Gamma P&amp;L Pattern"</h2>
+<p>PM sold options — collecting premium (positive theta) but losing on big moves (negative gamma). Daily P&amp;L: small positive, small positive, small positive... then a big negative.</p>
+<p><strong>RM action:</strong> The P&amp;L looks great until it doesn't. Track the running P&amp;L against max potential loss. "You've collected $800K in premium YTD but your worst-case loss on these short puts is $4M. Your Sharpe looks great because you haven't had a vol event — but when it comes, it'll take back more than you earned."</p>
+<h2 id="pattern-4-unexplained-is-too-big">Pattern 4: "Unexplained is Too Big"</h2>
+<p>P&amp;L attribution says delta/gamma/theta/vega explain 65% of the P&amp;L. 35% is unexplained.</p>
+<p><strong>RM action:</strong> Investigate immediately. Check pricing (stale marks?), missing positions, wrong Greeks, OTC instruments with non-standard terms. If you can't explain it after digging → escalate.</p>
+<hr />
+<h1 id="part-4-talking-to-pms-about-pl">PART 4: TALKING TO PMs ABOUT P&amp;L</h1>
+<h2 id="what-pms-want-to-hear">What PMs Want to Hear</h2>
+<ol>
+<li><strong>Was I right?</strong> (Did my thesis play out?)</li>
+<li><strong>Where'd the money come from?</strong> (Delta? Gamma? Vol?)</li>
+<li><strong>What's changed in my risk profile?</strong> (Am I bigger than yesterday?)</li>
+<li><strong>What should I watch?</strong> (Upcoming catalyst, Greek exposure shift)</li>
+</ol>
+<h2 id="what-pms-dont-want">What PMs Don't Want</h2>
+<ul>
+<li>A 10-minute lecture on cross-Greeks</li>
+<li>Being told they're wrong</li>
+<li>Math they didn't ask for</li>
+</ul>
+<h2 id="the-template">The Template</h2>
+<blockquote>
+<p>"[PM name], you're [up/down] [$X] on the day. Main driver: [delta on NAME moving $Y / vol expansion / theta decay]. Your net delta is now [$Z equivalent], [up/down from yesterday]. One thing to flag: [specific risk — growing position, approaching limit, upcoming event]."</p>
+</blockquote>
+<p>30 seconds. Done. If they want more detail, they'll ask.</p>
+<hr />
+<h1 id="part-5-pl-attribution-in-the-interview">PART 5: P&amp;L ATTRIBUTION IN THE INTERVIEW</h1>
+<p>If asked "How would you explain a PM's daily P&amp;L?":</p>
+<p>"I'd start by decomposing it into delta, gamma, theta, vega, and any higher-order effects. Delta tells me if the directional bet worked. Gamma tells me about convexity — important for understanding how exposure changes with market moves. Theta shows the cost of holding options. Vega shows the impact of vol changes. Anything unexplained gets flagged.</p>
+<p>The attribution isn't just accounting — it tells me what risk the PM is actually taking. If a PM thinks they're trading direction but 60% of their P&amp;L is from vol, that's a conversation worth having. And if unexplained P&amp;L is consistently large, that's a red flag that our risk model might be missing something."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="07_Risk_Reference.html">Risk Reference</a> — Greeks defined, VaR, stress testing<br />
+→ <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — options mechanics, Black-Scholes inputs<br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — communicating risk to PMs<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — model validation, challenging quant output</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

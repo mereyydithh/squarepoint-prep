@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scenario Analysis — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link active" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="u-scenario-analysis">U — SCENARIO ANALYSIS</h1>
+<h2 id="facts-exposure-scenarios-communication-recommendation">Facts → Exposure → Scenarios → Communication → Recommendation</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>This is the skill that separates you from a spreadsheet. When oil spikes 8% overnight or a PM is down 15% in a week, the fund needs someone who can process the situation in minutes — not hours — and communicate clearly what it means and what to do.</p>
+<hr />
+<h1 id="part-1-the-framework">PART 1: THE FRAMEWORK</h1>
+<p>Every scenario follows the same 5 steps:</p>
+<h3 id="step-1-facts-what-actually-happened">Step 1: FACTS — What actually happened?</h3>
+<p>Gather data. Don't react to headlines — check the numbers. How much did it move? Since when? Was it a gap or a grind? What else moved with it?</p>
+<h3 id="step-2-exposure-what-are-we-exposed-to">Step 2: EXPOSURE — What are we exposed to?</h3>
+<p>Pull up the book. What positions are affected — directly and indirectly? What's the net exposure? What are the Greeks telling you?</p>
+<h3 id="step-3-scenarios-what-happens-next">Step 3: SCENARIOS — What happens next?</h3>
+<p>Run 3 scenarios: base case / upside / downside. Don't just look at where we are — look at where we could be. "If this continues to [X], our P&amp;L goes to [Y]."</p>
+<h3 id="step-4-communication-one-page-pm-ready">Step 4: COMMUNICATION — One page, PM-ready.</h3>
+<p>Situation (2 sentences), current P&amp;L impact ($), key risk (1 sentence), scenarios (3 bullets), recommendation (1 sentence). That's it. No essays.</p>
+<h3 id="step-5-recommendation-what-should-we-do">Step 5: RECOMMENDATION — What should we do?</h3>
+<p>Not "we should hedge" but "I recommend buying 2-week SPX 6400 puts at $8.50 to cap our downside at -$3M in the escalation scenario. Cost: $170K."</p>
+<hr />
+<h1 id="part-2-scenario-playbook">PART 2: SCENARIO PLAYBOOK</h1>
+<h2 id="scenario-1-oil-is-up-8-overnight-on-a-hormuz-escalation">Scenario 1: "Oil is up 8% overnight on a Hormuz escalation."</h2>
+<p><strong>FACTS:</strong><br />
+- Brent from $111 to ~$120. Major move — 99th percentile daily move.<br />
+- Check: what else moved? Gold up (safe haven)? Equities futures down? EM FX? Rates?<br />
+- Was it a newsflow gap (overnight tweet) or sustained buying? Check volume.</p>
+<p><strong>EXPOSURE:</strong><br />
+- Direct: Any energy longs (XOM, SLB, etc.) — mark-to-market gain. Any airline/transport shorts — gain. Any energy-importing EM FX shorts — gain.<br />
+- Indirect: Broad equity exposure — likely negative (oil shock = growth concern). Rates positions — inflation spike pushes yields up, so long duration loses.<br />
+- Greeks: If holding commodity options, what happened to implied vol? Probably spiked → vega impact.<br />
+- Margin: 8% oil move will increase margin requirements on any oil-related futures/options.</p>
+<p><strong>SCENARIOS:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Oil</th>
+<th>Equities</th>
+<th>Rates</th>
+<th>Portfolio impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Base:</strong> Diplomatic noise, calms down in 48h</td>
+<td>Back to $112-115</td>
+<td>Recovers</td>
+<td>Stable</td>
+<td>Give back today's energy gains, limited damage</td>
+</tr>
+<tr>
+<td><strong>Escalation:</strong> Hormuz further restricted</td>
+<td>$125-135</td>
+<td>-3-5%</td>
+<td>+20-30bps (inflation)</td>
+<td>Energy wins but rest of book gets hit. Net depends on positioning.</td>
+</tr>
+<tr>
+<td><strong>Full blockade:</strong> Strait closed</td>
+<td>$140-160</td>
+<td>-8-12%</td>
+<td>Unclear (deflation fears vs inflation)</td>
+<td>Potential crisis — margin calls, liquidity dry-up, correlation spike</td>
+</tr>
+</tbody>
+</table>
+<p><strong>COMMUNICATION (one page to PM):</strong></p>
+<blockquote>
+<p>Oil moved +8% overnight on Hormuz escalation reports. Our net P&amp;L is +$X from energy longs. However, equity book is -$Y and short puts have moved against us. Key risk: escalation scenario to $130+ takes total portfolio down $Z and breaches 4% drawdown trigger. Recommend: consider taking partial profit on energy longs to de-risk, and add SPX put protection at 6400 strike to cap equity downside. Cost: $NNK.</p>
+</blockquote>
+<p><strong>RECOMMENDATION:</strong> Specific, actionable, with cost.</p>
+<hr />
+<h2 id="scenario-2-pm-is-down-15-in-a-week">Scenario 2: "PM is down 15% in a week."</h2>
+<p><strong>FACTS:</strong><br />
+- Which PM? What are their positions? Is this a single-name event or broad market?<br />
+- -15% from what base? If they started the month at +10% and are now at -5% MTD, the context is different from -15% on top of prior losses.<br />
+- What drove it? Identify the P&amp;L attribution: delta loss? Gamma acceleration? Vol move? Specific event?</p>
+<p><strong>EXPOSURE:</strong><br />
+- Is this idiosyncratic (one position blew up) or systematic (the whole book moved together)?<br />
+- Check: are other PMs also down? If yes, correlation problem. If no, this PM's specific thesis failed.<br />
+- What's remaining delta? Gamma? Did the loss change the risk profile of remaining positions?</p>
+<p><strong>SCENARIOS:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>What happens</th>
+<th>Portfolio impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Recovery:</strong> Thesis intact, position mean-reverts</td>
+<td>P&amp;L recovers to -5%. PM vindicated.</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Status quo:</strong> Position stays around current level</td>
+<td>PM stuck at -15%, burning theta if holding options. Dead capital.</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Further deterioration:</strong> Thesis proven wrong</td>
+<td>-20-25%. Hard drawdown limit breached. Forced liquidation.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>KEY QUESTIONS TO ASK THE PM:</strong><br />
+1. "Is the thesis the same as when you put on the position? Walk me through it."<br />
+2. "What catalyst are you waiting for? When?"<br />
+3. "If you didn't have this position today, would you put it on at current levels?"<br />
+4. "Where's your stop? Has it changed?"</p>
+<p><strong>DECISION TREE:</strong></p>
+<div class="highlight"><pre><span></span><code>Is PM at or beyond hard drawdown limit?
+  YES → Mandatory reduction. Escalate to IC.
+  NO  → Is PM approaching soft limit (&gt;80%)?
+    YES → PM conversation. Document thesis. Set review date.
+    NO  → Thesis still intact? Catalyst still valid?
+      YES → Monitor closely. Tighten surveillance.
+      NO  → Recommend reduction. Flag to IC.
+</code></pre></div>
+
+<hr />
+<h2 id="scenario-3-portfolio-vol-is-running-30-above-target">Scenario 3: "Portfolio vol is running 30% above target."</h2>
+<p><strong>FACTS:</strong><br />
+- Is it a spike (last 2 days) or a persistent trend (last 2 weeks)?<br />
+- What's the target? What's current realized?<br />
+- Is VIX (market vol) also elevated, or is this portfolio-specific?</p>
+<p><strong>DECOMPOSITION (the critical step):</strong><br />
+- Market vol contribution: if SPX realized vol went from 15% to 22%, that's a 47% increase in market vol. If your beta is 1.0, your portfolio vol should rise proportionally. So ~47% of the excess is "not your fault."<br />
+- Portfolio-specific: what's left after accounting for market vol? That's position concentration, leverage, or correlation-driven. THAT'S actionable.</p>
+<p><strong>SCENARIOS:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market vol (broad regime shift)</td>
+<td>Accept it, or reduce beta. Can't hedge the market being volatile.</td>
+</tr>
+<tr>
+<td>Single position (one name is 3x more volatile than normal)</td>
+<td>Trim or hedge that specific position.</td>
+</tr>
+<tr>
+<td>Correlation (positions that were diversified are now moving together)</td>
+<td>The structural problem. Reduce overlapping exposures or add truly uncorrelated positions.</td>
+</tr>
+<tr>
+<td>Leverage (same positions, more margin)</td>
+<td>Reduce leverage. Simple but painful.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RECOMMENDATION FORMAT:</strong><br />
+"Vol is 30% above target. Decomposition: 60% from market vol increase (SPX realized at 22% vs 15% trailing), 40% from XOM concentration (running 45% annualized vol vs book average of 18%). To bring vol back to target, options: (A) trim XOM by 25%, or (B) add a 2-week put spread on XOM to cap the downside, or (C) get IC approval to run elevated vol. I recommend (A) — it's clean and immediate."</p>
+<hr />
+<h2 id="scenario-4-the-fed-holds-rates-market-expected-a-cut">Scenario 4: "The Fed holds rates (market expected a cut)."</h2>
+<p><strong>FACTS:</strong><br />
+- Market was pricing ~55% chance of a cut. Now getting a hold + hawkish statement.<br />
+- Immediate market reaction: equities -2%, 2Y yield +15bps, 10Y +10bps, dollar strengthens, gold drops.</p>
+<p><strong>EXPOSURE:</strong><br />
+- Equity longs: immediate mark-to-market loss.<br />
+- Duration longs (if any): loss from rate rise.<br />
+- Short puts: as equities drop, short gamma accelerates losses.<br />
+- Dollar shorts: loss from dollar strength.<br />
+- Commodity longs: mixed — oil may drop on growth fears, but energy stocks could be hit by broad sell-off.</p>
+<p><strong>SCENARIOS:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Next 1-2 weeks</th>
+<th>Portfolio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Base:</strong> Market sells off 2-3% then stabilizes</td>
+<td>Modest loss, recoverable</td>
+<td>Monitor, no urgent action</td>
+</tr>
+<tr>
+<td><strong>Repricing:</strong> Market takes out 2+ future cuts — rates grind higher</td>
+<td>Sustained equity pressure, 5-7% decline over weeks</td>
+<td>Need to reduce equity exposure and adjust duration</td>
+</tr>
+<tr>
+<td><strong>Panic:</strong> Fed seen as behind the curve, stagflation narrative takes hold</td>
+<td>VIX spikes to 30+, credit spreads widen, correlation spike</td>
+<td>Full de-risk mode. Contact all PMs. Emergency IC call.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="scenario-5-correlation-spike-all-pms-drawing-down-simultaneously">Scenario 5: "Correlation spike — all PMs drawing down simultaneously."</h2>
+<p><strong>FACTS:</strong><br />
+- 3 out of 4 PMs are down on the same day. Books look "diversified" (different sectors) but all bleeding.<br />
+- Run factor attribution: is there a common factor? Oil? Rates? Momentum? Dollar?</p>
+<p><strong>THIS IS THE MOST DANGEROUS SCENARIO.</strong> Because:<br />
+- Each PM thinks their loss is idiosyncratic ("my stock had bad earnings")<br />
+- But the aggregate loss is correlated to a single factor<br />
+- Portfolio-level risk is 3x worse than the sum of individual risks<br />
+- This is exactly what killed multi-strategy funds in Q1 2026</p>
+<p><strong>FRAMEWORK:</strong><br />
+1. Factor decomposition: PCA or simpler — regress each PM's P&amp;L against SPX, oil, 10Y, DXY. Find the common driver.<br />
+2. Aggregate exposure: sum everyone's effective oil beta (or whatever the common factor is). "Collectively, we have $400M of effective oil exposure across 4 PMs who each think they're running $100M of independent risk."<br />
+3. Communicate: "You each appear to have independent books but you're all loading on the same factor. Here's the data."<br />
+4. Recommend: either reduce the aggregate exposure or accept it consciously at the IC level.</p>
+<hr />
+<h1 id="part-3-the-meta-skill">PART 3: THE META-SKILL</h1>
+<h3 id="what-all-scenarios-have-in-common">What All Scenarios Have in Common</h3>
+<ol>
+<li><strong>Don't panic.</strong> The first 5 minutes are for GATHERING DATA, not acting.</li>
+<li><strong>Decompose before recommending.</strong> "What's causing this?" comes before "what should we do?"</li>
+<li><strong>Three scenarios, always.</strong> Base / adverse / extreme. Never just one.</li>
+<li><strong>Quantify everything.</strong> Not "this is bad" but "this costs $X under scenario Y."</li>
+<li><strong>Communicate fast, precisely, once.</strong> One message with everything the PM needs. Not five messages over an hour.</li>
+<li><strong>Document.</strong> Whatever happens, write down: what occurred, what you flagged, what was decided, what the outcome was. When the IC asks "why didn't anyone flag this?" — you have your answer.</li>
+</ol>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — daily workflow and communication<br />
+→ <a href="T_Opinion_Formation.html">Opinion Formation</a> — forming the views that drive scenarios<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — real scenarios that actually happened<br />
+→ <a href="10_Market_Context_Today.html">Market Context Today</a> — live market numbers for scenario practice</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

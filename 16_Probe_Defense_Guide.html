@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probe Defense Guide — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link active" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="probe-defense-guide-every-claim-in-your-resume-walkthrough">PROBE DEFENSE GUIDE — EVERY CLAIM IN YOUR RESUME WALKTHROUGH</h1>
+<h2 id="ready-answers-when-they-ask-tell-me-more-about-that">Ready Answers When They Ask "Tell Me More About That"</h2>
+<hr />
+<h1 id="how-to-use-this-file">HOW TO USE THIS FILE</h1>
+<p>Your FULL version resume walkthrough contains ~25 technical and experiential claims. Any of them could trigger a follow-up question. This file gives you the <strong>ready answer for each probe</strong> — organized in the order they appear in your walkthrough. Each entry has:</p>
+<ol>
+<li><strong>The claim</strong> (what you said)</li>
+<li><strong>The likely probe</strong> (what they'll ask)</li>
+<li><strong>The answer</strong> (what you say back — concise, specific, confident)</li>
+</ol>
+<hr />
+<h1 id="section-1-judo-personal-background">SECTION 1: JUDO &amp; PERSONAL BACKGROUND</h1>
+<hr />
+<h3 id="claim-i-was-a-national-judoka-with-the-french-team-from-age-14-to-22">CLAIM: "I was a national judoka with the French team from age 14 to 22"</h3>
+<p><strong>Probe: "What level did you compete at? What does 'national team' mean exactly?"</strong></p>
+<blockquote>
+<p>"I was on the French national team program — not the Olympic team, to be clear, but the competitive pathway that feeds into it. I competed at national championships and international tournaments across Europe. I held a black belt and trained 15-20 hours a week while in school. The program was selective — maybe 30-40 judokas per weight class at the national level. I stopped at 22 when I chose to fully commit to my academic and professional career, but the discipline, mental toughness, and ability to perform under pressure stayed with me."</p>
+</blockquote>
+<p><strong>Probe: "How does judo actually help in finance/risk?"</strong></p>
+<blockquote>
+<p>"Three direct transfers. First, composure under pressure — in competition, you have to make split-second decisions while physically exhausted and facing someone trying to throw you. That translated directly to staying calm during the $2.6B fire drill when we had 9 counterparties and regulators on the line. Second, preparation — in judo, you study your opponent's patterns obsessively before a fight. I approach risk the same way: know the positions, know the scenarios, be ready before the event happens. Third, discipline over long time horizons — you train 8 years for competitions that last 4 minutes. That kind of patience and consistency is exactly what risk management requires."</p>
+</blockquote>
+<hr />
+<h3 id="claim-i-did-a-classe-prepa-in-maths-and-physics">CLAIM: "I did a classe prépa in maths and physics"</h3>
+<p><strong>Probe: "What's that? I'm not familiar with the French system."</strong></p>
+<blockquote>
+<p>"It's the most selective academic track in France — a two-year intensive program in mathematics and physics that prepares students for the competitive entrance exams into the grandes écoles, which are France's top engineering schools. Acceptance rate is roughly 5-10% of applicants. The workload is extreme — 40-50 hours of coursework per week plus written and oral exams weekly. It's the closest thing France has to a math tripos at Cambridge. For me it built a very strong foundation in linear algebra, analysis, probability, and differential equations — which directly feeds into derivatives pricing and risk modeling."</p>
+</blockquote>
+<hr />
+<h3 id="claim-double-masters-quantitative-finance-and-engineering-at-ece-paris-plus-investment-banking-and-risk-at-a-top-business-school">CLAIM: "Double Master's — quantitative finance and engineering at ECE Paris, plus investment banking and risk at a top business school"</h3>
+<p><strong>Probe: "Why two degrees? What did each one give you?"</strong></p>
+<blockquote>
+<p>"The engineering degree gave me the technical toolkit — stochastic calculus, numerical methods, programming in Python and C++, statistical modeling, probability theory. The business school degree gave me the financial markets context — valuation, corporate finance, portfolio theory, and how to communicate quantitative results to non-technical stakeholders. In practice, the combination means I can build a stress-testing model AND explain its output to a trader or a PM in plain English. That dual perspective is exactly what a risk manager needs."</p>
+</blockquote>
+<hr />
+<h1 id="section-2-bnp-paribas-paris-commodities-desk">SECTION 2: BNP PARIBAS PARIS — COMMODITIES DESK</h1>
+<hr />
+<h3 id="claim-otc-commodities-derivatives-desk-sales-and-trading">CLAIM: "OTC commodities derivatives desk — sales and trading"</h3>
+<p><strong>Probe: "What does OTC mean in this context? Why OTC and not exchange-traded?"</strong></p>
+<blockquote>
+<p>"OTC means over-the-counter — these are bespoke derivatives negotiated directly between BNP and the client, as opposed to standardized futures on an exchange. In commodities, the OTC market is critical because corporate hedgers need specific terms — an airline might need a swap on jet fuel for exactly 3 million gallons per month for 18 months starting in September, settling against Platts Singapore kerosene. No exchange-traded contract matches those exact terms. OTC contracts are documented under ISDA Master Agreements with a CSA governing collateral. The trade-off is counterparty credit risk, which is why BNP's credit rating and balance sheet matter — clients trade with you because they trust you'll be there to pay."</p>
+</blockquote>
+<p><strong>Probe: "What's the difference between the sales and trading sides?"</strong></p>
+<blockquote>
+<p>"Sales owns the client relationship — they understand the client's business, their hedging needs, their risk appetite, and they originate trade ideas. When an airline CFO calls and says 'I need to hedge Q3 fuel exposure,' that goes to sales. Trading is the market-facing side — they price the derivatives, manage the risk book, hedge the desk's positions in the interbank and exchange markets. I sat between the two, supporting both. I provided the market intelligence that sales used for client conversations, and I built the analytical tools that traders used for risk management and pricing."</p>
+</blockquote>
+<hr />
+<h3 id="claim-worked-across-every-commodity-sub-class-oil-natural-gas-power-emissions-base-metals-precious-metals-and-ags">CLAIM: "Worked across every commodity sub-class: oil, natural gas, power, emissions, base metals, precious metals, and ags"</h3>
+<p><strong>Probe: "Walk me through the key differences between these markets."</strong></p>
+<blockquote>
+<p>"Each one has distinct characteristics. Oil and gas are the most liquid — WTI and Brent trade millions of contracts daily. They're driven by OPEC decisions, geopolitics, inventory data. Power is unique because it can't be stored economically — electricity is generated and consumed in real time, so you get extreme price spikes when supply is tight. Emissions is a regulatory market — EU carbon permits (EUAs) trade based on environmental policy, so it's as much a political trade as an economic one. Base metals — copper, aluminum, zinc — are industrial demand proxies, correlated to global manufacturing PMIs. Precious metals — gold primarily — are monetary assets and crisis hedges, inversely correlated with real rates. Ags — wheat, corn, soy — are weather-driven with strong seasonality. The risk management challenge differs for each: oil is about geopolitical tail risk, power is about extreme volatility and lack of storage, metals are about inventory cycles, ags are about supply shocks."</p>
+</blockquote>
+<hr />
+<h3 id="claim-writing-the-morning-and-evening-market-commentary-that-went-to-four-thousand-clients">CLAIM: "Writing the morning and evening market commentary that went to four thousand clients"</h3>
+<p><strong>Probe: "What did that look like? What did you actually write?"</strong></p>
+<blockquote>
+<p>"Every morning by 7:30 AM, I'd produce a one-page summary covering overnight price action across all commodities sub-classes, key drivers — OPEC headlines, EIA inventory data, weather forecasts for power/ags, LME warehouse stock changes — and the desk's view on the day ahead. The evening commentary was similar but reflected the full day's activity: what moved, what surprised, how positions had shifted. It went to every client in the book — airlines, refiners, utilities, trading houses, corporates. The commercial value was that clients would read the commentary and come back with questions: 'You mentioned jet fuel is widening against crude — what's driving that?' That becomes a trade conversation, which is how the desk generates revenue. It taught me to distill complex market dynamics into clear, actionable language — which is honestly one of the most useful skills I have for risk management, because explaining risk to a PM requires the exact same ability."</p>
+</blockquote>
+<hr />
+<h3 id="claim-python-and-vba-data-pipeline-pulling-prices-open-interest-volume-and-reports-from-bloomberg">CLAIM: "Python and VBA data pipeline pulling prices, open interest, volume, and reports from Bloomberg"</h3>
+<p><strong>Probe: "Walk me through the architecture. What did it do technically?"</strong></p>
+<blockquote>
+<p>"The pipeline had three stages. First, data extraction — pulling via the Bloomberg API using Python: end-of-day settlement prices, open interest by contract month, volume data, and structured report data like EIA inventories and CFTC positioning. Second, processing — standardizing the data into a consistent format, computing day-over-day changes, calculating key metrics like contango/backwardation across the forward curve, identifying unusual moves in open interest or volume that could signal positioning shifts. Third, output — generating formatted tables and charts in Excel via VBA that went directly into the commentary templates and were also used by traders for their own analysis. Before this pipeline, the traders and I were doing this manually every morning — pulling numbers from Bloomberg screens one by one. The pipeline cut the time from about 90 minutes to 15 minutes and eliminated transcription errors."</p>
+</blockquote>
+<p><strong>Probe: "Why Python AND VBA? Why not just one?"</strong></p>
+<blockquote>
+<p>"Bloomberg's API had better Python integration for data extraction and complex calculations — things like curve fitting, statistical analysis, rolling correlations. But the end consumers — traders and salespeople — lived in Excel. Their existing workflows, templates, and reports were all in Excel. So the Python layer did the heavy lifting (extraction, computation, storage) and pushed results into Excel via VBA macros for the final presentation layer. If I were building it today, I'd probably skip VBA entirely and use something like Polars with a dashboard output, but in a sales and trading environment, you deliver in the format people actually use."</p>
+</blockquote>
+<hr />
+<h3 id="claim-pricing-asian-and-european-options-on-refined-products">CLAIM: "Pricing Asian and European options on refined products"</h3>
+<p><strong>Probe: "What's the difference between Asian and European options?"</strong></p>
+<blockquote>
+<p>"A European option pays off based on the spot price at a single point in time — expiry. An Asian option pays off based on the average price over a period. For commodity hedging clients, the Asian option is almost always the right product because their actual exposure is averaged over time — an airline buys fuel every day, not in one lump sum on one specific date. The averaging mechanism also reduces effective volatility, so Asian options are cheaper than equivalent European options. For example, if daily crude oil vol is 30%, the vol of the monthly average might be around 15-17% — roughly halved — so the option premium is significantly lower. At BNP, I was pricing these using closed-form approximations for arithmetic average Asians — the Turnbull-Wakeman approach — as well as Monte Carlo when the payoffs got more complex."</p>
+</blockquote>
+<p><strong>Probe: "What are refined products specifically?"</strong></p>
+<blockquote>
+<p>"Refined products are what you get when you process crude oil — jet fuel (kerosene), gasoline, diesel, heating oil, naphtha, fuel oil. The refining margin — called the crack spread — is the difference between the price of the refined product and the crude input. Our clients were often hedging the crack spread itself, not just outright crude. For example, a refiner is naturally long the crack spread — they buy crude and sell gasoline — so they'd buy protection against the spread narrowing. That means selling crude futures and buying gasoline futures, or entering a crack spread swap. These are more complex than vanilla commodity hedges because you're hedging a relative price, not an absolute one."</p>
+</blockquote>
+<hr />
+<h1 id="section-3-bnp-paribas-new-york-dec-risk">SECTION 3: BNP PARIBAS NEW YORK — DEC RISK</h1>
+<hr />
+<h3 id="claim-dec-and-fxpb-business-line">CLAIM: "DEC and FXPB business line"</h3>
+<p><strong>Probe: "What does DEC stand for? What's FXPB?"</strong></p>
+<blockquote>
+<p>"DEC is Derivatives Execution and Clearing — it's BNP's agency business for listed derivatives. We execute client orders on exchanges and clear them through the clearinghouse on the client's behalf. FXPB is Foreign Exchange Prime Brokerage — similar concept for FX: clients trade FX through multiple banks but clear and settle through BNP as their prime broker. The combined business line handles the entire lifecycle: onboarding, execution, clearing, margining, collateral management, and risk management. It's agency, not prop — we don't take directional risk on the client's positions, but we DO face credit risk if a client defaults before their positions can be liquidated."</p>
+</blockquote>
+<hr />
+<h3 id="claim-35-people-organized-into-high-touch-traders-sales-traders-for-direct-market-access-corporate-and-institutional-sales-collateral-management-and-the-front-office-risk-team">CLAIM: "35 people, organized into high-touch traders, sales traders for direct market access, corporate and institutional sales, collateral management, and the front-office risk team"</h3>
+<p><strong>Probe: "What's the difference between high-touch traders and DMA?"</strong></p>
+<blockquote>
+<p>"High-touch traders handle complex or large orders where a client needs market insight, timing advice, or careful execution to minimize market impact — think a pension fund rolling $5 billion in equity futures who doesn't want to move the market. The trader uses judgment, works the order, maybe breaks it into pieces across time. DMA — direct market access — is the electronic side: clients get a pipe directly to the exchange and execute algorithmically. They don't need a human trader; they need ultra-low latency and smart order routing. High-touch is relationship and expertise-intensive; DMA is technology and speed-intensive. The risk profile is different too — high-touch has execution risk from human error and market impact; DMA has technology risk and the potential for algorithmic glitches."</p>
+</blockquote>
+<hr />
+<h3 id="claim-listed-side-commodities-rates-equities-fx">CLAIM: "Listed side — commodities, rates, equities, FX"</h3>
+<p><strong>Probe: "What's the difference between listed and OTC in practice?"</strong></p>
+<blockquote>
+<p>"Listed instruments trade on a public exchange with standardized contracts, centralized clearing, and daily margin settlement. They're transparent, liquid, and the counterparty risk sits with the clearinghouse. OTC instruments are negotiated bilaterally — custom terms, documented under ISDA, with credit risk to your specific counterparty. In practice, the DEC business was mainly listed: futures and options on futures across CME, ICE, Eurex, LME. The risk management was different from my Paris OTC role — on listed, the main concern is margin adequacy and liquidation risk, because the clearinghouse will force-close positions if margin isn't met. On OTC, the main concern is counterparty credit and mark-to-market exposure."</p>
+</blockquote>
+<hr />
+<h3 id="claim-roughly-a-billion-plus-in-client-portfolios">CLAIM: "Roughly a billion-plus in client portfolios"</h3>
+<p><strong>Probe: "How did you measure that? Notional or market value?"</strong></p>
+<blockquote>
+<p>"That's the aggregate notional across all client portfolios we managed risk for — including the delta-adjusted notional for options positions. The actual margin held was significantly less — maybe $150-200M — because listed futures only require 5-12% initial margin. But the risk exposure — the dollar delta, the potential P&amp;L from adverse moves — was based on the full notional. For stress testing, we looked at both: what's the margin call if the market moves 2 standard deviations, AND what's the actual P&amp;L impact across the client book."</p>
+</blockquote>
+<hr />
+<h3 id="claim-live-stress-testing-model-that-increased-our-efficiency-and-granularity">CLAIM: "Live stress-testing model that increased our efficiency and granularity"</h3>
+<p><strong>Probe: "What did it actually stress-test? How did it work?"</strong></p>
+<blockquote>
+<p>"The model computed the P&amp;L impact of predefined and ad-hoc market scenarios across all client portfolios in near real-time. The predefined scenarios included: parallel rate shifts of ±50, ±100, ±200bps, equity index drops of 5/10/20%, commodity moves of ±15-30%, VIX spikes to 40/60/80, and cross-asset scenarios like 'March 2020 replay' or 'rates up + equities down.' For each scenario, it calculated the change in margin requirements, the expected P&amp;L impact by asset class and by client, and identified which positions were the biggest contributors to risk. Before this model, the team did stress tests in Excel once a week — after, it ran continuously. That granularity mattered because it let us proactively identify clients approaching margin distress before they got the call, rather than reacting after the clearinghouse issued a margin call."</p>
+</blockquote>
+<p><strong>Probe: "What technology did you use?"</strong></p>
+<blockquote>
+<p>"Python for the computational engine — NumPy for the linear algebra and scenario calculations, Pandas for the portfolio data structures, and a PostgreSQL database for historical data and scenario configurations. The outputs fed into an internal dashboard. It ran on AWS — we used EC2 for compute and S3 for data storage. The data inputs came from Bloomberg for market data and our internal clearing system for position data. The whole thing was designed to be modular — I could add a new scenario in 10 minutes without touching the core engine."</p>
+</blockquote>
+<p><strong>Probe: "Why did certain positions cost more in collateral?"</strong></p>
+<blockquote>
+<p>"Clearinghouse margin models — SPAN for CME, TIMS for OCC — are risk-based. They consider the worst-case scenario for a portfolio within a confidence interval. Positions that are concentrated, directional, and in volatile markets require more margin. For example, a client with a $200M long ES position in September 2020 when VIX was elevated would face much higher margin than the same position in a low-vol environment, because the clearinghouse estimates a larger potential loss. Also, positions that lack offsets cost more — if a client is long gold futures AND short silver futures, there's an inter-commodity spread credit that reduces margin. But if they're just naked long gold, they pay full margin. The stress model helped us explain these dynamics to clients: 'Your margin went up $5M this week because VIX rose from 18 to 25 and your positions are concentrated in short-dated equity options with high gamma.'"</p>
+</blockquote>
+<hr />
+<h3 id="claim-delta-and-vega-hedging-color-to-clients-on-commodities-portfolios">CLAIM: "Delta and vega hedging color to clients on commodities portfolios"</h3>
+<p><strong>Probe: "What does 'hedging color' mean in practice?"</strong></p>
+<blockquote>
+<p>"It means providing traders and clients with actionable analysis on their Greek exposures. For example, a client with a large book of Asian crude oil options might have a net delta of +50,000 barrels and vega of +$200K per vol point. Our stress model would show: 'If WTI drops $5, your portfolio loses $250K from delta. But if implied vol spikes 3 points on that move — which it typically does — you gain $600K from vega, netting you +$350K.' That's the hedging color — it's not just the first-order risk (delta), it's the interaction between delta, vega, and the historical relationship between price and vol. This helped clients decide whether to delta-hedge aggressively or let the vol offset protect them."</p>
+</blockquote>
+<p><strong>Probe: "What's the relationship between delta and vega for a commodity portfolio?"</strong></p>
+<blockquote>
+<p>"In commodities, price and implied volatility are typically negatively correlated — when oil drops sharply, vol tends to spike (the 'fear premium'). This means a portfolio that's long delta AND long vega has a natural partial hedge: the price decline hurts via delta but the vol spike helps via vega. The degree of offset depends on the vol-of-vol and the correlation between spot and vol. For a risk manager, the key question is: does the vega benefit actually materialize in the specific scenario we're worried about? In an orderly sell-off, maybe. In a liquidity crisis where spreads blow out and vol doesn't respond as expected, maybe not. That's where stress testing beyond simple sensitivity analysis matters."</p>
+</blockquote>
+<hr />
+<h3 id="claim-options-skew-scanner-for-sofr-and-us-treasuries">CLAIM: "Options skew scanner for SOFR and US Treasuries"</h3>
+<p><strong>Probe: "What is skew and why does it matter?"</strong></p>
+<blockquote>
+<p>"Skew is the pattern of implied volatilities across different strike prices. For equity indices, puts are typically more expensive (higher implied vol) than calls — that's negative skew or the 'smirk' — because people buy puts for protection and sellers demand a premium for crash exposure. In rates, the skew pattern is different and changes with the rate environment. When rates were near zero, upward rate skew was expensive because the distribution was one-sided — rates couldn't go much lower but could go much higher. The skew tells you where the market sees risk, where dealers are concentrated, and where hedging demand is creating an imbalance. For a trader, skew is an opportunity — if the skew is 'too steep,' you might sell expensive OTM puts and buy cheap OTM calls, expressing the view that the market is overpricing downside risk."</p>
+</blockquote>
+<p><strong>Probe: "Why did you focus on open interest, delta, and gamma?"</strong></p>
+<blockquote>
+<p>"Open interest tells you where positions are concentrated — it's the total number of outstanding contracts at each strike. Delta tells you the directional exposure at each strike. Gamma tells you where the market's sensitivity to movement is highest. When you overlay those three: strikes with high open interest AND high gamma are where market makers have the most exposure, which means hedging activity at those points will amplify price moves. It's a map of where the market's fault lines are."</p>
+</blockquote>
+<p><strong>Probe: "Why is net short gamma concentration interesting? What is it?"</strong></p>
+<blockquote>
+<p>"When market makers and dealers are net short gamma at a specific strike, it means they've SOLD options at that level. As the underlying approaches that strike, their delta changes rapidly — they're forced to buy as the market goes up and sell as the market goes down (rebalancing to stay hedged). This amplifies moves in both directions — it creates a feedback loop. Think of it as the market's 'accelerant.' Net short gamma at 5,500 on ES means: if ES approaches 5,500, dealer hedging will push it further in whatever direction it's already moving. The opposite — net long gamma — creates mean reversion, because dealers buy dips and sell rallies. As a risk manager, knowing where the short gamma concentration sits tells you where the market is most vulnerable to cascading moves, which is exactly when you need your hedges to work."</p>
+</blockquote>
+<p><strong>Probe: "What's convexity in this context?"</strong></p>
+<blockquote>
+<p>"Convexity here refers to how the risk exposure changes non-linearly as the market moves. A portfolio with high convexity at a certain price level means small moves in the underlying create disproportionately large changes in P&amp;L or exposure. Gamma IS the convexity of an option position — it's the second derivative of price with respect to the underlying. When I talked about showing 'where the convexity sat,' I meant identifying the specific price levels and strikes where the portfolio's gamma was highest, because those are the points where the position becomes most sensitive and dynamic hedging becomes most critical and expensive."</p>
+</blockquote>
+<hr />
+<h3 id="claim-26-billion-default-fire-drill-with-9-external-counterparties">CLAIM: "$2.6 billion default fire drill with 9 external counterparties"</h3>
+<p><strong>Probe: "Walk me through how a fire drill actually works."</strong></p>
+<blockquote>
+<p>"A default fire drill simulates the full liquidation of a client's portfolio under the assumption they've defaulted — meaning they can't or won't meet margin calls, and we need to close out every position to limit the firm's credit exposure. The $2.6 billion was the notional value of the portfolio we chose to test: a concentrated book — long natural gas, short power, with carbon emissions exposure. We deliberately chose the hardest-to-unwind combination.</p>
+<p>The drill had three phases. Phase one was risk assessment — mapping every position, estimating market impact costs, identifying which positions could be hedged quickly versus which would take days. Phase two was counterparty coordination — we contacted each of the 9 counterparties (banks, CCPs, corporates) to validate they could absorb the trades, at what price, and within what timeline. Phase three was execution simulation — we ran through the order of liquidation: most liquid first to free up margin, then work the illiquid positions over time. We documented the expected P&amp;L impact, the margin profile during the unwind, and any operational gaps.</p>
+<p>The result: full liquidation validated within regulatory timelines with less than 0.2% P&amp;L drag. But more importantly, we found two operational gaps in our collateral management process that we fixed before they could become real problems — things like mismatched settlement instructions and a gap in our overnight margin calculation for cross-exchange positions."</p>
+</blockquote>
+<p><strong>Probe: "Why natural gas short power specifically?"</strong></p>
+<blockquote>
+<p>"Because that's one of the most illiquid and correlated combinations you can have in the commodity space. Natural gas and power are fundamentally linked — gas-fired power plants set the electricity marginal price, so if gas spikes, power follows. Having a long gas / short power position means you're on the right side of the correlation in normal markets, but the position is extremely hard to unwind because the power market has limited liquidity, seasonal contracts, and basis risk between delivery points. Add carbon emissions — which are a regulatory market with their own liquidity dynamics — and you've created a portfolio that specifically tests the limits of your liquidation framework. We chose it TO find problems."</p>
+</blockquote>
+<hr />
+<h3 id="claim-responsible-for-all-code-in-production">CLAIM: "Responsible for all code in production"</h3>
+<p><strong>Probe: "What does that mean in practice? How much code are we talking about?"</strong></p>
+<blockquote>
+<p>"I was the sole developer for the risk team's production codebase — roughly 15-20 Python scripts and modules running in production daily, plus the underlying data infrastructure. That included the stress-testing model, the automated daily risk reports, the client portfolio analytics engine, the skew scanner, and various ad-hoc analytical tools that became permanent. 'Production' meant: these ran every day, the business relied on them, and if they broke at 6 AM, I was the one getting the call. I maintained version control, wrote the documentation, handled the deployment to AWS, and was responsible for troubleshooting. It was a small team, so there was no separate dev team or DevOps — I was end-to-end."</p>
+</blockquote>
+<hr />
+<h3 id="claim-mentor-with-over-20-years-at-cme-ice-and-goldman">CLAIM: "Mentor with over 20 years at CME, ICE, and Goldman"</h3>
+<p><strong>Probe: "What did you learn from them concretely?"</strong></p>
+<blockquote>
+<p>"Three things that I use every day. First — always think in terms of 'what if I'm wrong.' Every position and every model has an assumption, and your job is to identify the assumption that, if wrong, creates the worst outcome. He called this the 'inverse bet' — if the market is pricing X, what scenario makes X wrong, and how bad is it? Second — the importance of processes over individual brilliance. He'd seen too many smart people blow up because they relied on judgment alone without systematic checks. Risk management is about building frameworks that catch errors even when no one is paying attention. Third — communication. He said the most dangerous situation in risk is when the risk manager sees something but can't convince the decision-maker to act. Being technically right but persuasively wrong is functionally the same as being wrong. That's why I invest so much in being able to explain complex risk in simple terms."</p>
+</blockquote>
+<hr />
+<h1 id="section-4-natixis-bridge-role">SECTION 4: NATIXIS — BRIDGE ROLE</h1>
+<hr />
+<h3 id="claim-cross-asset-quant-analyst-model-validation-vol-surface-calibration-frtb">CLAIM: "Cross-asset quant analyst — model validation, vol surface calibration, FRTB"</h3>
+<p><strong>Probe: "What does model validation actually involve?"</strong></p>
+<blockquote>
+<p>"Model validation is the independent check on the pricing models used by the front office. When a trading desk uses a model — say a SABR model for interest rate swaptions — to price and hedge derivatives, my job is to verify: Is the model mathematically correct? Are the calibration inputs appropriate? Does it capture the key risk factors? Where does it break down? I'd run the model against independent benchmarks, test edge cases, backtest against historical scenarios, and quantify model risk — meaning the P&amp;L impact if the model is wrong. The output is a validation report with a risk rating and conditions or limitations on the model's use. It matters because a bad model can create phantom P&amp;L — the desk thinks they're making money, but the model is mispricing risk, and the loss materializes later."</p>
+</blockquote>
+<p><strong>Probe: "What's vol surface calibration?"</strong></p>
+<blockquote>
+<p>"The volatility surface is a 3D map of implied volatilities across strikes and tenors — it tells you the market's price for uncertainty at every possible maturity and moneyness level. Calibration means fitting a model — like SABR, Heston, or local vol — to reproduce the observed market prices of options as closely as possible. The model parameters (for SABR: alpha, beta, rho, nu) are adjusted until the model-generated option prices match market quotes. Once calibrated, you can use the model to price exotic options that don't have direct market quotes — things like barriers, bermudan swaptions, or Asian options. The quality of the calibration directly affects the pricing accuracy and hedge effectiveness of the entire derivatives book."</p>
+</blockquote>
+<p><strong>Probe: "What's FRTB and why does it matter?"</strong></p>
+<blockquote>
+<p>"FRTB is the Fundamental Review of the Trading Book — it's the Basel Committee's overhaul of how banks calculate capital requirements for market risk. The old framework (Basel 2.5) used VaR as the primary risk measure. FRTB replaces VaR with Expected Shortfall at 97.5% confidence, introduces a more granular liquidity horizon structure, imposes stricter rules on internal model approval, and adds a standardized approach as a fallback and floor. For banks like Natixis, FRTB significantly increases capital requirements for trading desks — which means certain businesses may become uneconomic. My work involved running the standardized approach calculations (FRTB-SA) and analyzing the capital impact across different asset classes and desks — helping the bank understand which positions were capital-efficient and which weren't."</p>
+</blockquote>
+<hr />
+<h3 id="claim-bridge-role-cooling-off-period-after-vie">CLAIM: "Bridge role — cooling-off period after VIE"</h3>
+<p><strong>Probe: "What's a VIE?"</strong></p>
+<blockquote>
+<p>"VIE stands for Volontariat International en Entreprise. It's a French government program that allows young French professionals to work abroad for a French company for 12 to 24 months. It's essentially a structured international assignment — the company sends you overseas, the program provides a specific legal status (not quite employee, not quite intern), and there's a mandatory cooling-off period after it ends where the company can't directly hire you back into the same role. That's why I couldn't simply stay at BNP New York — there's a contractual gap. Natixis let me stay active and productive during that period."</p>
+</blockquote>
+<p><strong>Probe: "If Natixis is just a bridge, what specifically are you gaining there?"</strong></p>
+<blockquote>
+<p>"Three things. First, cross-asset exposure — at BNP I was primarily on listed commodities and rates. At Natixis I'm working across rates, equities, FX, credit, and commodities simultaneously, which gives me a broader view of how risks interact across asset classes. Second, model validation discipline — I've learned to systematically assess whether a model is fit for purpose, which is directly applicable to evaluating risk models at a fund. Third, regulatory perspective — understanding FRTB and how capital constraints shape bank behavior helps me understand why banks price the way they do, which affects the counterparty landscape for a fund like Squarepoint."</p>
+</blockquote>
+<hr />
+<h1 id="section-5-squarepoint-specific-probes">SECTION 5: SQUAREPOINT-SPECIFIC PROBES</h1>
+<hr />
+<h3 id="claim-building-risk-frameworks-for-a-discretionary-team">CLAIM: "Building risk frameworks for a discretionary team"</h3>
+<p><strong>Probe: "What would you build first?"</strong></p>
+<blockquote>
+<p>"In the first 90 days, I'd focus on understanding what already exists — the current risk reporting, the limit structure, the data infrastructure, the PM workflows. Then I'd prioritize based on what's most urgent. But if I had to guess what matters most for a growing discretionary team: first, a real-time position and exposure dashboard that shows delta, beta, sector, and factor exposures aggregated across all PMs — because you can't manage risk you can't see. Second, a stress-testing framework tailored to the specific strategies the PMs are running — not generic VaR, but scenario-based analysis that maps to the actual theses. Third, a drawdown monitoring and escalation process that's formalized, not ad-hoc. I'd want to get to the point where the CRO sees a single dashboard and knows exactly where the fund's risk sits."</p>
+</blockquote>
+<hr />
+<h3 id="claim-risk-sits-at-the-intersection-of-quantitative-rigor-and-judgment">CLAIM: "Risk sits at the intersection of quantitative rigor and judgment"</h3>
+<p><strong>Probe: "Give me an example where judgment mattered more than the model."</strong></p>
+<blockquote>
+<p>"The fire drill is the best example. Our models could tell us the theoretical liquidation cost of the $2.6 billion portfolio — market impact estimates, bid-ask spreads, historical volume data. But the model couldn't tell us that one of the 9 counterparties had recently had a compliance issue and was unlikely to respond quickly, or that the natural gas market was going into a seasonal squeeze that would widen spreads beyond historical averages, or that two of our settlement instructions hadn't been updated after a system migration. Those operational realities required judgment — talking to people, questioning assumptions, running through 'what if this doesn't go as planned.' The model said 0.15% P&amp;L impact. Our judgment-adjusted estimate was 0.2%. The difference was small in dollar terms but represented a real understanding of execution risk that the model alone couldn't capture."</p>
+</blockquote>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

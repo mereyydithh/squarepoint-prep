@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cash Instruments — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link active" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="a-cash-instruments-asset-classes">A — CASH INSTRUMENTS &amp; ASSET CLASSES</h1>
+<h2 id="what-exists-how-it-works-how-it-moves-and-how-it-hurts-you">What exists, how it works, how it moves, and how it hurts you</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="part-1-equities">PART 1: EQUITIES</h1>
+<h2 id="the-instrument">The Instrument</h2>
+<p>A share of equity = ownership claim on a company's residual cash flows after all obligations (debt, taxes, operating costs) are paid. You're last in line — that's why equities are the riskiest part of the capital structure.</p>
+<h2 id="what-drives-equity-prices">What Drives Equity Prices</h2>
+<p>Price = Earnings × Multiple. That's it. Everything else is just a more detailed version of this.</p>
+<table>
+<thead>
+<tr>
+<th>Driver</th>
+<th>What it means</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Earnings growth</td>
+<td>Company makes more money</td>
+<td>Revenue up 10%, margins stable → EPS up 10% → stock up ~10%</td>
+</tr>
+<tr>
+<td>Multiple expansion</td>
+<td>Market pays more per dollar of earnings</td>
+<td>P/E goes from 15x to 18x → stock up 20% even with flat earnings</td>
+</tr>
+<tr>
+<td>Multiple compression</td>
+<td>Market pays less</td>
+<td>Rates rise → discount rate up → future earnings worth less today → P/E falls</td>
+</tr>
+<tr>
+<td>Sentiment / flows</td>
+<td>Supply and demand for the stock</td>
+<td>Fund liquidation forces selling regardless of fundamentals</td>
+</tr>
+</tbody>
+</table>
+<h2 id="equity-risk-factors">Equity Risk Factors</h2>
+<p>When you own a stock, you're exposed to:<br />
+- <strong>Market risk (beta):</strong> Broad equity market goes down, your stock probably goes down too. SPX beta of 1.2 → if SPX drops 5%, expect this stock to drop 6%.<br />
+- <strong>Sector risk:</strong> Energy stocks move with oil. Banks move with rates. Tech moves with growth expectations.<br />
+- <strong>Idiosyncratic risk:</strong> Company-specific events — earnings miss, CEO departure, product failure, fraud.<br />
+- <strong>Factor risk:</strong> Size (small vs large cap), value (cheap vs expensive), momentum (winners vs losers), quality (high vs low profitability).</p>
+<h2 id="equity-metrics-to-know-cold">Equity Metrics to Know Cold</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P/E</td>
+<td>Price / EPS</td>
+<td>How much you're paying per $ of earnings. High P/E = expensive or high growth.</td>
+</tr>
+<tr>
+<td>EV/EBITDA</td>
+<td>Enterprise value / EBITDA</td>
+<td>Better than P/E for comparing companies with different capital structures.</td>
+</tr>
+<tr>
+<td>Free Cash Flow Yield</td>
+<td>FCF / Market Cap</td>
+<td>Cash generation relative to price. Higher = cheaper.</td>
+</tr>
+<tr>
+<td>Dividend Yield</td>
+<td>Annual dividend / Price</td>
+<td>Income component of return.</td>
+</tr>
+<tr>
+<td>Short Interest</td>
+<td>Shares short / Float</td>
+<td>Crowding indicator. &gt;20% of float short = squeeze risk.</td>
+</tr>
+<tr>
+<td>Beta</td>
+<td>Cov(stock, market) / Var(market)</td>
+<td>Sensitivity to broad market moves.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sector-rotation-what-drives-it">Sector Rotation &amp; What Drives It</h2>
+<ul>
+<li><strong>Risk-on:</strong> Growth, tech, small caps, cyclicals outperform. Money moves into higher-beta stocks.</li>
+<li><strong>Risk-off:</strong> Utilities, healthcare, consumer staples, large caps outperform. Defensive rotation.</li>
+<li><strong>Rising rates:</strong> Financials benefit (net interest margin expands). Long-duration equities (unprofitable tech) suffer.</li>
+<li><strong>Falling rates:</strong> Growth stocks benefit (discount rate falls → future cash flows worth more today).</li>
+<li><strong>Oil spike:</strong> Energy outperforms. Airlines, transports, consumer discretionary underperform.</li>
+</ul>
+<h2 id="crowding-risk">Crowding Risk</h2>
+<p>When too many funds hold the same positions:<br />
+- 13F filings show overlap — if 40 hedge funds own the same stock, that's crowded.<br />
+- Crowded longs: vulnerable to a "crowded unwind" — if one fund sells, others follow.<br />
+- Crowded shorts: vulnerable to a "short squeeze" — stock rises, shorts cover, forcing it higher.<br />
+- GameStop (2021) is the extreme version. But milder squeezes happen regularly.</p>
+<hr />
+<h1 id="part-2-fixed-income-rates">PART 2: FIXED INCOME / RATES</h1>
+<h2 id="the-instrument_1">The Instrument</h2>
+<p>A bond = a series of fixed coupon payments plus return of principal at maturity. You're lending money; the issuer is borrowing.</p>
+<h2 id="the-yield-curve">The Yield Curve</h2>
+<p>The most important chart in finance. Plots yields by maturity.</p>
+<ul>
+<li><strong>Normal curve (upward sloping):</strong> Long-term rates &gt; short-term rates. Investors demand more yield for locking up money longer. Economy is healthy.</li>
+<li><strong>Flat curve:</strong> Short and long rates similar. Economy slowing; market unsure about future.</li>
+<li><strong>Inverted curve:</strong> Short-term rates &gt; long-term rates. Market expects rate CUTS → recession signal. Every US recession since 1970 was preceded by an inversion (2s10s spread going negative).</li>
+</ul>
+<h2 id="key-rates-and-what-they-mean">Key Rates and What They Mean</h2>
+<table>
+<thead>
+<tr>
+<th>Rate</th>
+<th>What it is</th>
+<th>Who sets it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fed Funds Rate</td>
+<td>Overnight lending rate between banks</td>
+<td>The Fed (FOMC)</td>
+</tr>
+<tr>
+<td>2-Year Treasury</td>
+<td>Market's expectation of Fed policy over next 2 years</td>
+<td>The market</td>
+</tr>
+<tr>
+<td>10-Year Treasury</td>
+<td>Benchmark risk-free rate, drives mortgages, corporate bonds</td>
+<td>The market</td>
+</tr>
+<tr>
+<td>30-Year Treasury</td>
+<td>Longest duration, most sensitive to inflation expectations</td>
+<td>The market</td>
+</tr>
+<tr>
+<td>SOFR</td>
+<td>Secured overnight financing rate (replaced LIBOR)</td>
+<td>Market (repo-based)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="duration-convexity">Duration &amp; Convexity</h2>
+<p><strong>Duration</strong> = sensitivity of bond price to a 1% change in yield.<br />
+- A bond with duration of 7 means: if yields rise 1%, bond price falls ~7%.<br />
+- Modified duration for precision: ΔP/P ≈ -D × Δy<br />
+- Longer maturity → higher duration → more rate sensitivity.<br />
+- A zero-coupon bond's duration = its maturity (no coupons to shorten it).</p>
+<p><strong>DV01</strong> (Dollar Value of a Basis Point) = how much the position gains/loses for a 1bp move in yield.<br />
+- DV01 = Duration × Price × 0.0001<br />
+- A portfolio with $500K DV01 loses $500K if yields rise 1bp.</p>
+<p><strong>Convexity</strong> = the curvature. Duration is the first-order approximation; convexity is the second-order correction.<br />
+- ΔP/P ≈ -D × Δy + ½ × C × (Δy)²<br />
+- Positive convexity: bonds actually fall LESS than duration predicts when yields rise, and rise MORE when yields fall. This is a good thing — it's why "long bonds, long convexity" is desirable.<br />
+- Negative convexity: mortgage-backed securities (prepayment risk). When rates fall, homeowners refinance, and you get your principal back early (at the worst time — when you want to stay invested at the old higher rate).</p>
+<h2 id="credit-spreads">Credit Spreads</h2>
+<p>The extra yield above the risk-free rate that a corporate bond pays. Compensates for default risk.</p>
+<table>
+<thead>
+<tr>
+<th>Rating</th>
+<th>Typical spread (bps)</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AAA/AA</td>
+<td>20-60</td>
+<td>Very low default risk</td>
+</tr>
+<tr>
+<td>A</td>
+<td>60-120</td>
+<td>Low default risk</td>
+</tr>
+<tr>
+<td>BBB</td>
+<td>120-200</td>
+<td>Lowest investment grade — watch carefully</td>
+</tr>
+<tr>
+<td>BB</td>
+<td>200-400</td>
+<td>High yield ("junk"). First to blow out in stress.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>400-700</td>
+<td>High default probability</td>
+</tr>
+<tr>
+<td>CCC and below</td>
+<td>700+</td>
+<td>Distressed. Trading on recovery value.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Spread widening</strong> = credit risk increasing = risk-off. IG spreads widening 20bps in a day is notable. HY spreads widening 100bps is a crisis signal.</p>
+<p><strong>BBB cliff risk:</strong> The largest pool of corporate bonds is BBB-rated. If they get downgraded to BB ("fallen angels"), IG-only funds are forced to sell → supply flood in HY → spreads blow out → cascade.</p>
+<hr />
+<h1 id="part-3-foreign-exchange">PART 3: FOREIGN EXCHANGE</h1>
+<h2 id="the-instrument_2">The Instrument</h2>
+<p>An FX rate = the price of one currency in terms of another. EUR/USD = 1.08 means one euro costs $1.08.</p>
+<h2 id="what-drives-fx">What Drives FX</h2>
+<ol>
+<li><strong>Interest rate differentials</strong> — money flows to higher-yielding currencies (carry trade).</li>
+<li><strong>Growth differentials</strong> — stronger economy → stronger currency (attracts capital).</li>
+<li><strong>Central bank policy</strong> — rate hikes strengthen, cuts weaken.</li>
+<li><strong>Risk appetite</strong> — risk-on weakens safe havens (USD, JPY, CHF); risk-off strengthens them.</li>
+<li><strong>Capital flows</strong> — trade balance, FDI, portfolio flows.</li>
+<li><strong>Intervention</strong> — central banks directly buying/selling (Japan, China, Switzerland).</li>
+</ol>
+<h2 id="key-pairs-and-their-personalities">Key Pairs and Their Personalities</h2>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>What it reflects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EUR/USD</td>
+<td>Global risk &amp; rate differential. Most liquid pair.</td>
+</tr>
+<tr>
+<td>USD/JPY</td>
+<td>Risk appetite + carry trade. JPY strengthens in crisis.</td>
+</tr>
+<tr>
+<td>GBP/USD</td>
+<td>UK economy + Brexit residuals + BOE policy</td>
+</tr>
+<tr>
+<td>USD/CNH</td>
+<td>China policy. Managed float — watch for devaluation signals.</td>
+</tr>
+<tr>
+<td>USD/TRY, USD/ZAR</td>
+<td>EM risk barometer. Blow out in risk-off.</td>
+</tr>
+<tr>
+<td>DXY</td>
+<td>Dollar index (basket: EUR 57%, JPY 14%, GBP 12%, CAD 9%, SEK 4%, CHF 4%)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="carry-trade">Carry Trade</h2>
+<p>Borrow in a low-rate currency (JPY at 0.5%), invest in a high-rate currency (MXN at 10%). Earn the differential (9.5% annualized). Works until it doesn't.</p>
+<p><strong>When carry unwinds:</strong><br />
+- Risk event → JPY strengthens → you lose on FX more than you earned in carry.<br />
+- Carry unwind is FAST and VIOLENT because it's crowded and leveraged.<br />
+- October 2022 JPY, Q3 2024 JPY carry unwind — both crushed funds.</p>
+<h2 id="fx-risk-for-a-discretionary-fund">FX Risk for a Discretionary Fund</h2>
+<ul>
+<li>Any non-USD position has embedded FX exposure.</li>
+<li>Long European stocks = long EUR implicitly. If EUR/USD falls 3%, your stock return is reduced by 3% when converted back to USD.</li>
+<li>Hedging: FX forwards (most common), FX options (for tail protection), natural hedge (matching assets and liabilities in same currency).</li>
+</ul>
+<hr />
+<h1 id="part-4-commodities">PART 4: COMMODITIES</h1>
+<h2 id="the-instrument_3">The Instrument</h2>
+<p>Commodities trade via futures (mostly). Physical delivery matters because storage constraints drive pricing (see <a href="V_Case_Studies.html">Case Studies</a> — negative oil).</p>
+<h2 id="major-commodities-and-what-drives-them">Major Commodities and What Drives Them</h2>
+<table>
+<thead>
+<tr>
+<th>Commodity</th>
+<th>Key drivers</th>
+<th>Why it matters for risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Crude Oil (WTI, Brent)</td>
+<td>OPEC supply, demand (China, US), geopolitics (Hormuz), inventory</td>
+<td>Oil moves everything — inflation, rates, equities, EM</td>
+</tr>
+<tr>
+<td>Natural Gas</td>
+<td>Weather, storage, LNG exports, seasonality</td>
+<td>Extremely volatile. Amaranth died here.</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>Real rates (inverse), USD (inverse), safe haven demand, central bank buying</td>
+<td>Hedge portfolio. But only works when real rates cooperate.</td>
+</tr>
+<tr>
+<td>Copper</td>
+<td>Industrial demand (China), construction, EV transition</td>
+<td>"Dr. Copper" — leading indicator of global growth</td>
+</tr>
+<tr>
+<td>Wheat/Corn/Soy</td>
+<td>Weather, trade policy, fertilizer costs</td>
+<td>Food inflation → political instability → EM risk</td>
+</tr>
+</tbody>
+</table>
+<h2 id="futures-curve-dynamics">Futures Curve Dynamics</h2>
+<p><strong>Contango:</strong> Front month cheaper than back months. Normal for storable commodities (cost of carry = storage + insurance + financing). Market expects higher future prices.</p>
+<p><strong>Backwardation:</strong> Front month MORE expensive than back months. Signals tight current supply (scarcity premium). Producers are getting paid MORE for immediate delivery.</p>
+<p><strong>Roll cost/yield:</strong><br />
+- If you're long a futures contract and it expires, you "roll" to the next month.<br />
+- In contango: you sell cheap front month, buy expensive back month → LOSE money on the roll (negative roll yield). This is why commodity ETFs (like USO) bleed value in contango markets.<br />
+- In backwardation: you sell expensive front month, buy cheap back month → MAKE money on the roll (positive roll yield).</p>
+<h2 id="commodity-risk-specifics">Commodity Risk Specifics</h2>
+<ul>
+<li><strong>Physical delivery:</strong> WTI expires to physical delivery at Cushing, OK. If storage is full: price goes negative.</li>
+<li><strong>Basis risk:</strong> Brent vs WTI spread can move independently of "oil" direction. If you hedge WTI risk with Brent, the basis can blow out.</li>
+<li><strong>Seasonality:</strong> NG is seasonal (winter heating demand). Gasoline is seasonal (summer driving). These patterns create predictable but sometimes extreme moves.</li>
+<li><strong>Unit conversion:</strong> Know the basics — 1 barrel = 42 US gallons. 1 lot of WTI futures = 1,000 barrels.</li>
+</ul>
+<hr />
+<h1 id="part-5-credit">PART 5: CREDIT</h1>
+<h2 id="the-instrument_4">The Instrument</h2>
+<p>Credit = the risk of a borrower defaulting. Traded via:<br />
+- <strong>Corporate bonds</strong> (cash market)<br />
+- <strong>Credit Default Swaps (CDS)</strong> (synthetic — buy/sell protection against default)<br />
+- <strong>Leveraged loans</strong> (bank loans to sub-IG companies, floating rate)<br />
+- <strong>CLOs</strong> (securitized pools of leveraged loans)</p>
+<h2 id="credit-spread-components">Credit Spread Components</h2>
+<p>Spread = Default probability × Loss given default + Liquidity premium + Risk premium</p>
+<h2 id="cds-mechanics-know-this">CDS Mechanics (Know This)</h2>
+<ul>
+<li><strong>Buyer of protection:</strong> pays a quarterly premium (spread) to the seller. If the reference entity defaults, the seller pays the buyer (par minus recovery).</li>
+<li><strong>Seller of protection:</strong> earns the spread, but bears the default risk. Economically equivalent to being long the credit (long the bond).</li>
+<li><strong>CDS spread rising</strong> = credit risk increasing = risk-off for that name.</li>
+<li><strong>Basis:</strong> CDS spread vs cash bond spread. When basis is large, there's a relative value opportunity (or a structural reason for the gap).</li>
+</ul>
+<h2 id="credit-signals-to-watch">Credit Signals to Watch</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it means</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IG spreads +20bps in a day</td>
+<td>Material stress in investment-grade credit</td>
+<td>Check portfolio duration, credit exposure</td>
+</tr>
+<tr>
+<td>HY spreads +100bps</td>
+<td>Crisis territory — defaults expected to rise</td>
+<td>Reduce credit exposure, check counterparty risk</td>
+</tr>
+<tr>
+<td>CDS-bond basis blowout</td>
+<td>Cash and synthetic markets diverging — liquidity stress</td>
+<td>Monitor for forced selling, margin pressure</td>
+</tr>
+<tr>
+<td>BBB downgrade wave</td>
+<td>Fallen angels flood HY market</td>
+<td>Cascading spread widening, forced selling by IG funds</td>
+</tr>
+<tr>
+<td>Default rate rising above 3%</td>
+<td>Economic downturn underway</td>
+<td>Reduce HY exposure, increase hedges</td>
+</tr>
+</tbody>
+</table>
+<h2 id="investment-grade-vs-high-yield">Investment Grade vs High Yield</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>IG</th>
+<th>HY</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rating</td>
+<td>BBB- and above</td>
+<td>BB+ and below</td>
+</tr>
+<tr>
+<td>Typical spread</td>
+<td>50-200bps</td>
+<td>300-800bps</td>
+</tr>
+<tr>
+<td>Default rate</td>
+<td>&lt;1%</td>
+<td>3-10% (cycle dependent)</td>
+</tr>
+<tr>
+<td>Duration risk</td>
+<td>Higher (longer maturities)</td>
+<td>Lower (shorter maturities, but default risk dominates)</td>
+</tr>
+<tr>
+<td>Correlation to equities</td>
+<td>Low in normal times, rises in stress</td>
+<td>High — HY trades like equities in a crisis</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-6-cross-asset-connections">PART 6: CROSS-ASSET CONNECTIONS</h1>
+<p>This is where it all comes together. Assets don't move independently — everything is connected.</p>
+<h2 id="the-master-cascade-chain">The Master Cascade Chain</h2>
+<div class="highlight"><pre><span></span><code>Oil spike → Inflation expectations rise
+  → Rates rise (to fight inflation)
+    → Dollar strengthens (higher US rates attract capital)
+      → EM currencies weaken (capital outflows)
+        → EM stocks and bonds sell off
+    → Equity multiples compress (higher discount rate)
+      → Growth/tech stocks hit hardest (long duration equity)
+    → Credit spreads widen (recession fears)
+      → HY bonds sell off
+        → CLO tranches face downgrades
+  → Gold: ambiguous (inflation positive, but real rates rising is negative)
+  → Commodity importers (Japan, Europe, India) weakened
+</code></pre></div>
+
+<h2 id="regime-table">Regime Table</h2>
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Equities</th>
+<th>Bonds</th>
+<th>Dollar</th>
+<th>Gold</th>
+<th>Spread</th>
+<th>Vol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Risk-on (growth + easy money)</td>
+<td>↑</td>
+<td>↓ (yields up)</td>
+<td>↓</td>
+<td>↓</td>
+<td>Tight</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Risk-off (panic)</td>
+<td>↓</td>
+<td>↑ (flight to quality)</td>
+<td>↑</td>
+<td>↑</td>
+<td>Wide</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Stagflation (inflation + slow growth)</td>
+<td>↓</td>
+<td>↓ (inflation kills bonds)</td>
+<td>↑</td>
+<td>↑</td>
+<td>Wide</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Goldilocks (moderate growth + low inflation)</td>
+<td>↑</td>
+<td>Stable</td>
+<td>Stable</td>
+<td>↓</td>
+<td>Tight</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-key-correlation-to-know">The Key Correlation to Know</h2>
+<p><strong>Stocks and bonds are negatively correlated</strong> (stocks down, bonds up) in most post-2000 environments. This is the foundation of 60/40 portfolios.</p>
+<p><strong>BUT:</strong> In 2022 (inflation shock), stocks AND bonds both fell. The correlation flipped positive. This destroyed the "bonds hedge my equity risk" assumption. If you're running a portfolio that relies on stock-bond negative correlation for diversification, you need to stress test for what happens when that breaks.</p>
+<hr />
+<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<p>If asked "Walk me through the major asset classes and their risk characteristics":</p>
+<p>"I think about 5 core asset classes: equities, rates, credit, FX, and commodities. Each has its own risk profile but they're deeply interconnected.</p>
+<p>Equities are driven by earnings and multiples — but multiples are driven by rates, which connects equities to the rates market. When rates rise, equity multiples compress, especially for long-duration growth stocks.</p>
+<p>In rates, the key risk measure is duration — sensitivity to yield changes. A bond with duration 7 loses 7% for every 1% rate increase. The shape of the yield curve tells you about growth and recession expectations.</p>
+<p>Credit sits between equities and rates — in normal times it behaves like bonds (spread income), but in stress it behaves like equities (default risk, forced selling, correlation spike).</p>
+<p>FX is driven by rate differentials and risk appetite. Any non-USD position has embedded FX exposure that needs to be monitored.</p>
+<p>Commodities are unique because of physical delivery constraints and storage costs. The futures curve (contango vs backwardation) creates roll costs that can dominate returns.</p>
+<p>The RM's job is understanding how a shock to one asset class cascades to others — like an oil spike flowing through inflation to rates to equity multiples to credit spreads. That's where scenario analysis becomes critical."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a> — detailed instrument mechanics<br />
+→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — what drives these markets<br />
+→ <a href="09_Market_Intuition.html">Market Intuition</a> — cross-asset relationships and market intuition<br />
+→ <a href="D_Greeks.html">Greeks</a> — measuring risk on these instruments<br />
+→ <a href="10_Market_Context_Today.html">Market Context Today</a> — current levels and pricing</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

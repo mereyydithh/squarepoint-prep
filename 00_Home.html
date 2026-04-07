@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Guide Home — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link active" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="study-guide-junior-risk-manager-discretionary-team">STUDY GUIDE — JUNIOR RISK MANAGER, DISCRETIONARY TEAM</h1>
+<h2 id="squarepoint-capital-complete-knowledge-map">Squarepoint Capital — Complete Knowledge Map</h2>
+<hr />
+<h1 id="how-to-use-this">HOW TO USE THIS</h1>
+<p>This is your study system. 25 domains across 8 levels, organized by dependency — each level builds on the one before it. Links point to either existing prep files (in the parent folder) or new domain files (in this folder).</p>
+<p><strong>Depth tiers</strong> are marked on each domain:<br />
+- 🔴 <strong>DEEP</strong> — You will be tested hard. Know cold, explain fluently, apply under pressure.<br />
+- 🟡 <strong>WELL</strong> — Confident conversation. Can explain clearly, answer follow-ups, give examples.<br />
+- 🟢 <strong>AWARE</strong> — Know it exists, what it does, and why. 2-3 sentences max.</p>
+<hr />
+<h1 id="level-1-instruments-what-exists-and-how-it-works">LEVEL 1: INSTRUMENTS — What exists and how it works</h1>
+<h3 id="a-cash-instruments-asset-classes">A. Cash Instruments &amp; Asset Classes 🔴</h3>
+<p>Equities (earnings, sectors, rotation, crowding), fixed income (duration, convexity, curve), credit (IG/HY, spread deterioration signals), FX (pairs, carry, intervention), commodities (physical/financial, storage, cracks, seasonality).<br />
+→ <a href="A_Cash_Instruments.html">Cash Instruments</a> | <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a></p>
+<h3 id="b-derivatives-mechanics-pricing-strategies">B. Derivatives — Mechanics, Pricing &amp; Strategies 🟡</h3>
+<p>Futures, options, swaps, exotics (awareness). Pricing: Black-Scholes, binomial, Monte Carlo, risk-neutral, no-arbitrage. Strategies: spreads, straddles, strangles, collars, butterflies, risk reversals — payoffs, when to use.<br />
+→ <a href="B_Derivatives.html">Derivatives</a> | <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a></p>
+<h3 id="c-market-mechanics">C. Market Mechanics 🟡</h3>
+<p>Trade lifecycle, listed vs OTC, margin (IM/VM/maintenance), leverage (how funds lever, why it kills), liquidity (bid-ask, market impact, cascade), dealer positioning &amp; order flow.<br />
+→ <a href="C_Market_Mechanics.html">Market Mechanics</a> | <a href="09_Market_Intuition.html">Market Intuition</a> | <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a></p>
+<hr />
+<h1 id="level-2-risk-language-greeks-volatility">LEVEL 2: RISK LANGUAGE — Greeks &amp; Volatility</h1>
+<h3 id="d-greeks-first-second-order">D. Greeks — First &amp; Second Order 🔴</h3>
+<p>Delta, gamma, vega, theta, rho. Second-order: vanna, volga, charm, speed. Position Greeks, portfolio Greeks, interactions. Long vs short gamma dynamics.<br />
+→ <a href="D_Greeks.html">Greeks</a> | <a href="07_Risk_Reference.html">Risk Reference</a> | <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> (Section 1)</p>
+<h3 id="e-volatility-concept-product">E. Volatility — Concept &amp; Product 🟡</h3>
+<p>Implied vs realized, vol risk premium, surface/skew/term structure, SABR/Heston/local vol calibration, vol as tradeable (straddles, VIX, var swaps), dealer gamma dynamics.<br />
+→ <a href="E_Volatility.html">Volatility</a> | <a href="07_Risk_Reference.html">Risk Reference</a> | <a href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a> (SABR) | <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> (Section 6)</p>
+<hr />
+<h1 id="level-3-measuring-risk">LEVEL 3: MEASURING RISK</h1>
+<h3 id="f-risk-measures">F. Risk Measures 🔴</h3>
+<p>VaR (3 methods + limitations), ES/CVaR, stress testing (3 types), DV01/CS01, Sharpe/Sortino/Calmar, drawdown, alpha/beta decomposition.<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> | <a href="07_Risk_Reference.html">Risk Reference</a> | <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> (Section 2)</p>
+<h3 id="g-portfolio-risk-concepts">G. Portfolio Risk Concepts 🔴</h3>
+<p>Correlation (unconditional vs conditional), concentration (hidden), basis risk, liquidity risk (funding vs market), factor exposure, tail risk/fat tails.<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> | <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> (Section 3)</p>
+<h3 id="h-pl-attribution">H. P&amp;L Attribution 🟡</h3>
+<p>Decomposing daily P&amp;L into delta/gamma/vega/theta/rho/residual. Explaining the P&amp;L to a PM. Finding and investigating the unexplained.<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a></p>
+<hr />
+<h1 id="level-4-acting-on-risk">LEVEL 4: ACTING ON RISK</h1>
+<h3 id="i-hedging-strategies">I. Hedging Strategies 🔴</h3>
+<p>Puts, collars, spreads, futures, pairs. Decision framework (horizon, upside tolerance, cost, which risk specifically). Dynamic hedging &amp; rebalancing. Stop-loss limitations.<br />
+→ <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> (Section 5) | <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a></p>
+<h3 id="j-position-portfolio-management">J. Position &amp; Portfolio Management 🟡</h3>
+<p>Sizing vs conviction, broken thesis (3 tests), drawdown / risk budgets per PM, risk budgeting frameworks.<br />
+→ <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> (Section 5) | <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a></p>
+<h3 id="k-behavioral-biases-in-pms">K. Behavioral Biases in PMs 🟡</h3>
+<p>Anchoring, confirmation bias, loss aversion, disposition effect, overconfidence, thesis refitting. Recognizing them in real time. The difference between a PM who's right-and-early vs wrong-and-stubborn.<br />
+→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a></p>
+<hr />
+<h1 id="level-5-fund-operations">LEVEL 5: FUND OPERATIONS</h1>
+<h3 id="l-fund-structure-mechanics">L. Fund Structure &amp; Mechanics 🟡</h3>
+<p>LP/GP, management fee, performance fee, HWM, clawback, NAV, redemptions/gates/lock-ups, prime brokerage, repo, CCPs, margin.<br />
+→ <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a></p>
+<h3 id="m-discretionary-vs-systematic">M. Discretionary vs Systematic 🟡</h3>
+<p>How each works, how RM differs between them, Squarepoint's model (systematic core + discretionary build-out), your role embedded with traders.<br />
+→ <a href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a> | <a href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a></p>
+<h3 id="n-counterparty-operational-risk">N. Counterparty &amp; Operational Risk 🟢</h3>
+<p>CVA/DVA, wrong-way risk, ISDA/CSA/netting. Fat finger, settlement risk, system failures. Awareness level.<br />
+→ <a href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a></p>
+<h3 id="o-regulatory-awareness">O. Regulatory Awareness 🟢</h3>
+<p>FRTB (ES replacing VaR), Basel III/IV, Dodd-Frank, EMIR, MiFID — why they exist, how they constrain. Awareness only.<br />
+→ <a href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a></p>
+<hr />
+<h1 id="level-6-thinking-like-a-risk-manager">LEVEL 6: THINKING LIKE A RISK MANAGER</h1>
+<h3 id="p-macro-fundamentals">P. Macro Fundamentals 🔴</h3>
+<p>GDP, employment, inflation mechanics (core/headline, CPI components, transmission), monetary policy (how rate changes flow through the economy), fiscal policy, credit cycle, business cycle phases. WHY things move — not just THAT they moved.<br />
+→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a></p>
+<h3 id="q-cross-asset-relationships">Q. Cross-Asset Relationships 🔴</h3>
+<p>Cascade chains (oil → inflation → rates → equities → FX → EM), correlation regimes, flight to quality, risk-on/risk-off, carry trade unwind dynamics.<br />
+→ <a href="09_Market_Intuition.html">Market Intuition</a> | <a href="10_Market_Context_Today.html">Market Context Today</a></p>
+<h3 id="r-current-market-context">R. Current Market Context 🔴</h3>
+<p>All numbers cold. Iran/Hormuz cascade. Catalysts (CPI Friday, April 29-30 CB gauntlet). Q1 hedge fund drawdowns. The full cross-asset picture.<br />
+→ <a href="10_Market_Context_Today.html">Market Context Today</a></p>
+<h3 id="s-practical-risk-judgment">S. Practical Risk Judgment 🔴</h3>
+<p>Reading a blotter, prioritizing risks, red flags, first-day-on-the-desk workflow. What GOOD risk management looks like vs bad. Being useful, not just correct.<br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a></p>
+<h3 id="t-opinion-formation">T. Opinion Formation 🔴</h3>
+<p>Forming and defending a risk-informed market view. "What does the Fed do April 29 and what does it mean for our book?" Having a view ≠ being a trader. Having no view = being useless.<br />
+→ <a href="T_Opinion_Formation.html">Opinion Formation</a></p>
+<h3 id="u-scenario-analysis-the-skill">U. Scenario Analysis — The Skill 🔴</h3>
+<p>Live scenario practice. Oil spike, PM drawdown, vol breach, correlation breakdown. The framework: facts → exposure check → scenarios → communication → recommendation.<br />
+→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a></p>
+<h3 id="v-case-studies-blow-ups">V. Case Studies / Blow-Ups 🔴</h3>
+<p>LTCM, Archegos, Barings, London Whale, Amaranth, March 2020 Treasury basis, April 2020 negative oil. Each one mapped to the concepts it illustrates. Lessons that apply to your daily work.<br />
+→ <a href="V_Case_Studies.html">Case Studies</a></p>
+<hr />
+<h1 id="level-7-quant-counterpart">LEVEL 7: QUANT COUNTERPART</h1>
+<h3 id="w-quant-mindset-model-risk">W. Quant Mindset &amp; Model Risk 🟡</h3>
+<p>Stationarity, autocorrelation, GARCH/EWMA, PCA/factor decomposition, backtesting (in-sample/out-of-sample), overfitting, model validation (Kupiec), alpha decay, signal vs noise. Not doing their job — challenging their output intelligently.<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a></p>
+<h3 id="x-math-stats-probability">X. Math, Stats, Probability 🟡</h3>
+<p>Distributions (normal, log-normal, fat tails), Bayes, hypothesis testing, regression, correlation vs causation, p-values, confidence intervals.<br />
+→ <a href="11_Technical_Fundamentals.html">Technical Fundamentals</a></p>
+<h3 id="y-coding-data">Y. Coding &amp; Data 🟡</h3>
+<p>Python (pandas/numpy — practical data manipulation), SQL (joins, aggregation, window functions), kdb+ (awareness). Practical, not leetcode.<br />
+→ <a href="11_Technical_Fundamentals.html">Technical Fundamentals</a></p>
+<hr />
+<h1 id="level-8-interview-execution">LEVEL 8: INTERVIEW EXECUTION</h1>
+<h3 id="z-personal-narrative-delivery">Z. Personal Narrative &amp; Delivery 🔴</h3>
+<p>Resume walkthrough (3 versions, timed, out loud). Story bank (17 STAR stories). Probe defense for every resume claim. Squarepoint knowledge. Questions to ask by round.<br />
+→ <a href="01_PreScreen_Answers.html">PreScreen Answers</a> | <a href="02_My_Real_Stories.html">My Real Stories</a> | <a href="13_Story_Bank.html">Story Bank</a> | <a href="16_Probe_Defense_Guide.html">Probe Defense Guide</a> | <a href="04_Squarepoint_Research.html">Squarepoint Research</a> | <a href="17_Questions_To_Ask.html">Questions To Ask</a> | <a href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a></p>
+<hr />
+<h1 id="depth-priority-summary">DEPTH PRIORITY SUMMARY</h1>
+<h3 id="deep-12-domains">🔴 DEEP — 12 domains</h3>
+<p>A (Instruments), D (Greeks), F (Risk Measures), G (Portfolio Risk), I (Hedging), P (Macro), Q (Cross-Asset), R (Market Context), S (Practical Judgment), T (Opinion Formation), U (Scenario Analysis), Z (Delivery)</p>
+<h3 id="well-10-domains">🟡 WELL — 10 domains</h3>
+<p>B (Derivatives Pricing/Strategies), C (Market Mechanics), E (Volatility), H (P&amp;L Attribution), J (Position Management), K (Behavioral Biases), L (Fund Mechanics), M (Disc vs Sys), W (Quant Mindset), X (Math/Stats)</p>
+<h3 id="aware-3-domains">🟢 AWARE — 3 domains</h3>
+<p>N (Counterparty/Op Risk), O (Regulatory), Y (kdb+)</p>
+<hr />
+<h1 id="round-mapping">ROUND MAPPING</h1>
+<table>
+<thead>
+<tr>
+<th>Round</th>
+<th>Primary Domains</th>
+<th>Secondary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Round 1 — Trader</strong></td>
+<td>A, D, I, P, Q, R, S, T, U, Z</td>
+<td>B, C, E, G, K, V</td>
+</tr>
+<tr>
+<td><strong>Round 2 — Senior RM</strong></td>
+<td>F, G, J, S, V, Z</td>
+<td>A, H, K, L, M</td>
+</tr>
+<tr>
+<td><strong>Round 3 — Quant Researcher</strong></td>
+<td>W, X, Y</td>
+<td>B, D, E, F, H</td>
+</tr>
+<tr>
+<td><strong>Round 4 — Constantine</strong></td>
+<td>S, T, Z</td>
+<td>L, M, Q, R, V</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="integration-test">INTEGRATION TEST</h1>
+<p>Once you've studied all domains, you should be able to handle this in 90 seconds without notes:</p>
+<blockquote>
+<p>"I'm long $80M in a single energy name, short $30M in index puts, and oil just spiked 8%. Walk me through what I should be thinking about."</p>
+</blockquote>
+<p>That requires: A (commodities), D (delta/gamma on the short puts), G (concentration + correlation), I (is the index put acting as a hedge or adding risk?), S (prioritize what to flag first), and U (scenario: what if oil goes to +15%?) — all at once, in real time.</p>
+<p>If you can do that, you're ready.</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

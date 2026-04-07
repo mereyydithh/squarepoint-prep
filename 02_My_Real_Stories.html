@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Real Stories — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link active" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="raw-interview-answers-camil">Raw Interview Answers — Camil</h1>
+<h2 id="collected-answers-for-rebuilding-the-story-bank-with-authentic-detail">Collected answers for rebuilding the story bank with authentic detail</h2>
+<hr />
+<h2 id="period-1-bnp-paribas-paris-st-intern-febaug-2023">PERIOD 1: BNP Paribas Paris — S&amp;T Intern (Feb–Aug 2023)</h2>
+<h3 id="daily-oil-gas-commentary">Daily Oil &amp; Gas Commentary</h3>
+<ul>
+<li>Morning AND night market comment, written for all clients from the commodities OTC derivatives desk</li>
+<li>Purpose: give clients enough information to make profit and offer insights they might not have seen looking at the market</li>
+<li>Sources: Bloomberg, Reuters, industry-specific news outlets for each commodity type, official stocks and flows reports</li>
+<li>Content: mixed of macro and micro headlines, price change, open interest change, volume change, plus any other relevant news that could drive price or market behavior</li>
+<li>Markets split by asset: oil and gas, metals, then ags</li>
+</ul>
+<h3 id="otc-pricing">OTC Pricing</h3>
+<ul>
+<li>Products: Asian, European, and American options, swaps</li>
+<li>Clients: corporates hedging physical exposure — airlines, refiners, utilities</li>
+<li>Key memory: pricing a bunch of jet fuel European options, ATM at time of pricing, for a client with a very specific long-term view of jet fuel markets related to the energy market volatility</li>
+<li>Context: close to market close, needed quote put through before close — high intensity, very large notional amount</li>
+<li>General context was post-COVID/post-Ukraine energy market volatility affecting freight and fuel markets (NOT the 2021 Ever Given blockage — more general disruption)</li>
+<li>Priced through Bloomberg OVML and internal BNP pricer</li>
+<li>Also replicated pricing on own time using Python script and QuantLib "just for fun"</li>
+</ul>
+<h3 id="pythonvba-pipeline">Python/VBA Pipeline</h3>
+<ul>
+<li>Standardization of a bespoke process done manually by sales and traders</li>
+<li>Built a VBA macro capable of pulling data from Bloomberg using Python API calls</li>
+<li>Retrieved: data pulls, pricing calculations, chart generation</li>
+<li>Ensured standardization and quality of runs for different formats: market comments, client presentations, Bloomberg chat quick access</li>
+<li>Also helped with: historical data analysis, bespoke product construction when a product wasn't clearly quoted — finding a proxy based on refined products and cracks to rebuild potential pricing</li>
+<li>Helped analyze correlation between products</li>
+<li>Was own initiative, then supported by MD</li>
+<li>All sales used it daily, traders found it efficient for quick data analysis</li>
+<li>Built over ~1 month as a side project alongside day-to-day business</li>
+<li>"Latency down 20%" measured through response rate to clients + direct feedback on market comments and response delivery</li>
+<li>Clients were "happily surprised they'd get market comments so sharp in the morning with such level of detail and quality"</li>
+</ul>
+<h3 id="nlp-keyword-model-on-annual-reports">NLP Keyword Model on Annual Reports</h3>
+<ul>
+<li>Context: the bank has many senior banker-level relationships; each desk has its own client list</li>
+<li>Desk did OTC commodities, heavily regulated around corporates and institutional clients, especially carbon emissions (UKAs, EUAs, ETS, carbon renewable certificates)</li>
+<li>Business question: go through the list of corporate clients at the senior banker level, filter to those NOT already contacted at desk level, scan their annual reports and earnings calls for carbon emission hedging opportunity</li>
+<li>What it found: mandatory emissions that needed hedging (specific vocabulary in reports), quantity of carbon emissions they needed to hedge, estimated value using current emission certificate price (EUAs or UKAs based on country)</li>
+<li>Scale: ~800 clients with massive exposure — "tremendous amount of work"</li>
+<li>First person to do this in a standardized way</li>
+<li>Took quite long to build due to prioritization — scraping PDFs, earnings calls, various news sources</li>
+<li>Keyword scoring was a sentiment model filtering noise to fetch key figures related to mandatory emissions</li>
+<li>Output: quantity of carbon emissions to hedge + estimate using current EUA/UKA price</li>
+</ul>
+<h3 id="team-people">Team &amp; People</h3>
+<ul>
+<li>Desk split between Paris and London</li>
+<li>Paris: 4-5 traders, 8 sales, 1 grad, and Camil</li>
+<li>London: same setup</li>
+<li>Close contact with the NYC desk</li>
+<li>Direct manager: MD of Commodities EMA (Europe, Middle East, Africa)</li>
+<li>NYC role: different business line altogether; applied externally after receiving recommendation letter from MD during internship</li>
+<li>NYC MD knew some of the sales and traders from the internship — facilitated connection via great feedback</li>
+<li>S&amp;T experience was great but needed time to mature on whether risk or S&amp;T was right path</li>
+<li>First banking experience, still learning about all paths in finance</li>
+</ul>
+<hr />
+<h2 id="period-2-bnp-paribas-nyc-global-markets-quant-dec-risk-feb-2024-oct-2025">PERIOD 2: BNP Paribas NYC — Global Markets Quant, DEC Risk (Feb 2024 – Oct 2025)</h2>
+<h3 id="business-line-context">Business Line Context</h3>
+<ul>
+<li>Business line: DEC FXPB = Derivatives Execution and Clearing + FX Prime Brokerage</li>
+<li>Joined primarily within DEC Risk — front office team responsible for all asset classes (equities, commodities, rates, FX), all listed futures</li>
+<li>Business line: ~40 people total</li>
+<li>High-touch traders (execution, RV trading, cash spread)</li>
+<li>Sales traders (providing infrastructure through bank's flagship algo models to clients for DMA)</li>
+<li>Corporate sales</li>
+<li>Institutional sales</li>
+<li>Collateral management and repo markets</li>
+<li>Risk team: 1 risk person per asset class, highly competent in respective class AND cross-asset</li>
+<li>Activity split: 70% commodities, 10% equities, 15% rates, 5% FX</li>
+</ul>
+<h3 id="camils-role">Camil's Role</h3>
+<ul>
+<li>Quantitative "swiss army knife" — first for the risk team, then for the entire business line</li>
+<li>Lots of work on different topics all linked to risk as primary foundation</li>
+<li>Worked directly with: traders, collateral management (optimization constraints), sales (business-oriented trajectory)</li>
+<li>Personally in charge of ALL code run in production for the business line</li>
+<li>Had to: maintain, improve the platform from a quantitative standpoint + provide day-to-day BAU analysis on client portfolios, market sentiment, help on bespoke topics</li>
+</ul>
+<h3 id="fire-drill-26bn">Fire Drill ($2.6bn)</h3>
+<ul>
+<li>Driven by: regulatory push + internal initiative to understand liquidity agility and exit options in case of default</li>
+<li>Mentor philosophy: "risk is the art of being proactively ready for when things turn sour — when we need a number, a report or an analysis we are not running it live but pulling one file from a historical source of files run daily accurately across all metrics: IM, VM, collateral, liquidity costs, slippage costs — to reduce operational risk and focus on materiality of market risks"</li>
+<li>Same philosophy applied to procedures and protocols for client defaults</li>
+<li>Portfolio: top 3 portfolios, long gas / short power + carbon, diversity across US delivery locations, spread between Henry Hub and locational products</li>
+<li>Key challenge: no internal desk in NYC anymore to liquidate such a portfolio — had to rely on coordination and execution across regions (internal desks) + communication with clients for smooth unwinding</li>
+<li>Also doing mandatory CCP fire drills, so knew how to execute in orderly fashion — real challenge was building the portfolio and fitting within self-imposed constraints</li>
+<li>9 counterparties: real external institutional firms, other banks, corporates</li>
+<li>Paper exercise always for fire drills, but with complete liquidation simulation and insightful indicators on where concerns were real vs. not</li>
+<li>P&amp;L: computed on the day + simulation of slippage; 0.2% drag = P&amp;L didn't exceed ~1% of notional after X days</li>
+<li>CCP margin tests: daily margin calls such a portfolio would face given size and positions</li>
+<li>Camil's role: coordinate with internal traders, build portfolio in collaboration with manager, ensure automation of all systems for the big day, ensure smooth procedure and no accidents "as if it was live"</li>
+</ul>
+<h3 id="live-stress-testing-model">Live Stress Testing Model</h3>
+<ul>
+<li>Context: had a blackbox that spit out stress test numbers to risk teams, but front office needed granularity on what/where/when/why risk was the way it was + wanted to understand driving positions across all risk factors for a given book, client, or portfolio</li>
+<li>Built: OOP Python model that recomputed at the position level all positions + stress inherently driven from each position + margin incurred + dependencies (P&amp;L recalculation, exposure per position)</li>
+<li>Books covered: DEC-cleared portfolios + collateral management book</li>
+<li>Delta &amp; Vega hedging: provided signals to traders based on report analysis</li>
+<li>$1bn: fraction of top clients' biggest notional</li>
+<li>VaR ($5M): internal limit for ALL clients across the business line; estimated for every client using Monte Carlo; if trade potentially breaching → ask for derisking or compute better collateralization to ensure increased risk covered adequately; overall stayed within guidelines</li>
+<li>Stress testing: run daily, built once → maintained → improved, run more than once based on requests</li>
+<li>Key highlight: this stress testing allowed confident participation in the Constellation-Calpine merger discussions — "highest level of commodities energy trading in the US" — allowed discussion of potential optimization and risk balancing for the merger; Camil was sitting in those discussions providing data and results</li>
+</ul>
+<h3 id="back-test-engine-client-portfolio-analytics-on-aws">Back-Test Engine / Client Portfolio Analytics on AWS</h3>
+<ul>
+<li>NOT a risk model back-test — was a client identity/profile analytics project</li>
+<li>Used historical trading data from DMA (Direct Market Access) to understand clients and their trading patterns/strategies</li>
+<li>Goal: better offer clients pricing and offerings suited to their needs</li>
+<li>Took entire list of trades per client, analyzed signals based on when/where/why each trade and on which products they traded daily</li>
+<li>Nothing existed before — built from scratch</li>
+<li>AWS was storing the big data volume</li>
+<li>50% processing time reduction was from initial v1 results to final optimized version (own optimization)</li>
+<li>Mostly solo with help from one sales trader on the DMA team</li>
+<li>Historical DEC trades from clients</li>
+<li>Led to improvements in collateral management and IM utilization</li>
+</ul>
+<h3 id="sofr-us-treasuries-options-skew-scanner">SOFR &amp; US Treasuries Options Skew Scanner</h3>
+<ul>
+<li>Origin: client request from BlackRock — wanted day-over-day open interest change and net short gamma exposure on SOFR and US Treasuries</li>
+<li>Built first for in-house traders, then externalized to clients after thorough internal use</li>
+<li>Data sources: CME and Bloomberg</li>
+<li>Computed change and exposure per strike, per maturity, then formatted into friendly report across all maturities</li>
+<li>"Benchmarked model outputs" = benchmarked against the manual work RV traders were already doing; Camil built the automated standardized version</li>
+<li>Gamma concentration / dynamic hedging context: day-over-day gamma exposure could quickly turn long positions into pure loss and vice versa due to high volatility (US administration policy + HFT from hedge funds igniting gamma squeezes)</li>
+<li>Traders wanted to know: exact convexity point, inflection in terms of strike vs. maturity, price levels where gamma concentration was highest, and where to keep an exit plan ready for the day</li>
+<li>P&amp;L impact: no specific numbers, but traders were "happy to have more data day-to-day and following this daily was a relief for them"</li>
+</ul>
+<h3 id="constellation-calpine-merger">Constellation-Calpine Merger</h3>
+<ul>
+<li>The stress testing work allowed confident participation in discussions around the Constellation-Calpine merger</li>
+<li>"Highest level of commodities energy trading in the US"</li>
+<li>Camil was sitting in those discussions providing data and results on potential optimization and risk balancing for the merger</li>
+</ul>
+<h3 id="client-request-interpreter-bloomberg-chat-nlp">Client Request Interpreter (Bloomberg Chat NLP)</h3>
+<ul>
+<li>Built a tool that took Bloomberg chat requests from clients and returned (based on scoring and sentiment analysis, no AI) the accurate product the client wanted to trade</li>
+<li>Helped traders win more business by faster, more accurate interpretation of client intent</li>
+</ul>
+<h3 id="nyc-overall-reflections">NYC — Overall Reflections</h3>
+<ul>
+<li>"Fantastic experience, got to learn so much from highly qualified people"</li>
+<li>"Raw, intense, in the midst of finance where real timing and efficiency matters"</li>
+<li>Worked "tirelessly with a hedge fund mindset because I naturally work like that, and I love the intensity"</li>
+<li>No major mistakes or failures, but improvement areas: communication with peers, collaborative work, speed and efficiency, concise delivery</li>
+</ul>
+<h3 id="departure-from-nyc-transition">Departure from NYC &amp; Transition</h3>
+<ul>
+<li>Role ended because VIE contract contractually had to end</li>
+<li>3-month period where not allowed to work in the US</li>
+<li>Initial goal: move to Middle East hedge fund for risk role</li>
+<li>Discussed with QRT, Millennium, all the way to Global COO Commodities via introductions</li>
+<li>Interest was there but eventually found Natixis role</li>
+<li>Given volatility in the Middle East region, didn't wish to follow through</li>
+<li>Pivoted back to targeting US, London, or Hong Kong</li>
+<li>"Proved to be a smart choice given Israel and the US started a war with Iran on February 28th"</li>
+</ul>
+<hr />
+<h2 id="period-3-natixis-cib-cross-asset-quant-analyst-oct-2025-present">PERIOD 3: Natixis CIB — Cross-Asset Quant Analyst (Oct 2025 – Present)</h2>
+<h3 id="reality-check-private-do-not-share">REALITY CHECK (Private — Do Not Share)</h3>
+<ul>
+<li>Role is back-office IT quant risk, not front-office</li>
+<li>Day-to-day: reviewing code, building models to verify computation alignment between legacy vs target models, expanding new developments for new products</li>
+<li>Implementation of stress testing scenarios and investigating inconsistencies</li>
+<li>Not deeply engaged — filling role while job market was tight</li>
+<li>After NYC VIE ended, had 3-month non-work period in US</li>
+<li>Explored Middle East HF roles (QRT, Millennium, Global COO Commodities introductions) — interest was there but pivoted away due to regional instability (Iran war Feb 28)</li>
+<li>Natixis was the available option; looking to move back to US/London/HK</li>
+</ul>
+<h3 id="strategy-for-natixis-stories">Strategy for Natixis Stories</h3>
+<ul>
+<li>Keep answers SHORT (60-90 seconds), pivot to NYC</li>
+<li>Use "contributing to / working on / part of the team" language</li>
+<li>Lean on commodities expertise as the credible thread</li>
+<li>Defensible framing for each bullet is documented in <a href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a></li>
+<li>If deep follow-up comes → "senior quants handle that, my focus is commodities implementation and validation" → bridge to NYC</li>
+</ul>
+<hr />
+<h3 id="bullet-1-cross-asset-risk-analytics-framework-20bn-notional">BULLET 1: Cross-Asset Risk Analytics Framework (~€20bn notional)</h3>
+<p><strong>Resume line:</strong> <em>Architected cross-asset risk analytics framework spanning Rates, Equities, FX &amp; Commodities (~€20bn notional); in implementation with unified Greeks aggregation across 5 desks</em></p>
+<p><strong>The Story (60-90 seconds):</strong></p>
+<blockquote>
+<p>"At Natixis, I'm part of the team building a cross-asset risk analytics framework covering approximately €20 billion in notional across Rates, Equities, FX, Commodities, and Credit. My primary contribution has been on the commodities side — I understand the products and risk conventions from my BNP experience, so I've been working on the normalization layer for commodities Greeks, ensuring they aggregate consistently with the other asset classes. I've also been contributing to the cross-asset stress testing scenarios, particularly around commodity-rates correlation dynamics — something I have direct experience with from my work at BNP in New York."</p>
+</blockquote>
+<p><strong>What the framework actually does:</strong><br />
+- Each desk (Rates, Equities, FX, Commodities, Credit) computes Greeks differently — DV01 for rates, % Delta for equities, $/unit for commodities<br />
+- The normalization layer translates all Deltas/Vegas into a common language: P&amp;L impact of a 1 standard deviation move in each risk factor<br />
+- Aggregation engine (Python + Polars) groups by risk factor and sums across desks to get portfolio-level Greeks<br />
+- Cross-asset stress tests capture correlation effects — "risk-off" scenario shocks all asset classes simultaneously</p>
+<p><strong>If probed — "What was the hardest normalization problem?":</strong></p>
+<blockquote>
+<p>"Reconciling how Delta is defined across asset classes. The rates desk uses DV01 in basis points, commodities uses dollar P&amp;L per unit move. We standardized everything to P&amp;L impact of a 1 standard deviation historical shock per risk factor, which made aggregation meaningful."</p>
+</blockquote>
+<p><strong>If probed — "What technology?":</strong></p>
+<blockquote>
+<p>"Python with Polars for the aggregation — significantly faster than Pandas at this scale. kdb+ for time-series storage of historical risk metrics."</p>
+</blockquote>
+<p><strong>Escape route → NYC:</strong></p>
+<blockquote>
+<p>"The cross-asset framework at Natixis is still in build-out, but the concept is very similar to what I was doing at BNP in New York where I built the stress testing model across IR and commodities books — except at Natixis the scope is broader, covering 5 asset classes."</p>
+</blockquote>
+<hr />
+<h3 id="bullet-2-sabr-volatility-surface-engine-15bps-rmse-improvement">BULLET 2: SABR Volatility Surface Engine (15bps RMSE improvement)</h3>
+<p><strong>Resume line:</strong> <em>Designed and implemented a production-ready SABR volatility surface engine (C++ calibration core, Python API) for multi-asset options; achieved 15 bps RMSE improvement validated in back-testing vs legacy system</em></p>
+<p><strong>The Story (60-90 seconds):</strong></p>
+<blockquote>
+<p>"At Natixis, I worked on the implementation and validation of a SABR volatility surface engine that replaced a legacy vol model. The C++ calibration core was built collaboratively — I contributed to the Python API layer and ran the full validation framework. I back-tested the SABR engine against 18 months of historical data across multiple asset classes, measuring RMSE of implied vol fits against market-observed prices. The result was a 15 basis point improvement in fit accuracy. My role was primarily on the validation, back-testing, and commodities-specific configuration — for example, choosing appropriate β values for different commodity curves and ensuring the calibration was stable for products with limited liquid strike data."</p>
+</blockquote>
+<p><strong>If probed — "Explain SABR":</strong></p>
+<blockquote>
+<p>"SABR stands for Stochastic Alpha Beta Rho. It models the forward price and its volatility as two correlated stochastic processes. Four parameters: α sets the overall vol level, β controls the CEV backbone — we fixed it at 0.5 for rates, closer to 1.0 for equities — ρ controls the skew, and ν controls the smile curvature, the vol-of-vol. We calibrate α, ρ, ν to market data using Levenberg-Marquardt optimization on each expiry slice, minimizing the squared difference between model and market implied vols."</p>
+</blockquote>
+<p><strong>If probed — "How was the 15bps measured?":</strong></p>
+<blockquote>
+<p>"We took 18 months of historical market data. For each day, calibrated both the legacy model and SABR to end-of-day market vols, computed the error at each strike, then took RMSE across all strikes and days. Legacy had about 45bps RMSE, SABR brought it to 30bps."</p>
+</blockquote>
+<p><strong>If probed — "What are the limitations?":</strong></p>
+<blockquote>
+<p>"Three main ones. First, the Hagan approximation can produce negative implied vols at very low strikes — we applied corrections for that. Second, SABR calibrates each expiry independently, so you can get calendar spread arbitrage without post-calibration smoothing. Third, there are no jumps — it's pure diffusion, so it can underestimate tail event probability."</p>
+</blockquote>
+<p><strong>Escape route → NYC:</strong></p>
+<blockquote>
+<p>"The SABR work deepened my understanding of vol surface construction, which matters for risk management because if you're running risk on an options portfolio, you need to understand where your vol model breaks down. At BNP in New York, I was on the other side — using vol surfaces daily for stress testing and Greeks computation on billion-dollar books."</p>
+</blockquote>
+<hr />
+<h3 id="bullet-3-cross-asset-correlation-monitor-15-drawdown-reduction">BULLET 3: Cross-Asset Correlation Monitor (15% drawdown reduction)</h3>
+<p><strong>Resume line:</strong> <em>Built cross-asset correlation monitor (Python, Polars, kdb+); detected gold-UST yield decoupling during Q4 2025 volatility, providing analysis that supported 15% portfolio drawdown reduction</em></p>
+<p><strong>The Story (60-90 seconds):</strong></p>
+<blockquote>
+<p>"I built a cross-asset correlation monitor as part of the broader risk analytics framework. It computes rolling correlations — 30, 60, 90-day windows — across major asset pairs using Python and Polars, with historical data stored in kdb+. The most significant signal it flagged was the gold-US Treasury yield decoupling in Q4 2025. Historically that correlation is about negative 0.3 to negative 0.5 — yields down, gold up, both safe-haven flows. The monitor flagged it turning positive, which was a 3-sigma event versus 10-year history. I investigated the drivers — primarily central bank gold buying from China, Russia, and the Middle East as part of de-dollarization flows — and presented the analysis with portfolio impact estimates. That analysis contributed to hedging adjustments that reduced potential drawdown by approximately 15%."</p>
+</blockquote>
+<p><strong>If probed — "How did you measure the 15%?":</strong></p>
+<blockquote>
+<p>"We computed the portfolio P&amp;L under the new correlation regime assuming the old hedge allocation versus the P&amp;L with the adjusted allocation. The difference was approximately 15% of the expected drawdown in a rates-reversal scenario."</p>
+</blockquote>
+<p><strong>If probed — "What statistical tests?":</strong></p>
+<blockquote>
+<p>"Two main ones. A rolling Z-score — current correlation minus historical mean, divided by historical standard deviation — anything above 2 or 3 sigma gets flagged. And a Chow breakpoint test to confirm whether it's a genuine structural break versus transient noise."</p>
+</blockquote>
+<p><strong>If probed — "What pairs do you monitor?":</strong></p>
+<blockquote>
+<p>"The key ones: gold vs. US 10Y yields, oil vs. USD, equities vs. credit spreads, equities vs. VIX, commodities vs. rates. Anything where a correlation assumption underpins a hedging relationship in the portfolio."</p>
+</blockquote>
+<p><strong>Escape route → NYC:</strong></p>
+<blockquote>
+<p>"Correlation regime monitoring is something I think about constantly — at BNP in New York I saw firsthand how cross-asset correlations shift during stress events when I was running the stress testing model on our IR and commodities books."</p>
+</blockquote>
+<hr />
+<h3 id="bullet-4-frtb-sa-sensitivity-based-method-5m-capital-relief">BULLET 4: FRTB-SA / Sensitivity-Based Method (€5M capital relief)</h3>
+<p><strong>Resume line:</strong> <em>Led FRTB-SA quantitative workstream; recalibrated Sensitivity-Based Method (SBM) charges; analysis quantified €5M+ potential capital relief</em></p>
+<p><strong>The Story (60-90 seconds):</strong></p>
+<blockquote>
+<p>"I led a workstream within the FRTB-SA implementation focused on the Sensitivity-Based Method. My work was decomposing the total SBM charge by risk class — GIRR, Commodity, Equity, FX, CSR — and by component — Delta, Vega, Curvature — to identify where capital charges were higher than necessary. I found that the commodity Delta charges were over-estimated because the sensitivity computation was using bump sizes larger than required by the regulation, which was capturing Gamma effects in what should be a pure Delta charge. After recalibrating the bump methodology and optimizing the risk factor mapping, the analysis quantified approximately €5 million in potential capital relief. The findings were submitted for internal model validation review."</p>
+</blockquote>
+<p><strong>If probed — "Explain SBM":</strong></p>
+<blockquote>
+<p>"SBM computes capital in three layers. Delta charge — take Delta sensitivity per prescribed risk factor, multiply by regulatory risk weights, aggregate using prescribed correlation matrices. Vega charge — same structure but for vol sensitivities. Curvature charge — shock each factor up and down, compute P&amp;L, strip out the Delta-explained component, and what's left is the nonlinear risk charge. Total SBM is the sum of all three, computed per risk class then summed across classes."</p>
+</blockquote>
+<p><strong>If probed — "Where specifically did the €5M come from?":</strong></p>
+<blockquote>
+<p>"The biggest saving came from the commodity space where I had the deepest domain knowledge. The existing implementation used a standard 10% bump across all commodities, but the regulation prescribes specific shock sizes per commodity type. By aligning to the exact regulatory specification, we avoided double-counting convexity in the Delta charge. There were also savings from better risk factor mapping — positions that should net within the same regulatory bucket were being split across buckets, losing diversification benefit."</p>
+</blockquote>
+<p><strong>If probed — "What's the difference between SA and IMA?":</strong></p>
+<blockquote>
+<p>"SA is prescriptive — the regulator tells you the risk weights, correlations, and formulas. IMA lets you use your own internal models, typically resulting in lower capital charges, but you need regulatory approval for each desk. Most banks use SA as the baseline and try to qualify specific desks for IMA where the capital saving justifies the compliance cost."</p>
+</blockquote>
+<p><strong>Escape route → Why Squarepoint:</strong></p>
+<blockquote>
+<p>"The FRTB work gave me a deep understanding of regulatory risk frameworks, but honestly, what excites me about Squarepoint is the buy-side framing — instead of computing capital charges for regulators, I want to compute risk allocations for an Investment Committee. The analytical framework is similar but the purpose is fundamentally different."</p>
+</blockquote>
+<hr />
+<h3 id="30-second-natixis-context-setter-use-to-intro-any-natixis-discussion">30-SECOND NATIXIS CONTEXT SETTER (Use to Intro Any Natixis Discussion)</h3>
+<blockquote>
+<p>"Since October 2025, I've been at Natixis as a Cross-Asset Quant Analyst. It's been a valuable experience — I'm working across rates, equities, FX, and commodities on model validation, SABR vol surface implementation, and FRTB capital optimization. The cross-asset scope has broadened my perspective compared to my more focused role in New York. But I'll be honest — the work that excites me most and where I've had the deepest impact was at BNP Paribas in New York, which is why I'm looking to get back into a front-office, trader-facing risk role."</p>
+</blockquote>
+<h3 id="if-asked-why-leave-after-6-months">IF ASKED "WHY LEAVE AFTER 6 MONTHS?"</h3>
+<blockquote>
+<p>"The Natixis role was a deliberate bridge after my VIE contract in New York ended. I wanted to stay active and add cross-asset scope to my experience while targeting a buy-side risk role. The work is solid — I'm learning about model validation and FRTB at a level I didn't get in New York — but the pace and proximity to trading decisions doesn't compare to what I had at BNP, and it certainly doesn't compare to what I'd have at Squarepoint. I'm looking for a role where my risk analysis directly impacts investment outcomes."</p>
+</blockquote>
+<hr />
+<h2 id="personal">PERSONAL</h2>
+<h3 id="judo">Judo</h3>
+<ul>
+<li>French national team preparations (not full national team — part of the preparation/selection structure)</li>
+<li>Sport-étude (institutional sport+study program) from age 14 to 22</li>
+<li>So ~8 years of elite-level competitive training alongside education</li>
+</ul>
+<h3 id="marathon">Marathon</h3>
+<ul>
+<li>Ran in Paris and NYC, leisure time</li>
+<li>3h45 finish time</li>
+</ul>
+<h3 id="mindset-philosophy">Mindset / Philosophy</h3>
+<ul>
+<li>"I strive for mastery — slow steps, slow process, then accuracy, then speed of execution"</li>
+<li>This applies to both sport and professional work</li>
+</ul>
+<hr />
+<h2 id="motivation-fit">MOTIVATION &amp; FIT</h2>
+<h3 id="why-squarepoint-specifically">Why Squarepoint Specifically?</h3>
+<ul>
+<li>Honest: doesn't specifically care about Squarepoint over other HFs — goal is a hedge fund in general</li>
+<li>Knows the NYC office location (lived right across from it)</li>
+<li>Found the role through open roles on the website after extensively researching hedge funds</li>
+<li>BUT: genuinely likes the builder mentality — they're building discretionary from scratch</li>
+</ul>
+<h3 id="why-discretionary">Why Discretionary?</h3>
+<ul>
+<li>"I like the intuition and judgment that us humans can provide that systematic or sell-side does not have"</li>
+<li>"I am a firm believer in gut and intuition strongly supported by evidence and arguments"</li>
+</ul>
+<h3 id="why-nyc">Why NYC?</h3>
+<ul>
+<li>"Big NYC preference because of the pace and the environment where the work is being done — it is the heart of finance"</li>
+</ul>
+<h3 id="why-hedge-fund">Why Hedge Fund?</h3>
+<ul>
+<li>Wants to be where work directly impacts investment outcomes</li>
+<li>Intensity and pace match his natural working style ("hedge fund mindset" from NYC days)</li>
+<li>Sell-side is too removed from decision-making</li>
+</ul>
+<hr />
+<h2 id="interview-context">INTERVIEW CONTEXT</h2>
+<h3 id="process">Process</h3>
+<ul>
+<li>Pre-screen interview TOMORROW (April 7, 2026) — first round</li>
+<li>Recruiter: <strong>Solomon Price</strong> at Squarepoint Capital</li>
+<li>No knowledge of what format to expect</li>
+<li>Found role on Squarepoint website after researching HFs</li>
+</ul>
+<h3 id="visa-work-authorization">Visa / Work Authorization</h3>
+<ul>
+<li>Does NOT have US work authorization</li>
+<li>Would need visa sponsorship</li>
+<li>Already disclosed in application (they know and still called — good sign)</li>
+<li>French/EU citizen — no sponsorship needed for London</li>
+<li>JD lists NYC or London</li>
+</ul>
+<h3 id="prior-interview-experience">Prior Interview Experience</h3>
+<ul>
+<li>Interviewed at Millennium, Xantium (trading arm of Tudor Corp), and Qube</li>
+<li>"Trained somewhat" from these processes</li>
+</ul>
+<h3 id="interview-readiness">Interview Readiness</h3>
+<ul>
+<li>Highly motivated, genuinely interested in this type of role</li>
+<li>Likes the builder mentality aspect</li>
+<li>Squarepoint-specific: Why Squarepoint, why risk, why now</li>
+</ul>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Risk Measures — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link active" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="f-risk-measures">F — RISK MEASURES</h1>
+<h2 id="var-es-stress-testing-dv01-performance-metrics-the-quant-toolkit">VaR, ES, stress testing, DV01, performance metrics — the quant toolkit</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="part-1-value-at-risk-var">PART 1: VALUE AT RISK (VaR)</h1>
+<h2 id="what-it-is">What It Is</h2>
+<p>"What is the maximum loss, at a given confidence level, over a given time horizon, under normal market conditions?"</p>
+<p>Example: "1-day 99% VaR = $5M" means: there is a 99% chance that losses will not exceed $5M over the next trading day. Equivalently: on 1 day in 100, losses WILL exceed $5M — and VaR says nothing about how much.</p>
+<h2 id="three-methods">Three Methods</h2>
+<h3 id="1-parametric-variance-covariance">1. Parametric (Variance-Covariance)</h3>
+<p><strong>How it works:</strong> Assume returns are normally distributed. VaR = portfolio value × σ × z-score.</p>
+<p>$$\text{VaR}<em>{99\%} = \mu - z</em>{0.99} \times \sigma = \mu - 2.326 \times \sigma$$</p>
+<p>For 95% confidence: z = 1.645. For 99%: z = 2.326.</p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fast — analytical formula</td>
+<td>Assumes normal distribution (misses fat tails)</td>
+</tr>
+<tr>
+<td>Easy to compute for large portfolios</td>
+<td>Doesn't capture non-linear positions (options) well</td>
+</tr>
+<tr>
+<td>Works for linear instruments (stocks, futures, bonds)</td>
+<td>Correlation matrix can be unstable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-historical-simulation">2. Historical Simulation</h3>
+<p><strong>How it works:</strong> Take actual historical returns (say, last 500 days). Apply each day's returns to current positions. Sort the resulting P&amp;L distribution. The 99th percentile loss IS the VaR.</p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No distribution assumption — uses actual data</td>
+<td>Limited by history: if your window doesn't include a crisis, you miss it</td>
+</tr>
+<tr>
+<td>Captures fat tails if they're in the data</td>
+<td>All days weighted equally (yesterday = 2 years ago)</td>
+</tr>
+<tr>
+<td>Captures non-linear positions naturally</td>
+<td>Look-back window choice is subjective</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-monte-carlo-simulation">3. Monte Carlo Simulation</h3>
+<p><strong>How it works:</strong> Simulate thousands of random scenarios using specified distributions and correlations for each risk factor. Price the portfolio under each scenario. Build a P&amp;L distribution. Take the percentile.</p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Most flexible — any distribution, any payoff</td>
+<td>Computationally expensive</td>
+</tr>
+<tr>
+<td>Handles non-linear instruments well</td>
+<td>Only as good as the model assumptions</td>
+</tr>
+<tr>
+<td>Can model complex correlations</td>
+<td>Need to specify the simulation parameters (model risk)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="var-limitations-know-these-cold">VaR Limitations — KNOW THESE COLD</h2>
+<ol>
+<li>
+<p><strong>VaR is not worst case.</strong> It tells you the threshold, not what happens BEYOND it. "99% VaR = $5M" means on that 1-in-100 day, the loss could be $5M or $50M or $500M. VaR is silent on the magnitude of tail losses.</p>
+</li>
+<li>
+<p><strong>VaR assumes normal conditions.</strong> It doesn't capture regime changes, liquidity dry-ups, or correlation spikes. The loss distribution in crisis is different from the loss distribution used to calculate VaR.</p>
+</li>
+<li>
+<p><strong>VaR is backward-looking.</strong> Historical VaR uses past data. If the past was calm, VaR will be low — just when risk is building (complacency).</p>
+</li>
+<li>
+<p><strong>VaR is not subadditive.</strong> The VaR of a combined portfolio can be GREATER than the sum of individual VaRs. This violates a basic property of a "coherent" risk measure. (ES/CVaR is subadditive.)</p>
+</li>
+<li>
+<p><strong>VaR can be gamed.</strong> A trader can structure a position that has low VaR but massive tail risk — sell deep OTM options, collect premium, VaR looks clean. Until it doesn't.</p>
+</li>
+</ol>
+<hr />
+<h1 id="part-2-expected-shortfall-es-cvar">PART 2: EXPECTED SHORTFALL (ES / CVaR)</h1>
+<h2 id="what-it-is_1">What It Is</h2>
+<p>"What is the AVERAGE loss when losses exceed VaR?"</p>
+<p>ES answers the question VaR refuses to: "how bad is it when it's bad?"</p>
+<p>$$\text{ES}<em>{99\%} = E[\text{Loss} | \text{Loss} &gt; \text{VaR}</em>{99\%}]$$</p>
+<h2 id="why-es-is-better-than-var">Why ES Is Better Than VaR</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>VaR</th>
+<th>ES</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tells you tail severity?</td>
+<td>No — only the cut-off point</td>
+<td>Yes — average of all losses beyond VaR</td>
+</tr>
+<tr>
+<td>Subadditive?</td>
+<td>No (can violate for non-normal distributions)</td>
+<td>Yes — always</td>
+</tr>
+<tr>
+<td>Responds to tail shape?</td>
+<td>No — blind to what's beyond the threshold</td>
+<td>Yes — fatter tails → higher ES</td>
+</tr>
+<tr>
+<td>FRTB standard?</td>
+<td>Old regime (VaR-based)</td>
+<td>New regime (ES-based) — banks moving to ES</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example">Example</h2>
+<p>Portfolio with 99% VaR = $5M.</p>
+<p>If the 1% worst scenarios average -$12M → ES = $12M.<br />
+If the 1% worst scenarios average -$50M → ES = $50M.</p>
+<p>Both portfolios have the SAME VaR. But the second one has 4x worse tail risk. Only ES captures this.</p>
+<hr />
+<h1 id="part-3-stress-testing">PART 3: STRESS TESTING</h1>
+<h2 id="what-it-is_2">What It Is</h2>
+<p>"What happens to our portfolio under extreme but plausible scenarios?"</p>
+<p>Stress testing complements VaR/ES by not relying on historical distributions. You DEFINE the scenario and measure the impact.</p>
+<h2 id="three-types">Three Types</h2>
+<h3 id="1-historical-stress-tests">1. Historical Stress Tests</h3>
+<p>Replay actual crisis events. "What if March 2020 happened again with our current portfolio?"</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>SPX</th>
+<th>VIX</th>
+<th>10Y</th>
+<th>Credit</th>
+<th>Oil</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GFC 2008 (Sep-Nov)</td>
+<td>-40%</td>
+<td>80+</td>
+<td>-200bps (flight to quality)</td>
+<td>+400bps HY</td>
+<td>-55%</td>
+</tr>
+<tr>
+<td>Volmageddon Feb 2018</td>
+<td>-10%</td>
+<td>14 → 50</td>
+<td>+30bps</td>
+<td>+50bps</td>
+<td>-5%</td>
+</tr>
+<tr>
+<td>COVID crash Mar 2020</td>
+<td>-34%</td>
+<td>14 → 82</td>
+<td>-100bps then +50bps</td>
+<td>+600bps HY</td>
+<td>-65%</td>
+</tr>
+<tr>
+<td>Russia/Ukraine 2022</td>
+<td>-10%</td>
+<td>36</td>
+<td>+100bps (inflation)</td>
+<td>+100bps</td>
+<td>+50%</td>
+</tr>
+<tr>
+<td>SVB crisis Mar 2023</td>
+<td>-5%</td>
+<td>26</td>
+<td>-50bps (flight to quality)</td>
+<td>+80bps</td>
+<td>-10%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Apply these moves to your current positions and aggregate the P&amp;L.</strong></p>
+<h3 id="2-hypothetical-stress-tests">2. Hypothetical Stress Tests</h3>
+<p>Create plausible scenarios that haven't happened. Often MORE useful than historical because the next crisis won't look exactly like the last one.</p>
+<p>Examples:<br />
+- "Iran closes Hormuz → Oil +30%, equities -15%, vol +40pts"<br />
+- "Fed emergency rate hike 50bps → 2Y +80bps, equities -10%"<br />
+- "US Treasury downgrade → Treasuries sell off AND equities sell off simultaneously"</p>
+<h3 id="3-sensitivity-tests-factor-shocks">3. Sensitivity Tests (Factor Shocks)</h3>
+<p>Bump one factor at a time. "What happens if SPX moves -5%? -10%? -20%?"</p>
+<p>Build a grid:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>SPX -5%</th>
+<th>SPX -10%</th>
+<th>SPX -15%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vol unchanged</td>
+<td>-$XM</td>
+<td>-$YM</td>
+<td>-$ZM</td>
+</tr>
+<tr>
+<td>Vol +5pts</td>
+<td>-$X'M</td>
+<td>-$Y'M</td>
+<td>-$Z'M</td>
+</tr>
+<tr>
+<td>Vol +15pts</td>
+<td>-$X''M</td>
+<td>-$Y''M</td>
+<td>-$Z''M</td>
+</tr>
+</tbody>
+</table>
+<p>This creates a "heat map" of portfolio P&amp;L across scenarios. The RM can see at a glance where the danger zones are.</p>
+<hr />
+<h1 id="part-4-fixed-income-risk-measures">PART 4: FIXED INCOME RISK MEASURES</h1>
+<h2 id="dv01-dollar-value-of-a-basis-point">DV01 (Dollar Value of a Basis Point)</h2>
+<p>"How much does my position gain/lose for a 1bp move in yield?"</p>
+<p>$$\text{DV01} = \text{Duration} \times \text{Price} \times 0.0001$$</p>
+<p>A bond portfolio with DV01 = $200K loses $200K per basis point of yield increase. A 50bp move → -$10M.</p>
+<h2 id="cs01-credit-spread-01">CS01 (Credit Spread 01)</h2>
+<p>Same concept but for credit spread changes. "How much does my position gain/lose for a 1bp widening in credit spreads?"</p>
+<h2 id="key-rate-duration-krd">Key Rate Duration (KRD)</h2>
+<p>Duration broken down by tenor point. Instead of "the portfolio has duration 5," you get: "2Y bucket: 0.8, 5Y: 1.5, 10Y: 1.8, 30Y: 0.9."</p>
+<p>This matters because the yield curve doesn't move in parallel. If you have zero net duration but +3 at the short end and -3 at the long end → you're making a steepener bet. Net duration hides this.</p>
+<hr />
+<h1 id="part-5-performance-risk-adjusted-metrics">PART 5: PERFORMANCE &amp; RISK-ADJUSTED METRICS</h1>
+<h2 id="sharpe-ratio">Sharpe Ratio</h2>
+<p>$$\text{Sharpe} = \frac{R_p - R_f}{\sigma_p}$$</p>
+<p>Return above risk-free rate, divided by volatility. How much return per unit of risk.</p>
+<table>
+<thead>
+<tr>
+<th>Sharpe</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 0.5</td>
+<td>Poor risk-adjusted return</td>
+</tr>
+<tr>
+<td>0.5 - 1.0</td>
+<td>Decent</td>
+</tr>
+<tr>
+<td>1.0 - 2.0</td>
+<td>Very good. Most successful hedge funds are here.</td>
+</tr>
+<tr>
+<td>&gt; 2.0</td>
+<td>Exceptional or the track record is too short to be reliable</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sharpe limitations:</strong><br />
+- Treats upside and downside vol equally. A fund with high upside vol looks "worse" than it should.<br />
+- Can be gamed by selling tail risk (high Sharpe until the tail event arrives).<br />
+- Time-period dependent. A 1-year Sharpe can look great; a 10-year Sharpe is more meaningful.</p>
+<h2 id="sortino-ratio">Sortino Ratio</h2>
+<p>$$\text{Sortino} = \frac{R_p - R_f}{\sigma_{\text{downside}}}$$</p>
+<p>Like Sharpe but only penalizes DOWNSIDE volatility. Better for strategies with asymmetric returns.</p>
+<h2 id="maximum-drawdown">Maximum Drawdown</h2>
+<p>The largest peak-to-trough decline in the portfolio. Not a distributional metric — it's the observed worst case.</p>
+<ul>
+<li>Max drawdown = -15% means at some point, the fund lost 15% from its peak before recovering.</li>
+<li>Recovery time matters too: -15% drawdown recovered in 3 months is very different from -15% recovered in 18 months.</li>
+</ul>
+<h2 id="calmar-ratio">Calmar Ratio</h2>
+<p>$$\text{Calmar} = \frac{\text{Annualized return}}{\text{Max drawdown}}$$</p>
+<p>Return per unit of worst loss. Particularly useful for evaluating funds that had a bad drawdown: "Yes they drew down 20%, but they returned 30% annualized."</p>
+<h2 id="information-ratio">Information Ratio</h2>
+<p>$$\text{IR} = \frac{R_p - R_b}{\text{Tracking error}}$$</p>
+<p>Alpha (excess return above benchmark) divided by tracking error (volatility of that excess return). Measures skill in beating the benchmark, risk-adjusted.</p>
+<h2 id="alpha-beta-decomposition">Alpha &amp; Beta Decomposition</h2>
+<p>$$R_p = \alpha + \beta \times R_m + \epsilon$$</p>
+<ul>
+<li>β = how much the fund moves with the market. β = 0.5 means 50% of returns are explained by market moves.</li>
+<li>α = the excess return after removing market exposure. THIS is what the fund charges 2-and-20 for.</li>
+<li>If a fund has high returns but β = 1.2, most of the return is just leveraged market exposure — not alpha.</li>
+</ul>
+<p><strong>Your job as RM:</strong> If a PM claims they're generating alpha but their β is 0.9 and Sharpe is 0.7, they're basically a leveraged index fund. The PM should deliver alpha with controlled beta. Monitor the decomposition.</p>
+<hr />
+<h1 id="part-6-drawdown-management">PART 6: DRAWDOWN MANAGEMENT</h1>
+<h2 id="the-math-of-recovery">The Math of Recovery</h2>
+<table>
+<thead>
+<tr>
+<th>Drawdown</th>
+<th>Recovery needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-10%</td>
+<td>+11.1%</td>
+</tr>
+<tr>
+<td>-20%</td>
+<td>+25.0%</td>
+</tr>
+<tr>
+<td>-30%</td>
+<td>+42.9%</td>
+</tr>
+<tr>
+<td>-50%</td>
+<td>+100%</td>
+</tr>
+<tr>
+<td>-75%</td>
+<td>+300%</td>
+</tr>
+</tbody>
+</table>
+<p>This is why drawdown limits exist. A -50% drawdown requires doubling your capital to recover. It's NOT symmetric.</p>
+<h2 id="risk-budget-framework">Risk Budget Framework</h2>
+<p>Total fund risk is allocated to PMs:<br />
+- PM A: $2M daily VaR budget (40% of fund risk)<br />
+- PM B: $1.5M daily VaR budget (30%)<br />
+- PM C: $1M daily VaR budget (20%)<br />
+- Reserve: $0.5M (10%)</p>
+<p>Each PM must operate within their budget. If they exceed, they must reduce positions or get IC approval.</p>
+<p><strong>What the RM monitors:</strong><br />
+- Current VaR vs budget (utilization %)<br />
+- Drawdown vs soft/hard limits<br />
+- Marginal contribution to risk (does adding PM A's positions make the fund riskier or provide diversification?)</p>
+<hr />
+<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<p>If asked "What are the limitations of VaR?":</p>
+<p>"VaR has four key limitations. First, it tells you nothing about losses beyond the threshold — a 99% VaR of $5M could mean the 1% scenarios average $6M or $60M. That's why Expected Shortfall is a better measure of tail risk.</p>
+<p>Second, it assumes relatively normal market conditions. In a crisis, correlations spike, liquidity dries up, and the loss distribution changes — VaR calculated from calm periods systematically underestimates crisis losses.</p>
+<p>Third, it can be gamed — a trader can sell deep OTM options, which generates premium income and keeps VaR low, while taking on massive tail risk that VaR doesn't capture.</p>
+<p>Fourth, it's not subadditive — combining two portfolios can produce a VaR higher than the sum of individual VaRs, which is counterintuitive and technically violates the definition of a coherent risk measure.</p>
+<p>That's why good risk management never relies on VaR alone. You need ES for tail risk, stress testing for extreme scenarios, and qualitative judgment for risks that no model captures."</p>
+<p>If asked "How would you set up a stress testing framework?":</p>
+<p>"I'd run three types. Historical stress tests — replay actual crises like 2008, March 2020 — to see if our current portfolio survives past shocks. Hypothetical scenarios — things that haven't happened but could, like Hormuz closure or a Fed policy reversal — because the next crisis won't look exactly like the last one. And sensitivity tests — systematic factor shocks across a grid of scenarios — to map out where our P&amp;L breaks.</p>
+<p>The most important output isn't a single number but the heat map: what combination of moves hurts us most? If a -10% equity move with a +20pt vol spike creates a $25M loss, and our drawdown limit is $30M, that's a conversation worth having before it happens, not after."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="07_Risk_Reference.html">Risk Reference</a> — formulas, detailed risk framework<br />
+→ <a href="D_Greeks.html">Greeks</a> — the risk sensitivities that feed into VaR<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — portfolio-level risk concepts<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using risk measures to explain daily P&amp;L<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — backtesting VaR, Kupiec test<br />
+→ <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> — Section 2 (risk measures in interview context)</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

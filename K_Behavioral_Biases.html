@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behavioral Biases — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link active" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="k-behavioral-biases-in-risk-management">K — BEHAVIORAL BIASES IN RISK MANAGEMENT</h1>
+<h2 id="the-biases-that-kill-traders-and-the-rms-job-to-spot-them">The biases that kill traders — and the RM's job to spot them</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>Markets are made of people (and algorithms built by people). Understanding behavioral biases helps you:<br />
+1. Spot when a PM is making a biased decision — and intervene<br />
+2. Recognize your OWN biases as an RM<br />
+3. Build processes that counteract systematic human error</p>
+<p>This isn't academic psychology. This is "why does the PM keep adding to a losing position and how do I stop them?"</p>
+<hr />
+<h1 id="part-1-the-biases-that-matter-most">PART 1: THE BIASES THAT MATTER MOST</h1>
+<h2 id="1-anchoring">1. Anchoring</h2>
+<p><strong>What it is:</strong> Over-weighting the first piece of information you receive. Your brain uses it as a "reference point" even when it shouldn't be.</p>
+<p><strong>In trading:</strong><br />
+- "I bought XOM at $110, so I won't sell below $110." The entry price is irrelevant to whether the position is good TODAY. The market doesn't know or care what you paid.<br />
+- "Fair value is $150 because my DCF says so." But the DCF was built 3 months ago with different assumptions.<br />
+- "This stock is cheap — it was $200 last year." Past prices are not indicators of value.</p>
+<p><strong>RM's role:</strong><br />
+- When a PM says "I'm not selling below my cost," flag it: "The entry price doesn't change the forward risk/reward. What's the thesis TODAY?"<br />
+- Watch for PMs who set targets based on where prices WERE rather than where fundamentals say they SHOULD BE.</p>
+<h2 id="2-confirmation-bias">2. Confirmation Bias</h2>
+<p><strong>What it is:</strong> Seeking information that confirms your existing view while ignoring information that contradicts it.</p>
+<p><strong>In trading:</strong><br />
+- PM is long tech. Reads 10 bullish tech reports, ignores the 2 bearish ones.<br />
+- PM has a macro view (Fed cuts coming). Interprets every data point through that lens: strong NFP? "One-off." Weak CPI? "See, I told you, cuts are coming." Strong CPI? "Base effects, doesn't count."<br />
+- PM's stock is down 10%. "It's just noise / sector rotation / hedge fund liquidation." Never considers: "Maybe I'm wrong."</p>
+<p><strong>RM's role:</strong><br />
+- Ask the disconfirming question: "What would have to happen for you to close this position?"<br />
+- Present the bear case to a bull and vice versa.<br />
+- Track: has the PM's thesis changed since inception? Or have they just re-interpreted every new data point to fit the original view?</p>
+<h2 id="3-loss-aversion">3. Loss Aversion</h2>
+<p><strong>What it is:</strong> Losses feel roughly 2x as painful as gains feel good (Kahneman &amp; Tversky). A $1M loss hurts more than a $1M gain feels rewarding.</p>
+<p><strong>In trading:</strong><br />
+- Holding losers too long to avoid "locking in" a loss. "It's not a loss until I sell."<br />
+- Cutting winners too quickly to "secure" a gain. "Better take profits before it reverses."<br />
+- The combination: a portfolio of small wins and large losses. Median trade is profitable but expected value is negative.</p>
+<p><strong>RM's role:</strong><br />
+- Stop-loss discipline. Mechanical stops prevent loss aversion from turning a 5% loss into a 30% loss.<br />
+- Track the P&amp;L distribution: if a PM's winning trades cluster at +2-3% and losing trades at -8-15%, loss aversion is likely at work.<br />
+- Reframe: "If you didn't own this position, would you buy it today at this price?" If no → sell.</p>
+<h2 id="4-disposition-effect">4. Disposition Effect</h2>
+<p><strong>What it is:</strong> The specific pattern of selling winners too early and holding losers too long. Closely related to loss aversion but empirically measurable.</p>
+<p><strong>In trading:</strong><br />
+- PM's portfolio has 3 winners and 3 losers. PM sells a winner and holds the losers. Three months later: the winner they sold is up another 20%. The losers are still losing and now 30% underwater.<br />
+- The fund's realized P&amp;L looks fine (they keep recording small wins). But unrealized P&amp;L is a growing hole.</p>
+<p><strong>RM's role:</strong><br />
+- Monitor unrealized vs. realized P&amp;L. If realized is consistently positive but unrealized is negative and growing → disposition effect.<br />
+- Ask: "What's the average hold period for winners vs. losers?" If winners are held 2 weeks and losers 3 months → problem.</p>
+<h2 id="5-overconfidence">5. Overconfidence</h2>
+<p><strong>What it is:</strong> Believing your judgment is better than it actually is. Systematically underestimating uncertainty.</p>
+<p><strong>In trading:</strong><br />
+- "This is a 90% probability trade." Really? If you make 10 "90% probability" trades and 4 of them lose, you were miscalibrated.<br />
+- "I know this company — I've covered it for 5 years." Familiarity ≠ edge.<br />
+- Concentrated positions: "I'm so confident I'm putting 20% of the book in this." Confidence should set conviction, not bypass position limits.</p>
+<p><strong>RM's role:</strong><br />
+- Position limits ARE the overconfidence check. They exist precisely because traders are systematically overconfident.<br />
+- Track hit rate vs. claimed conviction. If a PM says "high conviction" on every trade, the label is meaningless.<br />
+- Push back on concentration: "You may be right, but consider: if you're wrong, this is a [X]% drawdown for the fund."</p>
+<h2 id="6-recency-bias">6. Recency Bias</h2>
+<p><strong>What it is:</strong> Over-weighting recent events in your assessment of probabilities. What happened last week feels more likely than what happened 2 years ago.</p>
+<p><strong>In trading:</strong><br />
+- After a quiet month (low vol), traders size up → they think low vol is the new normal. Then vol returns and they're overexposed.<br />
+- After a crisis, traders become overly cautious — they're pricing in last week's crisis as if it'll happen again tomorrow.<br />
+- "We haven't had a margin call in 18 months" → lose respect for liquidity risk.</p>
+<p><strong>RM's role:</strong><br />
+- Use longer lookback windows for risk calculations, not just recent data.<br />
+- When vol is low: "Vol was also low before March 2020. And February 2018. And August 2015. What's our plan when it comes back?"</p>
+<h2 id="7-thesis-refitting-narrative-fallacy">7. Thesis Refitting (Narrative Fallacy)</h2>
+<p><strong>What it is:</strong> Continuously changing the REASON for a position to justify not changing the POSITION.</p>
+<p><strong>In trading:</strong><br />
+Original thesis: "Long XOM because oil is going to $120 on supply constraints."<br />
+- Oil goes from $80 to $95: "See, I'm right."<br />
+- Oil pulls back to $85: "Short-term noise. Supply thesis intact."<br />
+- OPEC increases production: "Doesn't matter — demand is the real driver now." (New thesis #1)<br />
+- Demand data disappoints: "But the valuation is cheap on a P/E basis." (New thesis #2)<br />
+- P/E is only cheap because earnings are peak-cycle: "Long-term energy transition play." (New thesis #3)</p>
+<p>The position hasn't changed. The thesis has changed 3 times. Each time the data contradicted the old thesis, a new one was invented to justify keeping the position.</p>
+<p><strong>RM's role:</strong><br />
+- At trade inception: document the thesis, the catalyst, and the exit conditions.<br />
+- Monthly review: "Is this still the same thesis you put on? If the thesis changed, should the position?"<br />
+- "Kill switch" question: "What piece of data would make you wrong? Has that data arrived?"</p>
+<hr />
+<h1 id="part-2-cognitive-biases-in-the-rm-themselves">PART 2: COGNITIVE BIASES IN THE RM THEMSELVES</h1>
+<p>You're not immune. Common RM biases:</p>
+<h3 id="authority-bias">Authority Bias</h3>
+<ul>
+<li>Senior PM or Head of Risk says "this is fine" → you defer even though your analysis says otherwise.</li>
+<li>Fix: document your concern even if overruled. "I flagged X on [date]. IC decided to maintain position. Rationale: [Y]."</li>
+</ul>
+<h3 id="herd-mentality">Herd Mentality</h3>
+<ul>
+<li>"Every fund is running this strategy" → must be safe.</li>
+<li>Fix: remember LTCM, Archegos, Amaranth — crowded trades are dangerous trades.</li>
+</ul>
+<h3 id="normalcy-bias">Normalcy Bias</h3>
+<ul>
+<li>"This has never happened before, so it won't happen" → failure to prepare for tail events.</li>
+<li>Fix: always ask "what if we're wrong about what can't happen?" <a href="V_Case_Studies.html">Case Studies</a> is full of "this can't happen" events.</li>
+</ul>
+<h3 id="complacency-alert-fatigue">Complacency / Alert Fatigue</h3>
+<ul>
+<li>Risk reports show green every day for 6 months. You stop reading carefully. Then you miss the one day it mattered.</li>
+<li>Fix: rotate what you focus on. Track different risks each day. Don't wait for alerts — go look for problems.</li>
+</ul>
+<hr />
+<h1 id="part-3-building-de-biasing-into-process">PART 3: BUILDING DE-BIASING INTO PROCESS</h1>
+<p>The solution isn't "try harder to be unbiased" — that doesn't work. The solution is PROCESS.</p>
+<table>
+<thead>
+<tr>
+<th>Bias</th>
+<th>Process countermeasure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anchoring</td>
+<td>Trade thesis sheets with explicit entry/exit criteria documented BEFORE the trade</td>
+</tr>
+<tr>
+<td>Confirmation bias</td>
+<td>Devil's advocate review — formalize the bear case for every position</td>
+</tr>
+<tr>
+<td>Loss aversion</td>
+<td>Mechanical stop losses — remove human judgment from the exit decision</td>
+</tr>
+<tr>
+<td>Disposition effect</td>
+<td>Forced portfolio review: "If you could only keep 5 of your 15 positions, which 5?"</td>
+</tr>
+<tr>
+<td>Overconfidence</td>
+<td>Position limits that can't be overridden without IC approval</td>
+</tr>
+<tr>
+<td>Recency bias</td>
+<td>Stress tests that include historical crises (not just recent history)</td>
+</tr>
+<tr>
+<td>Thesis refitting</td>
+<td>Monthly thesis review: compare original thesis doc to current narrative</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-4-interview-application">PART 4: INTERVIEW APPLICATION</h1>
+<p>If asked "How do you identify when a PM is making a biased decision?":</p>
+<p>"The biggest tell is thesis refitting — when the reason for the trade keeps changing but the position stays the same. I'd document the original thesis at inception and review it monthly. If the thesis has changed more than once, that's a conversation.</p>
+<p>The second thing I watch is the P&amp;L distribution — if a PM's winners cluster at +2-3% and losers at -10-15%, they're likely cutting winners too early and holding losers too long. That's the disposition effect, and the fix is enforced stop-loss discipline.</p>
+<p>And for my own biases: I'm conscious of authority bias — the risk of deferring to a senior PM when my analysis disagrees. I'd handle that by documenting my concerns even if the IC decides to override them. History shows that risk managers who stayed silent didn't keep their jobs after things went wrong."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — communication framework for pushing back on PMs<br />
+→ <a href="T_Opinion_Formation.html">Opinion Formation</a> — forming views free from bias<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — real-world bias at work in every blow-up<br />
+→ <a href="02_My_Real_Stories.html">My Real Stories</a> — personal examples of judgment and decision-making</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

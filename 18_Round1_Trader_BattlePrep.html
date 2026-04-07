@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Round1 Trader BattlePrep — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link active" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="round-1-study-reference-trader-interview">ROUND 1 STUDY REFERENCE — TRADER INTERVIEW</h1>
+<h2 id="study-the-concepts-understand-them-deeply-then-talk-about-anything-naturally">Study the concepts. Understand them deeply. Then talk about anything naturally.</h2>
+<hr />
+<h1 id="how-to-use-this-file">HOW TO USE THIS FILE</h1>
+<p>Each concept has:<br />
+- <strong>One-liner</strong> — the definition you should be able to say without thinking<br />
+- <strong>What it actually means</strong> — plain English, deeper understanding<br />
+- <strong>Example</strong> — concrete, real-world<br />
+- <strong>Deep dive</strong> — which file has the full math and mechanics</p>
+<p>Master these and you can answer any question a trader throws at you. No scripts needed.</p>
+<hr />
+<h1 id="section-1-greeks-how-options-risk-is-measured">SECTION 1: GREEKS — HOW OPTIONS RISK IS MEASURED</h1>
+<hr />
+<h3 id="delta">Delta (Δ)</h3>
+<p><strong>One-liner:</strong> How much the option price moves per $1 move in the underlying.</p>
+<p><strong>What it actually means:</strong> Delta is your directional exposure. A delta of 0.50 on a call means if the stock goes up $1, the option goes up $0.50. It also roughly approximates the probability of expiring in-the-money. Delta ranges from 0 to 1 for calls, 0 to -1 for puts.</p>
+<p><strong>Example:</strong> You own 100 call contracts on AAPL with delta 0.60 and a $100 multiplier. Your position delta is 100 × 0.60 × 100 = 6,000 shares equivalent. If AAPL moves up $2, you make ~$12,000 from delta alone.</p>
+<p><strong>Why traders care:</strong> Delta is the money. It's the first thing they look at — "what's my net delta?" tells them how much they make or lose for a given market move.</p>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a> — Greek formulas | <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — Part 4 Options</p>
+<hr />
+<h3 id="gamma">Gamma (Γ)</h3>
+<p><strong>One-liner:</strong> How fast delta changes per $1 move in the underlying.</p>
+<p><strong>What it actually means:</strong> Gamma is the acceleration of your P&amp;L. It tells you how unstable your delta is. High gamma means a small move in the underlying causes a large change in your delta — your directional exposure is shifting rapidly. Gamma is highest for at-the-money options near expiry.</p>
+<p><strong>Example:</strong> You're short 1,000 ATM puts with gamma of 0.05. If the stock drops $5, your delta changes by 0.05 × 5 = 0.25. You went from delta +0.50 (short puts) to delta +0.75 — you're getting longer as the market drops, which means your losses are accelerating. That's the short gamma trap.</p>
+<p><strong>Long gamma vs short gamma:</strong><br />
+- <strong>Long gamma</strong> = you own options. Your delta improves in both directions (you get shorter when the market drops, longer when it rises). You pay theta for this luxury. You WANT big moves.<br />
+- <strong>Short gamma</strong> = you sold options. Your delta works against you in both directions. You collect theta as compensation. You WANT the market to sit still.</p>
+<p><strong>Why traders care:</strong> Short gamma concentration in the market creates cascading moves. If dealers are short gamma at a strike, they must buy as the market rises and sell as it falls — amplifying the move. This is the exact dynamics you mapped with the skew scanner at BNP.</p>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a> — Greeks section | <a href="16_Probe_Defense_Guide.html">Probe Defense Guide</a> — gamma/convexity probes</p>
+<hr />
+<h3 id="vega">Vega (ν)</h3>
+<p><strong>One-liner:</strong> How much the option price moves per 1% change in implied volatility.</p>
+<p><strong>What it actually means:</strong> Vega measures your exposure to changes in the market's fear level. When implied vol rises (people get scared), options get more expensive — if you're long vega, you profit. If you're short vega, you lose. Vega is highest for long-dated ATM options.</p>
+<p><strong>Example:</strong> You're long 500 straddles with vega of $200 per contract. If implied vol rises 3 points, you make 500 × $200 × 3 = $300,000 — even if the stock doesn't move at all.</p>
+<p><strong>The delta-vega interaction in commodities:</strong> When oil drops sharply, implied vol typically spikes. So a portfolio that's long delta AND long vega has a partial natural hedge — the vega gain offsets some of the delta loss. This is the hedging color you provided at BNP.</p>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a> | <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a> — options strategies</p>
+<hr />
+<h3 id="theta">Theta (Θ)</h3>
+<p><strong>One-liner:</strong> How much value an option loses per day from time decay.</p>
+<p><strong>What it actually means:</strong> Options are wasting assets — every day that passes, the probability of a large move decreases, so the option becomes less valuable. Theta is the daily cost of being long options, or the daily income from being short options. Theta accelerates as expiry approaches — the last 30 days see the fastest decay.</p>
+<p><strong>Example:</strong> You're short a straddle collecting $500/day in theta. As long as the stock stays near the strike, you pocket $500 daily. But if the stock gaps 5% overnight, your gamma loss easily exceeds weeks of theta income. Short theta/gamma is picking up pennies in front of a steamroller — profitable most days, devastating on rare ones.</p>
+<p><strong>The theta-gamma trade-off:</strong> This is fundamental. You can't be long gamma without paying theta, and you can't collect theta without being short gamma. Every options strategy is fundamentally a bet on whether the realized move will exceed the implied move (gamma vs theta).</p>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a> | <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — Part 4</p>
+<hr />
+<h3 id="rho">Rho (ρ)</h3>
+<p><strong>One-liner:</strong> How much the option price moves per 1% change in interest rates.</p>
+<p><strong>What it actually means:</strong> Higher rates increase call values (because the present value of the strike payment decreases) and decrease put values. Rho is small for short-dated options but material for long-dated ones — a 2-year LEAP on a stock is significantly affected by a 100bp rate change.</p>
+<p><strong>Example:</strong> A 1-year call with rho of $0.50 gains $0.50 if rates rise 1%. On a $100M notional position, that's $500K — not trivial for a portfolio with long-dated options exposure.</p>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a></p>
+<hr />
+<h3 id="second-order-greeks-know-they-exist-know-what-they-mean">Second-Order Greeks (know they exist, know what they mean)</h3>
+<table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>What it measures</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vanna</strong></td>
+<td>How delta changes with vol (dΔ/dσ)</td>
+<td>When vol spikes, your delta shifts — vanna tells you by how much</td>
+</tr>
+<tr>
+<td><strong>Volga (Vomma)</strong></td>
+<td>How vega changes with vol (dν/dσ)</td>
+<td>Convexity of vol — your vega exposure accelerates in a vol spike</td>
+</tr>
+<tr>
+<td><strong>Charm</strong></td>
+<td>How delta changes with time (dΔ/dt)</td>
+<td>Your delta drifts day-over-day even if nothing else moves</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>Rate of change of gamma</td>
+<td>How fast your gamma is changing — matters near expiry</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a> — full formulas</p>
+<hr />
+<h1 id="section-2-risk-measures-how-to-quantify-portfolio-risk">SECTION 2: RISK MEASURES — HOW TO QUANTIFY PORTFOLIO RISK</h1>
+<hr />
+<h3 id="value-at-risk-var">Value at Risk (VaR)</h3>
+<p><strong>One-liner:</strong> The maximum loss you'd expect to NOT exceed at a given confidence level over a given horizon.</p>
+<p><strong>What it actually means:</strong> "95% VaR of $10M over 1 day" means: on 95% of days, you lose less than $10M. On the other 5% of days? VaR says nothing. That's its fatal flaw — it tells you about normal days, not crisis days.</p>
+<p><strong>Three methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Historical</strong></td>
+<td>Use actual past returns</td>
+<td>No distributional assumption</td>
+<td>Past may not repeat; limited by data window</td>
+</tr>
+<tr>
+<td><strong>Parametric</strong></td>
+<td>Assume normal distribution, use mean/vol/correlation</td>
+<td>Fast, simple</td>
+<td>Assumes normality — underestimates tails</td>
+</tr>
+<tr>
+<td><strong>Monte Carlo</strong></td>
+<td>Simulate thousands of scenarios</td>
+<td>Handles non-linear payoffs, fat tails</td>
+<td>Computationally expensive, model-dependent</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The problem with VaR in practice:</strong> It assumes normal distributions, but market returns have fat tails. The 2008 crisis was a "25-sigma event" according to VaR models — which is statistically impossible. The model wasn't capturing reality.</p>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a> — VaR section with formulas</p>
+<hr />
+<h3 id="expected-shortfall-es-conditional-var-cvar">Expected Shortfall (ES) / Conditional VaR (CVaR)</h3>
+<p><strong>One-liner:</strong> The average loss GIVEN that you're beyond VaR — what actually happens in the tail.</p>
+<p><strong>What it actually means:</strong> If 95% VaR is $10M, ES asks: "when I DO lose more than $10M, how much do I lose on average?" The answer might be $18M. That's the number that matters in a crisis. ES replaced VaR under FRTB (Basel's new framework) precisely because it captures tail risk.</p>
+<p><strong>Why it's better:</strong> VaR can be gamed — a bank can restructure positions to have low VaR but catastrophic tail losses. ES can't be gamed the same way because it averages over the entire tail, not just one threshold.</p>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a> — ES section</p>
+<hr />
+<h3 id="stress-testing">Stress Testing</h3>
+<p><strong>One-liner:</strong> "What happens to our portfolio if [specific scenario] occurs?"</p>
+<p><strong>What it actually means:</strong> Unlike VaR which uses statistical distributions, stress testing uses defined scenarios — historical (replay March 2020) or hypothetical (oil hits $150 + Fed hikes 50bps). You reprice the entire portfolio under the stressed parameters and measure the P&amp;L impact.</p>
+<p><strong>Three types:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Example</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Historical replay</strong></td>
+<td>March 2020 COVID crash</td>
+<td>"Would we survive a repeat?"</td>
+</tr>
+<tr>
+<td><strong>Hypothetical</strong></td>
+<td>Oil $150 + rates +200bps + VIX 60</td>
+<td>"What's our worst case from current risks?"</td>
+</tr>
+<tr>
+<td><strong>Sensitivity</strong></td>
+<td>Equity -10%, -20%, -30%</td>
+<td>"How does our P&amp;L scale with the magnitude of a move?"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What you built at BNP:</strong> A live stress-testing model that ran scenarios continuously across all client portfolios. Predefined scenarios (rate shifts ±50/100/200bps, equity drops 5/10/20%, commodity moves ±15-30%) plus ad-hoc scenarios. Showed P&amp;L impact by asset class, by client, and identified the biggest risk contributors.</p>
+<p><strong>Deep dive:</strong> <a href="07_Risk_Reference.html">Risk Reference</a> — stress testing section | <a href="16_Probe_Defense_Guide.html">Probe Defense Guide</a> — stress model probe</p>
+<hr />
+<h3 id="sharpe-ratio">Sharpe Ratio</h3>
+<p><strong>One-liner:</strong> Return per unit of risk. (Return - Risk-free rate) / Volatility.</p>
+<p><strong>What it actually means:</strong> A Sharpe of 1.0 means you earn 1% excess return for every 1% of volatility. A Sharpe above 1.0 is good, above 2.0 is elite, below 0.5 is questionable. Most hedge funds target 1.0-1.5 net of fees.</p>
+<p><strong>Limitation:</strong> Treats upside and downside volatility equally. A fund that makes +5% and +10% alternating months has high vol but great returns — Sharpe penalizes it unfairly. That's why Sortino exists.</p>
+<hr />
+<h3 id="sortino-ratio">Sortino Ratio</h3>
+<p><strong>One-liner:</strong> Like Sharpe but only penalizes downside volatility.</p>
+<p><strong>What it actually means:</strong> Uses downside deviation (only negative returns) instead of total volatility. A fund with lots of upside surprises and few drawdowns will have a much higher Sortino than Sharpe. More relevant for asymmetric strategies.</p>
+<hr />
+<h3 id="maximum-drawdown">Maximum Drawdown</h3>
+<p><strong>One-liner:</strong> The largest peak-to-trough decline in the portfolio.</p>
+<p><strong>What it actually means:</strong> If a fund goes from $100M to $85M to $92M to $78M, the max drawdown is ($100M - $78M) / $100M = 22%. This is the number that gets risk managers fired and PMs shut down. Institutional investors care about max drawdown more than any other metric because it represents the worst pain they endured.</p>
+<p><strong>Drawdown management:</strong> At a pod-level fund like Squarepoint, PMs typically have drawdown limits (e.g., -5% of allocated capital). Breach the soft limit → risk meeting and position reduction. Breach the hard limit → positions liquidated, potentially lose the allocation.</p>
+<p><strong>Deep dive:</strong> <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — Part 11: Drawdown &amp; Risk Budgeting</p>
+<hr />
+<h3 id="beta-and-alpha">Beta and Alpha</h3>
+<p><strong>One-liner:</strong> Beta = sensitivity to the market. Alpha = return above what beta explains.</p>
+<p><strong>Beta:</strong> A portfolio with beta 1.3 to the S&amp;P 500 moves 30% more than the index in both directions. To hedge to market-neutral, you'd sell $130 of S&amp;P futures per $100 of portfolio.</p>
+<p><strong>Alpha:</strong> The residual return after removing beta exposure. If the S&amp;P returns 10%, your beta contribution is 1.3 × 10% = 13%. If your portfolio returned 18%, your alpha is 18% - 13% = 5%. Alpha is what PMs get paid for. Alpha is what LPs invest in hedge funds for.</p>
+<p><strong>Why this matters for risk:</strong> A discretionary risk manager needs to decompose returns into beta and alpha continuously. If a PM's P&amp;L is 90% beta, they're not adding value — the LP could buy an ETF cheaper.</p>
+<p><strong>Deep dive:</strong> <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — Part 10: Profit Mechanics</p>
+<hr />
+<h1 id="section-3-portfolio-risk-concepts">SECTION 3: PORTFOLIO RISK CONCEPTS</h1>
+<hr />
+<h3 id="correlation">Correlation</h3>
+<p><strong>One-liner:</strong> How two assets move together. +1 = identical, -1 = opposite, 0 = independent.</p>
+<p><strong>What it actually means:</strong> Correlation determines whether diversification works. A portfolio of 10 assets with low correlation has much less risk than 10 assets with high correlation — even if each individual asset has the same volatility.</p>
+<p><strong>The crisis problem:</strong> Correlations are unstable. In calm markets, stocks and bonds are negatively correlated (diversification works). In a stagflation environment like right now — stocks AND bonds can sell off together. Correlation spiked to 0.8+ across multi-strategy books in Q1 2026 and blew up funds like Balyasny (-3.8%), ExodusPoint (-4.5%), and Caxton (-$1.3B).</p>
+<p><strong>Conditional correlation:</strong> Assets may have 0.2 correlation in normal markets but 0.8 correlation during a crisis. The correlation that matters for risk management is the conditional correlation — the one during the exact scenario you're trying to hedge against.</p>
+<p><strong>Deep dive:</strong> <a href="09_Market_Intuition.html">Market Intuition</a> — cross-market relationships | <a href="10_Market_Context_Today.html">Market Context Today</a> — correlation map</p>
+<hr />
+<h3 id="concentration-risk">Concentration Risk</h3>
+<p><strong>One-liner:</strong> Too much exposure to a single name, sector, factor, or theme.</p>
+<p><strong>What it actually means:</strong> A portfolio can look diversified by number of positions but be concentrated in hidden ways. 20 tech stocks is 20 names but one bet (growth/rates). A long oil / short airlines / long energy services portfolio is three positions but one bet (oil goes up). Concentration risk is the enemy of survivability.</p>
+<p><strong>How a risk manager catches it:</strong><br />
+- <strong>Single-name concentration:</strong> No position &gt; X% of NAV<br />
+- <strong>Sector concentration:</strong> No sector &gt; X% of gross<br />
+- <strong>Factor concentration:</strong> Run factor decomposition — are all positions loading on the same factor (momentum, value, growth)?<br />
+- <strong>Correlation-adjusted concentration:</strong> Two "different" positions that are 0.9 correlated are effectively one position</p>
+<hr />
+<h3 id="basis-risk">Basis Risk</h3>
+<p><strong>One-liner:</strong> The risk that your hedge doesn't move exactly like the position it's supposed to protect.</p>
+<p><strong>What it actually means:</strong> You hedge a corporate bond portfolio by shorting Treasury futures. If credit spreads widen while Treasuries rally (flight to quality), your hedge loses money AND your portfolio loses money. You hedged interest rate risk but not credit risk — and the basis between the two moved against you.</p>
+<p><strong>Common basis risks:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Hedge</th>
+<th>Basis risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Corporate bond</td>
+<td>Treasury futures</td>
+<td>Credit spread moves</td>
+</tr>
+<tr>
+<td>Jet fuel exposure</td>
+<td>WTI crude futures</td>
+<td>Crack spread moves</td>
+</tr>
+<tr>
+<td>Single stock</td>
+<td>Index futures</td>
+<td>Idiosyncratic risk not hedged</td>
+</tr>
+<tr>
+<td>European option</td>
+<td>Exchange-traded futures</td>
+<td>Timing and settlement differences</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="liquidity-risk">Liquidity Risk</h3>
+<p><strong>One-liner:</strong> The risk you can't exit a position at your expected price — or at all.</p>
+<p><strong>What it actually means:</strong> A position's paper value and its realizable value can diverge violently under stress. A $50M position in a liquid large-cap might take an hour to exit with minimal impact. A $50M position in an illiquid small-cap, EM bond, or structured product might take days and cost 2-5% in market impact.</p>
+<p><strong>When liquidity fails (cascade):</strong> Price drops → margin calls → forced selling → prices drop more → more margin calls → bid disappears entirely. March 2020 Treasury basis trade: funds with 50x leverage on cash-futures basis had to liquidate when repo lenders pulled funding. The Fed bought $1T of Treasuries to restore order.</p>
+<p><strong>Risk manager's rule:</strong> Always ask "what's funding this position?" Short-term funded, overnight repo, or leveraged margin positions blow up first in a liquidity crisis.</p>
+<p><strong>Deep dive:</strong> <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — margin, prime brokerage, repo</p>
+<hr />
+<h3 id="drawdown-budget-risk-budget">Drawdown Budget &amp; Risk Budget</h3>
+<p><strong>One-liner:</strong> How much a PM is allowed to lose (drawdown budget) and how much total risk they can take (risk budget).</p>
+<p><strong>What it actually means:</strong> The Investment Committee allocates risk to each PM. This can be expressed as:<br />
+- <strong>VaR budget:</strong> "Your daily 95% VaR can't exceed $5M"<br />
+- <strong>Vol budget:</strong> "Your annualized portfolio vol can't exceed 12%"<br />
+- <strong>Notional limits:</strong> "Your gross exposure can't exceed $500M"<br />
+- <strong>Drawdown limits:</strong> "If you lose 5% of your allocation, we review. At 8%, we cut. At 10%, we liquidate."</p>
+<p><strong>The risk manager's role:</strong> Monitor in real-time whether any PM is approaching their limits. The hard part is the conversation BEFORE the breach — "you're at 4.2% drawdown with 5% as the trigger. What's the plan?"</p>
+<p><strong>Deep dive:</strong> <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — Part 11: Drawdown Management | <a href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a> — risk responsibilities</p>
+<hr />
+<h1 id="section-4-derivatives-the-instruments">SECTION 4: DERIVATIVES — THE INSTRUMENTS</h1>
+<hr />
+<h3 id="futures">Futures</h3>
+<p><strong>One-liner:</strong> Standardized contract to buy/sell an asset at a fixed price on a future date, traded on an exchange with daily margining.</p>
+<p><strong>Key mechanics:</strong><br />
+- <strong>Daily mark-to-market:</strong> Your P&amp;L settles every day via variation margin — you never accumulate large unrealized exposure<br />
+- <strong>Initial margin:</strong> The deposit you post upfront (~5-12% of notional) — this IS your leverage<br />
+- <strong>Cost of carry:</strong> Futures price = Spot + Cost of carry (interest, storage, insurance) - Convenience yield<br />
+- <strong>Contango:</strong> Futures &gt; Spot (normal — cost of carry is positive). Rolling costs money.<br />
+- <strong>Backwardation:</strong> Futures &lt; Spot (supply tightness). Rolling earns money.<br />
+- <strong>The -$37 WTI event (April 2020):</strong> Futures can go negative when physical delivery is impossible and storage is full</p>
+<p><strong>Example contracts:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Contract</th>
+<th>Exchange</th>
+<th>Multiplier</th>
+<th>Notional (approx)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ES (S&amp;P 500)</td>
+<td>CME</td>
+<td>$50 × index</td>
+<td>~$330K</td>
+</tr>
+<tr>
+<td>CL (WTI Crude)</td>
+<td>NYMEX</td>
+<td>1,000 barrels</td>
+<td>~$115K</td>
+</tr>
+<tr>
+<td>ZN (10-Year Note)</td>
+<td>CBOT</td>
+<td>$1,000 × price</td>
+<td>~$110K</td>
+</tr>
+<tr>
+<td>GC (Gold)</td>
+<td>COMEX</td>
+<td>100 troy oz</td>
+<td>~$465K</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deep dive:</strong> <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — Part 2: Futures Full Picture</p>
+<hr />
+<h3 id="options">Options</h3>
+<p><strong>One-liner:</strong> The RIGHT (not obligation) to buy (call) or sell (put) at a fixed price (strike) by a fixed date (expiry).</p>
+<p><strong>Moneyness:</strong></p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Call</th>
+<th>Put</th>
+<th>Delta (approx)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deep ITM</td>
+<td>Spot &gt;&gt; Strike</td>
+<td>Spot &lt;&lt; Strike</td>
+<td>~0.90-1.00 / -0.90 to -1.00</td>
+</tr>
+<tr>
+<td>ATM</td>
+<td>Spot ≈ Strike</td>
+<td>Spot ≈ Strike</td>
+<td>~0.50 / -0.50</td>
+</tr>
+<tr>
+<td>OTM</td>
+<td>Spot &lt; Strike</td>
+<td>Spot &gt; Strike</td>
+<td>~0.05-0.30 / -0.05 to -0.30</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Intrinsic vs Time Value:</strong><br />
+- <strong>Intrinsic:</strong> The value if exercised NOW. Call: max(0, Spot - Strike). Put: max(0, Strike - Spot).<br />
+- <strong>Time value:</strong> Everything above intrinsic. Driven by volatility, time to expiry, and rates.<br />
+- Total option price = Intrinsic + Time value. At expiry, time value = 0.</p>
+<p><strong>American vs European vs Asian:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Exercise</th>
+<th>Where used</th>
+<th>Key difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>American</strong></td>
+<td>Any time before expiry</td>
+<td>US equities, ETFs</td>
+<td>Can be exercised early, worth ≥ European</td>
+</tr>
+<tr>
+<td><strong>European</strong></td>
+<td>Only at expiry</td>
+<td>Indices (SPX), FX</td>
+<td>Simpler to price (Black-Scholes applies directly)</td>
+</tr>
+<tr>
+<td><strong>Asian</strong></td>
+<td>Payoff based on average price</td>
+<td>Commodities</td>
+<td>Lower effective vol because averaging reduces variance. Cheaper. This is what you priced at BNP Paris.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Put-Call Parity:</strong> Call - Put = Spot - PV(Strike). If this relationship breaks, there's an arbitrage. It's the fundamental constraint that links all option prices together.</p>
+<p><strong>Implied Volatility:</strong> The vol that makes the Black-Scholes formula reproduce the observed market price. It's not a forecast — it's a PRICE expressed in vol units. When you "buy vol," you're buying options because you think realized vol will exceed implied vol.</p>
+<p><strong>Skew:</strong> Implied vol varies by strike. For equities, puts are more expensive (higher IV) than calls — the demand for downside protection creates the "smirk." The steepness of skew tells you how much crash insurance the market is pricing.</p>
+<p><strong>Deep dive:</strong> <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — Part 4: Options Full Picture | <a href="07_Risk_Reference.html">Risk Reference</a> — Greeks and formulas</p>
+<hr />
+<h3 id="swaps">Swaps</h3>
+<p><strong>One-liner:</strong> Agreement to exchange cash flows between two parties over time.</p>
+<p><strong>Interest Rate Swap (IRS):</strong><br />
+- Most common: exchange fixed rate for floating rate (e.g., SOFR)<br />
+- "Receiving fixed" = you get fixed, pay floating. You profit if rates FALL<br />
+- "Paying fixed" = you get floating, pay fixed. You profit if rates RISE<br />
+- DV01 for a 5-year swap ≈ $45,000 per $100M notional per basis point</p>
+<p><strong>Total Return Swap (TRS):</strong><br />
+- One party gets the total return of an asset (price + dividends), the other gets a financing rate (SOFR + spread)<br />
+- Used for leverage without owning the asset. Archegos used TRS to build $30B+ in concentrated stock positions with minimal disclosure — banks couldn't see the aggregate exposure across different prime brokers</p>
+<p><strong>Credit Default Swap (CDS):</strong><br />
+- Insurance against default. Buyer pays periodic premium (spread), seller pays par on default.<br />
+- CDS spread of 250bps with 40% recovery → implied annual default probability ≈ 250 / (1-0.40) ≈ 4.2% (risk-neutral)<br />
+- The CDS-bond basis (difference between CDS spread and cash bond spread) is a common relative value trade</p>
+<p><strong>Deep dive:</strong> <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — Part 3: Swaps Full Picture</p>
+<hr />
+<h1 id="section-5-hedging-strategies-and-decision-framework">SECTION 5: HEDGING — STRATEGIES AND DECISION FRAMEWORK</h1>
+<hr />
+<h3 id="key-hedging-strategies">Key Hedging Strategies</h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>How it works</th>
+<th>Cost</th>
+<th>Upside cap?</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Buy puts</strong></td>
+<td>Buy downside protection</td>
+<td>Premium (~3-5%/quarter)</td>
+<td>No</td>
+<td>Full protection, willing to pay</td>
+</tr>
+<tr>
+<td><strong>Collar</strong></td>
+<td>Buy OTM puts + sell OTM calls</td>
+<td>Near zero (call finances put)</td>
+<td>Yes (capped)</td>
+<td>PM has a price target</td>
+</tr>
+<tr>
+<td><strong>Put spread</strong></td>
+<td>Buy put + sell further OTM put</td>
+<td>Reduced (~half of naked put)</td>
+<td>No, but protection has a floor</td>
+<td>Budget-conscious protection</td>
+</tr>
+<tr>
+<td><strong>Sell futures</strong></td>
+<td>Reduce net delta directly</td>
+<td>No premium, but gives up upside 1:1</td>
+<td>Yes (fully reduces delta)</td>
+<td>Quick de-risk</td>
+</tr>
+<tr>
+<td><strong>Pairs/beta hedge</strong></td>
+<td>Long the position + short a correlated asset</td>
+<td>Carry cost</td>
+<td>No</td>
+<td>Isolate idiosyncratic vs market risk</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="decision-framework-which-hedge-to-use">Decision Framework — Which Hedge to Use</h3>
+<ol>
+<li><strong>Time horizon:</strong> Short-term → futures or short-dated puts. Long-term → spreads or collars.</li>
+<li><strong>Upside tolerance:</strong> PM willing to cap gains? → Collar. Not willing? → Puts or spreads.</li>
+<li><strong>Cost tolerance:</strong> Zero cost? → Collar. Willing to pay? → Puts.</li>
+<li><strong>What risk specifically?</strong> Directional → delta hedge. Volatility → vega hedge. Tail → OTM puts.</li>
+<li><strong>Basis risk:</strong> How well does the hedge instrument correlate with the position?</li>
+</ol>
+<p><strong>The hedge that doesn't work:</strong> A simple stop-loss. In a gap-down — which is exactly when you need protection — a stop-loss doesn't execute at your price. You're exposed to the gap.</p>
+<p><strong>Deep dive:</strong> <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a> — options strategy table | <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — hedging mechanics</p>
+<hr />
+<h3 id="dynamic-hedging-rebalancing">Dynamic Hedging &amp; Rebalancing</h3>
+<p><strong>One-liner:</strong> Continuously adjusting your hedge as the underlying moves, rather than setting it once and forgetting.</p>
+<p><strong>What it actually means:</strong> If you're delta-hedging an options book, your hedge changes every time the underlying moves (because delta changes via gamma). You need to rebalance your futures/stock position to stay hedged. How often you rebalance depends on:<br />
+- <strong>Transaction costs:</strong> More rebalancing = more costs<br />
+- <strong>Gamma magnitude:</strong> Higher gamma = delta changes faster = more frequent rebalancing needed<br />
+- <strong>Market conditions:</strong> In volatile markets, rebalancing is more frequent but also more expensive (wider spreads)</p>
+<p><strong>The hedging P&amp;L:</strong> In theory (Black-Scholes world), continuous delta hedging of a long option position breaks even — you earn from gamma exactly what you pay in theta. In reality, discrete hedging + transaction costs + jumps mean the P&amp;L depends on whether realized vol exceeds implied vol.</p>
+<hr />
+<h3 id="conviction-and-position-sizing">Conviction and Position Sizing</h3>
+<p><strong>One-liner:</strong> Size should scale with conviction AND with how well you can define the downside.</p>
+<p><strong>What it actually means:</strong> High conviction with a clear stop-loss lets you size up. High conviction with undefined risk — say, shorting a heavily shorted name into a squeeze — requires smaller sizing no matter how right you think you are.</p>
+<p><strong>Framework in risk units:</strong> If a PM normally runs 1-2% of NAV per position, a high-conviction trade might go to 3-4% — but only if the IC-allocated risk budget can absorb it. If sizing up one position means the portfolio-level VaR or vol breaches the mandate, the answer is no regardless of conviction.</p>
+<p><strong>Red flag:</strong> PM wants to increase size on a position that's underwater. If the thesis hasn't changed AND new information supports the trade, averaging down can make sense. But " it has to come back" with no specific catalyst is hope, not a thesis.</p>
+<hr />
+<h3 id="when-a-thesis-is-broken-vs-just-being-early">When a Thesis Is Broken vs Just Being Early</h3>
+<p><strong>Three tests:</strong><br />
+1. <strong>Has the catalyst already happened and the position didn't respond?</strong> If you were long into earnings, earnings beat expectations, and the stock sold off — the thesis is broken. The market knows something you don't.<br />
+2. <strong>Has the fundamental assumption changed?</strong> If the trade was "oil supply tightens by Q2" and OPEC just announced a production increase, the thesis is broken. If oil is just volatile on the PATH to restriction, you're early, not wrong.<br />
+3. <strong>Is the time horizon expiring?</strong> A 3-month trade that hasn't worked after 2.5 months with the catalyst still ahead is early. The same trade at month 4 with no catalyst in sight is broken. Time decay applies to theses, not just options.</p>
+<p><strong>What a risk manager does:</strong> Challenge the PM — "walk me through again why this works." If the explanation is materially different from the original thesis, it's been refitted to justify the loss. That's the biggest behavioral red flag.</p>
+<hr />
+<h1 id="section-6-volatility-the-tradeable-product">SECTION 6: VOLATILITY — THE TRADEABLE PRODUCT</h1>
+<hr />
+<h3 id="implied-vs-realized-volatility">Implied vs Realized Volatility</h3>
+<p><strong>One-liner:</strong> Implied vol = what the market EXPECTS. Realized vol = what actually HAPPENED.</p>
+<p><strong>What it actually means:</strong><br />
+- <strong>Implied vol</strong> is derived from option prices. It's not a forecast — it's a price. When people say "vol is cheap" they mean implied vol is low relative to what they think will actually happen.<br />
+- <strong>Realized vol</strong> (historical vol) measures actual past price fluctuations. Typically calculated as annualized standard deviation of log returns.<br />
+- <strong>The spread:</strong> Implied vol is almost always higher than subsequent realized vol — this is the vol risk premium. Option sellers systematically collect this premium. Option buyers pay it for insurance.</p>
+<p><strong>Example:</strong> VIX at 24 means S&amp;P implied vol is 24% annualized. If the S&amp;P subsequently realizes 18% vol, option sellers made money (they sold expensive insurance). If it realizes 30%, option buyers profited (the insurance paid off).</p>
+<hr />
+<h3 id="the-volatility-surface">The Volatility Surface</h3>
+<p><strong>What it is:</strong> A 3D map of implied volatility across all strikes (X-axis) and all tenors (Y-axis). Every listed option corresponds to one point on this surface.</p>
+<p><strong>Why it matters:</strong><br />
+- <strong>Skew</strong> (across strikes): Puts are more expensive than calls → the market fears crashes more than rallies<br />
+- <strong>Term structure</strong> (across tenors): Short-term vol &gt; long-term vol → market fears an imminent event. Long-term vol &gt; short-term → calm now but uncertain ahead<br />
+- <strong>Smile:</strong> Both OTM puts AND OTM calls trade at higher implied vol than ATM — common in FX markets</p>
+<p><strong>Calibration:</strong> Fitting a model (SABR, Heston, local vol) to reproduce observed market prices across the surface. The calibrated model then prices exotic options that don't have direct quotes. This is what you used at BNP Paris and what you did with SABR at Natixis.</p>
+<p><strong>Deep dive:</strong> <a href="16_Probe_Defense_Guide.html">Probe Defense Guide</a> — vol surface calibration probe | <a href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a> — SABR</p>
+<hr />
+<h3 id="vol-as-a-tradeable-product">Vol as a Tradeable Product</h3>
+<p><strong>One-liner:</strong> Volatility itself can be bought and sold, independent of direction.</p>
+<p><strong>Instruments:</strong><br />
+- <strong>Straddles/strangles:</strong> Buy both calls and puts → pure vol play. You profit if the market moves a lot in either direction.<br />
+- <strong>VIX futures/options:</strong> Trade expectations of future vol directly. VIX futures term structure is usually in contango (further out months higher) because of the vol risk premium.<br />
+- <strong>Variance swaps:</strong> Pay/receive the difference between implied and realized variance. Pure exposure to vol without delta.</p>
+<p><strong>Why this matters for risk:</strong> A PM who says "I'm not taking a vol view" might have vol exposure they don't realize. A concentrated long equity book is implicitly short vol — if vol spikes, equity typically drops. Understanding the portfolio's vol exposure is a key risk function.</p>
+<hr />
+<h1 id="section-7-market-structure-how-things-actually-work">SECTION 7: MARKET STRUCTURE — HOW THINGS ACTUALLY WORK</h1>
+<hr />
+<h3 id="how-a-trade-flows-lifecycle">How a Trade Flows (Lifecycle)</h3>
+<div class="highlight"><pre><span></span><code>PM decision → Order to broker/exchange → Execution → Clearing (CCP or bilateral)
+    → Settlement (T+1 or T+2) → Position in portfolio → Daily P&amp;L/margin
+    → Eventually: close/expire/exercise/roll
+</code></pre></div>
+
+<p><strong>Listed:</strong> Exchange-traded, CCP-cleared, standardized, daily margin, transparent pricing.<br />
+<strong>OTC:</strong> Bilateral, ISDA/CSA governed, bespoke terms, counterparty credit risk, less transparent.</p>
+<p><strong>Deep dive:</strong> <a href="09_Market_Intuition.html">Market Intuition</a> — trade lifecycle</p>
+<hr />
+<h3 id="margin-mechanics">Margin Mechanics</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What it is</th>
+<th>When it's called</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Initial Margin (IM)</strong></td>
+<td>Deposit to open a position (~5-12% of notional for futures)</td>
+<td>At trade inception</td>
+</tr>
+<tr>
+<td><strong>Variation Margin (VM)</strong></td>
+<td>Daily P&amp;L settlement — cash flows between winners and losers</td>
+<td>Every day</td>
+</tr>
+<tr>
+<td><strong>Maintenance Margin</strong></td>
+<td>Minimum balance required. If equity falls below → margin call</td>
+<td>When positions move against you</td>
+</tr>
+<tr>
+<td><strong>Portfolio Margin</strong></td>
+<td>Cross-offsets between correlated positions reduce total margin</td>
+<td>Sophisticated accounts</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Margin call escalation:</strong><br />
+1. Position moves against you → equity drops below maintenance<br />
+2. Broker/CCP issues margin call (typically T+1 morning)<br />
+3. You must deposit cash/collateral by deadline (usually same day)<br />
+4. If you don't → forced liquidation at market prices (usually the worst possible time)</p>
+<p><strong>Deep dive:</strong> <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — Part 6: Margin &amp; Collateral</p>
+<hr />
+<h3 id="contango-vs-backwardation">Contango vs Backwardation</h3>
+<p><strong>Contango:</strong> Futures price &gt; Spot price. Normal for most commodities because of storage/financing costs. Rolling long positions in contango is expensive — you sell the expiring cheap contract and buy the more expensive next one ("negative roll yield").</p>
+<p><strong>Backwardation:</strong> Futures price &lt; Spot price. Signals supply tightness or high convenience yield. Rolling long positions in backwardation is profitable — positive roll yield.</p>
+<p><strong>Current relevance:</strong> Oil is in steep backwardation because of Hormuz disruption — near-term supply is extremely tight, so the front contract trades at a massive premium to later months.</p>
+<p><strong>Deep dive:</strong> <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — Part 2: Futures | <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a></p>
+<hr />
+<h3 id="leverage">Leverage</h3>
+<p><strong>One-liner:</strong> Using borrowed capital to amplify returns — and losses.</p>
+<p><strong>How hedge funds lever:</strong><br />
+- <strong>Futures:</strong> ~10% margin = 10x leverage on notional<br />
+- <strong>Prime brokerage financing:</strong> Borrow against portfolio (typically 2-4x for long/short equity)<br />
+- <strong>Total return swaps:</strong> Synthetic exposure without owning the asset<br />
+- <strong>Repo:</strong> Short-term borrowing against collateral (typically overnight to 30 days)</p>
+<p><strong>Why leverage kills:</strong> A 5% move against a 10x levered position = 50% loss. Lehman died with 30x leverage. LTCM with 25x. Archegos with effectively 15-20x. Leverage turns survivable losses into fatal ones.</p>
+<p><strong>Deep dive:</strong> <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — leverage, prime brokerage, repo sections</p>
+<hr />
+<h1 id="section-8-asset-classes-what-moves-them">SECTION 8: ASSET CLASSES — WHAT MOVES THEM</h1>
+<hr />
+<h3 id="equities">Equities</h3>
+<p><strong>Drivers:</strong> Earnings, economic growth (GDP, PMIs), interest rates, sector rotation, flows<br />
+<strong>Key metrics:</strong> P/E, EV/EBITDA, earnings yield vs bond yield, beta, sector exposure<br />
+<strong>Current context:</strong> S&amp;P at 6,611, VIX 24 (elevated but not panic), worst Q1 since 2022, energy outperforming, tech underperforming</p>
+<p><strong>Deep dive:</strong> <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a> — equities section</p>
+<hr />
+<h3 id="rates-fixed-income">Rates / Fixed Income</h3>
+<p><strong>Drivers:</strong> Central bank policy, inflation expectations, economic growth, fiscal deficits, flight to quality<br />
+<strong>Key metrics:</strong> Yield, duration (sensitivity to rate changes), DV01, convexity, credit spread<br />
+<strong>The yield curve:</strong> 2Y-10Y spread measures curve shape. Inverted = recession signal. Steepening = growth expectations improving (or long-end selling off on inflation fears).<br />
+<strong>Current context:</strong> US 10Y at 4.35%, Fed at 3.75%, market split on whether Fed cuts April 29. Stock-bond correlation is POSITIVE (stagflation regime — both can sell off together).</p>
+<p><strong>Duration:</strong> How much a bond's price changes per 1% change in yield. A bond with duration 7 loses ~7% for every 1% rate rise. DV01 = duration × notional × 0.0001.</p>
+<p><strong>Convexity:</strong> Duration changes as rates move. Positive convexity (long bonds) means duration decreases as rates rise = losses decelerate. Negative convexity (MBS, callable bonds) means duration increases as rates rise = losses accelerate. This is the MBS risk manager's nightmare.</p>
+<p><strong>Deep dive:</strong> <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a> — rates section | <a href="10_Market_Context_Today.html">Market Context Today</a></p>
+<hr />
+<h3 id="commodities">Commodities</h3>
+<p><strong>Drivers:</strong> Supply/demand balance, geopolitics, weather (ags/power), inventory data, OPEC (oil)<br />
+<strong>Sub-classes:</strong> Oil, natural gas, power, emissions, base metals, precious metals, agriculture<br />
+<strong>Key concepts:</strong> Physical vs financial, storage costs, convenience yield, crack spreads, seasonal patterns<br />
+<strong>Current context:</strong> Brent $111 (Hormuz crisis), backwardation across the oil curve, gold at $4,649 (down despite war because rates dominate), copper resilient on China demand</p>
+<p><strong>What makes commodities unique:</strong> Physical delivery creates basis risk between financial and physical. Storage costs create the forward curve shape. Weather is an unhedgeable risk factor. You know this from BNP Paris — oil, gas, power, emissions, metals, ags across the whole complex.</p>
+<p><strong>Deep dive:</strong> <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a> — commodities section | <a href="10_Market_Context_Today.html">Market Context Today</a> — oil analysis</p>
+<hr />
+<h3 id="fx">FX</h3>
+<p><strong>Drivers:</strong> Interest rate differentials, trade flows, central bank intervention, risk sentiment<br />
+<strong>Key pairs:</strong> EUR/USD, USD/JPY, GBP/USD, DXY (dollar index)<br />
+<strong>Current context:</strong> DXY at 99.7 — dollar is THE safe haven (not yen, not gold). USD/JPY at 160 intervention threshold. EM FX under pressure from oil + strong dollar.</p>
+<p><strong>Intervention risk:</strong> When JPY hits 160, the Japanese MOF may intervene (buy JPY / sell USD) with $3-5B orders that move the pair 3-5 big figures in minutes. A live portfolio risk event.</p>
+<p><strong>Carry trade:</strong> Borrow in low-rate currency (JPY), invest in high-rate currency (MXN, BRL). Works until risk-off forces unwind — then the funding currency (JPY) strengthens sharply and the carry currency collapses. "The carry trade is a crowded escalator going up and an elevator shaft going down."</p>
+<p><strong>Deep dive:</strong> <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a> — FX section | <a href="10_Market_Context_Today.html">Market Context Today</a></p>
+<hr />
+<h3 id="credit">Credit</h3>
+<p><strong>Drivers:</strong> Default risk, spread movements, recovery rates, economic cycle, central bank policy<br />
+<strong>Key metrics:</strong> Credit spread, OAS, Z-spread, CDS spread, default probability, recovery rate<br />
+<strong>IG vs HY:</strong> Investment Grade = BBB- and above, tight spreads, low default risk. High Yield = below BBB-, wide spreads, higher default risk, more correlated to equities than rates.</p>
+<p><strong>Deep dive:</strong> <a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a> — credit section</p>
+<hr />
+<h1 id="section-9-current-market-context-april-2026">SECTION 9: CURRENT MARKET CONTEXT (April 2026)</h1>
+<p>Read <a href="10_Market_Context_Today.html">Market Context Today</a> in full. Key numbers to know cold:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S&amp;P 500</td>
+<td>6,611</td>
+<td>Resilient despite war — pricing in eventual deal</td>
+</tr>
+<tr>
+<td>VIX</td>
+<td>24.4</td>
+<td>Elevated but not panic — may underprice tail risk</td>
+</tr>
+<tr>
+<td>Brent</td>
+<td>$111.48</td>
+<td>+53% since war started Feb 28</td>
+</tr>
+<tr>
+<td>US 10Y</td>
+<td>4.354%</td>
+<td>Rising on inflation despite growth fears</td>
+</tr>
+<tr>
+<td>Fed rate</td>
+<td>3.75%</td>
+<td>April 29 decision — cut or hold? Market split</td>
+</tr>
+<tr>
+<td>EUR/USD</td>
+<td>1.1554</td>
+<td>Euro steady but European data deteriorating</td>
+</tr>
+<tr>
+<td>USD/JPY</td>
+<td>159.74</td>
+<td>Near 160 intervention threshold</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>$4,649</td>
+<td>Down despite war — rates dominating safe haven</td>
+</tr>
+<tr>
+<td>DXY</td>
+<td>99.7</td>
+<td>Dollar is the safe haven of choice</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The one story:</strong> Iran-Hormuz conflict → oil supply shock → stagflation → central banks boxed in → correlation spike → Q1 hedge fund drawdowns.</p>
+<p><strong>Key dates:</strong> US CPI Friday. Fed/ECB/BOE all deciding April 29-30.</p>
+<p><strong>The cross-asset cascade:</strong> Oil → inflation → rates higher → equities de-rate → dollar strengthens → EM crushed → gold paradoxically down (rates beat safe haven). Every asset class traces back to oil.</p>
+<p><strong>Deep dive:</strong> <a href="10_Market_Context_Today.html">Market Context Today</a> — the full picture</p>
+<hr />
+<h1 id="section-10-risk-management-frameworks">SECTION 10: RISK MANAGEMENT FRAMEWORKS</h1>
+<hr />
+<h3 id="position-level-risk-assessment-use-this-framework-for-any-position">Position-Level Risk Assessment (use this framework for ANY position)</h3>
+<ol>
+<li><strong>Thesis:</strong> What's the trade? What's the PM betting on?</li>
+<li><strong>Sizing:</strong> Notional as % of NAV. Gross and net exposure.</li>
+<li><strong>Exposures:</strong> Delta, beta, sector, factor, concentration.</li>
+<li><strong>Scenarios:</strong> What kills it? Historical replay + hypothetical.</li>
+<li><strong>Hedging:</strong> What protection exists? Cost? Basis risk?</li>
+<li><strong>Liquidity:</strong> How long to exit? Market impact estimate?</li>
+<li><strong>Limits:</strong> Within VaR budget? Drawdown budget? Notional limits?</li>
+</ol>
+<hr />
+<h3 id="portfolio-level-risk-assessment">Portfolio-Level Risk Assessment</h3>
+<ol>
+<li><strong>Aggregation:</strong> Do individual positions compound or offset each other?</li>
+<li><strong>Correlation:</strong> Are "diversified" positions actually correlated?</li>
+<li><strong>Factor exposure:</strong> Are all positions loading on the same factor (momentum, growth, oil)?</li>
+<li><strong>Tail risk:</strong> What's the worst case across the whole book? Do hedges work in that scenario?</li>
+<li><strong>Liquidity profile:</strong> What % of the book can be liquidated in 1 day? 1 week?</li>
+</ol>
+<hr />
+<h3 id="discretionary-vs-systematic-risk-management">Discretionary vs Systematic Risk Management</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Systematic</th>
+<th>Discretionary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Speed</strong></td>
+<td>Automated — milliseconds</td>
+<td>Human — minutes to hours</td>
+</tr>
+<tr>
+<td><strong>Risk limits</strong></td>
+<td>Hard-coded, automated enforcement</td>
+<td>Soft guidelines + human judgment</td>
+</tr>
+<tr>
+<td><strong>Thesis</strong></td>
+<td>Statistical edge across many trades</td>
+<td>Concentrated views on specific themes</td>
+</tr>
+<tr>
+<td><strong>Position count</strong></td>
+<td>Thousands to millions</td>
+<td>Tens to hundreds</td>
+</tr>
+<tr>
+<td><strong>Key risk</strong></td>
+<td>Model failure, crowding, data errors</td>
+<td>PM concentration, thesis invalidation, sizing</td>
+</tr>
+<tr>
+<td><strong>Risk manager's role</strong></td>
+<td>Monitor systems, validate models</td>
+<td>Engage with PMs, challenge theses, build frameworks</td>
+</tr>
+<tr>
+<td><strong>What keeps you up at night</strong></td>
+<td>Correlated drawdown across strategies</td>
+<td>PM refuses to cut a losing position</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Deep dive:</strong> <a href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a> | <a href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a></p>
+<hr />
+<h1 id="section-11-what-a-discretionary-risk-manager-actually-does">SECTION 11: WHAT A DISCRETIONARY RISK MANAGER ACTUALLY DOES</h1>
+<p>Read <a href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a> in full. Summary:</p>
+<p><strong>Daily rhythm:</strong><br />
+1. Pre-market: review overnight moves, check positions, update stress tests<br />
+2. Market open: real-time monitoring, respond to PM queries, flag anomalies<br />
+3. Midday: deeper analysis — correlation checks, factor decomposition, scenario runs<br />
+4. Market close: end-of-day risk report, P&amp;L attribution, limit checks<br />
+5. Post-close: review next day's catalysts, update scenarios</p>
+<p><strong>Core responsibilities:</strong><br />
+1. Evaluate and monitor risk on every strategy<br />
+2. Enforce the IC's risk budget<br />
+3. Analyze portfolio-level risk and performance drivers<br />
+4. Help with portfolio construction (flag concentration, correlation, hedging gaps)<br />
+5. Build out risk infrastructure (reports, processes, tools, dashboards)<br />
+6. Work embedded with traders and researchers — speak their language</p>
+<p><strong>The hard conversations:</strong><br />
+- "You're approaching your drawdown limit. What's the plan?"<br />
+- "Your thesis assumed X. X just changed. Should we reduce?"<br />
+- "This position is 90% beta. Are you adding alpha or just taking market exposure?"</p>
+<hr />
+<h1 id="quick-reference-concept-table">QUICK-REFERENCE CONCEPT TABLE</h1>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>One-liner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta</td>
+<td>Option price change per $1 underlying move</td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>Rate of delta change — P&amp;L acceleration</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>Option price change per 1% vol move</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>Daily time decay cost</td>
+</tr>
+<tr>
+<td>Rho</td>
+<td>Option price change per 1% rate move</td>
+</tr>
+<tr>
+<td>VaR</td>
+<td>Max loss at X% confidence — says nothing about the tail</td>
+</tr>
+<tr>
+<td>Expected Shortfall</td>
+<td>Average loss in the tail — what VaR misses</td>
+</tr>
+<tr>
+<td>Sharpe</td>
+<td>Return per unit of total risk</td>
+</tr>
+<tr>
+<td>Sortino</td>
+<td>Return per unit of downside risk</td>
+</tr>
+<tr>
+<td>Max Drawdown</td>
+<td>Largest peak-to-trough decline</td>
+</tr>
+<tr>
+<td>Alpha</td>
+<td>Return above market beta</td>
+</tr>
+<tr>
+<td>Beta</td>
+<td>Sensitivity to market moves</td>
+</tr>
+<tr>
+<td>Correlation</td>
+<td>Co-movement between assets (-1 to +1)</td>
+</tr>
+<tr>
+<td>Basis risk</td>
+<td>Hedge mismatch with position</td>
+</tr>
+<tr>
+<td>Contango</td>
+<td>Futures &gt; Spot (rolling costs money)</td>
+</tr>
+<tr>
+<td>Backwardation</td>
+<td>Futures &lt; Spot (rolling earns money)</td>
+</tr>
+<tr>
+<td>Implied vol</td>
+<td>Market's expected future volatility</td>
+</tr>
+<tr>
+<td>Realized vol</td>
+<td>What actually happened</td>
+</tr>
+<tr>
+<td>Skew</td>
+<td>Puts cost more than calls — crash fear</td>
+</tr>
+<tr>
+<td>DV01</td>
+<td>Dollar value of 1 basis point move in rates</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>Bond price change per 1% yield move</td>
+</tr>
+<tr>
+<td>Convexity</td>
+<td>How duration changes as rates move</td>
+</tr>
+<tr>
+<td>Put-Call Parity</td>
+<td>Call - Put = Spot - PV(Strike)</td>
+</tr>
+<tr>
+<td>FRTB</td>
+<td>Basel's new risk framework replacing VaR with ES</td>
+</tr>
+<tr>
+<td>ISDA/CSA</td>
+<td>Legal framework for OTC derivatives</td>
+</tr>
+<tr>
+<td>Convenience yield</td>
+<td>Benefit of holding physical commodity</td>
+</tr>
+<tr>
+<td>Vol risk premium</td>
+<td>Implied vol systematically exceeds realized vol</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="file-map-where-to-go-deeper">FILE MAP — WHERE TO GO DEEPER</h1>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Greeks, VaR, ES, stress testing (with formulas)</td>
+<td><a href="07_Risk_Reference.html">Risk Reference</a></td>
+</tr>
+<tr>
+<td>All asset classes, instruments, portfolio construction</td>
+<td><a href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a></td>
+</tr>
+<tr>
+<td>How markets move, trade lifecycle, cross-asset relationships</td>
+<td><a href="09_Market_Intuition.html">Market Intuition</a></td>
+</tr>
+<tr>
+<td>Today's market snapshot, Iran/Hormuz, catalysts, correlation map</td>
+<td><a href="10_Market_Context_Today.html">Market Context Today</a></td>
+</tr>
+<tr>
+<td>Fund structure, fees, margin, prime brokerage, drawdown management</td>
+<td><a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a></td>
+</tr>
+<tr>
+<td>Futures, swaps, options — full mechanics with math</td>
+<td><a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a></td>
+</tr>
+<tr>
+<td>Ready answers for every resume claim probe</td>
+<td><a href="16_Probe_Defense_Guide.html">Probe Defense Guide</a></td>
+</tr>
+<tr>
+<td>Questions to ask the trader</td>
+<td><a href="17_Questions_To_Ask.html">Questions To Ask</a> — Round 1 section</td>
+</tr>
+<tr>
+<td>Systematic vs discretionary fund operations</td>
+<td><a href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a> + <a href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a></td>
+</tr>
+<tr>
+<td>SABR, cross-asset framework, FRTB details</td>
+<td><a href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a></td>
+</tr>
+</tbody>
+</table>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

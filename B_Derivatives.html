@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derivatives — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link active" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="b-derivatives-mechanics-pricing-strategies">B — DERIVATIVES: MECHANICS, PRICING &amp; STRATEGIES</h1>
+<h2 id="futures-options-swaps-how-they-work-how-theyre-priced-how-theyre-used">Futures, options, swaps — how they work, how they're priced, how they're used</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="part-1-why-derivatives-exist">PART 1: WHY DERIVATIVES EXIST</h1>
+<p>Three reasons:<br />
+1. <strong>Hedging</strong> — Transfer risk you don't want. Airline buys oil futures to lock in fuel costs.<br />
+2. <strong>Speculation</strong> — Take risk with leverage. Buy call options instead of stock to amplify returns.<br />
+3. <strong>Price discovery</strong> — Futures markets aggregate information and set benchmark prices.</p>
+<p>Every derivative is a contract whose value is derived from an underlying asset. The underlying can be anything: stocks, bonds, rates, currencies, commodities, volatility, even weather.</p>
+<hr />
+<h1 id="part-2-futures">PART 2: FUTURES</h1>
+<h2 id="what-it-is">What It Is</h2>
+<p>A contract to buy or sell an asset at a specified price on a specified future date. Both sides are OBLIGATED.</p>
+<h2 id="key-mechanics">Key Mechanics</h2>
+<ul>
+<li><strong>Standardized:</strong> Exchange-traded, fixed contract size, fixed expiry dates.</li>
+<li><strong>Margin:</strong> You don't pay the full price — you post initial margin (~5-15% of notional). This creates LEVERAGE.</li>
+<li><strong>Daily mark-to-market:</strong> Gains/losses settled daily via a margin account. If your margin falls below maintenance level → margin call → deposit more or get liquidated.</li>
+<li><strong>Physical vs cash settlement:</strong> Some futures deliver the underlying (WTI crude → actual oil). Others settle in cash (S&amp;P 500 E-mini → cash difference).</li>
+</ul>
+<h2 id="pricing-cost-of-carry">Pricing: Cost of Carry</h2>
+<p>$$F = S \times e^{(r - q) \times T}$$</p>
+<p>Where:<br />
+- $F$ = futures price<br />
+- $S$ = spot price<br />
+- $r$ = risk-free rate (financing cost)<br />
+- $q$ = dividend yield / convenience yield / storage cost<br />
+- $T$ = time to expiry</p>
+<p><strong>In plain English:</strong> Futures price = spot + cost to hold the asset until delivery (financing, storage, insurance) minus any income from holding (dividends, convenience yield).</p>
+<h2 id="contango-vs-backwardation">Contango vs Backwardation</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Futures vs Spot</th>
+<th>Why</th>
+<th>Impact on roll</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contango</td>
+<td>Futures &gt; Spot</td>
+<td>Storage + financing costs dominate. Supply is plentiful.</td>
+<td>Negative roll yield (rolling is expensive)</td>
+</tr>
+<tr>
+<td>Backwardation</td>
+<td>Futures &lt; Spot</td>
+<td>Scarcity premium for immediate delivery. Supply is tight.</td>
+<td>Positive roll yield (rolling makes money)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="roll-mechanics">Roll Mechanics</h2>
+<p>Futures expire. To maintain a position, you must "roll" — sell the expiring contract, buy the next one.<br />
+- In contango: you sell low (near month), buy high (next month) → lose money.<br />
+- In backwardation: you sell high, buy low → make money.<br />
+- <strong>Roll cost can dominate returns.</strong> The USO ETF (oil) lost ~40% of its value over years just from roll costs in a contango oil market.</p>
+<h2 id="futures-risk">Futures Risk</h2>
+<ul>
+<li><strong>Leverage:</strong> A 5% margin means 20x leverage. A 5% move in the underlying = 100% of your margin.</li>
+<li><strong>Margin calls:</strong> Position goes against you → post more margin or get liquidated at the worst time.</li>
+<li><strong>Basis risk:</strong> Futures don't perfectly track the spot price (basis = spot - futures). Basis can move independently.</li>
+<li><strong>Physical delivery:</strong> If you hold to expiry on a physically-settled contract and can't take delivery → disaster (April 2020 WTI).</li>
+</ul>
+<hr />
+<h1 id="part-3-options">PART 3: OPTIONS</h1>
+<h2 id="what-it-is_1">What It Is</h2>
+<p>The RIGHT (not obligation) to buy or sell an asset at a specified price (strike) before/on a specified date (expiry).<br />
+- <strong>Call option:</strong> Right to BUY at the strike.<br />
+- <strong>Put option:</strong> Right to SELL at the strike.<br />
+- <strong>American:</strong> Can exercise any time before expiry.<br />
+- <strong>European:</strong> Can only exercise at expiry.</p>
+<h2 id="option-value-components">Option Value Components</h2>
+<p><strong>Option Price = Intrinsic Value + Time Value</strong></p>
+<ul>
+<li><strong>Intrinsic value:</strong> How much the option is worth if exercised now.</li>
+<li>Call: max(0, S - K)</li>
+<li>Put: max(0, K - S)</li>
+<li><strong>Time value:</strong> The extra premium for the POSSIBILITY that the option becomes more valuable before expiry. Always positive (before expiry). Decays as you approach expiry (theta).</li>
+</ul>
+<h2 id="moneyness">Moneyness</h2>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Call</th>
+<th>Put</th>
+<th>Characteristics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>In-the-money (ITM)</td>
+<td>S &gt; K</td>
+<td>S &lt; K</td>
+<td>Has intrinsic value. Higher delta.</td>
+</tr>
+<tr>
+<td>At-the-money (ATM)</td>
+<td>S ≈ K</td>
+<td>S ≈ K</td>
+<td>Delta ≈ 0.50. Max time value. Max gamma.</td>
+</tr>
+<tr>
+<td>Out-of-the-money (OTM)</td>
+<td>S &lt; K</td>
+<td>S &gt; K</td>
+<td>No intrinsic value. Pure time value. Lower delta.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="black-scholes-what-it-does-and-what-it-assumes">Black-Scholes: What It Does and What It Assumes</h2>
+<p>The model gives a theoretical price for European options.</p>
+<p><strong>Inputs:</strong> Spot price (S), Strike (K), Time to expiry (T), Risk-free rate (r), Dividend yield (q), Volatility (σ).</p>
+<p><strong>Five outputs:</strong> Option price, and the five Greeks (delta, gamma, theta, vega, rho).</p>
+<p><strong>Key assumptions (and how they break):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Assumption</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Returns are normally distributed</td>
+<td>Returns have fat tails — extreme moves happen more often than predicted</td>
+</tr>
+<tr>
+<td>Volatility is constant</td>
+<td>Vol changes constantly — that's why the vol surface exists</td>
+</tr>
+<tr>
+<td>No transaction costs or taxes</td>
+<td>Both exist and matter for hedging</td>
+</tr>
+<tr>
+<td>Continuous trading possible</td>
+<td>Markets close, gap risk exists</td>
+</tr>
+<tr>
+<td>No early exercise</td>
+<td>American options can be exercised early (dividends, deep ITM puts)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Put-Call Parity:</strong> $C - P = S \times e^{-qT} - K \times e^{-rT}$</p>
+<p>This is an arbitrage relationship. If it breaks beyond transaction costs → arbitrage opportunity.</p>
+<h2 id="option-strategies">Option Strategies</h2>
+<h3 id="single-leg">Single-Leg</h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Construction</th>
+<th>View</th>
+<th>Max gain</th>
+<th>Max loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long call</td>
+<td>Buy call</td>
+<td>Bullish</td>
+<td>Unlimited</td>
+<td>Premium paid</td>
+</tr>
+<tr>
+<td>Long put</td>
+<td>Buy put</td>
+<td>Bearish</td>
+<td>Strike - premium</td>
+<td>Premium paid</td>
+</tr>
+<tr>
+<td>Short call</td>
+<td>Sell call</td>
+<td>Neutral/bearish</td>
+<td>Premium received</td>
+<td>Unlimited</td>
+</tr>
+<tr>
+<td>Short put</td>
+<td>Sell put</td>
+<td>Neutral/bullish</td>
+<td>Premium received</td>
+<td>Strike - premium</td>
+</tr>
+</tbody>
+</table>
+<h3 id="multi-leg-spreads">Multi-Leg Spreads</h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Construction</th>
+<th>View</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bull call spread</strong></td>
+<td>Buy low-strike call + sell high-strike call</td>
+<td>Moderately bullish</td>
+<td>Caps upside but reduces cost</td>
+</tr>
+<tr>
+<td><strong>Bear put spread</strong></td>
+<td>Buy high-strike put + sell low-strike put</td>
+<td>Moderately bearish</td>
+<td>Caps downside protection but cheaper</td>
+</tr>
+<tr>
+<td><strong>Straddle</strong></td>
+<td>Buy call + put at same strike</td>
+<td>Expecting big move, direction unknown</td>
+<td>Profits from large moves in either direction</td>
+</tr>
+<tr>
+<td><strong>Strangle</strong></td>
+<td>Buy OTM call + OTM put</td>
+<td>Cheaper than straddle, needs bigger move</td>
+<td>Similar to straddle but wider breakevens</td>
+</tr>
+<tr>
+<td><strong>Collar</strong></td>
+<td>Long stock + buy put + sell call</td>
+<td>Protect downside, give up upside</td>
+<td>Zero-cost or near-zero hedge</td>
+</tr>
+<tr>
+<td><strong>Butterfly</strong></td>
+<td>Buy 1 low, sell 2 middle, buy 1 high</td>
+<td>Expecting stock stays near middle strike</td>
+<td>Cheap bet on low volatility</td>
+</tr>
+<tr>
+<td><strong>Risk reversal</strong></td>
+<td>Sell OTM put + buy OTM call (or vice versa)</td>
+<td>Directional with no net premium</td>
+<td>Measures market skew/sentiment</td>
+</tr>
+<tr>
+<td><strong>Iron condor</strong></td>
+<td>Sell OTM put + buy further OTM put + sell OTM call + buy further OTM call</td>
+<td>Range-bound</td>
+<td>Profit if stock stays in a range</td>
+</tr>
+<tr>
+<td><strong>Calendar spread</strong></td>
+<td>Sell near-dated + buy far-dated (same strike)</td>
+<td>Theta play</td>
+<td>Profit from near-dated decaying faster</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-use-what">When to Use What</h3>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"I want downside protection but hate paying premium"</td>
+<td>Collar (buy put, sell call) or put spread</td>
+</tr>
+<tr>
+<td>"I think this stock will move big on earnings but I don't know which way"</td>
+<td>Straddle or strangle</td>
+</tr>
+<tr>
+<td>"I want to express a bullish view with defined risk"</td>
+<td>Bull call spread</td>
+</tr>
+<tr>
+<td>"I think vol is too high and the stock will stay in a range"</td>
+<td>Iron condor or short straddle</td>
+</tr>
+<tr>
+<td>"I want to hedge my portfolio without selling anything"</td>
+<td>Buy index puts or put spreads</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-4-swaps">PART 4: SWAPS</h1>
+<h2 id="interest-rate-swap-irs">Interest Rate Swap (IRS)</h2>
+<ul>
+<li>Exchange fixed rate payments for floating rate payments (or vice versa) over a period.</li>
+<li><strong>Fixed payer:</strong> Pays fixed, receives floating. Benefits if rates RISE.</li>
+<li><strong>Fixed receiver:</strong> Pays floating, receives fixed. Benefits if rates FALL.</li>
+<li><strong>Notional:</strong> Not exchanged — just used to calculate payment amounts.</li>
+<li><strong>DV01 of a swap:</strong> How much the swap's value changes per 1bp move in rates. An IRS with $100M notional and 5Y maturity has DV01 ≈ $50K.</li>
+<li><strong>Who uses them:</strong> Banks manage interest rate exposure, corporates convert floating debt to fixed, hedge funds express rate views.</li>
+</ul>
+<h2 id="total-return-swap-trs">Total Return Swap (TRS)</h2>
+<ul>
+<li>One party receives the total return (price change + dividends) on a reference asset, the other receives a financing rate (SOFR + spread).</li>
+<li><strong>Why it matters:</strong> TRS gives you synthetic exposure WITHOUT owning the asset. No 13F reporting. No share borrowing needed for shorting.</li>
+<li><strong>Archegos used TRS</strong> to build $30B+ in notional equity exposure that no single prime broker could see in full. → <a href="V_Case_Studies.html">Case Studies</a></li>
+<li><strong>Risk:</strong> Counterparty risk (PB can call margin), leverage (small equity, large notional), opacity (no public reporting).</li>
+</ul>
+<h2 id="credit-default-swap-cds">Credit Default Swap (CDS)</h2>
+<ul>
+<li>Insurance against default. Buyer pays spread, seller pays par minus recovery if default occurs.</li>
+<li>Covered in <a href="A_Cash_Instruments.html">Cash Instruments</a> Part 5 (credit section).</li>
+</ul>
+<h2 id="commodity-swap">Commodity Swap</h2>
+<ul>
+<li>Exchange floating commodity price for a fixed price. Airlines use these to fix fuel costs.</li>
+<li>Physical vs financially settled.</li>
+</ul>
+<hr />
+<h1 id="part-5-exotic-derivatives-awareness">PART 5: EXOTIC DERIVATIVES (AWARENESS)</h1>
+<p>You won't get deep questions on these but should know they exist:</p>
+<table>
+<thead>
+<tr>
+<th>Exotic</th>
+<th>What it is</th>
+<th>Risk concern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Barrier options</td>
+<td>Knock-in/knock-out at a specific price level. Changes payoff structure.</td>
+<td>Pin risk near barrier, sharp delta changes</td>
+</tr>
+<tr>
+<td>Asian options</td>
+<td>Payoff based on AVERAGE price over a period, not just final price.</td>
+<td>Lower vol than vanilla → cheaper. You priced these at BNP.</td>
+</tr>
+<tr>
+<td>Variance swap</td>
+<td>Pays realized variance minus strike variance. Pure vol bet.</td>
+<td>Short variance = unlimited downside. Volmageddon 2018.</td>
+</tr>
+<tr>
+<td>Swaption</td>
+<td>Option on a swap. Right to enter an IRS at a future date.</td>
+<td>Vol-of-rates exposure. Key for rates vol trading.</td>
+</tr>
+<tr>
+<td>Convertible bond</td>
+<td>Bond that can convert to equity. Embedded call option.</td>
+<td>Complex Greeks, hard to hedge, arb strategies exist.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-6-derivative-risk-what-kills-funds">PART 6: DERIVATIVE RISK — WHAT KILLS FUNDS</h1>
+<h3 id="1-leverage">1. Leverage</h3>
+<p>Every derivative has implicit leverage. A $2M options position can have $20M notional exposure. If the underlying moves, your losses scale to the notional, not the premium.</p>
+<h3 id="2-non-linear-payoffs">2. Non-Linear Payoffs</h3>
+<p>Options don't move 1-for-1 with the underlying. Gamma accelerates or decelerates P&amp;L. A short gamma position can go from "manageable" to "catastrophic" in a single session.</p>
+<h3 id="3-liquidity-illusion">3. Liquidity Illusion</h3>
+<p>OTC derivatives can have wide bid-ask spreads in stress. Mark-to-market valuation may not reflect what you can actually sell for.</p>
+<h3 id="4-model-dependence">4. Model Dependence</h3>
+<p>Exotic derivatives are priced by models. If the model is wrong (February 2018, March 2020), your "hedged" position isn't hedged.</p>
+<h3 id="5-margin-cascades">5. Margin Cascades</h3>
+<p>Commodity futures margin example:<br />
+- Oil vol spike → exchange increases initial margin → fund must post more cash → sell other positions to raise cash → those positions drop → more margin calls elsewhere → spiral.</p>
+<hr />
+<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<p>If asked "Explain the difference between a future and an option":</p>
+<p>"A future is an obligation — both sides must transact at expiry. An option gives the holder the RIGHT but not the obligation. This asymmetry is the key difference and it's why options cost a premium while futures are theoretically free to enter.</p>
+<p>The risk profiles are completely different. A futures position has linear P&amp;L — you gain or lose dollar-for-dollar with the underlying (amplified by leverage). An option position has non-linear P&amp;L — your maximum loss is the premium paid (if you're long), but your exposure changes as the underlying moves (that's gamma).</p>
+<p>For risk management, futures are simpler to hedge (just offset the delta) but options require managing multiple dimensions of risk simultaneously — delta, gamma, vega, theta. That's why options books are more complex to risk-manage."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a> — deeper mechanics and interview Q&amp;A<br />
+→ <a href="D_Greeks.html">Greeks</a> — measuring the risk of derivative positions<br />
+→ <a href="E_Volatility.html">Volatility</a> — volatility as the key input to option pricing<br />
+→ <a href="A_Cash_Instruments.html">Cash Instruments</a> — the underlyings these derivatives are based on<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — where derivatives killed funds</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

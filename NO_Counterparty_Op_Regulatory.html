@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counterparty Op Regulatory — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link active" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="no-counterparty-operational-regulatory-risk">NO — COUNTERPARTY, OPERATIONAL &amp; REGULATORY RISK</h1>
+<h2 id="the-non-market-risks-that-can-still-kill-a-fund">The non-market risks that can still kill a fund</h2>
+<h3 id="depth-aware">Depth: 🟢 AWARE</h3>
+<hr />
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>You won't get a deep dive question on FRTB or CVA formulas. But you need to know these exist — because:<br />
+1. They come up in "what types of risk exist beyond market risk?" answers<br />
+2. They show you understand the FULL risk landscape, not just Greeks and VaR<br />
+3. Operational and counterparty risk have killed more funds than bad trades</p>
+<hr />
+<h1 id="part-1-counterparty-risk">PART 1: COUNTERPARTY RISK</h1>
+<h2 id="what-is-it">What Is It?</h2>
+<p>The risk that the other side of your trade can't pay what they owe you. If you buy a swap from Bank X and Bank X goes bankrupt, your swap is worthless even if the trade was profitable.</p>
+<h2 id="key-concepts">Key Concepts</h2>
+<h3 id="credit-valuation-adjustment-cva">Credit Valuation Adjustment (CVA)</h3>
+<ul>
+<li>The market price of counterparty credit risk.</li>
+<li>CVA = Expected Exposure × Probability of Default × Loss Given Default</li>
+<li>Translation: "How much is at risk × how likely they default × how much we'd lose if they do."</li>
+<li>Practically: CVA is a deduction from the value of an OTC derivative position. If the counterparty is riskier, the trade is worth less to you.</li>
+</ul>
+<h3 id="debit-valuation-adjustment-dva">Debit Valuation Adjustment (DVA)</h3>
+<ul>
+<li>The mirror image: the market price of YOUR OWN credit risk to counterparties.</li>
+<li>Controversial because: as your own credit deteriorates, DVA creates an accounting gain. "We're closer to bankruptcy, so our liabilities are worth less, so we book a profit." This is technically correct but perverse.</li>
+</ul>
+<h3 id="wrong-way-risk">Wrong-Way Risk</h3>
+<ul>
+<li>When your exposure to a counterparty INCREASES at the same time as their creditworthiness DECREASES.</li>
+<li>Classic example: You buy a credit default swap (CDS) on Italian debt from an Italian bank. If Italy gets into trouble, the bank's credit also deteriorates — exactly when you need them to pay you the most.</li>
+<li>This is what makes counterparty risk non-linear and dangerous.</li>
+</ul>
+<h3 id="netting-collateral">Netting &amp; Collateral</h3>
+<p><strong>Netting agreements (ISDA Master Agreement):</strong><br />
+- If you have multiple trades with the same counterparty, netting means you only owe/are owed the NET amount.<br />
+- Without netting: you owe them $10M on Trade A, they owe you $8M on Trade B → you owe $10M (if they default you lose $8M AND still owe $10M).<br />
+- With netting: net position is $2M. Much less risk.</p>
+<p><strong>Credit Support Annex (CSA):</strong><br />
+- The collateral agreement under ISDA. Specifies:<br />
+  - How often collateral is exchanged (daily/weekly)<br />
+  - Minimum transfer amount<br />
+  - Eligible collateral (cash, government bonds, etc.)<br />
+  - Thresholds (below which no collateral is required)</p>
+<p><strong>Central Clearing (CCP):</strong><br />
+- Post-2008 reform: standardized OTC derivatives must be cleared through a CCP (like LCH, CME).<br />
+- CCP sits between buyer and seller → eliminates bilateral counterparty risk.<br />
+- BUT creates concentration risk: if the CCP fails, EVERYTHING fails. The CCP is "too important to fail."</p>
+<h2 id="for-your-interview">For Your Interview</h2>
+<p>"Counterparty risk is the risk that the other side of an OTC trade can't pay. It's managed through ISDA netting, CSA collateral, and central clearing. The key concept I'd flag is wrong-way risk — when your exposure increases exactly when the counterparty's creditworthiness decreases. That's a correlation most simple models miss."</p>
+<hr />
+<h1 id="part-2-operational-risk">PART 2: OPERATIONAL RISK</h1>
+<h2 id="what-is-it_1">What Is It?</h2>
+<p>Risk of loss from inadequate or failed internal processes, people, systems, or external events.</p>
+<h2 id="the-big-categories">The Big Categories</h2>
+<h3 id="people-risk">People Risk</h3>
+<ul>
+<li>Rogue trader (Barings, Société Générale / Kerviel)</li>
+<li>Key-person dependency (what if the head of risk quits?)</li>
+<li>Human error (wrong notional on a trade, fat-finger)</li>
+</ul>
+<h3 id="process-risk">Process Risk</h3>
+<ul>
+<li>No separation of duties (Barings: Leeson did trading AND back office)</li>
+<li>Inadequate reconciliation (positions not matched between front and back office)</li>
+<li>Missing or incomplete documentation for OTC trades</li>
+</ul>
+<h3 id="technology-risk">Technology Risk</h3>
+<ul>
+<li>System outage during trading hours</li>
+<li>Data feed failures (pricing based on stale data)</li>
+<li>Cybersecurity (theft, ransomware, data breach)</li>
+</ul>
+<h3 id="external-events">External Events</h3>
+<ul>
+<li>Natural disasters, pandemics (COVID forced work-from-home → new op risk)</li>
+<li>Legal/regulatory actions against the firm</li>
+<li>Third-party vendor failures</li>
+</ul>
+<h2 id="the-operational-risk-framework-for-an-rm-answer">The Operational Risk Framework (for an RM answer)</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it covers</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prevention</td>
+<td>Controls that stop errors before they happen</td>
+<td>4-eye principle (two approvals), automated limit checks</td>
+</tr>
+<tr>
+<td>Detection</td>
+<td>Controls that catch errors quickly</td>
+<td>Daily reconciliation, trade matching, anomaly alerts</td>
+</tr>
+<tr>
+<td>Response</td>
+<td>What to do when an error occurs</td>
+<td>Incident response procedures, escalation, root cause analysis</td>
+</tr>
+<tr>
+<td>Recovery</td>
+<td>Getting back to normal</td>
+<td>Business continuity, backup systems, disaster recovery</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-operational-controls-at-a-hedge-fund">Key Operational Controls at a Hedge Fund</h2>
+<ol>
+<li><strong>Trade reconciliation:</strong> Front office positions must match back office and prime broker records DAILY.</li>
+<li><strong>Pricing verification:</strong> Marks must be independently verified — not just using the broker's mark.</li>
+<li><strong>Access controls:</strong> WHO can enter trades, WHO can modify limits, WHO can override alerts.</li>
+<li><strong>Segregation of duties:</strong> The person who puts on a trade cannot be the person who reconciles it.</li>
+</ol>
+<h2 id="for-your-interview_1">For Your Interview</h2>
+<p>"Operational risk is about controls — making sure the right people are doing the right things and that errors are caught quickly. The lesson from Barings is that no amount of market risk management matters if one person can both trade and reconcile their own positions. As a junior RM, I'd make sure I have independent access to position data and that I'm doing daily reconciliation against the PB blotter."</p>
+<hr />
+<h1 id="part-3-regulatory-landscape">PART 3: REGULATORY LANDSCAPE</h1>
+<h2 id="basel-framework-banks">Basel Framework (Banks)</h2>
+<p>Not directly applicable to a hedge fund, but important to understand because:<br />
+- Prime brokers operate under Basel → their balance sheet constraints affect YOUR margin terms<br />
+- Basel capital requirements influence HOW MUCH leverage PBs will extend to you<br />
+- FRTB (below) changes how PBs calculate market risk capital → may make some trades more expensive</p>
+<h3 id="basel-iii-current">Basel III (current)</h3>
+<ul>
+<li>Capital ratios: minimum CET1 ratio of 4.5% + buffers</li>
+<li>Leverage ratio: 3% minimum (limits total balance sheet leverage)</li>
+<li>Liquidity requirements: LCR (liquid assets to cover 30-day outflows), NSFR (stable funding for illiquid assets)</li>
+<li>Supplementary Leverage Ratio (SLR): constrains bank balance sheets → reduces PB capacity → matters for hedge funds trying to get leverage</li>
+</ul>
+<h3 id="frtb-fundamental-review-of-the-trading-book">FRTB (Fundamental Review of the Trading Book)</h3>
+<ul>
+<li>New market risk capital standard replacing old VaR-based approach.</li>
+<li>Key change: Expected Shortfall (ES) instead of VaR. Why? ES captures tail risk better — it's the average loss beyond VaR, not just the threshold.</li>
+<li>Practically for you: PBs may reprice their services as FRTB increases capital charges. Some strategies (concentrated, illiquid) may become more expensive to finance.</li>
+</ul>
+<h2 id="dodd-frank-us-post-2008">Dodd-Frank (US Post-2008)</h2>
+<ul>
+<li>Volcker Rule: banks can't do proprietary trading. Led many risk professionals to move from banks to hedge funds (where you CAN trade).</li>
+<li>Clearinghouse mandates: standardized swaps must go through CCPs.</li>
+<li>Swap dealer registration: reporting requirements for OTC derivatives.</li>
+<li>Impact on hedge funds: more transparency, higher costs, but also better counterparty infrastructure.</li>
+</ul>
+<h2 id="emir-european-equivalent-of-dodd-frank">EMIR (European equivalent of Dodd-Frank)</h2>
+<ul>
+<li>Trade reporting: all OTC derivatives must be reported to a trade repository.</li>
+<li>Central clearing: mandatory for certain standardized OTC derivatives.</li>
+<li>Risk mitigation: timely confirmation, portfolio reconciliation, margin requirements for non-cleared trades.</li>
+</ul>
+<h2 id="mifid-ii-european-markets-in-financial-instruments">MiFID II (European — Markets in Financial Instruments)</h2>
+<ul>
+<li>Best execution: must prove you got the best price for clients.</li>
+<li>Transparency: pre- and post-trade reporting.</li>
+<li>Research unbundling: research payments must be separated from execution commissions. Changed how funds pay for research.</li>
+</ul>
+<h2 id="sec-us-for-hedge-funds">SEC (US — for hedge funds)</h2>
+<ul>
+<li>Form PF: quarterly or annual reporting for private funds (AUM, leverage, exposures, concentration).</li>
+<li>13F: quarterly filing of long equity positions for managers with &gt;$100M AUM. BUT: short positions NOT reported. Total return swaps NOT reported (this is the Archegos gap).</li>
+<li>Regulation SHO: short-selling rules (locate requirement, circuit breakers).</li>
+</ul>
+<h2 id="for-your-interview_2">For Your Interview</h2>
+<p>"The regulatory landscape is mostly relevant to us through PB constraints — Basel and FRTB determine how much leverage our prime brokers can offer and at what cost. EMIR and Dodd-Frank drive central clearing and reporting requirements for our OTC book. And the 13F reporting gap — where TRS don't appear — is exactly what enabled Archegos. The regulation is catching up but there are still blind spots."</p>
+<hr />
+<h1 id="quick-reference-table">QUICK REFERENCE TABLE</h1>
+<table>
+<thead>
+<tr>
+<th>Risk Type</th>
+<th>Key Concern</th>
+<th>Managed By</th>
+<th>Historic Failure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Counterparty</td>
+<td>Default of OTC trading partner</td>
+<td>ISDA/CSA, netting, central clearing, CVA</td>
+<td>Lehman Brothers (2008)</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Internal process/system failure</td>
+<td>Controls, reconciliation, segregation of duties</td>
+<td>Barings (1995), Knight Capital (2012)</td>
+</tr>
+<tr>
+<td>Regulatory</td>
+<td>Non-compliance, changing rules</td>
+<td>Compliance function, legal review</td>
+<td>Various fines, Archegos (reporting gap)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — fund structure, PB relationships, margin<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — Barings (op risk), Archegos (PB blind spots)<br />
+→ <a href="07_Risk_Reference.html">Risk Reference</a> — VaR, stress testing (market risk)<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — model risk (related to regulatory model frameworks)</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

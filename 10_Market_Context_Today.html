@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Context Today — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link active" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="market-context-as-of-april-7-2026">MARKET CONTEXT — AS OF APRIL 7, 2026</h1>
+<h2 id="what-a-discretionary-risk-manager-needs-to-know-right-now">What a Discretionary Risk Manager Needs to Know Right Now</h2>
+<hr />
+<h1 id="the-single-biggest-story-the-iran-war-strait-of-hormuz">THE SINGLE BIGGEST STORY: THE IRAN WAR &amp; STRAIT OF HORMUZ</h1>
+<h3 id="timeline-of-the-crisis">Timeline of the Crisis</h3>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Feb 28, 2026</strong></td>
+<td>US-Israel war on Iran begins. Tehran effectively closes the Strait of Hormuz.</td>
+</tr>
+<tr>
+<td><strong>March 2026</strong></td>
+<td>Brent crude surges 60%+ in a single month — biggest monthly gain since 1988. Strait traffic drops to an average of fewer than 2 tanker transits per day (from ~20M bbl/day pre-war).</td>
+</tr>
+<tr>
+<td><strong>Late March</strong></td>
+<td>Trump extends strike deadlines multiple times. Iran pushes back against pressure to reopen the waterway.</td>
+</tr>
+<tr>
+<td><strong>Apr 6 (yesterday)</strong></td>
+<td>Iran rejects US ceasefire proposal. Presents its own 10-point plan: permanent end to hostilities, protocol for safe passage, lifting of sanctions, reconstruction. Trump: "Not good enough, but a very significant step."</td>
+</tr>
+<tr>
+<td><strong>Apr 7 (TODAY)</strong></td>
+<td>Trump's deadline: <strong>8 PM ET tonight</strong> for Iran to fully reopen the Strait of Hormuz. Threatens to destroy Iranian power plants and bridges. Iran says it wants a lasting end, not a temporary ceasefire.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-happens-next-three-scenarios">What Happens Next — Three Scenarios</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Probability (market-implied)</th>
+<th>Market Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Deal / ceasefire reached</strong></td>
+<td>Low-medium</td>
+<td>Oil drops sharply ($80-90?), equities rally 3-5%, dollar weakens, gold sells off further, vol crush</td>
+</tr>
+<tr>
+<td><strong>Deadline extended again</strong></td>
+<td>Medium-high</td>
+<td>Oil holds $105-115, equities chop sideways, VIX stays elevated (~24), status quo continues</td>
+</tr>
+<tr>
+<td><strong>Escalation (strikes on civilian infrastructure)</strong></td>
+<td>Low-medium</td>
+<td>Oil spikes $130+, equities sell off 5-10%, flight to USD/Treasuries, VIX 35+, EM currencies crushed, gold could go either way</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-this-is-the-1-risk-right-now">Why This Is the #1 Risk Right Now</h3>
+<p>The Strait of Hormuz handles <strong>~20% of global oil and natural gas supply</strong>. Its closure is not a localized event — it's a <strong>global supply shock</strong> that cascades through every asset class:</p>
+<div class="highlight"><pre><span></span><code>Strait closed → Oil $110+ → Gasoline/diesel/jet fuel soar
+    │
+    ├── Inflation spikes → Central banks can&#39;t cut rates → Bonds sell off
+    │
+    ├── Consumer spending squeezed → Growth slows → Stagflation risk
+    │
+    ├── Energy-importing nations (Japan, India, Europe) hit hardest → FX weakness
+    │
+    ├── Energy exporters (Saudi, UAE, Norway, Canada) benefit → FX strength
+    │
+    └── Shipping/logistics disrupted → Supply chains stressed → Broader inflation
+</code></pre></div>
+
+<p><strong>IEA chief said today:</strong> <em>"The current oil and gas crisis is worse than 1973, 1979, and 2022 together."</em></p>
+<h3 id="shipping-data-slowly-resuming">Shipping Data — Slowly Resuming</h3>
+<ul>
+<li>8 tankers transited Hormuz on Monday (up from avg &lt;2/day in March)</li>
+<li>Pre-war: ~20M bbl/day of crude and products flowed through</li>
+<li>MUFG Research: even if peace is declared, full resumption = <strong>3-6 months minimum</strong></li>
+<li>This means the supply shock has a <strong>long tail</strong> regardless of ceasefire timing</li>
+</ul>
+<hr />
+<h1 id="part-1-asset-class-snapshot-april-7-2026">PART 1: ASSET CLASS SNAPSHOT (April 7, 2026)</h1>
+<h2 id="equities">Equities</h2>
+<table>
+<thead>
+<tr>
+<th>Index</th>
+<th>Level</th>
+<th>Daily Change</th>
+<th>52-Week Range</th>
+<th>YTD Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S&amp;P 500</strong></td>
+<td>6,611.83</td>
+<td>+0.44%</td>
+<td>4,835 – 7,002</td>
+<td>Worst Q1 since 2022 (-4.6%)</td>
+</tr>
+<tr>
+<td><strong>NASDAQ</strong></td>
+<td>21,996.34</td>
+<td>+0.54%</td>
+<td>14,784 – 24,020</td>
+<td>Tech sold off on AI competition concerns</td>
+</tr>
+<tr>
+<td><strong>Dow Jones</strong></td>
+<td>46,669.88</td>
+<td>+0.36%</td>
+<td>36,612 – 50,513</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>FTSE 100</strong></td>
+<td>10,440.59</td>
+<td>+0.04%</td>
+<td>7,545 – 10,935</td>
+<td>Near highs despite war</td>
+</tr>
+<tr>
+<td><strong>Euro STOXX 50</strong></td>
+<td>5,700.64</td>
+<td>+0.14%</td>
+<td></td>
+<td>Worst month since 2022 in March</td>
+</tr>
+<tr>
+<td><strong>Nikkei 225</strong></td>
+<td>53,429.56</td>
+<td>+0.03%</td>
+<td></td>
+<td>Choppy — erased early gains today</td>
+</tr>
+<tr>
+<td><strong>Hang Seng</strong></td>
+<td>25,116.53</td>
+<td>-0.70%</td>
+<td>19,260 – 28,056</td>
+<td>China exposed to energy imports</td>
+</tr>
+<tr>
+<td><strong>VIX</strong></td>
+<td><strong>24.41</strong></td>
+<td>+0.99%</td>
+<td></td>
+<td>Elevated — "fear gauge" well above normal 15-18</td>
+</tr>
+</tbody>
+</table>
+<h3 id="equity-risk-managers-read">Equity Risk Manager's Read</h3>
+<ul>
+<li><strong>VIX at 24.4</strong> — elevated but not panic (panic = 30-40+). Market is pricing uncertainty, not crisis.</li>
+<li><strong>S&amp;P still at 6,600</strong> — remarkably resilient considering oil above $110 and a war. Why? Markets are pricing in a deal/ceasefire as base case.</li>
+<li><strong>The danger:</strong> If escalation happens tonight, the move could be violent because the market is still relatively complacent. VIX at 24 underprices the tail risk.</li>
+<li><strong>Sector divergence:</strong> Energy stocks outperforming massively. Tech/growth underperforming (rate-sensitive). Defensive sectors (utilities, staples) holding. This is classic war/inflation rotation.</li>
+</ul>
+<hr />
+<h2 id="rates-bonds">Rates &amp; Bonds</h2>
+<table>
+<thead>
+<tr>
+<th>Bond</th>
+<th>Yield</th>
+<th>Daily Change</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>US 10Y</strong></td>
+<td>4.354%</td>
+<td>+1.9bps</td>
+<td>Rising on inflation fears despite growth concerns</td>
+</tr>
+<tr>
+<td><strong>US 2Y</strong></td>
+<td>~3.8-4.0% (est.)</td>
+<td></td>
+<td>Curve dynamics critical</td>
+</tr>
+<tr>
+<td><strong>UK 10Y</strong></td>
+<td>4.853%</td>
+<td>+1.4bps</td>
+<td>Highest among G7 — stagflation priced aggressively</td>
+</tr>
+<tr>
+<td><strong>Germany 10Y</strong></td>
+<td>3.007%</td>
+<td>+1.1bps</td>
+<td>Above 3% — significant for Europe</td>
+</tr>
+<tr>
+<td><strong>France 10Y</strong></td>
+<td>3.696%</td>
+<td>+0.7bps</td>
+<td>OAT-Bund spread ~69bps — watch for widening</td>
+</tr>
+<tr>
+<td><strong>Italy 10Y</strong></td>
+<td>3.873%</td>
+<td>+0.4bps</td>
+<td>BTP-Bund spread ~87bps — peripheral risk in check for now</td>
+</tr>
+<tr>
+<td><strong>Japan 10Y</strong></td>
+<td>2.410%</td>
+<td>-1.4bps</td>
+<td>JGBs diverging — safe haven flows</td>
+</tr>
+<tr>
+<td><strong>Mexico 10Y</strong></td>
+<td>9.236%</td>
+<td>+7.6bps</td>
+<td>EM stress — 9%+ yields reflect risk premium</td>
+</tr>
+</tbody>
+</table>
+<h3 id="central-bank-rates">Central Bank Rates</h3>
+<table>
+<thead>
+<tr>
+<th>Central Bank</th>
+<th>Current Rate</th>
+<th>Next Meeting</th>
+<th>Market Expectation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fed (Fed Funds)</strong></td>
+<td>3.75%</td>
+<td><strong>Apr 29</strong></td>
+<td>97.9% probability of 25bp CUT to 3.50-3.75% (CME FedWatch)</td>
+</tr>
+<tr>
+<td><strong>ECB</strong></td>
+<td>2.15%</td>
+<td>Apr 30</td>
+<td>Policymaker warned "inflation scars risk quickly lifting expectations; ECB must be ready to act"</td>
+</tr>
+<tr>
+<td><strong>BOE</strong></td>
+<td>3.75%</td>
+<td>Apr 30</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>BOJ</strong></td>
+<td>0.75%</td>
+<td>Apr 28</td>
+<td>Held rates — yen weakness the bigger concern</td>
+</tr>
+<tr>
+<td><strong>RBI (India)</strong></td>
+<td>5.25%</td>
+<td><strong>Apr 9 (2 days!)</strong></td>
+<td>Critical — India massively exposed to oil imports</td>
+</tr>
+<tr>
+<td><strong>SNB</strong></td>
+<td>0.00%</td>
+<td>Apr 16</td>
+<td>At floor — nowhere to go</td>
+</tr>
+<tr>
+<td><strong>BOC</strong></td>
+<td>2.25%</td>
+<td>Apr 29</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>RBNZ</strong></td>
+<td>2.25%</td>
+<td><strong>Apr 8 (tomorrow!)</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>CBR (Russia)</strong></td>
+<td>15.00%</td>
+<td>Apr 24</td>
+<td>Emergency levels — war economy</td>
+</tr>
+<tr>
+<td><strong>BCB (Brazil)</strong></td>
+<td>14.75%</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>PBOC</strong></td>
+<td>3.00%</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="rates-risk-managers-read">Rates Risk Manager's Read</h3>
+<ul>
+<li><strong>The impossible trilemma:</strong> Oil above $110 is inflationary → central banks should tighten or hold. But growth is slowing (ISM services weakened, European PMIs contracting) → central banks should cut. They can't do both. <strong>This is stagflation.</strong></li>
+<li><strong>US data conflict:</strong> ISM showed US services growth slowed in March while input prices rose by the most in 13+ years. US CPI data due <strong>Friday</strong> — will likely show inflation accelerating from energy costs.</li>
+<li><strong>Fed boxed in:</strong> CME FedWatch shows 97.9% pricing a cut on Apr 29 — but Reuters reports "traders no longer pricing in cuts this year." This contradiction means the market is confused/split. <strong>Positioning risk is extreme around the April 29 meeting.</strong></li>
+<li><strong>Europe deteriorating fast:</strong></li>
+<li>Eurozone growth at 9-month low (PMI)</li>
+<li>German services at 7-month low</li>
+<li>France services <strong>contracting</strong></li>
+<li>Italy's central bank <strong>cut growth forecasts, raised inflation estimates</strong></li>
+<li>ECB policymaker today: <em>"Inflation scars risk quickly lifting expectations"</em></li>
+<li><strong>Japan watch:</strong> Yen at 159.74 — near the <strong>critical 160 level</strong>. If it breaks 160, Tokyo may intervene (as they did in 2024). A risk event in itself.</li>
+<li><strong>EM vulnerability:</strong> Mexico 10Y at 9.2%, high yields across EM — energy-importing emerging markets are being squeezed by oil prices + strong dollar simultaneously.</li>
+</ul>
+<hr />
+<h2 id="commodities">Commodities</h2>
+<table>
+<thead>
+<tr>
+<th>Commodity</th>
+<th>Price</th>
+<th>Daily Change</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Brent Crude</strong></td>
+<td>$111.48/bbl</td>
+<td>+1.56%</td>
+<td><strong>Up 50%+ since war started Feb 28</strong></td>
+</tr>
+<tr>
+<td><strong>WTI Crude</strong></td>
+<td>$115.09/bbl</td>
+<td>+2.4%</td>
+<td>"$100 is the new $60" — Clearview Energy</td>
+</tr>
+<tr>
+<td><strong>Gold</strong></td>
+<td>$4,648.90/oz</td>
+<td>-0.17%</td>
+<td>Down from highs — rate expectations overriding safe haven</td>
+</tr>
+<tr>
+<td><strong>Copper</strong></td>
+<td>$1,165.45</td>
+<td>+0.34%</td>
+<td>Resilient — China demand + supply concerns</td>
+</tr>
+<tr>
+<td><strong>Soybeans</strong></td>
+<td>$1,168.00</td>
+<td>+0.11%</td>
+<td>Ag commodities volatile on fertilizer disruption</td>
+</tr>
+<tr>
+<td><strong>Coffee</strong></td>
+<td>298.15 USc</td>
+<td>+0.03%</td>
+<td>Near $3/lb — multi-year highs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="oil-supply-chain-details">Oil Supply Chain Details</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre-war Hormuz flow</td>
+<td>~20M bbl/day</td>
+<td>Crude + products</td>
+</tr>
+<tr>
+<td>March 2026 average</td>
+<td>&lt;2 transits/day</td>
+<td>~90% reduction</td>
+</tr>
+<tr>
+<td>April 7 flow</td>
+<td>8 transits (Monday)</td>
+<td>Slowly improving</td>
+</tr>
+<tr>
+<td>Brent pre-war (Feb 27)</td>
+<td>~$73/bbl</td>
+<td>Baseline</td>
+</tr>
+<tr>
+<td>Brent today</td>
+<td>$111.48/bbl</td>
+<td>+53% in 5.5 weeks</td>
+</tr>
+<tr>
+<td>Full resumption timeline</td>
+<td>3-6 months (MUFG)</td>
+<td>Even with ceasefire</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gold-a-paradox">Gold — A Paradox</h3>
+<p>Gold at $4,649 is <strong>down</strong> despite a major war. Why?<br />
+1. <strong>Higher-for-longer rate expectations</strong> → opportunity cost of holding gold rises<br />
+2. <strong>Dollar strength</strong> → gold priced in USD becomes expensive for non-US buyers<br />
+3. <strong>Margin calls</strong> → some investors selling gold to cover losses elsewhere<br />
+4. Gold had its <strong>worst month in 17+ years</strong> in March despite the war</p>
+<p><strong>But:</strong> China's central bank has been buying gold for <strong>17 consecutive months</strong> (74.38M fine troy ounces as of March). Central bank gold buying provides a floor.</p>
+<h3 id="commodities-risk-managers-read">Commodities Risk Manager's Read</h3>
+<ul>
+<li><strong>Oil is THE macro variable right now.</strong> Every other asset class is a derivative of what happens to oil.</li>
+<li><strong>Asymmetric risk:</strong> Oil at $111 prices in "disruption continues but resolves eventually." If Hormuz fully reopens → oil drops to $75-85 quickly. If escalation → oil could hit $130-150. The downside move is larger but the upside shock is more damaging to portfolios.</li>
+<li><strong>Second-order effects already visible:</strong></li>
+<li>China raising domestic gasoline/diesel prices again (today's headline)</li>
+<li>Singapore introduced $780M relief package for war impact</li>
+<li>Pakistan switching to electric motorbikes due to fuel costs</li>
+<li>South Asian energy crisis developing</li>
+<li>Fertilizer disruption threatening food supply chain</li>
+<li><strong>Risk monitoring:</strong> Any discretionary book with energy exposure needs real-time Hormuz transit data, Iranian military movements, and diplomatic channel signals. This is not a "check once a day" risk — it moves in minutes.</li>
+</ul>
+<hr />
+<h2 id="fx-currencies">FX / Currencies</h2>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Rate</th>
+<th>Daily Change</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EUR/USD</strong></td>
+<td>1.1554</td>
+<td>+0.11%</td>
+<td>Euro steady despite deteriorating European data</td>
+</tr>
+<tr>
+<td><strong>GBP/USD</strong></td>
+<td>1.3243</td>
+<td>+0.07%</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>USD/JPY</strong></td>
+<td>159.74</td>
+<td></td>
+<td><strong>Near critical 160 — intervention watch</strong></td>
+</tr>
+<tr>
+<td><strong>Dollar Index (DXY)</strong></td>
+<td>99.695</td>
+<td>-0.11%</td>
+<td>Near recent highs — dollar as haven of choice</td>
+</tr>
+<tr>
+<td><strong>CNY/USD</strong></td>
+<td>0.1458</td>
+<td>+0.31%</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="fx-risk-managers-read">FX Risk Manager's Read</h3>
+<ul>
+<li><strong>Dollar has been the safe haven</strong> — not yen, not gold, not Swiss franc. The dollar. This is unusual and reflects US energy self-sufficiency vs. Europe/Japan/Asia energy dependence.</li>
+<li><strong>JPY at 159.74</strong> is a live intervention risk. BOJ officials have been making "strong recent comments." If they intervene, it could be a $3-5 billion action that moves the pair 3-5 big figures in minutes. <strong>Any portfolio with JPY exposure needs this on the watch list.</strong></li>
+<li><strong>EUR weakness ahead:</strong> European PMIs deteriorating, ECB boxed in (inflation up + growth down), energy import dependence. EUR/USD could test 1.10 on escalation.</li>
+<li><strong>EM FX under pressure:</strong> Strong dollar + high oil = double squeeze for energy-importing EM currencies (INR, THB, PHP, TRY, ZAR).</li>
+</ul>
+<hr />
+<h1 id="part-2-q1-2026-in-review-what-just-happened">PART 2: Q1 2026 IN REVIEW — What Just Happened</h1>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Q1 2026 Performance</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S&amp;P 500</strong></td>
+<td>-4.6%</td>
+<td>Worst quarter since 2022</td>
+</tr>
+<tr>
+<td><strong>Brent Crude</strong></td>
+<td>+60% in March alone</td>
+<td>Biggest monthly gain since 1988</td>
+</tr>
+<tr>
+<td><strong>Gold</strong></td>
+<td>Worst month in 17+ years (March)</td>
+<td>Rate-hike fears outweighed safe haven</td>
+</tr>
+<tr>
+<td><strong>European stocks</strong></td>
+<td>Worst month since 2022 (March)</td>
+<td>War impact + deteriorating macro</td>
+</tr>
+<tr>
+<td><strong>Balyasny</strong></td>
+<td>-3.8% YTD</td>
+<td>Multi-strategy fund struggling</td>
+</tr>
+<tr>
+<td><strong>ExodusPoint</strong></td>
+<td>-4.5% in March</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>LMR Partners</strong></td>
+<td>-2.4%</td>
+<td>Macro fund caught wrong-footed</td>
+</tr>
+<tr>
+<td><strong>Caxton</strong></td>
+<td>-$1.3bn in March</td>
+<td>Macro trades backfired</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-went-wrong-for-hedge-funds-in-q1">What Went Wrong for Hedge Funds in Q1</h3>
+<ol>
+<li><strong>Macro traders bet on rate cuts in UK/Europe</strong> → war made rate cuts impossible → these trades blew up</li>
+<li><strong>Energy positioning was too light</strong> → oil moved too fast for many to catch</li>
+<li><strong>Correlation spike</strong> → war created correlated drawdowns across normally uncorrelated books</li>
+<li><strong>Volatility expansion</strong> → gamma-short positions (selling options) got crushed as vol spiked</li>
+</ol>
+<h3 id="why-this-matters-for-your-interview">Why This Matters for Your Interview</h3>
+<p>These are the exact risks a Junior Risk Manager at Squarepoint would need to manage. If asked "what keeps you up at night?":</p>
+<blockquote>
+<p><em>"Right now? The Hormuz situation creates fat-tail risk that's hard to hedge. The Q1 drawdowns we saw at multi-strategy funds happened because correlation spiked — normally independent books drew down together when oil moved. As a risk manager, I'd want to understand the portfolio's aggregate sensitivity to an oil shock — not just direct energy positions, but second-order effects: airlines, shipping, chemicals, consumer discretionary, EM FX. And I'd want scenario analysis for the three outcomes tonight — deal, extension, escalation — with pre-defined actions for each."</em></p>
+</blockquote>
+<hr />
+<h1 id="part-3-key-upcoming-catalysts">PART 3: KEY UPCOMING CATALYSTS</h1>
+<h2 id="this-week">This Week</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+<th>Why It Matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Apr 7 (TODAY)</strong></td>
+<td>Trump's 8 PM ET deadline for Iran</td>
+<td>Binary event: deal/extend/escalate. Everything hinges on this.</td>
+</tr>
+<tr>
+<td><strong>Apr 8 (Wed)</strong></td>
+<td>RBNZ rate decision</td>
+<td>First G10 central bank to decide post-Q1 turmoil</td>
+</tr>
+<tr>
+<td><strong>Apr 9 (Thu)</strong></td>
+<td>RBI (India) rate decision</td>
+<td>India's oil import dependency makes this high-stakes</td>
+</tr>
+<tr>
+<td><strong>Apr 11 (Fri)</strong></td>
+<td><strong>US CPI data</strong></td>
+<td>Will show how much oil shock is feeding into consumer prices. Hot print = no Fed cuts.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rest-of-april-central-bank-gauntlet">Rest of April — Central Bank Gauntlet</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+<th>Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Apr 16</strong></td>
+<td>SNB rate decision</td>
+<td>Already at 0% — limited room</td>
+</tr>
+<tr>
+<td><strong>Apr 24</strong></td>
+<td>CBR (Russia) rate decision</td>
+<td>At emergency 15%</td>
+</tr>
+<tr>
+<td><strong>Apr 28</strong></td>
+<td>BOJ rate decision</td>
+<td>Yen at 160 makes this critical</td>
+</tr>
+<tr>
+<td><strong>Apr 29</strong></td>
+<td><strong>Fed rate decision</strong></td>
+<td>THE macro event. Cut or hold? Market split.</td>
+</tr>
+<tr>
+<td><strong>Apr 29</strong></td>
+<td>BOC rate decision</td>
+<td>Same day as Fed</td>
+</tr>
+<tr>
+<td><strong>Apr 30</strong></td>
+<td><strong>ECB rate decision</strong></td>
+<td>Inflation up + growth down = impossible choice</td>
+</tr>
+<tr>
+<td><strong>Apr 30</strong></td>
+<td><strong>BOE rate decision</strong></td>
+<td>UK 10Y at 4.85% — highest in G7</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-april-29-30-window-is-the-biggest-risk-event-since-the-war-started">The April 29-30 Window Is the Biggest Risk Event Since the War Started</h3>
+<p>Three major central banks decide within 48 hours. If Fed, ECB, and BOE all signal "higher for longer" due to oil inflation, it could trigger:<br />
+- Bond sell-off (yields spike)<br />
+- Equity correction (growth stocks hammered)<br />
+- EM currency crisis (rate differentials widen)<br />
+- Credit spread widening (private credit stress intensifies)</p>
+<hr />
+<h1 id="part-4-cross-asset-correlation-map-how-everything-connects">PART 4: CROSS-ASSET CORRELATION MAP — How Everything Connects</h1>
+<div class="highlight"><pre><span></span><code>                          OIL SHOCK (Hormuz closed)
+                                    │
+                ┌───────────────────┼───────────────────┐
+                ▼                   ▼                   ▼
+          INFLATION UP        GROWTH DOWN         UNCERTAINTY UP
+                │                   │                   │
+        ┌───────┤               ┌───┤               ┌───┤
+        ▼       ▼               ▼   ▼               ▼   ▼
+    Rates    Gold down       PMIs  Consumer      VIX   USD
+    higher   (hawkish       fall   spending     rises  strengthens
+    (UST     rates beat      ↓     squeezed      ↓     (safe haven)
+    4.35%)   safe haven)   Europe    ↓          24.4     ↓
+        │                  contracts S&amp;P              EM FX
+        │                     ↓     under             weakens
+        ▼                   EUR/USD  pressure           ↓
+    Equities               weakens     ↓           India,Japan
+    de-rate                            ▼           energy import
+    (growth → value)              Hedge funds     crisis deepens
+                                  struggle
+                                  (Balyasny,
+                                  ExodusPoint,
+                                  Caxton)
+</code></pre></div>
+
+<h3 id="key-correlations-a-risk-manager-should-watch">Key Correlations a Risk Manager Should Watch</h3>
+<table>
+<thead>
+<tr>
+<th>Correlation</th>
+<th>Normal Regime</th>
+<th>Current Regime</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stocks ↔ Bonds</strong></td>
+<td>Negative (diversification works)</td>
+<td><strong>Positive</strong> — both can sell off on inflation</td>
+<td>Diversification benefit impaired. Need alternatives.</td>
+</tr>
+<tr>
+<td><strong>Oil ↔ Everything</strong></td>
+<td>Low</td>
+<td><strong>Very high</strong> — oil is driving all asset classes</td>
+<td>Monitor aggregate oil beta across all positions</td>
+</tr>
+<tr>
+<td><strong>USD ↔ Risk Assets</strong></td>
+<td>Weak negative</td>
+<td><strong>Strong negative</strong> — strong USD = weak EM, weak equities</td>
+<td>USD strength amplifies pain in non-US books</td>
+</tr>
+<tr>
+<td><strong>VIX ↔ S&amp;P</strong></td>
+<td>Strong negative (always)</td>
+<td>Normal (-0.8 to -0.9)</td>
+<td>Standard, but VIX may be underpricing tail risk</td>
+</tr>
+<tr>
+<td><strong>Gold ↔ Rates</strong></td>
+<td>Negative</td>
+<td><strong>Dominant</strong> — gold selling off because rates expected higher</td>
+<td>Gold is NOT working as a hedge right now</td>
+</tr>
+<tr>
+<td><strong>Cross-sector equity</strong></td>
+<td>Low (normal)</td>
+<td><strong>Elevated</strong> — war creates systemic, not idiosyncratic, risk</td>
+<td>Sector diversification less effective</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The risk manager's nightmare:</strong> When correlations spike, diversification fails. A portfolio that looks well-diversified in normal times can draw down across every book simultaneously during an oil shock. This is exactly what hit multi-strategy funds in Q1.</p>
+<hr />
+<h1 id="part-5-risk-themes-what-a-discretionary-risk-manager-would-focus-on">PART 5: RISK THEMES — What a Discretionary Risk Manager Would Focus On</h1>
+<h2 id="theme-1-stagflation-risk-the-macro-risk">Theme 1: Stagflation Risk (THE Macro Risk)</h2>
+<p><strong>What it is:</strong> High inflation + slow/negative growth simultaneously.</p>
+<p><strong>Evidence it's happening:</strong><br />
+- US ISM services: growth slowing, input prices highest in 13+ years<br />
+- Eurozone PMI: growth at 9-month low on "surging costs"<br />
+- UK 10Y at 4.85%: market pricing sticky inflation<br />
+- Oil above $110: direct inflation input<br />
+- Italy's central bank: cut growth forecasts AND raised inflation estimates</p>
+<p><strong>Why it matters for a discretionary book:</strong><br />
+- Stagflation invalidates most macro models (which assume either "growth up + inflation up" or "growth down + inflation down")<br />
+- Long equity / short rates positions get killed (equities fall on growth fears, rates rise on inflation fears)<br />
+- Relative value trades break down as correlations spike</p>
+<p><strong>Risk manager action:</strong> Stress test the book for a stagflation scenario — assume 3% GDP growth drops to 0.5% while CPI goes from 3% to 5%+. Which positions survive?</p>
+<h2 id="theme-2-central-bank-policy-divergence">Theme 2: Central Bank Policy Divergence</h2>
+<p><strong>Setup:</strong><br />
+- Fed at 3.75% — unclear if it cuts (conflicting signals)<br />
+- ECB at 2.15% — needs to cut for growth but inflation argues against it<br />
+- BOJ at 0.75% — wants to normalize but yen weakness forces patience<br />
+- RBI at 5.25% — India's oil import bill is exploding</p>
+<p><strong>Why it matters:</strong><br />
+- Policy divergence creates FX volatility (carries unwind)<br />
+- If Fed holds while ECB cuts → EUR/USD drops → European equity returns for USD-based investors change<br />
+- If BOJ signals any hawkishness → yen strengthens → JPY carry trades unwind violently</p>
+<p><strong>Risk manager action:</strong> Map the portfolio's sensitivity to each central bank's next move. The April 28-30 window has BOJ, Fed, ECB, BOE all deciding — correlated policy shocks are possible.</p>
+<h2 id="theme-3-geopolitical-binary-events">Theme 3: Geopolitical Binary Events</h2>
+<p><strong>Tonight's deadline is the archetype of what discretionary risk management faces.</strong></p>
+<p>The market is pricing "extend deadline" as base case. If that's wrong:</p>
+<table>
+<thead>
+<tr>
+<th>If Deal →</th>
+<th>If Escalation →</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oil -25% to $80-85</td>
+<td>Oil +20% to $130-140</td>
+</tr>
+<tr>
+<td>VIX from 24 to 15</td>
+<td>VIX from 24 to 35+</td>
+</tr>
+<tr>
+<td>S&amp;P +3-5%</td>
+<td>S&amp;P -5-10%</td>
+</tr>
+<tr>
+<td>USD weakens, EUR strengthens</td>
+<td>USD spikes, EM FX collapses</td>
+</tr>
+<tr>
+<td>Gold flat to down</td>
+<td>Gold uncertain (rate fears vs safe haven)</td>
+</tr>
+<tr>
+<td>Energy stocks sell off</td>
+<td>Energy stocks surge, everything else sells</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Risk manager action:</strong><br />
+1. Pre-compute P&amp;L impact under each scenario<br />
+2. Identify asymmetric exposures (positions that lose much more in one scenario than they gain in the other)<br />
+3. Consider options structures that hedge the tail (e.g., out-of-money puts on equity, calls on oil)<br />
+4. Set pre-agreed stop-loss levels before the event, not during</p>
+<h2 id="theme-4-liquidity-risk-is-elevated">Theme 4: Liquidity Risk Is Elevated</h2>
+<p><strong>Signs of liquidity stress:</strong><br />
+- VIX at 24 → market makers widening bid-ask spreads<br />
+- European markets were closed Friday-Monday (Easter) → pent-up order flow hitting today<br />
+- Private credit turmoil — Bloomberg reports "retail investors eyeing the exits" from private credit funds<br />
+- India bank options hedging costs climbing (Bloomberg headline today)</p>
+<p><strong>Risk manager action:</strong><br />
+- Wider stop-loss buffers around illiquid positions<br />
+- Monitor repo and funding markets for stress signals<br />
+- Be wary of positions that are "liquid in theory but illiquid in crisis" (e.g., corporate bonds, structured products, small-cap equities)</p>
+<h2 id="theme-5-private-credit-contagion">Theme 5: Private Credit Contagion</h2>
+<p><strong>Bloomberg Markets Magazine feature:</strong> "Private Credit Turmoil Has Retail Investors Eyeing the Exits"</p>
+<ul>
+<li>The private credit market has exploded in size since 2020</li>
+<li>Rising rates + oil shock = stress on leveraged borrowers</li>
+<li>Fund redemptions are accelerating</li>
+<li><strong>Yale's endowment model (heavy private equity/illiquid alternatives) is underperforming plain stocks and bonds</strong></li>
+</ul>
+<p><strong>Why it matters for Squarepoint:</strong><br />
+- If private credit stress spills into public markets (via bank exposure, CLO haircuts, or forced selling), it creates correlated sell-offs<br />
+- Discretionary funds that trade credit (Squarepoint's Arini partnership is credit-focused) face direct mark-to-market risk<br />
+- Contagion from private to public markets happened before (2008, 2020) — early warning signals should be on the dashboard</p>
+<hr />
+<h1 id="part-6-the-whats-on-your-radar-answer">PART 6: THE "WHAT'S ON YOUR RADAR?" ANSWER</h1>
+<p>If Solomon or any interviewer asks "what are you watching in markets right now?" — here is a structured, risk-manager-appropriate answer:</p>
+<h3 id="the-30-second-version">The 30-Second Version</h3>
+<blockquote>
+<p><em>"Three things. First, the Hormuz situation — tonight's deadline is a binary event that affects every asset class. Oil at $111 is pricing 'disruption that resolves,' but if it doesn't resolve, you get a correlated shock across equities, rates, FX, and commodities simultaneously. That's the risk manager's worst nightmare because diversification breaks down.</em></p>
+<p><em>Second, the stagflation setup. US ISM showed input prices at a 13-year high while growth is slowing. CPI on Friday will tell us how bad it is. Central banks are boxed in — they can't cut into inflation or hold into a slowdown. The April 29-30 window with Fed, ECB, and BOE deciding is critical.</em></p>
+<p><em>Third, correlation regime. Q1 showed that multi-strategy funds drew down together — Balyasny, ExodusPoint, Caxton all hit. When oil drives everything, sector diversification fails. A risk manager needs to be monitoring aggregate oil sensitivity across the whole book, not just the energy positions."</em></p>
+</blockquote>
+<h3 id="the-extended-version-if-they-want-more">The Extended Version (If They Want More)</h3>
+<p>Add any of these:<br />
+- <strong>JPY at 160 intervention risk</strong> — "Tokyo has intervened before at this level. If they do, it's a sudden $3-5 move that unwinds carry trades. Any book with JPY exposure needs this flagged."<br />
+- <strong>Private credit stress</strong> — "The retail exit flow from private credit funds is worth watching. If it accelerates, it spills into public credit via forced selling and repricing."<br />
+- <strong>European deterioration</strong> — "France's services sector is contracting, Germany at a 7-month low. If the ECB cuts while inflation is rising, that's a credibility problem. If they don't, Southern European spreads could widen."<br />
+- <strong>Gold paradox</strong> — "Gold at $4,600 is down during a war, which tells you how dominant rate expectations are right now. The traditional safe haven isn't working. That changes how you construct hedges."</p>
+<hr />
+<h1 id="part-7-quick-reference-numbers">PART 7: QUICK-REFERENCE NUMBERS</h1>
+<h2 id="must-know-levels-april-7-2026">Must-Know Levels (April 7, 2026)</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Level</th>
+<th>Why It Matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S&amp;P 500</strong></td>
+<td>6,612</td>
+<td>Trading ~6% below ATH of 7,002</td>
+</tr>
+<tr>
+<td><strong>VIX</strong></td>
+<td>24.4</td>
+<td>Elevated but not panic. 30+ = panic, 15 = calm</td>
+</tr>
+<tr>
+<td><strong>Brent Crude</strong></td>
+<td>$111.48</td>
+<td>Up 50%+ since Feb 28 war. Pre-war: ~$73</td>
+</tr>
+<tr>
+<td><strong>WTI</strong></td>
+<td>$115.09</td>
+<td>US domestic benchmark</td>
+</tr>
+<tr>
+<td><strong>Gold</strong></td>
+<td>$4,649</td>
+<td>Down despite war (rates &gt; safe haven)</td>
+</tr>
+<tr>
+<td><strong>US 10Y</strong></td>
+<td>4.35%</td>
+<td>Rising on inflation — will CPI Friday push it above 4.5%?</td>
+</tr>
+<tr>
+<td><strong>USD/JPY</strong></td>
+<td>159.74</td>
+<td>Critical 160 intervention level</td>
+</tr>
+<tr>
+<td><strong>EUR/USD</strong></td>
+<td>1.1554</td>
+<td>Steady for now, could break on escalation</td>
+</tr>
+<tr>
+<td><strong>DXY</strong></td>
+<td>99.7</td>
+<td>Dollar near recent highs</td>
+</tr>
+<tr>
+<td><strong>Fed rate</strong></td>
+<td>3.75%</td>
+<td>Next decision Apr 29</td>
+</tr>
+<tr>
+<td><strong>Brent pre-war</strong></td>
+<td>~$73</td>
+<td>Anchoring context for how far oil has moved</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-data-releases-this-week">Key Data Releases This Week</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Release</th>
+<th>Consensus (if available)</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Apr 7 (Mon closed/Tue)</strong></td>
+<td>Trump Iran deadline 8PM ET</td>
+<td>N/A</td>
+<td>Binary event</td>
+</tr>
+<tr>
+<td><strong>Apr 8 (Wed)</strong></td>
+<td>RBNZ rate decision</td>
+<td>Expected cut to 2.00%</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Apr 9 (Thu)</strong></td>
+<td>RBI rate decision</td>
+<td>Hold at 5.25% likely</td>
+<td>India oil crisis angle</td>
+</tr>
+<tr>
+<td><strong>Apr 11 (Fri)</strong></td>
+<td><strong>US CPI (March)</strong></td>
+<td>Likely hot (energy pass-through)</td>
+<td>Could seal Fed's April 29 decision</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-historical-parallels-for-interview-discussion">PART 8: HISTORICAL PARALLELS — For Interview Discussion</h1>
+<table>
+<thead>
+<tr>
+<th>Crisis</th>
+<th>Oil Impact</th>
+<th>How It Compares</th>
+<th>What Happened After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1973 Arab Oil Embargo</strong></td>
+<td>Oil quadrupled ($3→$12)</td>
+<td>Supply disruption via Middle East chokepoint — <strong>very similar</strong></td>
+<td>Stagflation, global recession, stock markets fell 45%, gold surged</td>
+</tr>
+<tr>
+<td><strong>1979 Iranian Revolution</strong></td>
+<td>Oil doubled ($14→$28)</td>
+<td>Iran-specific, Hormuz concerns</td>
+<td>Deep US recession, Volcker hiked to 20%, S&amp;P fell 27%</td>
+</tr>
+<tr>
+<td><strong>1990 Gulf War (Kuwait)</strong></td>
+<td>Oil doubled briefly ($17→$40)</td>
+<td>Quick resolution — 7-month war</td>
+<td>Oil normalized quickly, stock market recovered within months</td>
+</tr>
+<tr>
+<td><strong>2022 Russia-Ukraine</strong></td>
+<td>Brent spiked to $130 briefly</td>
+<td>Geopolitical shock but no chokepoint closure</td>
+<td>Oil corrected within months, recession avoided due to SPR release</td>
+</tr>
+<tr>
+<td><strong>2026 Iran War (NOW)</strong></td>
+<td>Brent +53% in 5.5 weeks ($73→$111)</td>
+<td><strong>Hormuz closure = actual chokepoint disruption</strong> (like 1973 but worse per IEA)</td>
+<td>To be determined. Depends on tonight.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-the-1973-parallel-means-for-portfolios">What The 1973 Parallel Means for Portfolios</h3>
+<p>If the Hormuz closure persists:<br />
+- <strong>Expect:</strong> Rates higher, growth lower, equities down 10-20% from here, EM crisis, food price inflation from fertilizer disruption<br />
+- <strong>What historically worked:</strong> Commodity exposure, cash, short-duration bonds, high-quality defensive equities, inflation-linked bonds (TIPS/Linkers)<br />
+- <strong>What historically failed:</strong> Growth stocks, long-duration bonds, EM equities, leveraged positions, carry trades</p>
+<hr />
+<h1 id="part-9-how-this-all-connects-to-your-role">PART 9: HOW THIS ALL CONNECTS TO YOUR ROLE</h1>
+<h3 id="what-squarepoints-discretionary-risk-manager-would-be-doing-today">What Squarepoint's Discretionary Risk Manager Would Be Doing Today</h3>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Task</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>7:00 AM</strong></td>
+<td>Morning risk report: overnight P&amp;L, position sizes, Greeks, VaR</td>
+<td>Standard. But today the focus is on oil sensitivity.</td>
+</tr>
+<tr>
+<td><strong>7:30 AM</strong></td>
+<td>Pre-trade meeting with PMs</td>
+<td>What's the plan before tonight's deadline? Are we hedged?</td>
+</tr>
+<tr>
+<td><strong>8:00 AM</strong></td>
+<td>Run scenario analysis: deal / extend / escalate</td>
+<td>Pre-compute P&amp;L under each outcome. Flag asymmetric exposures.</td>
+</tr>
+<tr>
+<td><strong>9:00 AM</strong></td>
+<td>Monitor European open</td>
+<td>Easter catch-up trading. Liquidity may be thin. Watch for gaps.</td>
+</tr>
+<tr>
+<td><strong>10:00 AM</strong></td>
+<td>Check Hormuz shipping data (real-time)</td>
+<td>Any change in tanker transits = leading indicator</td>
+</tr>
+<tr>
+<td><strong>12:00 PM</strong></td>
+<td>Intraday risk check — position limits, margin, liquidity buffers</td>
+<td>Ensure enough cash/margin to survive a VIX spike to 35+</td>
+</tr>
+<tr>
+<td><strong>3:00 PM</strong></td>
+<td>Pre-deadline huddle with PMs and CIO</td>
+<td>Final check: are we sized for the tail? Stop-losses set?</td>
+</tr>
+<tr>
+<td><strong>4:00 PM</strong></td>
+<td>US equity close — check marks</td>
+<td>Rolling into the deadline window</td>
+</tr>
+<tr>
+<td><strong>7:00 PM</strong></td>
+<td>All hands: final risk dashboard before 8 PM deadline</td>
+<td>Every position, every sensitivity, every hedging gap visible</td>
+</tr>
+<tr>
+<td><strong>8:00 PM</strong></td>
+<td><strong>DEADLINE</strong></td>
+<td>Real-time monitoring. Execute pre-agreed actions based on outcome.</td>
+</tr>
+<tr>
+<td><strong>Post</strong></td>
+<td>Post-mortem risk report regardless of outcome</td>
+<td>What happened, what worked, what didn't, what to adjust</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-five-things-this-role-is-really-about">The Five Things This Role Is Really About</h3>
+<ol>
+<li><strong>Aggregate portfolio sensitivity to macro shocks</strong> — especially oil, rates, and FX right now</li>
+<li><strong>Pre-event scenario planning</strong> — not reacting to events, but having a playbook before they happen</li>
+<li><strong>Correlation monitoring</strong> — knowing when diversification is breaking down before it costs money</li>
+<li><strong>Communication under pressure</strong> — telling a PM "you need to cut this position" and explaining why clearly</li>
+<li><strong>Connecting dots across asset classes</strong> — oil → inflation → rates → FX → equities → credit. The whole chain.</li>
+</ol>
+<p>This is exactly what you'd be doing at Squarepoint. That's the pitch.</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greeks — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link active" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="d-greeks-first-second-order">D — GREEKS: FIRST &amp; SECOND ORDER</h1>
+<h2 id="the-language-of-risk-for-every-derivatives-position">The language of risk for every derivatives position</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="why-you-need-this-cold">WHY YOU NEED THIS COLD</h1>
+<p>Every conversation with a trader about options positions uses Greeks. If a PM says "I'm long 500 gamma at the 6400 strike," you need to immediately understand:<br />
+- What that means in dollar terms<br />
+- How their P&amp;L changes if the market moves<br />
+- Where the danger is</p>
+<p>Greeks ARE the risk of a derivatives position. Know them like you know your own name.</p>
+<hr />
+<h1 id="part-1-first-order-greeks">PART 1: FIRST-ORDER GREEKS</h1>
+<h2 id="delta-directional-exposure">DELTA (Δ) — Directional Exposure</h2>
+<p><strong>What it measures:</strong> How much the option price changes for a $1 move in the underlying.</p>
+<p><strong>Range:</strong><br />
+- Calls: 0 to +1. Deep ITM call → delta ≈ 1 (moves 1:1 with stock). ATM call → delta ≈ 0.5. OTM call → delta → 0.<br />
+- Puts: -1 to 0. Deep ITM put → delta ≈ -1. ATM put → delta ≈ -0.5. OTM put → delta → 0.</p>
+<p><strong>Dollar delta:</strong> Delta × number of contracts × multiplier × spot price.<br />
+If you own 100 ATM calls on SPX (delta = 0.50, multiplier = 100): dollar delta = 0.50 × 100 × 100 × $5,400 = $27M equivalent. That's how much equity exposure you actually have.</p>
+<p><strong>Delta as probability (rough approximation):</strong> Delta ≈ probability the option expires ITM. A 0.30 delta call ≈ 30% chance of finishing ITM. Not a formal probability, but useful intuition.</p>
+<p><strong>Net delta / portfolio delta:</strong> Sum all position deltas. A book with +$50M call delta and -$30M put delta = +$20M net delta. Net long = gains if market rises, loses if market falls.</p>
+<p><strong>Delta hedging:</strong> To be delta-neutral, sell/short the underlying equal to your dollar delta. If you're long $20M delta → short $20M of stock. Now you don't care about small moves — your P&amp;L is driven by gamma, vega, and theta instead.</p>
+<hr />
+<h2 id="gamma-acceleration-of-risk">GAMMA (Γ) — Acceleration of Risk</h2>
+<p><strong>What it measures:</strong> How much delta changes for a $1 move in the underlying. It's the RATE OF CHANGE of delta. The second derivative.</p>
+<p><strong>Why it's the most important Greek for risk:</strong><br />
+- Gamma tells you how your EXPOSURE changes as the market moves.<br />
+- Long gamma: your delta moves IN YOUR FAVOR. Market up → you get longer. Market down → you get shorter. You automatically "buy low, sell high."<br />
+- Short gamma: your delta moves AGAINST YOU. Market up → you get shorter (missing the rally). Market down → you get longer (accumulating exposure into the drop). You "buy high, sell low."</p>
+<p><strong>Gamma P&amp;L:</strong><br />
+$$\text{Gamma P\&amp;L} = \frac{1}{2} \times \Gamma \times (\Delta S)^2$$</p>
+<p>This is always positive for long gamma (regardless of direction). Big move up? Win. Big move down? Also win. That's the beauty of long gamma.</p>
+<p>For short gamma: always negative for big moves. Small moves are fine (you collect theta). But large moves are catastrophic and the losses ACCELERATE.</p>
+<p><strong>Where gamma is highest:</strong> ATM options near expiry. A 1-day-to-expiry ATM option has massive gamma — its delta can swing from 0.5 to 1.0 or 0.0 in minutes. This is "pin risk" — the stock is right at the strike near expiry.</p>
+<p><strong>Gamma scalping:</strong> Delta-hedge a long gamma position repeatedly. As the market moves up, you sell (because delta increased); as it moves down, you buy (delta decreased). You're harvesting volatility. But you're paying theta every day for this privilege.</p>
+<hr />
+<h2 id="theta-time-decay">THETA (Θ) — Time Decay</h2>
+<p><strong>What it measures:</strong> How much the option loses per day just from time passing.</p>
+<p><strong>Always negative for long options.</strong> You own an option → it loses value every day. Think of it as "rent" for the optionality.</p>
+<p><strong>Always positive for short options.</strong> You sold an option → you EARN theta every day. But you bear gamma risk.</p>
+<p><strong>The gamma-theta tradeoff:</strong><br />
+- <strong>Long gamma, negative theta:</strong> You profit from big moves but bleed every calm day.<br />
+- <strong>Short gamma, positive theta:</strong> You earn money every calm day but get killed on big moves.</p>
+<p>This is the fundamental tradeoff in options. There's no free lunch — you can't have positive gamma AND positive theta.</p>
+<p><strong>Theta acceleration:</strong> Time decay is NOT linear. An option loses more theta per day as it approaches expiry. A 30-day option might lose $50/day; at 5 days to expiry, it's losing $200/day.</p>
+<p>$$\theta \propto \frac{1}{\sqrt{T}}$$</p>
+<p><strong>Weekend theta:</strong> Options lose time value over the weekend (2 calendar days). Friday night → Monday morning, you lose theta. As an RM, track whether PMs are using expiry selection to manage theta costs.</p>
+<hr />
+<h2 id="vega-volatility-sensitivity">VEGA (ν) — Volatility Sensitivity</h2>
+<p><strong>What it measures:</strong> How much the option price changes for a 1 percentage point change in implied volatility.</p>
+<p><strong>Always positive for long options.</strong> Higher vol → higher option prices (more chance of a big move → option is worth more).</p>
+<p><strong>Always negative for short options.</strong> Higher vol → your short option liability increases.</p>
+<p><strong>Where vega is highest:</strong> ATM options with long time to expiry. A 1-year ATM option has much more vega than a 1-week ATM option (more time for vol to matter).</p>
+<p><strong>Vega in dollars:</strong> If your portfolio has $500K vega, it means: a 1 vol point increase in implied volatility → +$500K P&amp;L. A 1 vol point decrease → -$500K.</p>
+<p><strong>Why vega matters for risk:</strong><br />
+- Vol can spike very fast. VIX went from 14 to 82 in March 2020. That's 68 vol points. If you were short vega, you got destroyed.<br />
+- Vol tends to spike DOWN the market (fear → vol up) and compress UP the market (complacency → vol down). So short vega is correlated to long delta — both hurt in a sell-off.</p>
+<hr />
+<h2 id="rho-interest-rate-sensitivity">RHO (ρ) — Interest Rate Sensitivity</h2>
+<p><strong>What it measures:</strong> How much the option price changes for a 1% change in interest rates.</p>
+<p><strong>Usually small</strong> for short-dated equity options. But material for:<br />
+- Long-dated options (LEAPS)<br />
+- Currency options (rate differential drives pricing)<br />
+- Bond options / swaptions</p>
+<p><strong>Call rho is positive</strong> (higher rates → calls worth more, because the present value of the strike is lower).<br />
+<strong>Put rho is negative</strong> (higher rates → puts worth less).</p>
+<p>In the current high-rate environment, rho matters more than usual for longer-dated positions.</p>
+<hr />
+<h1 id="part-2-second-order-greeks">PART 2: SECOND-ORDER GREEKS</h1>
+<p>These measure how the first-order Greeks change. You won't derive these, but you need to know what they do.</p>
+<h2 id="vanna-delta-sensitivity-to-vol">VANNA — Delta sensitivity to vol</h2>
+<p>$$\text{Vanna} = \frac{\partial \Delta}{\partial \sigma} = \frac{\partial \nu}{\partial S}$$</p>
+<p><strong>What it means:</strong> How much delta changes when implied vol changes.</p>
+<p><strong>Why it matters:</strong> In a sell-off, vol spikes. If your options have negative vanna, your delta shifts against you BECAUSE vol went up. Double whammy: market down AND your hedges shifted.</p>
+<p><strong>Practical example:</strong> You hold OTM puts as hedges (negative delta). Vol spikes → their delta becomes MORE negative (toward -1). Your hedge suddenly covers more of your portfolio. This is good — it's why vanna is a feature of put protection, not a bug.</p>
+<h2 id="volga-vomma-vega-sensitivity-to-vol">VOLGA (VOMMA) — Vega sensitivity to vol</h2>
+<p>$$\text{Volga} = \frac{\partial \nu}{\partial \sigma}$$</p>
+<p><strong>What it means:</strong> How much vega changes when implied vol changes.</p>
+<p><strong>Why it matters:</strong> If you're long OTM options (wings), they have positive volga — as vol rises, your vega INCREASES, which means the next vol point up is worth even more. Your wings become increasingly valuable in a vol spike. This is the "convexity of vol."</p>
+<p><strong>For the RM:</strong> A portfolio that's long volga has tail protection — it becomes more protected as conditions deteriorate. Short volga is the opposite — increasingly exposed as vol rises.</p>
+<h2 id="charm-delta-sensitivity-to-time">CHARM — Delta sensitivity to time</h2>
+<p>$$\text{Charm} = \frac{\partial \Delta}{\partial T}$$</p>
+<p><strong>What it means:</strong> How much delta changes just from one day passing.</p>
+<p><strong>Why it matters:</strong> Over a weekend, delta can drift significantly for near-expiry options. A PM who delta-hedged on Friday may find themselves unhedged by Monday — not because the stock moved, but because time passed and delta changed.</p>
+<h2 id="speed-gamma-sensitivity-to-underlying">SPEED — Gamma sensitivity to underlying</h2>
+<p>$$\text{Speed} = \frac{\partial \Gamma}{\partial S}$$</p>
+<p>How gamma changes as the underlying moves. Important near barriers and for very large gamma positions.</p>
+<hr />
+<h1 id="part-3-portfolio-greeks">PART 3: PORTFOLIO GREEKS</h1>
+<h2 id="aggregation">Aggregation</h2>
+<p>Portfolio Greeks = sum of all position Greeks:<br />
+- <strong>Portfolio delta</strong> = Σ (position delta × quantity)<br />
+- <strong>Portfolio gamma</strong> = Σ (position gamma × quantity)<br />
+- Same for vega, theta.</p>
+<h2 id="the-greek-dashboard-what-you-monitor">The Greek Dashboard (What You Monitor)</h2>
+<table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>What you're checking</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Net delta</td>
+<td>Directional exposure — are we net long or short the market?</td>
+<td>Delta exceeds mandate / risk budget</td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>Are we long or short gamma? How convex is our P&amp;L?</td>
+<td>Large short gamma near current spot → danger zone</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>How much are we paying (or earning) per day?</td>
+<td>Theta costs exceeding realistic expectations for gamma capture</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>How much do we gain/lose if vol moves 1pt?</td>
+<td>Large short vega in a low-vol environment (complacency)</td>
+</tr>
+<tr>
+<td>Gamma per theta</td>
+<td>How much gamma are we buying per dollar of theta spent?</td>
+<td>Low ratio = overpaying for optionality</td>
+</tr>
+</tbody>
+</table>
+<h2 id="long-gamma-vs-short-gamma-the-risk-managers-view">Long Gamma vs Short Gamma — The Risk Manager's View</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Long Gamma</th>
+<th>Short Gamma</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pay or earn theta?</td>
+<td>PAY</td>
+<td>EARN</td>
+</tr>
+<tr>
+<td>Big moves help or hurt?</td>
+<td>HELP</td>
+<td>HURT</td>
+</tr>
+<tr>
+<td>P&amp;L pattern</td>
+<td>Many small losses, occasional big wins</td>
+<td>Many small wins, occasional big losses</td>
+</tr>
+<tr>
+<td>Risk manager's concern</td>
+<td>Theta bleed → are we spending too much?</td>
+<td>Tail event → can we survive a 5-sigma day?</td>
+</tr>
+<tr>
+<td>Who does this?</td>
+<td>Hedge funds buying protection, vol arbitrageurs</td>
+<td>Market makers, sellers of premium (income strategies)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-4-greek-interactions-in-practice">PART 4: GREEK INTERACTIONS IN PRACTICE</h1>
+<h2 id="scenario-market-drops-5-vol-spikes-8-points">Scenario: Market drops 5%, vol spikes 8 points</h2>
+<p>A PM has a portfolio with:<br />
+- Net delta: +$20M (long equities)<br />
+- Gamma: -$500K per 1% move (short gamma from sold puts)<br />
+- Vega: -$200K per vol point<br />
+- Theta: +$30K/day</p>
+<p><strong>What happens:</strong></p>
+<ol>
+<li><strong>Delta loss:</strong> +$20M delta × -5% = <strong>-$1.0M</strong></li>
+<li><strong>Gamma acceleration:</strong> Being short gamma, losses accelerate. Gamma P&amp;L = ½ × (-$500K) × 5² = <strong>-$6.25M</strong> (approximate, since gamma changes with spot)</li>
+<li><strong>Vega loss:</strong> Vol spikes 8pts, short vega: 8 × (-$200K) = <strong>-$1.6M</strong></li>
+<li><strong>Theta gain:</strong> Still earning: <strong>+$30K</strong> (negligible in this context)</li>
+</ol>
+<p><strong>Total estimated loss: ~$8.8M</strong></p>
+<p>The PM thought they were "only" $20M delta. But short gamma and short vega turned a $1M delta loss into an $8.8M portfolio loss. That's why Greeks beyond delta matter.</p>
+<p><strong>What the RM should have flagged BEFORE:</strong><br />
+- "You're short gamma — a 5% move costs you $6M+ on top of your delta loss."<br />
+- "Your short vega adds another layer — a vol spike compounds the sell-off damage."<br />
+- "Your net risk profile is concave — you lose more than linearly in a down move."</p>
+<hr />
+<h1 id="part-5-interview-application">PART 5: INTERVIEW APPLICATION</h1>
+<p>If asked "Explain gamma and why it matters for risk management":</p>
+<p>"Gamma measures how fast delta changes — it's the acceleration of exposure. If you're long gamma, big market moves help you: your delta automatically adjusts in your favor. If you're short gamma, big moves hurt you: your exposure grows in the wrong direction as the market moves against you.</p>
+<p>For risk management, gamma is arguably more important than delta because delta tells you where you are RIGHT NOW but gamma tells you WHERE YOU'LL BE after a move. A portfolio that's short gamma and short vega has a concave P&amp;L profile — it underperforms in tail events on multiple dimensions simultaneously. That's what I'd flag: not just the current delta, but the shape of the P&amp;L curve and how it changes in stress."</p>
+<p>If asked "Walk me through the gamma-theta tradeoff":</p>
+<p>"There's no free lunch in options. Long gamma means you profit from big moves — but you pay theta every day for that privilege. Short gamma means you earn theta daily — but you're exposed to large, accelerating losses on big moves.</p>
+<p>The RM's job is to check that the tradeoff is conscious and fair. If a PM is paying $50K/day in theta, I'd ask: 'What realized vol level do you need to break even on this position?' If they're paying for 25% vol but the market is realizing 18%, they're bleeding. Conversely, if they're earning theta by selling premium, I'd check: 'What's your worst-case P&amp;L on a 3-sigma day? Can the fund survive that?'"</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="07_Risk_Reference.html">Risk Reference</a> — Greeks defined, formulas<br />
+→ <a href="B_Derivatives.html">Derivatives</a> — the instruments that generate Greek exposures<br />
+→ <a href="E_Volatility.html">Volatility</a> — vega and volatility in depth<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using Greeks to decompose daily P&amp;L<br />
+→ <a href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a> — Section 1 (Greeks in interview context)</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

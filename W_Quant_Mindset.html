@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quant Mindset — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link active" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="w-quant-mindset-model-risk">W — QUANT MINDSET &amp; MODEL RISK</h1>
+<h2 id="think-like-a-quant-researcher-so-you-can-challenge-them-intelligently">Think like a quant researcher — so you can challenge them intelligently</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>Round 3 is with a quant researcher. They won't expect you to derive GARCH from scratch — but they WILL expect you to:<br />
+1. Understand what the models do and what they assume<br />
+2. Know when those assumptions break<br />
+3. Ask intelligent questions about model output<br />
+4. Not be intimidated by quantitative concepts</p>
+<p>The RM's job isn't to build the models. It's to challenge them.</p>
+<hr />
+<h1 id="part-1-statistical-foundations">PART 1: STATISTICAL FOUNDATIONS</h1>
+<h2 id="stationarity">Stationarity</h2>
+<p><strong>What it is:</strong> A time series is stationary if its statistical properties (mean, variance, autocorrelation) don't change over time.</p>
+<p><strong>Why it matters for risk:</strong> Almost every risk model assumes stationarity. VaR uses a historical window and assumes the future will look like the past. If the regime changes (inflation era → deflation) the model is wrong.</p>
+<p><strong>How to spot non-stationarity:</strong><br />
+- Rolling mean is trending up or down<br />
+- Rolling variance is expanding<br />
+- "This used to work but hasn't in 6 months"</p>
+<p><strong>Your question to the quant:</strong> "How sensitive is this model to the lookback window? What happens if we're in a regime change and the last 2 years aren't representative?"</p>
+<h2 id="autocorrelation">Autocorrelation</h2>
+<p><strong>What it is:</strong> Correlation of a time series with its own lagged values. If today's return predicts tomorrow's → autocorrelation exists.</p>
+<p><strong>Why it matters:</strong><br />
+- Positive autocorrelation (momentum) → trends persist → trending markets<br />
+- Negative autocorrelation (mean reversion) → moves reverse → range-bound markets<br />
+- VaR assumes returns are independent (no autocorrelation). If momentum exists, multi-day VaR underestimates risk.</p>
+<p><strong>The T+1 / T+10 problem:</strong> If returns are independent, 10-day VaR = 1-day VaR × √10. But if there's autocorrelation, this scaling is wrong. Positive autocorrelation → 10-day VaR &gt; 1-day × √10 (trends amplify risk). This is the "square root of time" rule — it only works if returns are i.i.d.</p>
+<h2 id="fat-tails">Fat Tails</h2>
+<p><strong>What it is:</strong> Real market returns have more extreme events than a normal distribution predicts. The tails are "fatter."</p>
+<p><strong>How fat?</strong><br />
+- Normal distribution: a 4-sigma daily move should happen once every ~126 years.<br />
+- Reality: In equity markets, it happens roughly every 2-3 years.</p>
+<p><strong>Why it matters:</strong> If your VaR uses a normal distribution, it systematically underestimates the probability of large losses. This is why historical simulation and stressed VaR exist — they don't assume normality.</p>
+<p><strong>Your question:</strong> "Does this model assume normal returns? If not, what distribution? How do we capture tail risk?"</p>
+<h2 id="correlation-vs-causation-vs-spurious">Correlation vs. Causation vs. Spurious</h2>
+<ul>
+<li><strong>Correlation:</strong> Two things tend to move together. Could be causal, could be coincidence, could be driven by a third factor.</li>
+<li><strong>In markets:</strong> Almost everything is correlated to "risk sentiment." Two stocks looking correlated might just both be correlated to SPX. The residual correlation (after removing market factor) is what matters.</li>
+<li><strong>Regime-dependent correlation:</strong> The most dangerous kind. Stocks and bonds are negatively correlated (stocks down, bonds up) in most environments. But in 2022 (inflation shock), both went down together. The hedge stops working exactly when you need it most.</li>
+</ul>
+<hr />
+<h1 id="part-2-volatility-models">PART 2: VOLATILITY MODELS</h1>
+<h2 id="historical-volatility">Historical Volatility</h2>
+<ul>
+<li>Simple: standard deviation of returns over N days.</li>
+<li>Problem: treats a -5% move 60 days ago the same as one yesterday. But yesterday's move tells you more about current risk.</li>
+</ul>
+<h2 id="ewma-exponentially-weighted-moving-average">EWMA (Exponentially Weighted Moving Average)</h2>
+<ul>
+<li>Puts more weight on recent observations, less on old ones.</li>
+<li>Controlled by lambda (λ): typical value ~0.94 for daily data.</li>
+<li>λ = 0.94 means yesterday's observation gets 6% weight, the day before gets 0.94 × 6% = 5.64%, etc.</li>
+<li>Used by RiskMetrics. Simple, fast, no calibration headaches.</li>
+<li>Problem: only one parameter. Can't capture the full dynamics of vol.</li>
+</ul>
+<h2 id="garch-generalized-autoregressive-conditional-heteroskedasticity">GARCH (Generalized Autoregressive Conditional Heteroskedasticity)</h2>
+<ul>
+<li>σ²ₜ = ω + α·r²ₜ₋₁ + β·σ²ₜ₋₁</li>
+<li>Three parameters: ω (long-run variance level), α (reaction to new information), β (persistence of old variance).</li>
+<li>α + β close to 1 → volatility is highly persistent (vol clustering).</li>
+<li>α large → vol reacts sharply to new shocks (fat-tailed vol).</li>
+<li><strong>Key insight:</strong> GARCH captures "volatility clustering" — high vol days tend to follow high vol days. This is real and important for risk.</li>
+</ul>
+<p><strong>Your question to the quant:</strong> "What persistence parameter are you using? If α + β ≈ 0.99, you're saying vol shocks last essentially forever. Is that appropriate for this asset?"</p>
+<h2 id="implied-vs-realized">Implied vs. Realized</h2>
+<ul>
+<li>Implied vol: the market's forecast of future vol (extracted from option prices).</li>
+<li>Realized vol: what actually happened.</li>
+<li>Implied is almost always higher than realized (the "variance risk premium") → options are expensive on average.</li>
+<li>When implied &lt; realized → the market is complacent. This is a warning sign.</li>
+</ul>
+<hr />
+<h1 id="part-3-dimensionality-factor-models">PART 3: DIMENSIONALITY &amp; FACTOR MODELS</h1>
+<h2 id="pca-principal-component-analysis">PCA (Principal Component Analysis)</h2>
+<p><strong>What it does:</strong> Takes N correlated variables and reduces them to a smaller number of uncorrelated factors that explain most of the variation.</p>
+<p><strong>Example in rates:</strong><br />
+- US yield curve has 10+ maturities (1Y, 2Y, 3Y, 5Y, 7Y, 10Y, 20Y, 30Y...).<br />
+- PCA says: ~95% of yield curve movement is explained by 3 factors:<br />
+  - PC1 (~80%): Level — the whole curve shifts up or down.<br />
+  - PC2 (~10%): Slope — short end moves opposite to long end.<br />
+  - PC3 (~5%): Curvature — belly moves opposite to wings.</p>
+<p><strong>Why it matters for risk:</strong> Instead of tracking 10+ rate exposures, you can monitor 3 factor exposures. If your portfolio has zero PC1 exposure but huge PC2 exposure, you're making a steepener/flattener bet.</p>
+<p><strong>Your question:</strong> "Can you show me the PCA decomposition of our portfolio? What percentage of risk is explained by the first 3 components?"</p>
+<h2 id="factor-models-more-generally">Factor Models More Generally</h2>
+<ul>
+<li>Beyond PCA: Fama-French factors (market, size, value, momentum, quality), macro factors (rates, oil, dollar, VIX).</li>
+<li>The point: understand what's DRIVING the portfolio's returns. Is it stock picking (alpha) or factor exposure (beta)?</li>
+<li>If a PM's P&amp;L is 90% explained by factor exposure, they're not adding much alpha — they're just loading on a factor you could get more cheaply via ETFs/futures.</li>
+</ul>
+<hr />
+<h1 id="part-4-backtesting-model-validation">PART 4: BACKTESTING &amp; MODEL VALIDATION</h1>
+<h2 id="var-backtesting">VaR Backtesting</h2>
+<p><strong>The basic test:</strong> If you have a 99% 1-day VaR, you should breach it ~2.5 times per year (250 trading days × 1% = 2.5 expected breaches).</p>
+<p><strong>Kupiec Test (the one to know):</strong><br />
+- If you observe more breaches than expected → model UNDERSTATES risk (bad).<br />
+- If you observe fewer breaches → model OVERSTATES risk (also bad — you're leaving money on the table by being too conservative).<br />
+- The test has specific confidence intervals. With 250 observations and 99% VaR:<br />
+  - 0-1 breaches: model may be too conservative<br />
+  - 2-4 breaches: model is fine<br />
+  - 5+ breaches: model underestimates risk — needs review</p>
+<p><strong>Christoffersen Test:</strong> Not just "how many breaches?" but "are they clustered?" If all 4 breaches happen in the same week, the model is wrong about volatility dynamics (it doesn't capture vol clustering).</p>
+<h2 id="overfitting">Overfitting</h2>
+<p><strong>What it is:</strong> A model that fits the historical data perfectly but fails on new data. It learned the noise, not the signal.</p>
+<p><strong>How to spot it:</strong><br />
+- Model has 20 parameters for 100 observations → almost certainly overfit<br />
+- In-sample R² = 0.95, out-of-sample R² = 0.15 → overfit<br />
+- Model performance degrades sharply with any small change to lookback window → overfit</p>
+<p><strong>Your question:</strong> "What's the out-of-sample performance? How many parameters vs. observations?"</p>
+<h2 id="alpha-decay">Alpha Decay</h2>
+<p><strong>What it is:</strong> A trading signal that worked historically but gradually loses effectiveness over time.</p>
+<p><strong>Why it happens:</strong><br />
+- Other people discover the same signal<br />
+- Market structure changes<br />
+- The signal was partly spurious to begin with</p>
+<p><strong>Risk implication:</strong> If a PM's strategy relies on a signal with decaying alpha, future risk-adjusted returns will be worse than backtested returns. The RM needs to monitor strategy Sharpe ratios over time.</p>
+<hr />
+<h1 id="part-5-challenging-quant-output">PART 5: CHALLENGING QUANT OUTPUT</h1>
+<h2 id="the-rms-cheat-sheet-for-questions">The RM's Cheat Sheet for Questions</h2>
+<p>When a quant presents a model or analysis, use this framework:</p>
+<h3 id="1-assumptions">1. Assumptions</h3>
+<ul>
+<li>"What distribution does this assume?"</li>
+<li>"How sensitive is this to the lookback window?"</li>
+<li>"What correlation structure does this use?"</li>
+</ul>
+<h3 id="2-data">2. Data</h3>
+<ul>
+<li>"How far back does the data go? Does it include [crisis X]?"</li>
+<li>"Any survivorship bias in the dataset?"</li>
+<li>"How do you handle missing data?"</li>
+</ul>
+<h3 id="3-validation">3. Validation</h3>
+<ul>
+<li>"How does this backtest? How many VaR breaches?"</li>
+<li>"What's the out-of-sample performance?"</li>
+<li>"Has this been stress-tested against [scenario]?"</li>
+</ul>
+<h3 id="4-limitations">4. Limitations</h3>
+<ul>
+<li>"Where does this model break down?"</li>
+<li>"What regime change would invalidate this?"</li>
+<li>"What does this model NOT capture?"</li>
+</ul>
+<p>The best question in any model review:<br />
+<strong>"What would make you lose confidence in this model?"</strong></p>
+<hr />
+<h1 id="part-6-what-to-read-before-round-3">PART 6: WHAT TO READ BEFORE ROUND 3</h1>
+<p>You don't need to derive anything. You need to:<br />
+1. Define each concept in one sentence<br />
+2. Explain why it matters for risk management<br />
+3. Know the limitations / when it breaks<br />
+4. Ask one intelligent question about it</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>One-sentence definition</th>
+<th>When it breaks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stationarity</td>
+<td>Statistical properties don't change over time</td>
+<td>Regime changes (COVID, rate hike cycles)</td>
+</tr>
+<tr>
+<td>GARCH</td>
+<td>Volatility model that captures clustering and mean reversion</td>
+<td>Extreme jumps (it models continuous vol, not gaps)</td>
+</tr>
+<tr>
+<td>PCA</td>
+<td>Dimension reduction to find uncorrelated drivers</td>
+<td>When factor structure itself changes</td>
+</tr>
+<tr>
+<td>VaR backtesting</td>
+<td>Testing if your model's predicted loss frequency matches reality</td>
+<td>Short samples, clustered breaches</td>
+</tr>
+<tr>
+<td>Fat tails</td>
+<td>More extreme events than normal distribution predicts</td>
+<td>Always present — the question is degree</td>
+</tr>
+<tr>
+<td>Correlation</td>
+<td>Co-movement of assets</td>
+<td>Regime-dependent — flips in crisis</td>
+</tr>
+<tr>
+<td>Overfitting</td>
+<td>Model learned noise, not signal</td>
+<td>Model with too many parameters relative to data</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="11_Technical_Fundamentals.html">Technical Fundamentals</a> — math &amp; stats review<br />
+→ <a href="07_Risk_Reference.html">Risk Reference</a> — VaR, Greeks, risk measures<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using quantitative decomposition practically<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — where quant models failed spectacularly</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

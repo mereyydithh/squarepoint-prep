@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inside Systematic Fund — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link active" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="inside-a-systematic-fund-how-it-actually-works">INSIDE A SYSTEMATIC FUND — How It Actually Works</h1>
+<p>Understanding Squarepoint's core business will make you sound informed and help you articulate why the discretionary team is different.</p>
+<hr />
+<h2 id="the-machine-what-a-systematic-fund-looks-like-from-the-inside">THE MACHINE: What a Systematic Fund Looks Like from the Inside</h2>
+<p>A systematic fund like Squarepoint's core business is essentially a <strong>factory for turning data into trades</strong>. Here's how it works, layer by layer:</p>
+<h3 id="layer-1-data-ingestion">Layer 1: Data Ingestion</h3>
+<ul>
+<li>Massive pipelines pulling in market data (prices, volumes, order book depth), alternative data (satellite imagery, shipping data, credit card transactions, weather, news sentiment), fundamental data (earnings, filings, macro releases)</li>
+<li>Squarepoint likely processes <strong>terabytes per day</strong> across all asset classes</li>
+<li>Dedicated data engineering teams clean, normalize, and store everything in low-latency databases</li>
+<li>This is where kdb+ comes in — time-series databases optimized for tick-level financial data</li>
+</ul>
+<h3 id="layer-2-alpha-research">Layer 2: Alpha Research</h3>
+<ul>
+<li><strong>Quant researchers</strong> (PhDs in math, physics, statistics, CS) develop <strong>signals</strong> — mathematical patterns that predict future price movements</li>
+<li>Examples of signals: momentum (price trending), mean reversion (price snapping back), carry (yield differential), value (cheap vs expensive), sentiment (NLP on news/filings), cross-asset (gold moves → predict rates move)</li>
+<li>Each signal is <strong>backtested</strong> on years of historical data to prove it has statistical edge</li>
+<li>Signals are combined into <strong>alpha models</strong> — weighted combinations of many signals</li>
+<li>At Squarepoint's scale, they likely run <strong>hundreds to thousands</strong> of individual signals simultaneously</li>
+<li>Research is continuous — signals decay over time as markets adapt, so new ones must constantly be developed</li>
+</ul>
+<h3 id="layer-3-risk-models">Layer 3: Risk Models</h3>
+<ul>
+<li>Separate from alpha — the risk model estimates <strong>how much the portfolio could lose</strong></li>
+<li>Covariance matrices, factor models, tail risk estimates</li>
+<li>Constrains the optimizer: you can't take unlimited exposure even if the signal is strong</li>
+<li>Systematic risk = automated. The model enforces position limits, sector exposure limits, drawdown limits, correlation limits without human intervention</li>
+<li><strong>This is why systematic funds don't need a human risk manager per strategy</strong> — the risk is baked into the algorithm</li>
+</ul>
+<h3 id="layer-4-portfolio-optimization">Layer 4: Portfolio Optimization</h3>
+<ul>
+<li>An <strong>optimizer</strong> takes the alpha signals, risk model, and constraints (capital, leverage, turnover costs, market impact) and computes the <strong>optimal portfolio</strong> — which positions to hold, in what size</li>
+<li>This runs continuously or at set frequencies (every second, every minute, every hour, daily — depends on strategy)</li>
+<li>Output: a list of target positions across potentially thousands of instruments</li>
+</ul>
+<h3 id="layer-5-execution">Layer 5: Execution</h3>
+<ul>
+<li>The target portfolio is passed to the <strong>execution engine</strong></li>
+<li>Algorithms slice large orders into small pieces to minimize market impact</li>
+<li>Low-latency infrastructure matters here — co-located servers, optimized networking, C++ execution code</li>
+<li>Squarepoint says they execute "millions of trades a day"</li>
+<li>Execution quality is itself measured — slippage, fill rates, market impact</li>
+</ul>
+<h3 id="layer-6-post-trade-operations">Layer 6: Post-Trade / Operations</h3>
+<ul>
+<li>Trade reconciliation, margin management, regulatory reporting (13F, Form PF, etc.)</li>
+<li>P&amp;L attribution — decomposing returns into which signals/strategies contributed what</li>
+<li>This is the machinery behind the scenes</li>
+</ul>
+<hr />
+<h2 id="the-people-in-a-systematic-fund">THE PEOPLE IN A SYSTEMATIC FUND</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>What They Do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Quant Researcher</strong></td>
+<td>Develops and maintains alpha signals. The core IP of the fund. Typically PhDs.</td>
+</tr>
+<tr>
+<td><strong>Quant Developer / Engineer</strong></td>
+<td>Builds the infrastructure — data pipelines, execution systems, research platform. Heavy C++/Python/kdb+.</td>
+</tr>
+<tr>
+<td><strong>Data Engineer</strong></td>
+<td>Manages data ingestion, cleaning, storage</td>
+</tr>
+<tr>
+<td><strong>Trader / Execution</strong></td>
+<td>Monitors algo execution, handles exceptions, manages broker relationships</td>
+</tr>
+<tr>
+<td><strong>Risk (Systematic)</strong></td>
+<td>Mostly model-based — builds and maintains risk models, monitors limits. Less judgment, more engineering.</td>
+</tr>
+<tr>
+<td><strong>Tech / Infrastructure</strong></td>
+<td>Hardware, networking, cloud, latency optimization</td>
+</tr>
+<tr>
+<td><strong>Operations</strong></td>
+<td>Reconciliation, margin, reporting</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-insight-in-a-systematic-fund-risk-is-a-model-not-a-person">Key Insight: In a systematic fund, risk is a MODEL, not a PERSON</h3>
+<p>The risk "manager" in a systematic fund is really a risk <strong>engineer</strong> — they build and calibrate the risk model that the optimizer uses. If the model says "cut position," the position gets cut automatically. There's no PM to argue with, no thesis to challenge, no judgment call to make.</p>
+<hr />
+<h2 id="why-expand-into-discretionary-the-strategic-logic">WHY EXPAND INTO DISCRETIONARY? — The Strategic Logic</h2>
+<p>This is the question that shows you think like a business person, not just a technician. Here are the real reasons:</p>
+<h3 id="1-capacity-constraints-in-systematic-strategies">1. Capacity Constraints in Systematic Strategies</h3>
+<p><strong>The problem:</strong> Systematic strategies have a hard ceiling on how much capital they can deploy.</p>
+<ul>
+<li>Every quant signal has a <strong>capacity limit</strong> — the maximum amount of money you can put behind it before your own trading moves the market and destroys the edge</li>
+<li>Example: if a signal says "buy stock X," and you buy $10M of it, the price barely moves. But if you try to buy $500M, your own buying pushes the price up and eliminates the profit</li>
+<li>As AUM grows from $50bn to $180bn, the best systematic strategies fill up first</li>
+<li>You're forced into lower-conviction signals, more diversification, and thinner margins</li>
+<li><strong>At $182bn, Squarepoint is likely bumping against capacity in some strategies</strong></li>
+</ul>
+<p>Discretionary strategies have different capacity characteristics — a macro PM taking a view on rates can deploy billions because they're in the most liquid markets (treasuries, FX, rates futures).</p>
+<h3 id="2-return-diversification-uncorrelated-alpha">2. Return Diversification — Uncorrelated Alpha</h3>
+<p><strong>The problem:</strong> All systematic quant funds are fishing in the same pond.</p>
+<ul>
+<li>The top systematic funds (Squarepoint, DE Shaw, Two Sigma, Renaissance, Citadel Securities, Jump, Jane Street) all use similar data, similar techniques, and increasingly similar signals</li>
+<li>When Squarepoint's momentum signal fires, everyone else's does too → crowding → alpha decay</li>
+<li>This means systematic returns are increasingly <strong>correlated across the industry</strong></li>
+<li>In a market crisis, all systematic funds can deleverage at the same time (see: the 2007 quant quake)</li>
+</ul>
+<p>Discretionary alpha is <strong>fundamentally different</strong> — it comes from a human PM's unique view of the world. A discretionary macro trader betting on a BOJ policy shift is not correlated with a stat-arb momentum signal. This gives the combined portfolio a <strong>better Sharpe ratio</strong> than either alone.</p>
+<h3 id="3-investor-demand">3. Investor Demand</h3>
+<ul>
+<li>Institutional investors (pensions, endowments, sovereign wealth funds) want to allocate to hedge funds, but they want <strong>strategy diversification within a single manager</strong></li>
+<li>A fund that offers both systematic AND discretionary under one roof is more attractive than a pure-play</li>
+<li>It also gives marketing teams a better story: "We have the quant infrastructure of a systematic shop AND the conviction-driven returns of a discretionary manager"</li>
+<li>Multi-strategy format (Citadel, Millennium, Balyasny) has been the hottest model in the industry for years — Squarepoint is adapting to compete</li>
+</ul>
+<h3 id="4-leveraging-existing-infrastructure">4. Leveraging Existing Infrastructure</h3>
+<p>This is Squarepoint's <strong>unique competitive advantage</strong> in discretionary:</p>
+<ul>
+<li>Most discretionary hedge funds (macro, L/S equity) have mediocre technology — Excel spreadsheets, manual risk, slow data</li>
+<li>Squarepoint already has:</li>
+<li>World-class data pipelines (market + alternative data)</li>
+<li>Sophisticated risk models and real-time monitoring</li>
+<li>Low-latency execution infrastructure</li>
+<li>Quantitative research platform for backtesting ideas</li>
+<li>A discretionary PM at Squarepoint gets to use all of this — they can <strong>quantitatively validate their discretionary thesis</strong> before putting money on</li>
+<li>Example: a PM has a macro view that European energy prices will decouple from US. At a normal discretionary fund, they trade on gut. At Squarepoint, they can backtest it, run scenario analysis, stress-test the portfolio, and size the trade optimally — all before execution</li>
+<li><strong>This is what you should emphasize in the interview: the hybrid edge</strong></li>
+</ul>
+<h3 id="5-talent-acquisition">5. Talent Acquisition</h3>
+<ul>
+<li>The best discretionary traders don't want to work at a pure-quant shop (they feel sidelined)</li>
+<li>The best quants don't want to work at a pure-discretionary shop (no infrastructure)</li>
+<li>Squarepoint can attract talent from both pools by offering the hybrid model</li>
+<li>They can also attract <strong>risk people like you</strong> who have quant skills but want to work with humans, not just algorithms</li>
+</ul>
+<h3 id="6-fee-structure">6. Fee Structure</h3>
+<ul>
+<li>Pure systematic/quant strategies face fee pressure — investors know the process is automated and push for lower fees</li>
+<li>Discretionary strategies command <strong>higher fees</strong> because they depend on human talent/judgment — harder to replicate, harder to commoditize</li>
+<li>A typical systematic fund might charge 1% management + 15-20% performance</li>
+<li>A top discretionary fund can charge 2% + 20% (or more with pass-through costs)</li>
+<li>Adding discretionary strategies to the mix <strong>improves Squarepoint's blended fee margin</strong></li>
+</ul>
+<hr />
+<h2 id="how-risk-is-different-systematic-vs-discretionary">HOW RISK IS DIFFERENT: Systematic vs. Discretionary</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Systematic Risk</th>
+<th>Discretionary Risk (YOUR ROLE)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Who decides</strong></td>
+<td>The model</td>
+<td>The PM + risk manager together</td>
+</tr>
+<tr>
+<td><strong>Risk limits</strong></td>
+<td>Hard-coded in optimizer</td>
+<td>Negotiated with IC, enforced by risk</td>
+</tr>
+<tr>
+<td><strong>Your counterpart</strong></td>
+<td>An algorithm</td>
+<td>A human trader with a thesis</td>
+</tr>
+<tr>
+<td><strong>Key skill</strong></td>
+<td>Model building, calibration</td>
+<td>Judgment, communication, pushback</td>
+</tr>
+<tr>
+<td><strong>When things go wrong</strong></td>
+<td>System alert → automatic deleverage</td>
+<td>You call the PM, challenge the position, escalate to IC</td>
+</tr>
+<tr>
+<td><strong>Daily work</strong></td>
+<td>Monitor model outputs, recalibrate</td>
+<td>Review positions, stress test, discuss with trader</td>
+</tr>
+<tr>
+<td><strong>Alpha attribution</strong></td>
+<td>Statistical decomposition</td>
+<td>Understanding the trade narrative</td>
+</tr>
+<tr>
+<td><strong>Your value-add</strong></td>
+<td>Better risk model = better portfolio optimization</td>
+<td>Better risk culture = PMs make better decisions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bottom line:</strong> In systematic, risk is engineering. In discretionary, risk is judgment. You're interviewing for the judgment seat.</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

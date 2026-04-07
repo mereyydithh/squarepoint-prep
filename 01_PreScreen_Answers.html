@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PreScreen Answers — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link active" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="pre-screen-interview-prep-squarepoint-capital">PRE-SCREEN INTERVIEW PREP — Squarepoint Capital</h1>
+<h2 id="junior-risk-manager-discretionary-team-april-7-2026">Junior Risk Manager (Discretionary Team) — April 7, 2026</h2>
+<h2 id="recruiter-solomon-price">Recruiter: Solomon Price</h2>
+<hr />
+<h1 id="what-to-expect">WHAT TO EXPECT</h1>
+<ul>
+<li><strong>Duration</strong>: 20-30 minutes</li>
+<li><strong>Who</strong>: Solomon Price (recruiter at Squarepoint)</li>
+<li><strong>Format</strong>: Mostly conversational — resume walkthrough, motivation, fit</li>
+<li><strong>What they're evaluating</strong>: Can this person communicate clearly? Is the motivation genuine? Is the experience relevant? Is it worth putting them in front of the hiring manager?</li>
+<li><strong>Tone</strong>: Confident but not arrogant. Direct. Concise. Show energy.</li>
+</ul>
+<hr />
+<h1 id="the-5-answers-you-must-nail">THE 5 ANSWERS YOU MUST NAIL</h1>
+<hr />
+<h2 id="1-walk-me-through-your-resume">1. "Walk me through your resume"</h2>
+<p>Three versions below. Pick based on how much time you're given and the vibe of the conversation.</p>
+<hr />
+<h3 id="full-version-4-minutes-use-when-they-say-take-your-time-or-when-its-a-hiring-manager-who-wants-depth">FULL VERSION (~4 minutes — use when they say "take your time" or when it's a hiring manager who wants depth)</h3>
+<blockquote>
+<p>"Sure — I like to start a bit further back than most. I was a national judoka with the French team from age 14 to 22. Eight years of competing at the highest level taught me very young how to perform under pressure, balance multiple commitments simultaneously, and maintain discipline over long time horizons. That foundation has shaped everything in my career since.</p>
+<p>In terms of academics, I did a classe prépa in maths and physics — it's a two-year intensive program in France that prepares students for the competitive entrance exams into the top engineering schools. From there I joined ECE Paris, where I chose to study quantitative finance and engineering because I've always been drawn to understanding markets and their behavior. I complemented that with a second Master's at a top business school, where I studied investment banking, finance, and risk from a more business and markets-oriented perspective — as opposed to the engineering side which focused on the mathematical and technological stack behind it. So I ended up with both the quantitative rigor and the market intuition, which has been a recurring theme in my career.</p>
+<p>To conclude my academic path, I did my end-of-studies internship at BNP Paribas in Paris on the OTC commodities derivatives desk as a sales and trading assistant. It was a versatile role where I had the chance to learn from some of Europe's top sales and traders in commodities — BNP has deep expertise in that space. I worked across every commodity sub-class: oil, natural gas, power, emissions, base metals, precious metals, and ags. Day to day, I was responsible for writing the morning and evening market commentary, which went out daily to the four thousand clients of the desk. That commentary served a critical function — it provided market color that clients would come back to us with during the day, asking for trade ideas, hedging solutions, or how BNP could structure something specific. It was a key step of the desk's commercial activity. To support that workflow, I implemented a Python and VBA data pipeline pulling prices, open interest, volume, and reports from Bloomberg to standardize the data processing and deliver a more accurate, faster picture of the market each day. I was also pricing Asian and European options on refined products. That experience gave me a deep understanding of the commodities market — the mechanics, the flows, the market intuition that comes from sitting that close to traders and salespeople every day.</p>
+<p>Fast forward — I moved to BNP Paribas in New York on the DEC and FXPB business line in what I like to call a quant swiss army knife role. The business line was about 35 people, organized into a high-touch traders team, sales traders for direct market access, corporate and institutional sales, a collateral management team, and finally the front-office risk team — which is where I primarily sat. My role was to work alongside the risk managers across all asset classes on the listed side and to build out, maintain, and improve the entire risk framework and infrastructure of the desk — both on the technical side, meaning automated reports, portfolio analysis, stress testing, and risk analytics across all asset classes, and on the process side, meaning fire drills, the liquidation framework, operational risk, and conduct risk for the front office. I was responsible for all code in production.</p>
+<p>In that capacity, I implemented a live stress-testing model that significantly increased our efficiency and granularity — it helped us understand exactly what risk we were facing and why certain positions or portfolios were costing more in collateral. It was also used to provide delta and vega hedging color to clients on commodities portfolios. Beyond risk, I assisted the entire business line — traders, sales, collateral management — wherever quantitative work was needed. For example, I worked alongside the traders on several projects, one of which was an options skew scanner for SOFR and US Treasuries that came from a client request. The goal was to highlight day-over-day changes in open interest, delta, and gamma, and to present in a concise, trader-friendly format where the convexity sat for delta and gamma exposure and where net short gamma was most concentrated. That project had me collaborating extensively with market data providers, traders, and senior management in a high-stakes environment.</p>
+<p>This role was exceptionally formative for me. It showed me firsthand what risk management is and made me deeply interested in it. It also clarified the kind of environment I want to work in — a hedge fund environment with the pace, the cross-team collaboration, and the high-stakes work. Risk, to me, sits at the intersection of quantitative rigor and judgment — which is exactly how I've built my professional experience. I was fortunate to work with a mentor who had over 20 years of experience at CME, ICE, and Goldman Sachs, and he told me that risk is the art of being proactively ready for when things turn sour. That resonated with me deeply, and it's how I've been working ever since.</p>
+<p>Currently, I'm at Natixis in Paris as a cross-asset quant analyst — what I call a bridge role. After my VIE contract at BNP in New York ended, I had a cooling-off period, and my goal has always been to move back to New York and work in risk at the heart of finance — where collaboration, precision, and curiosity come together. Natixis allows me to keep working on critical skills, sharpen my market intuition, and learn from experienced individuals across all asset classes. But I call it a bridge because this Squarepoint role is exactly what I had in mind as the next step after my New York experience — building risk frameworks for a discretionary team, embedded with traders and researchers, back in the environment where I do my best work."</p>
+</blockquote>
+<hr />
+<h3 id="medium-version-230-the-default-for-most-pre-screens">MEDIUM VERSION (~2:30 — the default for most pre-screens)</h3>
+<blockquote>
+<p>"Sure — I like to start a bit further back than most. I was a national judoka with the French team from age 14 to 22, so I learned very young how to perform under pressure, balance multiple commitments, and compete at the highest level. That discipline has shaped everything since.</p>
+<p>Academically, I did a classe prépa in maths and physics — the intensive two-year program for France's top engineering schools — then a double Master's: quantitative finance and engineering at ECE Paris, and investment banking and risk at a top business school. So I have both the mathematical rigor from the engineering side and the markets intuition from the business side.</p>
+<p>I did my end-of-studies internship at BNP Paribas in Paris on the OTC commodities derivatives desk — sales and trading. I worked across every sub-class — oil, gas, power, emissions, metals, ags — pricing Asian and European options, writing the daily market commentary that went to four thousand clients, and I built a Python data pipeline that the whole desk adopted for market analysis and pricing. That's where I built my foundation in derivatives and developed real market intuition from sitting alongside top traders and salespeople every day.</p>
+<p>From there I moved to BNP Paribas in New York — what I call a quant swiss army knife role. I joined the DEC and FXPB business line, 35 people, and I sat on the front-office risk team. My job was to build out, maintain, and improve the risk framework across all asset classes — listed commodities, rates, equities, FX — roughly a billion-plus in client portfolios. On the technical side: I implemented the live stress-testing model, built the portfolio analytics platform on AWS, and developed an options skew scanner for SOFR and Treasuries working closely with traders, market data providers, and senior management. On the process side: I orchestrated a $2.6 billion default fire drill with 9 external counterparties and helped formalize the liquidation framework and operational risk controls. I owned all production code for the business line.</p>
+<p>This role was exceptionally formative — it showed me what risk management is, and I had a mentor with over 20 years at CME, ICE, and Goldman who told me risk is the art of being proactively ready for when things turn sour. That resonated deeply. It also showed me the kind of environment I want to work in — fast-paced, collaborative, high-stakes.</p>
+<p>Currently I'm at Natixis in Paris as a cross-asset quant — what I call a bridge role. After my VIE ended I had a cooling-off period, and Natixis lets me keep sharpening critical skills across all asset classes while I target the move back. But the pace and proximity to trading decisions doesn't compare to New York.</p>
+<p>That's why Squarepoint is exactly what I've been working toward — building risk frameworks for a discretionary team, embedded with traders and researchers, back in New York where I do my best work. It's the natural next step."</p>
+</blockquote>
+<hr />
+<h3 id="short-version-strict-200-use-when-they-say-briefly-or-give-me-the-highlights">SHORT VERSION (strict 2:00 — use when they say "briefly" or "give me the highlights")</h3>
+<blockquote>
+<p>"Sure — quick background: I was a national judoka with the French team from 14 to 22, so pressure and discipline are in my DNA. I did a double Master's — quantitative finance and engineering, plus investment banking and risk — so I have both the mathematical rigor and the markets perspective.</p>
+<p>I started at BNP Paribas in Paris on the OTC commodities derivatives desk — pricing options across oil, gas, metals, power, writing the daily market commentary for four thousand clients, and building a Python pipeline the desk adopted. That's where I fell in love with derivatives and markets.</p>
+<p>From there I moved to BNP Paribas New York — what I call a quant swiss army knife role — on the front-office risk team of the DEC business line. All asset classes, roughly a billion-plus in client portfolios. I built the live stress-testing model, orchestrated a $2.6 billion default fire drill with 9 counterparties, built the portfolio analytics platform on AWS, developed an options skew scanner for SOFR and Treasuries, and owned all production code for the business line. This role showed me what risk management is and convinced me it's where I belong.</p>
+<p>Currently I'm at Natixis in Paris — a bridge role after my VIE cooling-off period. Cross-asset quant work across all asset classes — model validation, vol surface calibration, FRTB. Valuable, but the pace doesn't compare to New York.</p>
+<p>That's why Squarepoint is exactly what I've been targeting — building risk frameworks for a discretionary team, embedded with traders and researchers, back in New York. It's the natural next step."</p>
+</blockquote>
+<hr />
+<p><strong>Key beats across all versions:</strong><br />
+- Judo opener signals pressure tolerance + discipline (unique differentiator)<br />
+- Double Master's = quant rigor + market intuition (recurring theme)<br />
+- BNP Paris = commodities foundation, client-facing, 4,000 clients, pipeline builder<br />
+- "Quant swiss army knife" = memorable NYC label<br />
+- NYC is the anchor — spend the most time here in every version<br />
+- Technical + process duality (models AND fire drills, code AND operations)<br />
+- Mentor quote = emotional beat that lands the "why risk" thread<br />
+- "Bridge role" = honest Natixis framing, no apologies<br />
+- Always land on WHY SQUAREPOINT — don't make them ask<br />
+- <strong>Pick the version based on context.</strong> If they seem engaged and asking follow-ups, the FULL version becomes a conversation. If they're checking boxes, go SHORT.</p>
+<hr />
+<h2 id="2-why-squarepoint">2. "Why Squarepoint?"</h2>
+<blockquote>
+<p>"Three reasons. First, this is buy-side risk embedded with a trading team. At BNP in New York, I was doing risk for clients — analyzing their portfolios, stress-testing their positions, providing hedging color. It was formative, but at the end of the day, the risk insights I produced informed someone else's decisions. What draws me to Squarepoint is that the risk I'd be doing here directly shapes how the fund takes risk — I'd be in the room with the PMs and researchers, not sending a report to a client. That's a fundamentally different impact, and it's the move I've been targeting since New York.</p>
+<p>Second, Squarepoint has world-class systematic research infrastructure — you've grown from 60 people at the 2014 spin-off from Barclays to over 700 across 13 offices, with roughly $182 billion in regulatory AUM. That means the discretionary team has access to tools, data, and quantitative rigor that most discretionary funds simply don't have. The combination of systematic infrastructure with human judgment on the discretionary side is exactly how I think about risk — intuition backed by evidence.</p>
+<p>Third — and I'll be direct — I spent almost two years in New York and it's where I do my best work. The pace, the intensity, the proximity to the deepest capital markets in the world. Funny enough, I actually used to live across the street from your New York office — so I know the neighborhood well. I want to be back in that environment, and Squarepoint is where I want to be."</p>
+</blockquote>
+<p><strong>If they ask "do you know much about Squarepoint?":</strong></p>
+<blockquote>
+<p>"Yes — I've done my homework. Squarepoint was founded in December 2014 when the nQuant team — Olivier Durantel, Gregoire Schneider, Antoine Fillet, and Maxime Fortin, all Polytechnique graduates — spun off from Barclays after the Volcker Rule made prop trading inside banks untenable. The team originally started inside Lehman Brothers Tokyo in 2000, survived the Lehman collapse by being absorbed into Barclays, and then became independent. Today you're at roughly $182 billion in regulatory AUM, up from about $35 billion in 2020 — extraordinary growth. The CIO is Michael Gottlieb. The core has always been systematic — equities, low-latency, statistical arbitrage — and now you're expanding the discretionary arm, which is why this role exists and why I'm here."</p>
+<p>"I'll add — as a French engineer myself, I appreciate that the firm was founded by four Polytechniciens who built something from scratch inside a bank and then had the conviction to go independent. That builder DNA resonates with how I've worked at every stop in my career."</p>
+</blockquote>
+<hr />
+<h2 id="3-why-risk-management-why-this-role">3. "Why risk management?" / "Why this role?"</h2>
+<blockquote>
+<p>"Risk management sits at the intersection of everything I've been building toward. I have the quantitative skills — I build models, I write production code, I understand derivatives pricing. I have the market intuition — three years across commodities, rates, equities, FX. And I have the temperament — I trained as a competitive judoka on the French national team program for eight years, so I perform well under pressure and I'm wired to stay calm when things move fast.</p>
+<p>But what specifically attracts me to risk management over, say, pure quant research or trading is this: risk is the role where you need both the quantitative rigor AND the judgment to say 'this doesn't look right' to a trader. It's not pure math, it's not pure intuition — it's both. One of my mentors in New York described risk as 'the art of being proactively ready for when things turn sour.' That resonated with me deeply, and it's how I've worked ever since.</p>
+<p>For this role specifically — discretionary risk at a fund that's building this capability out — I want to be in the room with the trading team, not in a back office running compliance reports."</p>
+</blockquote>
+<hr />
+<h2 id="4-why-leave-your-current-role-why-after-only-6-months">4. "Why leave your current role?" / "Why after only 6 months?"</h2>
+<blockquote>
+<p>"I want to be transparent about the timeline. After my VIE contract at BNP Paribas in New York ended, I had a contractual cooling-off period and then joined Natixis to stay active and broaden my experience into cross-asset analytics while I targeted a buy-side role. Natixis has been valuable — I've gained exposure to model validation, FRTB regulatory frameworks, and working across five asset classes simultaneously. But the work is further from trading decisions than I want to be. At BNP in New York, I was sitting with traders, providing signals that impacted real positions, coordinating fire drills with real counterparties. I want to get back to that intensity, and specifically on the buy-side where risk management directly shapes investment outcomes rather than serving a compliance function."</p>
+</blockquote>
+<p><strong>If they push harder</strong>: "To be direct — Natixis was always a bridge. My career goal has been a hedge fund risk role since my time in New York. This role at Squarepoint is exactly what I've been working toward."</p>
+<hr />
+<h2 id="5-questions-to-ask-them-pick-2-3">5. Questions to Ask Them (Pick 2-3)</h2>
+<p><strong>If it's a recruiter:</strong><br />
+1. "How is the discretionary team structured today? How many people are on the team, and where does this role sit within it?"<br />
+2. "What does the interview process look like from here? How many rounds, and who would I meet?"<br />
+3. "Is this a new headcount? What prompted the decision to hire for this role now?"</p>
+<p><strong>If it's the hiring manager (less likely for pre-screen, but be ready):</strong><br />
+4. "What does the risk allocation process look like today for discretionary strategies? How are risk budgets set and monitored?"<br />
+5. "What's the biggest risk management challenge as the discretionary business scales?"<br />
+6. "What would success look like in the first 6-12 months?"</p>
+<p><strong>Universal closer:</strong></p>
+<blockquote>
+<p>"I want to say — I'm genuinely excited about this opportunity. Building risk frameworks for a discretionary team at a firm with Squarepoint's quantitative DNA is exactly the kind of role I've been targeting. I'm ready to move quickly if the fit is right."</p>
+</blockquote>
+<hr />
+<h1 id="potential-curveball-questions-answers">POTENTIAL CURVEBALL QUESTIONS + ANSWERS</h1>
+<h2 id="how-do-you-understand-the-role-what-do-you-think-this-job-involves">"How do you understand the role?" / "What do you think this job involves?"</h2>
+<blockquote>
+<p>"From what I've read and how I understand it — this is a junior risk manager sitting entirely on the discretionary side of the business. Not systematic, not algorithmic — human-driven strategies where PMs and researchers formulate views and express them through positions.</p>
+<p>The core of the job is making sure the fund makes money without blowing up. In practice that means six things:</p>
+<p>First, evaluating and monitoring risk on every strategy — before a trade goes on and while it's live. Not just market risk either — the JD explicitly mentions operational risk and conduct risk, so process controls and model governance matter too.</p>
+<p>Second, enforcing the Investment Committee's risk budget. The IC sets the allocation, and my job is to make sure nobody drifts beyond their mandate. That's where the hardest conversations happen — the trader wants to size up, I need to hold the line or escalate.</p>
+<p>Third, analyzing risk and performance at the portfolio level — not just position by position, but the holistic picture. What's driving PnL, where is risk concentrating, are we inadvertently correlated across desks, what happens under stress.</p>
+<p>Fourth, helping with portfolio construction from a risk lens. I'm not the PM — but I'm flagging concentration, hidden correlations, gaps in hedging, and where diversification is thin.</p>
+<p>Fifth, building out the risk framework. This is an expanding team, so part of the role is building processes, controls, infrastructure, and reporting that make risk management scalable as the discretionary business grows.</p>
+<p>And sixth, doing all of this embedded with the quants, researchers, and traders — leveraging Squarepoint's research platform, speaking their language. This isn't back-office risk that sends a report at 5pm. The value I add depends on understanding what they're doing and translating it into a risk view they respect."</p>
+</blockquote>
+<p><strong>If they ask for the meta-view:</strong></p>
+<blockquote>
+<p>"The way I see it, risk at a discretionary fund is two things at once — proactively preparing for crisis while actively managing current positions for profit. The best risk managers don't just say no — they help the fund take better risk."</p>
+</blockquote>
+<hr />
+<h2 id="whats-your-salary-expectation">"What's your salary expectation?"</h2>
+<blockquote>
+<p>"I saw the posted minimum is $125k base. I'm open to discussing compensation — the opportunity and the team matter more to me than optimizing on base salary. I understand a significant portion of total comp is discretionary, and I'm comfortable with that structure."</p>
+</blockquote>
+<h2 id="are-you-interviewing-elsewhere">"Are you interviewing elsewhere?"</h2>
+<blockquote>
+<p>"I've been selectively targeting risk roles at discretionary funds and multi-strategy platforms — specifically roles where I'd be embedded with a trading team rather than in a middle-office or compliance function. Squarepoint is my top priority because of the discretionary build-out and the opportunity to build infrastructure from the ground up."</p>
+</blockquote>
+<p>(Don't name specific firms unless pressed — it signals you're in demand without oversharing. If pressed: "I'm in process with a couple of firms but nothing at the offer stage.")</p>
+<h2 id="whats-your-visawork-authorization-status">"What's your visa/work authorization status?"</h2>
+<blockquote>
+<p>"I'm currently based in Paris and I would need visa sponsorship to work in the US. I noted this in my application. I'm a French/EU citizen. I understand Squarepoint sponsors visas — I'm ready to move quickly on my end to facilitate the process."</p>
+</blockquote>
+<p><strong>Key points:</strong><br />
+- You already disclosed it in the application — so they know and still called you. That's a good sign.<br />
+- Don't over-explain or apologize. State it factually and move on.<br />
+- If they say the role is also available in London (JD says NYC or London), be open to it: "My strong preference is New York, but I'm open to London as well — I wouldn't need sponsorship for London as an EU/French citizen."</p>
+<h2 id="tell-me-about-a-challenging-project">"Tell me about a challenging project"</h2>
+<p>→ Go straight to the <strong>fire drill</strong> story. Short version (90 seconds):</p>
+<blockquote>
+<p>"The most challenging was orchestrating a $2.6 billion default fire drill at BNP Paribas in New York. We needed to simulate liquidating a concentrated long natural gas, short power portfolio with carbon emissions exposure — deliberately choosing the hardest-to-unwind combination. I coordinated with 9 external counterparties — banks, institutions, corporates — to validate we could fully liquidate within regulatory timelines. The challenge was that we no longer had an internal desk in New York to execute, so I had to coordinate across regions. The result: full liquidation validated with less than 0.2% P&amp;L drag, all CCP margin tests cleared, and we identified two operational gaps in collateral management that we fixed before they could become real problems."</p>
+</blockquote>
+<p>If they want more detail → you have it. If not, you've shown scope, complexity, impact, and ownership in 90 seconds.</p>
+<h2 id="what-do-you-know-about-risk-management-for-discretionary-strategies">"What do you know about risk management for discretionary strategies?"</h2>
+<blockquote>
+<p>"In systematic, risk is largely automated — you set hard limits, kill switches, drawdown thresholds, and the system enforces them. Discretionary is fundamentally different because the trades are thesis-driven. A PM puts on a position because they have a view, so the risk manager needs to understand the thesis to judge whether the risk is intentional and sized appropriately versus accidental.</p>
+<p>In practice, that means monitoring exposures in real time, stress-testing against scenarios that could invalidate the thesis — not just generic VaR shocks but scenario-specific ones — identifying concentration and hidden correlation across strategies, and enforcing the IC's risk allocation. The hard part is the human element: you need to have the technical credibility to challenge a trader's sizing and the judgment to know when a risk is worth taking versus when it's excessive. You're not there to say no to everything — you're there to make sure the fund takes better risk.</p>
+<p>The other big difference is that discretionary books can have path-dependent optionality — a PM might be right on direction but wrong on timing, and the risk manager needs to distinguish between a position that's under temporary mark-to-market pressure versus one where the thesis is actually broken."</p>
+</blockquote>
+<hr />
+<h1 id="final-checklist-interview-day-april-7-2026">FINAL CHECKLIST — INTERVIEW DAY (APRIL 7, 2026)</h1>
+<ul>
+<li>[ ] Practice the resume walkthrough with a timer — STRICT 2 minutes</li>
+<li>[ ] Read the Squarepoint JD one more time before the call</li>
+<li>[ ] Have 2-3 questions ready (write them down so you don't forget)</li>
+<li>[ ] Quiet environment, good internet, professional appearance</li>
+<li>[ ] Have your resume in front of you (they may reference specific bullets)</li>
+<li>[ ] Energy and enthusiasm — pre-screens are vibe checks. Show you WANT this.</li>
+<li>[ ] End with a strong closer expressing genuine interest</li>
+</ul>
+<hr />
+<h1 id="tone-reminders">TONE REMINDERS</h1>
+<ul>
+<li><strong>Be concise</strong>. Answer the question, then stop. Don't ramble.</li>
+<li><strong>Be specific</strong>. "$2.6 billion" is better than "large portfolio." "9 counterparties" is better than "multiple stakeholders."</li>
+<li><strong>Be honest</strong>. If you don't know something about Squarepoint, say "I'd love to learn more about that — it's one of the reasons I'm excited about this conversation."</li>
+<li><strong>Be energetic</strong>. Not manic, but they should feel your genuine interest. You said you're "highly motivated" — let that show.</li>
+<li><strong>NYC anchor</strong>. Your NYC experience is your superpower. Every answer should orbit back to it.</li>
+</ul>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

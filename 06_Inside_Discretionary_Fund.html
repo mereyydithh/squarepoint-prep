@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inside Discretionary Fund — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link active" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="inside-a-discretionary-fund">INSIDE A DISCRETIONARY FUND</h1>
+<h2 id="what-it-looks-like-what-risk-does-and-your-stack">What It Looks Like, What Risk Does, and Your Stack</h2>
+<hr />
+<h2 id="the-people-who-sits-where">THE PEOPLE — Who Sits Where</h2>
+<p>A discretionary trading floor is organized around <strong>pods</strong> or <strong>teams</strong>, each led by a PM (Portfolio Manager).</p>
+<h3 id="the-investment-committee-ic">The Investment Committee (IC)</h3>
+<ul>
+<li>Senior leadership (at Squarepoint: founders + CIO Michael Gottlieb)</li>
+<li>Sets the overall risk budget: how much capital each PM gets, max drawdown, strategy guidelines</li>
+<li>Meets regularly (weekly/monthly) to review performance, adjust allocations, approve new strategies</li>
+<li>The IC is the "board of directors" for the trading business — PMs answer to them</li>
+</ul>
+<h3 id="portfolio-managers-pms">Portfolio Managers (PMs)</h3>
+<ul>
+<li>Each PM runs a "book" — a portfolio of positions based on their thesis/strategy</li>
+<li>At a discretionary fund, the PM is the alpha generator. They decide WHAT to trade and WHY</li>
+<li>Examples of discretionary strategies:</li>
+<li><strong>Global macro</strong>: trading rates, FX, commodities based on macro views (central bank policy, inflation, geopolitics)</li>
+<li><strong>Relative value</strong>: long one asset vs short another based on a pricing dislocation (long Brent/short WTI, long UST 5Y/short 10Y)</li>
+<li><strong>Event-driven</strong>: trading around catalysts (earnings, M&amp;A, regulatory changes, elections)</li>
+<li><strong>Fundamental L/S equity</strong>: long undervalued / short overvalued stocks based on deep research</li>
+<li>At Squarepoint specifically, PMs likely lean <strong>quantitative-discretionary</strong> — they have a thesis but use Squarepoint's data/quant platform to validate and size it</li>
+</ul>
+<h3 id="quantitative-researchers-quants">Quantitative Researchers (Quants)</h3>
+<ul>
+<li>Support the PMs with analytical horsepower</li>
+<li>Build models to test PM hypotheses: "Is this mean-reverting? What's the vol regime? How crowded is this trade?"</li>
+<li>Run backtests, scenario analysis, factor decomposition</li>
+<li>At Squarepoint, the quants ARE the platform — they bridge the systematic infrastructure with discretionary PMs</li>
+</ul>
+<h3 id="traders-execution">Traders (Execution)</h3>
+<ul>
+<li>Execute the PM's orders in the market</li>
+<li>Responsible for best execution — minimizing slippage, market impact</li>
+<li>In some setups (like this one), traders and PMs overlap — the JD mentions collaborating with both</li>
+</ul>
+<h3 id="risk-manager-you">Risk Manager (YOU)</h3>
+<ul>
+<li>Sits ACROSS all the PMs, not inside one pod</li>
+<li>Reports to the IC, not to the PM — this independence is critical</li>
+<li>The PM wants to make money. The risk manager makes sure the PM doesn't blow up the fund doing it</li>
+</ul>
+<h3 id="analysts">Analysts</h3>
+<ul>
+<li>Junior researchers who support PMs with sector expertise, data analysis, idea generation</li>
+</ul>
+<hr />
+<h2 id="the-daily-rhythm-of-a-discretionary-fund">THE DAILY RHYTHM OF A DISCRETIONARY FUND</h2>
+<h3 id="pre-market-630-800-am">Pre-market (6:30-8:00 AM)</h3>
+<ul>
+<li>Overnight news review: what happened in Asia/Europe, macro releases, central bank commentary</li>
+<li>Risk team pulls overnight P&amp;L, checks for limit breaches, flags positions that moved significantly</li>
+<li>Risk team prepares the <strong>morning risk report</strong>: portfolio exposures, Greeks, concentration, VaR, stress test results</li>
+</ul>
+<h3 id="morning-huddle-800-830-am">Morning huddle (8:00-8:30 AM)</h3>
+<ul>
+<li>PM + risk + quant + traders gather (or call in if global)</li>
+<li>PMs share their view: "I'm adding to the short euro position because ECB minutes were dovish"</li>
+<li>Risk flags concerns: "Your rates exposure is at 85% of limit" or "that position is correlated with your FX book"</li>
+<li>Quick, informal — this is the "spontaneous huddles" Squarepoint mentions in their culture page</li>
+</ul>
+<h3 id="trading-day-830-am-400-pm">Trading day (8:30 AM - 4:00 PM)</h3>
+<ul>
+<li>PMs trade. Risk monitors in real-time</li>
+<li>Risk manager is watching: position sizes, P&amp;L swings, Greeks migration, correlation shifts, news events that could impact the book</li>
+<li>If something moves sharply — a geopolitical event, surprise data release — the risk manager immediately assesses impact across ALL PM books</li>
+<li>Ad-hoc conversations: PM comes to your desk — "I want to put on a $200M position in nat gas, what does that do to our portfolio?" You run the numbers, stress test it, give them an answer</li>
+<li>Risk manager maintains the <strong>risk dashboard</strong> — a real-time view of all exposures, limits utilization, P&amp;L</li>
+</ul>
+<h3 id="post-market-400-600-pm">Post-market (4:00-6:00 PM)</h3>
+<ul>
+<li>End-of-day reconciliation: confirm all positions are correct</li>
+<li>Update stress tests with closing prices</li>
+<li>Prepare any IC materials if there's a review coming</li>
+<li>Flag any limit breaches for escalation</li>
+</ul>
+<h3 id="weeklymonthly">Weekly/Monthly</h3>
+<ul>
+<li><strong>IC meeting</strong>: Risk presents portfolio-level view to senior leadership. Total fund exposure, biggest risks, tail scenarios, how close each PM is to their limits</li>
+<li><strong>Strategy review</strong>: Deep-dives on each PM's book — attribution, risk-adjusted returns, drawdown analysis</li>
+<li><strong>Stress testing</strong>: Run hypothetical scenarios (what if oil goes to $120? What if the Fed hikes 100bp? What if US-China war?)</li>
+</ul>
+<hr />
+<h2 id="the-risk-managers-role-what-you-actually-do">THE RISK MANAGER'S ROLE — What You Actually Do</h2>
+<h3 id="1-position-level-risk-monitoring">1. Position-Level Risk Monitoring</h3>
+<ul>
+<li>Track every position across every PM's book</li>
+<li>Calculate Greeks: Delta, Gamma, Vega, Theta (and cross-Greeks: Vanna, Volga for options-heavy books)</li>
+<li>Monitor position sizes vs limits set by IC</li>
+<li>Flag concentration risk: "PM A and PM B both have massive long gold exposure — the combined fund is overweight"</li>
+</ul>
+<h3 id="2-portfolio-level-risk-aggregation">2. Portfolio-Level Risk Aggregation</h3>
+<ul>
+<li>Aggregate risk ACROSS all PMs to see the total fund picture</li>
+<li>A PM might think their book is hedged, but combined with other PMs, the fund could be net long credit risk</li>
+<li>This is the <strong>portfolio construction</strong> part of the JD — you help the IC see how individual PM books combine</li>
+<li>Metrics: net/gross exposure, beta, sector/geography/factor concentration, VaR, Expected Shortfall</li>
+</ul>
+<h3 id="3-stress-testing-scenario-analysis">3. Stress Testing &amp; Scenario Analysis</h3>
+<ul>
+<li>Design and run scenarios: historical (2008 GFC, COVID crash, 2022 rate shock) and hypothetical (Iran war escalation, oil embargo, Fed emergency cut)</li>
+<li>For each scenario: what happens to each PM's P&amp;L? What happens to the total fund?</li>
+<li>Present findings to IC — "If treasuries sell off 100bp, PM A loses $15M, PM B makes $8M, net fund impact is -$7M"</li>
+</ul>
+<h3 id="4-limit-monitoring-enforcement">4. Limit Monitoring &amp; Enforcement</h3>
+<ul>
+<li>IC sets limits: max loss per PM (e.g., $5M/day, $20M/month), max gross exposure, max sector concentration, max VaR</li>
+<li>You monitor these in real-time</li>
+<li>When a PM approaches a limit, you notify them. When they breach, you escalate to IC</li>
+<li>This is where the <strong>independence</strong> matters — you can't be afraid to tell a PM to cut their position</li>
+</ul>
+<h3 id="5-challenging-the-pms-thesis">5. Challenging the PM's Thesis</h3>
+<ul>
+<li>This is the human judgment part that doesn't exist in systematic</li>
+<li>PM says: "I'm shorting euro because ECB will cut." You ask: "What if they don't? What's your stop loss? How crowded is this trade? What's the convexity of your position?"</li>
+<li>You're not second-guessing their alpha — you're making sure the <strong>risk/reward is appropriate</strong> and the <strong>position sizing makes sense</strong></li>
+<li>Good risk managers ask the questions the PM doesn't want to ask themselves</li>
+</ul>
+<h3 id="6-trade-level-risk-assessment-pre-trade">6. Trade-Level Risk Assessment (Pre-Trade)</h3>
+<ul>
+<li>Before a large trade goes on, risk evaluates it: what does it do to portfolio VaR? Does it breach any limits? What's the worst-case scenario? How liquid is it (can we get out)?</li>
+<li>You might say: "This trade is fine on its own, but it makes the fund 2x levered to a rates move when combined with PM B's book"</li>
+</ul>
+<h3 id="7-pl-attribution-performance-analysis">7. P&amp;L Attribution &amp; Performance Analysis</h3>
+<ul>
+<li>Break down each PM's returns: how much came from the market moving (beta), how much from their specific view (alpha)?</li>
+<li>Identify which trades are working, which are bleeding</li>
+<li>Present to IC so they can decide: does this PM get more capital or less?</li>
+</ul>
+<h3 id="8-risk-framework-development-the-builder-part">8. Risk Framework Development (the "builder" part)</h3>
+<ul>
+<li>Since the discretionary team is NEW at Squarepoint, you'd be helping BUILD:</li>
+<li>The risk report templates</li>
+<li>The limit structure</li>
+<li>The escalation process</li>
+<li>The stress testing scenarios</li>
+<li>The risk dashboard</li>
+<li>Integration with Squarepoint's existing systematic risk infrastructure</li>
+<li>This is the greenfield/builder angle that maps to your NYC experience</li>
+</ul>
+<hr />
+<h2 id="your-tech-stack-what-youd-realistically-need">YOUR TECH STACK — What You'd Realistically Need</h2>
+<h3 id="daily-workbench">Daily Workbench</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What For</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Python</strong></td>
+<td>Your primary weapon. Risk calculations, data analysis, building dashboards, automating reports, stress testing. Libraries: Pandas, Numpy, Polars, QuantLib, Matplotlib/Plotly for viz</td>
+<td><strong>Critical — you have this</strong></td>
+</tr>
+<tr>
+<td><strong>Excel/Google Sheets</strong></td>
+<td>PMs and IC members live in spreadsheets. Quick ad-hoc analysis, sharing risk reports in a format traders understand</td>
+<td><strong>Critical — you have this</strong></td>
+</tr>
+<tr>
+<td><strong>SQL</strong></td>
+<td>Querying position databases, trade history, market data stores. Every day.</td>
+<td><strong>Critical — you have this</strong></td>
+</tr>
+<tr>
+<td><strong>Bloomberg Terminal</strong></td>
+<td>Real-time market data, pricing, quick analytics. PORT function for portfolio analysis. MARS for risk.</td>
+<td><strong>Critical — you have this</strong></td>
+</tr>
+<tr>
+<td><strong>kdb+/q</strong></td>
+<td>If Squarepoint's data layer is kdb+ (very likely for a quant fund), you'd query tick data, historical positions, intraday P&amp;L from kdb+</td>
+<td><strong>Important — you have this</strong></td>
+</tr>
+<tr>
+<td><strong>Risk platform (internal)</strong></td>
+<td>Squarepoint will have proprietary risk tools. You'd learn their specific system on the job.</td>
+<td><strong>Learn on arrival</strong></td>
+</tr>
+<tr>
+<td><strong>AWS / cloud</strong></td>
+<td>If risk infrastructure is cloud-hosted (compute-heavy stress testing, large data processing)</td>
+<td><strong>Nice to have — you have this</strong></td>
+</tr>
+<tr>
+<td><strong>C++</strong></td>
+<td>Unlikely to write C++ daily in this role, but understanding it helps you interface with the pricing/execution layer built by quant devs</td>
+<td><strong>Helpful — you have exposure</strong></td>
+</tr>
+<tr>
+<td><strong>VBA</strong></td>
+<td>Quick Bloomberg automation, macro-enabled risk reports</td>
+<td><strong>Minor — you have this</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="stack-assessment-you-have-what-they-need">Stack Assessment: You Have What They Need</h3>
+<p>Every tool in the "Critical" and "Important" categories is already on your resume. The only thing you're missing is their internal system — which nobody has before joining.</p>
+<hr />
+<h2 id="what-youd-build-own-timeline-projection">WHAT YOU'D BUILD / OWN — Timeline Projection</h2>
+<h3 id="month-1-3-learn-and-monitor">Month 1-3: Learn and Monitor</h3>
+<ul>
+<li>Learn Squarepoint's internal systems, data architecture, risk platform</li>
+<li>Understand each PM's strategy, their books, their risk profiles</li>
+<li>Start producing the daily risk report — positions, exposures, P&amp;L, limit utilization</li>
+<li>Get comfortable with the IC process — attend meetings, understand what leadership cares about</li>
+</ul>
+<h3 id="month-3-6-contribute-and-build">Month 3-6: Contribute and Build</h3>
+<ul>
+<li>Build automated risk dashboards (Python + internal tools)</li>
+<li>Design stress testing scenarios specific to the discretionary strategies</li>
+<li>Start doing pre-trade risk analysis for PMs — they come to you before putting on big trades</li>
+<li>Build portfolio-level aggregation views — how do all PM books combine?</li>
+</ul>
+<h3 id="month-6-12-own-and-drive">Month 6-12: Own and Drive</h3>
+<ul>
+<li>Own the daily risk process end to end</li>
+<li>Present to IC independently</li>
+<li>Propose improvements to the limit framework</li>
+<li>Build tools that bridge Squarepoint's systematic risk models with discretionary monitoring</li>
+<li>Start challenging PM positions with your own analysis — "your long commodities position has a -0.7 correlation with your rates position, but in a crisis they converge — here's the tail risk"</li>
+</ul>
+<h3 id="year-1-strategic">Year 1+: Strategic</h3>
+<ul>
+<li>Drive the risk framework build-out the JD mentions</li>
+<li>Potentially specialize in an asset class (commodities is your natural edge)</li>
+<li>Become the person PMs come to BEFORE they trade, not just the person who monitors AFTER</li>
+</ul>
+<hr />
+<h2 id="the-skills-that-actually-matter-beyond-code">THE SKILLS THAT ACTUALLY MATTER (Beyond Code)</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Why</th>
+<th>You</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Market intuition</strong></td>
+<td>You need to smell when something is wrong before the model tells you. "Why did vol drop but the PM's position isn't making money?"</td>
+<td>Strong — NYC gave you real-time market exposure</td>
+</tr>
+<tr>
+<td><strong>Communication</strong></td>
+<td>Explaining risk to a PM who doesn't want to hear it. Presenting to IC clearly. Saying "no" diplomatically.</td>
+<td>You'll need to practice this</td>
+</tr>
+<tr>
+<td><strong>Speed under pressure</strong></td>
+<td>Market crashes don't wait for your analysis. You need to produce answers in minutes, not hours</td>
+<td>Your fire drill + market-close pricing experience</td>
+</tr>
+<tr>
+<td><strong>Independence / backbone</strong></td>
+<td>If a PM is over-levered and pushing back on you, you need to hold your ground and escalate</td>
+<td>Critical — this is character, not a technical skill</td>
+</tr>
+<tr>
+<td><strong>Product knowledge</strong></td>
+<td>Understanding how the instruments actually work — how options decay, how a swap resets, what happens at expiry</td>
+<td>Strong — OTC derivatives background from BNP</td>
+</tr>
+<tr>
+<td><strong>Portfolio thinking</strong></td>
+<td>Seeing the whole picture, not just individual trades. How does PM A's book interact with PM B's?</td>
+<td>This is what you'll develop on the job</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="how-risk-is-different-systematic-vs-discretionary">HOW RISK IS DIFFERENT: Systematic vs. Discretionary</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Systematic Risk</th>
+<th>Discretionary Risk (YOUR ROLE)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Who decides</strong></td>
+<td>The model</td>
+<td>The PM + risk manager together</td>
+</tr>
+<tr>
+<td><strong>Risk limits</strong></td>
+<td>Hard-coded in optimizer</td>
+<td>Negotiated with IC, enforced by risk</td>
+</tr>
+<tr>
+<td><strong>Your counterpart</strong></td>
+<td>An algorithm</td>
+<td>A human trader with a thesis</td>
+</tr>
+<tr>
+<td><strong>Key skill</strong></td>
+<td>Model building, calibration</td>
+<td>Judgment, communication, pushback</td>
+</tr>
+<tr>
+<td><strong>When things go wrong</strong></td>
+<td>System alert → automatic deleverage</td>
+<td>You call the PM, challenge the position, escalate to IC</td>
+</tr>
+<tr>
+<td><strong>Daily work</strong></td>
+<td>Monitor model outputs, recalibrate</td>
+<td>Review positions, stress test, discuss with trader</td>
+</tr>
+<tr>
+<td><strong>Alpha attribution</strong></td>
+<td>Statistical decomposition</td>
+<td>Understanding the trade narrative</td>
+</tr>
+<tr>
+<td><strong>Your value-add</strong></td>
+<td>Better risk model = better portfolio optimization</td>
+<td>Better risk culture = PMs make better decisions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bottom line:</strong> In systematic, risk is engineering. In discretionary, risk is judgment. You're interviewing for the judgment seat.</p>
+<hr />
+<h2 id="your-cheat-sheet-what-to-say-if-asked-what-do-you-think-the-day-to-day-looks-like">YOUR CHEAT SHEET: What to Say if Asked "What Do You Think the Day-to-Day Looks Like?"</h2>
+<blockquote>
+<p><em>"I'd expect the day starts with reviewing overnight moves, pulling P&amp;L and exposure data, and preparing for the morning huddle with the PMs. During the day it's real-time monitoring — tracking positions against limits, running stress tests on new trades PMs want to put on, and aggregating risk across the book at the portfolio level. Post-market is reconciliation and reporting. And since this is a new team, a big part of the role would be building the infrastructure — the risk reports, the dashboard, the limit framework, the stress testing scenarios — essentially creating the risk management operating system for the discretionary business.</em></p>
+<p><em>What excites me is that at Squarepoint, I'd get to build this on top of a world-class quantitative platform. Most discretionary risk teams start from Excel. Here, you have the data, the models, the compute — you just need to adapt it for human-judgment strategies. That's the bridge I want to build."</em></p>
+</blockquote>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

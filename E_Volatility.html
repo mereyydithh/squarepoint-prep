@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volatility — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link active" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="e-volatility-concept-product">E — VOLATILITY: CONCEPT &amp; PRODUCT</h1>
+<h2 id="implied-vs-realized-the-vol-surface-vol-as-a-tradeable-and-dealer-dynamics">Implied vs realized, the vol surface, vol as a tradeable, and dealer dynamics</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="part-1-what-volatility-actually-is">PART 1: WHAT VOLATILITY ACTUALLY IS</h1>
+<h2 id="realized-historical-volatility">Realized (Historical) Volatility</h2>
+<p>The standard deviation of actual returns over a lookback period. "How much did this asset actually move?"</p>
+<ul>
+<li><strong>Daily realized vol:</strong> Standard deviation of daily returns × √252 (to annualize). 252 trading days/year.</li>
+<li><strong>Example:</strong> If daily returns have a standard deviation of 1.2%, annualized realized vol = 1.2% × √252 ≈ 19%.</li>
+<li><strong>Lookback matters:</strong> 10-day realized vol captures the recent regime. 60-day is smoother. 1-year is a longer trend. They can diverge significantly.</li>
+</ul>
+<h2 id="implied-volatility">Implied Volatility</h2>
+<p>The market's FORECAST of future volatility, as embedded in option prices. "How much does the market THINK this asset will move?"</p>
+<ul>
+<li>You can't observe implied vol directly — it's backed out of option prices using Black-Scholes (or another model).</li>
+<li>Give Black-Scholes the market price, spot, strike, time, rate → solve for σ. That σ is implied vol.</li>
+<li>Implied vol is FORWARD-LOOKING. Realized vol is BACKWARD-LOOKING.</li>
+</ul>
+<h2 id="the-volatility-risk-premium-vrp">The Volatility Risk Premium (VRP)</h2>
+<p><strong>Implied vol is almost always HIGHER than subsequent realized vol.</strong></p>
+<p>Why? Because options are insurance. People pay a premium for protection, just like car insurance costs more than the expected value of claims.</p>
+<ul>
+<li>Long-run average: implied vol is ~2-4 vol points above realized vol for SPX.</li>
+<li>This is why selling options is profitable on average — you collect the VRP.</li>
+<li>BUT: when vol spikes, realized can EXCEED implied temporarily (the insurance underpays). This is when short vol strategies blow up.</li>
+</ul>
+<p><strong>VRP trade:</strong> Sell implied, buy realized. Systematically profitable but has HUGE left-tail risk. See: Volmageddon (Feb 2018), XIV ETN → zero.</p>
+<hr />
+<h1 id="part-2-the-volatility-surface">PART 2: THE VOLATILITY SURFACE</h1>
+<h2 id="why-one-number-isnt-enough">Why One Number Isn't Enough</h2>
+<p>Black-Scholes assumes constant volatility across all strikes and maturities. Reality disagrees. Implied vol varies by BOTH strike and expiry. This creates a 2D surface.</p>
+<h2 id="skew-the-smile-along-strike">Skew (the Smile along Strike)</h2>
+<p><strong>Equity skew:</strong> OTM puts have HIGHER implied vol than ATM options, which have higher vol than OTM calls. The surface "smirks" to the left.</p>
+<p><strong>Why?</strong><br />
+1. <strong>Demand:</strong> Everyone buys downside protection (puts) → demand pushes up put prices → higher implied vol for low strikes.<br />
+2. <strong>Fat tails:</strong> Markets crash more suddenly than they rally. The probability of a -20% move is higher than what a normal distribution predicts → puts need to be more expensive.<br />
+3. <strong>Leverage effect:</strong> When stocks drop, companies become more leveraged (debt/equity ratio rises) → riskier → vol should be higher at lower prices.</p>
+<p><strong>Measuring skew:</strong><br />
+- 25-delta risk reversal: IV of 25-delta put minus IV of 25-delta call. More negative = steeper skew.<br />
+- 90-100% skew: IV at 90% moneyness minus IV at 100% (ATM). Tells you how much more expensive puts are.</p>
+<p><strong>Skew tells you something:</strong> Steep skew = market is nervous about downside. Flat skew = market is complacent. Skew STEEPENS in sell-offs and FLATTENS in rallies.</p>
+<h2 id="term-structure-along-time">Term Structure (along Time)</h2>
+<p><strong>Normal (upward sloping):</strong> Longer-dated options have higher implied vol than shorter-dated. Makes sense — more uncertainty over longer horizons.</p>
+<p><strong>Inverted (downward sloping):</strong> Short-dated options have HIGHER implied vol than long-dated. This happens when there's a near-term event (earnings, FOMC, geopolitical) that the market expects to resolve. After the event → vol should normalize.</p>
+<p><strong>Contango vs backwardation in vol language:</strong> Normal term structure = vol contango. Inverted = vol backwardation. VIX futures are typically in contango (longer-dated VIX &gt; shorter-dated).</p>
+<hr />
+<h1 id="part-3-volatility-models">PART 3: VOLATILITY MODELS</h1>
+<h2 id="sabr-stochastic-alpha-beta-rho">SABR (Stochastic Alpha Beta Rho)</h2>
+<p><strong>What it does:</strong> Models the vol surface by making vol itself stochastic (vol of vol). Four parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>What it controls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>α (alpha)</td>
+<td>Level of vol at current forward</td>
+</tr>
+<tr>
+<td>β (beta)</td>
+<td>Backbone — how vol moves with the underlying (0 = normal, 1 = lognormal)</td>
+</tr>
+<tr>
+<td>ρ (rho)</td>
+<td>Correlation between spot and vol. Negative ρ → skew (as spot drops, vol rises)</td>
+</tr>
+<tr>
+<td>ν (nu)</td>
+<td>Vol of vol. Higher ν → fatter tails, steeper wings</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why you know this:</strong> You worked with SABR at Natixis. It's the industry standard for swaption and FX vol surfaces. The Hagan analytical approximation makes it fast to calibrate.</p>
+<p><strong>Limitations of SABR:</strong><br />
+- Single expiry — calibrated per expiry slice, doesn't enforce consistency across the term structure.<br />
+- Can produce negative probability densities for extreme strikes (arbitrage in the wings).<br />
+- No jumps — continuous dynamics. Can't handle overnight gaps.</p>
+<h2 id="local-vol-dupire">Local Vol (Dupire)</h2>
+<ul>
+<li>Extracts a unique local volatility function from the full vol surface such that all option prices are replicated.</li>
+<li>"What vol would a particle need at each (spot, time) point to match market prices?"</li>
+<li>Problem: the dynamics are wrong — it predicts that vol moves inversely with spot (which IS true for equities but by the wrong amount). Forward skew is too flat.</li>
+</ul>
+<h2 id="stochastic-vol-heston">Stochastic Vol (Heston)</h2>
+<ul>
+<li>Vol follows its own mean-reverting stochastic process: $dv = \kappa(\theta - v)dt + \xi\sqrt{v}dW$</li>
+<li>Five parameters: initial vol, long-run vol (θ), mean reversion speed (κ), vol of vol (ξ), correlation (ρ).</li>
+<li>Better dynamics than local vol but harder to calibrate.</li>
+<li>Used for exotic options where path matters (barriers, Asian).</li>
+</ul>
+<hr />
+<h1 id="part-4-volatility-as-a-tradeable">PART 4: VOLATILITY AS A TRADEABLE</h1>
+<h2 id="vix-the-fear-index">VIX — The "Fear Index"</h2>
+<p><strong>What it is:</strong> The 30-day expected volatility of the S&amp;P 500, annualized. Calculated from SPX option prices across strikes.</p>
+<p><strong>VIX levels and what they mean:</strong></p>
+<table>
+<thead>
+<tr>
+<th>VIX</th>
+<th>Market state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10-14</td>
+<td>Extreme complacency. "Picking up pennies." Short vol is very crowded.</td>
+</tr>
+<tr>
+<td>15-20</td>
+<td>Normal. Healthy uncertainty.</td>
+</tr>
+<tr>
+<td>20-30</td>
+<td>Elevated. Market is nervous. Hedging demand is up.</td>
+</tr>
+<tr>
+<td>30-40</td>
+<td>Fear. Significant stress event underway.</td>
+</tr>
+<tr>
+<td>40+</td>
+<td>Panic. March 2020 hit 82.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>VIX behavior:</strong><br />
+- VIX is negatively correlated with SPX (~-0.75 to -0.85). Market drops → VIX spikes.<br />
+- The relationship is asymmetric: VIX spikes much harder on market drops than it falls on market rallies.<br />
+- VIX is mean-reverting: extreme spikes compress back over days/weeks.<br />
+- You CANNOT trade VIX directly. You trade VIX futures, VIX options, or VIX ETPs.</p>
+<h2 id="vix-futures">VIX Futures</h2>
+<ul>
+<li>Trade on CBOE Futures Exchange. Monthly expiry.</li>
+<li><strong>Usually in contango:</strong> Longer-dated VIX futures &gt; shorter-dated &gt; VIX spot. Why? Roll cost + insurance premium.</li>
+<li><strong>VIX futures don't track VIX spot well.</strong> VIX spot can spike 50% in a day; the 2-month VIX future might move 15%.</li>
+<li><strong>Roll cost crushes VIX ETPs:</strong> Long VIX ETPs (like UVXY) lose money systematically due to contango roll. This is by design — the contango IS the vol risk premium.</li>
+</ul>
+<h2 id="variance-swaps">Variance Swaps</h2>
+<ul>
+<li>Pay or receive the difference between realized variance and a fixed strike variance.</li>
+<li>Long variance swap: you profit if realized vol &gt; strike. You're buying vol.</li>
+<li>Short variance swap: you profit if realized vol &lt; strike. You're selling vol.</li>
+<li><strong>Key difference from options:</strong> Variance swaps are linear in VARIANCE (not vol). Since variance = vol², large moves are amplified quadratically. A 40-vol realized against a 20-vol strike isn't 2x payout — it's 4x (1600 variance vs 400 variance).</li>
+<li><strong>Short variance swap risk: unlimited.</strong> This is what killed XIV / short vol funds in Feb 2018.</li>
+</ul>
+<h2 id="straddles-as-vol-trades">Straddles as Vol Trades</h2>
+<ul>
+<li>Buy ATM straddle = buy volatility. You profit if the stock moves MORE than the straddle implies.</li>
+<li><strong>Breakeven move</strong> = straddle price / stock price. If a $100 stock's ATM straddle costs $5, the implied move is 5%. Stock needs to move &gt;5% in either direction for you to profit at expiry.</li>
+<li>Pre-earnings straddle pricing: "The straddle implies a 7% move on earnings. Historical average earnings move is 5%. Straddle is expensive."</li>
+</ul>
+<hr />
+<h1 id="part-5-dealer-gamma-market-dynamics">PART 5: DEALER GAMMA &amp; MARKET DYNAMICS</h1>
+<h2 id="who-is-the-market-maker">Who Is the Market Maker?</h2>
+<p>Options dealers (banks, market makers) sell options to clients (hedge funds, pension funds, corporates) and delta-hedge their inventory. Their gamma position determines how they impact the underlying market.</p>
+<h2 id="dealer-long-gamma-normal-state">Dealer Long Gamma (Normal State)</h2>
+<ul>
+<li>Dealers have sold puts to clients (who want protection) and delta-hedged.</li>
+<li>As the market drops → put deltas increase → dealers need to BUY stock to stay hedged.</li>
+<li>As the market rises → put deltas decrease → dealers need to SELL stock.</li>
+<li><strong>Effect on market:</strong> Dealers BUY dips and SELL rallies → DAMPENS volatility. Acts as a stabilizer.</li>
+</ul>
+<h2 id="dealer-short-gamma-danger-zone">Dealer Short Gamma (Danger Zone)</h2>
+<ul>
+<li>In certain conditions (after a sell-off, or around large put strikes), dealers can flip SHORT gamma.</li>
+<li>Now: market drops → dealers need to SELL to stay hedged. Market rises → dealers need to BUY.</li>
+<li><strong>Effect on market:</strong> Dealers SELL into sell-offs and BUY into rallies → AMPLIFIES volatility. Acts as a destabilizer.</li>
+</ul>
+<h2 id="the-gamma-flip-level">The Gamma Flip Level</h2>
+<ul>
+<li>The SPX price at which dealers switch from long to short gamma.</li>
+<li><strong>Below the flip:</strong> Moves are larger, faster, and more violent. Vol realized is higher.</li>
+<li><strong>Above the flip:</strong> Moves are contained. Vol is suppressed.</li>
+<li>Firms like SpotGamma, SqueezeMetrics publish estimated dealer gamma positioning. It's an input, not a crystal ball.</li>
+</ul>
+<h2 id="opex-options-expiration-effects">OPEX (Options Expiration) Effects</h2>
+<ul>
+<li>On monthly expiry (3rd Friday) and especially quarterly expiry ("quad witch"):</li>
+<li>Large open interest expires or is rolled.</li>
+<li>Gamma exposure drops sharply (options expire → no more gamma to hedge).</li>
+<li>Market can "unpin" and move sharply after expiry.</li>
+<li><strong>Pin risk:</strong> Stock gravitates toward strikes with large open interest as dealers hedge → reduces realized vol going into expiry → then potentially releases after expiry.</li>
+</ul>
+<hr />
+<h1 id="part-6-volatility-as-a-risk-indicator">PART 6: VOLATILITY AS A RISK INDICATOR</h1>
+<h2 id="what-vol-tells-the-rm">What Vol Tells the RM</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Interpretation</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Implied &lt; realized</td>
+<td>Market is complacent — options are cheap relative to actual moves</td>
+<td>Buy protection while it's cheap</td>
+</tr>
+<tr>
+<td>Implied &gt;&gt; realized</td>
+<td>Market is scared — options are expensive</td>
+<td>Protection is costly. Consider selling premium (with limits).</td>
+</tr>
+<tr>
+<td>VIX term structure inverted</td>
+<td>Near-term fear is extreme (event risk)</td>
+<td>Near-term hedging is expensive. Consider longer-dated alternatives.</td>
+</tr>
+<tr>
+<td>Skew steepening rapidly</td>
+<td>Strong demand for puts — someone is buying protection aggressively</td>
+<td>Watch for large position liquidation or event risk</td>
+</tr>
+<tr>
+<td>Correlation spike (implied)</td>
+<td>All stocks moving together — systematic risk dominating</td>
+<td>Reduce net delta. Diversification isn't working.</td>
+</tr>
+<tr>
+<td>VIX &gt; 30 and rising</td>
+<td>Full risk-off mode. Liquidity drying up.</td>
+<td>Tighten all limits. Active communication with PMs. Daily IC updates.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<p>If asked "Explain implied vs realized volatility and why the difference matters":</p>
+<p>"Realized vol is what actually happened — the standard deviation of past returns. Implied vol is what the market expects to happen — it's extracted from option prices using a pricing model.</p>
+<p>The key relationship is: implied is almost always higher than subsequent realized. This is the volatility risk premium — the cost of insurance. It's why selling options is profitable on average.</p>
+<p>For risk management, I care about three things: First, the level of implied vol — is protection cheap or expensive right now? Second, the ratio of implied to realized — if realized is running above implied, the market is underestimating risk and I'd want to add protection. Third, the structure — is skew steep (fear of downside), is the term structure inverted (near-term event fear)? Each of these tells me something different about the risk environment."</p>
+<p>If asked about SABR:</p>
+<p>"SABR is a stochastic volatility model I worked with at Natixis for calibrating volatility surfaces. It has four parameters — alpha controls the overall vol level, beta controls how vol moves with the underlying, rho captures the skew through spot-vol correlation, and nu is the vol of vol which drives the wings.</p>
+<p>Its main advantage is that it's analytically tractable — the Hagan approximation makes it fast to calibrate per expiry. The main limitation is that it's a single-expiry model — it doesn't enforce consistency across the term structure, so you calibrate each expiry independently and can get arbitrage between expiries if you're not careful."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="07_Risk_Reference.html">Risk Reference</a> — VaR, vol-of-vol, risk measures<br />
+→ <a href="D_Greeks.html">Greeks</a> — vega, vanna, volga in detail<br />
+→ <a href="B_Derivatives.html">Derivatives</a> — options mechanics and strategies<br />
+→ <a href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a> — SABR calibration from your experience<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — GARCH, EWMA, model validation</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

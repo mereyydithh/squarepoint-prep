@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Mechanics — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link active" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<div class="nav-section">Prep Files</div>
+<a class="nav-link" href="01_PreScreen_Answers.html">PreScreen Answers</a>
+<a class="nav-link" href="02_My_Real_Stories.html">My Real Stories</a>
+<a class="nav-link" href="03_Natixis_Defense_Guide.html">Natixis Defense Guide</a>
+<a class="nav-link" href="04_Squarepoint_Research.html">Squarepoint Research</a>
+<a class="nav-link" href="05_Inside_Systematic_Fund.html">Inside Systematic Fund</a>
+<a class="nav-link" href="06_Inside_Discretionary_Fund.html">Inside Discretionary Fund</a>
+<a class="nav-link" href="07_Risk_Reference.html">Risk Reference</a>
+<a class="nav-link" href="08_Asset_Classes_And_Portfolios.html">Asset Classes And Portfolios</a>
+<a class="nav-link" href="09_Market_Intuition.html">Market Intuition</a>
+<a class="nav-link" href="10_Market_Context_Today.html">Market Context Today</a>
+<a class="nav-link" href="11_Technical_Fundamentals.html">Technical Fundamentals</a>
+<a class="nav-link" href="12_Interview_Round_Guide.html">Interview Round Guide</a>
+<a class="nav-link" href="13_Story_Bank.html">Story Bank</a>
+<a class="nav-link" href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a>
+<a class="nav-link" href="15_Derivatives_Deep_Dive.html">Derivatives Deep Dive</a>
+<a class="nav-link" href="16_Probe_Defense_Guide.html">Probe Defense Guide</a>
+<a class="nav-link" href="17_Questions_To_Ask.html">Questions To Ask</a>
+<a class="nav-link" href="18_Round1_Trader_BattlePrep.html">Round1 Trader BattlePrep</a>
+
+</nav>
+
+<main class="content">
+<h1 id="c-market-mechanics">C — MARKET MECHANICS</h1>
+<h2 id="how-markets-actually-work-trade-lifecycle-margin-leverage-liquidity">How markets actually work: trade lifecycle, margin, leverage, liquidity</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="part-1-trade-lifecycle">PART 1: TRADE LIFECYCLE</h1>
+<h2 id="the-journey-of-a-trade-equities">The Journey of a Trade (Equities)</h2>
+<div class="highlight"><pre><span></span><code>1. Order placement → 2. Order routing → 3. Execution → 4. Clearing → 5. Settlement
+</code></pre></div>
+
+<h3 id="step-1-order-placement">Step 1: Order Placement</h3>
+<p>PM decides to buy 50,000 shares of XOM. Sends the order to the execution desk (or electronic algo).</p>
+<h3 id="step-2-order-routing">Step 2: Order Routing</h3>
+<p>Order goes to the market. Multiple venues: NYSE, NASDAQ, dark pools, electronic crossing networks. Best execution obligation means the broker must seek the best available price.</p>
+<h3 id="step-3-execution">Step 3: Execution</h3>
+<p>The order matches with a seller. Execution can be:<br />
+- <strong>Market order:</strong> Execute now at current best price. Guaranteed execution, not guaranteed price.<br />
+- <strong>Limit order:</strong> Execute only at my price or better. Guaranteed price, not guaranteed execution.<br />
+- <strong>Algo execution:</strong> VWAP, TWAP, iceberg — break into smaller orders to minimize market impact.</p>
+<h3 id="step-4-clearing">Step 4: Clearing</h3>
+<p>The clearinghouse (e.g., DTCC for US equities, LCH for swaps, CME for futures) steps between buyer and seller. It becomes:<br />
+- Buyer to the seller<br />
+- Seller to the buyer</p>
+<p>This eliminates bilateral counterparty risk. Both sides now face the CCP, not each other.</p>
+<h3 id="step-5-settlement">Step 5: Settlement</h3>
+<p>Actual delivery of shares and cash. US equities: T+1 (trade date + 1 business day). Used to be T+2. Shortened in May 2024.</p>
+<table>
+<thead>
+<tr>
+<th>Market</th>
+<th>Settlement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US equities</td>
+<td>T+1</td>
+</tr>
+<tr>
+<td>US Treasuries</td>
+<td>T+1</td>
+</tr>
+<tr>
+<td>European equities</td>
+<td>T+2</td>
+</tr>
+<tr>
+<td>FX spot</td>
+<td>T+2</td>
+</tr>
+<tr>
+<td>Futures</td>
+<td>Daily mark-to-market, physical/cash at expiry</td>
+</tr>
+<tr>
+<td>OTC derivatives</td>
+<td>Per ISDA agreement</td>
+</tr>
+</tbody>
+</table>
+<h2 id="listed-vs-otc">Listed vs OTC</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Listed (Exchange-traded)</th>
+<th>OTC (Over-the-counter)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standardization</td>
+<td>Standardized contracts</td>
+<td>Custom terms</td>
+</tr>
+<tr>
+<td>Counterparty risk</td>
+<td>CCP guarantees</td>
+<td>Bilateral (unless cleared)</td>
+</tr>
+<tr>
+<td>Transparency</td>
+<td>Public prices, volume</td>
+<td>Private pricing</td>
+</tr>
+<tr>
+<td>Liquidity</td>
+<td>Generally better</td>
+<td>Depends on the instrument</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>Equity options, futures</td>
+<td>IRS, CDS, exotic options, TRS</td>
+</tr>
+<tr>
+<td>Regulation</td>
+<td>Exchange rules, SEC/CFTC</td>
+<td>ISDA Master Agreement</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-2-margin-the-mechanics-of-leverage">PART 2: MARGIN — THE MECHANICS OF LEVERAGE</h1>
+<h2 id="three-types-of-margin">Three Types of Margin</h2>
+<h3 id="initial-margin-im">Initial Margin (IM)</h3>
+<p>The deposit required to OPEN a position. Think of it as a performance bond.<br />
+- Futures: typically 5-15% of notional.<br />
+- Options: depends on the position (long options: premium paid; short options: margin required).<br />
+- OTC derivatives: per CSA agreement.</p>
+<h3 id="variation-margin-vm">Variation Margin (VM)</h3>
+<p>Daily mark-to-market adjustment. If the position moves against you, you OWE variation margin. If it moves for you, you RECEIVE variation margin.<br />
+- Futures: settled daily by the clearinghouse.<br />
+- OTC (bilateral): per CSA, usually daily with minimum transfer amounts.</p>
+<h3 id="maintenance-margin">Maintenance Margin</h3>
+<p>The minimum margin level you must maintain. If your account falls below this → margin call.<br />
+- Example: IM = $100K, maintenance = $75K. If your losses bring the account to $70K → margin call for $30K (back to IM level, not maintenance).</p>
+<h2 id="the-margin-call-cascade">The Margin Call Cascade</h2>
+<p>This is how funds die:</p>
+<div class="highlight"><pre><span></span><code>Position moves against you
+  → Account falls below maintenance margin
+    → Margin call: post more cash by [deadline, usually same day]
+      → You don&#39;t have cash → sell other positions to raise it
+        → Selling pressure pushes those positions down
+          → MORE margin calls on those positions
+            → Spiral → Forced liquidation
+</code></pre></div>
+
+<p>March 2020 Treasury basis trade: this exact cascade. Leveraged 50-100x, margin requirements spiked, forced selling of Treasuries → Fed had to intervene.</p>
+<h2 id="pro-cyclical-margin">Pro-Cyclical Margin</h2>
+<p>In calm markets: exchanges reduce margin requirements (lower vol = lower risk). In volatile markets: exchanges INCREASE margin requirements (higher vol = higher risk).</p>
+<p>The problem: they increase margin exactly when you can LEAST afford it. You need more cash precisely when your positions are losing money and liquidity is drying up.</p>
+<hr />
+<h1 id="part-3-leverage">PART 3: LEVERAGE</h1>
+<h2 id="how-hedge-funds-get-leverage">How Hedge Funds Get Leverage</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Typical leverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prime broker financing</strong></td>
+<td>Borrow cash from PB to buy more securities. Pay a financing rate (SOFR + spread).</td>
+<td>1.5-5x for discretionary</td>
+</tr>
+<tr>
+<td><strong>Futures</strong></td>
+<td>Post 5-15% margin for 100% notional exposure</td>
+<td>7-20x on the futures position</td>
+</tr>
+<tr>
+<td><strong>Options (selling)</strong></td>
+<td>Collect premium but bear full notional risk</td>
+<td>Varies widely</td>
+</tr>
+<tr>
+<td><strong>Total return swaps</strong></td>
+<td>Synthetic exposure, post only margin (not full notional)</td>
+<td>3-10x</td>
+</tr>
+<tr>
+<td><strong>Repo</strong></td>
+<td>Borrow cash using securities as collateral</td>
+<td>10-50x for government bonds</td>
+</tr>
+</tbody>
+</table>
+<h2 id="measuring-leverage">Measuring Leverage</h2>
+<p><strong>Gross leverage</strong> = (Long notional + Short notional) / NAV<br />
+- A fund with $100M NAV, $200M longs, $150M shorts → gross leverage = 3.5x<br />
+- Tells you TOTAL market exposure.</p>
+<p><strong>Net leverage</strong> = (Long notional - Short notional) / NAV<br />
+- Same fund: net leverage = 0.5x (net long $50M on $100M NAV)<br />
+- Tells you DIRECTIONAL exposure.</p>
+<p><strong>Why both matter:</strong><br />
+- High gross + low net = "market neutral" — lots of positions but little directional risk. But still exposed to idiosyncratic, factor, and liquidity risk.<br />
+- High gross + high net = directional AND leveraged. Maximum risk.</p>
+<h2 id="why-leverage-kills">Why Leverage Kills</h2>
+<p>The math is simple:<br />
+- 2x leverage: a 10% move in the underlying → 20% move in your equity. A 50% decline in the underlying → 100% of your equity → wiped.<br />
+- 10x leverage: a 10% decline in the underlying → 100% of your equity → wiped.</p>
+<p>Leverage amplifies BOTH gains and losses. But losses are more dangerous because:<br />
+1. You can always make more money. You can't un-lose your capital.<br />
+2. Drawdowns require outsized recoveries: -50% requires +100% to get back to even.<br />
+3. Margin calls force you to sell at the WORST time (when prices are lowest).</p>
+<hr />
+<h1 id="part-4-liquidity">PART 4: LIQUIDITY</h1>
+<h2 id="two-types-of-liquidity">Two Types of Liquidity</h2>
+<h3 id="market-liquidity">Market Liquidity</h3>
+<p>Can you buy/sell the asset quickly without moving the price?</p>
+<p>Measured by:<br />
+- <strong>Bid-ask spread:</strong> Tight spread = liquid. Wide spread = illiquid.<br />
+- <strong>Depth:</strong> How much size is available at the current price? (Level 2 order book)<br />
+- <strong>Market impact:</strong> How much does YOUR trade move the price?<br />
+- <strong>Average daily volume (ADV):</strong> How much normally trades. If your position is &gt;10% of ADV, you'll move the price exiting.</p>
+<h3 id="funding-liquidity">Funding Liquidity</h3>
+<p>Can you access cash/credit to meet obligations (margin calls, redemptions)?</p>
+<p>Measured by:<br />
+- Cash on hand / credit lines<br />
+- Repo availability<br />
+- PB willingness to extend margin<br />
+- LP redemption terms (gates, lock-ups)</p>
+<h3 id="the-liquidity-spiral-brunnermeier">The Liquidity Spiral (Brunnermeier)</h3>
+<p>Market liquidity and funding liquidity are connected in a doom loop:</p>
+<div class="highlight"><pre><span></span><code>Market becomes illiquid (bid-ask widens, depth drops)
+  → Position mark-to-market drops
+    → Funding pressure (margin calls, LPs redeem)
+      → Forced selling
+        → Selling pressure makes market MORE illiquid
+          → Further price drops
+            → More funding pressure → SPIRAL
+</code></pre></div>
+
+<p>This happened in 2008, March 2020, and multiple other crises. The key insight: liquidity dries up exactly when you need it most.</p>
+<h2 id="liquidity-risk-for-a-discretionary-fund">Liquidity Risk for a Discretionary Fund</h2>
+<ul>
+<li><strong>Position sizing relative to ADV:</strong> If your position is 20% of ADV, it'll take ~4-5 days of 5% ADV to exit without excessive market impact. In stress, ADV drops 50%+ → your exit takes 2x longer.</li>
+<li><strong>Liquidity tiering:</strong> Classify every position: Tier 1 (exit in 1 day), Tier 2 (exit in 3-5 days), Tier 3 (exit in 1 week+). Monitor the mix.</li>
+<li><strong>Redemption mismatch:</strong> If the fund offers quarterly redemptions but holds positions that take 2 weeks to liquidate → liquidity mismatch. The fund can be forced to sell at fire-sale prices.</li>
+</ul>
+<h2 id="dealer-positioning-order-flow">Dealer Positioning &amp; Order Flow</h2>
+<p>Market makers (dealers) provide liquidity but manage their own risk:<br />
+- <strong>Dealer long gamma:</strong> Dealers who sold puts are short gamma → they need to sell as the market drops (to hedge). This AMPLIFIES downward moves.<br />
+- <strong>Dealer short gamma:</strong> Dealers who bought puts from clients are long gamma → they buy dips and sell rallies. This DAMPENS moves and provides stability.<br />
+- <strong>Gamma exposure flip level:</strong> The price at which dealers switch from long to short gamma. Below this level, market moves become larger and faster.<br />
+- <strong>End-of-month/quarter rebalancing:</strong> Pension funds, target-date funds rebalance. Large, predictable flows that move markets at MOC.</p>
+<hr />
+<h1 id="part-5-market-microstructure">PART 5: MARKET MICROSTRUCTURE</h1>
+<h2 id="price-discovery">Price Discovery</h2>
+<p>How markets find the "right" price:<br />
+- <strong>Limit order book:</strong> Bids and asks arranged by price/time priority. The highest bid and lowest ask define the spread.<br />
+- <strong>Dark pools:</strong> Orders matched privately. No pre-trade transparency. Used for large institutional orders to avoid market impact. ~40% of US equity volume.<br />
+- <strong>Auction mechanisms:</strong> Opening/closing auctions concentrate liquidity at key times.</p>
+<h2 id="intraday-patterns">Intraday Patterns</h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>What happens</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9:30-10:00 AM</td>
+<td>Opening volatility. Overnight order flow, gap fills.</td>
+<td>Don't overreact to first 30 minutes. Wait for real flow.</td>
+</tr>
+<tr>
+<td>10:00 AM</td>
+<td>Econ data releases (CPI, PMI at 10 AM).</td>
+<td>Can reverse the opening move entirely.</td>
+</tr>
+<tr>
+<td>11:30-1:30 PM</td>
+<td>Lunch lull. Low volume, thin liquidity.</td>
+<td>Don't trust moves in thin markets. Susceptible to manipulation.</td>
+</tr>
+<tr>
+<td>3:00-3:50 PM</td>
+<td>Power hour. Real institutional flow appears.</td>
+<td>More informative than morning moves.</td>
+</tr>
+<tr>
+<td>3:50-4:00 PM</td>
+<td>MOC imbalance published. Rebalancing flow.</td>
+<td>Can create large last-minute moves. Fixed income / pension driven.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="circuit-breakers">Circuit Breakers</h2>
+<p>Automatic halts when markets move too fast:<br />
+- <strong>Level 1:</strong> SPX -7% → 15-minute halt (before 3:25 PM only)<br />
+- <strong>Level 2:</strong> SPX -13% → 15-minute halt (before 3:25 PM only)<br />
+- <strong>Level 3:</strong> SPX -20% → market closes for the day<br />
+- <strong>Single stock:</strong> LULD (Limit Up/Limit Down) bands. Stock halts if price moves outside a defined % from reference price.</p>
+<p>These exist to prevent panic selling and give participants time to reassess. They were triggered during COVID (March 2020) — 4 Level 1 halts in 2 weeks.</p>
+<hr />
+<h1 id="part-6-short-selling-mechanics">PART 6: SHORT SELLING MECHANICS</h1>
+<h2 id="how-shorting-works">How Shorting Works</h2>
+<ol>
+<li><strong>Locate:</strong> Find shares to borrow (from the PB's inventory or securities lending desks).</li>
+<li><strong>Borrow:</strong> Borrow shares. Pay a borrow fee (annualized, varies from 0.5% for easy-to-borrow to 50%+ for hard-to-borrow).</li>
+<li><strong>Sell:</strong> Sell the borrowed shares in the market.</li>
+<li><strong>Cover:</strong> Buy back shares later (hopefully at a lower price) and return them to the lender.</li>
+</ol>
+<h2 id="short-selling-risks">Short Selling Risks</h2>
+<ul>
+<li><strong>Unlimited loss:</strong> A stock can go up infinitely. There's no natural cap on losses.</li>
+<li><strong>Short squeeze:</strong> Stock price rises → shorts forced to cover → buying pressure pushes price higher → more shorts forced to cover → cascade.</li>
+<li><strong>Recall risk:</strong> The lender can recall the shares at any time. You're forced to buy back at market price.</li>
+<li><strong>Borrow cost:</strong> High borrow costs eat into your short P&amp;L. A stock with 30% annualized borrow costs needs to drop 30%+ just for you to break even.</li>
+<li><strong>Reg SHO / uptick rule:</strong> Regulatory restrictions on when/how you can short.</li>
+</ul>
+<hr />
+<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<p>If asked "How does margin work and why does it matter for risk?":</p>
+<p>"Margin is the collateral you post to hold a position — it creates leverage. The key distinction is initial margin (required to open the position) and variation margin (daily mark-to-market settlements).</p>
+<p>What makes margin dangerous for risk is the pro-cyclical nature: exchanges increase margin requirements when volatility spikes. So you need to post MORE cash exactly when your positions are losing money and markets are illiquid. This creates a cascade: margin call → forced selling → more price declines → more margin calls. This is exactly what happened in March 2020 with the Treasury basis trade — highly leveraged positions faced margin calls they couldn't meet, forcing liquidation into an illiquid market, until the Fed stepped in.</p>
+<p>As an RM, I'd monitor margin utilization as a percentage of available credit — not just current margin, but projected margin under a vol spike scenario. If we're at 80% utilization in calm markets, we have no cushion for a vol event."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="14_Hedge_Fund_Mechanics.html">Hedge Fund Mechanics</a> — fund structure, PB relationships, margin details<br />
+→ <a href="09_Market_Intuition.html">Market Intuition</a> — market microstructure, intraday patterns<br />
+→ <a href="B_Derivatives.html">Derivatives</a> — the instruments that create margin/leverage exposure<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — margin cascades in real blow-ups<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — liquidity risk as a portfolio concept</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
