@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Current Market Context — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link active" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+
+</nav>
+
+<main class="content">
+<h1 id="r-current-market-context">R — CURRENT MARKET CONTEXT</h1>
+<h2 id="numbers-cold-live-catalysts-cross-asset-picture-and-what-it-means-for-the-book">Numbers cold, live catalysts, cross-asset picture, and what it means for the book</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<h3 id="last-updated-april-7-2026-update-before-interview">⚠️ LAST UPDATED: April 7, 2026 — UPDATE BEFORE INTERVIEW</h3>
+<hr />
+<h1 id="how-to-use-this-file">HOW TO USE THIS FILE</h1>
+<p>This file is your MARKET BRIEFING. Before every interview round, update the numbers and catalysts below. You should be able to recite any of these from memory. An interviewer will ask "What's the 10-year at?" or "What's happening in oil?" and you need to answer instantly.</p>
+<hr />
+<h1 id="part-1-the-single-biggest-story">PART 1: THE SINGLE BIGGEST STORY</h1>
+<h2 id="iran-war-strait-of-hormuz">Iran War &amp; Strait of Hormuz</h2>
+<p><strong>Timeline:</strong><br />
+- Feb 28: War begins, Strait effectively closed<br />
+- March: Brent surges 60% (biggest monthly move since 1988), tanker transits drop from 20M bbl/day to &lt;2/day<br />
+- Apr 6: Iran rejects ceasefire, proposes 10-point plan<br />
+- Apr 7 (today): Trump's 8 PM ET deadline for full Strait reopening. Threatens infrastructure strikes.</p>
+<p><strong>Three scenarios:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Probability</th>
+<th>Oil</th>
+<th>Equities</th>
+<th>USD</th>
+<th>Vol</th>
+<th>Gold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deal / ceasefire</td>
+<td>Low-med</td>
+<td>-25% to $80-90</td>
+<td>+3-5%</td>
+<td>Weaken</td>
+<td>VIX → 15</td>
+<td>Flat/down</td>
+</tr>
+<tr>
+<td>Deadline extended</td>
+<td>Med-high</td>
+<td>Hold $105-115</td>
+<td>Sideways</td>
+<td>Flat</td>
+<td>VIX stay ~24</td>
+<td>Sideways</td>
+</tr>
+<tr>
+<td>Escalation</td>
+<td>Low-med</td>
+<td>+20% to $130+</td>
+<td>-5-10%</td>
+<td>Spike</td>
+<td>VIX → 35+</td>
+<td>Uncertain</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why it's #1 risk:</strong> Hormuz = 20% of global oil/gas supply. Cascade: Oil shock → inflation → growth slowdown → stagflation → correlated portfolio risk.</p>
+<p>Even with ceasefire, full shipping resumption takes 3-6 months (MUFG research).</p>
+<hr />
+<h1 id="part-2-asset-class-snapshot">PART 2: ASSET CLASS SNAPSHOT</h1>
+<h2 id="equities">Equities</h2>
+<table>
+<thead>
+<tr>
+<th>Index</th>
+<th>Level</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S&amp;P 500</td>
+<td>6,611.83 (+0.44%)</td>
+<td>Worst Q1 since 2022 (-4.6%). 52w range: 4,835–7,002</td>
+</tr>
+<tr>
+<td>NASDAQ</td>
+<td>21,996.34 (+0.54%)</td>
+<td>Tech hit on AI competition concerns</td>
+</tr>
+<tr>
+<td>FTSE 100</td>
+<td>10,440.59 (+0.04%)</td>
+<td>Near highs despite war</td>
+</tr>
+<tr>
+<td>Euro STOXX 50</td>
+<td>5,700.64 (+0.14%)</td>
+<td>Worst month since 2022 in March</td>
+</tr>
+<tr>
+<td>Hang Seng</td>
+<td>25,116.53 (-0.70%)</td>
+<td>China exposed to energy imports</td>
+</tr>
+<tr>
+<td>VIX</td>
+<td>24.41 (+0.99%)</td>
+<td>Elevated (normal 15-18, panic 30-40+)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM read:</strong> VIX at 24.4 prices uncertainty, not crisis. S&amp;P resilient (deal as base case). Energy outperforming, tech/growth falling (rate-sensitive). Classic war/inflation rotation. Tail risk underpriced.</p>
+<h2 id="rates-bonds">Rates &amp; Bonds</h2>
+<table>
+<thead>
+<tr>
+<th>Bond</th>
+<th>Yield</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US 10Y</td>
+<td>4.354% (+1.9bps)</td>
+<td>Rising on inflation fears despite growth worries</td>
+</tr>
+<tr>
+<td>UK 10Y</td>
+<td>4.853% (+1.4bps)</td>
+<td>Highest G7 — stagflation priced</td>
+</tr>
+<tr>
+<td>Germany 10Y</td>
+<td>3.007% (+1.1bps)</td>
+<td>Above 3% — significant</td>
+</tr>
+<tr>
+<td>Italy 10Y</td>
+<td>3.873%</td>
+<td>BTP-Bund spread ~87bps</td>
+</tr>
+<tr>
+<td>Japan 10Y</td>
+<td>2.410% (-1.4bps)</td>
+<td>Safe haven flows</td>
+</tr>
+</tbody>
+</table>
+<h2 id="central-bank-rates">Central Bank Rates</h2>
+<table>
+<thead>
+<tr>
+<th>Central Bank</th>
+<th>Current Rate</th>
+<th>Next Meeting</th>
+<th>Market Expectation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fed</td>
+<td>3.75%</td>
+<td>Apr 29</td>
+<td>97.9% pricing 25bp CUT to 3.50-3.75%</td>
+</tr>
+<tr>
+<td>ECB</td>
+<td>2.15%</td>
+<td>Apr 30</td>
+<td>"Inflation scars" warning</td>
+</tr>
+<tr>
+<td>BOJ</td>
+<td>0.75%</td>
+<td>Apr 28</td>
+<td>Yen weakness bigger concern</td>
+</tr>
+<tr>
+<td>RBI (India)</td>
+<td>5.25%</td>
+<td>Apr 9 (2 days!)</td>
+<td>Oil import burden = critical</td>
+</tr>
+<tr>
+<td>BOE</td>
+<td>3.75%</td>
+<td>Apr 30</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The impossible trilemma:</strong> Oil inflation argues for holding/tightening. Growth slowdown argues for cutting. Central banks can't do both. This is STAGFLATION.</p>
+<p><strong>Fed positioning risk:</strong> CME shows 97.9% pricing a cut by Apr 29, but some traders say no cuts this year. Extreme positioning → violent repricing if consensus is wrong.</p>
+<h2 id="commodities">Commodities</h2>
+<table>
+<thead>
+<tr>
+<th>Commodity</th>
+<th>Price</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brent</td>
+<td>$111.48/bbl</td>
+<td>Up 50%+ since war began (was $73 pre-war Feb 27)</td>
+</tr>
+<tr>
+<td>WTI</td>
+<td>$115.09/bbl</td>
+<td>"$100 is the new $60" — Clearview Energy</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>$4,648.90/oz</td>
+<td>Down from highs — rates overriding safe haven</td>
+</tr>
+<tr>
+<td>Copper</td>
+<td>$1,165.45</td>
+<td>Resilient — China demand + supply</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gold paradox:</strong> Gold DOWN despite a major war. Why? Higher-for-longer rate expectations, USD strength, margin-call liquidation. Counter: PBOC bought gold 17 consecutive months — floor exists.</p>
+<h2 id="fx">FX</h2>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Level</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USD/JPY</td>
+<td>159.74</td>
+<td>Near 160 intervention level (July/Aug 2024 precedent)</td>
+</tr>
+<tr>
+<td>EUR/USD</td>
+<td>—</td>
+<td>Euro weakening on growth concerns</td>
+</tr>
+<tr>
+<td>DXY</td>
+<td>—</td>
+<td>Dollar strength on rate differential + safe haven</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-3-q1-2026-in-review-what-went-wrong">PART 3: Q1 2026 IN REVIEW — WHAT WENT WRONG</h1>
+<table>
+<thead>
+<tr>
+<th>Fund / Index</th>
+<th>Return</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S&amp;P 500</td>
+<td>-4.6% Q1</td>
+<td>Worst Q1 since 2022</td>
+</tr>
+<tr>
+<td>Brent (March)</td>
+<td>+60%</td>
+<td>Biggest monthly gain since 1988</td>
+</tr>
+<tr>
+<td>Gold (March)</td>
+<td>Worst month in 17+ years</td>
+<td>Vol/rates beating safe haven</td>
+</tr>
+<tr>
+<td>European stocks (March)</td>
+<td>Worst month since 2022</td>
+<td>War impact + macro</td>
+</tr>
+<tr>
+<td>Balyasny</td>
+<td>-3.8% YTD</td>
+<td>Multi-strategy struggling</td>
+</tr>
+<tr>
+<td>ExodusPoint</td>
+<td>-4.5% in March</td>
+<td></td>
+</tr>
+<tr>
+<td>LMR Partners</td>
+<td>-2.4%</td>
+<td>Macro fund wrong-footed</td>
+</tr>
+<tr>
+<td>Caxton</td>
+<td>-$1.3bn in March</td>
+<td>Macro trades backfired</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What went wrong for the industry:</strong><br />
+1. Macro traders bet on rate cuts in UK/Europe → war made cuts impossible → blown up<br />
+2. Energy positioning too light → oil moved too fast to capture<br />
+3. Correlation spike → normally uncorrelated books drew down together<br />
+4. Vol expansion → gamma-short positions crushed</p>
+<hr />
+<h1 id="part-4-key-catalysts-ahead">PART 4: KEY CATALYSTS AHEAD</h1>
+<h2 id="this-week">This Week</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+<th>Importance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apr 7 (today)</td>
+<td>Trump's 8 PM ET deadline for Iran</td>
+<td>BINARY event: deal/extend/escalate</td>
+</tr>
+<tr>
+<td>Apr 8</td>
+<td>RBNZ rate decision</td>
+<td>First G10 post-Q1 turmoil</td>
+</tr>
+<tr>
+<td>Apr 9</td>
+<td>RBI rate decision</td>
+<td>India oil crisis — high stakes</td>
+</tr>
+<tr>
+<td>Apr 11</td>
+<td>US CPI (March)</td>
+<td>Oil shock pass-through. Hot print = no Fed cuts</td>
+</tr>
+</tbody>
+</table>
+<h2 id="central-bank-gauntlet-rest-of-april">Central Bank Gauntlet (Rest of April)</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+<th>Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apr 16</td>
+<td>SNB</td>
+<td>At 0% already</td>
+</tr>
+<tr>
+<td>Apr 24</td>
+<td>CBR (Russia)</td>
+<td>Emergency 15%</td>
+</tr>
+<tr>
+<td>Apr 28</td>
+<td>BOJ</td>
+<td>Yen at 160 — critical</td>
+</tr>
+<tr>
+<td><strong>Apr 29</strong></td>
+<td><strong>Fed decision</strong></td>
+<td>THE macro event. Cut or hold?</td>
+</tr>
+<tr>
+<td>Apr 29</td>
+<td>BOC</td>
+<td>Same day as Fed</td>
+</tr>
+<tr>
+<td><strong>Apr 30</strong></td>
+<td><strong>ECB decision</strong></td>
+<td>Inflation up + growth down = impossible</td>
+</tr>
+<tr>
+<td><strong>Apr 30</strong></td>
+<td><strong>BOE decision</strong></td>
+<td>UK 10Y at 4.85%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Apr 29-30 risk window:</strong> Three major central banks in 48 hours. Could trigger bond sell-off, equity correction, EM currency crisis, credit spread widening.</p>
+<hr />
+<h1 id="part-5-macro-regime-assessment">PART 5: MACRO REGIME ASSESSMENT</h1>
+<h2 id="where-are-we-in-the-cycle">Where Are We in the Cycle?</h2>
+<p><strong>Current regime: STAGFLATION RISK</strong></p>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Signal</th>
+<th>Regime implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oil at $111+</td>
+<td>Supply shock → cost-push inflation</td>
+<td>Inflationary</td>
+</tr>
+<tr>
+<td>ISM Services input prices</td>
+<td>Highest in 13+ years</td>
+<td>Inflationary</td>
+</tr>
+<tr>
+<td>Eurozone PMI</td>
+<td>9-month low</td>
+<td>Recessionary</td>
+</tr>
+<tr>
+<td>Germany services PMI</td>
+<td>7-month low</td>
+<td>Recessionary</td>
+</tr>
+<tr>
+<td>France services PMI</td>
+<td>CONTRACTING</td>
+<td>Recessionary</td>
+</tr>
+<tr>
+<td>Italy</td>
+<td>Raised inflation estimate, cut growth</td>
+<td>Stagflationary</td>
+</tr>
+<tr>
+<td>US S&amp;P 500</td>
+<td>-4.6% Q1</td>
+<td>Weakening</td>
+</tr>
+<tr>
+<td>Fed funds pricing</td>
+<td>97.9% cut</td>
+<td>Market expects growth concern to dominate</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stagflation is the worst environment for risk management</strong> because:<br />
+- Bonds don't hedge equities (both fall)<br />
+- Central banks are paralyzed (can't cut or hike)<br />
+- Correlations spike across everything<br />
+- Traditional diversification fails</p>
+<h2 id="what-would-change-the-regime">What Would Change the Regime?</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>New regime</th>
+<th>Portfolio action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Iran deal → oil to $80</td>
+<td>Goldilocks recovery</td>
+<td>Add risk, buy growth/tech</td>
+</tr>
+<tr>
+<td>Oil to $130+ → recession</td>
+<td>Deep recession</td>
+<td>De-risk, buy duration, sell credit</td>
+</tr>
+<tr>
+<td>Fed surprises with hold (no cut)</td>
+<td>Rate shock</td>
+<td>Sell duration, sell growth</td>
+</tr>
+<tr>
+<td>China stimulus package</td>
+<td>Reflationary</td>
+<td>Buy commodities, EM, materials</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-6-correlation-map-current-regime">PART 6: CORRELATION MAP — CURRENT REGIME</h1>
+<table>
+<thead>
+<tr>
+<th>Correlation</th>
+<th>Normal</th>
+<th>Current</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stocks ↔ Bonds</td>
+<td>Negative (diversifies)</td>
+<td><strong>Positive</strong></td>
+<td>Diversification broken</td>
+</tr>
+<tr>
+<td>Oil ↔ Everything</td>
+<td>Low</td>
+<td><strong>Very high</strong></td>
+<td>Monitor aggregate oil beta</td>
+</tr>
+<tr>
+<td>USD ↔ Risk Assets</td>
+<td>Weak negative</td>
+<td><strong>Strong negative</strong></td>
+<td>USD strength = EM pain</td>
+</tr>
+<tr>
+<td>VIX ↔ S&amp;P</td>
+<td>Normal (-0.8 to -0.9)</td>
+<td>Normal</td>
+<td>But underpricing tail</td>
+</tr>
+<tr>
+<td>Gold ↔ Rates</td>
+<td>Negative</td>
+<td><strong>Dominant</strong></td>
+<td>Gold not working as hedge</td>
+</tr>
+<tr>
+<td>Cross-sector equity</td>
+<td>Low</td>
+<td><strong>Elevated</strong></td>
+<td>Sector diversification less effective</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-what-id-say-if-asked">PART 7: WHAT I'D SAY IF ASKED</h1>
+<h3 id="whats-happening-in-markets-right-now">"What's happening in markets right now?"</h3>
+<p>"The dominant story is the Iran war and Hormuz closure. Brent is at $111, up 50% since the war started in late February. Tonight at 8 PM we have Trump's deadline for Iran to reopen the Strait — that's a binary event.</p>
+<p>The broader picture is stagflation risk. We have cost-push inflation from oil flowing through to the real economy — ISM input prices are at 13-year highs. But growth is deteriorating: Eurozone PMIs are at 9-month lows, France services are contracting. Central banks are stuck — the Fed has 97.9% pricing for a cut on April 29, but if CPI comes in hot on April 11, that gets repriced violently.</p>
+<p>What worries me most as a risk manager is that correlations are elevated. Stocks and bonds are moving together, so the traditional 60/40 hedge is broken. Q1 saw multi-strat funds like Balyasny and Caxton draw down because their normally uncorrelated books all correlated to the same oil/inflation factor.</p>
+<p>The key risk window is April 29-30 when the Fed, ECB, and BOE all decide within 48 hours. If any of them surprise, the repricing will cascade across asset classes."</p>
+<h3 id="what-does-the-fed-do-april-29">"What does the Fed do April 29?"</h3>
+<p>"The market is pricing a 25bp cut with 97.9% probability. I think a cut is likely because the growth data is deteriorating and the Fed will want to front-run a potential recession. But there's a meaningful risk they hold: if the April 11 CPI print shows oil shock pass-through, cutting into rising inflation would damage their credibility.</p>
+<p>If they hold, the repricing will be violent — nearly 100% of the market expects a cut. Two-year yields spike, dollar strengthens, EM gets crushed, growth stocks sell off. For our book, I'd want to understand our rate sensitivity before the decision and have contingency plans for the hold scenario."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a> — the cascade framework for interpreting these moves<br />
+→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — macro concepts underlying inflation/growth/rates dynamics<br />
+→ <a href="T_Opinion_Formation.html">Opinion Formation</a> — how to form and defend market views<br />
+→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a> — applying scenarios to current events<br />
+→ <a href="10_Market_Context_Today.html">Market Context Today</a> — original detailed market context reference</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

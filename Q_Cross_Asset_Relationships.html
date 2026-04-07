@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross Asset Relationships — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link active" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+
+</nav>
+
+<main class="content">
+<h1 id="q-cross-asset-relationships">Q — CROSS-ASSET RELATIONSHIPS</h1>
+<h2 id="cascade-chains-correlation-regimes-flight-to-quality-risk-onrisk-off-and-how-everything-connects">Cascade chains, correlation regimes, flight to quality, risk-on/risk-off, and how everything connects</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="part-1-why-cross-asset-thinking-matters">PART 1: WHY CROSS-ASSET THINKING MATTERS</h1>
+<p>A discretionary risk manager who watches only equities is blind. Markets are connected. A move in oil changes inflation expectations, which changes rate expectations, which changes equity valuations, which changes credit spreads, which changes EM currencies. Understanding these cascades is what separates a risk manager from a position monitor.</p>
+<p><strong>The fundamental question:</strong> "If X moves, what else moves — and in what order?"</p>
+<hr />
+<h1 id="part-2-the-major-transmission-chains">PART 2: THE MAJOR TRANSMISSION CHAINS</h1>
+<h2 id="chain-1-oil-inflation-rates-equities-credit">Chain 1: Oil → Inflation → Rates → Equities → Credit</h2>
+<div class="highlight"><pre><span></span><code>Oil spike → CPI rises → Fed holds/hikes → Bond yields up
+         → Growth slows → Earnings compress → Equities de-rate
+         → Credit spreads widen → Leveraged borrowers struggle
+         → EM importers crushed → FX depreciation → Capital flight
+</code></pre></div>
+
+<p><strong>Speed of transmission:</strong><br />
+- Oil → inflation expectations: hours (TIPS breakevens move instantly)<br />
+- Oil → realized CPI: 4-8 weeks (monthly data lag)<br />
+- Higher CPI → rate expectations: same day (Fed Funds futures reprice)<br />
+- Rate expectations → equity multiples: days to weeks<br />
+- Equity weakness → credit spreads: days to weeks<br />
+- Credit tightening → real economy: 3-12 months</p>
+<p><strong>Real example — 2022:</strong><br />
+1. Russia invades Ukraine (Feb 24) → Brent from $90 to $130 in 2 weeks<br />
+2. CPI prints 8.5%, 8.3%, 8.6% → Fed goes from 25bp to 75bp hikes<br />
+3. 10Y yield: 1.5% → 4.2% in 9 months<br />
+4. S&amp;P 500: -25% peak to trough<br />
+5. HY credit spreads: 300bp → 600bp<br />
+6. Crypto collapse, EM FX sell-off, UK mini-budget pension crisis</p>
+<h2 id="chain-2-rate-shock-duration-fx-em-contagion">Chain 2: Rate Shock → Duration → FX → EM Contagion</h2>
+<div class="highlight"><pre><span></span><code>Unexpected rate move → Long-duration assets reprice (bonds, growth stocks, real estate)
+                     → USD strengthens (rate differential widens)
+                     → EM currencies weaken (capital exits)
+                     → EM central banks forced to hike (defend currency)
+                     → EM growth collapses → default risk rises → contagion
+</code></pre></div>
+
+<p><strong>Key mechanism:</strong> The "dollar wrecking ball." When US rates rise unexpectedly, capital flows to USD assets. EM countries with USD-denominated debt face a double hit: weaker currency + higher debt service costs.</p>
+<h2 id="chain-3-risk-off-cascade">Chain 3: Risk-Off Cascade</h2>
+<div class="highlight"><pre><span></span><code>Shock event → VIX spikes → Dealers hedge (buy protection, sell equity)
+           → Margin calls → Forced selling of liquid assets
+           → Correlation spikes → Diversification fails
+           → Credit freezes → Funding stress → Redemptions
+           → More forced selling → Death spiral
+</code></pre></div>
+
+<p><strong>March 2020 sequence:</strong><br />
+1. COVID spreads → VIX: 13 → 82 in 3 weeks<br />
+2. Margin calls across all asset classes<br />
+3. Even Treasuries sold (dash for cash) — BROKE the bonds-as-hedge assumption<br />
+4. Fed intervened with unlimited QE, lending facilities, corporate bond buying<br />
+5. Everything recovered — but only because of central bank backstop</p>
+<h2 id="chain-4-carry-trade-unwind">Chain 4: Carry Trade Unwind</h2>
+<div class="highlight"><pre><span></span><code>Low-rate currency (JPY, CHF) borrowed → invested in high-rate assets (EM, HY)
+Rate differential narrows OR vol spikes →
+     → Carry trade unprofitable → Unwind (sell HY/EM, buy JPY/CHF)
+     → JPY/CHF spike → More carry trades go underwater → Accelerating unwind
+     → EM assets sold → EM FX crashes → EM central banks intervene
+</code></pre></div>
+
+<p><strong>July-August 2024 example:</strong> BOJ hiked rates + US recession fears → JPY strengthened → carry unwind → Nikkei -12% in one day → global equity sell-off → VIX spiked to 65 intraday.</p>
+<p><strong>Key insight:</strong> Carry trades are "picking up pennies in front of a steamroller." They earn small, steady returns then collapse violently. The RM must monitor JPY, CHF, VIX together as carry-trade risk indicators.</p>
+<hr />
+<h1 id="part-3-correlation-regimes">PART 3: CORRELATION REGIMES</h1>
+<h2 id="what-correlations-look-like-in-different-environments">What Correlations Look Like in Different Environments</h2>
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Stocks-Bonds</th>
+<th>Stocks-Oil</th>
+<th>VIX-Stocks</th>
+<th>Gold-Stocks</th>
+<th>USD-Stocks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Normal growth</strong></td>
+<td>Weakly negative</td>
+<td>Weakly positive</td>
+<td>-0.8</td>
+<td>Low</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Risk-off / crisis</strong></td>
+<td>Negative (flight to quality)</td>
+<td>Negative</td>
+<td>-0.95</td>
+<td>Positive</td>
+<td>Positive (USD ↑, stocks ↓)</td>
+</tr>
+<tr>
+<td><strong>Inflation shock</strong></td>
+<td><strong>POSITIVE</strong> (both fall)</td>
+<td>Positive (oil causes)</td>
+<td>-0.85</td>
+<td>Complex</td>
+<td>Strong positive</td>
+</tr>
+<tr>
+<td><strong>Stagflation</strong></td>
+<td><strong>POSITIVE</strong></td>
+<td>Positive</td>
+<td>High</td>
+<td>Positive</td>
+<td>Strong positive</td>
+</tr>
+<tr>
+<td><strong>Goldilocks</strong></td>
+<td>Negative</td>
+<td>Low</td>
+<td>Low</td>
+<td>Low</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-critical-regime-shift-stocks-bonds-correlation">The Critical Regime Shift: Stocks-Bonds Correlation</h2>
+<p>This is the most important correlation for portfolio construction:</p>
+<ul>
+<li><strong>2000-2021:</strong> Negative. Stocks down → bonds up. Bonds were a natural hedge. 60/40 worked.</li>
+<li><strong>2022-present:</strong> Positive in inflation episodes. Stocks AND bonds sell off together. 60/40 fails.</li>
+<li><strong>Why?</strong> When inflation drives both asset classes, the Fed must tighten, hurting both equity multiples (higher discount rate) and bond prices (higher yields).</li>
+</ul>
+<p><strong>RM implication:</strong> If your portfolio uses bonds as a hedge and we're in an inflation regime, YOUR HEDGE DOESN'T WORK. You're doubling down on the same macro bet.</p>
+<h2 id="conditional-vs-unconditional-correlation">Conditional vs Unconditional Correlation</h2>
+<ul>
+<li><strong>Unconditional:</strong> Average correlation over a long period. Useful for normal times.</li>
+<li><strong>Conditional:</strong> Correlation during STRESS. Almost always HIGHER than unconditional.</li>
+</ul>
+<p>$$\rho_{\text{stress}} &gt; \rho_{\text{normal}}$$</p>
+<p>Why? In crises, everything becomes driven by the same factor (risk appetite), so correlations converge toward 1. This is exactly when you need diversification most — and it fails.</p>
+<p><strong>Practical rule:</strong> If your VaR model uses a 6-month lookback correlation of 0.3, the actual correlation during a crisis might be 0.7-0.9. Your VaR is LYINGto you about the portfolio's true risk.</p>
+<hr />
+<h1 id="part-4-flight-to-quality">PART 4: FLIGHT TO QUALITY</h1>
+<h2 id="what-happens-when-fear-takes-over">What Happens When Fear Takes Over</h2>
+<p>Investors sell risky assets and buy safe haven assets:</p>
+<table>
+<thead>
+<tr>
+<th>FROM (sell)</th>
+<th>TO (buy)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equities (especially EM, small-cap)</td>
+<td>US Treasuries, German Bunds, JGBs</td>
+</tr>
+<tr>
+<td>High-yield credit</td>
+<td>Investment-grade / government bonds</td>
+</tr>
+<tr>
+<td>EM currencies</td>
+<td>USD, JPY, CHF</td>
+</tr>
+<tr>
+<td>Commodity currencies (AUD, CAD, NOK)</td>
+<td>Gold</td>
+</tr>
+<tr>
+<td>Illiquid assets</td>
+<td>Cash, money market funds</td>
+</tr>
+</tbody>
+</table>
+<h2 id="safe-haven-hierarchy">Safe Haven Hierarchy</h2>
+<ol>
+<li><strong>US Treasuries:</strong> THE global safe haven. Even in 2008, Treasuries rallied as everything fell.</li>
+<li><strong>Gold:</strong> Traditional safe haven but can fail when rates rise sharply or liquidity is needed (margin calls → sell gold for cash).</li>
+<li><strong>JPY:</strong> Safe haven due to Japan's net creditor status. Carry unwinds amplify.</li>
+<li><strong>CHF:</strong> Swiss neutrality + current account surplus.</li>
+<li><strong>USD:</strong> Reserve currency status. Works except when the US itself is the problem.</li>
+</ol>
+<h2 id="when-safe-havens-fail">When Safe Havens Fail</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>What broke</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>March 2020 (Covid dash for cash)</td>
+<td>Even Treasuries sold — everyone needed CASH. Correlation went to +1.</td>
+</tr>
+<tr>
+<td>2022 inflation</td>
+<td>Bonds sold off alongside equities. Interest rate risk overwhelmed flight-to-quality.</td>
+</tr>
+<tr>
+<td>Gold in real rate spikes</td>
+<td>Gold falls when real rates rise sharply (opportunity cost of holding zero-yield asset).</td>
+</tr>
+<tr>
+<td>JPY in BOJ tightening</td>
+<td>If BOJ raises rates, JPY strengthens on fundamentals, not safe-haven flow — different dynamic.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-5-risk-on-risk-off-roro">PART 5: RISK-ON / RISK-OFF (RORO)</h1>
+<h2 id="the-roro-framework">The RORO Framework</h2>
+<p>Markets increasingly operate in binary mode: "risk on" or "risk off."</p>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Risk-On</th>
+<th>Risk-Off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VIX</td>
+<td>Falling / low</td>
+<td>Rising / high</td>
+</tr>
+<tr>
+<td>S&amp;P 500</td>
+<td>Rising</td>
+<td>Falling</td>
+</tr>
+<tr>
+<td>Credit spreads</td>
+<td>Tightening</td>
+<td>Widening</td>
+</tr>
+<tr>
+<td>USD</td>
+<td>Weakening</td>
+<td>Strengthening</td>
+</tr>
+<tr>
+<td>EM FX</td>
+<td>Strengthening</td>
+<td>Weakening</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>Flat / down</td>
+<td>Up (usually)</td>
+</tr>
+<tr>
+<td>Treasuries</td>
+<td>Selling (yield up)</td>
+<td>Buying (yield down)</td>
+</tr>
+<tr>
+<td>Commodities</td>
+<td>Rising (demand)</td>
+<td>Falling (recession fear)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="roro-dashboard-what-to-watch">RORO Dashboard — What to Watch</h2>
+<p>The RM should monitor these daily as a regime indicator:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Where to find it</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VIX level &amp; term structure</td>
+<td>CBOE, Bloomberg</td>
+<td>Fear level + whether it's expected to persist</td>
+</tr>
+<tr>
+<td>HY OAS (option-adjusted spread)</td>
+<td>Bloomberg, ICE BofA index</td>
+<td>Credit stress</td>
+</tr>
+<tr>
+<td>TED spread or FRA-OIS</td>
+<td>Bloomberg</td>
+<td>Funding stress</td>
+</tr>
+<tr>
+<td>DXY (dollar index)</td>
+<td>Bloomberg</td>
+<td>Global risk appetite</td>
+</tr>
+<tr>
+<td>JPY cross-rates</td>
+<td>Bloomberg</td>
+<td>Carry trade health</td>
+</tr>
+<tr>
+<td>EM sovereign CDS</td>
+<td>Bloomberg</td>
+<td>Contagion risk</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-6-cross-asset-relationships-table">PART 6: CROSS-ASSET RELATIONSHIPS TABLE</h1>
+<h2 id="how-each-asset-responds-to-key-macro-shocks">How Each Asset Responds to Key Macro Shocks</h2>
+<table>
+<thead>
+<tr>
+<th>Shock</th>
+<th>Equities</th>
+<th>Bonds (price)</th>
+<th>USD</th>
+<th>Gold</th>
+<th>Oil</th>
+<th>VIX</th>
+<th>EM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Surprise rate hike</td>
+<td>↓↓</td>
+<td>↓↓</td>
+<td>↑↑</td>
+<td>↓</td>
+<td>↓</td>
+<td>↑↑</td>
+<td>↓↓</td>
+</tr>
+<tr>
+<td>Surprise rate cut</td>
+<td>↑↑</td>
+<td>↑↑</td>
+<td>↓↓</td>
+<td>↑</td>
+<td>↑</td>
+<td>↓</td>
+<td>↑↑</td>
+</tr>
+<tr>
+<td>Oil supply shock</td>
+<td>↓</td>
+<td>↓ (inflation)</td>
+<td>↑</td>
+<td>↑</td>
+<td>↑↑↑</td>
+<td>↑↑</td>
+<td>↓↓</td>
+</tr>
+<tr>
+<td>Recession signal</td>
+<td>↓↓</td>
+<td>↑↑ (flight to quality)</td>
+<td>↑</td>
+<td>↑↑</td>
+<td>↓↓</td>
+<td>↑↑↑</td>
+<td>↓↓</td>
+</tr>
+<tr>
+<td>Geopolitical crisis</td>
+<td>↓</td>
+<td>↑</td>
+<td>↑</td>
+<td>↑↑</td>
+<td>↑</td>
+<td>↑↑</td>
+<td>↓↓</td>
+</tr>
+<tr>
+<td>Inflation surprise</td>
+<td>↓</td>
+<td>↓↓</td>
+<td>↑</td>
+<td>Complex</td>
+<td>↑</td>
+<td>↑</td>
+<td>↓</td>
+</tr>
+<tr>
+<td>Growth surprise (positive)</td>
+<td>↑↑</td>
+<td>↓</td>
+<td>Mixed</td>
+<td>↓</td>
+<td>↑</td>
+<td>↓</td>
+<td>↑</td>
+</tr>
+<tr>
+<td>Credit event</td>
+<td>↓↓</td>
+<td>↑ (flight)</td>
+<td>↑</td>
+<td>↑</td>
+<td>↓</td>
+<td>↑↑↑</td>
+<td>↓↓↓</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sector-level-cross-asset-sensitivity">Sector-Level Cross-Asset Sensitivity</h2>
+<table>
+<thead>
+<tr>
+<th>Equity Sector</th>
+<th>Key cross-asset driver</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Energy</td>
+<td>Oil price</td>
+<td>Direct positive</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Yield curve slope (10Y-2Y)</td>
+<td>Positive — steeper = better for banks</td>
+</tr>
+<tr>
+<td>Tech/Growth</td>
+<td>Real rates (10Y - breakevens)</td>
+<td>Negative — higher real rates hurt long-duration</td>
+</tr>
+<tr>
+<td>Utilities/REITs</td>
+<td>Bond yields</td>
+<td>Negative — bond proxies get sold as yields rise</td>
+</tr>
+<tr>
+<td>Materials/Industrials</td>
+<td>Copper, commodity complex</td>
+<td>Positive — China PMI is key</td>
+</tr>
+<tr>
+<td>Consumer Discretionary</td>
+<td>Consumer confidence, employment</td>
+<td>Positive</td>
+</tr>
+<tr>
+<td>Healthcare/Staples</td>
+<td>Defensive — inverse of risk appetite</td>
+<td>Negative with VIX</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-the-narrative-matters-more-than-the-data">PART 7: THE NARRATIVE MATTERS MORE THAN THE DATA</h1>
+<p>The same data print can cause OPPOSITE reactions depending on the prevailing narrative:</p>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>"Inflation is sticky" narrative</th>
+<th>"Soft landing" narrative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strong NFP (+300K)</td>
+<td>Equities DOWN (Fed won't cut)</td>
+<td>Equities UP (economy is fine)</td>
+</tr>
+<tr>
+<td>Weak NFP (+100K)</td>
+<td>Equities UP (Fed can cut now)</td>
+<td>Equities DOWN (recession coming)</td>
+</tr>
+<tr>
+<td>Hot CPI</td>
+<td>Equities DOWN hard</td>
+<td>Equities down modest (temporary)</td>
+</tr>
+<tr>
+<td>Cool CPI</td>
+<td>Equities UP hard</td>
+<td>Equities UP modest (confirming)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM takeaway:</strong> Don't just know the number. Know HOW THE MARKET WILL INTERPRET the number. This requires understanding:<br />
+1. What's priced in (consensus estimates vs actual)<br />
+2. What narrative is dominant right now<br />
+3. Who is positioned how (short gamma dealers amplify, long gamma dampens)</p>
+<hr />
+<h1 id="part-8-dealer-positioning-market-microstructure">PART 8: DEALER POSITIONING &amp; MARKET MICROSTRUCTURE</h1>
+<h2 id="how-dealer-gamma-affects-cross-asset">How Dealer Gamma Affects Cross-Asset</h2>
+<p>Options dealers are massively short gamma in SPX options. Their hedging creates cross-asset ripple effects:</p>
+<p><strong>Short gamma regime (dealers):</strong><br />
+- Market down → dealers sell to hedge → amplifies the move down<br />
+- Market up → dealers buy to hedge → amplifies the move up<br />
+- Volatility INCREASES in both directions<br />
+- Cross-asset cascade is FASTER because dealer hedging is automated and immediate</p>
+<p><strong>Long gamma regime (dealers):</strong><br />
+- Market down → dealers buy → dampens the move<br />
+- Market up → dealers sell → dampens the move<br />
+- Volatility is SUPPRESSED<br />
+- Markets are "sticky" — harder to get big cross-asset cascades</p>
+<p><strong>0DTE options effect:</strong> Daily expiring SPX options are now ~50% of volume. They create intraday gamma effects that didn't exist 5 years ago. Pin risk around key strikes acts as intraday magnet.</p>
+<hr />
+<h1 id="part-9-practical-cross-asset-monitoring">PART 9: PRACTICAL CROSS-ASSET MONITORING</h1>
+<h2 id="daily-cross-asset-checklist-for-the-discretionary-rm">Daily Cross-Asset Checklist for the Discretionary RM</h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>What you're looking for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S&amp;P futures vs 10Y yield move overnight</td>
+<td>Are they moving together (inflation regime) or opposite (growth regime)?</td>
+</tr>
+<tr>
+<td>DXY direction</td>
+<td>Strong dollar = headwind for EM exposure and commodity longs</td>
+</tr>
+<tr>
+<td>Oil direction + magnitude</td>
+<td>&gt;3% move → check all positions for oil beta</td>
+</tr>
+<tr>
+<td>VIX term structure</td>
+<td>Contango = normal. Backwardation = panic mode.</td>
+</tr>
+<tr>
+<td>Credit spreads (HY OAS)</td>
+<td>Widening &gt;20bp in a day = red flag</td>
+</tr>
+<tr>
+<td>JPY crosses</td>
+<td>Sudden strengthening = carry unwind risk</td>
+</tr>
+<tr>
+<td>Gold vs real rates</td>
+<td>Moving together? Something weird is happening.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cross-asset-stress-red-flags">Cross-Asset Stress Red Flags</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stocks AND bonds falling together</td>
+<td>Inflation-driven regime — diversification broken</td>
+</tr>
+<tr>
+<td>VIX &gt;30 AND credit spreads widening</td>
+<td>Systemic risk — may need to reduce gross exposure</td>
+</tr>
+<tr>
+<td>JPY &lt;155 rapidly (strengthening)</td>
+<td>Carry unwind accelerating — EM and HY at risk</td>
+</tr>
+<tr>
+<td>Oil &gt;$120 AND breakevens rising</td>
+<td>Stagflation setup — everything correlated</td>
+</tr>
+<tr>
+<td>TED spread or FRA-OIS spiking</td>
+<td>Funding market stress — pre-crisis indicator</td>
+</tr>
+<tr>
+<td>Gold falling DURING a crisis</td>
+<td>Dash for cash — margin calls forcing liquidation of everything</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
+<p>If asked "Oil just spiked 8%. Walk me through what you'd check":</p>
+<p>"First, I'd quantify our direct oil exposure — energy names long and short, any commodity-linked positions. But the bigger risk is the CASCADE. An 8% oil spike changes everything:</p>
+<p>Starting with rates: inflation expectations reprice immediately — I'd check TIPS breakevens and fed funds futures. If the market starts pricing out rate cuts, that hits our duration-sensitive positions: tech, growth, REITs.</p>
+<p>Then USD: oil shock usually strengthens the dollar. If we have any EM or non-USD exposure, that's an immediate headwind.</p>
+<p>Then equities broader: I'd run a sector attribution. Energy longs are making money, but consumer discretionary, airlines, transports are probably bleeding. What's our NET effect across all these offsets?</p>
+<p>Then correlations: in an oil shock, cross-sector correlations spike. Our 'diversified' portfolio might suddenly be 80% correlated. I'd rerun the portfolio stress test with elevated correlations.</p>
+<p>Finally, second-order: if oil stays at this level, what does it mean for earnings next quarter? For the Fed decision? For EM economies that import oil? The direct P&amp;L impact matters today, but the positioning implications matter for the next month.</p>
+<p>I'd present this cascade to the PM with specific numbers: 'Our direct oil impact is +$X, but our indirect exposure through rates, FX, and correlation is -$Y. Net, we're actually vulnerable. Here are three things we could do.'"</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — macro drivers that create the cascades<br />
+→ <a href="R_Current_Market_Context.html">Current Market Context</a> — today's specific market numbers and catalysts<br />
+→ <a href="A_Cash_Instruments.html">Cash Instruments</a> — asset classes referenced in cross-asset chains<br />
+→ <a href="I_Hedging_Strategies.html">Hedging Strategies</a> — how to hedge cross-asset exposure<br />
+→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a> — scenario framework applied to cross-asset events<br />
+→ <a href="09_Market_Intuition.html">Market Intuition</a> — detailed macro calendar and microstructure</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
