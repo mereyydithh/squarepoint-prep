@@ -8,23 +8,32 @@
 :root {
   --bg: #0d1117;
   --surface: #161b22;
+  --surface-hover: #1c2331;
   --border: #30363d;
+  --border-light: #21262d;
   --text: #e6edf3;
+  --text-secondary: #c9d1d9;
   --text-muted: #8b949e;
   --accent: #58a6ff;
   --accent-hover: #79c0ff;
+  --accent-subtle: rgba(88,166,255,0.1);
   --green: #3fb950;
   --yellow: #d29922;
   --red: #f85149;
-  --sidebar-w: 280px;
+  --orange: #db6d28;
+  --sidebar-w: 290px;
+  --content-max: 980px;
 }
+html { scroll-behavior: smooth; }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
+  color: var(--text-secondary);
+  line-height: 1.75;
   font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* SIDEBAR */
@@ -40,93 +49,110 @@ body {
   z-index: 100;
   transition: transform 0.3s ease;
 }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
 .sidebar-header {
-  padding: 10px 20px 20px;
-  font-size: 18px;
+  padding: 14px 20px 18px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--accent);
   border-bottom: 1px solid var(--border);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
 }
 .nav-section {
-  padding: 12px 20px 6px;
-  font-size: 11px;
+  padding: 16px 20px 6px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.5px;
   color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 8px;
 }
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
 .nav-link {
   display: block;
-  padding: 6px 20px;
+  padding: 5px 20px 5px 22px;
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   transition: all 0.15s;
   border-left: 3px solid transparent;
 }
 .nav-link:hover {
   color: var(--text);
-  background: rgba(88,166,255,0.08);
+  background: var(--surface-hover);
 }
 .nav-link.active {
   color: var(--accent);
   border-left-color: var(--accent);
-  background: rgba(88,166,255,0.1);
+  background: var(--accent-subtle);
   font-weight: 600;
 }
 
 /* CONTENT */
 .content {
   margin-left: var(--sidebar-w);
-  padding: 40px 60px 80px;
-  max-width: 900px;
+  padding: 48px 64px 100px;
+  max-width: var(--content-max);
 }
 .content h1 {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  margin-top: 8px;
   color: var(--text);
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  letter-spacing: -0.3px;
 }
 .content h2 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-  margin-top: 40px;
-  margin-bottom: 12px;
+  margin-top: 48px;
+  margin-bottom: 14px;
   color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
 }
 .content h3 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
-  margin-top: 28px;
-  margin-bottom: 8px;
+  margin-top: 32px;
+  margin-bottom: 10px;
   color: var(--text);
 }
 .content h4 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  margin-top: 20px;
+  margin-top: 22px;
   margin-bottom: 6px;
   color: var(--text-muted);
 }
 .content p {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .content a {
   color: var(--accent);
   text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
 }
 .content a:hover {
   color: var(--accent-hover);
-  text-decoration: underline;
+  border-bottom-color: var(--accent-hover);
 }
 .content ul, .content ol {
-  margin: 0 0 16px 24px;
+  margin: 0 0 18px 24px;
 }
 .content li {
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+}
+.content li strong {
+  color: var(--text);
 }
 .content strong {
   color: var(--text);
@@ -138,40 +164,59 @@ body {
 }
 .content blockquote {
   border-left: 4px solid var(--accent);
-  padding: 12px 20px;
-  margin: 16px 0;
-  background: rgba(88,166,255,0.06);
-  border-radius: 0 6px 6px 0;
+  padding: 14px 22px;
+  margin: 20px 0;
+  background: rgba(88,166,255,0.05);
+  border-radius: 0 8px 8px 0;
   color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.content blockquote strong {
+  color: var(--text-secondary);
 }
 .content hr {
   border: none;
   border-top: 1px solid var(--border);
-  margin: 32px 0;
+  margin: 40px 0;
 }
 
 /* TABLES */
 .content table {
   border-collapse: collapse;
   width: 100%;
-  margin: 16px 0;
+  margin: 20px 0;
   font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
 }
 .content th {
-  background: var(--surface);
+  background: rgba(88,166,255,0.08);
   border: 1px solid var(--border);
-  padding: 10px 14px;
+  padding: 11px 16px;
   text-align: left;
   font-weight: 600;
+  font-size: 13px;
   color: var(--accent);
+  text-transform: none;
+  letter-spacing: 0.2px;
 }
 .content td {
-  border: 1px solid var(--border);
-  padding: 8px 14px;
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
   vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.content td strong {
+  color: var(--text);
 }
 .content tr:nth-child(even) td {
-  background: rgba(255,255,255,0.02);
+  background: rgba(255,255,255,0.015);
+}
+.content tr:hover td {
+  background: rgba(88,166,255,0.03);
 }
 
 /* CODE */
@@ -180,19 +225,19 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 2px 6px;
+  padding: 2px 7px;
   font-size: 13px;
   color: var(--accent);
 }
 .content pre {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px 20px;
+  border-radius: 8px;
+  padding: 18px 22px;
   overflow-x: auto;
-  margin: 16px 0;
+  margin: 20px 0;
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 .content pre code {
   background: none;
@@ -200,6 +245,14 @@ body {
   padding: 0;
   color: var(--text);
 }
+
+/* MATH (KaTeX) */
+.katex-display {
+  margin: 20px 0;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+.katex { font-size: 1.05em; }
 
 /* MOBILE */
 .hamburger {
@@ -240,11 +293,13 @@ body {
   .overlay.show {
     display: block;
   }
-  .content h1 { font-size: 24px; }
-  .content h2 { font-size: 20px; }
-  .content h3 { font-size: 16px; }
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 15px; }
   .content table { font-size: 12px; }
-  .content th, .content td { padding: 6px 8px; }
+  .content th, .content td { padding: 6px 10px; }
+  .content { padding: 60px 16px 40px; }
+  .katex { font-size: 0.95em; }
 }
 
 /* SEARCH */
@@ -269,6 +324,7 @@ body {
   color: var(--text-muted);
 }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 </head>
 <body>
 
@@ -283,7 +339,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
-<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -310,7 +366,7 @@ body {
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
 <div class="nav-section">Cheat Sheets</div>
 <a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
-<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
 <a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
 <a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
 <a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
@@ -1627,7 +1683,18 @@ If it moves LESS → short gamma wins (collects theta).</p>
 → <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — real-world hedge decision conversations</p>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+});
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('show');
