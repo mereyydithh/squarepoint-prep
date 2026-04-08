@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link active" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,394 +308,604 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
 <h1 id="a-cash-instruments-asset-classes">A — CASH INSTRUMENTS &amp; ASSET CLASSES</h1>
-<h2 id="what-exists-how-it-works-how-it-moves-and-how-it-hurts-you">What exists, how it works, how it moves, and how it hurts you</h2>
+<h2 id="the-building-blocks-what-each-instrument-is-how-its-priced-how-it-behaves-and-what-can-go-wrong">The building blocks: what each instrument is, how it's priced, how it behaves, and what can go wrong</h2>
 <h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
 <h1 id="part-1-equities">PART 1: EQUITIES</h1>
-<h2 id="the-instrument">The Instrument</h2>
-<p>A share of equity = ownership claim on a company's residual cash flows after all obligations (debt, taxes, operating costs) are paid. You're last in line — that's why equities are the riskiest part of the capital structure.</p>
-<h2 id="what-drives-equity-prices">What Drives Equity Prices</h2>
-<p>Price = Earnings × Multiple. That's it. Everything else is just a more detailed version of this.</p>
+<h2 id="what-is-a-stock">What Is a Stock?</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A stock is an ownership claim on a company's residual cash flows — you get what's left after everyone else (debt holders, employees, government) has been paid.</p>
+</blockquote>
+<p><strong>Analogy:</strong> Imagine a company is a building with tenants. Bondholders are the bank that holds the mortgage — they get paid first no matter what. Equity holders are the building owner — they keep whatever rent is left after the mortgage, maintenance, and taxes. In a good year, they keep a lot. In a bad year, they might keep nothing. If the building burns down, the bank gets the insurance payout first; the owner gets whatever (if anything) is left. That's why equity is the riskiest part of the capital structure — but also why it has the highest return potential.</p>
+<p><strong>Where equity sits in the capital structure:</strong></p>
+<div class="highlight"><pre><span></span><code>Senior Secured Debt    ← paid first, lowest risk, lowest return
+Senior Unsecured Debt
+Subordinated Debt
+Mezzanine / Convertibles
+Preferred Equity
+Common Equity          ← paid LAST, highest risk, highest return
+</code></pre></div>
+
+<p>If a company goes bankrupt, recoveries follow this exact order. Equity holders typically recover 0-10 cents on the dollar. Senior secured lenders often recover 60-80 cents. This hierarchy matters because it explains why stocks are volatile and why credit analysis starts from the top of the stack.</p>
+<h2 id="types-of-equity-securities">Types of Equity Securities</h2>
 <table>
 <thead>
 <tr>
-<th>Driver</th>
-<th>What it means</th>
-<th>Example</th>
+<th>Type</th>
+<th>What it is</th>
+<th>Key feature</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Earnings growth</td>
-<td>Company makes more money</td>
-<td>Revenue up 10%, margins stable → EPS up 10% → stock up ~10%</td>
+<td><strong>Common stock</strong></td>
+<td>Standard ownership share</td>
+<td>Voting rights, residual claim, dividends not guaranteed</td>
 </tr>
 <tr>
-<td>Multiple expansion</td>
-<td>Market pays more per dollar of earnings</td>
-<td>P/E goes from 15x to 18x → stock up 20% even with flat earnings</td>
+<td><strong>Preferred stock</strong></td>
+<td>Hybrid between equity and debt</td>
+<td>Fixed dividend (like a coupon), senior to common in liquidation, usually no voting rights. Trades more like a bond — sensitive to interest rates.</td>
 </tr>
 <tr>
-<td>Multiple compression</td>
-<td>Market pays less</td>
-<td>Rates rise → discount rate up → future earnings worth less today → P/E falls</td>
+<td><strong>ADR / GDR</strong></td>
+<td>Foreign stock traded on US/global exchanges</td>
+<td>Represents shares in a foreign company (e.g., BABA ADR = claim on Alibaba shares held by a depositary bank). Introduces FX risk.</td>
 </tr>
 <tr>
-<td>Sentiment / flows</td>
-<td>Supply and demand for the stock</td>
-<td>Fund liquidation forces selling regardless of fundamentals</td>
+<td><strong>ETF</strong></td>
+<td>Basket of securities that trades like a stock</td>
+<td>SPY tracks S&amp;P 500. Offers diversification but can create crowding (passive flows all hitting the same names). Can trade at premium/discount to NAV.</td>
+</tr>
+<tr>
+<td><strong>REIT</strong></td>
+<td>Company that owns income-producing real estate</td>
+<td>Must distribute 90%+ of taxable income. Sensitive to rates (higher rates → higher discount rate → REIT prices fall).</td>
 </tr>
 </tbody>
 </table>
-<h2 id="equity-risk-factors">Equity Risk Factors</h2>
-<p>When you own a stock, you're exposed to:<br />
-- <strong>Market risk (beta):</strong> Broad equity market goes down, your stock probably goes down too. SPX beta of 1.2 → if SPX drops 5%, expect this stock to drop 6%.<br />
-- <strong>Sector risk:</strong> Energy stocks move with oil. Banks move with rates. Tech moves with growth expectations.<br />
-- <strong>Idiosyncratic risk:</strong> Company-specific events — earnings miss, CEO departure, product failure, fraud.<br />
-- <strong>Factor risk:</strong> Size (small vs large cap), value (cheap vs expensive), momentum (winners vs losers), quality (high vs low profitability).</p>
-<h2 id="equity-metrics-to-know-cold">Equity Metrics to Know Cold</h2>
+<p><strong>Why the RM cares about equity type:</strong><br />
+- Preferred stock looks like equity on the balance sheet but behaves like a bond — don't confuse them when measuring rate sensitivity<br />
+- ADRs have hidden FX exposure — the underlying shares are denominated in another currency<br />
+- ETFs can create forced buying/selling from rebalancing flows — index inclusion/exclusion events cause massive volume</p>
+<h2 id="how-equities-are-priced">How Equities Are Priced</h2>
+<blockquote>
+<p><strong>The master equation:</strong> Price = Earnings × Multiple. Full stop. Every stock price movement is either earnings changing, the multiple changing, or both.</p>
+</blockquote>
+<p><strong>What is the multiple?</strong> It's how much investors are willing to pay for each dollar of earnings. A P/E of 20x means "$20 for every $1 of annual earnings." The multiple reflects:<br />
+- <strong>Growth expectations</strong> — higher expected growth → higher multiple (you're paying today for future earnings)<br />
+- <strong>Interest rates</strong> — higher rates → lower multiple (future cash flows are discounted more heavily)<br />
+- <strong>Risk/uncertainty</strong> — more uncertainty → lower multiple (investors demand a discount)<br />
+- <strong>Sentiment</strong> — fear lowers multiples, greed raises them, independent of fundamentals</p>
+<p><strong>Analogy:</strong> If a friend's lemonade stand earns $1,000/year, how much would you pay to buy it? If you think she'll double her revenue next year, maybe $25,000 (25x). If you think the city is about to ban lemonade stands, maybe $5,000 (5x). Same earnings, different multiples — because your expectations changed.</p>
+<h3 id="the-three-valuation-approaches">The Three Valuation Approaches</h3>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>What it does</th>
+<th>When to use it</th>
+<th>Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Relative valuation (multiples)</strong></td>
+<td>Compare P/E, EV/EBITDA to peers or history</td>
+<td>Quick and dirty, most common</td>
+<td>"Cheap relative to expensive peers" isn't necessarily cheap</td>
+</tr>
+<tr>
+<td><strong>DCF (Discounted Cash Flow)</strong></td>
+<td>Project future free cash flows, discount to present value at WACC</td>
+<td>Theoretically correct, used for deep analysis</td>
+<td>Extremely sensitive to terminal value and discount rate assumptions — small changes in inputs → massive changes in output</td>
+</tr>
+<tr>
+<td><strong>Sum-of-the-parts</strong></td>
+<td>Value each business segment separately and add them up</td>
+<td>Conglomerates, companies with diverse divisions</td>
+<td>Ignores synergies/dis-synergies between segments</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The DCF in plain English:</strong> A company is worth the sum of all the cash it will ever generate, discounted back to today. If a company will generate $100M per year forever, and your discount rate is 10%, it's worth $100M / 0.10 = $1B. The discount rate (WACC) is critical — it reflects both the time value of money and the risk of the cash flows. Higher risk → higher discount rate → lower valuation.</p>
+<p>$$\text{Value} = \sum_{t=1}^{n} \frac{FCF_t}{(1 + WACC)^t} + \frac{\text{Terminal Value}}{(1 + WACC)^n}$$</p>
+<p><strong>The dirty secret of DCF:</strong> 60-80% of the value typically comes from the terminal value (everything beyond your forecast horizon). That's a single number driven by an assumed perpetual growth rate. Change it from 2% to 3% and your valuation can jump 30%. This is why DCFs can be used to justify almost any price — and why good analysts stress-test the terminal assumptions ruthlessly.</p>
+<h2 id="key-equity-metrics-what-they-actually-tell-you">Key Equity Metrics — What They Actually Tell You</h2>
 <table>
 <thead>
 <tr>
 <th>Metric</th>
 <th>Formula</th>
-<th>What it tells you</th>
+<th>What it really means</th>
+<th>When it misleads</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>P/E</td>
+<td><strong>P/E</strong></td>
 <td>Price / EPS</td>
-<td>How much you're paying per $ of earnings. High P/E = expensive or high growth.</td>
+<td>"How many years of current earnings am I paying for?" A P/E of 20 = 20 years of today's earnings.</td>
+<td>Useless for companies with negative earnings. Distorted by one-time items.</td>
 </tr>
 <tr>
-<td>EV/EBITDA</td>
-<td>Enterprise value / EBITDA</td>
-<td>Better than P/E for comparing companies with different capital structures.</td>
+<td><strong>Forward P/E</strong></td>
+<td>Price / Next year's expected EPS</td>
+<td>More forward-looking than trailing P/E — what you're paying for FUTURE earnings</td>
+<td>Only as good as the earnings estimate (analyst consensus is often wrong)</td>
 </tr>
 <tr>
-<td>Free Cash Flow Yield</td>
-<td>FCF / Market Cap</td>
-<td>Cash generation relative to price. Higher = cheaper.</td>
+<td><strong>EV/EBITDA</strong></td>
+<td>(Market cap + Debt - Cash) / EBITDA</td>
+<td>"How much am I paying for the operating business, regardless of how it's financed?" Better than P/E for comparing companies with different leverage.</td>
+<td>EBITDA ignores capex — a company spending all its EBITDA on capex isn't actually generating cash</td>
 </tr>
 <tr>
-<td>Dividend Yield</td>
+<td><strong>Free Cash Flow Yield</strong></td>
+<td>FCF / Market cap</td>
+<td>"What cash return am I getting?" A 5% FCF yield = the company generates 5 cents of free cash for every dollar of market cap. Higher = cheaper.</td>
+<td>FCF can be manipulated by delaying capex or stretching payables</td>
+</tr>
+<tr>
+<td><strong>Dividend Yield</strong></td>
 <td>Annual dividend / Price</td>
-<td>Income component of return.</td>
+<td>Current income. A 3% yield means $3/year per $100 invested.</td>
+<td>High yield can signal distress (price dropped, not dividend raised). "Yield trap."</td>
 </tr>
 <tr>
-<td>Short Interest</td>
+<td><strong>Short Interest</strong></td>
 <td>Shares short / Float</td>
-<td>Crowding indicator. &gt;20% of float short = squeeze risk.</td>
+<td>How many investors are betting the stock will fall. &gt;15% is elevated. &gt;25% is extreme squeeze risk.</td>
+<td>High short interest might be right — the company might actually be in trouble</td>
 </tr>
 <tr>
-<td>Beta</td>
+<td><strong>Beta</strong></td>
 <td>Cov(stock, market) / Var(market)</td>
-<td>Sensitivity to broad market moves.</td>
+<td>Sensitivity to broad market moves. Beta 1.3 = stock moves 30% more than the market on average.</td>
+<td>Backward-looking. Beta changes in stress (everything becomes high-beta in a crash).</td>
 </tr>
 </tbody>
 </table>
-<h2 id="sector-rotation-what-drives-it">Sector Rotation &amp; What Drives It</h2>
-<ul>
-<li><strong>Risk-on:</strong> Growth, tech, small caps, cyclicals outperform. Money moves into higher-beta stocks.</li>
-<li><strong>Risk-off:</strong> Utilities, healthcare, consumer staples, large caps outperform. Defensive rotation.</li>
-<li><strong>Rising rates:</strong> Financials benefit (net interest margin expands). Long-duration equities (unprofitable tech) suffer.</li>
-<li><strong>Falling rates:</strong> Growth stocks benefit (discount rate falls → future cash flows worth more today).</li>
-<li><strong>Oil spike:</strong> Energy outperforms. Airlines, transports, consumer discretionary underperform.</li>
-</ul>
-<h2 id="crowding-risk">Crowding Risk</h2>
-<p>When too many funds hold the same positions:<br />
-- 13F filings show overlap — if 40 hedge funds own the same stock, that's crowded.<br />
-- Crowded longs: vulnerable to a "crowded unwind" — if one fund sells, others follow.<br />
-- Crowded shorts: vulnerable to a "short squeeze" — stock rises, shorts cover, forcing it higher.<br />
-- GameStop (2021) is the extreme version. But milder squeezes happen regularly.</p>
-<hr />
-<h1 id="part-2-fixed-income-rates">PART 2: FIXED INCOME / RATES</h1>
-<h2 id="the-instrument_1">The Instrument</h2>
-<p>A bond = a series of fixed coupon payments plus return of principal at maturity. You're lending money; the issuer is borrowing.</p>
-<h2 id="the-yield-curve">The Yield Curve</h2>
-<p>The most important chart in finance. Plots yields by maturity.</p>
-<ul>
-<li><strong>Normal curve (upward sloping):</strong> Long-term rates &gt; short-term rates. Investors demand more yield for locking up money longer. Economy is healthy.</li>
-<li><strong>Flat curve:</strong> Short and long rates similar. Economy slowing; market unsure about future.</li>
-<li><strong>Inverted curve:</strong> Short-term rates &gt; long-term rates. Market expects rate CUTS → recession signal. Every US recession since 1970 was preceded by an inversion (2s10s spread going negative).</li>
-</ul>
-<h2 id="key-rates-and-what-they-mean">Key Rates and What They Mean</h2>
+<h2 id="market-cap-segments-why-size-matters">Market Cap Segments — Why Size Matters</h2>
 <table>
 <thead>
 <tr>
-<th>Rate</th>
-<th>What it is</th>
-<th>Who sets it</th>
+<th>Segment</th>
+<th>Market Cap</th>
+<th>Typical characteristics</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Fed Funds Rate</td>
-<td>Overnight lending rate between banks</td>
-<td>The Fed (FOMC)</td>
+<td><strong>Mega cap</strong></td>
+<td>&gt;$200B</td>
+<td>AAPL, MSFT, NVDA. Extremely liquid. Index heavyweights — when SPX moves, these drive it.</td>
 </tr>
 <tr>
-<td>2-Year Treasury</td>
-<td>Market's expectation of Fed policy over next 2 years</td>
-<td>The market</td>
+<td><strong>Large cap</strong></td>
+<td>$10B-$200B</td>
+<td>Core of most portfolios. Reasonable liquidity. Well-covered by analysts.</td>
 </tr>
 <tr>
-<td>10-Year Treasury</td>
-<td>Benchmark risk-free rate, drives mortgages, corporate bonds</td>
-<td>The market</td>
+<td><strong>Mid cap</strong></td>
+<td>$2B-$10B</td>
+<td>Sweet spot for stock pickers — less analyst coverage = more potential for mispricing. Less liquid.</td>
 </tr>
 <tr>
-<td>30-Year Treasury</td>
-<td>Longest duration, most sensitive to inflation expectations</td>
-<td>The market</td>
+<td><strong>Small cap</strong></td>
+<td>$300M-$2B</td>
+<td>Higher return potential but much wider bid-ask spreads, harder to exit in stress. Higher idiosyncratic risk.</td>
 </tr>
 <tr>
-<td>SOFR</td>
-<td>Secured overnight financing rate (replaced LIBOR)</td>
-<td>Market (repo-based)</td>
+<td><strong>Micro cap</strong></td>
+<td>&lt;$300M</td>
+<td>Very illiquid. Easier to manipulate. Most hedge funds can't trade these at size.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="duration-convexity">Duration &amp; Convexity</h2>
-<p><strong>Duration</strong> = sensitivity of bond price to a 1% change in yield.<br />
-- A bond with duration of 7 means: if yields rise 1%, bond price falls ~7%.<br />
-- Modified duration for precision: ΔP/P ≈ -D × Δy<br />
-- Longer maturity → higher duration → more rate sensitivity.<br />
-- A zero-coupon bond's duration = its maturity (no coupons to shorten it).</p>
-<p><strong>DV01</strong> (Dollar Value of a Basis Point) = how much the position gains/loses for a 1bp move in yield.<br />
-- DV01 = Duration × Price × 0.0001<br />
-- A portfolio with $500K DV01 loses $500K if yields rise 1bp.</p>
-<p><strong>Convexity</strong> = the curvature. Duration is the first-order approximation; convexity is the second-order correction.<br />
-- ΔP/P ≈ -D × Δy + ½ × C × (Δy)²<br />
-- Positive convexity: bonds actually fall LESS than duration predicts when yields rise, and rise MORE when yields fall. This is a good thing — it's why "long bonds, long convexity" is desirable.<br />
-- Negative convexity: mortgage-backed securities (prepayment risk). When rates fall, homeowners refinance, and you get your principal back early (at the worst time — when you want to stay invested at the old higher rate).</p>
+<p><strong>Why the RM cares:</strong> Position sizing must account for liquidity. A $50M position in AAPL can be exited in minutes. A $50M position in a small cap might take days or weeks to unwind — and trying to exit fast moves the price against you. ADV (Average Daily Volume) is the key metric: as a rule of thumb, your position shouldn't exceed 10-15% of ADV unless you're comfortable being locked in.</p>
+<h2 id="equity-risk-factors">Equity Risk Factors</h2>
+<p>When you own a stock, you're exposed to multiple overlapping risks:</p>
+<ul>
+<li>
+<p><strong>Market risk (systematic / beta):</strong> The tide that lifts or sinks all boats. When SPX drops 5%, a stock with beta 1.2 drops ~6%. You cannot diversify this away — it's the risk you're compensated for holding.</p>
+</li>
+<li>
+<p><strong>Sector risk:</strong> Stocks in the same industry are correlated. Energy moves with oil. Banks move with interest rates and credit quality. Tech moves with growth expectations. Sector concentration is a hidden risk — "I have 30 stocks" doesn't mean diversified if 20 are tech.</p>
+</li>
+<li>
+<p><strong>Idiosyncratic risk (company-specific):</strong> Earnings miss, accounting fraud, CEO dies, FDA rejects the drug. This is diversifiable — across 30+ stocks, idiosyncratic shocks roughly cancel out. But in a concentrated portfolio (10-15 names), a single blow-up can be catastrophic.</p>
+</li>
+<li>
+<p><strong>Factor risk:</strong> Academics decompose equity returns into systematic factors:</p>
+</li>
+<li><strong>Value</strong> (cheap vs expensive by book/price): value stocks tend to outperform long-term but can underperform for years</li>
+<li><strong>Momentum</strong> (recent winners vs losers): what's been going up continues going up — until momentum crashes (violent and sudden reversals)</li>
+<li><strong>Size</strong> (small vs large cap): small caps have historically outperformed but with much higher volatility</li>
+<li><strong>Quality</strong> (high vs low profitability): high-quality companies with stable margins tend to be defensive</li>
+<li><strong>Low volatility</strong>: low-vol stocks have historically beaten high-vol stocks (the "low-vol anomaly") — contradicts the idea that more risk = more return</li>
+</ul>
+<p><strong>The RM takeaway on factor risk:</strong> If a PM says "I'm diversified across 40 names," check factor exposure. They might be long 40 different high-momentum growth stocks — that's one big factor bet dressed up as diversification. The 2020 momentum crash hit these portfolios hard.</p>
+<h2 id="crowding-risk">Crowding Risk</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Crowding is when too many funds own the same stocks — the trade works until everyone tries to exit through the same door at the same time.</p>
+</blockquote>
+<p><strong>How to spot it:</strong><br />
+- <strong>13F filings</strong> — quarterly hedge fund holdings disclosures. If 40 funds own the same name, that's crowded.<br />
+- <strong>Short interest</strong> — &gt;20% of float short = crowded short.<br />
+- <strong>Factor scores</strong> — if a stock scores high on every factor screen (momentum, growth, quality), every quant fund owns it.</p>
+<p><strong>Why it's dangerous:</strong><br />
+- Crowded longs: one fund liquidating forces selling → price drops → other funds' risk limits trigger → they sell too → cascade. August 2007 quant meltdown was exactly this.<br />
+- Crowded shorts: stock rises → shorts cover (buy) → price rises more → more covering → short squeeze. GME (2021) is the extreme case.<br />
+- Crowding turns idiosyncratic risk into systemic risk — positions that look independent are actually correlated through ownership.</p>
+<hr />
+<h1 id="part-2-fixed-income">PART 2: FIXED INCOME</h1>
+<h2 id="what-is-a-bond">What Is a Bond?</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A bond is a loan that you can trade — the issuer borrows money from you, pays you regular interest (coupons), and returns your principal at maturity.</p>
+</blockquote>
+<p><strong>Analogy:</strong> A bond is like lending your friend $1,000. They agree to pay you $50/year in interest (5% coupon), and after 10 years they'll return the $1,000. The difference from a personal loan: you can sell your "IOU" to someone else if you want your money back early. The price they'll pay depends on what interest rates look like at the time.</p>
+<p><strong>The fundamental relationship:</strong> Bond prices and yields move in OPPOSITE directions. This is not a correlation — it's an identity. A bond is a promise to pay fixed cash flows. When market interest rates rise, those fixed cash flows are worth less (discounted at a higher rate), so the bond price falls. When rates fall, those same fixed flows are worth more, so the price rises.</p>
+<p><strong>Analogy:</strong> You locked in a 4% savings account for 10 years. If new accounts now offer 6%, your 4% account is worth less — you'd have to pay someone to take it. If new accounts offer 2%, your 4% account is valuable — someone would pay a premium for it. That's exactly how bond prices work.</p>
+<h2 id="types-of-bonds">Types of Bonds</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Issuer</th>
+<th>Key feature</th>
+<th>Risk profile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Treasury / Government</strong></td>
+<td>US Government (or sovereign)</td>
+<td>"Risk-free" rate benchmark. Full faith and credit.</td>
+<td>Interest rate risk only (for US). Sovereign risk for other countries.</td>
+</tr>
+<tr>
+<td><strong>Corporate (IG)</strong></td>
+<td>Investment-grade companies (BBB- and above)</td>
+<td>Higher yield than Treasuries. Spread reflects credit risk.</td>
+<td>Rate risk + credit risk. In normal times, behaves like a bond.</td>
+</tr>
+<tr>
+<td><strong>Corporate (HY / Junk)</strong></td>
+<td>Below investment-grade companies (BB+ and below)</td>
+<td>Much higher yield. Significant default risk.</td>
+<td>In a crisis, HY trades like equity — it's credit risk that dominates, not rates.</td>
+</tr>
+<tr>
+<td><strong>Municipal</strong></td>
+<td>State/local governments</td>
+<td>Tax-exempt income (for US investors)</td>
+<td>Credit risk varies (Detroit went bankrupt). Liquidity can be poor.</td>
+</tr>
+<tr>
+<td><strong>MBS (Mortgage-Backed)</strong></td>
+<td>Pools of mortgages securitized by banks/agencies</td>
+<td>Prepayment risk creates negative convexity.</td>
+<td>When rates fall, homeowners refinance → you get principal back early at the worst time. When rates rise, nobody prepays → you're stuck with below-market rates. Lose-lose.</td>
+</tr>
+<tr>
+<td><strong>TIPS</strong></td>
+<td>US Government</td>
+<td>Principal adjusts with CPI inflation</td>
+<td>Pays a real yield. Breakeven inflation = nominal yield minus TIPS yield.</td>
+</tr>
+<tr>
+<td><strong>Floating rate notes</strong></td>
+<td>Various</td>
+<td>Coupon resets with a reference rate (SOFR + spread)</td>
+<td>Very low duration (coupon adjusts to current rates). Used to reduce rate risk.</td>
+</tr>
+<tr>
+<td><strong>Convertible bonds</strong></td>
+<td>Corporations</td>
+<td>Can be converted into equity at a set price</td>
+<td>Hybrid: bond downside protection + equity upside. Has embedded option → Greeks apply.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bond-math-fundamentals">Bond Math Fundamentals</h2>
+<h3 id="price-and-yield">Price and Yield</h3>
+<p>A bond's price is the present value of all its future cash flows:</p>
+<p>$$P = \sum_{t=1}^{n} \frac{C}{(1+y)^t} + \frac{FV}{(1+y)^n}$$</p>
+<p>Where C = coupon, FV = face value (usually $100 or $1,000), y = yield, n = number of periods.</p>
+<ul>
+<li><strong>Par (100):</strong> Bond trades at face value. Yield = coupon rate.</li>
+<li><strong>Premium (&gt;100):</strong> Coupon is higher than current market rates. Investors pay extra for the higher income.</li>
+<li><strong>Discount (&lt;100):</strong> Coupon is lower than current market rates. Investors won't pay full price since they can get better rates elsewhere.</li>
+</ul>
+<h3 id="yield-measures-which-one-to-use">Yield Measures — Which One to Use</h3>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>What it is</th>
+<th>When to use it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Coupon rate</strong></td>
+<td>Annual coupon / Face value</td>
+<td>Tells you the cash income. Does NOT tell you your return if you don't buy at par.</td>
+</tr>
+<tr>
+<td><strong>Current yield</strong></td>
+<td>Annual coupon / Market price</td>
+<td>Better than coupon rate because it uses actual price paid. But ignores capital gain/loss at maturity.</td>
+</tr>
+<tr>
+<td><strong>Yield to maturity (YTM)</strong></td>
+<td>Total annualized return if you hold to maturity, assuming all coupons reinvested at the same rate</td>
+<td>The standard measure. But the reinvestment assumption is unrealistic.</td>
+</tr>
+<tr>
+<td><strong>Yield to worst (YTW)</strong></td>
+<td>YTM calculated to the worst possible call/put date</td>
+<td>Use this for callable bonds — the issuer will call if rates fall (taking away your upside).</td>
+</tr>
+<tr>
+<td><strong>Spread to benchmark</strong></td>
+<td>YTM minus Treasury yield of same maturity</td>
+<td>Isolates the credit risk component. This is what credit traders actually watch.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-yield-curve">The Yield Curve</h2>
+<blockquote>
+<p><strong>One-liner:</strong> The yield curve plots interest rates by maturity — it tells you what the market collectively believes about the future of growth, inflation, and monetary policy.</p>
+</blockquote>
+<p><strong>The shapes and what they mean:</strong></p>
+<ul>
+<li>
+<p><strong>Normal (upward sloping):</strong> Short rates &lt; long rates. Investors demand more yield for locking money up longer (term premium). Economy is healthy, no imminent policy shift.</p>
+</li>
+<li>
+<p><strong>Flat:</strong> Short and long rates roughly equal. Typically a transition — the economy is slowing, the market is uncertain about what's next.</p>
+</li>
+<li>
+<p><strong>Inverted:</strong> Short rates &gt; long rates. The market expects the central bank to CUT rates in the future (because it expects a recession). Historically, every US recession since 1970 was preceded by a 2s10s inversion. Not every inversion causes a recession, but every recession had an inversion.</p>
+</li>
+<li>
+<p><strong>Steepening:</strong> The gap between short and long rates is widening. Can be "bull steepening" (short rates falling faster) or "bear steepening" (long rates rising faster). Each has very different implications.</p>
+</li>
+<li>
+<p><strong>Bear flattening:</strong> Short rates rising faster than long rates (Fed hiking aggressively). This is the pre-recession shape.</p>
+</li>
+</ul>
+<p><strong>Key segments:</strong><br />
+- <strong>Front end (0-2yr):</strong> Driven by central bank policy and expectations. Moves with Fed Funds rate.<br />
+- <strong>Belly (2-5yr):</strong> Most sensitive to expected policy path. Where the uncertainty is highest.<br />
+- <strong>Long end (10-30yr):</strong> Driven by inflation expectations AND term premium. Also affected by supply (government issuance) and demand (pension funds, insurance companies).</p>
+<h2 id="bootstrapping-how-you-actually-build-the-yield-curve">Bootstrapping — How You Actually Build the Yield Curve</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Bootstrapping is the process of extracting zero-coupon (spot) rates from observed market prices — you solve one maturity at a time, each step using the rates you already found.</p>
+</blockquote>
+<p><strong>The problem:</strong> Markets don't hand you a clean set of zero-coupon rates. What you observe are prices/yields of coupon-bearing bonds, deposit rates, futures, and swap rates — all of which bundle multiple cash flows at different maturities. Bootstrapping untangles them.</p>
+<p><strong>The process, step by step:</strong></p>
+<p><strong>Step 1 — Short end (0–6 months): Use deposit rates directly</strong><br />
+- SOFR overnight, 1M T-bill, 3M T-bill, 6M T-bill<br />
+- These are effectively zero-coupon instruments → their yields ARE spot rates<br />
+- Example: 6M T-bill yields 4.80% → the 6-month spot rate z(0.5) = 4.80%</p>
+<p><strong>Step 2 — Medium term (6M–2Y): Use futures (Eurodollar/SOFR futures)</strong><br />
+- Futures imply forward rates between consecutive periods<br />
+- Convert forward rates to spot rates by compounding:<br />
+$$z(T) = \left[\prod_{i=1}^{n}(1 + f_i \times \Delta t_i)\right]^{1/T} - 1$$<br />
+- Each forward rate comes from the futures price: $f = (100 - \text{futures price}) / 100$</p>
+<p><strong>Step 3 — Long end (2Y–30Y): Use swap rates</strong><br />
+- A par swap has PV(fixed leg) = PV(floating leg). The fixed swap rate is known. You solve for the unknown spot rate at that maturity.<br />
+- For a 2-year annual swap at rate $c$ with $1 notional:</p>
+<p>$$c \times \frac{1}{(1+z_1)} + (1+c) \times \frac{1}{(1+z_2)^2} = 1$$</p>
+<ul>
+<li>You already know $z_1$ from Step 1/2. Solve for $z_2$.</li>
+<li>For 3-year: you know $z_1$ and $z_2$, solve for $z_3$. And so on — each step "bootstraps" from the previous ones.</li>
+</ul>
+<p><strong>Worked example — bootstrapping a 2-year spot rate:</strong><br />
+- 1-year spot rate (from T-bill): $z_1$ = 5.00%<br />
+- 2-year par swap rate: $c$ = 4.80%<br />
+- Solve: $0.048 / 1.05 + 1.048 / (1+z_2)^2 = 1$<br />
+- $0.04571 + 1.048 / (1+z_2)^2 = 1$<br />
+- $1.048 / (1+z_2)^2 = 0.95429$<br />
+- $(1+z_2)^2 = 1.09811$<br />
+- $z_2 = 4.789\%$<br />
+- The 2-year spot rate (4.789%) is slightly below the 2-year swap rate (4.80%) — this is typical when the curve is inverted at the front.</p>
+<p><strong>What you get:</strong> A full term structure of zero-coupon (spot) rates at every maturity. From spot rates you can derive:<br />
+- <strong>Discount factors:</strong> $DF(T) = \frac{1}{(1+z_T)^T}$ — used to price ANY fixed cash flow<br />
+- <strong>Forward rates:</strong> The market-implied rate between two future dates: $f(t_1, t_2) = \left[\frac{(1+z_2)^{t_2}}{(1+z_1)^{t_1}}\right]^{1/(t_2-t_1)} - 1$<br />
+- <strong>Par rates:</strong> The coupon rate at which a bond prices at par — the swap curve itself</p>
+<p><strong>Instruments used at each maturity:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Maturity</th>
+<th>Instrument</th>
+<th>Why this instrument</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O/N – 1M</td>
+<td>SOFR, Fed Funds, repo rates</td>
+<td>Direct observation of overnight borrowing costs</td>
+</tr>
+<tr>
+<td>1M – 6M</td>
+<td>T-bills, CP, SOFR term rates</td>
+<td>Zero-coupon, liquid, minimal credit risk</td>
+</tr>
+<tr>
+<td>6M – 2Y</td>
+<td>SOFR futures (SR3)</td>
+<td>Most liquid, tightest bid-ask, imply forward rates</td>
+</tr>
+<tr>
+<td>2Y – 30Y</td>
+<td>Interest rate swaps</td>
+<td>Most liquid long-dated instruments, standardized, cleared</td>
+</tr>
+<tr>
+<td>30Y+</td>
+<td>Long bonds, ultra-long swaps</td>
+<td>Limited liquidity, more interpolation needed</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why it matters for an RM:</strong><br />
+- <strong>Every derivative is priced off this curve.</strong> IRS, swaptions, bond futures, FRAs — all use bootstrapped spot rates for discounting.<br />
+- <strong>Curve construction is a MODEL CHOICE.</strong> Different interpolation methods (linear, cubic spline, monotone convex) give different forward rates between nodes — and those differences affect derivative pricing and hedge ratios.<br />
+- <strong>Dual-curve stripping (post-2008):</strong> Before 2008, LIBOR was used for both discounting and projection. After the crisis, the market switched to OIS (now SOFR) for discounting and a separate curve for projection. This means you bootstrap TWO curves simultaneously — the discount curve and the projection curve. This is called "multi-curve bootstrapping."</p>
+<h2 id="duration-your-rate-sensitivity-number">Duration — Your Rate Sensitivity Number</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Duration tells you how much your bond's price will change for a 1% move in rates — a bond with duration 7 loses ~7% when rates rise by 1%.</p>
+</blockquote>
+<p><strong>Analogy:</strong> Duration is like a seesaw. The fulcrum is the current moment. The coupons and principal repayment are weights placed at different points in the future. Duration tells you where the balance point is — how far into the future, on average, you receive your money. The further out (higher duration), the more sensitive you are to rate changes.</p>
+<p><strong>Types of duration:</strong><br />
+- <strong>Macaulay duration:</strong> The weighted-average time to receive cash flows (in years). A 10-year zero-coupon bond has Macaulay duration of 10. A 10-year 5% coupon bond has lower Macaulay duration (maybe 7.5) because you receive some cash earlier.<br />
+- <strong>Modified duration:</strong> Macaulay duration / (1 + y). This is the actual price sensitivity measure: ΔP/P ≈ -D_mod × Δy<br />
+- <strong>Effective duration:</strong> Used for bonds with embedded options (MBS, callables) where cash flows change with rates. Numerically estimated by bumping rates up and down.<br />
+- <strong>Key rate duration (KRD):</strong> Duration to specific points on the yield curve (2yr, 5yr, 10yr, 30yr). A portfolio can have overall duration of 5 but very different KRD profiles — critical for understanding exposure to curve shape changes.</p>
+<p><strong>What makes a bond longer or shorter duration?</strong></p>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Effect on duration</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Longer maturity</td>
+<td>Higher duration</td>
+<td>Cash flows are further in the future</td>
+</tr>
+<tr>
+<td>Higher coupon</td>
+<td>Lower duration</td>
+<td>You receive more cash earlier (pulling the balance point forward)</td>
+</tr>
+<tr>
+<td>Higher yield</td>
+<td>Lower duration</td>
+<td>Future cash flows are discounted more heavily, making early cash flows relatively more important</td>
+</tr>
+<tr>
+<td>Zero coupon</td>
+<td>Duration = maturity</td>
+<td>There's only one cash flow, at the very end</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dollar duration &amp; DV01:</strong><br />
+- <strong>DV01</strong> (Dollar Value of a Basis Point) = how much the position gains or loses for a 1 basis point (0.01%) move in yield.<br />
+- DV01 = Duration × Market Value × 0.0001<br />
+- <strong>Example:</strong> You hold $10M face value of a bond with modified duration 6, priced at 98. Market value = $9.8M. DV01 = 6 × $9.8M × 0.0001 = $5,880. So a 1bp rate rise costs you $5,880. A 50bp rise costs ~$294,000.<br />
+- <strong>Portfolio DV01</strong> = sum of all position DV01s. This is the number you monitor daily as an RM — "how much does our portfolio lose per basis point?"</p>
+<h2 id="convexity-the-second-order-effect">Convexity — The Second-Order Effect</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Convexity measures the curvature of the price-yield relationship — it tells you how accurate (or inaccurate) your duration estimate will be for large rate moves.</p>
+</blockquote>
+<p><strong>Analogy:</strong> Duration is the straight-line approximation of a curve. For small moves, the straight line is close enough. For big moves, the curve matters. Convexity measures how much the actual curved relationship deviates from the straight-line duration approximation.</p>
+<p>$$\frac{\Delta P}{P} \approx -D \times \Delta y + \frac{1}{2} \times C \times (\Delta y)^2$$</p>
+<p><strong>Positive convexity (most vanilla bonds):</strong><br />
+- When rates rise, bond prices fall LESS than duration alone predicts<br />
+- When rates fall, bond prices rise MORE than duration alone predicts<br />
+- This is a "good thing" — your downside is cushioned and your upside is amplified<br />
+- Higher convexity = more of this benefit → investors pay a premium for convexity</p>
+<p><strong>Negative convexity (MBS, callable bonds):</strong><br />
+- When rates fall, prepayments accelerate → you lose your high-coupon bond and get cash back that you have to reinvest at lower rates. The price doesn't rise as much as a non-callable bond.<br />
+- When rates rise, nobody prepays → you're stuck holding a below-market rate bond that keeps losing value<br />
+- You lose on both sides. The worst of both worlds. This is why MBS investors demand higher yields — the negative convexity is a genuine risk.</p>
 <h2 id="credit-spreads">Credit Spreads</h2>
-<p>The extra yield above the risk-free rate that a corporate bond pays. Compensates for default risk.</p>
+<blockquote>
+<p><strong>One-liner:</strong> A credit spread is the extra yield a corporate bond pays above the risk-free Treasury rate — it's the price tag of default risk.</p>
+</blockquote>
+<p><strong>What's inside a spread:</strong><br />
+$$\text{Spread} = \text{Default probability} \times \text{Loss given default} + \text{Liquidity premium} + \text{Risk premium}$$</p>
+<ul>
+<li><strong>Default probability:</strong> Chance the issuer can't pay you back</li>
+<li><strong>Loss given default (LGD):</strong> How much you lose if they default. Senior secured bonds might recover 60-70 cents; unsecured bonds 30-40 cents.</li>
+<li><strong>Liquidity premium:</strong> Compensation for the fact that corporate bonds are less liquid than Treasuries — harder to sell at a fair price quickly</li>
+<li><strong>Risk premium:</strong> Extra return demanded for bearing uncertainty about the above</li>
+</ul>
 <table>
 <thead>
 <tr>
 <th>Rating</th>
 <th>Typical spread (bps)</th>
 <th>What it means</th>
+<th>Real-world context</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>AAA/AA</td>
 <td>20-60</td>
-<td>Very low default risk</td>
+<td>Near risk-free. Think MSFT, JNJ.</td>
+<td>Spread mostly reflects liquidity, not default</td>
 </tr>
 <tr>
 <td>A</td>
 <td>60-120</td>
-<td>Low default risk</td>
+<td>Very low default risk. Most blue chips.</td>
+<td></td>
 </tr>
 <tr>
 <td>BBB</td>
 <td>120-200</td>
-<td>Lowest investment grade — watch carefully</td>
+<td>Lowest investment grade — the "cliff edge"</td>
+<td>Largest pool of corporate bonds. Downgrade to BB = disaster.</td>
 </tr>
 <tr>
 <td>BB</td>
 <td>200-400</td>
 <td>High yield ("junk"). First to blow out in stress.</td>
+<td>Still decent companies, just more levered</td>
 </tr>
 <tr>
 <td>B</td>
 <td>400-700</td>
-<td>High default probability</td>
+<td>Significant default probability</td>
+<td>Highly leveraged, cyclical businesses</td>
 </tr>
 <tr>
 <td>CCC and below</td>
 <td>700+</td>
-<td>Distressed. Trading on recovery value.</td>
+<td>Distressed. Trading on expected recovery value, not yield.</td>
+<td>At this point, yield is meaningless — it's a bet on what you get in bankruptcy</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Spread widening</strong> = credit risk increasing = risk-off. IG spreads widening 20bps in a day is notable. HY spreads widening 100bps is a crisis signal.</p>
-<p><strong>BBB cliff risk:</strong> The largest pool of corporate bonds is BBB-rated. If they get downgraded to BB ("fallen angels"), IG-only funds are forced to sell → supply flood in HY → spreads blow out → cascade.</p>
-<hr />
-<h1 id="part-3-foreign-exchange">PART 3: FOREIGN EXCHANGE</h1>
-<h2 id="the-instrument_2">The Instrument</h2>
-<p>An FX rate = the price of one currency in terms of another. EUR/USD = 1.08 means one euro costs $1.08.</p>
-<h2 id="what-drives-fx">What Drives FX</h2>
-<ol>
-<li><strong>Interest rate differentials</strong> — money flows to higher-yielding currencies (carry trade).</li>
-<li><strong>Growth differentials</strong> — stronger economy → stronger currency (attracts capital).</li>
-<li><strong>Central bank policy</strong> — rate hikes strengthen, cuts weaken.</li>
-<li><strong>Risk appetite</strong> — risk-on weakens safe havens (USD, JPY, CHF); risk-off strengthens them.</li>
-<li><strong>Capital flows</strong> — trade balance, FDI, portfolio flows.</li>
-<li><strong>Intervention</strong> — central banks directly buying/selling (Japan, China, Switzerland).</li>
-</ol>
-<h2 id="key-pairs-and-their-personalities">Key Pairs and Their Personalities</h2>
-<table>
-<thead>
-<tr>
-<th>Pair</th>
-<th>What it reflects</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>EUR/USD</td>
-<td>Global risk &amp; rate differential. Most liquid pair.</td>
-</tr>
-<tr>
-<td>USD/JPY</td>
-<td>Risk appetite + carry trade. JPY strengthens in crisis.</td>
-</tr>
-<tr>
-<td>GBP/USD</td>
-<td>UK economy + Brexit residuals + BOE policy</td>
-</tr>
-<tr>
-<td>USD/CNH</td>
-<td>China policy. Managed float — watch for devaluation signals.</td>
-</tr>
-<tr>
-<td>USD/TRY, USD/ZAR</td>
-<td>EM risk barometer. Blow out in risk-off.</td>
-</tr>
-<tr>
-<td>DXY</td>
-<td>Dollar index (basket: EUR 57%, JPY 14%, GBP 12%, CAD 9%, SEK 4%, CHF 4%)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="carry-trade">Carry Trade</h2>
-<p>Borrow in a low-rate currency (JPY at 0.5%), invest in a high-rate currency (MXN at 10%). Earn the differential (9.5% annualized). Works until it doesn't.</p>
-<p><strong>When carry unwinds:</strong><br />
-- Risk event → JPY strengthens → you lose on FX more than you earned in carry.<br />
-- Carry unwind is FAST and VIOLENT because it's crowded and leveraged.<br />
-- October 2022 JPY, Q3 2024 JPY carry unwind — both crushed funds.</p>
-<h2 id="fx-risk-for-a-discretionary-fund">FX Risk for a Discretionary Fund</h2>
-<ul>
-<li>Any non-USD position has embedded FX exposure.</li>
-<li>Long European stocks = long EUR implicitly. If EUR/USD falls 3%, your stock return is reduced by 3% when converted back to USD.</li>
-<li>Hedging: FX forwards (most common), FX options (for tail protection), natural hedge (matching assets and liabilities in same currency).</li>
-</ul>
-<hr />
-<h1 id="part-4-commodities">PART 4: COMMODITIES</h1>
-<h2 id="the-instrument_3">The Instrument</h2>
-<p>Commodities trade via futures (mostly). Physical delivery matters because storage constraints drive pricing (see <a href="V_Case_Studies.html">Case Studies</a> — negative oil).</p>
-<h2 id="major-commodities-and-what-drives-them">Major Commodities and What Drives Them</h2>
-<table>
-<thead>
-<tr>
-<th>Commodity</th>
-<th>Key drivers</th>
-<th>Why it matters for risk</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Crude Oil (WTI, Brent)</td>
-<td>OPEC supply, demand (China, US), geopolitics (Hormuz), inventory</td>
-<td>Oil moves everything — inflation, rates, equities, EM</td>
-</tr>
-<tr>
-<td>Natural Gas</td>
-<td>Weather, storage, LNG exports, seasonality</td>
-<td>Extremely volatile. Amaranth died here.</td>
-</tr>
-<tr>
-<td>Gold</td>
-<td>Real rates (inverse), USD (inverse), safe haven demand, central bank buying</td>
-<td>Hedge portfolio. But only works when real rates cooperate.</td>
-</tr>
-<tr>
-<td>Copper</td>
-<td>Industrial demand (China), construction, EV transition</td>
-<td>"Dr. Copper" — leading indicator of global growth</td>
-</tr>
-<tr>
-<td>Wheat/Corn/Soy</td>
-<td>Weather, trade policy, fertilizer costs</td>
-<td>Food inflation → political instability → EM risk</td>
-</tr>
-</tbody>
-</table>
-<h2 id="futures-curve-dynamics">Futures Curve Dynamics</h2>
-<p><strong>Contango:</strong> Front month cheaper than back months. Normal for storable commodities (cost of carry = storage + insurance + financing). Market expects higher future prices.</p>
-<p><strong>Backwardation:</strong> Front month MORE expensive than back months. Signals tight current supply (scarcity premium). Producers are getting paid MORE for immediate delivery.</p>
-<p><strong>Roll cost/yield:</strong><br />
-- If you're long a futures contract and it expires, you "roll" to the next month.<br />
-- In contango: you sell cheap front month, buy expensive back month → LOSE money on the roll (negative roll yield). This is why commodity ETFs (like USO) bleed value in contango markets.<br />
-- In backwardation: you sell expensive front month, buy cheap back month → MAKE money on the roll (positive roll yield).</p>
-<h2 id="commodity-risk-specifics">Commodity Risk Specifics</h2>
-<ul>
-<li><strong>Physical delivery:</strong> WTI expires to physical delivery at Cushing, OK. If storage is full: price goes negative.</li>
-<li><strong>Basis risk:</strong> Brent vs WTI spread can move independently of "oil" direction. If you hedge WTI risk with Brent, the basis can blow out.</li>
-<li><strong>Seasonality:</strong> NG is seasonal (winter heating demand). Gasoline is seasonal (summer driving). These patterns create predictable but sometimes extreme moves.</li>
-<li><strong>Unit conversion:</strong> Know the basics — 1 barrel = 42 US gallons. 1 lot of WTI futures = 1,000 barrels.</li>
-</ul>
-<hr />
-<h1 id="part-5-credit">PART 5: CREDIT</h1>
-<h2 id="the-instrument_4">The Instrument</h2>
-<p>Credit = the risk of a borrower defaulting. Traded via:<br />
-- <strong>Corporate bonds</strong> (cash market)<br />
-- <strong>Credit Default Swaps (CDS)</strong> (synthetic — buy/sell protection against default)<br />
-- <strong>Leveraged loans</strong> (bank loans to sub-IG companies, floating rate)<br />
-- <strong>CLOs</strong> (securitized pools of leveraged loans)</p>
-<h2 id="credit-spread-components">Credit Spread Components</h2>
-<p>Spread = Default probability × Loss given default + Liquidity premium + Risk premium</p>
-<h2 id="cds-mechanics-know-this">CDS Mechanics (Know This)</h2>
-<ul>
-<li><strong>Buyer of protection:</strong> pays a quarterly premium (spread) to the seller. If the reference entity defaults, the seller pays the buyer (par minus recovery).</li>
-<li><strong>Seller of protection:</strong> earns the spread, but bears the default risk. Economically equivalent to being long the credit (long the bond).</li>
-<li><strong>CDS spread rising</strong> = credit risk increasing = risk-off for that name.</li>
-<li><strong>Basis:</strong> CDS spread vs cash bond spread. When basis is large, there's a relative value opportunity (or a structural reason for the gap).</li>
-</ul>
-<h2 id="credit-signals-to-watch">Credit Signals to Watch</h2>
-<table>
-<thead>
-<tr>
-<th>Signal</th>
-<th>What it means</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>IG spreads +20bps in a day</td>
-<td>Material stress in investment-grade credit</td>
-<td>Check portfolio duration, credit exposure</td>
-</tr>
-<tr>
-<td>HY spreads +100bps</td>
-<td>Crisis territory — defaults expected to rise</td>
-<td>Reduce credit exposure, check counterparty risk</td>
-</tr>
-<tr>
-<td>CDS-bond basis blowout</td>
-<td>Cash and synthetic markets diverging — liquidity stress</td>
-<td>Monitor for forced selling, margin pressure</td>
-</tr>
-<tr>
-<td>BBB downgrade wave</td>
-<td>Fallen angels flood HY market</td>
-<td>Cascading spread widening, forced selling by IG funds</td>
-</tr>
-<tr>
-<td>Default rate rising above 3%</td>
-<td>Economic downturn underway</td>
-<td>Reduce HY exposure, increase hedges</td>
-</tr>
-</tbody>
-</table>
-<h2 id="investment-grade-vs-high-yield">Investment Grade vs High Yield</h2>
+<p><strong>BBB cliff risk — the most important structural risk in credit:</strong> Over $3 trillion in US corporate bonds are BBB-rated. If macro conditions deteriorate and a wave of BBBs get downgraded to BB ("fallen angels"), IG-only funds and mandates are FORCED to sell. This creates a supply flood in the HY market → HY spreads blow out → cascading losses. This is not theoretical — Ford was downgraded to junk in 2020.</p>
+<h2 id="investment-grade-vs-high-yield-they-behave-like-different-asset-classes">Investment Grade vs High Yield — They Behave Like Different Asset Classes</h2>
 <table>
 <thead>
 <tr>
 <th>Feature</th>
-<th>IG</th>
-<th>HY</th>
+<th>Investment Grade</th>
+<th>High Yield</th>
 </tr>
 </thead>
 <tbody>
@@ -709,112 +920,526 @@ body {
 <td>300-800bps</td>
 </tr>
 <tr>
-<td>Default rate</td>
-<td>&lt;1%</td>
+<td>Historical default rate</td>
+<td>&lt;1% per year</td>
 <td>3-10% (cycle dependent)</td>
 </tr>
 <tr>
-<td>Duration risk</td>
-<td>Higher (longer maturities)</td>
+<td>Primary risk driver</td>
+<td><strong>Interest rate risk</strong> (duration)</td>
+<td><strong>Credit risk</strong> (default)</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>Higher (companies can issue at long maturities)</td>
 <td>Lower (shorter maturities, but default risk dominates)</td>
 </tr>
 <tr>
 <td>Correlation to equities</td>
-<td>Low in normal times, rises in stress</td>
-<td>High — HY trades like equities in a crisis</td>
+<td>Low in normal times</td>
+<td><strong>High — HY trades like equity in a crisis</strong></td>
+</tr>
+<tr>
+<td>Behavior in stress</td>
+<td>Modest spread widening, flight to quality offsets</td>
+<td>Aggressive sell-off, liquidity vanishes</td>
 </tr>
 </tbody>
 </table>
+<p><strong>The RM insight:</strong> Don't treat IG and HY as "both bonds." IG portfolios are rate bets. HY portfolios are equity bets with a fixed-income wrapper. A PM who says "I'm reducing equity risk by moving into HY bonds" is fooling themselves — in a crisis, HY will fall with equities.</p>
 <hr />
-<h1 id="part-6-cross-asset-connections">PART 6: CROSS-ASSET CONNECTIONS</h1>
-<p>This is where it all comes together. Assets don't move independently — everything is connected.</p>
-<h2 id="the-master-cascade-chain">The Master Cascade Chain</h2>
-<div class="highlight"><pre><span></span><code>Oil spike → Inflation expectations rise
-  → Rates rise (to fight inflation)
-    → Dollar strengthens (higher US rates attract capital)
-      → EM currencies weaken (capital outflows)
-        → EM stocks and bonds sell off
-    → Equity multiples compress (higher discount rate)
-      → Growth/tech stocks hit hardest (long duration equity)
-    → Credit spreads widen (recession fears)
-      → HY bonds sell off
-        → CLO tranches face downgrades
-  → Gold: ambiguous (inflation positive, but real rates rising is negative)
-  → Commodity importers (Japan, Europe, India) weakened
-</code></pre></div>
-
-<h2 id="regime-table">Regime Table</h2>
+<h1 id="part-3-foreign-exchange">PART 3: FOREIGN EXCHANGE</h1>
+<h2 id="what-is-an-fx-rate">What Is an FX Rate?</h2>
+<blockquote>
+<p><strong>One-liner:</strong> An FX rate is the price of one currency in terms of another — EUR/USD = 1.08 means one euro costs $1.08.</p>
+</blockquote>
+<p><strong>Quote conventions (often confusing — know these):</strong><br />
+- <strong>EUR/USD = 1.08:</strong> Price of 1 euro in dollars. EUR is the "base," USD is the "quote." If EUR/USD goes UP, the euro is strengthening / dollar is weakening.<br />
+- <strong>USD/JPY = 155:</strong> Price of 1 dollar in yen. If USD/JPY goes UP, the dollar is strengthening / yen is weakening.<br />
+- <strong>Convention rule:</strong> EUR, GBP, AUD, NZD are typically quoted as XXX/USD (foreign currency as base). JPY, CHF, CAD, EM are typically quoted as USD/XXX.<br />
+- <strong>"Cable" = GBP/USD.</strong> "Fiber" = EUR/USD. Traders use these casually.</p>
+<p><strong>Pips and lot sizes:</strong><br />
+- A <strong>pip</strong> = the fourth decimal place for most pairs (0.0001). EUR/USD from 1.0800 to 1.0801 = 1 pip move.<br />
+- Exception: JPY pairs — a pip is the second decimal place (0.01). USD/JPY from 155.00 to 155.01 = 1 pip.<br />
+- Standard lot = 100,000 units of base currency. So 1 lot of EUR/USD = €100,000 notional.</p>
+<h2 id="what-drives-currency-values">What Drives Currency Values</h2>
 <table>
 <thead>
 <tr>
-<th>Regime</th>
-<th>Equities</th>
-<th>Bonds</th>
-<th>Dollar</th>
-<th>Gold</th>
-<th>Spread</th>
-<th>Vol</th>
+<th>Driver</th>
+<th>How it works</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Risk-on (growth + easy money)</td>
-<td>↑</td>
-<td>↓ (yields up)</td>
-<td>↓</td>
-<td>↓</td>
-<td>Tight</td>
-<td>Low</td>
+<td><strong>Interest rate differentials</strong></td>
+<td>Capital flows to higher-yielding currencies. Higher rates → stronger currency.</td>
+<td>If US rates are 5% and EU rates are 3%, money flows to USD → dollar strengthens</td>
 </tr>
 <tr>
-<td>Risk-off (panic)</td>
-<td>↓</td>
-<td>↑ (flight to quality)</td>
-<td>↑</td>
-<td>↑</td>
-<td>Wide</td>
-<td>High</td>
+<td><strong>Growth differentials</strong></td>
+<td>Stronger economy attracts investment → stronger currency</td>
+<td>US GDP growing 3% vs EU at 1% → capital flows to US → USD up</td>
 </tr>
 <tr>
-<td>Stagflation (inflation + slow growth)</td>
-<td>↓</td>
-<td>↓ (inflation kills bonds)</td>
-<td>↑</td>
-<td>↑</td>
-<td>Wide</td>
-<td>High</td>
+<td><strong>Central bank policy</strong></td>
+<td>Rate hikes strengthen, cuts weaken. Forward guidance matters as much as the actual decision.</td>
+<td>Fed hawkish surprise → USD jumps</td>
 </tr>
 <tr>
-<td>Goldilocks (moderate growth + low inflation)</td>
-<td>↑</td>
-<td>Stable</td>
-<td>Stable</td>
-<td>↓</td>
-<td>Tight</td>
-<td>Low</td>
+<td><strong>Risk appetite</strong></td>
+<td>Risk-on → investors sell safe havens (USD, JPY, CHF), buy EM. Risk-off → reverse.</td>
+<td>Market panic → JPY strengthens (carry unwind + safe haven)</td>
+</tr>
+<tr>
+<td><strong>Trade balance</strong></td>
+<td>Countries with trade surpluses accumulate foreign currency, must convert back → strengthens home currency</td>
+<td>Japan's trade surplus historically supported JPY</td>
+</tr>
+<tr>
+<td><strong>Capital flows</strong></td>
+<td>FDI, portfolio flows, M&amp;A. A foreign company buying a US company must buy USD.</td>
+<td>Massive cross-border M&amp;A can move FX</td>
+</tr>
+<tr>
+<td><strong>Central bank intervention</strong></td>
+<td>Direct FX market participation, buying or selling own currency</td>
+<td>BOJ intervention to defend JPY at 152 in 2022. PBOC managing USD/CNY band.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="the-key-correlation-to-know">The Key Correlation to Know</h2>
-<p><strong>Stocks and bonds are negatively correlated</strong> (stocks down, bonds up) in most post-2000 environments. This is the foundation of 60/40 portfolios.</p>
-<p><strong>BUT:</strong> In 2022 (inflation shock), stocks AND bonds both fell. The correlation flipped positive. This destroyed the "bonds hedge my equity risk" assumption. If you're running a portfolio that relies on stock-bond negative correlation for diversification, you need to stress test for what happens when that breaks.</p>
+<h2 id="key-pairs-and-their-personalities">Key Pairs and Their Personalities</h2>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Why it matters</th>
+<th>Personality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EUR/USD</strong></td>
+<td>Most traded pair globally (~25% of FX volume). US vs Eurozone rate and growth differential.</td>
+<td>Relatively stable. Moves in trends. Break of 1.05 or 1.15 is a big deal.</td>
+</tr>
+<tr>
+<td><strong>USD/JPY</strong></td>
+<td>Risk appetite barometer + carry trade vehicle. JPY is funded in carry trades (low rates).</td>
+<td>Can trend for months, then snap back violently on carry unwinds. BOJ intervention threat above 155.</td>
+</tr>
+<tr>
+<td><strong>GBP/USD</strong></td>
+<td>UK economy + BOE policy. Sterling is sensitive to political risk (Brexit aftermath).</td>
+<td>More volatile than EUR/USD. "Flash crash" risk (thin liquidity windows).</td>
+</tr>
+<tr>
+<td><strong>USD/CNH</strong></td>
+<td>China's managed float. PBOC sets a daily fixing band.</td>
+<td>Not a free market — the fix signals policy intent. Devaluation signals can cascade through EM.</td>
+</tr>
+<tr>
+<td><strong>EM pairs (USD/TRY, USD/ZAR, USD/BRL)</strong></td>
+<td>EM risk barometers. Sensitive to commodity prices, political risk, and global USD strength.</td>
+<td>Can move 5-10% in days during EM crises. Liquidity vanishes in stress.</td>
+</tr>
+<tr>
+<td><strong>DXY (Dollar Index)</strong></td>
+<td>Basket: EUR 57.6%, JPY 13.6%, GBP 11.9%, CAD 9.1%, SEK 4.2%, CHF 3.6%</td>
+<td>Not a perfect measure (heavily EUR-weighted) but the standard reference for "USD strength"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-carry-trade">The Carry Trade</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Borrow in a low-rate currency, invest in a high-rate currency, and pocket the rate difference — it works until a risk event triggers a violent reversal.</p>
+</blockquote>
+<p><strong>Mechanics:</strong> Borrow JPY at 0.5%, convert to MXN, invest at 10%. Earn 9.5% annualized. The risk: if JPY strengthens 10% against MXN, you lose your entire year's carry profit in a day.</p>
+<p><strong>Analogy:</strong> The carry trade is like picking up pennies in front of a steamroller. Steady small profits day after day… until the steamroller speeds up and you can't run fast enough. Carry unwinds are FAST, VIOLENT, and clustered because:<br />
+1. The trade is crowded (everyone sees the same rate differential)<br />
+2. It's leveraged (you borrow to amplify the carry)<br />
+3. Losses trigger margin calls → forced liquidation → more selling of the high-yielder → more losses → cascade</p>
+<p><strong>Historical carry blowups:</strong> JPY carry unwind Q3 2024 (JPY rallied 12% in weeks), SNB EUR/CHF floor removal Jan 2015 (CHF jumped 30% in minutes — brokerages went bankrupt).</p>
+<h2 id="fx-risk-for-a-discretionary-fund">FX Risk for a Discretionary Fund</h2>
+<ul>
+<li><strong>Every non-USD position has embedded FX exposure.</strong> Long European stocks = long EUR implicitly. If EUR/USD falls 3%, your equity return is reduced by 3% in USD terms — even if the stock went up in local currency.</li>
+<li><strong>Translation risk vs transaction risk:</strong> Translation = your NAV changes because FX moved (unrealized). Transaction = actual cash flows converted at different rates (realized).</li>
+<li><strong>Hedging approaches:</strong></li>
+<li><strong>FX forwards</strong> (most common): Lock in a future exchange rate. Simple, liquid, low cost. BUT: creates rollover risk at each forward maturity.</li>
+<li><strong>FX options:</strong> More expensive, but provide tail protection. Useful when you want to maintain FX upside but protect against a sharp move.</li>
+<li><strong>Natural hedge:</strong> Match assets and liabilities in the same currency. If you have EUR revenues and EUR costs, FX risk nets out.</li>
+<li><strong>The RM question:</strong> "Is our FX exposure intentional or accidental?" A PM long European equities might have a view on the stocks but no view on EUR. That unhedged FX exposure could dominate the P&amp;L.</li>
+</ul>
+<hr />
+<h1 id="part-4-commodities">PART 4: COMMODITIES</h1>
+<h2 id="what-is-a-commodity">What Is a Commodity?</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A commodity is a standardized physical good (oil, gold, wheat, copper) traded on exchanges, mostly via futures contracts rather than physical delivery.</p>
+</blockquote>
+<p><strong>Key difference from financial assets:</strong> Commodities have physical constraints. Oil needs to be stored in tanks. Wheat needs silos. Gold needs vaults. These physical constraints create unique pricing dynamics (contango, backwardation) that don't exist in stocks or bonds.</p>
+<p><strong>How commodities are accessed:</strong><br />
+- <strong>Futures</strong> (primary method): Contracts to buy/sell a specific quantity at a specific future date and price. Most positions are closed before delivery.<br />
+- <strong>Physical:</strong> Actual delivery of the commodity. Mostly done by producers/consumers (Glencore, Cargill), not financial investors.<br />
+- <strong>ETFs/ETNs:</strong> Track commodity indices or individual commodity futures. Subject to roll costs (see below).<br />
+- <strong>Equity proxies:</strong> Buy shares in commodity producers (ExxonMobil for oil, Barrick for gold). But this adds company-specific risk on top of commodity risk.</p>
+<h2 id="major-commodities-and-what-drives-them">Major Commodities and What Drives Them</h2>
+<h3 id="energy">Energy</h3>
+<table>
+<thead>
+<tr>
+<th>Commodity</th>
+<th>Key drivers</th>
+<th>Key risk characteristics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Crude Oil (WTI &amp; Brent)</strong></td>
+<td>OPEC+ supply decisions, global demand (China critical), geopolitics (Strait of Hormuz, Russia), US shale production, inventory levels (EIA weekly report)</td>
+<td>Most important commodity — its price feeds into inflation, rates, FX, and equities globally. WTI = US benchmark (delivery at Cushing, OK). Brent = global benchmark (North Sea).</td>
+</tr>
+<tr>
+<td><strong>Natural Gas</strong></td>
+<td>Weather (heating demand in winter, cooling demand in summer), storage levels, LNG export capacity, pipeline infrastructure</td>
+<td>Extremely volatile. Seasonal patterns. Amaranth Advisors blew up here (2006, lost $6B on NG spreads).</td>
+</tr>
+<tr>
+<td><strong>Gasoline / Distillates</strong></td>
+<td>Crack spreads (refining margins), seasonal driving demand, refinery outages</td>
+<td>Crack spread = gasoline price minus crude oil price = refiner's margin</td>
+</tr>
+</tbody>
+</table>
+<h3 id="metals">Metals</h3>
+<table>
+<thead>
+<tr>
+<th>Commodity</th>
+<th>Key drivers</th>
+<th>Key risk characteristics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gold</strong></td>
+<td>Real interest rates (inverse relationship — higher real rates = lower gold), USD strength (inverse), central bank buying, safe haven demand</td>
+<td>Not an inflation hedge per se — it's a REAL RATE hedge. Gold rises when real rates fall (even if inflation is constant).</td>
+</tr>
+<tr>
+<td><strong>Silver</strong></td>
+<td>Gold correlation (~0.8) + industrial demand (solar, electronics)</td>
+<td>Higher beta version of gold. More volatile.</td>
+</tr>
+<tr>
+<td><strong>Copper</strong></td>
+<td>Global industrial demand (China = 50%+ of global copper demand), construction, EV transition</td>
+<td>"Doctor Copper" — leading indicator of global growth because it's used in everything.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agriculture">Agriculture</h3>
+<table>
+<thead>
+<tr>
+<th>Commodity</th>
+<th>Key drivers</th>
+<th>Key risk characteristics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Wheat / Corn / Soybeans</strong></td>
+<td>Weather, trade policy, fertilizer costs, planting intentions</td>
+<td>Weather-driven supply shocks can be enormous. Ukraine conflict (2022) disrupted global wheat supply.</td>
+</tr>
+<tr>
+<td><strong>Coffee / Cocoa / Sugar</strong></td>
+<td>Weather in specific growing regions, crop disease, currency of producing countries (BRL for coffee)</td>
+<td>Concentrated supply — a single freeze in Brazil can spike coffee prices 50%+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-futures-curve-a-concept-unique-to-commodities">The Futures Curve — A Concept Unique to Commodities</h2>
+<blockquote>
+<p><strong>One-liner:</strong> The futures curve plots the price of a commodity at different delivery dates — its shape tells you whether the market is paying for immediate supply (backwardation) or penalizing you for storage (contango).</p>
+</blockquote>
+<p><strong>Contango (upward-sloping curve):</strong><br />
+- Front month CHEAPER than later months<br />
+- Normal for storable commodities: the higher future price reflects storage costs + insurance + financing<br />
+- <strong>Analogy:</strong> It's like a parking garage that charges monthly rent. The longer you want to keep your car (commodity), the more you pay.<br />
+- <strong>Implication for investors:</strong> Rolling futures in contango is a drag — you sell the cheap expiring contract and buy the more expensive next month contract. You lose money on every roll. This is why commodity ETFs (like the old USO) secretly bleed value even if spot prices are flat.</p>
+<p><strong>Backwardation (downward-sloping curve):</strong><br />
+- Front month MORE expensive than later months<br />
+- Signals tight current supply — buyers are paying a scarcity premium to get oil/copper/wheat NOW<br />
+- <strong>Analogy:</strong> Like surge pricing on Uber — supply is tight right now, so the immediate price is inflated. But the market expects supply to normalize, so the future price is lower.<br />
+- <strong>Implication for investors:</strong> Rolling in backwardation is beneficial — you sell the expensive expiring contract and buy the cheaper next month. Positive roll yield.</p>
+<p><strong>Roll yield calculation example:</strong><br />
+- You're long June WTI at $75. It's about to expire. July WTI is $77 (contango).<br />
+- You sell June at $75, buy July at $77. You just lost $2 per barrel on the roll.<br />
+- If you hold 1,000 barrels (one futures contract), that's a $2,000 loss just from rolling — not from oil prices moving.</p>
+<h2 id="commodity-specific-risks">Commodity-Specific Risks</h2>
+<ul>
+<li>
+<p><strong>Physical delivery risk:</strong> WTI futures expire to physical delivery at Cushing, Oklahoma. If storage at Cushing is full and you're long an expiring contract, you must take delivery — but there's nowhere to put it. This is how WTI went to -$37 in April 2020. Brent is cash-settled, so it can't go negative the same way.</p>
+</li>
+<li>
+<p><strong>Basis risk:</strong> WTI and Brent are "both oil" but their spread can move independent of oil direction. If you hedge a WTI exposure with Brent futures, you still have WTI-Brent basis risk. In 2011, the WTI-Brent spread blew out to $25 due to Cushing storage glut — purely a logistical problem, not a global oil supply issue.</p>
+</li>
+<li>
+<p><strong>Seasonality:</strong> Natural gas is winter-peaking (heating demand). Gasoline peaks in summer (driving season). Agricultural commodities follow planting/harvest cycles. These seasonal patterns are predictable but can be amplified by weather anomalies.</p>
+</li>
+<li>
+<p><strong>Geopolitical risk:</strong> ~20% of global oil supply passes through the Strait of Hormuz. A disruption there doesn't just move oil — it cascades to inflation expectations, which moves rates, which moves equities.</p>
+</li>
+<li>
+<p><strong>Unit conversions to know:</strong></p>
+</li>
+<li>1 barrel of oil = 42 US gallons</li>
+<li>1 WTI futures contract = 1,000 barrels</li>
+<li>1 gold futures contract = 100 troy ounces</li>
+<li>1 corn futures contract = 5,000 bushels</li>
+</ul>
+<hr />
+<h1 id="part-5-credit-instruments">PART 5: CREDIT INSTRUMENTS</h1>
+<h2 id="what-is-credit">What Is Credit?</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Credit is the risk that a borrower won't pay you back — it's traded via corporate bonds (cash market) and credit default swaps (synthetic market).</p>
+</blockquote>
+<p>Credit is NOT the same as "bonds." A Treasury bond has rate risk but no credit risk (assuming the US government doesn't default). A corporate bond has BOTH rate risk and credit risk. The credit component is what's captured by the spread.</p>
+<h2 id="credit-instruments">Credit Instruments</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>What it is</th>
+<th>Key characteristic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Corporate bonds</strong></td>
+<td>Debt issued by companies in the cash market</td>
+<td>You own the actual loan obligation. Receives coupons. Illiquid compared to CDS.</td>
+</tr>
+<tr>
+<td><strong>Credit Default Swap (CDS)</strong></td>
+<td>Insurance contract against a company defaulting</td>
+<td>You don't own the bond — you're just trading the default risk. More liquid than bonds for single-name credit.</td>
+</tr>
+<tr>
+<td><strong>Leveraged loans</strong></td>
+<td>Bank loans to sub-investment-grade companies</td>
+<td>Floating rate (SOFR + spread), so low duration. Senior in capital structure. Used in LBOs.</td>
+</tr>
+<tr>
+<td><strong>CLO</strong></td>
+<td>Securitized pool of leveraged loans, sliced into tranches</td>
+<td>AAA tranche gets paid first (safe), equity tranche gets paid last (risky). Correlation risk — if defaults cluster, even senior tranches get hit.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cds-how-it-actually-works">CDS — How It Actually Works</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A CDS is an insurance contract — the buyer pays a regular premium (spread) and gets paid if the reference company defaults.</p>
+</blockquote>
+<p><strong>Mechanics:</strong><br />
+- <strong>Buyer of protection:</strong> Pays a quarterly premium (quoted as annual spread in bps). If the reference entity has a "credit event" (default, restructuring), the protection seller pays the buyer par minus recovery value.<br />
+- <strong>Seller of protection:</strong> Collects the spread. Bears the default risk. This is economically equivalent to being LONG the credit — similar exposure to owning the bond.<br />
+- <strong>No need to own the bond:</strong> You can buy CDS protection without owning the underlying bond. This means CDS can be used for speculation, not just hedging.<br />
+- <strong>Example:</strong> Company X 5-year CDS trades at 200bps. Buyer pays 2% per year on the notional ($200K/year on $10M notional). If X defaults with 40% recovery, buyer receives $10M × (1 - 0.40) = $6M.</p>
+<p><strong>CDS spread movement:</strong><br />
+- Spread widening = market perceives higher default risk = bearish on the credit<br />
+- Spread tightening = market perceives lower default risk = bullish on the credit<br />
+- Speed of spread moves is information: sudden widening from 100bps to 300bps = the market knows something</p>
+<p><strong>CDS-bond basis:</strong><br />
+- Basis = CDS spread minus the equivalent cash bond spread<br />
+- Positive basis (CDS spread &gt; bond spread): Can indicate counterparty risk concerns, or that CDS market is pricing in more risk than the cash market<br />
+- Negative basis (CDS spread &lt; bond spread): Can indicate a buying opportunity (buy the cheap CDS protection, short the expensive bond) but usually exists for structural reasons (funding costs, liquidity)</p>
+<hr />
+<h1 id="part-6-what-the-risk-manager-watches-instrument-by-instrument">PART 6: WHAT THE RISK MANAGER WATCHES — INSTRUMENT BY INSTRUMENT</h1>
+<p>For each asset class, the RM has a core set of metrics and red flags:</p>
+<h2 id="equities">Equities</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What you're watching</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gross / net exposure</td>
+<td>Total long + short vs long minus short</td>
+<td>Gross &gt; 200% = very leveraged. Net drifting from target = unintended directional bet</td>
+</tr>
+<tr>
+<td>Concentration</td>
+<td>Top 5 position weight</td>
+<td>&gt;25% in one name = single-name blow-up risk</td>
+</tr>
+<tr>
+<td>Factor exposure</td>
+<td>Beta, momentum, value, sector tilt</td>
+<td>Unexpected factor loading ("diversified" but actually one big momentum bet)</td>
+</tr>
+<tr>
+<td>Liquidity (ADV)</td>
+<td>Days to liquidate each position</td>
+<td>Any position &gt;10% of ADV = liquidity risk</td>
+</tr>
+<tr>
+<td>Short interest in longs</td>
+<td>Are our longs in crowded short names?</td>
+<td>High short interest = potential squeeze (good), but also potential bear thesis you missed (bad)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fixed-income">Fixed Income</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What you're watching</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Portfolio duration / DV01</td>
+<td>Interest rate sensitivity</td>
+<td>DV01 exceeding risk budget. Unhedged duration mismatch.</td>
+</tr>
+<tr>
+<td>Key rate durations</td>
+<td>Exposure to different curve points</td>
+<td>&gt;80% of exposure in one maturity bucket = concentrated curve bet</td>
+</tr>
+<tr>
+<td>Convexity</td>
+<td>Positive or negative</td>
+<td>Large negative convexity positions (MBS) without awareness of prepayment scenarios</td>
+</tr>
+<tr>
+<td>Credit quality distribution</td>
+<td>Rating breakdown</td>
+<td>Excessive BBB exposure near potential downgrade = fallen angel risk</td>
+</tr>
+<tr>
+<td>Spread duration</td>
+<td>Sensitivity to spread widening</td>
+<td>Large spread duration in HY = big loss if spreads blow out</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fx">FX</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What you're watching</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Net currency exposure</td>
+<td>USD, EUR, JPY, GBP, EM FX</td>
+<td>Large unhedged FX position that doesn't match PM's stated view</td>
+</tr>
+<tr>
+<td>Carry exposure</td>
+<td>Net carry trade position</td>
+<td>Concentrated carry in illiquid EM pairs = unwind risk</td>
+</tr>
+<tr>
+<td>Correlation to rates</td>
+<td>How FX positions interact with rate positions</td>
+<td>Being long EM FX AND long EM rates = double exposure to same risk</td>
+</tr>
+</tbody>
+</table>
+<h2 id="commodities">Commodities</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What you're watching</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Roll cost / curve shape</td>
+<td>Contango/backwardation and rolling schedule</td>
+<td>Large long position in deep contango = bleeding roll cost every month</td>
+</tr>
+<tr>
+<td>Concentration</td>
+<td>Oil vs diversified commodities</td>
+<td>"Commodities" that are really just an oil bet</td>
+</tr>
+<tr>
+<td>Physical delivery dates</td>
+<td>Contract expiry calendar</td>
+<td>Approaching expiry with large position and no roll plan = operational disaster</td>
+</tr>
+<tr>
+<td>Basis risk</td>
+<td>Hedging instrument vs actual exposure</td>
+<td>Hedging jet fuel with WTI → substantial basis risk</td>
+</tr>
+</tbody>
+</table>
+<h2 id="credit">Credit</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What you're watching</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CDS spread levels</td>
+<td>Single-name and index (CDX, iTraxx)</td>
+<td>Sudden widening in names we have exposure to</td>
+</tr>
+<tr>
+<td>BBB proportion</td>
+<td>How much portfolio is near the IG/HY cliff</td>
+<td>&gt;30% in BBB with negative watch = potential forced selling wave</td>
+</tr>
+<tr>
+<td>Default rate trend</td>
+<td>Trailing 12-month HY default rate</td>
+<td>Rising above 3% = macro deterioration underway</td>
+</tr>
+<tr>
+<td>Recovery rate assumptions</td>
+<td>What we assume we'll get back in default</td>
+<td>Using historical 40% recovery when current environment suggests 25%</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
-<p>If asked "Walk me through the major asset classes and their risk characteristics":</p>
-<p>"I think about 5 core asset classes: equities, rates, credit, FX, and commodities. Each has its own risk profile but they're deeply interconnected.</p>
-<p>Equities are driven by earnings and multiples — but multiples are driven by rates, which connects equities to the rates market. When rates rise, equity multiples compress, especially for long-duration growth stocks.</p>
-<p>In rates, the key risk measure is duration — sensitivity to yield changes. A bond with duration 7 loses 7% for every 1% rate increase. The shape of the yield curve tells you about growth and recession expectations.</p>
-<p>Credit sits between equities and rates — in normal times it behaves like bonds (spread income), but in stress it behaves like equities (default risk, forced selling, correlation spike).</p>
-<p>FX is driven by rate differentials and risk appetite. Any non-USD position has embedded FX exposure that needs to be monitored.</p>
-<p>Commodities are unique because of physical delivery constraints and storage costs. The futures curve (contango vs backwardation) creates roll costs that can dominate returns.</p>
-<p>The RM's job is understanding how a shock to one asset class cascades to others — like an oil spike flowing through inflation to rates to equity multiples to credit spreads. That's where scenario analysis becomes critical."</p>
+<p>If asked "Walk me through the major asset classes":</p>
+<p>"Cash instruments fall into five core categories: equities, fixed income, FX, commodities, and credit.</p>
+<p>An equity is a residual claim on a company's cash flows — last in line in the capital structure, highest risk, highest return potential. Equity prices are driven by earnings times the multiple, where the multiple reflects growth expectations, interest rates, and sentiment. As an RM, I focus on concentration, factor exposure, and liquidity — a portfolio of 30 stocks isn't diversified if they're all high-momentum tech names.</p>
+<p>A bond is a tradable loan — the issuer pays you regular coupons and returns principal at maturity. The key risk measure is duration: a bond with duration 7 loses approximately 7% for every 1% rate increase. Duration is sensitivity. Convexity is the second-order correction — it helps you in vanilla bonds (positive convexity) and hurts you in MBS (negative convexity, because of prepayment risk).</p>
+<p>FX rates are driven by interest rate differentials, growth differentials, and risk appetite. Every non-USD position has embedded FX risk that may or may not be intentional. The carry trade — borrowing low-rate currencies to invest in high-rate currencies — works steadily until it unwinds violently.</p>
+<p>Commodities are unique because of physical delivery constraints. The futures curve shape — contango versus backwardation — creates roll costs or roll yield that can dominate returns independent of the commodity's spot price.</p>
+<p>Credit is the risk of default, traded via cash bonds and CDS. Investment-grade credit behaves like bonds — it's a rate bet. High-yield credit behaves like equity — it's a default bet. The BBB cliff is the single biggest structural risk in credit markets today."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>08_Asset_Classes_And_Portfolios</em> — detailed instrument mechanics<br />
-→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — what drives these markets<br />
-→ <em>09_Market_Intuition</em> — cross-asset relationships and market intuition<br />
-→ <a href="D_Greeks.html">Greeks</a> — measuring risk on these instruments<br />
-→ <em>10_Market_Context_Today</em> — current levels and pricing</p>
+→ <a href="B_Derivatives.html">Derivatives</a> — options, futures, swaps built on top of these cash instruments<br />
+→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — what drives these markets at the macro level<br />
+→ <a href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a> — how shocks cascade across asset classes<br />
+→ <a href="D_Greeks.html">Greeks</a> — measuring risk on derivatives written on these instruments<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, stress testing, and other risk metrics applied to these instruments</p>
 </main>
 
 <script>

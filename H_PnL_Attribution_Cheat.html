@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PnL Attribution — Cheat — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link active" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="h-pl-attribution-cheat-sheet">H — P&amp;L ATTRIBUTION — CHEAT SHEET</h1>
+<p><em>Quick reference for Greek-based and factor-based P&amp;L decomposition, patterns, P&amp;L explain, and fraud detection</em></p>
+<hr />
+<h2 id="the-master-equation">THE MASTER EQUATION</h2>
+<p>$$\text{Total P\&amp;L} = \Delta \text{P\&amp;L} + \Gamma \text{P\&amp;L} + \Theta \text{P\&amp;L} + \mathcal{V} \text{P\&amp;L} + \rho \text{P\&amp;L} + \text{Cross} + \text{Unexplained}$$</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Formula</th>
+<th>What it measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Delta</strong></td>
+<td>Σ δ_i × ΔS_i</td>
+<td>Directional bet — was the PM right?</td>
+</tr>
+<tr>
+<td><strong>Gamma</strong></td>
+<td>½ Σ γ_i × (ΔS_i)²</td>
+<td>Convexity payoff — always positive for long γ</td>
+</tr>
+<tr>
+<td><strong>Theta</strong></td>
+<td>Σ θ_i × Δt</td>
+<td>Time decay — rent for holding options</td>
+</tr>
+<tr>
+<td><strong>Vega</strong></td>
+<td>Σ ν_i × ΔIV_i</td>
+<td>Vol change — is PM secretly a vol trader?</td>
+</tr>
+<tr>
+<td><strong>Rho</strong></td>
+<td>Σ ρ_i × Δr</td>
+<td>Rate impact — small for short-dated, big for FI</td>
+</tr>
+<tr>
+<td><strong>Cross</strong></td>
+<td>Vanna, charm, volga, speed</td>
+<td>Normally &lt;5% of total. 20-30% in crises.</td>
+</tr>
+<tr>
+<td><strong>Unexplained</strong></td>
+<td>Actual − Attributed</td>
+<td>Red flag if &gt;5%. Investigate immediately if &gt;15%.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Theta-gamma breakeven:</strong> $\Delta S_{BE} = \sqrt{2|\theta|/\gamma}$ — move needed for gamma to offset theta.</p>
+<hr />
+<h2 id="greek-pl-ratio-diagnostics">GREEK P&amp;L RATIO DIAGNOSTICS</h2>
+<table>
+<thead>
+<tr>
+<th>Ratio</th>
+<th>What it reveals</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vega % of total</strong></td>
+<td>Vol trader or directional?</td>
+<td>&gt;50% → PM is trading vol, not stocks</td>
+</tr>
+<tr>
+<td><strong>Theta % of total</strong></td>
+<td>How much is carry income?</td>
+<td>&gt;70% consistently → short gamma collector</td>
+</tr>
+<tr>
+<td><strong>Gamma / Theta (cumulative)</strong></td>
+<td>Fair rent for gamma?</td>
+<td>&lt;0.5 → overpaying for protection</td>
+</tr>
+<tr>
+<td><strong>Cumulative theta / Tail loss</strong></td>
+<td>Pennies-vs-steamroller check</td>
+<td>&lt;0.1 → earning $2M to risk $20M</td>
+</tr>
+<tr>
+<td><strong>Delta % of total</strong></td>
+<td>Pure directional bettor?</td>
+<td>&gt;90% → just riding beta</td>
+</tr>
+<tr>
+<td><strong>Factor / Total</strong></td>
+<td>Alpha or factor exposure?</td>
+<td>&gt;80% → delivering factor, not skill</td>
+</tr>
+<tr>
+<td><strong>Unexplained / Total</strong></td>
+<td>Model working?</td>
+<td>&gt;15% → escalate</td>
+</tr>
+<tr>
+<td><strong>Cross-effects / Total</strong></td>
+<td>Higher-order risk material?</td>
+<td>&gt;20% → crisis regime, need full repricing</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Quick diagnosis:</strong> Theta = 75% of P&amp;L → short gamma collector (Sharpe looks great, tail will destroy). Vega = 87% of P&amp;L → vol trader who might not know it.</p>
+</blockquote>
+<hr />
+<h2 id="factor-based-attribution">FACTOR-BASED ATTRIBUTION</h2>
+<p>$$R_p = \alpha + \sum_k \beta_k f_k + \epsilon$$</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it answers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Greek</strong></td>
+<td>Which INSTRUMENTS drove P&amp;L?</td>
+</tr>
+<tr>
+<td><strong>Factor</strong></td>
+<td>Which BETS drove P&amp;L? (market, momentum, rates...)</td>
+</tr>
+<tr>
+<td><strong>Alpha vs factor</strong></td>
+<td>Is the PM skilled or just delivering factor exposure?</td>
+</tr>
+<tr>
+<td><strong>Carry vs active</strong></td>
+<td>Passive income vs active trading decisions?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Brinson (long-only):</strong> Allocation effect + Selection effect + Interaction effect.</p>
+<p><strong>Rates desk:</strong> P&amp;L = Carry + Rolldown + Duration + Curve + Spread + Convexity + Residual.</p>
+<hr />
+<h2 id="worked-reference-equity-options">WORKED REFERENCE — Equity + Options</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Calculation</th>
+<th>P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta — shares</td>
+<td>+10K × $3</td>
+<td>+$30,000</td>
+</tr>
+<tr>
+<td>Delta — calls</td>
+<td>50×100×0.45×$3</td>
+<td>+$6,750</td>
+</tr>
+<tr>
+<td>Gamma — calls</td>
+<td>50×100×½×0.03×$9</td>
+<td>+$675</td>
+</tr>
+<tr>
+<td>Theta — calls</td>
+<td>50×100×(−$0.15)</td>
+<td>−$750</td>
+</tr>
+<tr>
+<td>Vega — calls</td>
+<td>50×100×$0.22×3 pts</td>
+<td>+$3,300</td>
+</tr>
+</tbody>
+</table>
+<p><strong>30-sec PM brief:</strong> "[PM], up $30K. 90% delta — XOM rallied $3. Vol added $3.3K, theta cost $750. Flag: effective delta grew via gamma — now 12,600 vs 12,250 yesterday."</p>
+<hr />
+<h2 id="short-gamma-pl-profile-critical">SHORT GAMMA P&amp;L PROFILE (CRITICAL)</h2>
+<table>
+<thead>
+<tr>
+<th>Period</th>
+<th>Daily P&amp;L</th>
+<th>Cumulative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day 1-19 (calm)</td>
+<td>+$130K/day (theta dominates)</td>
+<td>+$2,470K</td>
+</tr>
+<tr>
+<td><strong>Day 20 (SPX −4%, VIX +12)</strong></td>
+<td><strong>−$18,850K</strong> (gamma + vega)</td>
+<td><strong>−$16,380K</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>19 good days wiped out + more by 1 bad day. Sharpe was 3.0+ before day 20.</p>
+</blockquote>
+<p><strong>Detection:</strong> Theta P&amp;L consistently &gt;80% of daily P&amp;L → PM is short gamma/vol.</p>
+<p><strong>Management:</strong> Track cumulative theta vs worst-case tail loss. "$2M theta collected vs $18M tail loss = 9:1 risk/reward AGAINST."</p>
+<hr />
+<h2 id="6-pl-patterns-to-recognize">6 P&amp;L PATTERNS TO RECOGNIZE</h2>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Signature</th>
+<th>RM Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Accidental vol trader</strong></td>
+<td>60%+ of P&amp;L from vega, not delta</td>
+<td>"Is vol the trade you intended?"</td>
+</tr>
+<tr>
+<td><strong>Theta bleed</strong></td>
+<td>−$80K/day theta drag</td>
+<td>"Need $80K/day from delta/gamma just to break even"</td>
+</tr>
+<tr>
+<td><strong>Short gamma collector</strong></td>
+<td>Small daily gains, then massive single-day loss</td>
+<td>Track theta collected vs tail loss exposure</td>
+</tr>
+<tr>
+<td><strong>Unexplained growing</strong></td>
+<td>2% → 5% → 12% across months</td>
+<td>Escalate. Model is deteriorating.</td>
+</tr>
+<tr>
+<td><strong>Factor dress-up</strong></td>
+<td>90% of "alpha" is actually momentum factor</td>
+<td>"R² is 0.90 against momentum. IR on true alpha = 0.15"</td>
+</tr>
+<tr>
+<td><strong>Basis drift</strong></td>
+<td>Hedge effectiveness R² falling (0.93 → 0.78)</td>
+<td>"Adjust hedge ratio or find better instrument"</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="pl-explain-model-validation">P&amp;L EXPLAIN — MODEL VALIDATION</h2>
+<p>$$\text{P\&amp;L Explain Ratio} = \frac{\text{Predicted P\&amp;L (from Greeks)}}{\text{Actual P\&amp;L}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Ratio</th>
+<th>Quality</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.95-1.05</td>
+<td>Excellent</td>
+<td>No action</td>
+</tr>
+<tr>
+<td>0.80-0.95</td>
+<td>Acceptable</td>
+<td>Monitor</td>
+</tr>
+<tr>
+<td>0.60-0.80</td>
+<td>Poor</td>
+<td>Formal review</td>
+</tr>
+<tr>
+<td>&lt;0.60</td>
+<td>Failed</td>
+<td>Model is wrong — escalate</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gap patterns:</strong><br />
+- Always positive → conservative Greeks (capital inefficiency)<br />
+- Always negative → underestimates losses → <strong>DANGEROUS</strong><br />
+- Spikes on big-move days → higher-order terms missing → need full repricing<br />
+- On specific names → wrong pricing model for those positions</p>
+<hr />
+<h2 id="unexplained-pl-red-flags">UNEXPLAINED P&amp;L — RED FLAGS</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;2%</td>
+<td>Normal noise</td>
+</tr>
+<tr>
+<td>2-5%</td>
+<td>Investigate: prices, marks, missing Greeks</td>
+</tr>
+<tr>
+<td>5-15%</td>
+<td>Formal investigation: missing risk factor? Model error?</td>
+</tr>
+<tr>
+<td>&gt;15%</td>
+<td><strong>Escalate immediately.</strong> Possible fraud, hidden positions, rogue trading.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Common causes:</strong> Stale marks, wrong Greeks, missing risk factor, gap risk, corporate actions, discrete vs continuous math.</p>
+<hr />
+<h2 id="fraud-detection-via-pl-attribution">FRAUD DETECTION VIA P&amp;L ATTRIBUTION</h2>
+<table>
+<thead>
+<tr>
+<th>Red flag</th>
+<th>What it might mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Profit with NO risk exposures</td>
+<td>Fabricated trades (Barings)</td>
+</tr>
+<tr>
+<td>Unexplained always positive</td>
+<td>Marks being smoothed (London Whale)</td>
+</tr>
+<tr>
+<td>Big positions but flat P&amp;L</td>
+<td>Fictitious offsetting trades (SocGen)</td>
+</tr>
+<tr>
+<td>One illiquid name dominates P&amp;L</td>
+<td>Mark manipulation on OTC</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="pm-communication-template">PM COMMUNICATION TEMPLATE</h2>
+<blockquote>
+<p><strong>"[PM], you're [up/down] [$X]. Main driver: [delta/vega/theta/curve]. Your [key metric] is now [$Z], [up/down] from yesterday. Flag: [growing position / approaching limit / catalyst / basis drift]."</strong></p>
+</blockquote>
+<p><strong>30 seconds. Done.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Instead of...</th>
+<th>Say...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Your position is too risky"</td>
+<td>"Effective delta grew 30% via gamma. Intentional?"</td>
+</tr>
+<tr>
+<td>"You're bleeding theta"</td>
+<td>"Options cost $80K/day. What's the thesis for holding?"</td>
+</tr>
+<tr>
+<td>"You're just running momentum"</td>
+<td>"85% of monthly alpha is momentum factor. View on sustainability?"</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="interview-quick-fire">INTERVIEW QUICK-FIRE</h2>
+<p><strong>"Explain a PM's daily P&amp;L?"</strong> → "Two dimensions: Greek-based (delta = direction, gamma = convexity, theta = time, vega = vol) and factor-based (market, sector, style, macro → residual alpha). If PM thinks they're trading direction but 60% is vega → they're a vol trader. If 90% is momentum factor → they're selling factor at alpha prices. Unexplained &gt;5% → model is missing something or worse."</p>
+<p><strong>"Unexplained P&amp;L keeps growing?"</strong> → "Escalating red flag. Quantify (2% = noise, 15% = broken model). Check direction (always negative = DANGEROUS). Diagnose: stale prices? Wrong Greeks? Missing risk factor? If it persists after data/calibration checks → model whose VaR and stress tests should not be trusted."</p>
+<p><strong>"Short gamma — how to identify?"</strong> → "P&amp;L signature: consistent positive theta, near-zero gamma P&amp;L on calm days, then massive loss on big-move day. Sharpe looks great pre-blowup. Track cumulative theta vs worst-case tail. If $2M theta vs $20M tail loss → 10:1 against. Ensure drawdown limits can absorb the tail."</p>
+<p><strong>"Alpha vs factor?"</strong> → "Multi-factor regression. R² shows how much is explained. Alpha intercept needs t-stat &gt;2.0 + 3-4 years of data. Plot cumulative alpha vs factor over time — flat alpha + rising total = pure factor delivery."</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

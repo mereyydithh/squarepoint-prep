@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link active" href="D_Greeks.html">Greeks</a>
@@ -307,214 +308,1024 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="d-greeks-first-second-order">D — GREEKS: FIRST &amp; SECOND ORDER</h1>
-<h2 id="the-language-of-risk-for-every-derivatives-position">The language of risk for every derivatives position</h2>
+<h1 id="d-greeks-the-language-of-derivatives-risk">D — GREEKS: THE LANGUAGE OF DERIVATIVES RISK</h1>
+<h2 id="first-order-second-order-cross-greeks-portfolio-greeks-everything-that-drives-options-pl">First-order, second-order, cross-Greeks, portfolio Greeks — everything that drives options P&amp;L</h2>
 <h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
 <h1 id="why-you-need-this-cold">WHY YOU NEED THIS COLD</h1>
-<p>Every conversation with a trader about options positions uses Greeks. If a PM says "I'm long 500 gamma at the 6400 strike," you need to immediately understand:<br />
-- What that means in dollar terms<br />
-- How their P&amp;L changes if the market moves<br />
-- Where the danger is</p>
-<p>Greeks ARE the risk of a derivatives position. Know them like you know your own name.</p>
+<p>At a systematic-at-its-core fund like Squarepoint, Greeks aren't abstract theory — they're the operating system. Every risk report, every morning call, every P&amp;L decomposition, every limit breach speaks in Greeks. When a PM says "I'm long 500 gamma at the 6400 strike with $150K vega and bleeding $40K theta/day," you need to IMMEDIATELY understand:<br />
+- The dollar P&amp;L for a 2% move in either direction<br />
+- How the profile changes if vol spikes 5 points<br />
+- Whether the gamma-theta ratio is efficient or they're overpaying<br />
+- Where the tail risk lives</p>
+<p>Greeks ARE the risk. Delta tells you WHERE you are. Gamma tells you WHERE YOU'LL BE. Vega tells you WHAT HAPPENS IF FEAR ARRIVES. Theta tells you THE DAILY COST. Learn them like your own reflexes.</p>
 <hr />
-<h1 id="part-1-first-order-greeks">PART 1: FIRST-ORDER GREEKS</h1>
-<h2 id="delta-directional-exposure">DELTA (Δ) — Directional Exposure</h2>
-<p><strong>What it measures:</strong> How much the option price changes for a $1 move in the underlying.</p>
-<p><strong>Range:</strong><br />
-- Calls: 0 to +1. Deep ITM call → delta ≈ 1 (moves 1:1 with stock). ATM call → delta ≈ 0.5. OTM call → delta → 0.<br />
-- Puts: -1 to 0. Deep ITM put → delta ≈ -1. ATM put → delta ≈ -0.5. OTM put → delta → 0.</p>
-<p><strong>Dollar delta:</strong> Delta × number of contracts × multiplier × spot price.<br />
-If you own 100 ATM calls on SPX (delta = 0.50, multiplier = 100): dollar delta = 0.50 × 100 × 100 × $5,400 = $27M equivalent. That's how much equity exposure you actually have.</p>
-<p><strong>Delta as probability (rough approximation):</strong> Delta ≈ probability the option expires ITM. A 0.30 delta call ≈ 30% chance of finishing ITM. Not a formal probability, but useful intuition.</p>
-<p><strong>Net delta / portfolio delta:</strong> Sum all position deltas. A book with +$50M call delta and -$30M put delta = +$20M net delta. Net long = gains if market rises, loses if market falls.</p>
-<p><strong>Delta hedging:</strong> To be delta-neutral, sell/short the underlying equal to your dollar delta. If you're long $20M delta → short $20M of stock. Now you don't care about small moves — your P&amp;L is driven by gamma, vega, and theta instead.</p>
+<h1 id="part-1-delta-directional-exposure">PART 1: DELTA (Δ) — DIRECTIONAL EXPOSURE</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Delta is how many dollars you make or lose for each $1 the underlying moves — it's your effective stock-equivalent position.</p>
+<p><strong>Analogy:</strong> Delta is a <strong>volume knob</strong>. It controls how loud the stock's moves play through to your P&amp;L. Deep ITM (Δ=0.95) = cranked to 10, you hear everything — the option moves nearly dollar-for-dollar. ATM (Δ=0.50) = halfway, you catch half the signal. Deep OTM (Δ=0.05) = turned almost off, the stock is screaming but your option barely whispers. And the knob isn't fixed — gamma is the hand that keeps turning it.</p>
+</blockquote>
+<h2 id="what-delta-measures">What Delta Measures</h2>
+<p>The first derivative of option price with respect to the underlying:</p>
+<p>$$\Delta = \frac{\partial V}{\partial S}$$</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Delta range</th>
+<th>ATM</th>
+<th>Deep ITM</th>
+<th>Deep OTM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call</td>
+<td>0 to +1</td>
+<td>≈ +0.50</td>
+<td>→ +1.00 (behaves like stock)</td>
+<td>→ 0 (nearly worthless)</td>
+</tr>
+<tr>
+<td>Put</td>
+<td>−1 to 0</td>
+<td>≈ −0.50</td>
+<td>→ −1.00 (behaves like short stock)</td>
+<td>→ 0 (nearly worthless)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="delta-in-practice-dollar-delta">Delta in Practice — Dollar Delta</h2>
+<blockquote>
+<p><strong>The number that matters is dollar delta, not option delta.</strong></p>
+</blockquote>
+<p>$$\text{Dollar delta} = \Delta \times \text{contracts} \times \text{multiplier} \times S$$</p>
+<p><strong>Worked example:</strong> You own 200 SPX calls, delta = 0.45, multiplier = 100, SPX = 5,400<br />
+- Dollar delta = 0.45 × 200 × 100 × $5,400 = <strong>$48.6M</strong><br />
+- That's your effective equity exposure — you're behaving as if you own $48.6M of SPX</p>
+<p><strong>Portfolio delta</strong> = Σ of all position dollar deltas. A book with +$60M call delta and −$35M put delta = <strong>+$25M net delta</strong> (net long, gains if market rises).</p>
+<h2 id="delta-as-probability-rough-approximation">Delta as Probability (Rough Approximation)</h2>
+<p>Delta ≈ risk-neutral probability the option expires ITM. A 0.25 delta call ≈ 25% chance of finishing ITM. NOT a real-world probability (it's risk-neutral), but useful intuition for sizing and discussion.</p>
+<h2 id="delta-hedging">Delta Hedging</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Delta hedging removes directional risk, leaving your P&amp;L driven by gamma, vega, and theta — the "pure Greeks" that options traders actually trade.</p>
+</blockquote>
+<p><strong>Process:</strong> If you're long $25M dollar delta → short $25M of the underlying (sell stock or sell futures). Now you're "delta-neutral" — a small move up or down has near-zero P&amp;L. But:<br />
+- Your delta changes after the move (because of gamma)<br />
+- You need to re-hedge → "dynamic hedging"<br />
+- How often you re-hedge determines your realized gamma P&amp;L vs theta cost</p>
+<p><strong>Hedging frequency tradeoff:</strong><br />
+- Hedge every tick → perfectly capture gamma, but massive transaction costs (bid-ask × volume)<br />
+- Hedge once a day → lower cost, but miss intraday moves and leave delta drift<br />
+- Optimal frequency depends on: gamma size, spread costs, realized vol, how much variance you need to capture</p>
+<h2 id="what-moves-delta-delta-sensitivity">What Moves Delta (Delta Sensitivity)</h2>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Effect on call delta</th>
+<th>Effect on put delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spot rises</td>
+<td>Delta increases (→ 1)</td>
+<td>Delta increases (→ 0, less negative)</td>
+</tr>
+<tr>
+<td>Spot falls</td>
+<td>Delta decreases (→ 0)</td>
+<td>Delta decreases (→ −1, more negative)</td>
+</tr>
+<tr>
+<td>Vol rises</td>
+<td>OTM deltas increase, ITM deltas decrease (smiling toward 0.50)</td>
+<td>Same — deltas compress toward ±0.50</td>
+</tr>
+<tr>
+<td>Vol falls</td>
+<td>OTM deltas decrease, ITM deltas increase (polarize toward 0 or 1)</td>
+<td>Same — deltas polarize</td>
+</tr>
+<tr>
+<td>Time passes</td>
+<td>OTM deltas decrease, ITM deltas increase (same polarization as lower vol)</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong> High vol and long time to expiry make delta LESS extreme (everything gravitates toward 0.50). Low vol and near expiry make delta BINARY (near 0 or near 1). This is why near-expiry ATM options have explosive delta moves — they can swing from 0.50 to 0.95 in an hour.</p>
 <hr />
-<h2 id="gamma-acceleration-of-risk">GAMMA (Γ) — Acceleration of Risk</h2>
-<p><strong>What it measures:</strong> How much delta changes for a $1 move in the underlying. It's the RATE OF CHANGE of delta. The second derivative.</p>
-<p><strong>Why it's the most important Greek for risk:</strong><br />
-- Gamma tells you how your EXPOSURE changes as the market moves.<br />
-- Long gamma: your delta moves IN YOUR FAVOR. Market up → you get longer. Market down → you get shorter. You automatically "buy low, sell high."<br />
-- Short gamma: your delta moves AGAINST YOU. Market up → you get shorter (missing the rally). Market down → you get longer (accumulating exposure into the drop). You "buy high, sell low."</p>
-<p><strong>Gamma P&amp;L:</strong><br />
-$$\text{Gamma P\&amp;L} = \frac{1}{2} \times \Gamma \times (\Delta S)^2$$</p>
-<p>This is always positive for long gamma (regardless of direction). Big move up? Win. Big move down? Also win. That's the beauty of long gamma.</p>
-<p>For short gamma: always negative for big moves. Small moves are fine (you collect theta). But large moves are catastrophic and the losses ACCELERATE.</p>
-<p><strong>Where gamma is highest:</strong> ATM options near expiry. A 1-day-to-expiry ATM option has massive gamma — its delta can swing from 0.5 to 1.0 or 0.0 in minutes. This is "pin risk" — the stock is right at the strike near expiry.</p>
-<p><strong>Gamma scalping:</strong> Delta-hedge a long gamma position repeatedly. As the market moves up, you sell (because delta increased); as it moves down, you buy (delta decreased). You're harvesting volatility. But you're paying theta every day for this privilege.</p>
+<h1 id="part-2-gamma-the-most-important-greek-for-risk">PART 2: GAMMA (Γ) — THE MOST IMPORTANT GREEK FOR RISK</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Gamma is how fast your delta changes — it's the acceleration of your P&amp;L, and it determines whether big moves help or destroy you.</p>
+</blockquote>
+<h2 id="what-gamma-measures">What Gamma Measures</h2>
+<p>The second derivative of option price with respect to the underlying:</p>
+<p>$$\Gamma = \frac{\partial^2 V}{\partial S^2} = \frac{\partial \Delta}{\partial S}$$</p>
+<p><strong>Analogy — the airbag:</strong> Gamma is the airbag in your car. When you're <strong>long gamma</strong>, the airbag deploys on impact — it cushions you, absorbs the shock, and can even turn crashes into profit (P&amp;L ∝ move²). When you're <strong>short gamma</strong>, the airbag has been ripped out — any collision accelerates the damage, and the harder you crash, the worse it gets. That's why gamma is THE #1 Greek for risk managers: it's the cushion that either protects you or exposes you.</p>
+<p><strong>Second analogy — speed vs acceleration:</strong> Delta is your speed. Gamma is your acceleration. Long gamma = you accelerate in the right direction (speeding up when markets move). Short gamma = you accelerate in the WRONG direction (losses get faster and faster).</p>
+<h2 id="dollar-gamma-the-number-you-actually-use">Dollar Gamma — The Number You Actually Use</h2>
+<blockquote>
+<p><strong>Dollar gamma</strong> = P&amp;L for a 1% move in the underlying (attributed to gamma alone):</p>
+</blockquote>
+<p>$$\text{Dollar gamma P\&amp;L} = \frac{1}{2} \times \Gamma_\$ \times (\%\Delta S)^2$$</p>
+<p>Where:<br />
+$$\Gamma_\$ = \Gamma \times S^2 \times \text{contracts} \times \text{multiplier} / 100$$</p>
+<p><strong>Worked example:</strong> You own 100 ATM SPX calls.<br />
+- Γ (per option) = 0.0004, S = 5,400, multiplier = 100<br />
+- Dollar gamma = 0.0004 × 5,400² × 100 × 100 / 100 = <strong>$1,166,400 per 1% move</strong><br />
+- If SPX drops 3%: Gamma P&amp;L = ½ × $1.17M × 3² = <strong>+$5.25M</strong> (long gamma → you gain from big moves, either direction)<br />
+- If SPX drops 3% and you were SHORT those same options: <strong>−$5.25M</strong> (loss ACCELERATES)</p>
+<p><strong>The asymmetry that kills:</strong><br />
+- Long gamma: P&amp;L ∝ move² → ALWAYS positive for big moves regardless of direction. Small moves → small gains. Big moves → big gains. Convex.<br />
+- Short gamma: P&amp;L ∝ −move² → ALWAYS negative for big moves. Small moves → small losses (offset by theta). Big moves → catastrophic. Concave.</p>
+<h2 id="where-gamma-is-highest">Where Gamma Is Highest</h2>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Gamma effect</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ATM options</td>
+<td><strong>Maximum</strong> gamma</td>
+<td>Delta is most uncertain (0.50). Tiny move determines ITM/OTM.</td>
+</tr>
+<tr>
+<td>Near expiry</td>
+<td><strong>Very high</strong> gamma</td>
+<td>Less time → delta must resolve to 0 or 1 FAST. ATM + near expiry = explosive.</td>
+</tr>
+<tr>
+<td>Low vol</td>
+<td>Higher gamma (ATM)</td>
+<td>Lower vol concentrates the probability around current price → delta is more sensitive.</td>
+</tr>
+<tr>
+<td>OTM/ITM options</td>
+<td>Low gamma</td>
+<td>Delta is already near 0 or 1 — not much room to change.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>0DTE (zero-days-to-expiry) gamma:</strong> SPX 0DTE options now account for ~50% of SPX options volume. Their gamma is ENORMOUS — delta can flip from 0.10 to 0.90 in 30 minutes. This creates intraday volatility that didn't exist before 2022. Dealers hedging 0DTE gamma create violent intraday swings.</p>
+<h2 id="gamma-scalping-how-you-monetize-long-gamma">Gamma Scalping — How You Monetize Long Gamma</h2>
+<div class="highlight"><pre><span></span><code>Start: Delta-neutral, long gamma
+
+Market rises 1%:
+  → Delta increases (long gamma → you&#39;re now net LONG)
+  → SELL to re-hedge back to delta-neutral
+  → Lock in profit on the move
+
+Market falls 1%:
+  → Delta decreases (you&#39;re now net SHORT)
+  → BUY to re-hedge back to delta-neutral
+  → Lock in profit on the move
+
+Net result: BUY LOW, SELL HIGH automatically
+But: paying theta every day for this privilege
+</code></pre></div>
+
+<p><strong>Break-even realized vol:</strong> For a gamma scalper:</p>
+<p>$$\text{Daily gamma P\&amp;L} = \frac{1}{2} \times \Gamma_\$ \times (\text{daily realized return})^2$$</p>
+<p>$$\text{Break-even: when } \sigma_{\text{realized}} = \sigma_{\text{implied}}$$</p>
+<p>If you bought options at 20% implied vol, you need the market to actually realize 20% vol to break even. If it only realizes 15%, your theta costs exceed your gamma gains → net loss.</p>
+<h2 id="pin-risk-where-gamma-becomes-dangerous">Pin Risk — Where Gamma Becomes Dangerous</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Pin risk is the nightmare scenario where the underlying closes RIGHT at the strike on expiry day — you don't know if your options will be exercised or not.</p>
+</blockquote>
+<p>At expiry, an ATM option's gamma goes to infinity theoretically. Delta oscillates between 0 and 1 with tiny price moves. If you're short 10,000 ATM calls expiring today and the stock is at $100.01:<br />
+- Are they exercised? → You're short 1M shares at the close<br />
+- Stock drops to $99.99 → NOT exercised → You have zero position<br />
+- The difference between $100.01 and $99.99 is $0.02 on the stock, but the difference in your position is $100M of risk</p>
+<p>This is why risk managers watch OpEx dates closely and require reduced positions into expiry.</p>
 <hr />
-<h2 id="theta-time-decay">THETA (Θ) — Time Decay</h2>
-<p><strong>What it measures:</strong> How much the option loses per day just from time passing.</p>
-<p><strong>Always negative for long options.</strong> You own an option → it loses value every day. Think of it as "rent" for the optionality.</p>
-<p><strong>Always positive for short options.</strong> You sold an option → you EARN theta every day. But you bear gamma risk.</p>
-<p><strong>The gamma-theta tradeoff:</strong><br />
-- <strong>Long gamma, negative theta:</strong> You profit from big moves but bleed every calm day.<br />
-- <strong>Short gamma, positive theta:</strong> You earn money every calm day but get killed on big moves.</p>
-<p>This is the fundamental tradeoff in options. There's no free lunch — you can't have positive gamma AND positive theta.</p>
-<p><strong>Theta acceleration:</strong> Time decay is NOT linear. An option loses more theta per day as it approaches expiry. A 30-day option might lose $50/day; at 5 days to expiry, it's losing $200/day.</p>
-<p>$$\theta \propto \frac{1}{\sqrt{T}}$$</p>
-<p><strong>Weekend theta:</strong> Options lose time value over the weekend (2 calendar days). Friday night → Monday morning, you lose theta. As an RM, track whether PMs are using expiry selection to manage theta costs.</p>
+<h1 id="part-3-theta-the-cost-of-optionality">PART 3: THETA (Θ) — THE COST OF OPTIONALITY</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Theta is the daily rent you pay to hold an option — every day the clock ticks, your option loses time value.</p>
+<p><strong>Analogy:</strong> Theta is a <strong>parking meter running</strong>. Every day costs you coins, and you can't pause it. Far from expiry, the meter ticks slowly — a few cents a day. Near expiry, it's eating quarters every hour. The critical question: are you feeding the meter (long options — paying rent and hoping the move comes before time runs out) or do you OWN the meter (short options — collecting coins from everyone else's ticking clock)?</p>
+</blockquote>
+<h2 id="what-theta-measures">What Theta Measures</h2>
+<p>The first derivative of option price with respect to time:</p>
+<p>$$\Theta = \frac{\partial V}{\partial t}$$</p>
+<ul>
+<li><strong>Long options:</strong> Theta is NEGATIVE. You PAY rent. The option decays.</li>
+<li><strong>Short options:</strong> Theta is POSITIVE. You EARN rent. Time decay works for you.</li>
+</ul>
+<h2 id="theta-in-dollars">Theta in Dollars</h2>
+<p>$$\text{Daily theta} = \Theta \times \text{contracts} \times \text{multiplier}$$</p>
+<p><strong>Worked example:</strong> You own 150 SPX puts with θ = −$3.20/day per option, multiplier = 100.<br />
+- Daily theta cost = −$3.20 × 150 × 100 = <strong>−$48,000/day</strong><br />
+- Monthly cost = <strong>−$1.04M</strong> (22 trading days)<br />
+- Your puts need to gain $1M+ from delta/gamma/vega just to break even each month</p>
+<h2 id="theta-decay-is-not-linear">Theta Decay Is NOT Linear</h2>
+<p>$$\Theta \propto \frac{1}{\sqrt{T}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Days to expiry</th>
+<th>Relative daily decay</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>90 days</td>
+<td>1x (slow)</td>
+<td>Gentle bleed — barely noticeable day-to-day</td>
+</tr>
+<tr>
+<td>30 days</td>
+<td>1.7x</td>
+<td>Accelerating — weekly check-ins matter</td>
+</tr>
+<tr>
+<td>7 days</td>
+<td>3.6x</td>
+<td>Fast — meaningful daily P&amp;L from time alone</td>
+</tr>
+<tr>
+<td>1 day</td>
+<td>9.5x</td>
+<td>Extreme — ATM options can lose 30-50% of remaining value in the last day</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The square root rule:</strong> An option with 64 days has roughly double the time value of an option with 16 days (√64/√16 = 2). Not 4x, even though it has 4x the time.</p>
+<h2 id="weekend-and-holiday-theta">Weekend and Holiday Theta</h2>
+<p>Options lose value over weekends and holidays (2-3 calendar days of theta for a 1-day hold over weekend). This means:<br />
+- <strong>Friday close:</strong> Long options lose extra theta. Short option sellers receive it.<br />
+- <strong>Holiday weeks:</strong> 3-day weekends → accelerated decay. PMs who are long gamma sometimes reduce before long weekends to avoid paying 3 days of theta for 1 day of possible movement.<br />
+- <strong>IV adjustment:</strong> Some of this is priced in — Friday IV may be slightly lower than Monday IV, meaning the market partially prices the weekend decay into vol.</p>
+<h2 id="the-gamma-theta-tradeoff-the-fundamental-relationship">The Gamma-Theta Tradeoff — THE Fundamental Relationship</h2>
+<blockquote>
+<p>There is NO free lunch. You CANNOT have positive gamma AND positive theta simultaneously with vanilla options.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Gamma</th>
+<th>Theta</th>
+<th>P&amp;L shape</th>
+<th>Who does this</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long gamma, short theta</td>
+<td>+</td>
+<td>−</td>
+<td>Many small losses, occasional big wins</td>
+<td>Vol buyers, hedgers, gamma scalpers</td>
+</tr>
+<tr>
+<td>Short gamma, long theta</td>
+<td>−</td>
+<td>+</td>
+<td>Many small wins, occasional BIG losses</td>
+<td>Market makers, premium sellers, income strategies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The efficiency metric — Gamma/Theta ratio:</strong></p>
+<p>$$\text{Gamma/Theta} = \frac{\Gamma_\$}{\Theta_\$}$$</p>
+<ul>
+<li><strong>High ratio:</strong> You're getting a lot of gamma per dollar of theta paid. Good deal — cheap optionality.</li>
+<li><strong>Low ratio:</strong> You're overpaying for gamma. Time decay will eat you alive before you can scalp enough.</li>
+</ul>
+<p><strong>When is gamma cheap?</strong> Low implied vol (market complacent). When is it expensive? High implied vol (post-crash, panic). The paradox: gamma is cheapest when you don't feel like you need it and most expensive when you're desperate for it.</p>
+<blockquote>
+<p><strong>Interview line:</strong> "Long gamma means your delta automatically adjusts in your favor — you're protected against big moves — but you pay theta every day for that protection. Short gamma is the opposite: you earn rent daily but you're writing insurance against tail events. The RM's job is to make sure the PM is aware of which regime they're in and whether the gamma/theta tradeoff is efficient — are we paying a fair price for the optionality, or are we overpaying because vol is expensive?"</p>
+</blockquote>
 <hr />
-<h2 id="vega-volatility-sensitivity">VEGA (ν) — Volatility Sensitivity</h2>
-<p><strong>What it measures:</strong> How much the option price changes for a 1 percentage point change in implied volatility.</p>
-<p><strong>Always positive for long options.</strong> Higher vol → higher option prices (more chance of a big move → option is worth more).</p>
-<p><strong>Always negative for short options.</strong> Higher vol → your short option liability increases.</p>
-<p><strong>Where vega is highest:</strong> ATM options with long time to expiry. A 1-year ATM option has much more vega than a 1-week ATM option (more time for vol to matter).</p>
-<p><strong>Vega in dollars:</strong> If your portfolio has $500K vega, it means: a 1 vol point increase in implied volatility → +$500K P&amp;L. A 1 vol point decrease → -$500K.</p>
-<p><strong>Why vega matters for risk:</strong><br />
-- Vol can spike very fast. VIX went from 14 to 82 in March 2020. That's 68 vol points. If you were short vega, you got destroyed.<br />
-- Vol tends to spike DOWN the market (fear → vol up) and compress UP the market (complacency → vol down). So short vega is correlated to long delta — both hurt in a sell-off.</p>
+<h1 id="part-4-vega-exposure-to-volatility-itself">PART 4: VEGA (ν) — EXPOSURE TO VOLATILITY ITSELF</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Vega is how much your option's price changes when implied vol moves by one point — it's your bet on the market's fear level.</p>
+<p><strong>Analogy:</strong> Vega is your bet on the <strong>weather forecast, not the weather itself</strong>. You don't need the storm to actually hit — you just need the forecast to get scarier (IV up) and your options gain value. Long vega profits from increasing <em>uncertainty</em>, not from the event itself. Short vega is betting the forecast stays calm. That's why you can buy straddles before CPI and LOSE even if CPI moves the market — if the forecast (IV) was already pricing a hurricane and the actual storm was a drizzle, the forecast improves (IV crushes) and you're underwater.</p>
+</blockquote>
+<h2 id="what-vega-measures">What Vega Measures</h2>
+<p>$$\nu = \frac{\partial V}{\partial \sigma}$$</p>
+<ul>
+<li><strong>Long options (bought):</strong> Positive vega. Vol up → you gain. Vol down → you lose.</li>
+<li><strong>Short options (sold):</strong> Negative vega. Vol up → you lose. Vol down → you gain.</li>
+</ul>
+<h2 id="dollar-vega">Dollar Vega</h2>
+<p>$$\text{Dollar vega} = \nu \times \text{contracts} \times \text{multiplier}$$</p>
+<p><strong>Worked example:</strong> Portfolio has $300K vega (sum of all positions).<br />
+- Vol rises 3 points: P&amp;L = +$300K × 3 = <strong>+$900K</strong><br />
+- Vol drops 2 points: P&amp;L = −$300K × 2 = <strong>−$600K</strong><br />
+- VIX spike from 15 to 40 (25 pts): P&amp;L = +$300K × 25 = <strong>+$7.5M</strong> (if you're long vega, this is your payday)</p>
+<h2 id="where-vega-lives">Where Vega Lives</h2>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Vega effect</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ATM options</td>
+<td><strong>Maximum</strong> vega</td>
+<td>Highest uncertainty → most sensitive to vol changes</td>
+</tr>
+<tr>
+<td>Long-dated options</td>
+<td><strong>Much higher</strong> vega</td>
+<td>More time for vol to compound → vol matters more</td>
+</tr>
+<tr>
+<td>Near-expiry options</td>
+<td>Very low vega</td>
+<td>So little time left, vol changes barely matter</td>
+</tr>
+<tr>
+<td>OTM/ITM options</td>
+<td>Lower vega</td>
+<td>Less uncertainty about ITM/OTM outcome</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key relationship:</strong> Vega ∝ √T. A 1-year option has ~2x the vega of a 3-month option (√12/√3 ≈ 2). This means:<br />
+- Long-dated options are your main vega exposure<br />
+- Near-dated options contribute gamma but little vega<br />
+- A portfolio with long near-dated + short far-dated can be long gamma but short vega → different risk profiles at different horizons</p>
+<h2 id="vega-bucketing-what-sophisticated-desks-do">Vega Bucketing — What Sophisticated Desks Do</h2>
+<blockquote>
+<p>At Squarepoint's level, "total vega" is not enough. You bucket vega by tenor:</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Bucket</th>
+<th>What's in it</th>
+<th>What drives it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0-30 day vega</strong></td>
+<td>Near-dated options</td>
+<td>Event risk, realized vol, gamma scalping P&amp;L</td>
+</tr>
+<tr>
+<td><strong>30-90 day vega</strong></td>
+<td>Medium-dated</td>
+<td>Earnings cycles, vol term structure rolls</td>
+</tr>
+<tr>
+<td><strong>90-365 day vega</strong></td>
+<td>Far-dated</td>
+<td>Structural vol regime, macro uncertainty</td>
+</tr>
+<tr>
+<td><strong>1Y+ vega</strong></td>
+<td>LEAPS, long-dated structures</td>
+<td>Monetary policy regime, secular vol trends</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why it matters:</strong> You can be net FLAT total vega but LONG 1-month vega and SHORT 6-month vega. That's a trade on the <strong>vol term structure</strong> — you're betting near-term vol is cheap relative to far-term vol. Very different risk from being outright long or short vol.</p>
+<h2 id="vol-spot-correlation-why-vega-and-delta-compound-in-crashes">Vol-Spot Correlation — Why Vega and Delta Compound in Crashes</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Vol spikes when markets drop. If you're short vega AND long delta, a sell-off hits you on BOTH dimensions simultaneously.</p>
+</blockquote>
+<p>Empirically:<br />
+- SPX drops 1% → VIX rises ~2-4 points (on average)<br />
+- SPX drops 5% → VIX rises ~15-25 points<br />
+- This is NOT symmetric: SPX rallies 5% → VIX drops ~5-8 points</p>
+<p><strong>Consequence:</strong> Short vega is correlated with long delta. Both hurt in a sell-off. A portfolio that's "+$20M delta, −$300K vega" has compounding downside: the 5% drop costs you $1M on delta, and the associated 20-point vol spike costs you $6M on vega. Total loss = $7M, not $1M.</p>
 <hr />
-<h2 id="rho-interest-rate-sensitivity">RHO (ρ) — Interest Rate Sensitivity</h2>
-<p><strong>What it measures:</strong> How much the option price changes for a 1% change in interest rates.</p>
-<p><strong>Usually small</strong> for short-dated equity options. But material for:<br />
-- Long-dated options (LEAPS)<br />
-- Currency options (rate differential drives pricing)<br />
-- Bond options / swaptions</p>
-<p><strong>Call rho is positive</strong> (higher rates → calls worth more, because the present value of the strike is lower).<br />
-<strong>Put rho is negative</strong> (higher rates → puts worth less).</p>
-<p>In the current high-rate environment, rho matters more than usual for longer-dated positions.</p>
+<h1 id="part-5-rho-interest-rate-sensitivity">PART 5: RHO (ρ) — INTEREST RATE SENSITIVITY</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Rho measures how much an option's price changes for a 1% shift in rates — usually minor for short-dated equity options, critical for rates derivatives and LEAPS.</p>
+<p><strong>Analogy:</strong> Rho is the <strong>current in a river</strong>. On a short kayak trip (weekly options), you barely notice it — paddle a few strokes and you're done. On a multi-day expedition (LEAPS, swaptions), that same current carries you miles off course. In the zero-rate era (2010–2021), the river was a dead canal — rho was irrelevant. At 4%+ rates (2023–2026), there's a real current, and if you're floating long-dated positions, you'd better know which way it's pulling.</p>
+</blockquote>
+<p>$$\rho = \frac{\partial V}{\partial r}$$</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Rho sign</th>
+<th>Why</th>
+<th>When it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long call</td>
+<td><strong>Positive</strong></td>
+<td>Higher rates → higher forward → calls worth more</td>
+<td>LEAPS, FX options, swaptions</td>
+</tr>
+<tr>
+<td>Long put</td>
+<td><strong>Negative</strong></td>
+<td>Higher rates → higher forward → puts worth less</td>
+<td>LEAPS, FX options</td>
+</tr>
+<tr>
+<td>Short tenors</td>
+<td>Negligible</td>
+<td>Rate change × short time = tiny impact</td>
+<td>Not a concern for weekly/monthly options</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Current environment (2026):</strong> With rates at 4%+, rho is more material than during the zero-rate era. A 1-year LEAPS call with $10K rho loses $10K if rates fall 1% — not negligible for large positions.</p>
 <hr />
-<h1 id="part-2-second-order-greeks">PART 2: SECOND-ORDER GREEKS</h1>
-<p>These measure how the first-order Greeks change. You won't derive these, but you need to know what they do.</p>
-<h2 id="vanna-delta-sensitivity-to-vol">VANNA — Delta sensitivity to vol</h2>
+<h1 id="part-6-greeks-by-position-type-the-reference-table">PART 6: GREEKS BY POSITION TYPE — THE REFERENCE TABLE</h1>
+<p>Know this cold. For EVERY option position, know every Greek sign and behavior:</p>
+<table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>Long Call</th>
+<th>Short Call</th>
+<th>Long Put</th>
+<th>Short Put</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Delta (Δ)</strong></td>
+<td>+ (0 to +1)</td>
+<td>− (0 to −1)</td>
+<td>− (−1 to 0)</td>
+<td>+ (0 to +1)</td>
+</tr>
+<tr>
+<td><strong>Gamma (Γ)</strong></td>
+<td><strong>+</strong> (always)</td>
+<td><strong>−</strong> (always)</td>
+<td><strong>+</strong> (always)</td>
+<td><strong>−</strong> (always)</td>
+</tr>
+<tr>
+<td><strong>Theta (Θ)</strong></td>
+<td><strong>−</strong> (pay rent)</td>
+<td><strong>+</strong> (earn rent)</td>
+<td><strong>−</strong> (pay rent)</td>
+<td><strong>+</strong> (earn rent)</td>
+</tr>
+<tr>
+<td><strong>Vega (ν)</strong></td>
+<td><strong>+</strong> (want vol up)</td>
+<td><strong>−</strong> (want vol down)</td>
+<td><strong>+</strong> (want vol up)</td>
+<td><strong>−</strong> (want vol down)</td>
+</tr>
+<tr>
+<td><strong>Rho (ρ)</strong></td>
+<td>+ (rates up helps)</td>
+<td>− (rates up hurts)</td>
+<td>− (rates up hurts)</td>
+<td>+ (rates up helps)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The universal pattern:</strong><br />
+- <strong>LONG any option</strong> → always +Γ, +ν, −Θ<br />
+- <strong>SHORT any option</strong> → always −Γ, −ν, +Θ<br />
+- The ONLY difference between calls and puts: sign of delta and rho</p>
+<h3 id="what-each-position-is-really-saying">What Each Position Is Really Saying</h3>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Translation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Long Call</strong></td>
+<td>"I'm bullish. I want a BIG move UP, FAST (before theta eats me). Vol spike also helps."</td>
+</tr>
+<tr>
+<td><strong>Short Call</strong></td>
+<td>"I'm bearish/neutral. I earn theta. Calm markets are my friend. Exposed to upside breakouts."</td>
+</tr>
+<tr>
+<td><strong>Long Put</strong></td>
+<td>"I'm bearish or hedging. I want a BIG move DOWN. Vol spike helps. Paying daily rent for crash protection."</td>
+</tr>
+<tr>
+<td><strong>Short Put</strong></td>
+<td>"I'm neutral/bullish. I earn theta. Selling insurance against a crash — if it happens, I'm on the hook."</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pl-behavior-matrix">P&amp;L Behavior Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Small move (+/−1%)</th>
+<th>Big move (+5%)</th>
+<th>Big move (−5%)</th>
+<th>Time (no move)</th>
+<th>Vol spike (+10pts)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Long Call</strong></td>
+<td>Small Δ gain/loss</td>
+<td><strong>Big gain</strong> (convex)</td>
+<td>Loss capped at premium</td>
+<td>Lose (Θ)</td>
+<td>Gain (ν)</td>
+</tr>
+<tr>
+<td><strong>Short Call</strong></td>
+<td>Small Δ gain/loss</td>
+<td><strong>Big loss</strong> (unlimited)</td>
+<td>Gain capped at premium</td>
+<td>Gain (Θ)</td>
+<td>Lose (ν)</td>
+</tr>
+<tr>
+<td><strong>Long Put</strong></td>
+<td>Small Δ gain/loss</td>
+<td>Loss capped at premium</td>
+<td><strong>Big gain</strong> (convex)</td>
+<td>Lose (Θ)</td>
+<td>Gain (ν)</td>
+</tr>
+<tr>
+<td><strong>Short Put</strong></td>
+<td>Small Δ gain/loss</td>
+<td>Gain capped at premium</td>
+<td><strong>Big loss</strong> (to K)</td>
+<td>Gain (Θ)</td>
+<td>Lose (ν)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-second-order-greeks-the-derivatives-of-derivatives">PART 7: SECOND-ORDER GREEKS — THE DERIVATIVES OF DERIVATIVES</h1>
+<blockquote>
+<p>These measure how first-order Greeks change. You won't price with these, but you need to know what they do because they explain why your risk SHIFTS in a crisis.</p>
+</blockquote>
+<h2 id="vanna-how-delta-changes-with-vol">Vanna — How Delta Changes with Vol</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Vanna is how your directional exposure shape-shifts when fear arrives — it's why your hedges get stronger (or weaker) exactly when it matters most.</p>
+</blockquote>
 <p>$$\text{Vanna} = \frac{\partial \Delta}{\partial \sigma} = \frac{\partial \nu}{\partial S}$$</p>
-<p><strong>What it means:</strong> How much delta changes when implied vol changes.</p>
-<p><strong>Why it matters:</strong> In a sell-off, vol spikes. If your options have negative vanna, your delta shifts against you BECAUSE vol went up. Double whammy: market down AND your hedges shifted.</p>
-<p><strong>Practical example:</strong> You hold OTM puts as hedges (negative delta). Vol spikes → their delta becomes MORE negative (toward -1). Your hedge suddenly covers more of your portfolio. This is good — it's why vanna is a feature of put protection, not a bug.</p>
-<h2 id="volga-vomma-vega-sensitivity-to-vol">VOLGA (VOMMA) — Vega sensitivity to vol</h2>
-<p>$$\text{Volga} = \frac{\partial \nu}{\partial \sigma}$$</p>
-<p><strong>What it means:</strong> How much vega changes when implied vol changes.</p>
-<p><strong>Why it matters:</strong> If you're long OTM options (wings), they have positive volga — as vol rises, your vega INCREASES, which means the next vol point up is worth even more. Your wings become increasingly valuable in a vol spike. This is the "convexity of vol."</p>
-<p><strong>For the RM:</strong> A portfolio that's long volga has tail protection — it becomes more protected as conditions deteriorate. Short volga is the opposite — increasingly exposed as vol rises.</p>
-<h2 id="charm-delta-sensitivity-to-time">CHARM — Delta sensitivity to time</h2>
-<p>$$\text{Charm} = \frac{\partial \Delta}{\partial T}$$</p>
-<p><strong>What it means:</strong> How much delta changes just from one day passing.</p>
-<p><strong>Why it matters:</strong> Over a weekend, delta can drift significantly for near-expiry options. A PM who delta-hedged on Friday may find themselves unhedged by Monday — not because the stock moved, but because time passed and delta changed.</p>
-<h2 id="speed-gamma-sensitivity-to-underlying">SPEED — Gamma sensitivity to underlying</h2>
+<p><strong>In plain English:</strong> When vol spikes, how does your delta move?</p>
+<p><strong>Why it matters in a crisis:</strong><br />
+- You hold OTM puts as hedges (delta = −0.20). Vol spikes 15 points → vanna causes delta to shift toward −0.55. Your puts now hedge 2.5x more of your portfolio.<br />
+- This is GOOD — it's built-in tail protection. Your hedges become more effective exactly when you need them.<br />
+- But if you're long OTM calls, a vol spike pushes their delta TOWARD 0.50 — your calls become "less OTM" in delta terms, even if the stock hasn't moved.</p>
+<p><strong>Vanna flows (dealer impact):</strong> Dealers short OTM puts → they have negative vanna exposure. Vol spikes → their delta shifts (they become shorter delta) → they need to BUY to re-hedge → supportive for the market. Vol drops → their delta shifts the other way → they SELL → adds selling pressure. These systematic "vanna flows" are a major driver of daily market mechanics.</p>
+<h2 id="volga-vomma-how-vega-changes-with-vol">Volga (Vomma) — How Vega Changes with Vol</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Volga is the convexity of your vol bet — it tells you whether a vol spike makes things progressively better or progressively worse for your book.</p>
+</blockquote>
+<p>$$\text{Volga} = \frac{\partial \nu}{\partial \sigma} = \frac{\partial^2 V}{\partial \sigma^2}$$</p>
+<p><strong>In plain English:</strong> When vol goes up, does your vega increase or decrease?</p>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Volga</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OTM options (wings)</td>
+<td><strong>Positive</strong></td>
+<td>As vol rises, your vega INCREASES → you become MORE long vol in a crisis. Convexity of vol. Tail protection.</td>
+</tr>
+<tr>
+<td>ATM options</td>
+<td>Near zero</td>
+<td>Vega doesn't change much with vol. Linear vol exposure.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For the RM:</strong> A portfolio that's long volga has built-in vol tail protection — it becomes increasingly hedged as vol rises. Short volga is the opposite: your vega exposure grows against you as conditions deteriorate. This is why selling OTM puts (wings) is particularly dangerous — you're short volga, so as vol spikes, your vega loss ACCELERATES.</p>
+<h2 id="charm-delta-bleed-how-delta-changes-with-time">Charm (Delta Bleed) — How Delta Changes with Time</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Charm is the silent thief — it steals your delta hedge overnight, so you wake up unhedged even though nothing moved.</p>
+</blockquote>
+<p>$$\text{Charm} = \frac{\partial \Delta}{\partial t} = \frac{\partial \Theta}{\partial S}$$</p>
+<p><strong>In plain English:</strong> How much does your delta drift overnight just from one day passing?</p>
+<p><strong>Why it matters:</strong><br />
+- A PM delta-hedges perfectly on Friday. Over the weekend, 2 days pass. Charm shifts delta. Monday morning, they're no longer hedged — even though the stock opened unchanged.<br />
+- Near-expiry OTM options: charm pulls delta toward 0 (losing delta). Near-expiry ITM options: charm pushes delta toward ±1. This delta drift is systematic and needs to be accounted for.<br />
+- <strong>0DTE positions:</strong> Charm is enormous. Delta changes continuously just from the clock ticking.</p>
+<h2 id="speed-how-gamma-changes-with-spot">Speed — How Gamma Changes with Spot</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Speed tells you whether your gamma itself is stable or about to shift — it's the gamma of gamma.</p>
+</blockquote>
 <p>$$\text{Speed} = \frac{\partial \Gamma}{\partial S}$$</p>
-<p>How gamma changes as the underlying moves. Important near barriers and for very large gamma positions.</p>
+<p>Tells you: if the market moves, does your gamma exposure increase or decrease? Important for:<br />
+- Barrier options (gamma can jump discontinuously near the barrier)<br />
+- Large gamma positions where the gamma itself is unstable<br />
+- Understanding whether your risk is linear in gamma or gamma itself is changing</p>
+<h2 id="color-how-gamma-changes-with-time">Color — How Gamma Changes with Time</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Color is gamma's clock — it measures how fast your gamma concentrates as expiry approaches.</p>
+</blockquote>
+<p>$$\text{Color} = \frac{\partial \Gamma}{\partial t}$$</p>
+<p>Gamma increases as options approach expiry (for ATM options). Color tells you the rate. Important for understanding how your gamma exposure evolves day-to-day, especially in the final week.</p>
+<h2 id="summary-of-second-order-greeks">Summary of Second-Order Greeks</h2>
+<table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>What it measures</th>
+<th>Key insight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vanna</strong></td>
+<td>∂Δ/∂σ</td>
+<td>How your delta shifts when vol moves. Drives dealer hedging flows.</td>
+</tr>
+<tr>
+<td><strong>Volga</strong></td>
+<td>∂ν/∂σ</td>
+<td>How your vega changes when vol moves. Long volga = tail protection.</td>
+</tr>
+<tr>
+<td><strong>Charm</strong></td>
+<td>∂Δ/∂t</td>
+<td>How delta drifts overnight. Critical near expiry and over weekends.</td>
+</tr>
+<tr>
+<td><strong>Speed</strong></td>
+<td>∂Γ/∂S</td>
+<td>How gamma changes with spot. Important near barriers.</td>
+</tr>
+<tr>
+<td><strong>Color</strong></td>
+<td>∂Γ/∂t</td>
+<td>How gamma evolves with time. Gamma spikes into expiry.</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h1 id="part-3-portfolio-greeks">PART 3: PORTFOLIO GREEKS</h1>
+<h1 id="part-8-portfolio-greeks-the-risk-managers-view">PART 8: PORTFOLIO GREEKS — THE RISK MANAGER'S VIEW</h1>
 <h2 id="aggregation">Aggregation</h2>
-<p>Portfolio Greeks = sum of all position Greeks:<br />
-- <strong>Portfolio delta</strong> = Σ (position delta × quantity)<br />
-- <strong>Portfolio gamma</strong> = Σ (position gamma × quantity)<br />
-- Same for vega, theta.</p>
-<h2 id="the-greek-dashboard-what-you-monitor">The Greek Dashboard (What You Monitor)</h2>
+<p>All Greeks are additive across positions:</p>
+<p>$$\text{Portfolio } \Delta = \sum_{i} \Delta_i \times n_i \times m_i$$</p>
+<p>Same for Γ, Θ, ν. Sum them across every position to get the book-level Greeks.</p>
+<h2 id="the-greeks-dashboard-what-you-monitor-daily">The Greeks Dashboard — What You Monitor Daily</h2>
 <table>
 <thead>
 <tr>
 <th>Greek</th>
 <th>What you're checking</th>
+<th>How it's reported</th>
 <th>Red flag</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Net delta</td>
-<td>Directional exposure — are we net long or short the market?</td>
-<td>Delta exceeds mandate / risk budget</td>
+<td><strong>Net delta ($)</strong></td>
+<td>Directional exposure</td>
+<td>$M equivalent</td>
+<td>Exceeds mandate/risk budget (e.g., ±$30M limit)</td>
 </tr>
 <tr>
-<td>Gamma</td>
-<td>Are we long or short gamma? How convex is our P&amp;L?</td>
+<td><strong>Dollar gamma (1%)</strong></td>
+<td>P&amp;L for a 1% move (from gamma alone)</td>
+<td>$K or $M per 1%</td>
 <td>Large short gamma near current spot → danger zone</td>
 </tr>
 <tr>
-<td>Theta</td>
-<td>How much are we paying (or earning) per day?</td>
-<td>Theta costs exceeding realistic expectations for gamma capture</td>
+<td><strong>Theta ($/day)</strong></td>
+<td>Daily time decay cost or income</td>
+<td>$/day</td>
+<td>Theta cost exceeding realistic gamma capture expectations</td>
 </tr>
 <tr>
-<td>Vega</td>
-<td>How much do we gain/lose if vol moves 1pt?</td>
-<td>Large short vega in a low-vol environment (complacency)</td>
+<td><strong>Vega ($/vol pt)</strong></td>
+<td>Exposure to IV change</td>
+<td>$K per 1 vol point</td>
+<td>Large short vega in low-vol environment (complacency trap)</td>
 </tr>
 <tr>
-<td>Gamma per theta</td>
-<td>How much gamma are we buying per dollar of theta spent?</td>
-<td>Low ratio = overpaying for optionality</td>
+<td><strong>Vega by tenor</strong></td>
+<td>Bucketed: 0-30d, 30-90d, 90d+</td>
+<td>$K per bucket</td>
+<td>Mismatches between tenor buckets (long front, short back = vol curve bet)</td>
+</tr>
+<tr>
+<td><strong>Gamma/theta</strong></td>
+<td>Efficiency of optionality spend</td>
+<td>Ratio</td>
+<td>Low ratio = overpaying for gamma. PM bleeding unnecessarily.</td>
+</tr>
+<tr>
+<td><strong>Vanna exposure</strong></td>
+<td>Delta sensitivity to vol</td>
+<td>$M delta shift per vol pt</td>
+<td>Large vanna → delta will shift violently in a vol spike. Need to anticipate.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="long-gamma-vs-short-gamma-the-risk-managers-view">Long Gamma vs Short Gamma — The Risk Manager's View</h2>
+<h2 id="greek-limits-how-an-rm-sets-them">Greek Limits — How an RM Sets Them</h2>
+<p>At a fund like Squarepoint, each PM desk has Greek limits:</p>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>Long Gamma</th>
-<th>Short Gamma</th>
+<th>Limit</th>
+<th>Typical constraint</th>
+<th>Why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Pay or earn theta?</td>
-<td>PAY</td>
-<td>EARN</td>
+<td><strong>Delta limit</strong></td>
+<td>±$50M per desk</td>
+<td>Caps directional exposure. Prevents a single PM from betting the fund.</td>
 </tr>
 <tr>
-<td>Big moves help or hurt?</td>
-<td>HELP</td>
-<td>HURT</td>
+<td><strong>Gamma limit</strong></td>
+<td>Short gamma &lt; $X per 1%</td>
+<td>Caps convexity risk. Limits how much losses can accelerate.</td>
 </tr>
 <tr>
-<td>P&amp;L pattern</td>
-<td>Many small losses, occasional big wins</td>
-<td>Many small wins, occasional big losses</td>
+<td><strong>Vega limit</strong></td>
+<td>±$Y per vol point</td>
+<td>Caps vol exposure. Prevents one vol spike from wiping a desk.</td>
 </tr>
 <tr>
-<td>Risk manager's concern</td>
-<td>Theta bleed → are we spending too much?</td>
-<td>Tail event → can we survive a 5-sigma day?</td>
+<td><strong>Theta limit</strong></td>
+<td>−$Z/day max spend</td>
+<td>Prevents excessive bleed from buying overpriced optionality.</td>
 </tr>
 <tr>
-<td>Who does this?</td>
-<td>Hedge funds buying protection, vol arbitrageurs</td>
-<td>Market makers, sellers of premium (income strategies)</td>
+<td><strong>Concentration limit</strong></td>
+<td>Max % of Greeks from a single name/strike</td>
+<td>Prevents pin risk and single-name gamma concentration.</td>
+</tr>
+<tr>
+<td><strong>Expiry limit</strong></td>
+<td>Max gamma exposure within 5 days of expiry</td>
+<td>Controls pin risk and explosive near-expiry gamma.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The aggregation challenge:</strong> PM A is long gamma, PM B is short gamma. At the PORTFOLIO level, they may offset. But that offset only works if both positions are on the SAME underlying at the SAME strike. A systematic RM system needs to calculate Greeks at the portfolio level AND flag concentrated risks at the position level.</p>
+<h2 id="long-gamma-vs-short-gamma-the-risk-managers-decision-framework">Long Gamma vs Short Gamma — The Risk Manager's Decision Framework</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Long Gamma Book</th>
+<th>Short Gamma Book</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Daily P&amp;L</strong></td>
+<td>Volatile — swings with realized vol</td>
+<td>Smooth — steady theta income</td>
+</tr>
+<tr>
+<td><strong>Tail risk</strong></td>
+<td>Protected — gains from big moves</td>
+<td><strong>Exposed</strong> — large moves cause accelerating losses</td>
+</tr>
+<tr>
+<td><strong>P&amp;L distribution</strong></td>
+<td>Negative skew: many small losses, occasional big wins</td>
+<td>Positive skew: many small wins, occasional BIG losses</td>
+</tr>
+<tr>
+<td><strong>Regime preference</strong></td>
+<td>High realized vol</td>
+<td>Low realized vol</td>
+</tr>
+<tr>
+<td><strong>What can kill it</strong></td>
+<td>Prolonged low vol → theta bleed exhausts capital</td>
+<td>Single large move → losses exceed all prior theta income</td>
+</tr>
+<tr>
+<td><strong>RM monitoring</strong></td>
+<td>Is theta cost sustainable? How long can we bleed?</td>
+<td>What's worst-case on a 3σ/5σ day? Can the fund survive it?</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-4-greek-interactions-in-practice">PART 4: GREEK INTERACTIONS IN PRACTICE</h1>
-<h2 id="scenario-market-drops-5-vol-spikes-8-points">Scenario: Market drops 5%, vol spikes 8 points</h2>
-<p>A PM has a portfolio with:<br />
-- Net delta: +$20M (long equities)<br />
-- Gamma: -$500K per 1% move (short gamma from sold puts)<br />
-- Vega: -$200K per vol point<br />
-- Theta: +$30K/day</p>
-<p><strong>What happens:</strong></p>
-<ol>
-<li><strong>Delta loss:</strong> +$20M delta × -5% = <strong>-$1.0M</strong></li>
-<li><strong>Gamma acceleration:</strong> Being short gamma, losses accelerate. Gamma P&amp;L = ½ × (-$500K) × 5² = <strong>-$6.25M</strong> (approximate, since gamma changes with spot)</li>
-<li><strong>Vega loss:</strong> Vol spikes 8pts, short vega: 8 × (-$200K) = <strong>-$1.6M</strong></li>
-<li><strong>Theta gain:</strong> Still earning: <strong>+$30K</strong> (negligible in this context)</li>
-</ol>
-<p><strong>Total estimated loss: ~$8.8M</strong></p>
-<p>The PM thought they were "only" $20M delta. But short gamma and short vega turned a $1M delta loss into an $8.8M portfolio loss. That's why Greeks beyond delta matter.</p>
+<h1 id="part-9-greeks-in-action-scenario-analysis">PART 9: GREEKS IN ACTION — SCENARIO ANALYSIS</h1>
+<h2 id="scenario-1-market-drops-5-vol-spikes-12-points">Scenario 1: Market Drops 5%, Vol Spikes 12 Points</h2>
+<p><strong>Portfolio:</strong><br />
+- Net delta: +$30M (long equities)<br />
+- Dollar gamma: −$800K per 1% (short gamma — sold puts for income)<br />
+- Vega: −$250K per vol point (short vega from the same sold puts)<br />
+- Theta: +$45K/day (earning from the short premium)</p>
+<p><strong>Decomposition:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Calculation</th>
+<th>P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta</td>
+<td>+$30M × −5%</td>
+<td><strong>−$1,500,000</strong></td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>½ × (−$800K) × 5²</td>
+<td><strong>−$10,000,000</strong></td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>−$250K × 12 pts</td>
+<td><strong>−$3,000,000</strong></td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>+$45K × 1 day</td>
+<td><strong>+$45,000</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td><strong>−$14,455,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The PM thought:</strong> "I'm only $30M long delta. A 5% drop costs me $1.5M. Manageable."<br />
+<strong>Reality:</strong> Short gamma turned a $1.5M delta loss into $11.5M. Short vega added another $3M. Total: $14.5M — nearly <strong>10x</strong> the naïve delta-only estimate.</p>
 <p><strong>What the RM should have flagged BEFORE:</strong><br />
-- "You're short gamma — a 5% move costs you $6M+ on top of your delta loss."<br />
-- "Your short vega adds another layer — a vol spike compounds the sell-off damage."<br />
-- "Your net risk profile is concave — you lose more than linearly in a down move."</p>
+- "Your gamma profile means a 5% move costs $10M+ beyond your delta loss"<br />
+- "Your vega is correlated with your delta — a sell-off creates compounding losses"<br />
+- "Your P&amp;L profile is CONCAVE — you lose more than linearly in tail events"<br />
+- "Stress scenario: SPX −5%, VIX +12 → $14.5M loss. Is that within your book's risk budget?"</p>
+<h2 id="scenario-2-market-grinds-sideways-for-30-days">Scenario 2: Market Grinds Sideways for 30 Days</h2>
+<p><strong>Same portfolio as above:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Calculation</th>
+<th>P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta</td>
+<td>SPX ±0%</td>
+<td><strong>$0</strong></td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>No moves → no gamma P&amp;L</td>
+<td><strong>$0</strong></td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>Vol drops 2 pts (complacency)</td>
+<td><strong>+$500,000</strong></td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>+$45K × 22 trading days</td>
+<td><strong>+$990,000</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td><strong>+$1,490,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>This is the seduction of short gamma.</strong> In calm months, you earn $1.5M for "doing nothing." It FEELS like free money. But one bad month (Scenario 1) takes away 10 months of income. This is the classic premium-seller distribution — steady, steady, steady, CRASH.</p>
+<h2 id="scenario-3-the-vol-crush-after-an-event">Scenario 3: The Vol Crush After an Event</h2>
+<p><strong>PM bought straddles ahead of CPI:</strong><br />
+- Gamma: +$500K per 1%<br />
+- Vega: +$400K per vol point<br />
+- Theta: −$80K/day</p>
+<p><strong>CPI comes in line with expectations. Market moves 0.3%. Vol drops 4 points.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Calculation</th>
+<th>P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta</td>
+<td>Straddle is delta-neutral → $0</td>
+<td><strong>$0</strong></td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>½ × $500K × 0.3² = tiny</td>
+<td><strong>+$225</strong></td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>+$400K × (−4)</td>
+<td><strong>−$1,600,000</strong></td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>−$80K × 1 day</td>
+<td><strong>−$80,000</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td><strong>−$1,679,775</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The PM was right about CPI creating a move — but the move was too small to cover the vol crush.</strong> The pre-event vol premium collapsed, and the gamma gain on a 0.3% move was negligible. This is the "vol event" trap: you need the event to produce a move large enough to overcome the IV crush. If IV was 25% pre-CPI and realized vol on the day was 10%, you overpaid.</p>
 <hr />
-<h1 id="part-5-interview-application">PART 5: INTERVIEW APPLICATION</h1>
-<p>If asked "Explain gamma and why it matters for risk management":</p>
-<p>"Gamma measures how fast delta changes — it's the acceleration of exposure. If you're long gamma, big market moves help you: your delta automatically adjusts in your favor. If you're short gamma, big moves hurt you: your exposure grows in the wrong direction as the market moves against you.</p>
-<p>For risk management, gamma is arguably more important than delta because delta tells you where you are RIGHT NOW but gamma tells you WHERE YOU'LL BE after a move. A portfolio that's short gamma and short vega has a concave P&amp;L profile — it underperforms in tail events on multiple dimensions simultaneously. That's what I'd flag: not just the current delta, but the shape of the P&amp;L curve and how it changes in stress."</p>
-<p>If asked "Walk me through the gamma-theta tradeoff":</p>
-<p>"There's no free lunch in options. Long gamma means you profit from big moves — but you pay theta every day for that privilege. Short gamma means you earn theta daily — but you're exposed to large, accelerating losses on big moves.</p>
-<p>The RM's job is to check that the tradeoff is conscious and fair. If a PM is paying $50K/day in theta, I'd ask: 'What realized vol level do you need to break even on this position?' If they're paying for 25% vol but the market is realizing 18%, they're bleeding. Conversely, if they're earning theta by selling premium, I'd check: 'What's your worst-case P&amp;L on a 3-sigma day? Can the fund survive that?'"</p>
+<h1 id="part-10-the-greeks-surface-how-greeks-change-across-strike-and-expiry">PART 10: THE GREEKS SURFACE — HOW GREEKS CHANGE ACROSS STRIKE AND EXPIRY</h1>
+<p>Understanding WHERE Greeks are highest helps with position construction:</p>
+<div class="highlight"><pre><span></span><code>                    GAMMA SURFACE
+
+       Short expiry  ┃  Long expiry
+                     ┃
+  OTM    ▪           ┃    ·            OTM
+         ▪▪          ┃    ··
+  ATM    ▪▪▪▪▪▪      ┃    ···          ATM     ← Gamma peaks ATM, spikes near expiry
+         ▪▪          ┃    ··
+  OTM    ▪           ┃    ·            OTM
+                     ┃
+         CONCENTRATED      SPREAD OUT
+         (explosive)       (gentle)
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>                    VEGA SURFACE
+
+       Short expiry  ┃  Long expiry
+                     ┃
+  OTM    ·           ┃    ▪            OTM
+         ·           ┃    ▪▪
+  ATM    ··          ┃    ▪▪▪▪▪▪       ATM     ← Vega peaks ATM, grows with time
+         ·           ┃    ▪▪
+  OTM    ·           ┃    ▪            OTM
+                     ┃
+         LOW VEGA          HIGH VEGA
+         (time too short)  (vol compounds)
+</code></pre></div>
+
+<p><strong>The key insight for position construction:</strong><br />
+- Want gamma (movement exposure)? → Buy <strong>near-dated ATM</strong><br />
+- Want vega (vol exposure)? → Buy <strong>far-dated ATM</strong><br />
+- Want gamma but NOT vega? → Buy near-dated, hedge vega by selling far-dated (calendar spread)<br />
+- Want vega but NOT gamma? → Buy far-dated OTM wings (low gamma, meaningful vega + volga)</p>
+<hr />
+<h1 id="part-11-interview-application">PART 11: INTERVIEW APPLICATION</h1>
+<p><strong>If asked "Explain gamma and why it matters for risk management":</strong></p>
+<p>"Gamma measures the rate of change of delta — it's the acceleration of P&amp;L. If you're long gamma, big moves help you: your delta automatically adjusts in your favor, and you profit proportionally to the SQUARE of the move. Short gamma is the opposite: losses accelerate as markets move against you.</p>
+<p>For risk management at a systematic-leaning fund, gamma is more important than delta because delta tells you where you are NOW but gamma tells you where you'll be AFTER a move. A desk that's earning $45K/day in theta from sold premium looks great on a calm day — but if they have $800K of short gamma per 1% and the market drops 5%, that theta income is wiped out by a $10M gamma loss in a single session. My job is to quantify that BEFORE it happens — stress the portfolio under 3σ and 5σ moves and make sure the tail loss is within the desk's risk budget."</p>
+<p><strong>If asked "Walk me through the gamma-theta tradeoff":</strong></p>
+<p>"There's no free lunch. Long gamma means you profit from realized volatility — your position naturally buys low and sells high through dynamic hedging — but you pay theta every day for that privilege. The break-even point is when realized vol equals implied vol. If you buy options at 20% IV and the market only realizes 15%, you bleed. Short gamma is the mirror: you earn theta daily, but you're writing insurance against tail events and your losses go as the square of the move.</p>
+<p>At the portfolio level, I'd track gamma/theta ratio as an efficiency metric. If a PM is paying $80K/day in theta but only has $300K/1% gamma, their break-even daily move is large — they need big, frequent moves to justify the cost. Conversely, a PM earning $45K/day in theta with $800K/1% short gamma has a Sharpe-killer hiding in the tail. I'd run the historical distribution of daily moves and show them: 'On 95% of days, you earn. On the other 5%, you lose everything from the past 3 months.'"</p>
+<p><strong>If asked "What are second-order Greeks and why should I care?":</strong></p>
+<p>"Second-order Greeks measure how first-order Greeks change — and in a crisis, that's what determines whether your hedges hold. Vanna tells you how delta shifts when vol moves. In a sell-off, vol spikes and vanna causes your put hedge deltas to become MORE negative — so your hedges automatically become more effective. That's a feature. Volga tells you how vega changes with vol — if you're short OTM puts and vol spikes, volga makes your vega loss ACCELERATE, compounding the damage.</p>
+<p>At the portfolio level, these second-order effects also drive systematic flows. Dealers who are short OTM puts have negative vanna exposure — when vol drops, their delta shifts and they sell, adding to downward pressure. When vol spikes, they buy, adding support. These 'vanna flows' move billions of dollars daily and are one reason markets behave differently around option-heavy environments like monthly expiry or around the gamma flip level."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>07_Risk_Reference</em> — Greeks defined, formulas<br />
 → <a href="B_Derivatives.html">Derivatives</a> — the instruments that generate Greek exposures<br />
-→ <a href="E_Volatility.html">Volatility</a> — vega and volatility in depth<br />
-→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using Greeks to decompose daily P&amp;L<br />
-→ <em>18_Round1_Trader_BattlePrep</em> — Section 1 (Greeks in interview context)</p>
+→ <a href="E_Volatility.html">Volatility</a> — vega, vol surface, skew, and term structure in depth<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using Greeks to decompose daily P&amp;L (delta + gamma + vega + theta = explained P&amp;L)<br />
+→ <a href="I_Hedging_Strategies.html">Hedging Strategies</a> — how to use Greeks to construct hedges<br />
+→ <a href="C_Market_Mechanics.html">Market Mechanics</a> — dealer gamma, 0DTE, vanna flows, market microstructure</p>
 </main>
 
 <script>

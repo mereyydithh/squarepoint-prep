@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,34 +308,85 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="g-portfolio-risk-concepts">G — PORTFOLIO RISK CONCEPTS</h1>
-<h2 id="correlation-concentration-basis-risk-liquidity-risk-factor-exposure-tail-risk">Correlation, concentration, basis risk, liquidity risk, factor exposure, tail risk</h2>
+<h1 id="g-portfolio-risk-the-architecture-of-fund-survival">G — PORTFOLIO RISK: THE ARCHITECTURE OF FUND SURVIVAL</h1>
+<h2 id="correlation-dynamics-diversification-math-factor-models-concentration-basis-risk-crowding-tail-dependence-liquidity-spirals-portfolio-construction-and-the-rms-aggregation-framework">Correlation dynamics, diversification math, factor models, concentration, basis risk, crowding, tail dependence, liquidity spirals, portfolio construction, and the RM's aggregation framework</h2>
 <h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="part-1-correlation">PART 1: CORRELATION</h1>
-<h2 id="what-it-is">What It Is</h2>
-<p>Correlation measures the degree to which two assets move together. Ranges from -1 (perfect opposite movement) to +1 (perfect co-movement). Zero = no linear relationship.</p>
-<p>$$\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \times \sigma_Y}$$</p>
-<h2 id="why-correlation-is-the-most-dangerous-number-in-risk-management">Why Correlation Is the Most Dangerous Number in Risk Management</h2>
-<p><strong>Correlation is NOT constant.</strong> It changes with:<br />
-- Market regime (risk-on vs risk-off)<br />
-- Volatility level (correlations spike when vol spikes)<br />
-- Macro environment (inflation vs deflation regime)<br />
-- Crisis vs calm</p>
-<p><strong>The critical asymmetry:</strong> When you need diversification most (in a crisis), correlation goes to 1. Assets that were "uncorrelated" in calm markets all sell off together.</p>
+<h1 id="why-this-is-the-spine-of-your-job">WHY THIS IS THE SPINE OF YOUR JOB</h1>
+<p>At Squarepoint, individual position risk is table stakes. Every PM manages their own book. Your job as Junior Risk Manager is the PORTFOLIO level — aggregating across desks, detecting hidden commonalities, and ensuring the whole fund survives scenarios no single PM is thinking about. This file covers the intellectual framework for doing that.</p>
+<p>The core reality: <strong>risk is not additive.</strong> A fund with four $3M-VaR desks doesn't have $12M of total VaR. It could be $6M (diversification) or $11M (hidden correlation). Understanding WHY — and monitoring the transition between those states — is the entire job.</p>
+<hr />
+<h1 id="part-1-correlation-the-most-dangerous-number-in-finance">PART 1: CORRELATION — THE MOST DANGEROUS NUMBER IN FINANCE</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Correlation is a chameleon — it looks stable in calm markets and shape-shifts violently the moment you need it to stay put.</p>
+</blockquote>
+<h2 id="the-math">The Math</h2>
+<p>$$\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \cdot \sigma_Y} = \frac{E[(X - \mu_X)(Y - \mu_Y)]}{\sigma_X \cdot \sigma_Y}$$</p>
+<p>Ranges from −1 (perfect inverse) to +1 (perfect co-movement). Zero = no LINEAR relationship (but non-linear dependence can still exist — see copulas).</p>
+<h2 id="why-correlation-is-treacherous">Why Correlation Is Treacherous</h2>
+<p><strong>Five properties that make correlation dangerous:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>What it means</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Regime-dependent</strong></td>
+<td>ρ changes with market state (risk-on/off, vol level, macro regime)</td>
+<td>The ρ you estimated from 2017-2019 is useless in March 2020</td>
+</tr>
+<tr>
+<td><strong>Asymmetric</strong></td>
+<td>ρ is typically HIGHER in sell-offs than rallies</td>
+<td>Diversification vanishes when you need it most</td>
+</tr>
+<tr>
+<td><strong>Non-stationary</strong></td>
+<td>Even within a regime, ρ drifts over time as fundamentals change</td>
+<td>Last year's correlation matrix is already stale</td>
+</tr>
+<tr>
+<td><strong>Only captures linear dependence</strong></td>
+<td>ρ=0 does NOT mean independent. Assets can have strong tail dependence with zero linear correlation</td>
+<td>Copula methods needed for tail co-movement</td>
+</tr>
+<tr>
+<td><strong>Estimation error</strong></td>
+<td>For N assets: N(N−1)/2 pairwise correlations. 500 assets → 124,750 parameters → massive estimation noise</td>
+<td>Covariance matrix is unreliable without shrinkage or factor structure</td>
+</tr>
+</tbody>
+</table>
 <h2 id="unconditional-vs-conditional-correlation">Unconditional vs Conditional Correlation</h2>
-<p><strong>Unconditional:</strong> The average correlation across all market environments. "SPX and oil have a 0.35 correlation over the past 5 years." This is what most risk models use.</p>
-<p><strong>Conditional (on stress):</strong> The correlation specifically during sell-offs. "SPX and oil have a 0.78 correlation when SPX is down &gt;2% in a day." This is what actually matters for portfolio risk.</p>
+<p><strong>Unconditional (average):</strong> ρ computed over the whole sample. This is what most risk models use. It's an average of calm and crisis, which means it's wrong in BOTH states.</p>
+<p><strong>Conditional (stress-specific):</strong> ρ computed only when the market is under stress (e.g., SPX down &gt;2%). This is what actually drives tail P&amp;L.</p>
 <table>
 <thead>
 <tr>
 <th>Pair</th>
 <th>Unconditional ρ</th>
-<th>Conditional ρ (in stress)</th>
+<th>Conditional ρ (stress)</th>
+<th>What flipped</th>
 </tr>
 </thead>
 <tbody>
@@ -342,446 +394,1456 @@ body {
 <td>SPX vs single stocks</td>
 <td>0.30</td>
 <td>0.70+</td>
+<td>Idiosyncratic washes out; beta dominates</td>
 </tr>
 <tr>
 <td>SPX vs HY credit</td>
 <td>0.50</td>
 <td>0.85+</td>
+<td>Both driven by risk appetite</td>
 </tr>
 <tr>
-<td>SPX vs US Treasury</td>
-<td>-0.30</td>
-<td>-0.50 (usually) BUT +0.40 in 2022 (inflation regime)</td>
+<td>SPX vs UST 10Y</td>
+<td>−0.30</td>
+<td>−0.50 (usually) BUT <strong>+0.40 in 2022</strong></td>
+<td>Inflation regime flips the sign</td>
 </tr>
 <tr>
-<td>Gold vs SPX</td>
-<td>-0.10</td>
-<td>-0.30 (usually) BUT +0.20 if real rates dominate</td>
+<td>SPX vs gold</td>
+<td>−0.10</td>
+<td>−0.30 (usually) BUT <strong>+0.20 if real rates dominate</strong></td>
+<td>Real rate sensitivity overrides safe-haven</td>
 </tr>
 <tr>
-<td>Cross-PM portfolios at same fund</td>
+<td>Cross-PM portfolios</td>
 <td>0.10-0.20</td>
-<td>0.50-0.80 (hidden common factors)</td>
+<td><strong>0.50-0.80</strong></td>
+<td>Hidden common macro factors emerge</td>
+</tr>
+<tr>
+<td>Momentum vs value</td>
+<td>−0.60</td>
+<td><strong>−0.90 (reversal)</strong> or <strong>+0.40 (both crash)</strong></td>
+<td>Depends on whether it's rotation or deleveraging</td>
 </tr>
 </tbody>
 </table>
+<p><strong>The 2022 case study:</strong> Stocks-bonds correlation flipped from −0.30 to +0.40. Every "60/40" portfolio, every equity-bonds hedge, every duration overlay ASSUMED negative correlation. When it flipped positive, hedges became additional losses. This regime change affected trillions in AUM globally. The RM who saw it coming was invaluable; the one who didn't was running a model that made things WORSE.</p>
+<h2 id="correlation-models-the-quant-desk-uses">Correlation Models the Quant Desk Uses</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>How it works</th>
+<th>Strengths</th>
+<th>Weaknesses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rolling window</strong></td>
+<td>ρ = last N-day sample correlation</td>
+<td>Simple, intuitive</td>
+<td>Jumpy, equal-weights old data, ghost effects</td>
+</tr>
+<tr>
+<td><strong>EWMA</strong></td>
+<td>Exponentially weight recent observations more heavily (λ=0.94 RiskMetrics)</td>
+<td>Responds to regime shifts faster</td>
+<td>Still backward-looking, one decay parameter for everything</td>
+</tr>
+<tr>
+<td><strong>DCC-GARCH</strong> (Dynamic Conditional Correlation)</td>
+<td>Two-stage: GARCH each series individually, then model conditional correlation dynamics</td>
+<td>Captures time-varying ρ with momentum and mean-reversion</td>
+<td>Computationally heavy for 500+ assets</td>
+</tr>
+<tr>
+<td><strong>Factor model implied</strong></td>
+<td>ρ_ij = β_i·β_j·σ²_market / (σ_i·σ_j) + residual</td>
+<td>Shrinks estimation error. Structured.</td>
+<td>Misses idiosyncratic co-movement</td>
+</tr>
+<tr>
+<td><strong>Copula</strong></td>
+<td>Models JOINT distribution separately from marginals</td>
+<td>Captures tail dependence even when linear ρ=0</td>
+<td>Hard to calibrate, model-selection risk</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What Squarepoint likely uses:</strong> Factor-model-implied correlation matrix (Barra or internal PCA factors) with DCC overlays for liquid assets and stressed-correlation overrides for tail scenarios. The single-number ρ from a spreadsheet is not what drives the risk system.</p>
+<h2 id="eigenvalue-decomposition-of-the-correlation-matrix">Eigenvalue Decomposition of the Correlation Matrix</h2>
+<p>A powerful diagnostic from linear algebra. Decompose the N×N correlation matrix into eigenvalues and eigenvectors:</p>
+<p>$$\mathbf{C} = \mathbf{Q} \boldsymbol{\Lambda} \mathbf{Q}^T$$</p>
+<p><strong>What the eigenvalues tell you:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Eigenvalue pattern</th>
+<th>Diagnosis</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One dominant eigenvalue (explains &gt;60% of variance)</td>
+<td>Portfolio dominated by a single factor (usually market beta)</td>
+<td>PM is running a directional bet, not a diversified book</td>
+</tr>
+<tr>
+<td>Top 3 eigenvalues explain &gt;85%</td>
+<td>Portfolio has 3 principal risk drivers</td>
+<td>Identify them — likely market, sector, style</td>
+</tr>
+<tr>
+<td>Many similar eigenvalues</td>
+<td>Genuinely diversified — many independent bets</td>
+<td>Healthy. Diversification is REAL.</td>
+</tr>
+<tr>
+<td>Smallest eigenvalue near zero</td>
+<td>Near-singular matrix — multicollinearity</td>
+<td>Risk system outputs can be numerically unstable. Requires regularization.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example — 4 desks:</strong><br />
+- Eigenvalue decomposition of desk-level P&amp;L correlation matrix: λ = [2.8, 0.6, 0.4, 0.2]<br />
+- First eigenvalue explains 2.8/4 = <strong>70% of total variance</strong><br />
+- Finding: all four desks are driven by the same factor (turns out: implicit SPX beta)<br />
+- The fund THINKS it has 4 independent desks. It actually has 1.3 effective bets.</p>
 <h2 id="what-the-rm-needs-to-do-about-correlation">What the RM Needs to Do About Correlation</h2>
 <ol>
-<li><strong>Don't trust trailing correlations.</strong> They're backward-looking and regime-dependent.</li>
-<li><strong>Stress test with elevated correlations.</strong> Run scenarios where ρ = 0.7 or 0.9 instead of the historical 0.3.</li>
-<li><strong>Monitor correlation regime changes.</strong> If stocks-bonds correlation flips from -0.3 to +0.3 → the entire hedging framework changes.</li>
-<li><strong>Aggregate across PMs.</strong> <a href="U_Scenario_Analysis.html">Scenario Analysis</a> Scenario 5 — the most dangerous risk is when all PMs are loading on the same hidden factor.</li>
+<li><strong>Never trust the trailing ρ at face value.</strong> Ask: "Which regime produced this estimate? Would it hold in stress?"</li>
+<li><strong>Run stressed-correlation scenarios.</strong> Re-compute VaR with ρ = 0.7 and ρ = 0.9 for all risk-on pairs. How much does VaR increase?</li>
+<li><strong>Monitor stocks-bonds ρ daily.</strong> In an inflation regime, positive ρ changes everything about hedging.</li>
+<li><strong>Aggregate across PMs.</strong> The most dangerous risk is when the CRO sees four "independent" desks but eigenvalue decomposition shows one factor.</li>
+<li><strong>Use implied correlation from options markets</strong> as a forward-looking estimate alongside backward-looking statistical estimates.</li>
 </ol>
 <hr />
-<h1 id="part-2-concentration-risk">PART 2: CONCENTRATION RISK</h1>
-<h2 id="what-it-is_1">What It Is</h2>
-<p>Too much risk in a single position, sector, factor, or counterparty.</p>
-<h2 id="types-of-concentration">Types of Concentration</h2>
-<h3 id="single-name-concentration">Single-Name Concentration</h3>
-<p>"20% of the book is in one stock." If that stock gaps down 15% on earnings, you're down 3% on the whole fund. That's a week's return gone.</p>
-<h3 id="sector-concentration">Sector Concentration</h3>
-<p>"40% of the book is in energy." Even with 10 different names, they'll all move together when oil moves. You don't have 10 positions — you have one oil bet dressed up as 10 positions.</p>
-<h3 id="factor-concentration">Factor Concentration</h3>
-<p>The most dangerous kind because it's HIDDEN. Multiple positions across different sectors can all load on the same factor:<br />
-- Long tech + short utilities + long growth + short value = massive momentum factor bet<br />
-- Long energy + long EM = oil beta bet in disguise<br />
-- Long banks + short Treasuries = rate bet in disguise</p>
-<p><strong>How to detect:</strong> Factor regression. Regress portfolio returns against standard factors (SPX, value, momentum, size, oil, rates, DXY). If R² against one factor is &gt;0.6 → that factor IS your portfolio.</p>
-<h3 id="crowding-concentration">Crowding Concentration</h3>
-<p>Even if YOUR fund is diversified, if every other hedge fund holds the same positions, the aggregate is concentrated. When one fund de-risks, they all need to → amplified selling → crash.</p>
-<p><strong>How to detect:</strong><br />
-- 13F overlap analysis (how many funds hold the same stocks?)<br />
-- Short interest concentration (high short interest = crowded short)<br />
-- Factor-weighted positioning (is the "momentum long" crowded across the industry?)</p>
-<hr />
-<h1 id="part-3-basis-risk">PART 3: BASIS RISK</h1>
-<h2 id="what-it-is_2">What It Is</h2>
-<p>The risk that a hedge doesn't move 1:1 with the position it's supposed to hedge. The "basis" = price of the hedged asset minus price of the hedging instrument.</p>
-<h2 id="examples">Examples</h2>
+<h1 id="part-2-diversification-the-math-and-its-limits">PART 2: DIVERSIFICATION — THE MATH AND ITS LIMITS</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Diversification is the only free lunch in finance — until the restaurant closes during a crisis and you discover everyone was eating at the same table.</p>
+</blockquote>
+<h2 id="the-diversification-formula">The Diversification Formula</h2>
+<p>For a portfolio of N assets with equal weights:</p>
+<p>$$\sigma_p = \sigma \sqrt{\frac{1}{N} + \frac{N-1}{N} \bar{\rho}}$$</p>
+<p>Where σ = average individual asset vol, $\bar{\rho}$ = average pairwise correlation.</p>
+<p><strong>Key insight from this formula:</strong><br />
+- As $N \to \infty$: $\sigma_p \to \sigma \sqrt{\bar{\rho}}$<br />
+- You can NEVER diversify below $\sigma \sqrt{\bar{\rho}}$ — this is the <strong>systematic risk floor</strong><br />
+- If $\bar{\rho} = 0.30$ and σ = 25%: floor = 25% × √0.30 = <strong>13.7%</strong> — no matter how many stocks you hold</p>
+<p><strong>Diversification benefit table (assuming σ = 25%, equal weight):</strong></p>
 <table>
 <thead>
 <tr>
-<th>Position</th>
-<th>Hedge</th>
-<th>Basis risk</th>
+<th>N positions</th>
+<th>ρ = 0.0</th>
+<th>ρ = 0.20</th>
+<th>ρ = 0.40</th>
+<th>ρ = 0.60</th>
+<th>ρ = 0.80</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Long XOM stock</td>
-<td>Short XLE (energy ETF)</td>
-<td>XOM might outperform XLE → hedge doesn't fully offset</td>
-</tr>
-<tr>
-<td>Long Brent crude</td>
-<td>Short WTI crude</td>
-<td>Brent-WTI spread can widen/narrow independently</td>
-</tr>
-<tr>
-<td>Long corporate bonds</td>
-<td>Short Treasury futures</td>
-<td>Credit spread can move independent of rate moves</td>
-</tr>
-<tr>
-<td>Long foreign stocks</td>
-<td>Short FX</td>
-<td>FX hedge has a different tenor/maturity than equity position</td>
-</tr>
-</tbody>
-</table>
-<h2 id="why-basis-risk-matters">Why Basis Risk Matters</h2>
-<p>A PM says: "I'm hedged — I have a put on SPX against my portfolio." But the portfolio is 60% tech, 20% healthcare, 20% energy. If tech sells off 15% but SPX only drops 7% (because banks and energy hold up), the hedge covers 7% of a 15% loss. That's basis risk.</p>
-<h2 id="how-to-manage">How to Manage</h2>
-<ul>
-<li>Hedge with the MOST CORRELATED instrument to the actual exposure.</li>
-<li>Monitor the basis continuously — it's not static.</li>
-<li>Understand that basis risk is the risk of being "right on the direction, wrong on the hedge."</li>
-<li>If basis is unstable → reduce position size or find a better hedge.</li>
-</ul>
-<hr />
-<h1 id="part-4-liquidity-risk">PART 4: LIQUIDITY RISK</h1>
-<h2 id="two-dimensions-recap-from-market-mechanics">Two Dimensions (recap from <a href="C_Market_Mechanics.html">Market Mechanics</a>)</h2>
-<h3 id="market-liquidity-risk">Market Liquidity Risk</h3>
-<p>Can you exit the position without moving the price?</p>
-<p><strong>Measures:</strong><br />
-- <strong>ADV ratio:</strong> Position size / Average Daily Volume. &gt;5% = illiquid. &gt;20% = you ARE the market.<br />
-- <strong>Bid-ask spread:</strong> Wider spread = more illiquid. Cost of immediate execution.<br />
-- <strong>Market impact:</strong> How much your trade moves the price. Non-linear — 2x the size doesn't just cost 2x; it costs more.<br />
-- <strong>Days to liquidate:</strong> Position / (30% of ADV) = approximate days needed to exit without excessive impact.</p>
-<h3 id="funding-liquidity-risk">Funding Liquidity Risk</h3>
-<p>Can you meet cash obligations (margin calls, redemptions)?</p>
-<p><strong>Liquidity mismatch:</strong> If the fund allows monthly redemptions but holds positions that take 3 weeks to liquidate → mismatch. When redemptions hit during a crisis → fire-sale liquidation.</p>
-<h2 id="liquidity-risk-hierarchy">Liquidity Risk Hierarchy</h2>
-<table>
-<thead>
-<tr>
-<th>Instrument</th>
-<th>Liquidity tier</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>US Treasuries</td>
-<td>1 (most liquid)</td>
-<td>Usually — BUT March 2020 proved even Treasuries can become illiquid</td>
-</tr>
-<tr>
-<td>S&amp;P 500 E-mini futures</td>
 <td>1</td>
-<td>Most liquid equity product in the world</td>
+<td>25.0%</td>
+<td>25.0%</td>
+<td>25.0%</td>
+<td>25.0%</td>
+<td>25.0%</td>
 </tr>
 <tr>
-<td>Large cap equities (AAPL, MSFT)</td>
-<td>1-2</td>
-<td>Very liquid in normal markets</td>
+<td>5</td>
+<td>11.2%</td>
+<td>13.4%</td>
+<td>16.0%</td>
+<td>18.7%</td>
+<td>21.5%</td>
 </tr>
 <tr>
-<td>Mid/small cap equities</td>
-<td>2-3</td>
-<td>Can take days to exit in size</td>
+<td>10</td>
+<td>7.9%</td>
+<td>12.1%</td>
+<td>15.0%</td>
+<td>18.2%</td>
+<td>21.1%</td>
 </tr>
 <tr>
-<td>Investment grade bonds</td>
-<td>2-3</td>
-<td>OTC, dealer-intermediated</td>
+<td>30</td>
+<td>4.6%</td>
+<td>11.5%</td>
+<td>14.4%</td>
+<td>17.8%</td>
+<td>20.8%</td>
 </tr>
 <tr>
-<td>High yield bonds</td>
-<td>3-4</td>
-<td>Illiquid in stress, wide bid-ask</td>
+<td>100</td>
+<td>2.5%</td>
+<td>11.2%</td>
+<td>14.1%</td>
+<td>17.7%</td>
+<td>20.7%</td>
 </tr>
 <tr>
-<td>OTC derivatives (IRS, CDS)</td>
-<td>3-4</td>
-<td>Custom terms, dealer dependent</td>
-</tr>
-<tr>
-<td>Exotic OTC derivatives</td>
-<td>4-5</td>
-<td>May have ONE counterparty</td>
-</tr>
-<tr>
-<td>Private credit / loans</td>
-<td>5 (least liquid)</td>
-<td>No secondary market in stress</td>
+<td>∞</td>
+<td>0%</td>
+<td><strong>11.2%</strong></td>
+<td><strong>15.8%</strong></td>
+<td><strong>19.4%</strong></td>
+<td><strong>22.4%</strong></td>
 </tr>
 </tbody>
 </table>
-<h2 id="liquidity-monitoring-for-the-rm">Liquidity Monitoring for the RM</h2>
-<p>Daily checklist:<br />
-1. What % of the portfolio can be liquidated in 1 day? 3 days? 1 week?<br />
-2. What is margin utilization as % of available credit?<br />
-3. What's the cash buffer? (How many days of negative P&amp;L before margin calls?)<br />
-4. Any position &gt;5% of ADV? Flag it.<br />
-5. In a vol spike, how much does margin increase? Do we have the cash?</p>
-<hr />
-<h1 id="part-5-factor-exposure">PART 5: FACTOR EXPOSURE</h1>
-<h2 id="what-factors-are">What Factors Are</h2>
-<p>Systematic drivers of returns that explain WHY a portfolio moves. The main families:</p>
-<h3 id="equity-style-factors-fama-french-extensions">Equity Style Factors (Fama-French &amp; extensions)</h3>
+<p><strong>Reading the table:</strong> At ρ=0.40 (realistic for equities in the same market), going from 10 to 100 stocks only reduces vol from 15.0% to 14.1% — diminishing returns are extreme. Most diversification benefit is captured by 15-20 uncorrelated positions. Beyond that, you need to reduce CORRELATION, not add positions.</p>
+<h2 id="the-diversification-ratio">The Diversification Ratio</h2>
+<p>$$\text{DR} = \frac{\sum_i w_i \sigma_i}{\sigma_p} = \frac{\text{Weighted average vol}}{\text{Portfolio vol}}$$</p>
 <table>
 <thead>
 <tr>
-<th>Factor</th>
-<th>Long</th>
-<th>Short</th>
-<th>What drives it</th>
+<th>DR</th>
+<th>Interpretation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Market (MKT)</td>
-<td>Equities</td>
-<td>Risk-free</td>
-<td>Equity risk premium</td>
+<td>1.0</td>
+<td>No diversification (all assets perfectly correlated or single asset)</td>
 </tr>
 <tr>
-<td>Size (SMB)</td>
-<td>Small caps</td>
-<td>Large caps</td>
-<td>Liquidity premium, information asymmetry</td>
+<td>1.2-1.5</td>
+<td>Moderate diversification</td>
 </tr>
 <tr>
-<td>Value (HML)</td>
-<td>Low P/B stocks</td>
-<td>High P/B stocks</td>
-<td>Mean reversion, behavioral</td>
+<td>1.5-2.0</td>
+<td>Good diversification</td>
 </tr>
 <tr>
-<td>Momentum (MOM)</td>
-<td>Past winners</td>
-<td>Past losers</td>
-<td>Behavioral (herding, underreaction)</td>
-</tr>
-<tr>
-<td>Quality (QMJ)</td>
-<td>High profit, low leverage</td>
-<td>Low profit, high leverage</td>
-<td>Fundamental risk</td>
-</tr>
-<tr>
-<td>Low Vol (BAB)</td>
-<td>Low-beta stocks</td>
-<td>High-beta stocks</td>
-<td>Leverage aversion, benchmark hugging</td>
+<td>2.0+</td>
+<td>Strong diversification — portfolio vol much less than weighted-average vol</td>
 </tr>
 </tbody>
 </table>
-<h3 id="macro-factors">Macro Factors</h3>
+<p><strong>RM use:</strong> Track DR daily. If it DROPS (toward 1.0), correlations are rising and diversification is evaporating — typically in stress. DR dropping from 1.8 to 1.3 is an early warning.</p>
+<h2 id="effective-number-of-bets-enb">Effective Number of Bets (ENB)</h2>
+<p>$$\text{ENB} = \frac{(\text{DR})^2}{1} = \left(\frac{\sum w_i \sigma_i}{\sigma_p}\right)^2$$</p>
+<p>Alternative (from PCA): $\text{ENB} = \exp\left(-\sum_i p_i \ln p_i\right)$ where $p_i = \lambda_i / \sum \lambda_j$ (Shannon entropy of eigenvalues).</p>
+<p>A fund with 50 positions but ENB = 3 has three effective bets. This number should be tracked and compared to what the PM claims.</p>
+<h2 id="when-diversification-fails">When Diversification Fails</h2>
+<p><strong>Mechanism:</strong> In tail events, correlations spike → diversification benefit collapses → portfolio vol jumps → margin calls → forced selling → more correlation → feedback loop.</p>
+<table>
+<thead>
+<tr>
+<th>Crisis</th>
+<th>Pre-crisis ρ_avg</th>
+<th>Crisis ρ_avg</th>
+<th>Diversification loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LTCM 1998</td>
+<td>0.25</td>
+<td>0.70</td>
+<td>~60% of diversification benefit gone</td>
+</tr>
+<tr>
+<td>GFC 2008</td>
+<td>0.30</td>
+<td>0.80</td>
+<td>~70% gone</td>
+</tr>
+<tr>
+<td>COVID 2020</td>
+<td>0.25</td>
+<td>0.75</td>
+<td>~65% gone (recovered within weeks)</td>
+</tr>
+<tr>
+<td>2022 inflation</td>
+<td>stocks-bonds −0.30</td>
+<td>stocks-bonds +0.40</td>
+<td><strong>Sign reversal</strong> — hedge became loss</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM implication:</strong> Your VaR model uses calm-period correlations showing portfolio vol of 10%. In a crisis, actual correlations spike and real portfolio vol is 18%. Your VaR was understated by 80%. This is precisely the scenario you must stress-test for.</p>
+<hr />
+<h1 id="part-3-factor-models-x-raying-the-portfolio">PART 3: FACTOR MODELS — X-RAYING THE PORTFOLIO</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Factor models look through the 500 individual positions and tell you the 8 real risks driving the fund — because 500 positions with the same factor exposure is not diversification, it's a leveraged bet on that factor.</p>
+</blockquote>
+<h2 id="what-factor-models-do">What Factor Models Do</h2>
+<p>A factor model decomposes every asset's return into systematic (explainable) and idiosyncratic (residual) components:</p>
+<p>$$r_i = \alpha_i + \sum_{k=1}^K \beta_{ik} f_k + \epsilon_i$$</p>
+<p>Where $f_k$ = factor return, $\beta_{ik}$ = asset i's loading on factor k, $\epsilon_i$ = idiosyncratic return.</p>
+<p><strong>Portfolio-level:</strong> The portfolio's risk is then:</p>
+<p>$$\sigma_p^2 = \mathbf{b}<em>p^T \boldsymbol{\Sigma}_f \mathbf{b}_p + \sum_i w_i^2 \sigma</em>{\epsilon_i}^2$$</p>
+<p>Where the first term = <strong>systematic (factor) risk</strong> and the second = <strong>specific (idiosyncratic) risk</strong>.</p>
+<p><strong>In a well-diversified portfolio:</strong> Specific risk → 0 as N increases. Factor risk dominates. This means understanding factor exposures IS understanding portfolio risk.</p>
+<h2 id="the-three-factor-model-families">The Three Factor Model Families</h2>
+<h3 id="1-fundamental-factor-models-barra-axioma">1. Fundamental Factor Models (Barra / Axioma)</h3>
+<p>Pre-defined factors based on company characteristics.</p>
+<p><strong>Barra equity model example (70+ factors):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Factors</th>
+<th>What they capture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Country</strong></td>
+<td>US, UK, JP, DE, CN, ...</td>
+<td>Geographic return drivers</td>
+</tr>
+<tr>
+<td><strong>Industry</strong></td>
+<td>Energy, Banks, Tech, Healthcare, ... (30+)</td>
+<td>Sector-specific returns</td>
+</tr>
+<tr>
+<td><strong>Style</strong></td>
+<td>Size, Value, Momentum, Volatility, Growth, Quality, Leverage, Yield, Liquidity</td>
+<td>Cross-sectional attributes</td>
+</tr>
+<tr>
+<td><strong>Currency</strong></td>
+<td>USD, EUR, GBP, JPY, ...</td>
+<td>FX exposure within equity returns</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How Barra works:</strong> Each stock gets factor loadings updated monthly (e.g., AAPL: Size = −1.2 [large], Momentum = +0.8, Value = −0.5 [growth]). The model estimates factor returns daily. Portfolio risk = f(aggregate factor exposures × factor covariance matrix + specific risk).</p>
+<p><strong>Squarepoint context:</strong> Almost certainly runs a multi-factor risk model (Barra, Axioma, or proprietary PCA-based). Daily reports show: "Your top risk contributors are: Market factor (40% of variance), Momentum (25%), Tech sector (15%), Specific (20%)."</p>
+<h3 id="2-macroeconomic-factor-models">2. Macroeconomic Factor Models</h3>
+<p>Factors are observable macro variables.</p>
 <table>
 <thead>
 <tr>
 <th>Factor</th>
+<th>Proxy</th>
 <th>What it captures</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Rates (DV01)</td>
-<td>Sensitivity to interest rate moves</td>
+<td>Equity market</td>
+<td>SPX return</td>
+<td>Broad market risk premium</td>
 </tr>
 <tr>
-<td>Credit (CS01)</td>
-<td>Sensitivity to credit spread moves</td>
+<td>Interest rates</td>
+<td>ΔUS10Y</td>
+<td>Rate sensitivity</td>
 </tr>
 <tr>
-<td>Oil</td>
-<td>Sensitivity to energy prices</td>
+<td>Credit</td>
+<td>ΔIG spread</td>
+<td>Credit cycle</td>
 </tr>
 <tr>
-<td>Dollar (DXY)</td>
-<td>Sensitivity to USD strength/weakness</td>
+<td>Inflation</td>
+<td>ΔTIPS breakeven</td>
+<td>Inflation expectations</td>
 </tr>
 <tr>
-<td>VIX / Vol</td>
-<td>Sensitivity to volatility changes</td>
+<td>Commodity</td>
+<td>ΔBCOM / ΔWTI</td>
+<td>Real asset sensitivity</td>
 </tr>
 <tr>
-<td>Inflation breakeven</td>
-<td>Sensitivity to inflation expectations</td>
+<td>Currency</td>
+<td>ΔDXY</td>
+<td>Dollar strength</td>
+</tr>
+<tr>
+<td>Volatility</td>
+<td>ΔVIX</td>
+<td>Risk appetite</td>
 </tr>
 </tbody>
 </table>
-<h2 id="why-factor-exposure-matters-for-risk">Why Factor Exposure Matters for Risk</h2>
-<h3 id="1-alpha-is-often-disguised-factor-exposure">1. "Alpha" is often disguised factor exposure</h3>
-<p>A PM claims they're generating alpha through stock selection. But factor decomposition shows 80% of their returns are explained by long momentum + long growth. They're not picking stocks — they're selling momentum exposure at a 2-and-20 fee.</p>
-<h3 id="2-diversification-is-only-real-at-the-factor-level">2. Diversification is only real at the factor level</h3>
-<p>A fund with 50 equity positions looks diversified. But if all 50 stocks load heavily on momentum → one factor bet. Diversification at the NAME level is meaningless if factor concentration exists.</p>
-<h3 id="3-factor-crowding-creates-systemic-risk">3. Factor crowding creates systemic risk</h3>
-<p>When every fund owns the same factor (e.g., momentum 2015-2020), a factor rotation (momentum crash Q4 2018, or value-momentum rotation 2020) causes coordinated losses across the industry.</p>
-<h2 id="how-to-monitor-factor-exposure">How to Monitor Factor Exposure</h2>
-<ul>
-<li>Daily factor attribution: decompose portfolio returns into factor contributions</li>
-<li>Factor P&amp;L: how much did each factor contribute to today's P&amp;L?</li>
-<li>Factor concentration: is &gt;50% of risk in a single factor?</li>
-<li>Factor tilts vs mandate: if the PM says "stock picker" but 70% of risk is factor → conversation</li>
-</ul>
-<hr />
-<h1 id="part-6-tail-risk-fat-tails">PART 6: TAIL RISK &amp; FAT TAILS</h1>
-<h2 id="what-fat-tails-are">What Fat Tails Are</h2>
-<p>Real financial returns have more extreme moves than a normal distribution predicts. The "tails" of the distribution are "fatter."</p>
-<p><strong>Quantifying:</strong><br />
-- <strong>Kurtosis:</strong> Normal distribution has kurtosis = 3. Financial returns typically have kurtosis = 5-10+. Higher = fatter tails.<br />
-- <strong>Practical:</strong> A 4-sigma daily move should happen once in ~126 years under normal distribution. In equities, it happens roughly every 2-3 years. The models undercount extreme events by a factor of ~50x.</p>
-<h2 id="tail-risk-the-risk-that-matters-most">Tail Risk = The Risk That Matters Most</h2>
-<p>Normal days are boring. The RM's value is in TAIL events. Your job is to ensure the fund survives:<br />
-- A day that VaR said was "impossible"<br />
-- A move that "hasn't happened in 30 years"<br />
-- A correlation that "doesn't exist"</p>
-<h2 id="tail-risk-management-tools">Tail Risk Management Tools</h2>
+<p><strong>Use case:</strong> For a discretionary macro fund, decompose: "How much of our P&amp;L came from our rate view vs our equity view vs our commodity view?"</p>
+<h3 id="3-statistical-factor-models-pca">3. Statistical Factor Models (PCA)</h3>
+<p>No economic interpretation — purely statistical. Extract principal components from the return covariance matrix.</p>
+<p>$$\text{PC}_1 = \text{direction of maximum variance}$$<br />
+$$\text{PC}_2 = \text{direction of maximum remaining variance, orthogonal to PC}_1$$</p>
+<p><strong>Typical equity PCA results:</strong><br />
+- PC1 ≈ market factor (explains 40-60% of variance)<br />
+- PC2 ≈ growth vs value rotation (~10-15%)<br />
+- PC3 ≈ small vs large (~5-8%)<br />
+- PC4+ ≈ sector rotations, less interpretable</p>
+<p><strong>Strengths over fundamental:</strong> No assumptions about what the factors ARE. Purely data-driven. Captures hidden factors the fundamental model misses.</p>
+<p><strong>Weaknesses:</strong> Hard to interpret ("PC3 is a long banks/short utilities factor… why?"). Unstable — the PCs rotate over time. Factor loadings change every recalibration.</p>
+<h2 id="factor-risk-decomposition-the-power-tool">Factor Risk Decomposition — The Power Tool</h2>
+<p><strong>Worked example — Fund with 3 desks:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Tool</th>
-<th>What it does</th>
-<th>Cost</th>
+<th>Factor</th>
+<th>Desk A exposure</th>
+<th>Desk B exposure</th>
+<th>Desk C exposure</th>
+<th><strong>Fund aggregate</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>OTM put options</td>
-<td>Direct tail protection</td>
-<td>Theta decay (0.5-2% annualized)</td>
+<td>Market β</td>
+<td>+0.30</td>
+<td>+0.15</td>
+<td>−0.10</td>
+<td><strong>+0.35</strong></td>
 </tr>
 <tr>
-<td>Put spreads</td>
-<td>Cheaper tail protection (caps the payout)</td>
-<td>Less theta but limited payout</td>
+<td>Momentum</td>
+<td>+0.50</td>
+<td>+0.30</td>
+<td>+0.20</td>
+<td><strong>+1.00</strong> ← DANGER</td>
 </tr>
 <tr>
-<td>VIX calls</td>
-<td>Convex payoff in vol spikes</td>
-<td>Expensive, roll cost in contango</td>
+<td>Value</td>
+<td>−0.20</td>
+<td>+0.10</td>
+<td>+0.05</td>
+<td><strong>−0.05</strong></td>
 </tr>
 <tr>
-<td>Dynamic hedging</td>
-<td>Increase hedges as market drops</td>
-<td>Requires discipline, can be whipsawed</td>
+<td>Size (small)</td>
+<td>+0.10</td>
+<td>+0.30</td>
+<td>+0.10</td>
+<td><strong>+0.50</strong></td>
 </tr>
 <tr>
-<td>Position limits</td>
-<td>Prevent catastrophic concentration</td>
-<td>Limits PM flexibility</td>
-</tr>
-<tr>
-<td>Diversification</td>
-<td>Spread risk across uncorrelated assets</td>
-<td>Only works if correlations hold</td>
-</tr>
-<tr>
-<td>Cash buffer</td>
-<td>Reserve for margin calls</td>
-<td>Opportunity cost</td>
+<td>Rates (DV01)</td>
+<td>$0K</td>
+<td>−$5K</td>
+<td>+$3K</td>
+<td><strong>−$2K</strong></td>
 </tr>
 </tbody>
 </table>
-<h2 id="the-paradox-of-tail-protection">The Paradox of Tail Protection</h2>
-<ul>
-<li>Tail protection COSTS money. Buying puts every month at 1.5% annualized drag = 7.5% over 5 years.</li>
-<li>But when the tail hits, it SAVES the fund. March 2020: funds with tail hedges survived. Funds without were forced to liquidate.</li>
-<li>The RM's job: articulate this tradeoff. "The tail hedge costs $2M/year. The tail event it protects against could cost $50M. Is $2M good insurance?"</li>
-</ul>
+<p><strong>Diagnosis:</strong> Each desk looks individually reasonable. But aggregate momentum exposure = +1.00 — that's a MASSIVE hidden concentration. If momentum reverses (as it did violently in Q4 2018 or Sep 2020), all three desks lose simultaneously. No single PM sees this. Only the RM aggregating across desks can detect it.</p>
+<p><strong>Factor risk contribution:</strong></p>
+<p>$$\text{Factor risk}<em>k = \frac{\beta</em>{p,k}^2 \sigma_k^2}{\sigma_p^2} \times 100\%$$</p>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Contribution to portfolio variance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Momentum</td>
+<td><strong>52%</strong> ← majority of risk is ONE factor</td>
+</tr>
+<tr>
+<td>Market</td>
+<td>22%</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>12%</td>
+</tr>
+<tr>
+<td>Rates</td>
+<td>8%</td>
+</tr>
+<tr>
+<td>Specific</td>
+<td>6%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Action:</strong> Momentum is &gt;50% of risk. Either (a) the CIO consciously wants this as the house view, or (b) it's unintentional and needs to be reduced. The RM's job is to surface this and have the conversation.</p>
+<h2 id="alpha-vs-factor-return-decomposition">Alpha vs Factor Return Decomposition</h2>
+<p>$$R_p = \underbrace{\alpha}<em>{\text{skill}} + \underbrace{\sum_k \beta_k f_k}</em>{\text{factor exposure}} + \underbrace{\epsilon}_{\text{residual}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What the RM checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>α &gt; 0 (significant)</td>
+<td>PM is generating genuine alpha. Justify the fees.</td>
+</tr>
+<tr>
+<td>α ≈ 0, R² high</td>
+<td>PM's return is ALL factor — no skill, just exposure. "You're charging 2-and-20 for levered beta."</td>
+</tr>
+<tr>
+<td>α &lt; 0, R² high</td>
+<td>PM is DESTROYING value relative to factor exposure. Worse than an ETF.</td>
+</tr>
+<tr>
+<td>R² low</td>
+<td>Model doesn't explain the returns. Need better factors or PM is truly idiosyncratic.</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h1 id="part-7-putting-it-all-together-portfolio-risk-decomposition">PART 7: PUTTING IT ALL TOGETHER — PORTFOLIO RISK DECOMPOSITION</h1>
-<h2 id="the-complete-view">The Complete View</h2>
-<p>When you look at a portfolio's risk, you need all of these layers:</p>
-<div class="highlight"><pre><span></span><code>Layer 1: WHAT do we own?
-  → Position-level review (names, sizes, Greeks)
-
-Layer 2: WHY is it risky?
-  → Factor decomposition (what&#39;s driving our risk?)
-
-Layer 3: HOW MUCH can we lose?
-  → VaR, ES, stress test results
-
-Layer 4: WHAT IF things get worse?
-  → Correlation stress, liquidity stress, margin stress
-
-Layer 5: CAN WE GET OUT?
-  → Liquidity analysis (days to liquidate, concentration vs ADV)
+<h1 id="part-4-concentration-risk-the-silent-killer">PART 4: CONCENTRATION RISK — THE SILENT KILLER</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A portfolio with 100 names can be more concentrated than a portfolio with 10 — if those 100 names are all loading on the same factor, you don't own 100 bets, you own one.</p>
+</blockquote>
+<h2 id="types-of-concentration">Types of Concentration</h2>
+<h3 id="1-single-name-concentration">1. Single-Name Concentration</h3>
+<p><strong>Metric — Herfindahl-Hirschman Index (HHI):</strong></p>
+<p>$$\text{HHI} = \sum_{i=1}^N w_i^2$$</p>
+<p>Where $w_i$ = weight of position i.</p>
+<table>
+<thead>
+<tr>
+<th>HHI</th>
+<th>Effective N (= 1/HHI)</th>
+<th>Concentration level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.01</td>
+<td>100</td>
+<td>Very diversified</td>
+</tr>
+<tr>
+<td>0.05</td>
+<td>20</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>0.10</td>
+<td>10</td>
+<td>Concentrated</td>
+</tr>
+<tr>
+<td>0.20</td>
+<td>5</td>
+<td>Highly concentrated</td>
+</tr>
+<tr>
+<td>0.50+</td>
+<td>2 or fewer</td>
+<td>Single-bet portfolio</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example:</strong><br />
+- Portfolio: 5 positions at weights 40%, 25%, 15%, 12%, 8%<br />
+- HHI = 0.16 + 0.0625 + 0.0225 + 0.0144 + 0.0064 = <strong>0.266</strong><br />
+- Effective N = 1/0.266 = <strong>3.8</strong><br />
+- Despite "5 positions," the effective diversification = ~4 independent bets (because the 40% position dominates)</p>
+<p><strong>Limit framework:</strong><br />
+| Measure | Typical limit (discretionary HF) | Why |<br />
+|---|---|---|<br />
+| Largest single position | &lt;5% of NAV | Single-stock gap risk |<br />
+| Top 10 positions | &lt;40% of NAV | Concentration in top holdings |<br />
+| Effective N (1/HHI) | &gt;10 | Minimum diversification threshold |</p>
+<h3 id="2-sector-concentration">2. Sector Concentration</h3>
+<p>Even 50 stocks can be ONE bet if they're all in the same sector.</p>
+<p><strong>Example:</strong> A PM holds 20 semiconductor names across the US, Taiwan, and Korea. They claim geographic diversification. But semis are globally correlated (same cycle, same end-demand). When the CHIPS Act or AI capex cycle reverses, ALL 20 positions move together. The PM had sector concentration disguised as geographic diversification.</p>
+<h3 id="3-factor-concentration-the-hidden-kind">3. Factor Concentration (The Hidden Kind)</h3>
+<p>This is what kills multi-PM funds. Each PM picks stocks independently but they all end up loading on the same systematic factors.</p>
+<p><strong>How it hides:</strong><br />
+- PM A is long tech (growth exposure)<br />
+- PM B is long banks and short utilities (rate-sensitivity exposure)<br />
+- PM C is long NVIDIA and short defensive names (AI momentum exposure)<br />
+- All three are implicitly: long growth, long risk-on, short safety → ONE factor bet across three "independent" desks</p>
+<p><strong>Detection:</strong> Factor regression on aggregate portfolio, eigenvalue decomposition of cross-PM correlation matrix, track effective number of bets.</p>
+<h3 id="4-counterparty-concentration">4. Counterparty Concentration</h3>
+<p>"We trade with 3 prime brokers. Our biggest PB holds 60% of our margin balance." If that PB pulls lines (as Bear Stearns and Lehman clients learned), 60% of the fund's positions face forced liquidation.</p>
+<p><strong>Limits:</strong> No single PB &gt; 40% of margin. Diversify clearing across at least 3 CCPs.</p>
+<h3 id="5-crowding-concentration-across-the-industry">5. Crowding — Concentration ACROSS the Industry</h3>
+<p>Your fund is diversified. But every other hedge fund holds the same positions. In aggregate, the trade is crowded. When one fund de-leverages, everyone must follow → amplified crash.</p>
+<p><strong>Detection tools:</strong><br />
+- <strong>13F overlap:</strong> Count how many large funds hold each position<br />
+- <strong>Short interest:</strong> Positions with &gt;25% SI are crowded shorts → short-squeeze risk (GameStop Jan 2021)<br />
+- <strong>Factor-crowding score:</strong> Measure aggregate HF positioning in momentum, value, etc.<br />
+- <strong>Hedge Fund Research (HFR) crowding indices</strong></p>
+<p><strong>Historical crowding blow-ups:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Date</th>
+<th>What was crowded</th>
+<th>Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quant quake</td>
+<td>Aug 2007</td>
+<td>Statistical arbitrage positions (momentum, mean-reversion)</td>
+<td>Multi-billion across quant funds</td>
+</tr>
+<tr>
+<td>Short vol</td>
+<td>Feb 2018</td>
+<td>VIX ETPs (XIV et al.), short variance swaps</td>
+<td>XIV lost 96% in one day</td>
+</tr>
+<tr>
+<td>Momentum reversal</td>
+<td>Sep 2020</td>
+<td>Tech/growth vs value rotation</td>
+<td>10-20% drawdowns for momentum funds</td>
+</tr>
+<tr>
+<td>Japan carry unwind</td>
+<td>Aug 2024</td>
+<td>Short JPY / long risk assets</td>
+<td>Nikkei −12%, multi-strat funds hit</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-5-basis-risk-the-gap-between-your-hedge-and-your-position">PART 5: BASIS RISK — THE GAP BETWEEN YOUR HEDGE AND YOUR POSITION</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Basis risk is the risk that your insurance policy pays out on a DIFFERENT house than the one that burned down.</p>
+</blockquote>
+<h2 id="the-definition">The Definition</h2>
+<p><strong>Basis</strong> = price of the hedged asset − price of the hedging instrument.</p>
+<p>If basis is stable, the hedge works. If basis moves, you're exposed — you can lose on BOTH the position AND the hedge simultaneously.</p>
+<h2 id="common-basis-risks-in-practice">Common Basis Risks in Practice</h2>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Hedge</th>
+<th>Basis =</th>
+<th>What can go wrong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long XOM stock</td>
+<td>Short XLE ETF</td>
+<td>XOM − (β × XLE)</td>
+<td>XOM-specific news (earnings, M&amp;A) creates idiosyncratic move ETF doesn't cover</td>
+</tr>
+<tr>
+<td>Long Brent crude</td>
+<td>Short WTI futures</td>
+<td>Brent − WTI spread</td>
+<td>Spread blew to $25 in 2011 (Libya). Normally $2-3.</td>
+</tr>
+<tr>
+<td>Long IG corp bond</td>
+<td>Short Treasury futures</td>
+<td>Credit spread</td>
+<td>Rate hedge works; credit spread widens → still lose money</td>
+</tr>
+<tr>
+<td>Long single-stock</td>
+<td>Short index put</td>
+<td>Stock − index</td>
+<td>Stock drops 20% on fraud; index drops 2%. Put covers 2 of 20.</td>
+</tr>
+<tr>
+<td>Long physical commodity</td>
+<td>Short front-month future</td>
+<td>Spot − future (calendar basis)</td>
+<td>COVID: oil futures went NEGATIVE while physical was still $20+</td>
+</tr>
+<tr>
+<td>Long EM equity</td>
+<td>Short EM FX</td>
+<td>Equity × FX cross-rate</td>
+<td>FX hedge tenor ≠ equity holding period</td>
+</tr>
+</tbody>
+</table>
+<h2 id="measuring-basis-risk">Measuring Basis Risk</h2>
+<p><strong>Hedge effectiveness (R²):</strong></p>
+<p>$$R^2 = 1 - \frac{\text{Var}(\text{hedged portfolio})}{\text{Var}(\text{unhedged portfolio})}$$</p>
+<table>
+<thead>
+<tr>
+<th>R²</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;0.95</td>
+<td>Excellent hedge — basis is tight</td>
+</tr>
+<tr>
+<td>0.80-0.95</td>
+<td>Decent but meaningful basis risk remains</td>
+</tr>
+<tr>
+<td>0.50-0.80</td>
+<td>Hedge is directional only — basis will cause P&amp;L</td>
+</tr>
+<tr>
+<td>&lt;0.50</td>
+<td>Not really a hedge — you're trading TWO positions, not hedging one</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Optimal hedge ratio:</strong></p>
+<p>$$h^* = \rho \times \frac{\sigma_{\text{position}}}{\sigma_{\text{hedge}}}$$</p>
+<p>If the position and hedge aren't perfectly correlated or don't have the same volatility, the hedge ratio ≠ 1.0. A naive 1:1 hedge leaves basis risk.</p>
+<h2 id="why-basis-risk-can-be-worse-than-no-hedge">Why Basis Risk Can Be Worse Than No Hedge</h2>
+<p><strong>Scenario:</strong> PM is long $50M of corporate bonds, hedges with $50M short in Treasury futures.<br />
+- Rates rise 50bp: Treasury hedge gains $1.6M ✓<br />
+- BUT credit spreads also widen 80bp: corporate bond loses ADDITIONAL $2.0M from credit<br />
+- Net: hedge gained $1.6M, position lost $1.6M (rate) + $2.0M (credit) = <strong>net loss $2.0M</strong><br />
+- PM thought they were hedged. They were hedged against RATES but not CREDIT. The hedge created false confidence.</p>
+<p><strong>RM lesson:</strong> Always ask: "What is this hedge ACTUALLY hedging? What risks remain?"</p>
+<hr />
+<h1 id="part-6-tail-risk-fat-tails-preparing-for-impossible-events">PART 6: TAIL RISK &amp; FAT TAILS — PREPARING FOR "IMPOSSIBLE" EVENTS</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Normal distributions say a 5-sigma daily move happens once every 14,000 years. Markets produce them every few years. Any risk framework built on normality is a framework for losing money in the tail.</p>
+</blockquote>
+<h2 id="fat-tails-the-numbers">Fat Tails — The Numbers</h2>
+<table>
+<thead>
+<tr>
+<th>Sigma event</th>
+<th>Normal: frequency</th>
+<th>Market reality</th>
+<th>Underestimation factor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3σ (e.g., SPX −4.5%)</td>
+<td>1 in 370 days</td>
+<td>1 in 50-70 days</td>
+<td>~6×</td>
+</tr>
+<tr>
+<td>4σ (e.g., SPX −6%)</td>
+<td>1 in 31,560 days (126 years)</td>
+<td>1 in 500-700 days (2-3 years)</td>
+<td>~50×</td>
+</tr>
+<tr>
+<td>5σ (e.g., SPX −7.5%)</td>
+<td>1 in 3.5 million days</td>
+<td>1 in 5,000-8,000 days (20-30 years)</td>
+<td>~500×</td>
+</tr>
+<tr>
+<td>6σ+ (e.g., SPX −10%+)</td>
+<td>"Never"</td>
+<td>Oct 1987, Oct 2008, Mar 2020</td>
+<td>∞</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Excess kurtosis</strong> = Kurtosis − 3 (above the normal benchmark):<br />
+- Normal distribution: 0<br />
+- SPX daily returns: ~20-25 (massively fat-tailed)<br />
+- Individual stocks: 5-50+<br />
+- Credit spreads: 30+</p>
+<h2 id="extreme-value-theory-evt">Extreme Value Theory (EVT)</h2>
+<p>Rather than modeling the ENTIRE distribution, EVT focuses specifically on the tail.</p>
+<p><strong>Generalized Pareto Distribution (GPD):</strong> For losses exceeding a high threshold u:</p>
+<p>$$P(\text{Loss} &gt; u + y \mid \text{Loss} &gt; u) = \left(1 + \frac{\xi y}{\beta}\right)^{-1/\xi}$$</p>
+<p>Where ξ (xi) = <strong>shape parameter</strong> (tail index):<br />
+| ξ value | Tail type | Distribution family |<br />
+|---|---|---|<br />
+| ξ = 0 | Exponential (thin) tail | Normal-like |<br />
+| ξ &gt; 0 | <strong>Power-law (fat) tail</strong> — extreme events more likely | Pareto, Student-t. THIS IS FINANCE. |<br />
+| ξ &lt; 0 | Bounded tail | Physical limits (temperatures, etc.) |</p>
+<p>For equities, ξ ≈ 0.2-0.4 → moderately fat tails. For credit, ξ can be &gt;0.5 → very fat tails.</p>
+<p><strong>Why EVT matters for RM:</strong> Standard VaR at 99% uses the whole distribution. But the 99.9th or 99.99th percentile (the "fund-killing" event) requires EVT because you're extrapolating into the tail where you have almost no data.</p>
+<h2 id="tail-dependence-when-everything-crashes-together">Tail Dependence — When Everything Crashes Together</h2>
+<p>Linear correlation misses <strong>tail dependence</strong> — the tendency of extreme moves to occur simultaneously.</p>
+<p><strong>Copula language:</strong><br />
+- <strong>Upper tail dependence (λ_U):</strong> Probability of joint extreme GAIN<br />
+- <strong>Lower tail dependence (λ_L):</strong> Probability of joint extreme LOSS</p>
+<table>
+<thead>
+<tr>
+<th>Copula family</th>
+<th>λ_L (lower tail)</th>
+<th>λ_U (upper tail)</th>
+<th>Financial relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gaussian</strong></td>
+<td>0</td>
+<td>0</td>
+<td>No tail dependence → UNDERESTIMATES joint crashes</td>
+</tr>
+<tr>
+<td><strong>Student-t</strong></td>
+<td>&gt;0</td>
+<td>&gt;0</td>
+<td>Symmetric tail dependence → better for crashes</td>
+</tr>
+<tr>
+<td><strong>Clayton</strong></td>
+<td>&gt;0</td>
+<td>0</td>
+<td>Lower-tail only → models crashes without upside linkage</td>
+</tr>
+<tr>
+<td><strong>Gumbel</strong></td>
+<td>0</td>
+<td>&gt;0</td>
+<td>Upper-tail only → less relevant for risk</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM implication:</strong> If your risk model uses a Gaussian copula (or equivalently, normal joint distribution), it SYSTEMATICALLY underrates the probability of multiple assets crashing simultaneously. This was a key failure in 2008 CDO pricing → Gaussian copula said joint default probability was negligible → it wasn't.</p>
+<h2 id="tail-hedging-the-cost-benefit-framework">Tail Hedging — The Cost-Benefit Framework</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Mechanism</th>
+<th>Annual cost (approx)</th>
+<th>Crisis payoff</th>
+<th>Rebalance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OTM index puts</strong> (5% OTM, 3M)</td>
+<td>Direct floor on portfolio</td>
+<td>1.5-3.0% of NAV</td>
+<td>5-20× payout in −20% crash</td>
+<td>Roll quarterly</td>
+</tr>
+<tr>
+<td><strong>Put spreads</strong> (buy 5% OTM, sell 15% OTM)</td>
+<td>Cheaper floor, capped payout</td>
+<td>0.5-1.5%</td>
+<td>2-5× payout, capped</td>
+<td>Roll quarterly</td>
+</tr>
+<tr>
+<td><strong>VIX calls</strong> (strike 30-40)</td>
+<td>Vol convexity</td>
+<td>1.0-2.5%</td>
+<td>3-10× in vol spikes</td>
+<td>Roll monthly</td>
+</tr>
+<tr>
+<td><strong>Variance swap (buy var)</strong></td>
+<td>Pure vol exposure, convex payout</td>
+<td>Carry cost in low-vol</td>
+<td>Massive payout if rv &gt;&gt; iv</td>
+<td>Maturity-based</td>
+</tr>
+<tr>
+<td><strong>Dynamic delta hedging</strong></td>
+<td>Increase short delta as market drops (portfolio insurance)</td>
+<td>Execution costs + whipsaw</td>
+<td>Scales with move</td>
+<td>Continuous</td>
+</tr>
+<tr>
+<td><strong>Cash buffer</strong></td>
+<td>Hold 5-15% cash for margin calls</td>
+<td>Opportunity cost</td>
+<td>Prevents forced liquidation</td>
+<td>Continuous</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The RM's tail-hedge conversation:</strong><br />
+- "The tail hedge costs $3M/year in premium decay."<br />
+- "The scenario it protects against: SPX −25%, all desks hit simultaneously, forced liquidation → $80M loss."<br />
+- "Is $3M/year good insurance against an $80M loss with, say, 3-5% annual probability?"<br />
+- Expected tail loss = $80M × 4% = $3.2M → break-even. The hedge is WORTH it on expected value alone, before considering survival value.</p>
+<hr />
+<h1 id="part-7-liquidity-risk-the-risk-of-not-being-able-to-exit">PART 7: LIQUIDITY RISK — THE RISK OF NOT BEING ABLE TO EXIT</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A position isn't risky because it can lose value — every position can lose value. It's risky because you might not be able to EXIT when you desperately need to.</p>
+</blockquote>
+<h2 id="two-dimensions-of-liquidity-risk">Two Dimensions of Liquidity Risk</h2>
+<h3 id="market-liquidity-risk-can-you-sell">Market Liquidity Risk (Can you SELL?)</h3>
+<p><strong>Market impact model (Almgren-Chriss framework):</strong></p>
+<p>$$\text{Cost} = \underbrace{\frac{1}{2} s}<em>{\text{spread}} + \underbrace{\eta \cdot v}</em>{\text{temporary impact}} + \underbrace{\gamma \cdot \frac{Q}{\text{ADV}}}_{\text{permanent impact}}$$</p>
+<p>Where s = bid-ask spread, η = temporary impact coefficient, v = execution speed, γ = permanent impact, Q = total shares.</p>
+<p><strong>Key insight:</strong> Market impact is NON-LINEAR. Trading 1% of ADV costs X. Trading 5% of ADV doesn't cost 5X — it costs 10-15X because you're consuming liquidity depth levels.</p>
+<p><strong>ADV concentration:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Position / ADV</th>
+<th>Classification</th>
+<th>RM action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;1%</td>
+<td>Liquid</td>
+<td>No concern</td>
+</tr>
+<tr>
+<td>1-5%</td>
+<td>Manageable</td>
+<td>Monitor</td>
+</tr>
+<tr>
+<td>5-10%</td>
+<td>Illiquid</td>
+<td>Require liquidity plan</td>
+</tr>
+<tr>
+<td>10-25%</td>
+<td>You ARE the market</td>
+<td>Hard limit — must reduce or justify</td>
+</tr>
+<tr>
+<td>&gt;25%</td>
+<td>Trapped</td>
+<td>Forced to accept fire-sale prices or side-pocket</td>
+</tr>
+</tbody>
+</table>
+<h3 id="funding-liquidity-risk-can-you-meet-cash-obligations">Funding Liquidity Risk (Can you meet CASH obligations?)</h3>
+<table>
+<thead>
+<tr>
+<th>Obligation</th>
+<th>Urgency</th>
+<th>What drives it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Margin calls (daily)</td>
+<td>Immediate (T+1)</td>
+<td>P&amp;L losses, vol spike, correlation spike</td>
+</tr>
+<tr>
+<td>Redemptions</td>
+<td>Monthly/quarterly (with notice)</td>
+<td>Investor sentiment, relative performance</td>
+</tr>
+<tr>
+<td>Collateral calls (CSA)</td>
+<td>Daily</td>
+<td>Mark-to-market on OTC derivatives</td>
+</tr>
+<tr>
+<td>Margin requirement increases</td>
+<td>Same-day to T+1</td>
+<td>Exchange or PB increases margin rates</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The liquidity spiral (Brunnermeier &amp; Pedersen):</strong></p>
+<div class="highlight"><pre><span></span><code>Losses → Margin calls → Forced selling → Prices drop further →
+More margin calls → More selling → Prices drop more → ...
+SPIRAL: Funding liquidity ↔ Market liquidity FEEDBACK LOOP
 </code></pre></div>
 
-<h2 id="the-rms-daily-risk-dashboard">The RM's Daily Risk Dashboard</h2>
+<p>This is the mechanism that kills leveraged funds. It's why LTCM failed (1998), why Bear Stearns' hedge funds failed (2007), and why every multi-strategy fund has a kill switch.</p>
+<h2 id="liquidity-tiering-the-rms-classification">Liquidity Tiering — The RM's Classification</h2>
 <table>
 <thead>
 <tr>
-<th>Metric</th>
-<th>What to check</th>
-<th>Threshold</th>
+<th>Tier</th>
+<th>Characteristics</th>
+<th>DTL (days to liquidate at 10% ADV)</th>
+<th>VaR treatment</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Net delta</td>
+<td><strong>1</strong></td>
+<td>Listed, ADV &gt;$100M, spread &lt;5bp</td>
+<td>&lt;1 day</td>
+<td>Standard 1-day VaR</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Listed, ADV $10-100M, spread 5-20bp</td>
+<td>1-5 days</td>
+<td>LVaR = VaR × √DTL</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>listed/OTC, ADV $1-10M, spread 20-100bp</td>
+<td>5-20 days</td>
+<td>LVaR + stress spread + concentration haircut</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>OTC, bespoke, ADV &lt;$1M or no market</td>
+<td>20+ days</td>
+<td>Full notional at risk in stress. May need side-pocket.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="liquidity-stress-scenarios">Liquidity Stress Scenarios</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>What happens to liquidity</th>
+<th>RM action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vol spike (VIX 15→40)</strong></td>
+<td>Spreads widen 3-5×. Market depth drops 50-80%. ADV for small-caps collapses.</td>
+<td>Run stressed-DTL. Check if margin buffer survives 3 days of losses with impaired liquidity.</td>
+</tr>
+<tr>
+<td><strong>Redemption wave</strong></td>
+<td>Need to liquidate 10-20% of AUM in a week. But most liquid positions are sold first → remaining portfolio becomes MORE illiquid.</td>
+<td>Pre-plan the liquidation waterfall: sell Tier 1 first, Tier 2 next. Never sell Tier 4 in stress.</td>
+</tr>
+<tr>
+<td><strong>PB credit pullback</strong></td>
+<td>Prime broker reduces line or increases haircuts. Margin utilization jumps.</td>
+<td>Maintain relationships with 3+ PBs. Keep 15%+ margin headroom.</td>
+</tr>
+<tr>
+<td><strong>Correlated forced selling</strong></td>
+<td>Every fund is selling the same crowded positions simultaneously → market impact explodes</td>
+<td>Crowding analysis: if you hold the same names as 50 other hedge funds, your "liquid" positions become illiquid in a crowded unwind</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-portfolio-construction-for-risk">PART 8: PORTFOLIO CONSTRUCTION FOR RISK</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A PM constructs portfolios for return. The RM constructs CONSTRAINTS for survival. The intersection — portfolios that maximize return subject to risk constraints — is where the real edge lives.</p>
+</blockquote>
+<h2 id="position-sizing-frameworks">Position Sizing Frameworks</h2>
+<h3 id="1-equal-risk-contribution-risk-parity">1. Equal Risk Contribution (Risk Parity)</h3>
+<p>$$w_i \cdot \text{MCR}_i = \frac{\text{Total Risk}}{N} \quad \forall i$$</p>
+<p>Every position contributes the same amount of risk. High-vol positions get smaller weights; low-vol positions get larger.</p>
+<p><strong>Worked example:</strong><br />
+- 3 assets: Equities (σ=15%), Bonds (σ=5%), Commodities (σ=20%)<br />
+- Equal-weight (33/33/33): Equities contribute 55% of risk, commodities 35%, bonds 10%<br />
+- Risk parity weights (approx): Equities 20%, Bonds 60%, Commodities 15%<br />
+- Now each contributes ~33% of total risk</p>
+<p><strong>Pro:</strong> Truly diversified at the RISK level, not the dollar level. <strong>Con:</strong> Requires leverage (lots of bonds to match equity vol). Low return per unit of capital without leverage.</p>
+<h3 id="2-kelly-criterion-sizing-by-edge">2. Kelly Criterion — Sizing by Edge</h3>
+<p>$$f^* = \frac{p(b+1) - 1}{b} = \frac{\text{Edge}}{\text{Odds}}$$</p>
+<p>Or for continuous returns: $f^* = \frac{\mu - r_f}{\sigma^2}$</p>
+<p>Where $\mu$ = expected return, $r_f$ = risk-free rate, $\sigma^2$ = variance.</p>
+<p><strong>Practical Kelly:</strong><br />
+- Full Kelly is too aggressive (assumes perfect parameter estimates, no tail risk)<br />
+- Most practitioners use <strong>Half-Kelly</strong> or <strong>Quarter-Kelly</strong><br />
+- Over-betting (above full Kelly) is WORSE than under-betting — expected growth rate DECREASES</p>
+<table>
+<thead>
+<tr>
+<th>Fraction of Kelly</th>
+<th>Risk profile</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full Kelly</td>
+<td>Maximizes long-run geometric growth — extremely volatile</td>
+<td>Theoretical benchmark only</td>
+</tr>
+<tr>
+<td>Half Kelly</td>
+<td>75% of growth rate, ~50% of drawdown</td>
+<td>Aggressive but practical</td>
+</tr>
+<tr>
+<td>Quarter Kelly</td>
+<td>50% of growth rate, ~25% of drawdown</td>
+<td>Conservative — most institutional</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-volatility-targeting">3. Volatility Targeting</h3>
+<p>Set a target portfolio volatility (e.g., 10%) and scale position sizes to achieve it:</p>
+<p>$$\text{Leverage} = \frac{\sigma_{\text{target}}}{\sigma_{\text{realized}}}$$</p>
+<p>When realized vol is low → lever UP. When realized vol spikes → lever DOWN. This automatically de-risks in crises.</p>
+<p><strong>RM consideration:</strong> Vol targeting creates PROCYCLICAL behavior in the short term (selling into drops, buying into rallies) but STRUCTURAL risk management (lower leverage in high-vol regimes where tail events are more likely).</p>
+<h2 id="risk-budget-architecture">Risk Budget Architecture</h2>
+<p>The fund's total risk budget flows down through layers:</p>
+<div class="highlight"><pre><span></span><code>FUND LEVEL:          Total VaR ≤ $15M (99%, 1-day)
+                     Max Drawdown ≤ −15% from HWM
+                     Gross Leverage ≤ 5×
+                          │
+        ┌─────────────────┼─────────────────┐
+        ▼                 ▼                 ▼
+   DESK A            DESK B            DESK C
+  VaR ≤ $5M        VaR ≤ $4M        VaR ≤ $3M
+  DD ≤ −8%          DD ≤ −6%          DD ≤ −5%
+  (Equity Vol)      (Macro Rates)     (Credit)
+        │                 │                │
+   ┌────┴────┐       ┌────┴────┐      ┌───┴───┐
+   ▼         ▼       ▼         ▼      ▼       ▼
+ Single-   Greeks   DV01     Curve  CS01   Single-
+  name    limits   limits   limits limits  name JTD
+  ≤5%               ±$50K/bp               ≤$10M
+</code></pre></div>
+
+<p><strong>Reserve / unallocated:</strong> Typically 10-15% of fund VaR budget is held in RESERVE for:<br />
+- Correlation spikes that reduce diversification benefit<br />
+- New opportunity set (PM finds a great trade, needs risk budget)<br />
+- Model error (VaR underestimates)</p>
+<p><strong>Utilization monitoring:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Utilization</th>
+<th>Status</th>
+<th>RM response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;50%</td>
+<td>Under-utilized</td>
+<td>PM may be too cautious. Capital inefficiency.</td>
+</tr>
+<tr>
+<td>50-80%</td>
+<td>Normal</td>
+<td>Monitor.</td>
+</tr>
+<tr>
+<td>80-95%</td>
+<td>Elevated</td>
+<td>Proactive conversation with PM. Review positions.</td>
+</tr>
+<tr>
+<td>95-100%</td>
+<td>At limit</td>
+<td>Any new trade requires trade reduction elsewhere.</td>
+</tr>
+<tr>
+<td>&gt;100%</td>
+<td>Breach</td>
+<td>Immediate action. PM must reduce risk by EOD or get CRO waiver.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-the-rms-daily-risk-dashboard-putting-it-all-together">PART 9: THE RM'S DAILY RISK DASHBOARD — PUTTING IT ALL TOGETHER</h1>
+<blockquote>
+<p><strong>One-liner:</strong> The dashboard is your cockpit — the 20 numbers that tell you whether the fund is safe or whether you need to act before the next market open.</p>
+</blockquote>
+<h2 id="the-complete-risk-view">The Complete Risk View</h2>
+<p>When you look at a portfolio's risk, you need ALL of these layers:</p>
+<div class="highlight"><pre><span></span><code>Layer 1: WHAT do we own?
+  → Position-level review (names, sizes, Greeks, notional)
+
+Layer 2: IS it concentrated?
+  → HHI, effective N, sector weights, counterparty exposure
+
+Layer 3: WHY is it risky?
+  → Factor decomposition (what&#39;s driving the risk?)
+  → Eigenvalue analysis (how many effective bets?)
+
+Layer 4: HOW MUCH can we lose?
+  → VaR (99% 1-day), ES, ES/VaR ratio
+  → Stress test P&amp;L (historical + hypothetical)
+
+Layer 5: WHAT IF things get worse?
+  → Stressed correlations, stressed vol, stressed liquidity
+  → Reverse stress test: &quot;what scenario kills us?&quot;
+
+Layer 6: CAN WE GET OUT?
+  → DTL by position, liquidity tiering
+  → Margin headroom under stress
+  → Redemption-adjusted liquidation plan
+</code></pre></div>
+
+<h2 id="the-dashboard-20-metrics">The Dashboard — 20 Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Metric</th>
+<th>What it tells you</th>
+<th>Threshold / flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Exposure</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Net delta ($)</td>
 <td>Directional exposure</td>
-<td>Within mandate</td>
+<td>Within PM mandate</td>
 </tr>
 <tr>
-<td>Gross exposure</td>
+<td>2</td>
+<td>Gross exposure / NAV</td>
 <td>Total leverage</td>
-<td>&lt;4x (typical discretionary)</td>
+<td>&lt;4× (discretionary), &lt;8× (stat arb)</td>
 </tr>
 <tr>
-<td>VaR (99%, 1-day)</td>
-<td>Probabilistic loss estimate</td>
-<td>Within limit</td>
+<td>3</td>
+<td>Long/short ratio</td>
+<td>Directional tilt</td>
+<td>Within mandate. Shifts signal PM is getting directional.</td>
 </tr>
 <tr>
-<td>Largest single-name</td>
-<td>Concentration</td>
-<td>&lt;5% of NAV</td>
+<td><strong>Concentration</strong></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td>Largest sector</td>
+<td>4</td>
+<td>Largest single position (% NAV)</td>
+<td>Single-name risk</td>
+<td>&lt;5%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Top 10 positions (% NAV)</td>
+<td>Top-heavy risk</td>
+<td>&lt;40%</td>
+</tr>
+<tr>
+<td>6</td>
+<td>HHI / Effective N</td>
+<td>Diversification</td>
+<td>Effective N &gt;10</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Largest sector (% gross)</td>
 <td>Sector concentration</td>
-<td>&lt;25% of NAV</td>
+<td>&lt;25%</td>
 </tr>
 <tr>
-<td>Top 3 factor contributions</td>
-<td>Hidden factor bets</td>
+<td><strong>Factors</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Top 3 factor exposures</td>
+<td>Hidden systematic bets</td>
 <td>No single factor &gt;40% of risk</td>
 </tr>
 <tr>
-<td>Days to liquidate (95th %ile)</td>
-<td>Liquidity</td>
-<td>&lt;5 days for 90% of book</td>
+<td>9</td>
+<td>Market β (aggregate)</td>
+<td>Directional drift</td>
+<td></td>
 </tr>
 <tr>
+<td>10</td>
+<td>ENB (effective number of bets)</td>
+<td>True diversification</td>
+<td>&gt;5 for multi-strat</td>
+</tr>
+<tr>
+<td><strong>Risk measures</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>VaR (99%, 1-day)</td>
+<td>Probabilistic loss</td>
+<td>Within VaR budget</td>
+</tr>
+<tr>
+<td>12</td>
+<td>ES / VaR ratio</td>
+<td>Tail shape</td>
+<td>&lt;2.5. If &gt;3.0 → concave payoff, investigate</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Stress P&amp;L (worst scenario)</td>
+<td>Tail survival</td>
+<td>Within drawdown limit</td>
+</tr>
+<tr>
+<td><strong>Drawdown</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Current drawdown (from HWM)</td>
+<td>Distance to kill switch</td>
+<td>Flag at &gt;50% of hard limit</td>
+</tr>
+<tr>
+<td>15</td>
+<td>MTD / QTD / YTD P&amp;L</td>
+<td>Performance trajectory</td>
+<td>Context for risk conversations</td>
+</tr>
+<tr>
+<td><strong>Liquidity</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>% of book liquidable in 1 day</td>
+<td>Emergency exit capacity</td>
+<td>&gt;60%</td>
+</tr>
+<tr>
+<td>17</td>
+<td>DTL (95th percentile position)</td>
+<td>Worst-case exit time</td>
+<td>&lt;10 days for 95% of book</td>
+</tr>
+<tr>
+<td>18</td>
 <td>Margin utilization</td>
 <td>Funding headroom</td>
-<td>&lt;70% in calm, &lt;85% in stress</td>
+<td>&lt;70% normal, &lt;85% stress</td>
 </tr>
 <tr>
-<td>Correlation to SPX (rolling 20-day)</td>
-<td>Directional drift</td>
-<td>Within mandate</td>
+<td><strong>Greeks (if options)</strong></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td>Drawdown (month / quarter / YTD)</td>
-<td>Distance to limits</td>
-<td>&gt;80% of soft limit → flag</td>
+<td>19</td>
+<td>Net gamma ($ per 1% move)</td>
+<td>Convexity of P&amp;L</td>
+<td>Short gamma within limits</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Net vega ($000s per 1 vol pt)</td>
+<td>Vol exposure</td>
+<td>Within limits</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-morning-risk-process">The Morning Risk Process</h2>
+<div class="highlight"><pre><span></span><code>6:30 AM  → Overnight P&amp;L from Asian/European sessions
+         → Any position gaps &gt;2%?
+         → Any correlation regime shifts?
+
+7:00 AM  → Run EOD risk reports (generated overnight):
+           VaR, ES, factor decomposition, stress tests
+         → Compare to limits. Flag any breaches or near-breaches.
+
+7:30 AM  → Pre-market risk meeting:
+           - &quot;Desk A at 87% VaR utilization after yesterday&#39;s move&quot;
+           - &quot;Aggregate momentum factor exposure increased 20% — two PMs added same direction&quot;
+           - &quot;If VIX hits 30, margin requirement increases $12M — we have $15M headroom&quot;
+
+8:00 AM  → Markets open. Intraday monitoring begins.
+         → Real-time P&amp;L. Alert if any PM hits soft drawdown limit.
+
+4:00 PM  → EOD mark. Generate tomorrow&#39;s risk reports.
+         → Any limit breaches? Document and escalate.
+         → Any stress test results exceeding thresholds?
+</code></pre></div>
+
+<h2 id="the-escalation-framework">The Escalation Framework</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Who</th>
+<th>Action</th>
+<th>Timeline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Approaching limit (&gt;80% utilization)</td>
+<td>RM → PM</td>
+<td>"You're at 85% of VaR budget. Be aware."</td>
+<td>Informational. Same day.</td>
+</tr>
+<tr>
+<td>Soft limit breach</td>
+<td>RM → PM + desk head</td>
+<td>PM presents rationale. Risk review of positions.</td>
+<td>24 hours.</td>
+</tr>
+<tr>
+<td>Hard limit breach</td>
+<td>RM → CRO</td>
+<td>Mandatory position reduction. IC approval for any new trades.</td>
+<td>Immediate. EOD compliance.</td>
+</tr>
+<tr>
+<td>Kill switch</td>
+<td>CRO → all</td>
+<td>Systematic risk reduction. PM may be suspended. Book handed to risk desk.</td>
+<td>Immediate. Orderly unwind begins.</td>
+</tr>
+<tr>
+<td>Model validation failure (backtesting red)</td>
+<td>RM → quant team</td>
+<td>Model review. May increase VaR multiplier.</td>
+<td>Within 5 business days.</td>
+</tr>
+<tr>
+<td>Correlated PM exposures detected</td>
+<td>RM → CRO</td>
+<td>Factor exposure review across all desks. Potential fund-level limit applied.</td>
+<td>Same day discussion.</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-8-interview-application">PART 8: INTERVIEW APPLICATION</h1>
-<p>If asked "How would you think about portfolio risk beyond VaR?":</p>
-<p>"VaR gives me one number — the 99th percentile loss under normal conditions. I'd layer on four additional views.</p>
-<p>First, Expected Shortfall — what's the average loss in that 1% worst case? This captures tail severity.</p>
-<p>Second, factor decomposition — what's actually DRIVING the portfolio's risk? Two portfolios can have the same VaR but very different factor profiles. One might be diversified across 10 uncorrelated bets. The other might be a single momentum bet disguised as 30 positions.</p>
-<p>Third, stress testing — how does the portfolio perform under specific scenarios like March 2020, or a hypothetical Hormuz closure? This tests what VaR misses: regime changes, correlation spikes, non-linear payoffs.</p>
-<p>Fourth, liquidity analysis — can we actually exit these positions if we need to? A portfolio that takes 3 weeks to liquidate but has daily margin calls has a fundamental mismatch."</p>
-<p>If asked "What's the most underappreciated risk in a multi-PM fund?":</p>
-<p>"Correlation across PMs. Each PM runs their own book and thinks their risk is independent. But in practice, they often load on the same macro factor — rates, oil, momentum — without realizing it. In calm markets, the aggregate looks diversified. In stress, correlations spike and you discover that your 'four independent strategies' are actually one big bet.</p>
-<p>This is exactly what killed multi-strategy funds in past crises. The RM's job is to run factor attribution across ALL PMs — not just each one individually — and flag when the aggregate factor exposure exceeds what any single PM would be allowed to hold."</p>
+<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
+<p><strong>"How would you think about portfolio risk beyond VaR?"</strong></p>
+<p>"VaR gives me one number — the 99th percentile loss under normal conditions — but it's the START of risk analysis, not the end. I'd layer on five additional views.</p>
+<p>First, Expected Shortfall — what's the average loss in that 1% worst case? And critically, the ES/VaR ratio: if it's above 3, there's a concave payoff hiding in the book — likely short gamma or short tail risk — and VaR is dangerously misleading.</p>
+<p>Second, factor decomposition — what's actually DRIVING the risk? Two portfolios can have the same VaR but very different factor profiles. One might be diversified across 10 uncorrelated bets. The other might be one momentum bet disguised as 30 positions. The effective number of bets is the real diversification metric.</p>
+<p>Third, stress testing — how does the portfolio perform under 2008, COVID, or a hypothetical Taiwan scenario? This tests what VaR misses: regime changes, correlation spikes, non-linear payoffs.</p>
+<p>Fourth, liquidity analysis — can we actually EXIT these positions if we need to? A portfolio that takes 3 weeks to liquidate but faces daily margin calls has a fundamental mismatch.</p>
+<p>Fifth, and most critically at a multi-PM fund: cross-desk aggregation. Each PM's risk might look fine individually, but if all four desks are loading on the same macro factor, eigenvalue decomposition of the cross-desk correlation matrix will show it. That's the hidden concentration that kills multi-strategy funds."</p>
+<p><strong>"What's the most underappreciated risk in a multi-PM fund?"</strong></p>
+<p>"Hidden factor correlation across PMs. Each PM manages their own book and genuinely believes their risk is independent. But when I run factor attribution across ALL desks simultaneously, I often find they're loading on the same two or three macro factors — rates, momentum, risk appetite — without realizing it.</p>
+<p>In calm markets, this looks like diversification because the idiosyncratic component masks the common factor. In stress, correlations spike and you discover that 'four independent strategies' are actually one big bet. If I do eigenvalue decomposition of the inter-desk correlation matrix and the first eigenvalue explains 60%+ of variance, that fund has one and a half effective bets, not four.</p>
+<p>The fix is systematic: daily cross-desk factor aggregation, limits on aggregate factor exposure (not just per-desk), and an effective-number-of-bets metric that the CRO monitors. At a fund like Squarepoint with many desks, this aggregation is probably the single highest-value-add function of the risk team."</p>
+<p><strong>"How would you evaluate whether a PM is generating alpha vs just running factor exposure?"</strong></p>
+<p>"Multi-factor regression: regress PM returns against market, size, value, momentum, quality, and relevant macro factors. Three things I'm looking for.</p>
+<p>First, the R² — how much of the return is EXPLAINED by known factors? If R² is 0.85, only 15% of the return is truly idiosyncratic. The PM is mostly delivering factor exposure, which could be replicated with a cheap ETF portfolio.</p>
+<p>Second, the alpha — is the intercept statistically positive after accounting for ALL factor exposures? A positive alpha with t-stat &gt;2.0 is evidence of genuine skill. But I'd want at least 3-4 years of data — two good quarters proves nothing. The standard error on Sharpe is roughly 1/√n, and distinguishing Sharpe 1.0 from zero at 95% confidence requires ~4 years of monthly data.</p>
+<p>Third, the factor loadings themselves — are they what the PM claims? A PM who says 'I'm a stock picker' but has β_momentum = 0.7 is not picking stocks. They're running a momentum strategy and charging stock-picking fees. That's not necessarily bad — but the risk budget they consume should be priced against a momentum benchmark, not against cash."</p>
+<p><strong>"Walk me through how you'd construct a risk dashboard from scratch."</strong></p>
+<p>"I'd organize it in six layers, from most granular to most strategic.</p>
+<p>First, exposure metrics — net and gross notional, leverage, long/short ratio. These tell me the SIZE of the bet. Second, concentration metrics — HHI, effective N, single-name and sector limits. These tell me if the bet is SPREAD or STACKED. Third, factor decomposition — style and macro factor exposures, effective number of bets, cross-desk factor aggregation. This tells me the NATURE of the bet. Fourth, risk measures — VaR, ES, ES/VaR ratio, stress test P&amp;L across historical and hypothetical scenarios. This tells me HOW MUCH we can lose. Fifth, liquidity metrics — DTL distribution, margin headroom, percent of book liquidable in 1/3/5 days. This tells me CAN WE GET OUT. Sixth, drawdown tracking — current drawdown from HWM versus soft/hard/kill limits. This tells me WHERE WE ARE relative to survival thresholds.</p>
+<p>I'd review all six layers every morning BEFORE markets open, with automated alerts for any limit that crosses 80% utilization. The most important single metric? Probably the effective number of bets from eigenvalue decomposition — because it integrates correlation, concentration, and factor exposure into one number that tells me whether we're genuinely diversified or running a disguised single bet."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, stress testing mechanics<br />
-→ <a href="D_Greeks.html">Greeks</a> — position-level risk sensitivities<br />
-→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a> — applying portfolio risk concepts in scenarios<br />
-→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a> — why PMs underestimate correlation and concentration<br />
-→ <em>18_Round1_Trader_BattlePrep</em> — Section 3 (portfolio risk in interview context)</p>
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, stress testing, backtesting, risk budgeting mechanics<br />
+→ <a href="D_Greeks.html">Greeks</a> — position-level risk sensitivities that feed portfolio risk<br />
+→ <a href="E_Volatility.html">Volatility</a> — vol regimes, VRP, correlation dynamics<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using risk factors to decompose P&amp;L<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — GARCH, PCA, eigenvalue decomposition details<br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — applying portfolio risk concepts to real decisions<br />
+→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a> — stress scenarios and cross-PM aggregation</p>
 </main>
 
 <script>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Position Management — Cheat — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link active" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="j-position-management-cheat-sheet">J — POSITION MANAGEMENT — CHEAT SHEET</h1>
+<hr />
+<h2 id="sizing-frameworks">SIZING FRAMEWORKS</h2>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Formula / Rule</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Equal weight</strong></td>
+<td>$w_i = 1/N$</td>
+<td>New desk, unproven PM, high-turnover stat arb</td>
+</tr>
+<tr>
+<td><strong>Conviction-based</strong></td>
+<td>Tier 1: 5-8%, Tier 2: 2-4%, Tier 3: 0.5-2%, Tier 4: 0.25-0.5%</td>
+<td>Discretionary PM with structured conviction</td>
+</tr>
+<tr>
+<td><strong>Vol-weighted</strong></td>
+<td>Notional = Target risk / σ_i</td>
+<td>Equal risk contribution per position</td>
+</tr>
+<tr>
+<td><strong>Kelly</strong></td>
+<td>$f^* = (pb - q)/b$ → use ¼ or ½ Kelly in practice</td>
+<td>Theoretical ceiling on sizing</td>
+</tr>
+<tr>
+<td><strong>Max-loss</strong></td>
+<td>Notional = Acceptable loss / stop-loss distance (%)</td>
+<td>Risk-budget-driven sizing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vol-weighted quick example:</strong> $200K risk budget per position → JNJ (15% vol) gets $1.33M, TSLA (50% vol) gets $400K.</p>
+<hr />
+<h2 id="conviction-scoring-4-pillars">CONVICTION SCORING — 4 PILLARS</h2>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Question</th>
+<th>If missing →</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variant perception</td>
+<td>What do I see the market doesn't?</td>
+<td>No edge</td>
+</tr>
+<tr>
+<td>Catalyst</td>
+<td>What event + WHEN?</td>
+<td>Dead money</td>
+</tr>
+<tr>
+<td>Downside</td>
+<td>How much can I lose?</td>
+<td>Position unsized</td>
+</tr>
+<tr>
+<td>Edge durability</td>
+<td>Why won't it get arbed away?</td>
+<td>Already priced</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Score: 4/4 → Tier 1 | 3/4 → Tier 2 | 2/4 → Tier 3 | 1/4 → Tier 4 | 0/4 → Reject</strong></p>
+<hr />
+<h2 id="three-broken-thesis-tests">THREE BROKEN-THESIS TESTS</h2>
+<ol>
+<li><strong>Is the thesis intact?</strong> → If yes, hold/add</li>
+<li><strong>Has NEW INFORMATION arrived?</strong> → If yes, reassess from scratch (price movement alone ≠ new info)</li>
+<li><strong>Would you put this on TODAY?</strong> → If no, the position is alive only because of anchoring. CUT IT.</li>
+</ol>
+<hr />
+<h2 id="liquidity-adjusted-sizing">LIQUIDITY-ADJUSTED SIZING</h2>
+<p>$$\text{Max notional} = \text{ADV}(\$) \times \text{Participation rate (15\%)} \times \text{Max exit days}$$</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Days to exit (normal)</td>
+<td><strong>&lt; 5 days</strong></td>
+</tr>
+<tr>
+<td>Days to exit (stress @ 0.5× ADV)</td>
+<td><strong>&lt; 10 days</strong></td>
+</tr>
+<tr>
+<td>Position as % of ADV</td>
+<td><strong>&lt; 100%</strong></td>
+</tr>
+<tr>
+<td>Estimated impact</td>
+<td><strong>&lt; 1%</strong> one-way</td>
+</tr>
+<tr>
+<td>Ownership % of float</td>
+<td><strong>&lt; 5%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Market impact:</strong> $\text{Impact} \approx \sigma \times \sqrt{Q/V} \times k$</p>
+<hr />
+<h2 id="drawdown-escalation-ladder">DRAWDOWN ESCALATION LADDER</h2>
+<table>
+<thead>
+<tr>
+<th>Zone</th>
+<th>Budget consumed</th>
+<th>Key restriction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🟢 Green</td>
+<td>0-25%</td>
+<td>None</td>
+</tr>
+<tr>
+<td>🟡 Yellow</td>
+<td>25-50%</td>
+<td>Daily review, run broken-thesis tests</td>
+</tr>
+<tr>
+<td>🟠 Orange</td>
+<td>50-75%</td>
+<td>Gross capped 80%, no new Tier 1 positions</td>
+</tr>
+<tr>
+<td>🔴 Red</td>
+<td>75-100%</td>
+<td>Gross capped 60%, only risk-reducing trades</td>
+</tr>
+<tr>
+<td>⚫ Stop-out</td>
+<td>100%</td>
+<td>All positions closed/hedged flat</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="risk-budget-limits-typical-discretionary-desk">RISK BUDGET LIMITS (TYPICAL DISCRETIONARY DESK)</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Soft</th>
+<th>Hard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily P&amp;L loss</td>
+<td>−$500K</td>
+<td>−$1M</td>
+</tr>
+<tr>
+<td>Monthly P&amp;L loss</td>
+<td>−$2M</td>
+<td>−$4M</td>
+</tr>
+<tr>
+<td>VaR (1d 99%)</td>
+<td>$3M</td>
+<td>$5M</td>
+</tr>
+<tr>
+<td>Gross</td>
+<td>$80M</td>
+<td>$100M</td>
+</tr>
+<tr>
+<td>Net</td>
+<td>±$30M</td>
+<td>±$50M</td>
+</tr>
+<tr>
+<td>Single name</td>
+<td>5% NAV</td>
+<td>8% NAV</td>
+</tr>
+<tr>
+<td>Sector</td>
+<td>25% gross</td>
+<td>35% gross</td>
+</tr>
+<tr>
+<td>Top 5</td>
+<td>40% gross</td>
+<td>55% gross</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="exposure-metrics">EXPOSURE METRICS</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gross</td>
+<td>|L| + |S|</td>
+</tr>
+<tr>
+<td>Net</td>
+<td>L − S</td>
+</tr>
+<tr>
+<td>Net/Gross</td>
+<td>Net / Gross (0 = neutral, 1 = fully long)</td>
+</tr>
+<tr>
+<td>Beta-adjusted net</td>
+<td>Σ(w_i × β_i) — true directional exposure</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Trap:</strong> PM says "I'm modestly net long at $30M" but β-adjusted net = $43M because longs have higher beta than shorts.</p>
+<hr />
+<h2 id="concentration-dashboard">CONCENTRATION DASHBOARD</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Green</th>
+<th>Yellow</th>
+<th>Red</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top 1 (% gross)</td>
+<td>&lt;8%</td>
+<td>8-12%</td>
+<td>&gt;12%</td>
+</tr>
+<tr>
+<td>Top 5 (% gross)</td>
+<td>&lt;35%</td>
+<td>35-50%</td>
+<td>&gt;50%</td>
+</tr>
+<tr>
+<td>Sector (% gross)</td>
+<td>&lt;20%</td>
+<td>20-30%</td>
+<td>&gt;30%</td>
+</tr>
+<tr>
+<td>Correlated cluster (ρ&gt;0.7)</td>
+<td>&lt;15%</td>
+<td>15-25%</td>
+<td>&gt;25%</td>
+</tr>
+<tr>
+<td>Effective N</td>
+<td>&gt;15</td>
+<td>8-15</td>
+<td>&lt;8</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="risk-decomposition">RISK DECOMPOSITION</h2>
+<p>$$\text{Component VaR}<em>i = w_i \times \beta</em>{i,p} \times \text{VaR}_p$$</p>
+<p><strong>Key insight:</strong> A 15% dollar-weight position with high vol + high correlation can be 33% of portfolio VaR. The RM makes RISK CONTRIBUTION visible, not just dollar weight.</p>
+<hr />
+<h2 id="position-lifecycle-rm-checks">POSITION LIFECYCLE — RM CHECKS</h2>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>RM checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Entry</strong></td>
+<td>Risk budget, marginal VaR, correlation, factor exposure, liquidity (days to exit), conviction tier match, crowding, hedge plan</td>
+</tr>
+<tr>
+<td><strong>Hold</strong></td>
+<td>Daily: P&amp;L + VaR. Weekly: thesis + factors + correlation. Monthly: full review.</td>
+</tr>
+<tr>
+<td><strong>Exit (profit)</strong></td>
+<td>Challenge disposition effect (cutting winners too early)</td>
+</tr>
+<tr>
+<td><strong>Exit (loss)</strong></td>
+<td>Run 3 broken-thesis tests</td>
+</tr>
+<tr>
+<td><strong>Exit (forced)</strong></td>
+<td>Limit breach, liquidity event, compliance, redemption</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="scaling-rules">SCALING RULES</h2>
+<p><strong>Adding:</strong> Only if (1) thesis confirmed by new data, (2) risk budget has room, (3) PM pre-planned the scale-in<br />
+<strong>Trimming:</strong> When (1) valuation target hit, (2) position grew beyond conviction tier, (3) concentration risk, (4) risk budget constraints</p>
+<p><strong>Red flag:</strong> PM averaging down without passing broken-thesis tests = loss aversion disguised as conviction</p>
+<hr />
+<h2 id="interview-answer-templates">INTERVIEW ANSWER TEMPLATES</h2>
+<p><strong>"PM at 85% risk budget wants new position?"</strong><br />
+→ Check MARGINAL VaR → If diversifying (low ρ), might barely move budget → If correlated, could push to 95% → Make tradeoff explicit → "Trim something or accept the risk?"</p>
+<p><strong>"How know position is too large?"</strong><br />
+→ 3 lenses: (1) Risk contribution &gt;25% of VaR = portfolio IS that position, (2) &gt;5 days to exit = illiquid, (3) Stop-loss would consume &gt;30% of monthly loss budget</p>
+<p><strong>"How manage a drawdown?"</strong><br />
+→ Structured escalation: 25% = conversation, 50% = restrictions, 75% = defense mode, 100% = stop-out</p>
+<p><strong>"PM keeps averaging down?"</strong><br />
+→ Show data: (1) position grew from Tier 2 to Tier 1 by price drop not conviction, (2) risk contribution doubled, (3) needs 15% recovery just for breakeven → PM must pass 3 broken-thesis tests to justify</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

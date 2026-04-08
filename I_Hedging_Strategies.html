@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,304 +308,1323 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="i-hedging-strategies">I — HEDGING STRATEGIES</h1>
-<h2 id="how-to-protect-a-portfolio-puts-collars-spreads-futures-pairs-and-when-to-use-each">How to protect a portfolio — puts, collars, spreads, futures, pairs, and when to use each</h2>
+<h1 id="i-hedging-strategies-the-art-of-controlled-risk-transfer">I — HEDGING STRATEGIES: THE ART OF CONTROLLED RISK TRANSFER</h1>
+<h2 id="puts-collars-spreads-futures-pairs-cross-asset-tail-hedges-dynamic-hedging-hedge-greeks-roll-management-and-the-rms-cost-benefit-framework">Puts, collars, spreads, futures, pairs, cross-asset, tail hedges, dynamic hedging, hedge Greeks, roll management, and the RM's cost-benefit framework</h2>
 <h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="part-1-why-hedging-is-hard">PART 1: WHY HEDGING IS HARD</h1>
-<p>Hedging sounds simple: "buy protection." In practice, every hedge involves tradeoffs:</p>
+<h1 id="why-hedging-is-the-rms-highest-value-skill">WHY HEDGING IS THE RM'S HIGHEST-VALUE SKILL</h1>
+<p>At Squarepoint, PMs are paid to take risk. The RM's job is NOT to eliminate risk — it's to ensure risk is INTENTIONAL, SIZED CORRECTLY, and SURVIVABLE. Hedging is the mechanism that converts "we're exposed and hoping" into "we're exposed and protected at defined cost."</p>
+<p>The RM adds value in three ways:</p>
+<ol>
+<li><strong>Making hidden costs explicit</strong> — "This collar is 'free' but you're giving up $3M of potential upside. Is that the trade?"</li>
+<li><strong>Challenging false hedges</strong> — "Your SPX put covers 7% of a 15% loss on your tech-heavy book. You're 53% hedged. Is that acceptable?"</li>
+<li><strong>Timing the hedge</strong> — "Vol is at the 15th percentile. Protection is cheap. NOW is when to buy — not after the sell-off when VIX is 35 and puts cost 3×."</li>
+</ol>
+<hr />
+<h1 id="part-1-the-five-tradeoffs-every-hedge-has-a-price">PART 1: THE FIVE TRADEOFFS — EVERY HEDGE HAS A PRICE</h1>
+<blockquote>
+<p><strong>One-liner:</strong> There is no free hedge. Every form of protection extracts payment in some currency — premium, upside, basis risk, complexity, or illiquidity. The RM's job is to make the currency explicit.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
 <th>Tradeoff</th>
-<th>Tension</th>
+<th>The tension</th>
+<th>What the PM needs to decide</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Cost vs protection</td>
-<td>Better protection = more expensive. Zero-cost structures cap your upside.</td>
+<td><strong>Cost vs protection</strong></td>
+<td>Better protection = more premium. Deeper OTM = cheaper but further from current price.</td>
+<td>"How much annual drag can you absorb in your Sharpe?"</td>
 </tr>
 <tr>
-<td>Precision vs liquidity</td>
-<td>A perfect hedge (single-name put) is expensive and illiquid. A liquid hedge (SPX put) has basis risk.</td>
+<td><strong>Precision vs liquidity</strong></td>
+<td>Single-name put = perfect hedge but expensive/illiquid. Index put = liquid/cheap but basis risk.</td>
+<td>"Do you need exact coverage or directional protection?"</td>
 </tr>
 <tr>
-<td>Horizon mismatch</td>
-<td>Your position has no fixed expiry. Your hedge does. Roll costs compound.</td>
+<td><strong>Horizon mismatch</strong></td>
+<td>Position has no expiry. Hedge expires. Roll costs compound.</td>
+<td>"Are you hedging an event (1 week) or a regime (6 months)?"</td>
 </tr>
 <tr>
-<td>Upside surrender</td>
-<td>Collars and put spreads cap your gains in exchange for cheaper protection.</td>
+<td><strong>Upside surrender</strong></td>
+<td>Collars and call overwriting cap gains. Zero-cost structures mean the cost IS the cap.</td>
+<td>"What maximum return would you accept in exchange for zero premium?"</td>
 </tr>
 <tr>
-<td>Timing</td>
-<td>Hedges are cheapest when you don't need them (low vol) and most expensive when you do (high vol).</td>
+<td><strong>Timing</strong></td>
+<td>Cheapest when you don't need it (low vol). Most expensive when you do (crisis vol).</td>
+<td>"Are you willing to pay insurance when the sun is shining?"</td>
 </tr>
 </tbody>
 </table>
-<p>The RM's job isn't to say "hedge everything." It's to help the PM make CONSCIOUS decisions about which risks to keep and which to transfer.</p>
-<hr />
-<h1 id="part-2-the-hedging-decision-framework">PART 2: THE HEDGING DECISION FRAMEWORK</h1>
-<p>Before choosing an instrument, answer these five questions:</p>
-<h3 id="1-what-specific-risk-am-i-hedging">1. What specific risk am I hedging?</h3>
-<p>Not "the portfolio" — the SPECIFIC exposure. Is it:<br />
-- Directional equity risk (delta)?<br />
-- Volatility risk (vega)?<br />
-- Rate risk (duration/DV01)?<br />
-- Sector concentration?<br />
-- Single-name event risk (earnings)?<br />
-- Tail risk (5-sigma events)?</p>
-<p>Different risks require different hedges.</p>
-<h3 id="2-what-horizon">2. What horizon?</h3>
-<ul>
-<li><strong>1-day to 1-week:</strong> Overnight event, earnings. → Short-dated options.</li>
-<li><strong>1-3 months:</strong> Medium-term view adjustment. → Monthly puts/collars, futures.</li>
-<li><strong>Permanent:</strong> Structural portfolio protection. → Rolling put spreads, tail hedges.</li>
-</ul>
-<h3 id="3-how-much-upside-am-i-willing-to-give-up">3. How much upside am I willing to give up?</h3>
-<ul>
-<li><strong>None:</strong> Buy puts outright. Pay premium.</li>
-<li><strong>Some:</strong> Collar (buy put, sell call). Reduce cost but cap upside.</li>
-<li><strong>Don't care about upside:</strong> Sell the position. The cheapest hedge is no position.</li>
-</ul>
-<h3 id="4-what-can-i-afford">4. What can I afford?</h3>
-<ul>
-<li>Premium budget: how much theta bleed is acceptable?</li>
-<li>Rule of thumb: tail hedges cost 0.5-2% of NAV annually. If your expected alpha is 5%, spending 2% on protection leaves 3% net.</li>
-</ul>
-<h3 id="5-what-basis-risk-am-i-accepting">5. What basis risk am I accepting?</h3>
-<ul>
-<li>Hedging XOM with XLE has basis risk (XOM vs sector).</li>
-<li>Hedging XOM with SPX has even more basis risk.</li>
-<li>Hedging with a perfect single-name put has zero basis risk but maximum cost.</li>
-</ul>
-<hr />
-<h1 id="part-3-hedging-instruments">PART 3: HEDGING INSTRUMENTS</h1>
-<h2 id="1-outright-puts">1. Outright Puts</h2>
-<p><strong>What:</strong> Buy put options on the asset or index.</p>
-<p><strong>When to use:</strong><br />
-- Hedging a specific downside level<br />
-- Event protection (earnings, FOMC)<br />
-- When you want asymmetric protection (defined cost, unlimited protection)</p>
-<p><strong>Pros:</strong> Clean, defined cost, no upside surrender.<br />
-<strong>Cons:</strong> Expensive. Theta decay. Need to roll repeatedly for ongoing protection.</p>
-<p><strong>Example:</strong> Long SPX. Buy SPX 5300 put for $12.00.<br />
-- Cost: $1,200 per contract. For 100 contracts = $120K.<br />
-- Protection: below 5300, you're hedged dollar-for-dollar (minus premium). Above 5300, you keep all upside.<br />
-- Breakeven: SPX at 5288 (strike minus premium).</p>
-<h2 id="2-put-spreads">2. Put Spreads</h2>
-<p><strong>What:</strong> Buy a put + sell a lower-strike put. Cheaper than outright puts but caps the protection.</p>
-<p><strong>When to use:</strong><br />
-- Want downside protection but on a budget<br />
-- Believe the tail risk below a certain level is acceptable or unlikely<br />
-- Hedging against a "normal" correction, not a crash</p>
-<p><strong>Example:</strong> Buy SPX 5300 put, sell SPX 5100 put.<br />
-- Cost: $12.00 - $6.00 = $6.00 net. Half the cost of the outright.<br />
-- Protection: between 5300 and 5100 (200 points = $20K per contract).<br />
-- Below 5100: no additional protection. You're exposed again.<br />
-- Trade: you saved 50% on premium but gave up crash protection below 5100.</p>
-<h2 id="3-collars">3. Collars</h2>
-<p><strong>What:</strong> Long stock + buy put + sell call. The call premium finances (partially or fully) the put.</p>
-<p><strong>When to use:</strong><br />
-- PM wants protection but refuses to pay premium<br />
-- Acceptable to cap upside in exchange for downside protection<br />
-- Earnings or event protection where the PM is happy with a bounded outcome</p>
-<p><strong>Zero-cost collar:</strong> choose strikes so put cost = call premium received.</p>
-<p><strong>Example:</strong> Long XOM at $113. Buy $108 put, sell $118 call. Net cost: ~$0.<br />
-- Below $108: hedged. Max loss = $5 per share.<br />
-- Above $118: gains capped. Even if XOM goes to $130, you get $118.<br />
-- Between $108-$118: normal exposure.</p>
-<h2 id="4-futures-hedging">4. Futures Hedging</h2>
-<p><strong>What:</strong> Sell futures against a long equity position to reduce delta.</p>
-<p><strong>When to use:</strong><br />
-- Quick, liquid delta reduction<br />
-- Temporary risk reduction (overnight, over a weekend)<br />
-- Beta hedging: sell SPX futures to reduce portfolio beta</p>
-<p><strong>Pros:</strong> Very liquid, no premium, instant execution.<br />
-<strong>Cons:</strong> Linear — no protection floor, you give up ALL downside AND upside proportionally. Margin required.</p>
-<p><strong>Beta hedge calculation:</strong><br />
-$$\text{Contracts} = \frac{\text{Portfolio value} \times \beta_{\text{target change}}}{\text{Futures notional per contract}}$$</p>
-<p>Portfolio = $50M, beta = 1.2, want beta = 0.7.<br />
-Beta reduction needed = 0.5. SPX future notional = ~$270K (5400 × $50).<br />
-Contracts = ($50M × 0.5) / $270K ≈ 93 contracts short.</p>
-<h2 id="5-pairs-relative-value-hedging">5. Pairs / Relative Value Hedging</h2>
-<p><strong>What:</strong> Long one stock, short a correlated stock or ETF. Isolate the idiosyncratic bet, hedge the common factor.</p>
-<p><strong>When to use:</strong><br />
-- PM has a view on XOM outperforming CVX, but not on oil direction<br />
-- Sector-neutral: long best stock, short worst stock in same sector<br />
-- Reduce beta to sector or market</p>
-<p><strong>Risks:</strong><br />
-- Basis risk: the pair can diverge for non-fundamental reasons (flows, technicals).<br />
-- Short borrow cost: the short leg has borrow fees.<br />
-- Correlation can break: in stress, the pair can move in the same direction with different magnitudes.</p>
-<h2 id="6-cross-asset-hedges">6. Cross-Asset Hedges</h2>
-<p><strong>What:</strong> Hedge equity risk using a different asset class.</p>
+<p><strong>The cost of NOT hedging:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Equity risk</th>
-<th>Cross-asset hedge</th>
-<th>How it works</th>
+<th>If you don't hedge…</th>
+<th>What happens when the tail hits</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Market sell-off</td>
-<td>Long TLT (long duration Treasuries)</td>
-<td>Flight to quality: stocks down → bonds up</td>
+<td>No puts, no tail protection</td>
+<td>Full drawdown. Potential forced liquidation. Career risk.</td>
 </tr>
 <tr>
-<td>Inflation spike</td>
-<td>Long commodity futures or TIPS</td>
-<td>Commodities and TIPS benefit from inflation</td>
+<td>No basis-adjusted hedge</td>
+<td>Hedge covers 50% of the loss. You thought you were protected. You weren't.</td>
+</tr>
+<tr>
+<td>No roll plan</td>
+<td>Hedge expires unnoticed. Position runs unprotected for days/weeks.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-2-the-hedging-decision-framework">PART 2: THE HEDGING DECISION FRAMEWORK</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Before picking an instrument, diagnose the disease. A put doesn't help if the risk is basis. A futures hedge doesn't help if the risk is convexity. Match the hedge to the SPECIFIC risk.</p>
+</blockquote>
+<h2 id="five-questions-before-every-hedge">Five Questions Before Every Hedge</h2>
+<h3 id="1-what-specific-risk-am-i-hedging">1. What SPECIFIC risk am I hedging?</h3>
+<table>
+<thead>
+<tr>
+<th>Risk type</th>
+<th>The exposure</th>
+<th>Right hedge family</th>
+<th>Wrong hedge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Directional (delta)</strong></td>
+<td>Stock goes down</td>
+<td>Puts, futures, shorts</td>
+<td>VIX calls (wrong risk)</td>
+</tr>
+<tr>
+<td><strong>Volatility (vega)</strong></td>
+<td>IV drops, long options lose value</td>
+<td>Sell vol, vega-neutral structures</td>
+<td>Equity futures (wrong Greek)</td>
+</tr>
+<tr>
+<td><strong>Convexity (gamma)</strong></td>
+<td>Short gamma: large moves kill you</td>
+<td>Buy options (go long gamma)</td>
+<td>Futures (linear, no convexity)</td>
+</tr>
+<tr>
+<td><strong>Rate risk (DV01)</strong></td>
+<td>Yields rise, bond portfolio loses</td>
+<td>Rate futures, IRS</td>
+<td>Equity puts (wrong asset)</td>
+</tr>
+<tr>
+<td><strong>Credit (CS01)</strong></td>
+<td>Spreads widen</td>
+<td>CDS, short HY ETF</td>
+<td>Treasury hedge (misses credit)</td>
+</tr>
+<tr>
+<td><strong>Concentration</strong></td>
+<td>15% of NAV in one name</td>
+<td>Single-name puts, partial exit</td>
+<td>Index hedge (basis risk)</td>
+</tr>
+<tr>
+<td><strong>Tail / left-tail</strong></td>
+<td>5σ event</td>
+<td>Deep OTM puts, VIX calls</td>
+<td>ATM puts (expensive for tail defense)</td>
+</tr>
+<tr>
+<td><strong>Basis</strong></td>
+<td>Hedge and position diverge</td>
+<td>Better correlated instrument</td>
+<td>More of the same wrong hedge</td>
+</tr>
+<tr>
+<td><strong>Liquidity</strong></td>
+<td>Can't exit in stress</td>
+<td>Cash buffer, fewer illiquid positions</td>
+<td>No derivative fixes this</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-what-horizon">2. What horizon?</h3>
+<table>
+<thead>
+<tr>
+<th>Horizon</th>
+<th>Use case</th>
+<th>Instruments</th>
+<th>Roll frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1-5 days</strong></td>
+<td>Earnings, FOMC, event</td>
+<td>Weekly options, overnight futures</td>
+<td>None — expires</td>
+</tr>
+<tr>
+<td><strong>1-4 weeks</strong></td>
+<td>Near-term uncertainty</td>
+<td>Monthly puts/collars</td>
+<td>None or once</td>
+</tr>
+<tr>
+<td><strong>1-6 months</strong></td>
+<td>Medium-term thesis adjustment</td>
+<td>Quarterly options, futures strips</td>
+<td>Roll quarterly</td>
+</tr>
+<tr>
+<td><strong>6M-permanent</strong></td>
+<td>Structural portfolio protection</td>
+<td>LEAPs, rolling put spreads, tail program</td>
+<td>Roll semi-annually</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-how-much-upside-am-i-willing-to-surrender">3. How much upside am I willing to surrender?</h3>
+<table>
+<thead>
+<tr>
+<th>Upside tolerance</th>
+<th>Structure</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Surrender nothing</strong></td>
+<td>Outright puts</td>
+<td>Full premium (1-3% annualized for ATM)</td>
+</tr>
+<tr>
+<td><strong>Cap at +X%</strong></td>
+<td>Collar (buy put, sell call at +X%)</td>
+<td>Reduced or zero net premium</td>
+</tr>
+<tr>
+<td><strong>Cap protection at −Y%</strong></td>
+<td>Put spread (buy put, sell lower put)</td>
+<td>~50% of outright put cost</td>
+</tr>
+<tr>
+<td><strong>Both cap upside AND cap protection</strong></td>
+<td>Collar + put spread combo</td>
+<td>Near-zero cost, bounded up and down</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-whats-the-premium-budget">4. What's the premium budget?</h3>
+<p><strong>Rule of thumb for hedge cost relative to expected alpha:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Strategy alpha</th>
+<th>Max hedge cost (% of NAV/year)</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2-4%</td>
+<td>0.3-0.5%</td>
+<td>Hedge can't eat &gt;15% of alpha</td>
+</tr>
+<tr>
+<td>5-8%</td>
+<td>0.5-1.5%</td>
+<td>Room for meaningful protection</td>
+</tr>
+<tr>
+<td>10%+</td>
+<td>1.5-3.0%</td>
+<td>Can afford genuine tail protection</td>
+</tr>
+</tbody>
+</table>
+<p><strong>If premium budget = $0:</strong> The PM is choosing between (a) upside surrender (collar), (b) accepting basis risk (imperfect hedge), or (c) no hedge at all. There is no fourth option. Make this explicit.</p>
+<h3 id="5-what-basis-risk-am-i-accepting">5. What basis risk am I accepting?</h3>
+<p><strong>Basis risk hierarchy — from best to worst hedge precision:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Hedge instrument</th>
+<th>Basis risk</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single-name put on exact position</td>
+<td><strong>Zero</strong></td>
+<td>Most expensive</td>
+</tr>
+<tr>
+<td>Sector ETF put (XLE for XOM)</td>
+<td>Low-moderate</td>
+<td>Less expensive</td>
+</tr>
+<tr>
+<td>Index put (SPX for any equity)</td>
+<td>Moderate-high</td>
+<td>Cheapest, most liquid</td>
+</tr>
+<tr>
+<td>Cross-asset (TLT for equity)</td>
+<td><strong>High</strong> (correlation-dependent)</td>
+<td>Variable</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quantifying basis risk:</strong></p>
+<p>$$\text{Hedge effectiveness} = R^2 = 1 - \frac{\text{Var(hedged portfolio)}}{\text{Var(unhedged portfolio)}}$$</p>
+<p>$$\text{Optimal hedge ratio} = h^* = \rho \times \frac{\sigma_{\text{position}}}{\sigma_{\text{hedge}}}$$</p>
+<p>If ρ = 0.75 between XOM and XLE, optimal hedge ratio = 0.75 × (σ_XOM/σ_XLE), NOT 1:1.</p>
+<hr />
+<h1 id="part-3-hedging-instruments-the-full-toolkit">PART 3: HEDGING INSTRUMENTS — THE FULL TOOLKIT</h1>
+<h2 id="1-outright-puts">1. Outright Puts</h2>
+<p><strong>What:</strong> Buy put options on the asset or index. Pure downside protection with defined cost.</p>
+<p>$$\text{Put cost} = f(\text{strike, time, IV, rates, dividends})$$</p>
+<p><strong>Structure:</strong></p>
+<div class="highlight"><pre><span></span><code>P&amp;L
+  │       ╱ Unhedged
+  │      ╱
+  │     ╱
+──┼────╱──────────── Stock price
+  │   ╱  ╱ Hedged (long stock + put)
+  │  ╱  ╱
+  │ ╱  ╱
+  │╱__╱   ← Floor at strike − premium
+  │
+</code></pre></div>
+
+<p><strong>Worked example — SPX at 5,400:</strong><br />
+- Buy SPX 5,300 put (1.9% OTM), 3-month expiry, IV = 16%<br />
+- Cost: ~$45 per contract (~$4,500 per contract at 100 multiplier)<br />
+- 100 contracts protecting $54M of equity → cost = $450K = <strong>0.83% of protected notional</strong> (annualized ~3.3%)<br />
+- Protection: below 5,300, every $1 of SPX drop → $100 per contract recovered (100 contracts = $10K per point)<br />
+- Maximum loss on protected portfolio: (5,400 − 5,300) × $100 × 100 + $450K premium = <strong>$1,450K</strong> instead of unlimited</p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clean — defined cost, no upside surrender</td>
+<td>Expensive — theta bleeds every day</td>
+</tr>
+<tr>
+<td>Works through gaps (overnight, weekend)</td>
+<td>Need to roll repeatedly → compound cost</td>
+</tr>
+<tr>
+<td>Asymmetric: defined loss, unlimited gain</td>
+<td>If vol is high when you buy → overpaying</td>
+</tr>
+<tr>
+<td>No margin requirement (you're buying)</td>
+<td>Premium is sunk — lost even if market rallies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to use:</strong> Event protection (earnings, FOMC), known-horizon hedges, when PM refuses to cap upside.</p>
+<h2 id="2-put-spreads-bear-put-spread">2. Put Spreads (Bear Put Spread)</h2>
+<p><strong>What:</strong> Buy a put at strike K₁ + sell a put at lower strike K₂. Protection between K₁ and K₂ only.</p>
+<div class="highlight"><pre><span></span><code>P&amp;L
+  │
+  │        ╱ Unhedged
+  │       ╱
+──┼──────╱────────────── Stock price
+  │     ╱   ╱ Hedged (put spread)
+  │    ╱   ╱
+  │   ╱___╱  ← Capped protection
+  │  ╱       (exposed below K₂)
+  │ ╱
+</code></pre></div>
+
+<p><strong>Worked example — SPX at 5,400:</strong><br />
+- Buy SPX 5,300 put ($45), sell SPX 5,100 put ($20). Net cost = $25 per contract ($2,500).<br />
+- Protection: 200 points between 5,300 and 5,100 = $20K per contract<br />
+- Max payout: $20K − $2.5K = <strong>$17.5K per contract</strong> (7:1 payoff ratio)<br />
+- Below 5,100: <strong>no additional protection</strong> — you're exposed again<br />
+- Cost: 55% cheaper than outright put</p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>~50% cheaper than outright put</td>
+<td>Capped protection — exposed in a crash</td>
+</tr>
+<tr>
+<td>Still defined-cost, known max loss</td>
+<td>If SPX drops 15%, the 200-point coverage isn't enough</td>
+</tr>
+<tr>
+<td>Good for "normal correction" hedging</td>
+<td>Not a tail hedge — doesn't protect against the worst scenarios</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to use:</strong> Budget-constrained, hedging against 3-5% corrections, when the PM believes &gt;10% drops are unlikely or acceptable.</p>
+<p><strong>RM judgment call:</strong> "A put spread protects you in a correction but NOT in a crash. If SPX drops 20%, you're covered for the first 200 points and naked for the next 880. Is that what you want?"</p>
+<h2 id="3-collars">3. Collars</h2>
+<p><strong>What:</strong> Long stock + buy OTM put + sell OTM call. Call premium finances the put.</p>
+<div class="highlight"><pre><span></span><code>Payoff
+  │            _____ ← Capped at call strike
+  │           ╱
+  │          ╱
+──┼─────────╱────────── Stock price
+  │        ╱
+  │ ______╱  ← Floor at put strike
+  │
+</code></pre></div>
+
+<p><strong>Worked example — XOM at $113:</strong><br />
+- Buy $108 put ($3.20), sell $120 call ($2.80). Net cost = <strong>$0.40</strong> (nearly zero-cost)<br />
+- Below $108: hedged. Max loss = $5.40/share ($113 − $108 + $0.40 premium)<br />
+- Above $120: capped. Even if XOM → $150, you get $120<br />
+- Between $108-$120: normal exposure minus the $0.40 cost</p>
+<p><strong>Zero-cost collar:</strong> Adjust strikes until put cost = call premium. E.g., buy $107 put, sell $119 call → exactly zero cost. The cost is ENTIRELY in upside surrender.</p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Near-zero or zero premium cost</td>
+<td><strong>Caps upside</strong> — this IS the cost, just in a different currency</td>
+</tr>
+<tr>
+<td>PM budget-friendly</td>
+<td>If the stock rallies through the call strike → PM is frustrated and blames RM</td>
+</tr>
+<tr>
+<td>Clear bounded outcome (min and max returns)</td>
+<td>In trending markets, the collar is a drag on performance</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to use:</strong> PM says "I don't want to pay for protection." Collar makes the tradeoff explicit: protection costs upside, not premium.</p>
+<p><strong>RM warning:</strong> "A 'free' collar isn't free — you're paying with the gain between $120 and wherever XOM would have gone. If XOM rallies to $130, this collar cost you $10/share. That's $500K on 50,000 shares."</p>
+<h2 id="4-futures-hedging">4. Futures Hedging</h2>
+<p><strong>What:</strong> Sell index or sector futures to reduce portfolio delta/beta. Linear instrument — no convexity.</p>
+<p><strong>Beta hedge sizing:</strong></p>
+<p>$$N_{\text{contracts}} = \frac{V_p \times (\beta_{\text{current}} - \beta_{\text{target}})}{V_f}$$</p>
+<p>Where $V_p$ = portfolio value, $V_f$ = futures notional per contract.</p>
+<p><strong>Worked example:</strong><br />
+- Portfolio: $80M, β = 1.3. Target: β = 0.5. Reduction: 0.8<br />
+- ES futures (E-mini SPX): SPX at 5,400 → $50 × 5,400 = $270K per contract<br />
+- Contracts = ($80M × 0.8) / $270K = <strong>237 contracts short</strong><br />
+- Cost: margin only (~$15K per contract initial margin = $3.6M). No premium.</p>
+<p><strong>DV01 hedging (for rates):</strong></p>
+<p>$$N_{\text{contracts}} = \frac{\text{Portfolio DV01}}{\text{Futures DV01 per contract}}$$</p>
+<p>Example: Portfolio DV01 = $50K/bp. 10Y Treasury futures DV01 = $75/bp per contract.<br />
+Contracts = $50K / $75 = <strong>667 contracts short</strong></p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Most liquid instruments on earth (ES, ZN, ZB)</td>
+<td><strong>Linear</strong>: no floor — you give up ALL downside AND upside</td>
+</tr>
+<tr>
+<td>No premium — cost is only margin + roll</td>
+<td>You can still lose unlimited on the hedged portfolio if basis moves</td>
+</tr>
+<tr>
+<td>Instant execution, tight spreads</td>
+<td>Margin drain — uses capital that could be deployed elsewhere</td>
+</tr>
+<tr>
+<td>Easy to size precisely</td>
+<td>Futures have expiry → roll risk (quarterly for equity, monthly for some)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to use:</strong> Temporary delta reduction (overnight, over weekend), beta hedging, rate duration hedging, quick risk-off.</p>
+<p><strong>When NOT to use:</strong> As a substitute for options when convexity matters. Futures don't protect against GAP risk — if SPX opens −5%, your delta hedge was computed at yesterday's close and you're already behind.</p>
+<h2 id="5-pairs-relative-value-hedging">5. Pairs / Relative Value Hedging</h2>
+<p><strong>What:</strong> Long one asset + short a correlated asset. Isolate the idiosyncratic (alpha) bet, hedge the systematic (factor) exposure.</p>
+<p><strong>Hedge ratio for a pair:</strong></p>
+<p>$$h^* = \frac{\text{Cov}(R_{\text{long}}, R_{\text{short}})}{\text{Var}(R_{\text{short}})} = \beta_{\text{long vs short}}$$</p>
+<p><strong>Worked example — Long XOM / Short CVX (oil pair):</strong><br />
+- Long $10M XOM, β_XOM_vs_CVX = 0.85<br />
+- Hedge: Short $8.5M CVX (= $10M × 0.85)<br />
+- The pair is MARKET-NEUTRAL on oil — moves in crude affect both positions similarly<br />
+- Alpha bet: XOM will outperform CVX (better management, better assets, etc.)<br />
+- $1.5M of "unhedged" residual = the idiosyncratic bet the PM is making</p>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>What goes wrong</th>
+<th>How to mitigate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Basis risk</strong></td>
+<td>XOM and CVX diverge for non-fundamental reasons (index reconstitution, ETF flows)</td>
+<td>Monitor rolling correlation. If ρ drops below 0.6, hedge ratio is stale.</td>
+</tr>
+<tr>
+<td><strong>Short borrow</strong></td>
+<td>CVX becomes hard-to-borrow → borrow cost spikes or shares recalled</td>
+<td>Check utilization rate before entering. Diversify across PBs.</td>
+</tr>
+<tr>
+<td><strong>Crowding</strong></td>
+<td>Every L/S fund runs the same pair → synchronized unwind</td>
+<td>Check 13F overlap. High overlap = crowded.</td>
+</tr>
+<tr>
+<td><strong>Leverage</strong></td>
+<td>L/S pairs use 2× capital (long + short) for gross exposure</td>
+<td>Size by NET risk, not gross dollars.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-cross-asset-hedging">6. Cross-Asset Hedging</h2>
+<p><strong>What:</strong> Hedge one asset class's risk using a DIFFERENT asset class, exploiting cross-asset correlations.</p>
+<table>
+<thead>
+<tr>
+<th>Risk being hedged</th>
+<th>Cross-asset hedge</th>
+<th>Mechanism</th>
+<th>Correlation regime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equity sell-off</td>
+<td>Long UST (TLT, ZN, ZB)</td>
+<td>Flight to quality: stocks ↓ → bonds ↑</td>
+<td>Usually works. <strong>FAILED in 2022</strong> (stocks-bonds both fell).</td>
+</tr>
+<tr>
+<td>Equity sell-off</td>
+<td>Long gold (GLD, GC futures)</td>
+<td>Safe haven — uncorrelated in moderate stress</td>
+<td>Works in geopolitical crisis. May fail if real rates dominate.</td>
+</tr>
+<tr>
+<td>Equity crash</td>
+<td>Long VIX calls / short VIX puts</td>
+<td>VIX spikes in crashes — convex hedge</td>
+<td>Reliable in acute crashes. Expensive to carry (contango).</td>
+</tr>
+<tr>
+<td>Inflation surge</td>
+<td>Long TIPS / commodities</td>
+<td>Direct inflation sensitivity</td>
+<td>Works for unexpected inflation. Not for expected (already priced).</td>
 </tr>
 <tr>
 <td>Dollar weakness</td>
-<td>Long gold or non-USD assets</td>
-<td>Gold inversely correlated with USD</td>
+<td>Long non-USD assets / gold</td>
+<td>Inverse USD correlation</td>
+<td>Generally reliable but unstable.</td>
 </tr>
 <tr>
-<td>Vol spike</td>
-<td>Long VIX calls</td>
-<td>VIX spikes when equities sell off</td>
+<td>China/EM contagion</td>
+<td>Long put on FXI, short AUD</td>
+<td>AUD proxies China risk via trade linkage</td>
+<td>Moderate. AUD-CHN correlation can break.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Warning:</strong> Cross-asset hedges rely on CORRELATIONS which can flip. Stocks-bonds correlation was negative 2000-2021 but flipped positive in 2022. If you hedge equities with bonds and both sell off → double loss.</p>
-<h2 id="7-tail-hedges">7. Tail Hedges</h2>
-<p><strong>What:</strong> Deep OTM puts or VIX calls designed to pay off only in extreme events (&gt;3 sigma).</p>
-<p><strong>When to use:</strong><br />
-- Fund-level protection against existential risk<br />
-- When you want convex payoff: small, known cost, potentially enormous payout</p>
-<p><strong>The cost problem:</strong> Tail hedges bleed theta constantly. Buying 5% OTM SPX puts every month costs ~1-2% of NAV annually. Most months they expire worthless. But in March 2020, they paid 20-50x.</p>
-<p><strong>Tail hedge structures:</strong><br />
-- Deep OTM put: simple, expensive over time<br />
-- Put ladder: buy several strikes in the tail (5%, 10%, 15% OTM)<br />
-- 1x2 put spread: buy 1 ATM put, sell 2 OTM puts. Cheap but creates a short put position deeper OTM<br />
-- VIX call spreads: cheaper than SPX puts, convex payoff in panic, but VIX doesn't track portfolio precisely</p>
-<hr />
-<h1 id="part-4-dynamic-hedging">PART 4: DYNAMIC HEDGING</h1>
-<h2 id="what-it-is">What It Is</h2>
-<p>Adjusting the hedge as the market moves, rather than setting it and forgetting it.</p>
-<h2 id="delta-hedging">Delta Hedging</h2>
-<ul>
-<li>Continuously adjust futures or stock position to keep portfolio delta at target.</li>
-<li>If you sell as the market rises and buy as it falls → you're long gamma (spending theta).</li>
-<li>If you buy as it rises and sell as it falls → you're short gamma (you're the one providing liquidity — dangerous).</li>
-</ul>
-<h2 id="hedge-rebalancing-triggers">Hedge Rebalancing Triggers</h2>
-<p>Don't rebalance on a schedule — rebalance on TRIGGERS:</p>
+<p><strong>CRITICAL WARNING — Correlation flips:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Trigger</th>
+<th>Regime</th>
+<th>Stocks-bonds ρ</th>
+<th>Strategy implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Deflation fear / growth scare</strong> (1998-2021)</td>
+<td><strong>−0.30</strong></td>
+<td>Bonds are a great equity hedge</td>
+</tr>
+<tr>
+<td><strong>Inflation regime</strong> (2022-2023)</td>
+<td><strong>+0.40</strong></td>
+<td>Bonds AMPLIFY equity losses — hedge becomes additional risk</td>
+</tr>
+<tr>
+<td><strong>Financial stress</strong> (March 2020 briefly)</td>
+<td><strong>+0.50</strong> (both sold)</td>
+<td>Everything correlates to 1 — only cash protects</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM responsibility:</strong> Monitor the stocks-bonds correlation WEEKLY. If it's been positive for &gt;3 months, any portfolio relying on Treasury duration as an equity hedge is structurally broken. Alert the CRO.</p>
+<h2 id="7-tail-hedges-existential-protection">7. Tail Hedges — Existential Protection</h2>
+<p><strong>What:</strong> Deep OTM protection designed to pay off ONLY in extreme scenarios (&gt;3σ events). The insurance policy for the fund's survival.</p>
+<h3 id="tail-hedge-structures">Tail Hedge Structures</h3>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>How it works</th>
+<th>Cost (annualized)</th>
+<th>Crisis payoff</th>
+<th>Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Deep OTM puts</strong> (5-10% OTM, 3M)</td>
+<td>Simple floor</td>
+<td>1.5-3.0%</td>
+<td>5-20×</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Put ratio spread</strong> (buy 1 ATM, sell 2-3 OTM)</td>
+<td>Cheaper entry, magnified protection in moderate drop, but creates naked short below lower strikes</td>
+<td>0.3-0.8%</td>
+<td>3-8× (then reverses!)</td>
+<td>Medium — DANGEROUS if too far OTM strikes breached</td>
+</tr>
+<tr>
+<td><strong>Put ladder</strong> (buy at 5%, 10%, 15% OTM)</td>
+<td>Layered protection across severity levels</td>
+<td>2.0-4.0%</td>
+<td>Covers full crash spectrum</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>VIX call spreads</strong> (buy 30 strike, sell 50 strike)</td>
+<td>Convex payoff in panic. Cheap carry.</td>
+<td>0.5-1.5%</td>
+<td>3-10×</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Variance swap (long var)</strong></td>
+<td>Pure vol bet. Convex: payoff scales with vol²</td>
+<td>Carry cost</td>
+<td>Enormous in crashes</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>SPX/VIX call ratio</strong></td>
+<td>Buy 2 VIX calls + sell 1 SPX put to finance</td>
+<td>~0%</td>
+<td>4-8× in vol spike</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Systematic tail program</strong></td>
+<td>Rolling 3M 5% OTM puts, rebalanced monthly</td>
+<td>1.5-2.5%</td>
+<td>Consistent 10-15×</td>
+<td>Low (if automated)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-tail-hedge-cost-benefit-math">The Tail Hedge Cost-Benefit Math</h3>
+<p><strong>Expected value framework:</strong></p>
+<p>$$\text{EV} = P(\text{tail event}) \times \text{Hedge payoff} - (1 - P(\text{tail event})) \times \text{Annual cost}$$</p>
+<p><strong>Example:</strong><br />
+- Annual cost of tail program: $3M (1.5% of $200M fund)<br />
+- Probability of 3σ+ event per year: ~5% (historically)<br />
+- Hedge payoff in 3σ event: $60M (10× cost, protecting against $80M+ drawdown)<br />
+- EV = 5% × $60M − 95% × $3M = $3.0M − $2.85M = <strong>+$0.15M</strong> → slightly positive expected value<br />
+- PLUS: the hedge prevents forced liquidation, keeps PMs in seats, preserves investor relationships → unquantifiable survival value</p>
+<p><strong>The RM's pitch to the CIO:</strong> "The tail hedge costs us ~40bp of Sharpe annually. But it prevents the −30% drawdown that would trigger $100M of redemptions, cost two PMs their jobs, and take 3 years to recover from. The math is almost break-even on direct EV, but the survival value is enormous."</p>
+<hr />
+<h1 id="part-4-dynamic-hedging-adjusting-as-the-market-moves">PART 4: DYNAMIC HEDGING — ADJUSTING AS THE MARKET MOVES</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Static hedging is "set and forget." Dynamic hedging is "adjust as conditions change." Both have costs — dynamic hedging costs execution/slippage; static hedging costs missed opportunities to optimize.</p>
+</blockquote>
+<h2 id="delta-hedging-the-core-dynamic-strategy">Delta Hedging — The Core Dynamic Strategy</h2>
+<p><strong>Continuous delta hedging</strong> (Black-Scholes ideal):<br />
+- Sell $Δ of stock for every 1 long call (or vice versa)<br />
+- As spot moves → Δ changes → rebalance<br />
+- <strong>Long gamma:</strong> sell as market rises, buy as it falls → BUY LOW, SELL HIGH<br />
+- <strong>Short gamma:</strong> buy as market rises, sell as it falls → BUY HIGH, SELL LOW (adverse selection)</p>
+<p><strong>The gamma-theta tradeoff in delta hedging:</strong></p>
+<p>$$\text{P\&amp;L}_{\text{delta-hedged}} = \frac{1}{2} \Gamma (\Delta S)^2 - \Theta \Delta t$$</p>
+<p>If the underlying moves MORE than the gamma-theta breakeven → long gamma wins.<br />
+If it moves LESS → short gamma wins (collects theta).</p>
+<p><strong>Breakeven daily move:</strong></p>
+<p>$$\Delta S_{\text{BE}} = \sqrt{\frac{2 |\Theta|}{\Gamma}} = \sigma_{\text{implied}} \times S \times \sqrt{\Delta t}$$</p>
+<p>This is exactly the implied vol translated to a dollar move. <strong>If you're delta-hedging a long option position, you're betting that REALIZED vol will exceed IMPLIED vol.</strong> That's the entire game of gamma scalping.</p>
+<h2 id="rebalancing-triggers">Rebalancing Triggers</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger type</th>
+<th>Rule</th>
+<th>When to use</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Time-based</strong></td>
+<td>Rebalance every N hours/days</td>
+<td>Routine, predictable</td>
+<td>Easy to implement</td>
+<td>May miss sharp intraday moves</td>
+</tr>
+<tr>
+<td><strong>Delta-band</strong></td>
+<td>Rebalance when</td>
+<td>Δ drift</td>
+<td>&gt; $X or X%</td>
+<td>Responsive to big moves</td>
+</tr>
+<tr>
+<td><strong>VaR trigger</strong></td>
+<td>Rebalance when VaR exceeds Y% of limit</td>
+<td>Risk-based — responds to true risk</td>
+<td>Tighter control</td>
+<td>Requires real-time VaR computation</td>
+</tr>
+<tr>
+<td><strong>Event-based</strong></td>
+<td>Rebalance before/after earnings, FOMC, data releases</td>
+<td>Proactive risk management</td>
+<td>Targeted</td>
+<td>Doesn't help with surprise events</td>
+</tr>
+<tr>
+<td><strong>Drawdown-based</strong></td>
+<td>Add protection when DD &gt; Z% of soft limit</td>
+<td>Capital-preserving</td>
+<td>Prevents spiral</td>
+<td>Reactive — may be too late in fast market</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hedge-adjustment-as-greeks-change">Hedge Adjustment as Greeks Change</h2>
+<p>As the underlying moves, your hedge Greeks change — especially if you're hedging with options:</p>
+<table>
+<thead>
+<tr>
+<th>Move</th>
+<th>What happens to your hedge</th>
+<th>Action needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stock rallies 5%</strong></td>
+<td>Put moves further OTM → delta ↓, gamma ↓, vega ↓</td>
+<td>Put becomes less effective. Consider rolling up the strike.</td>
+</tr>
+<tr>
+<td><strong>Stock drops 5%</strong></td>
+<td>Put moves closer to ATM → delta ↑, gamma ↑</td>
+<td>Put becomes MORE effective. Good. May want to take profit and re-establish at new lower strike.</td>
+</tr>
+<tr>
+<td><strong>Vol spikes 10 pts</strong></td>
+<td>Put value increases (good for holder). Delta increases.</td>
+<td>Hedge ratio changed. May need to sell some futures delta because put now covers more.</td>
+</tr>
+<tr>
+<td><strong>Time passes (1 month)</strong></td>
+<td>Theta decays. Gamma concentrates near strike. Vega ↓.</td>
+<td>Less time, less protection. Roll decision approaching. Monitoring intensifies.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stop-loss-vs-options-head-to-head">Stop-Loss vs Options — Head-to-Head</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Stop-loss</th>
+<th>Put option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cost</td>
+<td>Free (no premium)</td>
+<td>Premium ($)</td>
+</tr>
+<tr>
+<td>Gap protection</td>
+<td><strong>None</strong> — stock can open below stop</td>
+<td><strong>Full</strong> — put pays through gaps</td>
+</tr>
+<tr>
+<td>Whipsaw risk</td>
+<td>High — triggered then market reverses</td>
+<td>None — put is always in force until expiry</td>
+</tr>
+<tr>
+<td>Certainty of execution</td>
+<td>Uncertain in illiquid names</td>
+<td>Guaranteed at expiry</td>
+</tr>
+<tr>
+<td>Unlimited re-entry</td>
+<td>Yes (re-enter for free)</td>
+<td>Need to buy new put</td>
+</tr>
+<tr>
+<td>Max loss guarantee</td>
+<td><strong>No</strong> (gap risk)</td>
+<td><strong>Yes</strong> (strike − spot + premium)</td>
+</tr>
+<tr>
+<td>Best use case</td>
+<td>Liquid names, slow markets</td>
+<td>Illiquid names, event risk, overnight risk, gap risk</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM guidance:</strong> "Use stops for liquid, unlevered positions where gaps are unlikely. Use options for concentrated, leveraged, or illiquid positions where a gap could breach the drawdown limit."</p>
+<hr />
+<h1 id="part-5-hedge-greeks-how-your-hedge-changes-your-portfolio-risk">PART 5: HEDGE GREEKS — HOW YOUR HEDGE CHANGES YOUR PORTFOLIO RISK</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Adding a hedge doesn't just reduce risk — it changes your ENTIRE Greek profile. A put doesn't just add delta protection — it adds gamma, theta, vega, and cross-Greeks that interact with your existing book.</p>
+</blockquote>
+<h2 id="greek-impact-of-common-hedges">Greek Impact of Common Hedges</h2>
+<table>
+<thead>
+<tr>
+<th>Hedge</th>
+<th>Δ (delta)</th>
+<th>Γ (gamma)</th>
+<th>Θ (theta)</th>
+<th>ν (vega)</th>
+<th>Net effect on portfolio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Long put</strong></td>
+<td>Negative (reduces net Δ)</td>
+<td>Positive (adds convexity)</td>
+<td>Negative (costs theta)</td>
+<td>Positive (benefits from vol spike)</td>
+<td>Safer book. Costs carry. More convex.</td>
+</tr>
+<tr>
+<td><strong>Put spread</strong></td>
+<td>Negative (moderate)</td>
+<td>Mixed (long near + short far)</td>
+<td>Less negative than outright</td>
+<td>Mixed (partial vega)</td>
+<td>Cheaper. Less convex. Capped protection.</td>
+</tr>
+<tr>
+<td><strong>Collar</strong></td>
+<td>Negative (put) + Positive (short call) ≈ modest net</td>
+<td>Gamma ≈ 0 (long and short cancel)</td>
+<td>~Zero (theta of put ≈ theta of call)</td>
+<td>~Zero</td>
+<td>Budget-neutral. Bounded outcomes. Near-zero Greek change.</td>
+</tr>
+<tr>
+<td><strong>Short futures</strong></td>
+<td>Negative (reduces net Δ)</td>
+<td><strong>Zero</strong></td>
+<td><strong>Zero</strong></td>
+<td><strong>Zero</strong></td>
+<td>Pure delta. No convexity benefit. No cost.</td>
+</tr>
+<tr>
+<td><strong>VIX calls</strong></td>
+<td>Near-zero directly</td>
+<td>Near-zero on SPX</td>
+<td>Negative (theta cost)</td>
+<td><strong>Positive</strong> (benefits from VIX rise)</td>
+<td>Vol hedge, not delta hedge. Expensive carry.</td>
+</tr>
+<tr>
+<td><strong>Short equity (pair)</strong></td>
+<td>Negative on short leg</td>
+<td>Zero (equity is linear)</td>
+<td>Zero</td>
+<td>Zero</td>
+<td>Reduces net delta. Introduces basis risk + borrow cost.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong> A PM who hedges with INDEX FUTURES gets delta reduction but NO GAMMA. In a gap-down, the futures hedge responds linearly while the portfolio may gap nonlinearly (concentrated names, options). A PM who hedges with PUTS gets delta + gamma + vega — the hedge IMPROVES as the crash deepens (gamma kicks in, vega benefits from vol spike). This is why puts cost more — you're buying convexity that futures don't provide.</p>
+<h2 id="the-hedge-pl-under-stress">The Hedge P&amp;L Under Stress</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>SPX −5%</th>
+<th>SPX −10%</th>
+<th>SPX −20%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>No hedge</strong></td>
+<td>−$4.0M</td>
+<td>−$8.0M</td>
+<td>−$16.0M</td>
+</tr>
+<tr>
+<td><strong>Futures hedge (50%)</strong></td>
+<td>−$2.0M</td>
+<td>−$4.0M</td>
+<td>−$8.0M</td>
+</tr>
+<tr>
+<td><strong>ATM put</strong></td>
+<td>−$1.5M</td>
+<td>−$1.0M</td>
+<td><strong>+$2.0M</strong> (put in the money, vega spike helps)</td>
+</tr>
+<tr>
+<td><strong>5% OTM put spread (200pt wide)</strong></td>
+<td>−$3.5M</td>
+<td>−$2.0M</td>
+<td>−$6.0M (protection capped at 200 pts)</td>
+</tr>
+<tr>
+<td><strong>Collar</strong></td>
+<td>−$2.2M</td>
+<td>−$1.8M</td>
+<td>−$1.8M (floor at put strike)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The convexity payoff is visible:</strong> The ATM put MAKES money in a crash because gamma acceleration + vega spike exceed the initial theta cost. Futures just reduce exposure linearly. The deeper the crash, the greater the advantage of convex (option) hedges over linear (futures) hedges.</p>
+<hr />
+<h1 id="part-6-roll-management-the-hidden-cost">PART 6: ROLL MANAGEMENT — THE HIDDEN COST</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Rolling a hedge is not neutral — you're closing one position at a loss (theta decayed) and opening a new one at market price (potentially higher IV). The roll is where hedge cost compounds.</p>
+</blockquote>
+<h2 id="the-mechanics">The Mechanics</h2>
+<p><strong>Rolling:</strong> Close the expiring hedge instrument and open a new one with a later expiry.</p>
+<p>$$\text{Roll cost} = \text{Close cost (selling decayed hedge)} + \text{Open cost (buying new hedge at current IV)} + \text{Bid-ask friction}$$</p>
+<h2 id="roll-cost-by-instrument">Roll Cost by Instrument</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Roll frequency</th>
+<th>Typical cost per roll</th>
+<th>Annualized drag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Monthly OTM puts</strong></td>
+<td>12×/year</td>
+<td>0.15-0.30% of protected notional</td>
+<td><strong>1.8-3.6%</strong> → EXPENSIVE</td>
+</tr>
+<tr>
+<td><strong>Quarterly OTM puts</strong></td>
+<td>4×/year</td>
+<td>0.35-0.60% per roll</td>
+<td><strong>1.4-2.4%</strong></td>
+</tr>
+<tr>
+<td><strong>6-month puts</strong></td>
+<td>2×/year</td>
+<td>0.60-1.00% per roll</td>
+<td><strong>1.2-2.0%</strong> → more efficient</td>
+</tr>
+<tr>
+<td><strong>Equity index futures</strong> (ES)</td>
+<td>4×/year</td>
+<td>~1-2bp spread per roll</td>
+<td><strong>~0.05%</strong> → negligible</td>
+</tr>
+<tr>
+<td><strong>Treasury futures</strong></td>
+<td>4×/year (quarterly)</td>
+<td>1-3bp per roll</td>
+<td><strong>~0.05%</strong></td>
+</tr>
+<tr>
+<td><strong>VIX futures</strong></td>
+<td>Monthly</td>
+<td><strong>Contango roll cost: 3-5%/month in steep contango</strong></td>
+<td><strong>30-50%+</strong> → catastrophic for long positions</td>
+</tr>
+<tr>
+<td><strong>Variance swaps</strong></td>
+<td>At maturity (3M, 6M, 1Y)</td>
+<td>Mark-to-market at close, re-enter at new IV</td>
+<td>Variable</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong> Monthly put rolling costs 2-3× more than quarterly. Monthly VIX rolling can destroy 30%+ of notional annually through contango. ALWAYS calculate the annualized roll cost before committing to a hedge program.</p>
+<h2 id="roll-timing-optimization">Roll Timing Optimization</h2>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>When to roll</th>
+<th>Advantage</th>
+<th>Disadvantage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Calendar roll</strong></td>
+<td>Fixed date (e.g., 3rd Friday)</td>
+<td>Predictable, auditable</td>
+<td>May roll at terrible vol levels</td>
+</tr>
+<tr>
+<td><strong>Vol-based roll</strong></td>
+<td>Roll when IV dips below target</td>
+<td>Buy protection cheap</td>
+<td>May not get the opportunity — IV stays high</td>
+</tr>
+<tr>
+<td><strong>Delta-based roll</strong></td>
+<td>Roll when hedge delta has decayed to &lt;X% of initial</td>
+<td>Maintains protection level</td>
+<td>More complex to monitor</td>
+</tr>
+<tr>
+<td><strong>Expiry-based</strong></td>
+<td>Roll at N days before expiry</td>
+<td>Avoids rapid theta decay near expiry</td>
+<td>Standard approach</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM best practice:</strong> Roll at ~2 weeks before expiry (for monthlies) or ~3 weeks (for quarterlies). This avoids the sharpest theta decay zone while maintaining sufficient time value.</p>
+<hr />
+<h1 id="part-7-hedge-effectiveness-is-the-hedge-actually-working">PART 7: HEDGE EFFECTIVENESS — IS THE HEDGE ACTUALLY WORKING?</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A hedge that doesn't perform in stress is worse than no hedge — because it created FALSE CONFIDENCE that the position was protected.</p>
+</blockquote>
+<h2 id="measuring-hedge-effectiveness">Measuring Hedge Effectiveness</h2>
+<h3 id="r2-variance-reduction">R² (Variance Reduction)</h3>
+<p>$$R^2 = 1 - \frac{\text{Var(hedged portfolio)}}{\text{Var(unhedged portfolio)}}$$</p>
+<table>
+<thead>
+<tr>
+<th>R²</th>
+<th>Interpretation</th>
 <th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Delta drift &gt;$5M from target</td>
-<td>Rebalance back to target</td>
+<td>&gt;0.90</td>
+<td>Excellent — hedge covers &gt;90% of risk</td>
+<td>Maintain</td>
 </tr>
 <tr>
-<td>VaR breach (&gt;90% of limit)</td>
-<td>Add protection aggressively</td>
+<td>0.70-0.90</td>
+<td>Good — meaningful residual basis risk</td>
+<td>Monitor basis, consider tighter instrument</td>
 </tr>
 <tr>
-<td>Drawdown &gt;50% of soft limit</td>
-<td>Reduce gross exposure + add hedges</td>
+<td>0.50-0.70</td>
+<td>Mediocre — half the risk is unhedged</td>
+<td>Evaluate: is the cost justified for partial protection?</td>
 </tr>
 <tr>
-<td>Correlation regime change</td>
-<td>Reassess which hedges actually work</td>
-</tr>
-<tr>
-<td>Major event (FOMC, earnings cluster)</td>
-<td>Add short-term event protection</td>
+<td>&lt;0.50</td>
+<td>Poor — this is not a hedge, it's a separate position</td>
+<td>Replace instrument or remove</td>
 </tr>
 </tbody>
 </table>
-<h2 id="stop-loss-vs-options">Stop-Loss vs Options</h2>
-<ul>
-<li><strong>Stop-loss:</strong> Sell the position if it hits a price level. Free (no premium), but vulnerable to gaps (stock opens below your stop after overnight news) and whipsaws (stock hits stop, you sell, it reverses immediately).</li>
-<li><strong>Options:</strong> Cost premium, but protection works through gaps. An OTM put protects you even if the stock gaps down 20% overnight — unlike a stop-loss which would have been triggered at the gap.</li>
-<li><strong>Recommendation:</strong> Use stops for liquid instruments in normal markets. Use options for illiquid positions, overnight/event risk, and when gaps are a realistic concern.</li>
-</ul>
+<h3 id="conditional-hedge-effectiveness">Conditional Hedge Effectiveness</h3>
+<p>More important than overall R²: <strong>how does the hedge perform specifically in the tail?</strong></p>
+<p>$$R^2_{\text{stress}} = 1 - \frac{\text{Var(hedged P\&amp;L} \mid \text{stress days)}}{\text{Var(unhedged P\&amp;L} \mid \text{stress days)}}$$</p>
+<p>A hedge with R² = 0.85 overall but R²_stress = 0.40 is MISLEADING — it works in normal markets but fails when you need it most. This is the typical failure mode of cross-asset hedges (stocks-bonds in 2022).</p>
+<h3 id="hit-rate-and-payoff-ratio">Hit Rate and Payoff Ratio</h3>
+<p>For options hedges:<br />
+- <strong>Hit rate:</strong> What % of hedges expire with value? (For 5% OTM puts: ~20-30% historically)<br />
+- <strong>Payoff ratio:</strong> When the hedge hits, how much does it pay relative to cost? (Should be &gt;3× to justify the cost over many cycles)</p>
+<p>$$\text{Break-even} = \text{Hit rate must be at least} = \frac{1}{1 + \text{Payoff ratio}}$$</p>
+<p>If payoff ratio = 5×: need hit rate &gt; 1/6 = 17% → for most tail hedges, this is achievable.</p>
 <hr />
-<h1 id="part-5-hedge-effectiveness-am-i-actually-hedged">PART 5: HEDGE EFFECTIVENESS — AM I ACTUALLY HEDGED?</h1>
-<h2 id="how-to-measure">How to Measure</h2>
-<h3 id="hedge-ratio">Hedge Ratio</h3>
-<p>$$h = \frac{\text{Change in hedge value}}{\text{Change in position value}}$$</p>
-<p>Perfect hedge: h = -1 (hedge gains $1 for every $1 the position loses). In practice, h is never -1.</p>
-<h3 id="r-squared-of-hedge-vs-position">R-squared of Hedge vs Position</h3>
-<p>Run a regression of hedge P&amp;L against position P&amp;L. R² tells you how much of the position's variance is captured.<br />
-- R² &gt; 0.8: good hedge<br />
-- R² = 0.5: mediocre — half the risk is unhedged<br />
-- R² &lt; 0.3: this isn't really a hedge</p>
-<h3 id="pl-in-stress">P&amp;L in Stress</h3>
-<p>The true test: how did the hedge perform during the actual stress event? If the portfolio dropped 8% and the hedge offset 6% → effective. If the hedge offset 2% → basis risk dominated.</p>
-<hr />
-<h1 id="part-6-common-hedging-mistakes">PART 6: COMMON HEDGING MISTAKES</h1>
+<h1 id="part-8-common-hedging-mistakes-and-how-the-rm-prevents-them">PART 8: COMMON HEDGING MISTAKES — AND HOW THE RM PREVENTS THEM</h1>
 <table>
 <thead>
 <tr>
 <th>Mistake</th>
 <th>What happens</th>
-<th>Fix</th>
+<th>How to prevent</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Hedging too late (after vol spikes)</td>
-<td>Protection is 3x more expensive than a week ago</td>
-<td>Buy protection when it's cheap (vol is low), not when you're scared</td>
+<td><strong>Hedging too late</strong></td>
+<td>Buying puts when VIX = 35. Premium is 3× normal.</td>
+<td>Buy when vol is LOW. Build hedge program during calm. Track VIX percentile.</td>
 </tr>
 <tr>
-<td>Over-hedging</td>
-<td>Portfolio can't make money; paying excessive theta</td>
-<td>Size hedges to protect against drawdown limits, not against all movement</td>
+<td><strong>Over-hedging</strong></td>
+<td>Portfolio can't make money. Theta drag &gt; alpha.</td>
+<td>Size hedges to protect against DRAWDOWN LIMIT, not against all movement.</td>
 </tr>
 <tr>
-<td>Wrong instrument (basis risk)</td>
-<td>Hedge doesn't move with the position in stress</td>
-<td>Use the most correlated instrument, even if more expensive</td>
+<td><strong>Wrong instrument (basis risk)</strong></td>
+<td>SPX put on a tech-heavy book → basis = 40% of the drop isn't covered</td>
+<td>Quantify basis: R² &lt; 0.70 → find a better instrument</td>
 </tr>
 <tr>
-<td>Set-and-forget</td>
-<td>Hedge expires, position is unprotected</td>
-<td>Calendar reminders for expiries, rolling plan</td>
+<td><strong>Set-and-forget</strong></td>
+<td>Put expires unnoticed. PM runs unprotected for 2 weeks during rollover.</td>
+<td>Roll calendar with automated alerts. No gap in coverage.</td>
 </tr>
 <tr>
-<td>Ignoring roll costs</td>
-<td>Monthly put buying costs 15-20% annualized</td>
-<td>Use longer-dated options to reduce roll frequency</td>
+<td><strong>Ignoring roll costs</strong></td>
+<td>Monthly put buying costs 3% annualized. Eats most of the alpha.</td>
+<td>Use quarterly rolls. Calculate annualized drag before committing.</td>
 </tr>
 <tr>
-<td>"Free" hedges that aren't free</td>
-<td>Zero-cost collars cap upside — that IS the cost</td>
-<td>Quantify the upside surrender and make sure the PM accepts it</td>
+<td><strong>"Free" hedges that aren't free</strong></td>
+<td>Zero-cost collar caps $5M of upside on a $50M position. PM blames RM when stock rallies past cap.</td>
+<td>Quantify upside surrender in DOLLARS. Get PM's written acknowledgment.</td>
+</tr>
+<tr>
+<td><strong>Hedging the wrong Greek</strong></td>
+<td>PM hedges delta with futures but real exposure is gamma/vega</td>
+<td>Match hedge to the SPECIFIC Greek. Futures = delta only. Puts = delta + gamma + vega.</td>
+</tr>
+<tr>
+<td><strong>Correlation-dependent hedge in a regime change</strong></td>
+<td>Long Treasuries as equity hedge fails when correlation flips positive</td>
+<td>Monitor stocks-bonds ρ weekly. Have a Plan B hedge (gold, vol, cash).</td>
+</tr>
+<tr>
+<td><strong>Paying for convexity you don't need</strong></td>
+<td>Buying ATM puts ($$$) when the risk is a −20% crash</td>
+<td>Buy OTM puts for tail protection. Pay for ATM only near defined events.</td>
+</tr>
+<tr>
+<td><strong>Concentrated hedge on diversified book</strong></td>
+<td>Single large SPX put to hedge a 50-stock portfolio → strike/delta mismatch</td>
+<td>Use a combination: partial SPX + sector puts + single-name puts on concentrated positions</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
-<p>If asked "How would you hedge a concentrated equity position?":</p>
-<p>"It depends on the PM's preferences and constraints. I'd start with the framework: what specific risk are we hedging, what horizon, what's the premium budget, and how much upside are we willing to surrender?</p>
-<p>For a single-name concentration like 15% of the book in XOM: the cleanest hedge is an XOM put, but that's expensive — maybe 3-4% annualized. A put spread (buy the $108 put, sell the $100 put) halves the cost but caps protection at $8 per share. A collar (buy $108 put, sell $118 call) can be near-zero cost but caps upside at $118.</p>
-<p>If the PM refuses to pay premium or surrender upside, we can partially hedge with SPX futures to reduce beta — but that introduces basis risk because XOM doesn't move 1:1 with SPX.</p>
-<p>The key conversation is making the PM aware of the tradeoffs: 'You can have free protection but it caps your upside at 5%. Or you can pay $400K and keep all your upside. Which do you prefer?' That's the RM adding value — making the cost explicit so the decision is conscious."</p>
+<h1 id="part-9-hedging-by-asset-class-the-quick-reference">PART 9: HEDGING BY ASSET CLASS — THE QUICK REFERENCE</h1>
+<h2 id="equity">Equity</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Primary hedge</th>
+<th>Secondary</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market β</td>
+<td>Short SPX futures</td>
+<td>Short ETF, buy puts</td>
+<td>Futures = cheapest. Puts = convex but expensive.</td>
+</tr>
+<tr>
+<td>Single-name concentration</td>
+<td>Single-name put</td>
+<td>Collar, partial exit</td>
+<td>Collar if zero premium budget</td>
+</tr>
+<tr>
+<td>Sector concentration</td>
+<td>Short sector ETF</td>
+<td>Sector puts</td>
+<td>XLE for energy, XLF for financials, etc.</td>
+</tr>
+<tr>
+<td>Earnings event</td>
+<td>Short-dated puts/straddles</td>
+<td>Collar over earnings</td>
+<td>Weekly options around earnings</td>
+</tr>
+<tr>
+<td>Tail (5σ+)</td>
+<td>Deep OTM puts, VIX calls</td>
+<td>Systematic tail program</td>
+<td>Accept the bleed. It's insurance.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fixed-income">Fixed Income</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Primary hedge</th>
+<th>Secondary</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Duration (parallel)</td>
+<td>Treasury futures (ZN, ZB)</td>
+<td>IRS (pay fixed, receive floating)</td>
+<td>Match DV01</td>
+</tr>
+<tr>
+<td>Curve</td>
+<td>Butterfly/steepener futures</td>
+<td>Swaptions</td>
+<td>Match KRD exposure</td>
+</tr>
+<tr>
+<td>Credit spread</td>
+<td>CDS (buy protection)</td>
+<td>Short HY ETFs (HYG, JNK)</td>
+<td>Match CS01</td>
+</tr>
+<tr>
+<td>Single-name default (JTD)</td>
+<td>Single-name CDS</td>
+<td>Credit put options</td>
+<td>Match notional × (1−R)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fx">FX</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Primary hedge</th>
+<th>Secondary</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spot FX</td>
+<td>Forward contracts</td>
+<td>FX options</td>
+<td>Forwards = cheapest but lock in rate</td>
+</tr>
+<tr>
+<td>Vol on FX exposure</td>
+<td>FX options (straddles)</td>
+<td>FX vol swaps</td>
+<td>For known event risk (elections, BoJ)</td>
+</tr>
+<tr>
+<td>Cross-currency basis</td>
+<td>Cross-currency swaps</td>
+<td>N/A</td>
+<td>Structural, not tactical</td>
+</tr>
+</tbody>
+</table>
+<h2 id="commodities">Commodities</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Primary hedge</th>
+<th>Secondary</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price (directional)</td>
+<td>Futures (WTI, Brent, HH)</td>
+<td>Swaps</td>
+<td>Calendar basis between future and physical</td>
+</tr>
+<tr>
+<td>Basis (location)</td>
+<td>Location swap</td>
+<td>Physical storage play</td>
+<td>Critical: WTI Cushing vs Brent vs local netback</td>
+</tr>
+<tr>
+<td>Vol</td>
+<td>Options on futures</td>
+<td>Calendar spreads</td>
+<td>Commodity vol is seasonal + supply-driven</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
+<p><strong>"How would you hedge a concentrated equity position?"</strong></p>
+<p>"I'd start with the framework: what specific risk, what horizon, what premium budget, and how much upside is the PM willing to surrender.</p>
+<p>For a single-name concentration — say 15% of NAV in XOM — the cleanest hedge is a single-name XOM put. That's delta + gamma + vega in one instrument — the hedge IMPROVES as the crash deepens because gamma kicks in and vol spikes. But it's expensive: roughly 3-4% annualized for an ATM put.</p>
+<p>To reduce cost: a put spread — buy the $108 put, sell the $100 put — halves the premium but caps protection at $8 per share. Or a collar — buy $108 put, sell $120 call — near-zero cost but caps upside at $120.</p>
+<p>If the PM refuses both premium and upside surrender, we can partially beta-hedge with SPX futures, but I'd flag the basis risk: XOM-to-SPX R² is about 0.6, so 40% of XOM's risk isn't covered by the SPX hedge. In a scenario where XOM drops 15% on company-specific news while SPX drops only 2%, the futures hedge covers 2 of 15 percentage points.</p>
+<p>The key value I add is making the tradeoff explicit: 'You can pay $400K for full protection, pay zero but cap upside at 6%, or accept 40% basis risk with a free futures hedge. Which do you prefer?' That's a conscious decision, not a hope."</p>
+<p><strong>"When would you NOT hedge?"</strong></p>
+<p>"Three situations. First, when the hedge costs more than the risk warrants — if a tail event would cost the fund $2M but protecting against it costs $1.5M annually, the expected value is negative. Second, when the hedge introduces MORE risk than it removes — a cross-asset hedge relying on a correlation that's unstable can turn a $5M loss into a $10M loss if the correlation flips. I'd rather size the position smaller than rely on a fragile hedge. Third, when the PM's thesis IS the risk — if the PM is explicitly making a directional bet and it's within risk limits, hedging the direction removes the trade itself. The RM's job isn't to eliminate risk — it's to ensure risk is intentional and survivable."</p>
+<p><strong>"How do you evaluate whether a hedge is working?"</strong></p>
+<p>"Two levels. First, statistical: I'd compute R² — the proportion of position variance explained by the hedge. If R² is below 0.70, the hedge is covering less than 70% of the risk — it might not justify its cost. Second, and more importantly, CONDITIONAL R² — how does the hedge perform specifically on stress days? A hedge with R² = 0.85 overall but R² = 0.40 on days when SPX is down &gt;2% is a false promise. It works in normal markets and fails in crises. I'd also track cumulative hedge P&amp;L versus cumulative position P&amp;L over time — if the hedge is consistently LOSING without the position GAINING, the basis has drifted and the instrument needs to be reassessed."</p>
+<p><strong>"Explain the tradeoff between puts and futures as hedges."</strong></p>
+<p>"Futures are free, liquid, and precise for delta — the best instrument for temporary risk reduction. But they're LINEAR. In a gap-down, the futures hedge responds proportionally while the position might behave nonlinearly — especially if you have concentrated names or options. Futures give you no convexity benefit.</p>
+<p>Puts cost premium, but they provide delta PLUS gamma PLUS vega. As the market drops: the put's delta increases (gamma); if vol spikes (which it virtually always does in a crash), the put gains additional value (vega). The hedge literally gets BETTER as the crash deepens. In a −20% crash, a put hedge can turn profitable — the convexity payoff exceeds the initial cost. Futures hedge will recover exactly 50% of the loss (if you hedged 50%) — never more, never less.</p>
+<p>The decision template: use futures for temporary, measured delta reduction when you want the cheapest, most liquid solution. Use puts when you need gap protection, asymmetric payoff, or convexity — and you're willing to pay for it."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <a href="D_Greeks.html">Greeks</a> — delta, gamma needed for hedge sizing<br />
-→ <a href="B_Derivatives.html">Derivatives</a> — options strategies used in hedging<br />
-→ <a href="E_Volatility.html">Volatility</a> — vol levels drive hedge costs<br />
-→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — basis risk, tail risk concepts<br />
-→ <em>18_Round1_Trader_BattlePrep</em> — Section 5 (hedging in interview context)</p>
+→ <a href="D_Greeks.html">Greeks</a> — delta, gamma, vega that drive hedge sizing and hedge P&amp;L<br />
+→ <a href="B_Derivatives.html">Derivatives</a> — options strategies, payoff diagrams<br />
+→ <a href="E_Volatility.html">Volatility</a> — vol regimes that drive hedge costs (buy cheap, sell expensive)<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — basis risk, tail risk, cross-asset correlation<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — attributing hedge P&amp;L separately from position P&amp;L<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES with and without hedge structures<br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — real-world hedge decision conversations</p>
 </main>
 
 <script>

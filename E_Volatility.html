@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,257 +308,1379 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="e-volatility-concept-product">E — VOLATILITY: CONCEPT &amp; PRODUCT</h1>
-<h2 id="implied-vs-realized-the-vol-surface-vol-as-a-tradeable-and-dealer-dynamics">Implied vs realized, the vol surface, vol as a tradeable, and dealer dynamics</h2>
-<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<h1 id="e-volatility-the-asset-class-behind-every-option">E — VOLATILITY: THE ASSET CLASS BEHIND EVERY OPTION</h1>
+<h2 id="realized-vs-implied-the-vol-surface-vol-regimes-vol-products-dealer-dynamics-and-the-rms-vol-toolkit">Realized vs implied, the vol surface, vol regimes, vol products, dealer dynamics, and the RM's vol toolkit</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="why-this-is-core-at-squarepoint">WHY THIS IS CORE AT SQUAREPOINT</h1>
+<p>At a systematic-at-its-core fund running discretionary strategies, volatility isn't just a parameter in a model — it's a <strong>tradeable asset, a risk indicator, and a regime signal</strong> all at once. Every PM's book has implicit or explicit vol exposure. Every straddle, every protective put, every variance swap, every gamma scalp is a vol position. The risk manager's job is to:</p>
+<ol>
+<li><strong>Decompose</strong> — what vol level, surface shape, and dynamics are priced into the current book?</li>
+<li><strong>Monitor</strong> — is the implied-realized spread compressing or expanding? Is skew telling us something?</li>
+<li><strong>Anticipate</strong> — what happens to the portfolio if we shift from a 15-vol regime to a 35-vol regime overnight?</li>
+<li><strong>Challenge</strong> — is the PM paying too much for vol? Selling it too cheaply? Ignoring the term structure?</li>
+</ol>
+<p>Vol is the connective tissue between Greeks, P&amp;L attribution, hedging, and regime analysis. If you don't understand vol deeply, you can't do the job.</p>
 <hr />
 <h1 id="part-1-what-volatility-actually-is">PART 1: WHAT VOLATILITY ACTUALLY IS</h1>
 <h2 id="realized-historical-volatility">Realized (Historical) Volatility</h2>
-<p>The standard deviation of actual returns over a lookback period. "How much did this asset actually move?"</p>
-<ul>
-<li><strong>Daily realized vol:</strong> Standard deviation of daily returns × √252 (to annualize). 252 trading days/year.</li>
-<li><strong>Example:</strong> If daily returns have a standard deviation of 1.2%, annualized realized vol = 1.2% × √252 ≈ 19%.</li>
-<li><strong>Lookback matters:</strong> 10-day realized vol captures the recent regime. 60-day is smoother. 1-year is a longer trend. They can diverge significantly.</li>
-</ul>
+<blockquote>
+<p><strong>One-liner:</strong> Realized vol measures how much the asset ACTUALLY moved — the backward-looking truth.</p>
+</blockquote>
+<p>The annualized standard deviation of log returns over a lookback window:</p>
+<p>$$\sigma_{\text{realized}} = \sqrt{\frac{252}{n-1} \sum_{i=1}^{n} (r_i - \bar{r})^2}$$</p>
+<p>Where $r_i = \ln(S_i / S_{i-1})$ and 252 = trading days per year.</p>
+<p><strong>Worked example:</strong> SPX daily returns over 10 days: +0.8%, −1.2%, +0.3%, −0.5%, +1.5%, −2.0%, +0.4%, +0.1%, −0.7%, +0.6%<br />
+- Standard deviation of these returns ≈ 1.01%<br />
+- Annualized: 1.01% × √252 ≈ <strong>16.0%</strong></p>
+<h3 id="lookback-window-matters-a-lot">Lookback Window Matters — A LOT</h3>
+<table>
+<thead>
+<tr>
+<th>Window</th>
+<th>What it captures</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>5-day</strong></td>
+<td>Very recent micro-regime. Noisy.</td>
+<td>Intraday/gamma scalping reference</td>
+</tr>
+<tr>
+<td><strong>10-day</strong></td>
+<td>Short-term regime. Responsive to events.</td>
+<td>Near-term vol comparison vs 10d IV</td>
+</tr>
+<tr>
+<td><strong>20-day</strong> (~1 month)</td>
+<td>Standard "recent" realized vol</td>
+<td>Main comparison vs 30-day IV</td>
+</tr>
+<tr>
+<td><strong>60-day</strong> (~3 months)</td>
+<td>Medium-term trend</td>
+<td>Structural regime assessment</td>
+</tr>
+<tr>
+<td><strong>252-day</strong> (1 year)</td>
+<td>Long-term baseline</td>
+<td>Vol regime classification (historically low/high?)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The divergence problem:</strong> In January 2018, 252-day realized vol was ~7% (historic lows). 10-day realized was ~4%. VIX was 11. Then Feb 5 hit — VIX tripled in one day. ALL lookback windows were backward-looking by definition. None warned you.</p>
+<h3 id="alternative-realized-vol-estimators">Alternative Realized Vol Estimators</h3>
+<table>
+<thead>
+<tr>
+<th>Estimator</th>
+<th>Formula concept</th>
+<th>Why it exists</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Close-to-close</strong></td>
+<td>Standard deviation of log returns</td>
+<td>Simple, standard. Misses intraday.</td>
+</tr>
+<tr>
+<td><strong>Parkinson (High-Low)</strong></td>
+<td>Uses daily range (H−L)</td>
+<td>~5x more efficient than close-to-close. Captures intraday moves.</td>
+</tr>
+<tr>
+<td><strong>Garman-Klass</strong></td>
+<td>Uses O, H, L, C</td>
+<td>Most efficient unbiased estimator for continuous processes.</td>
+</tr>
+<tr>
+<td><strong>Yang-Zhang</strong></td>
+<td>O, H, L, C + overnight jumps</td>
+<td>Handles overnight gaps AND intraday — best all-around for equities.</td>
+</tr>
+<tr>
+<td><strong>Realized variance (tick)</strong></td>
+<td>Sum of squared intraday returns</td>
+<td>Highest frequency. Used in academic research. Microstructure noise issues.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>At Squarepoint's level:</strong> You don't just compute "realized vol" — you choose the estimator that matches the question. Close-to-close for comparison with BS-implied vol (which is a close-to-close concept). Parkinson for true intraday activity. Yang-Zhang if overnight gaps matter (single stocks, EM).</p>
 <h2 id="implied-volatility">Implied Volatility</h2>
-<p>The market's FORECAST of future volatility, as embedded in option prices. "How much does the market THINK this asset will move?"</p>
-<ul>
-<li>You can't observe implied vol directly — it's backed out of option prices using Black-Scholes (or another model).</li>
-<li>Give Black-Scholes the market price, spot, strike, time, rate → solve for σ. That σ is implied vol.</li>
-<li>Implied vol is FORWARD-LOOKING. Realized vol is BACKWARD-LOOKING.</li>
-</ul>
+<blockquote>
+<p><strong>One-liner:</strong> Implied vol is the market's consensus forecast of future volatility — backed out of option prices. It's the weather forecast, not the weather.</p>
+</blockquote>
+<p>You observe an option's market price. You have all Black-Scholes inputs except σ. Solve for σ:</p>
+<p>$$C_{\text{market}} = \text{BS}(S, K, T, r, q, \sigma_{\text{implied}})$$</p>
+<p>Newton-Raphson or bisection → you get σ_implied. This single number tells you what vol the market is collectively pricing.</p>
+<p><strong>Critical distinction:</strong><br />
+- <strong>Implied vol is FORWARD-LOOKING.</strong> It reflects expectations + risk premium for the FUTURE period until expiry.<br />
+- <strong>Realized vol is BACKWARD-LOOKING.</strong> It tells you what ALREADY happened.<br />
+- They answer different questions. Comparing them tells you whether options are "cheap" or "expensive."</p>
+<h3 id="implied-vol-expected-vol">Implied Vol ≠ Expected Vol</h3>
+<p>Implied vol contains TWO components:<br />
+1. <strong>Expected future realized vol</strong> — the market's best guess of actual movements<br />
+2. <strong>Volatility risk premium (VRP)</strong> — the extra charge for bearing vol risk (insurance premium)</p>
+<p>$$\sigma_{\text{implied}} = \sigma_{\text{expected realized}} + \text{VRP}$$</p>
+<p>You CANNOT assume IV = expected vol. The VRP means options are systematically "overpriced" relative to what actually realizes. This is a feature, not a bug — it compensates sellers for bearing tail risk.</p>
 <h2 id="the-volatility-risk-premium-vrp">The Volatility Risk Premium (VRP)</h2>
-<p><strong>Implied vol is almost always HIGHER than subsequent realized vol.</strong></p>
-<p>Why? Because options are insurance. People pay a premium for protection, just like car insurance costs more than the expected value of claims.</p>
-<ul>
-<li>Long-run average: implied vol is ~2-4 vol points above realized vol for SPX.</li>
-<li>This is why selling options is profitable on average — you collect the VRP.</li>
-<li>BUT: when vol spikes, realized can EXCEED implied temporarily (the insurance underpays). This is when short vol strategies blow up.</li>
-</ul>
-<p><strong>VRP trade:</strong> Sell implied, buy realized. Systematically profitable but has HUGE left-tail risk. See: Volmageddon (Feb 2018), XIV ETN → zero.</p>
+<blockquote>
+<p><strong>One-liner:</strong> Implied vol is almost always higher than subsequent realized vol. The difference is the insurance premium — and it's what makes selling vol profitable on average, and catastrophic in the tail.</p>
+</blockquote>
+<p><strong>Empirical facts for SPX:</strong><br />
+- Long-run average VRP: ~2-4 vol points (implied &gt; realized)<br />
+- VRP is present ~85% of months<br />
+- VRP is LARGER in low-vol regimes (complacency → sellers tolerate less premium)<br />
+- VRP collapses or INVERTS in crises (realized &gt; implied → options were too cheap → sellers get destroyed)</p>
+<p><strong>Worked example — the VRP trade:</strong><br />
+- Sell 1-month ATM SPX straddle at 18% IV, delta-hedge daily<br />
+- Over the month, SPX realizes 14% vol<br />
+- Your P&amp;L ≈ vega × (IV − RV) ≈ $300K × 4 = <strong>+$1.2M</strong> (simplified)<br />
+- You "harvested" the VRP</p>
+<p><strong>When it inverts (the blowup):</strong><br />
+- February 5, 2018 ("Volmageddon"): VIX went from 17 to 50 in one day. XIV ETN lost 96% of value OVERNIGHT and was terminated. Realized vol hit ~100% annualized for that day. Anyone short vol at 17 IV ate a 5σ+ loss.<br />
+- March 2020: VIX from 14 to 82. Realized vol hit 130%+ (annualized). Short vol positions destroyed across the industry.<br />
+- The VRP trade is <strong>picking up pennies in front of a steamroller</strong> — positive expected value on most days, existential risk on the worst day.</p>
+<h3 id="vrp-by-asset-class">VRP by Asset Class</h3>
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Typical VRP (IV − RV)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPX options</td>
+<td>+2 to +4 pts</td>
+<td>Most studied. Reliable positive VRP.</td>
+</tr>
+<tr>
+<td>Single stocks</td>
+<td>+3 to +8 pts</td>
+<td>Higher VRP (more demand for hedging + earnings events)</td>
+</tr>
+<tr>
+<td>FX options</td>
+<td>+1 to +2 pts</td>
+<td>Smaller — FX vol is lower overall</td>
+</tr>
+<tr>
+<td>Commodity options</td>
+<td>Varies widely</td>
+<td>Oil: large VRP. Gold: smaller. Seasonals distort.</td>
+</tr>
+<tr>
+<td>VIX options</td>
+<td>Large positive</td>
+<td>VIX options on VIX futures — double layer of premium</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h1 id="part-2-the-volatility-surface">PART 2: THE VOLATILITY SURFACE</h1>
 <h2 id="why-one-number-isnt-enough">Why One Number Isn't Enough</h2>
-<p>Black-Scholes assumes constant volatility across all strikes and maturities. Reality disagrees. Implied vol varies by BOTH strike and expiry. This creates a 2D surface.</p>
-<h2 id="skew-the-smile-along-strike">Skew (the Smile along Strike)</h2>
-<p><strong>Equity skew:</strong> OTM puts have HIGHER implied vol than ATM options, which have higher vol than OTM calls. The surface "smirks" to the left.</p>
-<p><strong>Why?</strong><br />
-1. <strong>Demand:</strong> Everyone buys downside protection (puts) → demand pushes up put prices → higher implied vol for low strikes.<br />
-2. <strong>Fat tails:</strong> Markets crash more suddenly than they rally. The probability of a -20% move is higher than what a normal distribution predicts → puts need to be more expensive.<br />
-3. <strong>Leverage effect:</strong> When stocks drop, companies become more leveraged (debt/equity ratio rises) → riskier → vol should be higher at lower prices.</p>
-<p><strong>Measuring skew:</strong><br />
-- 25-delta risk reversal: IV of 25-delta put minus IV of 25-delta call. More negative = steeper skew.<br />
-- 90-100% skew: IV at 90% moneyness minus IV at 100% (ATM). Tells you how much more expensive puts are.</p>
-<p><strong>Skew tells you something:</strong> Steep skew = market is nervous about downside. Flat skew = market is complacent. Skew STEEPENS in sell-offs and FLATTENS in rallies.</p>
-<h2 id="term-structure-along-time">Term Structure (along Time)</h2>
-<p><strong>Normal (upward sloping):</strong> Longer-dated options have higher implied vol than shorter-dated. Makes sense — more uncertainty over longer horizons.</p>
-<p><strong>Inverted (downward sloping):</strong> Short-dated options have HIGHER implied vol than long-dated. This happens when there's a near-term event (earnings, FOMC, geopolitical) that the market expects to resolve. After the event → vol should normalize.</p>
-<p><strong>Contango vs backwardation in vol language:</strong> Normal term structure = vol contango. Inverted = vol backwardation. VIX futures are typically in contango (longer-dated VIX &gt; shorter-dated).</p>
-<hr />
-<h1 id="part-3-volatility-models">PART 3: VOLATILITY MODELS</h1>
-<h2 id="sabr-stochastic-alpha-beta-rho">SABR (Stochastic Alpha Beta Rho)</h2>
-<p><strong>What it does:</strong> Models the vol surface by making vol itself stochastic (vol of vol). Four parameters:</p>
+<p>Black-Scholes assumes ONE constant σ for all strikes and maturities. Reality: implied vol varies by <strong>strike</strong> (skew/smile) and <strong>expiry</strong> (term structure), creating a 2D surface.</p>
+<div class="highlight"><pre><span></span><code>                    THE VOL SURFACE
+
+    IV              ← OTM Puts (high IV)
+    │
+    │  ╲                          ╱  ← OTM Calls (smile in some assets)
+    │    ╲                      ╱
+    │      ╲                  ╱
+    │        ╲──────────────╱     ← ATM (lowest for equities)
+    │
+    └──────────────────────────── Strike (K)
+         80%    90%   100%   110%   120%
+
+    For EQUITIES: &quot;smirk&quot; — left side elevated, right side modestly lower or flat
+    For FX/commodities: &quot;smile&quot; — both wings elevated, more symmetric
+</code></pre></div>
+
+<h2 id="skew-the-strike-dimension">Skew — The Strike Dimension</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Skew measures how much more expensive downside protection is relative to ATM options — it's the market's fear of crashes priced in real-time.</p>
+</blockquote>
+<h3 id="why-equity-skew-exists-three-reinforcing-reasons">Why Equity Skew Exists (Three Reinforcing Reasons)</h3>
+<ol>
+<li>
+<p><strong>Demand/supply imbalance:</strong> The entire institutional world buys puts (pension funds, endowments, insurance companies). Nobody systematically buys OTM calls at scale. This demand asymmetry inflates put IV.</p>
+</li>
+<li>
+<p><strong>Fat-tailed returns:</strong> Equity returns are negatively skewed with excess kurtosis. The probability of SPX −20% in a month is MUCH higher than a normal distribution predicts. Options need to be priced for real-world tail risk, not Gaussian tails. Post-1987 crash, the market permanently repriced this — skew didn't exist before Black Monday.</p>
+</li>
+<li>
+<p><strong>Leverage effect (Black, 1976):</strong> When stock prices fall, the debt/equity ratio rises mechanically → the firm becomes riskier → vol should be higher at lower prices. Self-reinforcing feedback loop.</p>
+</li>
+</ol>
+<h3 id="measuring-skew-the-numbers-youll-use">Measuring Skew — The Numbers You'll Use</h3>
 <table>
 <thead>
 <tr>
-<th>Parameter</th>
-<th>What it controls</th>
+<th>Metric</th>
+<th>Definition</th>
+<th>Typical SPX value</th>
+<th>What it tells you</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>α (alpha)</td>
-<td>Level of vol at current forward</td>
+<td><strong>25Δ risk reversal (RR)</strong></td>
+<td>IV(25Δ put) − IV(25Δ call)</td>
+<td>−5 to −8 pts (negative = put premium)</td>
+<td>Direction of skew. More negative = steeper.</td>
 </tr>
 <tr>
-<td>β (beta)</td>
-<td>Backbone — how vol moves with the underlying (0 = normal, 1 = lognormal)</td>
+<td><strong>25Δ butterfly (BF)</strong></td>
+<td>½ × [IV(25Δ put) + IV(25Δ call)] − IV(ATM)</td>
+<td>+2 to +5 pts (positive = wings expensive)</td>
+<td>Curvature / kurtosis pricing. Higher = fatter tails priced.</td>
 </tr>
 <tr>
-<td>ρ (rho)</td>
-<td>Correlation between spot and vol. Negative ρ → skew (as spot drops, vol rises)</td>
+<td><strong>90-100 skew</strong></td>
+<td>IV(90% moneyness) − IV(ATM)</td>
+<td>+4 to +8 pts</td>
+<td>How much more puts cost than ATM. Simple hedge cost indicator.</td>
 </tr>
 <tr>
-<td>ν (nu)</td>
-<td>Vol of vol. Higher ν → fatter tails, steeper wings</td>
+<td><strong>Skew index (CBOE SKEW)</strong></td>
+<td>Derived from SPX OTM option prices</td>
+<td>100-150 (higher = more tail risk priced)</td>
+<td>Aggregate tail risk indicator.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Why you know this:</strong> You worked with SABR at Natixis. It's the industry standard for swaption and FX vol surfaces. The Hagan analytical approximation makes it fast to calibrate.</p>
-<p><strong>Limitations of SABR:</strong><br />
-- Single expiry — calibrated per expiry slice, doesn't enforce consistency across the term structure.<br />
-- Can produce negative probability densities for extreme strikes (arbitrage in the wings).<br />
-- No jumps — continuous dynamics. Can't handle overnight gaps.</p>
-<h2 id="local-vol-dupire">Local Vol (Dupire)</h2>
-<ul>
-<li>Extracts a unique local volatility function from the full vol surface such that all option prices are replicated.</li>
-<li>"What vol would a particle need at each (spot, time) point to match market prices?"</li>
-<li>Problem: the dynamics are wrong — it predicts that vol moves inversely with spot (which IS true for equities but by the wrong amount). Forward skew is too flat.</li>
-</ul>
-<h2 id="stochastic-vol-heston">Stochastic Vol (Heston)</h2>
-<ul>
-<li>Vol follows its own mean-reverting stochastic process: $dv = \kappa(\theta - v)dt + \xi\sqrt{v}dW$</li>
-<li>Five parameters: initial vol, long-run vol (θ), mean reversion speed (κ), vol of vol (ξ), correlation (ρ).</li>
-<li>Better dynamics than local vol but harder to calibrate.</li>
-<li>Used for exotic options where path matters (barriers, Asian).</li>
-</ul>
-<hr />
-<h1 id="part-4-volatility-as-a-tradeable">PART 4: VOLATILITY AS A TRADEABLE</h1>
-<h2 id="vix-the-fear-index">VIX — The "Fear Index"</h2>
-<p><strong>What it is:</strong> The 30-day expected volatility of the S&amp;P 500, annualized. Calculated from SPX option prices across strikes.</p>
-<p><strong>VIX levels and what they mean:</strong></p>
+<h3 id="skew-dynamics-how-it-moves">Skew Dynamics — How It Moves</h3>
 <table>
 <thead>
 <tr>
-<th>VIX</th>
-<th>Market state</th>
+<th>Market condition</th>
+<th>Skew behavior</th>
+<th>Why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>10-14</td>
-<td>Extreme complacency. "Picking up pennies." Short vol is very crowded.</td>
+<td><strong>Sell-off (SPX −3%+)</strong></td>
+<td>Skew steepens sharply</td>
+<td>Put demand surges, call IV compressed. Fear spike.</td>
 </tr>
 <tr>
-<td>15-20</td>
-<td>Normal. Healthy uncertainty.</td>
+<td><strong>Grinding rally</strong></td>
+<td>Skew flattens</td>
+<td>Put demand fades, upside calls get bid. Complacency.</td>
 </tr>
 <tr>
-<td>20-30</td>
-<td>Elevated. Market is nervous. Hedging demand is up.</td>
+<td><strong>Vol spike (VIX +10)</strong></td>
+<td>Skew can flatten RELATIVELY</td>
+<td>When ATM vol explodes, relative skew may compress even as absolute put IV rises</td>
 </tr>
 <tr>
-<td>30-40</td>
-<td>Fear. Significant stress event underway.</td>
+<td><strong>Pre-event (FOMC/CPI)</strong></td>
+<td>Short-dated skew steepens</td>
+<td>Hedging demand concentrates in near-dated puts</td>
 </tr>
 <tr>
-<td>40+</td>
-<td>Panic. March 2020 hit 82.</td>
+<td><strong>Post-event resolution</strong></td>
+<td>Skew normalizes rapidly</td>
+<td>Uncertainty resolved → hedging demand drops</td>
 </tr>
 </tbody>
 </table>
-<p><strong>VIX behavior:</strong><br />
-- VIX is negatively correlated with SPX (~-0.75 to -0.85). Market drops → VIX spikes.<br />
-- The relationship is asymmetric: VIX spikes much harder on market drops than it falls on market rallies.<br />
-- VIX is mean-reverting: extreme spikes compress back over days/weeks.<br />
-- You CANNOT trade VIX directly. You trade VIX futures, VIX options, or VIX ETPs.</p>
-<h2 id="vix-futures">VIX Futures</h2>
-<ul>
-<li>Trade on CBOE Futures Exchange. Monthly expiry.</li>
-<li><strong>Usually in contango:</strong> Longer-dated VIX futures &gt; shorter-dated &gt; VIX spot. Why? Roll cost + insurance premium.</li>
-<li><strong>VIX futures don't track VIX spot well.</strong> VIX spot can spike 50% in a day; the 2-month VIX future might move 15%.</li>
-<li><strong>Roll cost crushes VIX ETPs:</strong> Long VIX ETPs (like UVXY) lose money systematically due to contango roll. This is by design — the contango IS the vol risk premium.</li>
-</ul>
-<h2 id="variance-swaps">Variance Swaps</h2>
-<ul>
-<li>Pay or receive the difference between realized variance and a fixed strike variance.</li>
-<li>Long variance swap: you profit if realized vol &gt; strike. You're buying vol.</li>
-<li>Short variance swap: you profit if realized vol &lt; strike. You're selling vol.</li>
-<li><strong>Key difference from options:</strong> Variance swaps are linear in VARIANCE (not vol). Since variance = vol², large moves are amplified quadratically. A 40-vol realized against a 20-vol strike isn't 2x payout — it's 4x (1600 variance vs 400 variance).</li>
-<li><strong>Short variance swap risk: unlimited.</strong> This is what killed XIV / short vol funds in Feb 2018.</li>
-</ul>
-<h2 id="straddles-as-vol-trades">Straddles as Vol Trades</h2>
-<ul>
-<li>Buy ATM straddle = buy volatility. You profit if the stock moves MORE than the straddle implies.</li>
-<li><strong>Breakeven move</strong> = straddle price / stock price. If a $100 stock's ATM straddle costs $5, the implied move is 5%. Stock needs to move &gt;5% in either direction for you to profit at expiry.</li>
-<li>Pre-earnings straddle pricing: "The straddle implies a 7% move on earnings. Historical average earnings move is 5%. Straddle is expensive."</li>
-</ul>
-<hr />
-<h1 id="part-5-dealer-gamma-market-dynamics">PART 5: DEALER GAMMA &amp; MARKET DYNAMICS</h1>
-<h2 id="who-is-the-market-maker">Who Is the Market Maker?</h2>
-<p>Options dealers (banks, market makers) sell options to clients (hedge funds, pension funds, corporates) and delta-hedge their inventory. Their gamma position determines how they impact the underlying market.</p>
-<h2 id="dealer-long-gamma-normal-state">Dealer Long Gamma (Normal State)</h2>
-<ul>
-<li>Dealers have sold puts to clients (who want protection) and delta-hedged.</li>
-<li>As the market drops → put deltas increase → dealers need to BUY stock to stay hedged.</li>
-<li>As the market rises → put deltas decrease → dealers need to SELL stock.</li>
-<li><strong>Effect on market:</strong> Dealers BUY dips and SELL rallies → DAMPENS volatility. Acts as a stabilizer.</li>
-</ul>
-<h2 id="dealer-short-gamma-danger-zone">Dealer Short Gamma (Danger Zone)</h2>
-<ul>
-<li>In certain conditions (after a sell-off, or around large put strikes), dealers can flip SHORT gamma.</li>
-<li>Now: market drops → dealers need to SELL to stay hedged. Market rises → dealers need to BUY.</li>
-<li><strong>Effect on market:</strong> Dealers SELL into sell-offs and BUY into rallies → AMPLIFIES volatility. Acts as a destabilizer.</li>
-</ul>
-<h2 id="the-gamma-flip-level">The Gamma Flip Level</h2>
-<ul>
-<li>The SPX price at which dealers switch from long to short gamma.</li>
-<li><strong>Below the flip:</strong> Moves are larger, faster, and more violent. Vol realized is higher.</li>
-<li><strong>Above the flip:</strong> Moves are contained. Vol is suppressed.</li>
-<li>Firms like SpotGamma, SqueezeMetrics publish estimated dealer gamma positioning. It's an input, not a crystal ball.</li>
-</ul>
-<h2 id="opex-options-expiration-effects">OPEX (Options Expiration) Effects</h2>
-<ul>
-<li>On monthly expiry (3rd Friday) and especially quarterly expiry ("quad witch"):</li>
-<li>Large open interest expires or is rolled.</li>
-<li>Gamma exposure drops sharply (options expire → no more gamma to hedge).</li>
-<li>Market can "unpin" and move sharply after expiry.</li>
-<li><strong>Pin risk:</strong> Stock gravitates toward strikes with large open interest as dealers hedge → reduces realized vol going into expiry → then potentially releases after expiry.</li>
-</ul>
-<hr />
-<h1 id="part-6-volatility-as-a-risk-indicator">PART 6: VOLATILITY AS A RISK INDICATOR</h1>
-<h2 id="what-vol-tells-the-rm">What Vol Tells the RM</h2>
+<p><strong>Sticky-strike vs sticky-delta:</strong><br />
+- <strong>Sticky-strike:</strong> Implied vol at a given strike stays fixed as spot moves. Implies: if spot drops 5%, ATM vol rises (because you're now ATM at a lower strike which had higher vol). This is the empirical behavior for equities — vol rises when spot drops.<br />
+- <strong>Sticky-delta:</strong> The vol at a given delta stays fixed. ATM vol doesn't change when spot moves. Less realistic for equities, more applicable to FX in calm markets.<br />
+- <strong>Why it matters:</strong> The assumption determines how you delta-hedge. Sticky-strike delta-hedging uses a different delta than sticky-delta — the difference can be 0.02-0.05 for OTM options, which on 10,000 contracts is material.</p>
+<h2 id="term-structure-the-time-dimension">Term Structure — The Time Dimension</h2>
+<blockquote>
+<p><strong>One-liner:</strong> The vol term structure tells you whether the market expects current vol conditions to persist or mean-revert.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Shape</th>
+<th>Name</th>
+<th>What it means</th>
+<th>When you see it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Upward sloping</strong></td>
+<td>Contango</td>
+<td>Longer = higher IV. Normal state.</td>
+<td>Calm markets — uncertainty increases with horizon.</td>
+</tr>
+<tr>
+<td><strong>Flat</strong></td>
+<td>Flat</td>
+<td>Vol expectations similar across tenors.</td>
+<td>Transition periods.</td>
+</tr>
+<tr>
+<td><strong>Inverted</strong></td>
+<td>Backwardation</td>
+<td>Short-dated IV &gt; long-dated. Near-term fear.</td>
+<td>Event risk (earnings, election, crisis). Market expects the event to resolve and vol to drop.</td>
+</tr>
+<tr>
+<td><strong>Humped</strong></td>
+<td>Humped</td>
+<td>Peak at intermediate tenor (e.g., 3-month).</td>
+<td>Specific event at a known future date (e.g., 3 months out = election).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example — VIX term structure in crisis:</strong><br />
+- Normal: VIX = 15, 2-month VIX futures = 17, 4-month = 18 (contango)<br />
+- Crisis: VIX = 45, 2-month = 35, 4-month = 28 (steep backwardation — market expects vol to normalize)<br />
+- The SLOPE encodes mean-reversion expectations. Steep backwardation = "this crisis is temporary."</p>
+<h3 id="term-structure-as-a-trading-signal">Term Structure as a Trading Signal</h3>
 <table>
 <thead>
 <tr>
 <th>Signal</th>
 <th>Interpretation</th>
-<th>Action</th>
+<th>Trade</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Implied &lt; realized</td>
-<td>Market is complacent — options are cheap relative to actual moves</td>
-<td>Buy protection while it's cheap</td>
+<td>Steep contango</td>
+<td>Short vol is expensive short-dated, cheap long-dated</td>
+<td>Calendar spreads: sell near-dated vol, buy far-dated</td>
 </tr>
 <tr>
-<td>Implied &gt;&gt; realized</td>
-<td>Market is scared — options are expensive</td>
-<td>Protection is costly. Consider selling premium (with limits).</td>
+<td>Steep backwardation</td>
+<td>Near-term panic. Vol likely to mean-revert.</td>
+<td>Sell near-dated vol (IF you can survive the mark-to-market)</td>
 </tr>
 <tr>
-<td>VIX term structure inverted</td>
-<td>Near-term fear is extreme (event risk)</td>
-<td>Near-term hedging is expensive. Consider longer-dated alternatives.</td>
+<td>Contango flattening</td>
+<td>Front vol catching up — early warning of trouble</td>
+<td>Reduce short vol. Add near-dated protection.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-full-surface-strike-time-together">The Full Surface — Strike × Time Together</h2>
+<p>Every point on the vol surface $\sigma(K, T)$ is an implied vol. The surface must satisfy <strong>no-arbitrage conditions:</strong></p>
+<ol>
+<li><strong>Calendar spread arbitrage:</strong> Total implied variance must be non-decreasing in time: $\sigma^2(K, T_2) \times T_2 \geq \sigma^2(K, T_1) \times T_1$ for $T_2 &gt; T_1$</li>
+<li><strong>Butterfly arbitrage:</strong> The risk-neutral density must be non-negative everywhere → constrains how fast vol can change across strikes</li>
+<li><strong>Put-call parity:</strong> Calls and puts at same strike/expiry must imply the same vol (otherwise direct arbitrage)</li>
+</ol>
+<p><strong>Surface interpolation matters:</strong> Between observed strikes and expiries, how do you interpolate? SVI (Stochastic Volatility Inspired) parameterization is standard for equities. SABR for rates/FX. Getting this wrong → model produces arbitrageable prices → your Greeks are wrong → your hedges leak.</p>
+<hr />
+<h1 id="part-3-volatility-models-how-you-generate-the-surface">PART 3: VOLATILITY MODELS — HOW YOU GENERATE THE SURFACE</h1>
+<blockquote>
+<p>At Squarepoint, you won't run these models yourself as a risk manager. But you need to understand what the quants are doing, why the model matters, and where it breaks.</p>
+</blockquote>
+<h2 id="model-taxonomy">Model Taxonomy</h2>
+<table>
+<thead>
+<tr>
+<th>Model class</th>
+<th>Key idea</th>
+<th>Strengths</th>
+<th>Weaknesses</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Black-Scholes</strong></td>
+<td>Constant vol</td>
+<td>Simple, closed-form Greeks</td>
+<td>Wrong (vol isn't constant)</td>
+<td>Quick pricing, reference point</td>
 </tr>
 <tr>
-<td>Skew steepening rapidly</td>
-<td>Strong demand for puts — someone is buying protection aggressively</td>
-<td>Watch for large position liquidation or event risk</td>
+<td><strong>Local vol (Dupire)</strong></td>
+<td>σ = σ(S,t), deterministic</td>
+<td>Fits any surface exactly. Unique.</td>
+<td>Wrong dynamics — forward skew too flat. Vol moves wrong with spot.</td>
+<td>Exotic pricing with surface-consistent calibration.</td>
 </tr>
 <tr>
-<td>Correlation spike (implied)</td>
-<td>All stocks moving together — systematic risk dominating</td>
-<td>Reduce net delta. Diversification isn't working.</td>
+<td><strong>Stochastic vol (Heston)</strong></td>
+<td>Vol follows its own stochastic process</td>
+<td>Better dynamics. Mean-reverting vol.</td>
+<td>Hard to calibrate. Can't fit short-dated skew well.</td>
+<td>Exotics. Multi-asset. Research.</td>
 </tr>
 <tr>
-<td>VIX &gt; 30 and rising</td>
-<td>Full risk-off mode. Liquidity drying up.</td>
-<td>Tighten all limits. Active communication with PMs. Daily IC updates.</td>
+<td><strong>SABR</strong></td>
+<td>Stochastic vol, analytical approx.</td>
+<td>Fast, closed-form. Industry standard for rates/FX.</td>
+<td>Single-expiry. Wing issues. No jumps.</td>
+<td>Swaptions, FX vanillas, caps/floors.</td>
+</tr>
+<tr>
+<td><strong>Local-stochastic vol (LSV)</strong></td>
+<td>Combines local + stochastic. Lever function.</td>
+<td>Best of both: fits surface AND has good dynamics.</td>
+<td>Complex. Calibration is expensive.</td>
+<td>Front-office exotic pricing at top banks.</td>
+</tr>
+<tr>
+<td><strong>Jump-diffusion (Merton)</strong></td>
+<td>Adds Poisson jumps to GBM</td>
+<td>Captures overnight gaps.</td>
+<td>Hard to hedge jumps. Incomplete market.</td>
+<td>Equity options around events (earnings, M&amp;A).</td>
+</tr>
+<tr>
+<td><strong>Rough vol</strong></td>
+<td>Vol is driven by fractional Brownian motion (H ≈ 0.1)</td>
+<td>Matches empirical vol dynamics perfectly. Fast timescale clustering.</td>
+<td>Computationally expensive. New.</td>
+<td>Research frontier. Not yet standard in production.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sabr-in-depth-because-you-used-it-at-natixis">SABR — In Depth (Because You Used It at Natixis)</h2>
+<p>$$dF = \alpha F^\beta dW_1$$<br />
+$$d\alpha = \nu \alpha dW_2$$<br />
+$$dW_1 dW_2 = \rho \, dt$$</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>What it controls</th>
+<th>Calibration intuition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>α (alpha)</strong></td>
+<td>ATM vol level</td>
+<td>Set from ATM market vol</td>
+</tr>
+<tr>
+<td><strong>β (beta)</strong></td>
+<td>Backbone — how vol moves with spot. β=0: normal model. β=1: lognormal. β=0.5: CIR-like.</td>
+<td>Usually FIXED (not calibrated). Equities: β≈0.5. Rates: β=0 or 0.5.</td>
+</tr>
+<tr>
+<td><strong>ρ (rho)</strong></td>
+<td>Spot-vol correlation → controls SKEW</td>
+<td>Negative ρ → downside skew (equities: ρ ≈ −0.3 to −0.7)</td>
+</tr>
+<tr>
+<td><strong>ν (nu)</strong></td>
+<td>Vol of vol → controls CURVATURE/WINGS</td>
+<td>Higher ν → steeper smile/fatter tails</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hagan approximation</strong> provides closed-form σ_implied(K) given (α, β, ρ, ν, F, K, T). Makes calibration fast — Newton-Raphson on 3 parameters (α, ρ, ν with β fixed) per expiry slice.</p>
+<p><strong>Limitations you should be able to discuss:</strong><br />
+- Arbitrage in the wings: for extreme strikes, the Hagan formula can produce negative probability densities. Various fixes exist (Oblój correction, full numerical PDE).<br />
+- No term structure consistency: calibrated independently per expiry, so no guarantee that calendar spread arbitrage is excluded.<br />
+- No jumps: cannot capture overnight gaps, earnings moves, flash crashes.</p>
+<h2 id="local-volatility-dupire">Local Volatility (Dupire)</h2>
+<p>$$\sigma_{\text{local}}^2(K,T) = \frac{\frac{\partial C}{\partial T} + (r-q)K\frac{\partial C}{\partial K} + qC}{\frac{1}{2}K^2 \frac{\partial^2 C}{\partial K^2}}$$</p>
+<ul>
+<li>Requires a smooth, arbitrage-free call price surface C(K,T) — interpolation quality is critical.</li>
+<li>Produces a UNIQUE local vol function that reprices all vanillas exactly.</li>
+<li><strong>The fatal flaw:</strong> Local vol predicts that when spot drops 10%, the vol smile SHIFTS to the left but FLATTENS. In reality, when spot drops 10%, the smile shifts left AND steepens. This means local vol underestimates the cost of OTM puts in a crisis — dangerous for risk management.</li>
+</ul>
+<h2 id="heston-stochastic-vol">Heston Stochastic Vol</h2>
+<p>$$dS = \mu S \, dt + \sqrt{v} S \, dW_S$$<br />
+$$dv = \kappa(\theta - v) dt + \xi \sqrt{v} \, dW_v$$<br />
+$$dW_S dW_v = \rho \, dt$$</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Meaning</th>
+<th>Typical equity values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v₀</td>
+<td>Current instantaneous variance</td>
+<td>(ATM IV)²</td>
+</tr>
+<tr>
+<td>θ</td>
+<td>Long-run variance (mean-reversion target)</td>
+<td>0.04 (= 20% long-run vol)</td>
+</tr>
+<tr>
+<td>κ</td>
+<td>Mean-reversion speed</td>
+<td>1-5 (faster = snaps back quicker)</td>
+</tr>
+<tr>
+<td>ξ</td>
+<td>Vol of vol</td>
+<td>0.3-1.0</td>
+</tr>
+<tr>
+<td>ρ</td>
+<td>Spot-vol correlation</td>
+<td>−0.5 to −0.8 (equities)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Feller condition:</strong> $2\kappa\theta &gt; \xi^2$ guarantees variance stays positive. If violated, variance can hit zero — numerically problematic.</p>
+<p><strong>Semi-analytic pricing:</strong> Heston has a characteristic function solution → Fast Fourier Transform (FFT) pricing → much faster than Monte Carlo for vanillas. Exotics still need MC.</p>
+<hr />
+<h1 id="part-4-volatility-regimes-the-risk-managers-framework">PART 4: VOLATILITY REGIMES — THE RISK MANAGER'S FRAMEWORK</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Vol doesn't just have a level — it has a REGIME. And regime shifts are the most dangerous events in finance because everything correlated changes simultaneously.</p>
+</blockquote>
+<h2 id="the-four-vol-regimes">The Four Vol Regimes</h2>
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>VIX range</th>
+<th>Realized vol</th>
+<th>Term structure</th>
+<th>Skew</th>
+<th>Correlation</th>
+<th>Market behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Low vol</strong></td>
+<td>10-15</td>
+<td>5-12%</td>
+<td>Steep contango</td>
+<td>Moderate</td>
+<td>Low (15-25%)</td>
+<td>Grinding rally. Carry trades work. Short vol prints money. Complacency building.</td>
+</tr>
+<tr>
+<td><strong>2. Normal vol</strong></td>
+<td>15-22</td>
+<td>12-18%</td>
+<td>Mild contango</td>
+<td>Normal</td>
+<td>Moderate (25-40%)</td>
+<td>Healthy market. Two-way flow. Risk management is standard.</td>
+</tr>
+<tr>
+<td><strong>3. Elevated vol</strong></td>
+<td>22-35</td>
+<td>18-30%</td>
+<td>Flat to mild backwardation</td>
+<td>Steep</td>
+<td>High (40-60%)</td>
+<td>Corrections, event clusters. Hedging costs up.</td>
+</tr>
+<tr>
+<td><strong>4. Crisis vol</strong></td>
+<td>35-80+</td>
+<td>30-100%+</td>
+<td>Sharp backwardation</td>
+<td>Extremely steep</td>
+<td>Very high (60-80%+)</td>
+<td>Panic. Liquidity evaporates. Correlations → 1. Models break.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="regime-transitions-what-kills-portfolios">Regime Transitions — What Kills Portfolios</h3>
+<table>
+<thead>
+<tr>
+<th>Transition</th>
+<th>Speed</th>
+<th>Damage</th>
+<th>Historical examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low → Crisis</td>
+<td><strong>Hours to days</strong></td>
+<td>Catastrophic for short vol</td>
+<td>Feb 2018 (Volmageddon), Mar 2020 (COVID)</td>
+</tr>
+<tr>
+<td>Crisis → Elevated</td>
+<td>Days to weeks</td>
+<td>Vol sellers rush in too early, get burned by aftershocks</td>
+<td>Mar→Apr 2020 multiple VIX re-spikes</td>
+</tr>
+<tr>
+<td>Elevated → Normal</td>
+<td>Weeks to months</td>
+<td>Gradual. Short vol finally profitable again.</td>
+<td>2020 H2 normalization</td>
+</tr>
+<tr>
+<td>Normal → Low</td>
+<td>Months to years</td>
+<td>Slow grind. Short vol becomes more and more crowded.</td>
+<td>2016-2017 (VIX spent months at 10-12)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The asymmetry:</strong> Vol regimes shift UP in days/hours but shift DOWN over weeks/months. This is the fundamental reason why being short vol has negative skew — you earn slowly and lose fast.</p>
+<h3 id="vol-clustering">Vol Clustering</h3>
+<p><strong>Empirical fact:</strong> Large moves cluster. A 3σ day is much more likely to be followed by another 3σ day than the unconditional probability suggests. This is called <strong>volatility clustering</strong> — formalized by GARCH/EWMA models:</p>
+<p>$$\sigma^2_{t+1} = \lambda \sigma^2_t + (1-\lambda) r_t^2 \quad \text{(EWMA, } \lambda \approx 0.94 \text{)}$$</p>
+<p><strong>For the RM:</strong> If you see one 3σ day, don't relax. Expect elevated vol to persist for days to weeks. Reduce gross exposure. Tighten stops. The worst thing you can do after a big down day is assume "it's over."</p>
+<hr />
+<h1 id="part-5-volatility-as-a-tradeable-asset">PART 5: VOLATILITY AS A TRADEABLE ASSET</h1>
+<h2 id="vix-the-fear-index">VIX — The "Fear Index"</h2>
+<blockquote>
+<p><strong>One-liner:</strong> VIX is the 30-day expected volatility of SPX, derived from option prices. You CAN'T trade it directly — only through derivatives on VIX.</p>
+</blockquote>
+<h3 id="how-vix-is-calculated">How VIX Is Calculated</h3>
+<p>VIX uses a <strong>model-free</strong> approach — it's NOT derived from Black-Scholes. It aggregates prices of OTM SPX options across all strikes:</p>
+<p>$$\text{VIX}^2 = \frac{2}{T} \sum_i \frac{\Delta K_i}{K_i^2} e^{rT} Q(K_i) - \frac{1}{T}\left(\frac{F}{K_0} - 1\right)^2$$</p>
+<p>Where Q(Kᵢ) is the midpoint price of the OTM option at strike Kᵢ. This is a weighted portfolio of OTM options that replicates expected variance.</p>
+<p><strong>Key implication:</strong> VIX is sensitive to OTM put prices → tail risk pricing affects VIX directly. This is why VIX can spike even if ATM vol doesn't move much — if panic buying inflates OTM puts, VIX rises.</p>
+<h3 id="vix-levels-calibrate-your-intuition">VIX Levels — Calibrate Your Intuition</h3>
+<table>
+<thead>
+<tr>
+<th>VIX</th>
+<th>Implied daily SPX move</th>
+<th>Historical context</th>
+<th>RM posture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>10-14</strong></td>
+<td>±0.6-0.9%</td>
+<td>2017 average (~11), 2019 average (~15)</td>
+<td>Complacency. Short vol crowded. Tail risk CHEAP — buy it.</td>
+</tr>
+<tr>
+<td><strong>15-20</strong></td>
+<td>±0.9-1.3%</td>
+<td>Long-run median ~18</td>
+<td>Normal. Standard risk limits apply.</td>
+</tr>
+<tr>
+<td><strong>20-30</strong></td>
+<td>±1.3-1.9%</td>
+<td>Corrections, policy uncertainty</td>
+<td>Elevated. Tighten limits. Review hedges.</td>
+</tr>
+<tr>
+<td><strong>30-40</strong></td>
+<td>±1.9-2.5%</td>
+<td>Dec 2018, Aug 2015, Oct 2022</td>
+<td>Fear. Active hedge adjustments. Daily IC calls.</td>
+</tr>
+<tr>
+<td><strong>40-60</strong></td>
+<td>±2.5-3.8%</td>
+<td>Feb 2018 peak, Q4 2008, 2011</td>
+<td>Severe stress. Consider reducing gross.</td>
+</tr>
+<tr>
+<td><strong>60-80+</strong></td>
+<td>±3.8-5.0%+</td>
+<td>Mar 2020 (82.69, the record), Fall 2008 (80+)</td>
+<td>Existential. Liquidity is gone. Circuit breakers likely.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Daily move conversion:</strong> VIX / √252. VIX of 20 → 20/15.87 = <strong>1.26% daily move</strong> implied.</p>
+<h3 id="vix-behavior-key-properties">VIX Behavior — Key Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Negative correlation with SPX</strong></td>
+<td>ρ ≈ −0.75 to −0.85. SPX down → VIX up. NOT symmetric.</td>
+</tr>
+<tr>
+<td><strong>Mean-reverting</strong></td>
+<td>VIX always comes back. Spikes to 80 → back below 30 within months. But it can STAY elevated longer than you think.</td>
+</tr>
+<tr>
+<td><strong>Non-tradeable directly</strong></td>
+<td>VIX is a calculation. You trade VIX futures, options, or ETPs. Each has different properties than spot VIX.</td>
+</tr>
+<tr>
+<td><strong>VIX of VIX (VVIX)</strong></td>
+<td>Measures implied vol of VIX options. High VVIX → market expects VIX itself to be volatile → extreme uncertainty about uncertainty.</td>
+</tr>
+<tr>
+<td><strong>Spot-futures basis</strong></td>
+<td>VIX futures ≠ VIX spot. The basis is typically 1-3 pts in contango. In crisis, basis can go negative (backwardation).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vix-futures-the-actual-trading-instrument">VIX Futures — The Actual Trading Instrument</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Settlement</strong></td>
+<td>Cash-settled to VIX Special Opening Quotation (SOQ) on expiry morning</td>
+</tr>
+<tr>
+<td><strong>Typical contango</strong></td>
+<td>30-day VIX future trades 1-3 pts above spot VIX in calm markets</td>
+</tr>
+<tr>
+<td><strong>Contango roll cost</strong></td>
+<td>If VIX spot = 15, front month future = 17, you buy at 17 and it converges to ~15 → you LOSE ~2 pts per month if VIX doesn't move. Annualized ~24 pts. Devastating for long VIX holders.</td>
+</tr>
+<tr>
+<td><strong>Backwardation</strong></td>
+<td>Occurs in crises. Front month &gt; back months. Roll EARNS money for long VIX.</td>
+</tr>
+<tr>
+<td><strong>Beta to spot VIX</strong></td>
+<td>Front month ≈ 0.5 beta to spot VIX. Back months ≈ 0.2-0.3. VIX spot moves 20 pts → front month moves ~10, back month ~5.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The VIX futures curve as dashboard:</strong></p>
+<div class="highlight"><pre><span></span><code>Normal (Contango):           Crisis (Backwardation):
+
+VIX 15   ·                   VIX 45   ·               
+Fut M1   ·  17               Fut M1   ·  42           
+Fut M2   ·  18.5             Fut M2   ·  36           
+Fut M3   ·  19.5             Fut M3   ·  32           
+Fut M4   ·  20               Fut M4   ·  29           
+
+→ Roll cost eats long VIX    → Roll EARNS for long VIX
+→ Short vol systematically   → Short vol getting       
+  profitable via roll          destroyed on mark-to-mkt
+</code></pre></div>
+
+<h2 id="vix-etps-the-retail-graveyard">VIX ETPs — The Retail Graveyard</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Exposure</th>
+<th>Long-run return</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UVXY</strong> (2x long VIX)</td>
+<td>2× daily front-month VIX futures</td>
+<td><strong>→ 0</strong></td>
+<td>Contango roll + daily rebalancing + 2x leverage = guaranteed decay</td>
+</tr>
+<tr>
+<td><strong>VXX</strong> (1x long VIX)</td>
+<td>1× daily blend of M1/M2 VIX futures</td>
+<td><strong>→ 0</strong> (was terminated 2019)</td>
+<td>Contango roll. Lost 99.9% since inception.</td>
+</tr>
+<tr>
+<td><strong>SVXY</strong> (−0.5x VIX)</td>
+<td>−0.5× daily front-month VIX futures</td>
+<td><strong>Positive over time</strong> (harvests contango)</td>
+<td>Reduced from −1x to −0.5x after Feb 2018 blowup</td>
+</tr>
+<tr>
+<td><strong>XIV</strong> (−1x VIX)</td>
+<td>Was −1× daily VIX futures</td>
+<td><strong>TERMINATED</strong></td>
+<td>Lost 96% on Feb 5, 2018. Terminated next day.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The XIV lesson for risk managers:</strong> XIV had a negative acceleration trigger — as VIX spiked, XIV's short vol position grew (percentage of NAV) → needed to buy MORE VIX futures to cover → this buying pushed VIX futures HIGHER → which made XIV lose MORE → death spiral. The product wasn't just short vol — it was convexly short vol. This is the textbook illustration of why short gamma + auto-rebalancing = existential risk.</p>
+<h2 id="variance-swaps">Variance Swaps</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Variance swaps are pure vol bets — linear in VARIANCE (= vol²), which makes them convex in vol. Long variance is a crash bet on steroids.</p>
+</blockquote>
+<p><strong>Mechanics:</strong><br />
+- Two legs at expiry: floating leg pays realized variance, fixed leg pays strike variance<br />
+- Payoff = Notional × (σ²_realized − K²_var)<br />
+- Quote convention: strike in vol terms (e.g., "strike 20 var swap" → K²_var = 400)</p>
+<p><strong>Worked example:</strong><br />
+- Buy $100K vega notional variance swap struck at 20 vol<br />
+- Scenario A: Market realizes 25% vol → Payoff = $100K × (25² − 20²) / (2 × 20) = $100K × 225/40 = <strong>+$562,500</strong><br />
+- Scenario B: Market realizes 40% vol → Payoff = $100K × (40² − 20²) / (2 × 20) = $100K × 1200/40 = <strong>+$3,000,000</strong><br />
+- Scenario C: Market realizes 15% vol → Payoff = $100K × (15² − 20²) / (2 × 20) = $100K × −175/40 = <strong>−$437,500</strong></p>
+<p><strong>Key insight — nonlinearity:</strong> Going from 20→25 realized (5pts higher) = +$562K. Going from 20→40 (20pts higher) = +$3M (not 4×$562K = $2.25M, but $3M). The squaring amplifies moves. This is why long variance swaps are MUCH more profitable in true crises than straddles — and why short variance swaps can blow up spectacularly.</p>
+<p><strong>Variance vs volatility swap payoff comparison:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Payoff depends on</th>
+<th>Big move behavior</th>
+<th>Short position risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Straddle</strong></td>
+<td>~Linear in vol (approximately)</td>
+<td>Linear gains/losses</td>
+<td>Capped-ish (if delta-hedged, losses ∝ vol)</td>
+</tr>
+<tr>
+<td><strong>Vol swap</strong></td>
+<td>Linear in vol</td>
+<td>Linear P&amp;L</td>
+<td>Limited (vol can't go below 0)</td>
+</tr>
+<tr>
+<td><strong>Variance swap</strong></td>
+<td>Linear in variance (= vol²)</td>
+<td><strong>Convex</strong> in vol → accelerating gains</td>
+<td><strong>Unlimited</strong> → tail losses are quadratic</td>
+</tr>
+</tbody>
+</table>
+<h2 id="other-vol-products">Other Vol Products</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>What it is</th>
+<th>Who uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vol swap</strong></td>
+<td>Pays realized vol − strike vol (linear in vol, not variance)</td>
+<td>Cleaner than variance swap. Less tail exposure.</td>
+</tr>
+<tr>
+<td><strong>Corridor variance swap</strong></td>
+<td>Variance accrues only when spot is within a range</td>
+<td>Targeted vol bets. Cheaper than outright var swap.</td>
+</tr>
+<tr>
+<td><strong>Conditional variance swap</strong></td>
+<td>Variance accrues only on up-days or down-days</td>
+<td>"Upside variance" vs "downside variance" — isolate skew</td>
+</tr>
+<tr>
+<td><strong>VIX options</strong></td>
+<td>Options on VIX (which are options on expected vol)</td>
+<td>Tail hedging. Vol of vol trading.</td>
+</tr>
+<tr>
+<td><strong>Gamma swaps</strong></td>
+<td>Like variance swaps but weighted by spot/spot₀</td>
+<td>Reduces blowup risk vs var swap — weight goes to zero as spot drops</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
-<p>If asked "Explain implied vs realized volatility and why the difference matters":</p>
-<p>"Realized vol is what actually happened — the standard deviation of past returns. Implied vol is what the market expects to happen — it's extracted from option prices using a pricing model.</p>
-<p>The key relationship is: implied is almost always higher than subsequent realized. This is the volatility risk premium — the cost of insurance. It's why selling options is profitable on average.</p>
-<p>For risk management, I care about three things: First, the level of implied vol — is protection cheap or expensive right now? Second, the ratio of implied to realized — if realized is running above implied, the market is underestimating risk and I'd want to add protection. Third, the structure — is skew steep (fear of downside), is the term structure inverted (near-term event fear)? Each of these tells me something different about the risk environment."</p>
-<p>If asked about SABR:</p>
-<p>"SABR is a stochastic volatility model I worked with at Natixis for calibrating volatility surfaces. It has four parameters — alpha controls the overall vol level, beta controls how vol moves with the underlying, rho captures the skew through spot-vol correlation, and nu is the vol of vol which drives the wings.</p>
-<p>Its main advantage is that it's analytically tractable — the Hagan approximation makes it fast to calibrate per expiry. The main limitation is that it's a single-expiry model — it doesn't enforce consistency across the term structure, so you calibrate each expiry independently and can get arbitrage between expiries if you're not careful."</p>
+<h1 id="part-6-dealer-dynamics-vol-ecosystem">PART 6: DEALER DYNAMICS &amp; VOL ECOSYSTEM</h1>
+<h2 id="the-options-market-ecosystem">The Options Market Ecosystem</h2>
+<blockquote>
+<p>Understanding WHO buys and sells options, and WHY, is critical for interpreting vol signals.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Participant</th>
+<th>Typical position</th>
+<th>Why</th>
+<th>Vol impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pension funds / Insurance</strong></td>
+<td>Buy OTM puts (systematic hedging programs)</td>
+<td>Mandate requires downside protection</td>
+<td>Pushes put IV up → steepens skew</td>
+</tr>
+<tr>
+<td><strong>Covered call funds</strong></td>
+<td>Sell OTM calls monthly (BuyWrite, QYLD)</td>
+<td>Generate yield for retail investors</td>
+<td>Pushes call IV down → flattens skew</td>
+</tr>
+<tr>
+<td><strong>Hedge funds (vol trading)</strong></td>
+<td>Both sides — dispersion, RV, cross-asset</td>
+<td>Alpha generation</td>
+<td>Two-way flow — can amplify or dampen</td>
+</tr>
+<tr>
+<td><strong>Retail (post-2020)</strong></td>
+<td>Buy OTM calls (meme stocks, 0DTE)</td>
+<td>Speculation</td>
+<td>Can push call IV higher than put IV (rare "positive skew")</td>
+</tr>
+<tr>
+<td><strong>Corporates</strong></td>
+<td>Buy puts / collars on FX, commodity exposures</td>
+<td>Hedging operating risk</td>
+<td>Consistent demand for OTM puts</td>
+</tr>
+<tr>
+<td><strong>Dealers / Market makers</strong></td>
+<td>Take the other side of ALL of the above. Dynamically delta-hedge.</td>
+<td>Intermediation</td>
+<td>Their aggregate gamma determines market impact</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dealer-gamma-the-invisible-hand">Dealer Gamma — The Invisible Hand</h2>
+<h3 id="long-gamma-normal-state">Long Gamma (Normal State)</h3>
+<p>When dealers are net long gamma (the typical state — they've BOUGHT options that clients have sold, or they're net long from hedging put sales):</p>
+<div class="highlight"><pre><span></span><code>Market drops → dealer delta becomes more negative → dealer BUYS stock to re-hedge
+Market rises → dealer delta becomes more positive → dealer SELLS stock to re-hedge
+
+NET EFFECT: Buy low, sell high. DAMPENS volatility.
+Realized vol &lt; implied vol (the VRP in action).
+Market feels &quot;sticky&quot; — dips get bought, rallies get faded.
+</code></pre></div>
+
+<h3 id="short-gamma-danger-zone">Short Gamma (Danger Zone)</h3>
+<p>When dealers are net short gamma (typically after selling puts that crossed below strike, or in certain skew environments):</p>
+<div class="highlight"><pre><span></span><code>Market drops → dealer delta becomes more positive → dealer SELLS stock to re-hedge
+Market rises → dealer delta becomes more negative → dealer BUYS stock to re-hedge
+
+NET EFFECT: Sell low, buy high. AMPLIFIES volatility.
+Realized vol &gt; implied vol.
+Market feels &quot;slippery&quot; — dips cascade, rallies squeeze.
+</code></pre></div>
+
+<h3 id="the-gamma-flip-level-gex">The Gamma Flip Level (GEX)</h3>
+<p>The spot price at which aggregate dealer gamma crosses from positive to negative:</p>
+<table>
+<thead>
+<tr>
+<th>Spot position relative to GEX flip</th>
+<th>Market behavior</th>
+<th>Realized vol</th>
+<th>RM action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Well above</strong></td>
+<td>Suppressed, mean-reverting</td>
+<td>Low → short vol works</td>
+<td>Normal monitoring</td>
+</tr>
+<tr>
+<td><strong>Near the flip</strong></td>
+<td>Transitioning, unstable</td>
+<td>Moderate, increasing</td>
+<td>Heightened attention</td>
+</tr>
+<tr>
+<td><strong>Below the flip</strong></td>
+<td>Amplified, trending</td>
+<td>High → long vol works</td>
+<td>Reduce exposure, add hedges</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Data sources:</strong> SpotGamma, SqueezeMetrics (GEX/DIX), Goldman/JPM flow desks publish gamma estimates. These aren't precise — but the direction matters.</p>
+<h2 id="vanna-charm-flows-the-second-order-dealers">Vanna &amp; Charm Flows — The Second-Order Dealers</h2>
+<p>Beyond gamma hedging, dealers also hedge second-order Greeks:</p>
+<p><strong>Vanna flows:</strong><br />
+- Dealers short OTM puts → short vanna → when vol drops, their delta shifts → they SELL → adds selling pressure<br />
+- When vol rises, delta shifts → they BUY → supportive<br />
+- <strong>Net effect:</strong> Vol changes → delta changes → forced hedging flows. These are <strong>systematic</strong> and predictable. Billions of dollars daily.</p>
+<p><strong>Charm flows:</strong><br />
+- Dealers' delta decays overnight (charm). Near expiry, this is large.<br />
+- If dealers are short near-expiry puts → charm increases their delta → they need to SELL at open → selling pressure<br />
+- This creates <strong>systematic morning selling</strong> around OpEx weeks</p>
+<h2 id="0dte-the-new-vol-regime-2022present">0DTE — The New Vol Regime (2022–Present)</h2>
+<p>Since CBOE launched daily SPX option expiries in 2022, 0DTE options now account for ~50% of SPX option volume.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Massive gamma at strikes</strong></td>
+<td>Concentrated at round SPX levels (100s). Creates pin/de-pin intraday.</td>
+</tr>
+<tr>
+<td><strong>Intraday vol spikes</strong></td>
+<td>A large 0DTE trade → dealers hedge → magnifies move → more 0DTE trading. Feedback loop.</td>
+</tr>
+<tr>
+<td><strong>Traditional vol metrics less useful</strong></td>
+<td>VIX measures 30-day vol. 0DTE gamma operates on a 1-day or intraday horizon. VIX can be low while intraday vols are extreme.</td>
+</tr>
+<tr>
+<td><strong>Gamma drops to zero at 4pm</strong></td>
+<td>Options expire → gamma exposure vanishes → next day starts fresh. Unlike monthly options where gamma builds.</td>
+</tr>
+<tr>
+<td><strong>The "reset" effect</strong></td>
+<td>Daily expiry means dealers don't accumulate gamma over weeks. Each day's positioning is quasi-independent.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM concern:</strong> Traditional overnight VaR models don't capture intraday vol spikes from 0DTE gamma. A fund with concentrated SPX options positions near round strikes needs an intraday gamma monitoring framework — not just end-of-day risk reports.</p>
+<h2 id="opex-effects-monthlyquarterly-expiration">OPEX Effects — Monthly/Quarterly Expiration</h2>
+<table>
+<thead>
+<tr>
+<th>Timing</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>5 days before OpEx</strong></td>
+<td>Gamma exposure is high → market is suppressed → low realized vol ("gamma pin")</td>
+</tr>
+<tr>
+<td><strong>OpEx day</strong></td>
+<td>Options expire → massive gamma drops off → suppression mechanism disappears</td>
+</tr>
+<tr>
+<td><strong>Week after OpEx</strong></td>
+<td>Market can "unpin" → potentially large moves. Historically higher realized vol in the week after OpEx vs week before.</td>
+</tr>
+<tr>
+<td><strong>Quad witch</strong> (Mar, Jun, Sep, Dec)</td>
+<td>Equity options + index options + equity futures + index futures all expire → massive rebalancing flows</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-volatility-forecasting-what-the-quants-use">PART 7: VOLATILITY FORECASTING — WHAT THE QUANTS USE</h1>
+<h2 id="time-series-models">Time-Series Models</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Key idea</th>
+<th>Parameters</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EWMA</strong></td>
+<td>σ²ₜ₊₁ = λσ²ₜ + (1−λ)r²ₜ</td>
+<td>λ ≈ 0.94 (RiskMetrics)</td>
+<td>Simple, fast, no mean reversion assumed</td>
+<td>No long-run level. λ choice matters.</td>
+</tr>
+<tr>
+<td><strong>GARCH(1,1)</strong></td>
+<td>σ²ₜ₊₁ = ω + αr²ₜ + βσ²ₜ</td>
+<td>ω, α, β (α+β &lt; 1)</td>
+<td>Mean-reverting. Academically standard.</td>
+<td>Symmetric — up and down moves have same vol impact.</td>
+</tr>
+<tr>
+<td><strong>GJR-GARCH</strong></td>
+<td>Adds asymmetric term for negative returns</td>
+<td>ω, α, β, γ</td>
+<td>Captures leverage effect (down moves → more vol). Better for equities.</td>
+<td>More parameters → overfitting risk.</td>
+</tr>
+<tr>
+<td><strong>EGARCH</strong></td>
+<td>Log variance is modeled (ensures v &gt; 0)</td>
+<td>Similar to GJR</td>
+<td>Guaranteed positive variance. Handles asymmetry.</td>
+<td>Harder to interpret.</td>
+</tr>
+<tr>
+<td><strong>HAR-RV</strong></td>
+<td>RVₜ₊₁ = α + β₁RV_daily + β₂RV_weekly + β₃RV_monthly</td>
+<td>Three lag coefficients</td>
+<td>Captures multi-horizon vol persistence. Simple linear regression. Best forecast performance in practice.</td>
+<td>Requires high-frequency data.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For the interview:</strong> "GARCH captures volatility clustering — the tendency for large moves to follow large moves. The key parameters are α (sensitivity to recent shocks), β (persistence of current vol), and their sum (α+β) tells you how long it takes vol to mean-revert. Close to 1 means vol shocks are very persistent."</p>
+<p><strong>Practical comparison — which model to cite:</strong><br />
+- <strong>EWMA:</strong> "We use EWMA at λ=0.94 for daily VaR." → Standard, RiskMetrics legacy.<br />
+- <strong>GARCH(1,1):</strong> "Our vol forecasts use GARCH for mean-reverting estimates." → Academic credibility.<br />
+- <strong>HAR-RV:</strong> "For vol forecasting, HAR-RV using multi-horizon realized vol inputs outperforms GARCH out-of-sample." → Shows you know the frontier.</p>
+<h2 id="implied-vol-as-a-forecast">Implied Vol as a Forecast</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Method</th>
+<th>Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IV as forecast</strong></td>
+<td>Use 30-day ATM IV to forecast next-30-day realized vol</td>
+<td>IV is a biased predictor (too high on average — because of VRP). But it's MORE informationally efficient than any time-series model.</td>
+</tr>
+<tr>
+<td><strong>IV-adjusted forecast</strong></td>
+<td>IV × 0.85 (empirical adjustment for VRP)</td>
+<td>Better unbiased forecast than raw IV for SPX</td>
+</tr>
+<tr>
+<td><strong>IV vs GARCH</strong></td>
+<td>Compare forecasting accuracy</td>
+<td>IV generally wins — it aggregates more information than any single time-series model because it incorporates market participants' private information</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-correlation-the-other-dimension-of-vol">PART 8: CORRELATION — THE OTHER DIMENSION OF VOL</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Vol tells you how much individual assets move. Correlation tells you whether they move TOGETHER — and in a crisis, they all do.</p>
+</blockquote>
+<h2 id="implied-correlation">Implied Correlation</h2>
+<p>$$\sigma_{\text{index}}^2 = \sum_i w_i^2 \sigma_i^2 + 2\sum_{i&lt;j} w_i w_j \sigma_i \sigma_j \rho_{ij}$$</p>
+<p>If you know index vol (from index options) and individual stock vols (from stock options), you can back out the average implied correlation.</p>
+<p><strong>CBOE ICJ / implied correlation indices</strong> track this.</p>
+<h3 id="correlation-behavior">Correlation Behavior</h3>
+<table>
+<thead>
+<tr>
+<th>Market condition</th>
+<th>Implied correlation</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Calm market</strong></td>
+<td>20-35%</td>
+<td>Stocks moving independently. Sector rotation. Stock-picking works.</td>
+</tr>
+<tr>
+<td><strong>Correction</strong></td>
+<td>40-55%</td>
+<td>Macro factors dominating. Sector correlations rising.</td>
+</tr>
+<tr>
+<td><strong>Crisis</strong></td>
+<td>60-80%+</td>
+<td>"All correlations go to 1." Systematic risk only. No diversification. Everything dumps together.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The diversification illusion:</strong> A portfolio of 30 uncorrelated stocks at 25% individual vol has portfolio vol ≈ 4.6% (1/√30 effect). At 80% correlation (crisis), the SAME portfolio has vol ≈ 22%. Diversification "vanishes" when you need it most.</p>
+<h2 id="dispersion-trading">Dispersion Trading</h2>
+<p>The most important vol trade at funds like Squarepoint:</p>
+<p><strong>The trade:</strong> Sell index vol (sell SPX straddles or var swaps) + buy single-stock vol (buy straddles/var swaps on constituents).</p>
+<p><strong>Why it works:</strong><br />
+- Index vol ≈ avg stock vol × √correlation<br />
+- If realized correlation &lt; implied correlation → index vol is "too expensive" relative to single-stock vol<br />
+- You profit from the correlation risk premium — the market systematically overprices correlation</p>
+<p><strong>P&amp;L decomposition:</strong><br />
+- Profit when stocks move INDEPENDENTLY (low realized correlation → index moves less than sum of parts)<br />
+- Lose when everything correlates (crisis → index and stocks move together)</p>
+<p><strong>Risk:</strong> Short correlation. A correlation spike (crisis) destroys the trade. This is a premium-collection strategy with left-tail correlation risk.</p>
+<hr />
+<h1 id="part-9-the-risk-managers-vol-toolkit">PART 9: THE RISK MANAGER'S VOL TOOLKIT</h1>
+<h2 id="daily-vol-monitoring-dashboard">Daily Vol Monitoring Dashboard</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Source</th>
+<th>What you're watching</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VIX level</strong></td>
+<td>Market data</td>
+<td>Fear level</td>
+<td>VIX &gt; 25 and rising</td>
+</tr>
+<tr>
+<td><strong>VIX term structure</strong></td>
+<td>VIX futures curve</td>
+<td>Contango/backwardation</td>
+<td>Inversion (backwardation) = near-term panic</td>
+</tr>
+<tr>
+<td><strong>IV/RV ratio</strong></td>
+<td>Computed (30d ATM IV vs 20d realized)</td>
+<td>Options expensive or cheap?</td>
+<td>Ratio &lt; 0.90 → market may be underpricing risk</td>
+</tr>
+<tr>
+<td><strong>25Δ risk reversal</strong></td>
+<td>Options desk / Bloomberg</td>
+<td>Skew — how afraid is the market of downside?</td>
+<td>RR more negative than −8 vol pts = extreme fear</td>
+</tr>
+<tr>
+<td><strong>Implied correlation</strong></td>
+<td>COR index or computed</td>
+<td>Are stocks moving together?</td>
+<td>Over 60% = macro risk dominating</td>
+</tr>
+<tr>
+<td><strong>Dealer gamma (GEX)</strong></td>
+<td>SpotGamma / internal</td>
+<td>Are dealers amplifying or dampening?</td>
+<td>Negative GEX = volatility-amplifying environment</td>
+</tr>
+<tr>
+<td><strong>VVIX</strong></td>
+<td>CBOE</td>
+<td>Vol of vol — uncertainty about uncertainty</td>
+<td>Over 130 = extreme</td>
+</tr>
+<tr>
+<td><strong>Cross-asset vol</strong></td>
+<td>MOVE (rates), EVZ (EUR), OVX (oil)</td>
+<td>Is vol broad or equity-specific?</td>
+<td>Multiple asset classes spiking = systemic</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vol-regime-decision-framework">Vol Regime Decision Framework</h2>
+<table>
+<thead>
+<tr>
+<th>Current state</th>
+<th>RM priority</th>
+<th>Tactical adjustments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Low vol + contango</strong></td>
+<td>1. Ensure hedges are in place (they're cheap!). 2. Check for short-vol concentration. 3. Size tail risk.</td>
+<td>Buy OTM puts while cheap. Flag PMs who are short a lot of gamma/vega.</td>
+</tr>
+<tr>
+<td><strong>Rising vol, contango flattening</strong></td>
+<td>1. Review hedge effectiveness. 2. Check for margin calls. 3. Stress-test delta + vega combined.</td>
+<td>Consider adding near-dated hedges. De-risk short gamma positions.</td>
+</tr>
+<tr>
+<td><strong>High vol + backwardation</strong></td>
+<td>1. Daily or intraday risk communication. 2. Check counterparty risk. 3. Liquidity of positions.</td>
+<td>Tighten ALL limits. Hedge in the back of the curve (cheaper, avoids buying panic-priced near-dated vol).</td>
+</tr>
+<tr>
+<td><strong>Vol declining from elevated</strong></td>
+<td>1. Don't rush back. Aftershocks common. 2. Selective vol selling now profitable.</td>
+<td>Gradually re-allocate. Roll hedges from expensive near-dated to cheaper far-dated.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hedging-with-vol-strategic-vs-tactical">Hedging with Vol — Strategic vs Tactical</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Instruments</th>
+<th>Cost</th>
+<th>Protection profile</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rolling 30Δ puts</strong></td>
+<td>SPX OTM puts, rolled monthly</td>
+<td>1-3% annualized drag</td>
+<td>Pays off in crash. Bleeds in calm.</td>
+<td>Standard institutional hedge</td>
+</tr>
+<tr>
+<td><strong>Put spread collars</strong></td>
+<td>Buy 95-90% put spread, sell 105% call</td>
+<td>Near zero-cost</td>
+<td>Capped downside + capped upside</td>
+<td>PM who wants protection without cost</td>
+</tr>
+<tr>
+<td><strong>VIX calls</strong></td>
+<td>Buy VIX 30-strike calls</td>
+<td>Premium only</td>
+<td>Pays off in vol spike (not necessarily equity down)</td>
+<td>Pure tail hedge</td>
+</tr>
+<tr>
+<td><strong>Long variance (var swap)</strong></td>
+<td>Buy variance struck at ATM</td>
+<td>Carry cost</td>
+<td>Convex payout in crash</td>
+<td>Best tail hedge, highest cost if nothing happens</td>
+</tr>
+<tr>
+<td><strong>Dispersion (long stock vol, short index vol)</strong></td>
+<td>Pair of var swaps</td>
+<td>Carry depends on premium</td>
+<td>Pays if correlation drops</td>
+<td>Alpha trade, not directional hedge</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
+<p><strong>"Explain implied vol versus realized vol and why the gap matters":</strong></p>
+<p>"Realized vol is the standard deviation of actual returns — it tells you what happened. Implied vol is backed out of option prices — it tells you what the market expects, PLUS an insurance premium.</p>
+<p>Implied is almost always higher than realized. That gap is the volatility risk premium — it's ~2-4 points for SPX on average. It explains why selling options is profitable on average: you're collecting insurance premium. But the premium exists for a reason — when realized vol spikes above implied (Feb 2018, Mar 2020), the losses are catastrophic and nonlinear, especially for variance swaps where payoffs are quadratic in vol.</p>
+<p>For risk management, I monitor three things: the IV/RV ratio (options cheap or expensive?), the slope of the vol term structure (is near-term fear elevated?), and skew (is the market pricing tail risk?). Together they tell me whether the portfolio's vol exposure is well-positioned for the current regime."</p>
+<p><strong>"Walk me through the vol surface — what is it and why does it matter?":</strong></p>
+<p>"The vol surface maps implied volatility across two dimensions: strike and expiry. Along the strike axis you get skew — for equities, OTM puts have higher IV than ATM, which creates a characteristic smirk. This reflects three things: demand for downside protection, fat-tailed returns, and the leverage effect where lower prices mean higher leverage and therefore higher vol.</p>
+<p>Along the time axis you get the term structure — normally upward-sloping (more uncertainty over longer horizons) but it inverts when there's near-term event risk.</p>
+<p>Why it matters operationally: the surface determines all option prices, which means it determines all Greeks. A PM who sells an OTM put at 25% IV in a 20% ATM vol environment isn't selling at '5 points of edge' — the skew IS the fair price for that strike. Understanding the surface is understanding whether a trade has genuine edge or is just harvesting a risk premium."</p>
+<p><strong>"How does dealer gamma affect markets?":</strong></p>
+<p>"Options dealers take the other side of client flow and delta-hedge dynamically. When they're long gamma — the normal state — they buy dips and sell rallies because their delta moves against the market. This SUPPRESSES realized vol — it's why realized vol is often below implied.</p>
+<p>When they're short gamma — typically after a selloff pushes spot through large put strikes — the dynamics flip. They SELL into selloffs and BUY into rallies, amplifying moves. This is the mechanism behind cascading sell-offs.</p>
+<p>As a risk manager, I'd monitor estimated dealer gamma positioning. Below the gamma flip level, the market loses its natural shock absorber. Realized vol will likely exceed implied vol, meaning any short-vol positions in the book face compounding losses. That's when I'd flag for hedge adjustments."</p>
+<p><strong>"Explain the VIX and how you'd use it in risk management":</strong></p>
+<p>"VIX is the 30-day expected SPX volatility derived from OTM option prices. It's model-free — not Black-Scholes-derived. A VIX of 20 implies roughly 1.26% daily SPX moves.</p>
+<p>I use VIX structurally, not reactively. First, the level: below 15 means protection is cheap and I'd want to ensure hedges are in place before complacency ends. Above 30 means we're in a stress regime and I'd tighten all limits. Second, the term structure: if VIX futures are in backwardation, the market is saying 'this crisis is now' — and that's when near-dated hedging is most expensive so I'd hedge in the back of the curve. Third, VIX relative to VVIX: high VVIX means the market doesn't even know what vol will be — maximum uncertainty."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>07_Risk_Reference</em> — VaR, vol-of-vol, risk measures<br />
-→ <a href="D_Greeks.html">Greeks</a> — vega, vanna, volga in detail<br />
-→ <a href="B_Derivatives.html">Derivatives</a> — options mechanics and strategies<br />
-→ <em>03_Natixis_Defense_Guide</em> — SABR calibration from your experience<br />
-→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — GARCH, EWMA, model validation</p>
+→ <a href="D_Greeks.html">Greeks</a> — vega, vanna, volga — the Greeks of vol<br />
+→ <a href="B_Derivatives.html">Derivatives</a> — options mechanics, strategies, payoff diagrams<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — decomposing P&amp;L through vol (vega P&amp;L vs gamma P&amp;L)<br />
+→ <a href="I_Hedging_Strategies.html">Hedging Strategies</a> — using vol products to hedge tail risk<br />
+→ <a href="C_Market_Mechanics.html">Market Mechanics</a> — dealer gamma, 0DTE, market microstructure<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — GARCH, EWMA, model validation in depth</p>
 </main>
 
 <script>

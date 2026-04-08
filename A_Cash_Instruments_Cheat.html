@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cash Instruments — Cheat — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link active" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="a-cash-instruments-cheat-sheet">A — CASH INSTRUMENTS CHEAT SHEET</h1>
+<hr />
+<h2 id="one-liners">ONE-LINERS</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>One-liner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stock</strong></td>
+<td>An ownership claim on a company's residual cash flows — you get what's left after everyone else has been paid.</td>
+</tr>
+<tr>
+<td><strong>Bond</strong></td>
+<td>A loan that you can trade — the issuer borrows money, pays you regular interest, and returns principal at maturity.</td>
+</tr>
+<tr>
+<td><strong>FX rate</strong></td>
+<td>The price of one currency in terms of another — EUR/USD = 1.08 means one euro costs $1.08.</td>
+</tr>
+<tr>
+<td><strong>Commodity</strong></td>
+<td>A standardized physical good (oil, gold, wheat) traded on exchanges, mostly via futures rather than physical delivery.</td>
+</tr>
+<tr>
+<td><strong>Credit</strong></td>
+<td>The risk that a borrower won't pay you back — traded via corporate bonds (cash) and credit default swaps (synthetic).</td>
+</tr>
+<tr>
+<td><strong>Duration</strong></td>
+<td>How much your bond's price changes for a 1% move in rates — duration 7 means ~7% loss per 1% rate rise.</td>
+</tr>
+<tr>
+<td><strong>Convexity</strong></td>
+<td>The curvature of the price-yield relationship — tells you how inaccurate your duration estimate will be for large moves.</td>
+</tr>
+<tr>
+<td><strong>Credit spread</strong></td>
+<td>The extra yield a corporate bond pays above the risk-free Treasury rate — it's the price tag of default risk.</td>
+</tr>
+<tr>
+<td><strong>Carry trade</strong></td>
+<td>Borrow in a low-rate currency, invest in a high-rate currency, pocket the difference — works until a violent reversal.</td>
+</tr>
+<tr>
+<td><strong>CDS</strong></td>
+<td>An insurance contract — buyer pays a regular premium and gets paid if the reference company defaults.</td>
+</tr>
+<tr>
+<td><strong>Crowding</strong></td>
+<td>Too many funds own the same stocks — works until everyone tries to exit through the same door at the same time.</td>
+</tr>
+<tr>
+<td><strong>Contango</strong></td>
+<td>Front month cheaper than later months — storage costs make future delivery more expensive. Negative roll yield.</td>
+</tr>
+<tr>
+<td><strong>Backwardation</strong></td>
+<td>Front month more expensive than later months — tight supply now creates a scarcity premium. Positive roll yield.</td>
+</tr>
+<tr>
+<td><strong>Yield curve</strong></td>
+<td>Plots interest rates by maturity — tells you what the market believes about growth, inflation, and policy.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="equity-pricing">EQUITY PRICING</h2>
+<p><strong>Master equation:</strong> Price = Earnings × Multiple</p>
+<table>
+<thead>
+<tr>
+<th>Valuation Method</th>
+<th>What it does</th>
+<th>Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Relative (P/E, EV/EBITDA)</td>
+<td>Compare to peers/history</td>
+<td>"Cheap vs expensive" is relative, not absolute</td>
+</tr>
+<tr>
+<td>DCF</td>
+<td>Discount future cash flows at WACC</td>
+<td>60-80% of value comes from terminal value — tiny assumption changes → huge output swings</td>
+</tr>
+<tr>
+<td>Sum-of-parts</td>
+<td>Value each segment separately</td>
+<td>Ignores synergies</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="key-equity-metrics">KEY EQUITY METRICS</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Meaning</th>
+<th>Trap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P/E</td>
+<td>Price / EPS</td>
+<td>Years of earnings you're paying for</td>
+<td>Useless for negative earnings</td>
+</tr>
+<tr>
+<td>Forward P/E</td>
+<td>Price / Next yr EPS</td>
+<td>Paying for future earnings</td>
+<td>Only as good as the estimate</td>
+</tr>
+<tr>
+<td>EV/EBITDA</td>
+<td>(Mkt cap + Debt - Cash) / EBITDA</td>
+<td>Price of operating business regardless of leverage</td>
+<td>Ignores capex</td>
+</tr>
+<tr>
+<td>FCF Yield</td>
+<td>FCF / Mkt cap</td>
+<td>Cash return on investment. Higher = cheaper</td>
+<td>Can be manipulated</td>
+</tr>
+<tr>
+<td>Dividend Yield</td>
+<td>Div / Price</td>
+<td>Current income</td>
+<td>High yield can signal distress ("yield trap")</td>
+</tr>
+<tr>
+<td>Short Interest</td>
+<td>Shares short / Float</td>
+<td>Bearish positioning. &gt;15% elevated, &gt;25% squeeze risk</td>
+<td>High SI might be correct</td>
+</tr>
+<tr>
+<td>Beta</td>
+<td>Cov(stock,mkt) / Var(mkt)</td>
+<td>Market sensitivity. 1.3 = 30% more volatile than market</td>
+<td>Backward-looking, changes in stress</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="equity-risk-factors">EQUITY RISK FACTORS</h2>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market (beta)</td>
+<td>Systematic risk — the tide that lifts or sinks all boats. Not diversifiable.</td>
+</tr>
+<tr>
+<td>Sector</td>
+<td>Same-industry correlation. 30 stocks isn't diversified if 20 are tech.</td>
+</tr>
+<tr>
+<td>Idiosyncratic</td>
+<td>Company-specific: earnings miss, fraud, CEO departure. Diversifiable across 30+ names.</td>
+</tr>
+<tr>
+<td>Value</td>
+<td>Cheap vs expensive. Outperforms long-term, can underperform for years.</td>
+</tr>
+<tr>
+<td>Momentum</td>
+<td>Recent winners keep winning — until violent reversals.</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>Small caps outperform historically but with much higher volatility.</td>
+</tr>
+<tr>
+<td>Quality</td>
+<td>High-profitability companies are defensive in downturns.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="bond-types">BOND TYPES</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Key feature</th>
+<th>Unique risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Treasury</td>
+<td>Risk-free benchmark</td>
+<td>Rate risk only</td>
+</tr>
+<tr>
+<td>Corporate IG</td>
+<td>Spread above Treasuries</td>
+<td>Rate + credit</td>
+</tr>
+<tr>
+<td>Corporate HY</td>
+<td>High yield, significant default risk</td>
+<td>Trades like equity in a crisis</td>
+</tr>
+<tr>
+<td>MBS</td>
+<td>Prepayment risk → negative convexity</td>
+<td>Lose on both sides: rates up (stuck) and rates down (prepaid early)</td>
+</tr>
+<tr>
+<td>TIPS</td>
+<td>Principal adjusts with CPI</td>
+<td>Real yield instrument</td>
+</tr>
+<tr>
+<td>Floating rate</td>
+<td>Coupon resets with SOFR + spread</td>
+<td>Very low duration</td>
+</tr>
+<tr>
+<td>Convertible</td>
+<td>Can convert to equity</td>
+<td>Hybrid: bond floor + equity upside. Has embedded option.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="yield-measures">YIELD MEASURES</h2>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coupon rate</td>
+<td>Cash income only. Not return.</td>
+</tr>
+<tr>
+<td>Current yield</td>
+<td>Better — uses market price. Ignores gain/loss at maturity.</td>
+</tr>
+<tr>
+<td>YTM</td>
+<td>Standard measure. Assumes reinvestment at same rate (unrealistic).</td>
+</tr>
+<tr>
+<td>YTW</td>
+<td>Use for callable bonds — issuer calls at worst time for you.</td>
+</tr>
+<tr>
+<td>Spread to benchmark</td>
+<td>Isolates credit risk. What credit traders actually watch.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="duration-types">DURATION TYPES</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What it measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Macaulay</td>
+<td>Weighted-average time to receive cash flows (years)</td>
+</tr>
+<tr>
+<td>Modified</td>
+<td>Price sensitivity: ΔP/P ≈ -D × Δy</td>
+</tr>
+<tr>
+<td>Effective</td>
+<td>For bonds with embedded options (MBS, callables)</td>
+</tr>
+<tr>
+<td>Key rate (KRD)</td>
+<td>Sensitivity to specific curve points (2yr, 5yr, 10yr, 30yr)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What increases duration:</strong> Longer maturity, lower coupon, lower yield, zero coupon (duration = maturity).</p>
+<p><strong>DV01</strong> = Duration × Market Value × 0.0001 → dollar loss per 1bp rate rise.</p>
+<hr />
+<h2 id="yield-curve-shapes">YIELD CURVE SHAPES</h2>
+<table>
+<thead>
+<tr>
+<th>Shape</th>
+<th>What it signals</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal (upward)</td>
+<td>Healthy economy, term premium</td>
+</tr>
+<tr>
+<td>Flat</td>
+<td>Slowing economy, uncertain outlook</td>
+</tr>
+<tr>
+<td>Inverted</td>
+<td>Market expects rate cuts → recession signal (every US recession since 1970 had one)</td>
+</tr>
+<tr>
+<td>Bear flattening</td>
+<td>Fed hiking aggressively → pre-recession</td>
+</tr>
+<tr>
+<td>Bull steepening</td>
+<td>Short rates falling faster → early easing</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="bootstrapping-building-the-yield-curve">BOOTSTRAPPING — BUILDING THE YIELD CURVE</h2>
+<blockquote>
+<p>Extract zero-coupon (spot) rates from observed market prices, one maturity at a time, each using previously solved rates.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Maturity</th>
+<th>Instrument</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O/N – 6M</td>
+<td>T-bills, SOFR, repo</td>
+<td>Direct observation (zero-coupon → yield IS the spot rate)</td>
+</tr>
+<tr>
+<td>6M – 2Y</td>
+<td>SOFR futures (SR3)</td>
+<td>Futures price → forward rate → compound to spot rate</td>
+</tr>
+<tr>
+<td>2Y – 30Y</td>
+<td>Interest rate swaps</td>
+<td>Set PV(fixed leg) = 1, solve for unknown spot rate using known shorter rates</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The bootstrap logic:</strong> For an n-year swap at par rate $c$:<br />
+- Discount each coupon by the spot rates you already know ($z_1, z_2, ..., z_{n-1}$)<br />
+- Solve for $z_n$ — the only unknown<br />
+- Repeat for each successively longer maturity</p>
+<p><strong>What you get from spot rates:</strong><br />
+- <strong>Discount factors:</strong> $DF(T) = 1/(1+z_T)^T$ — price ANY fixed cash flow<br />
+- <strong>Forward rates:</strong> Market-implied rate between two future dates<br />
+- <strong>Par rates:</strong> Coupon at which a bond prices at 100 (= the swap curve)</p>
+<p><strong>Post-2008:</strong> Multi-curve bootstrapping — SOFR for discounting, separate curve for projection. Two curves, not one.</p>
+<p><strong>RM relevance:</strong> Every derivative is priced off this curve. Different interpolation methods → different forward rates → different derivative prices and hedge ratios.</p>
+<hr />
+<h2 id="credit-ratings-spreads">CREDIT RATINGS &amp; SPREADS</h2>
+<table>
+<thead>
+<tr>
+<th>Rating</th>
+<th>Spread (bps)</th>
+<th>Default risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AAA/AA</td>
+<td>20-60</td>
+<td>Negligible — spread is mostly liquidity premium</td>
+</tr>
+<tr>
+<td>A</td>
+<td>60-120</td>
+<td>Very low</td>
+</tr>
+<tr>
+<td>BBB</td>
+<td>120-200</td>
+<td><strong>Cliff edge</strong> — downgrade to BB triggers forced selling</td>
+</tr>
+<tr>
+<td>BB</td>
+<td>200-400</td>
+<td>Junk. First to blow out in stress.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>400-700</td>
+<td>Significant default probability</td>
+</tr>
+<tr>
+<td>CCC+</td>
+<td>700+</td>
+<td>Distressed. Trades on recovery value.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IG vs HY:</strong> IG = rate bet. HY = equity bet in a bond wrapper. Don't confuse them.</p>
+<hr />
+<h2 id="fx-key-pairs">FX KEY PAIRS</h2>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Personality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EUR/USD</td>
+<td>Most liquid. US vs Eurozone rates/growth. Stable trends.</td>
+</tr>
+<tr>
+<td>USD/JPY</td>
+<td>Risk appetite + carry trade. Violent snap-backs on unwinds. BOJ intervention above 155.</td>
+</tr>
+<tr>
+<td>GBP/USD</td>
+<td>UK economy. More volatile. Flash crash risk.</td>
+</tr>
+<tr>
+<td>USD/CNH</td>
+<td>China managed float. Fix signals policy intent.</td>
+</tr>
+<tr>
+<td>EM (TRY, ZAR, BRL)</td>
+<td>EM risk barometers. Can move 5-10% in days. Liquidity vanishes in stress.</td>
+</tr>
+<tr>
+<td>DXY</td>
+<td>Dollar index (EUR 57.6%, JPY 13.6%, GBP 11.9%, CAD 9.1%). Standard "USD strength" reference.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>FX drivers (in order):</strong> Rate differentials → Growth differentials → Central bank policy → Risk appetite → Trade/capital flows → Intervention.</p>
+<hr />
+<h2 id="commodities-at-a-glance">COMMODITIES AT A GLANCE</h2>
+<table>
+<thead>
+<tr>
+<th>Commodity</th>
+<th>What drives it</th>
+<th>Key fact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Crude Oil</td>
+<td>OPEC+, China demand, geopolitics (Hormuz), inventory</td>
+<td>Most important commodity — feeds into inflation, rates, FX, equities</td>
+</tr>
+<tr>
+<td>Natural Gas</td>
+<td>Weather, storage, LNG</td>
+<td>Extremely volatile. Amaranth blew up here ($6B loss).</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>Real rates (inverse), USD (inverse), safe haven</td>
+<td>Real rate hedge, NOT an inflation hedge per se</td>
+</tr>
+<tr>
+<td>Copper</td>
+<td>China industrial demand (50%+), EV transition</td>
+<td>"Doctor Copper" — leading indicator of global growth</td>
+</tr>
+<tr>
+<td>Wheat/Corn</td>
+<td>Weather, trade policy, fertilizer</td>
+<td>Supply shocks can be enormous (Ukraine 2022)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit conversions:</strong> 1 barrel = 42 gal. 1 WTI contract = 1,000 barrels. 1 gold contract = 100 troy oz. 1 corn contract = 5,000 bushels.</p>
+<hr />
+<h2 id="cds-mechanics">CDS MECHANICS</h2>
+<ul>
+<li><strong>Buy protection:</strong> Pay spread quarterly. If default → receive (par - recovery).</li>
+<li><strong>Sell protection:</strong> Collect spread. Bear default risk. = Being long the credit.</li>
+<li><strong>Spread widening</strong> = more default risk = bearish.</li>
+<li><strong>CDS-bond basis</strong> = CDS spread minus cash bond spread. Large gap = liquidity stress or structural issue.</li>
+</ul>
+<p><strong>Example:</strong> 5yr CDS at 200bps on $10M notional → buyer pays $200K/yr. If default with 40% recovery → buyer receives $6M.</p>
+<hr />
+<h2 id="rm-red-flags-by-asset-class">RM RED FLAGS BY ASSET CLASS</h2>
+<table>
+<thead>
+<tr>
+<th>Asset Class</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equities</td>
+<td>Gross &gt;200%, top 5 &gt;25%, hidden factor concentration, any position &gt;10% ADV</td>
+</tr>
+<tr>
+<td>Fixed Income</td>
+<td>DV01 exceeding budget, &gt;80% in one maturity bucket, large negative convexity unaware</td>
+</tr>
+<tr>
+<td>FX</td>
+<td>Large unhedged position not matching PM view, concentrated EM carry</td>
+</tr>
+<tr>
+<td>Commodities</td>
+<td>Large long in deep contango (bleeding roll), approaching expiry with no roll plan</td>
+</tr>
+<tr>
+<td>Credit</td>
+<td>Sudden CDS widening in portfolio names, &gt;30% BBB on negative watch, rising default rate &gt;3%</td>
+</tr>
+</tbody>
+</table>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

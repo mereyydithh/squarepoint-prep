@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hedging Strategies — Cheat — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link active" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="i-hedging-strategies-cheat-sheet">I — HEDGING STRATEGIES — CHEAT SHEET</h1>
+<hr />
+<h2 id="the-five-tradeoffs-every-hedge-has-a-price">THE FIVE TRADEOFFS (EVERY HEDGE HAS A PRICE)</h2>
+<table>
+<thead>
+<tr>
+<th>Tradeoff</th>
+<th>Tension</th>
+<th>PM question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cost vs protection</td>
+<td>Better protection = more premium</td>
+<td>"How much drag can your Sharpe absorb?"</td>
+</tr>
+<tr>
+<td>Precision vs liquidity</td>
+<td>Single-name = perfect but expensive; Index = cheap but basis risk</td>
+<td>"Exact coverage or directional protection?"</td>
+</tr>
+<tr>
+<td>Horizon mismatch</td>
+<td>Position = no expiry; Hedge = expires → roll costs</td>
+<td>"Event (1 week) or regime (6 months)?"</td>
+</tr>
+<tr>
+<td>Upside surrender</td>
+<td>Collars/call overwriting cap gains</td>
+<td>"Max return you'd accept for zero premium?"</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>Cheapest when you don't need it; most expensive when you do</td>
+<td>"Pay insurance when the sun is shining?"</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="decision-framework-5-questions">DECISION FRAMEWORK — 5 QUESTIONS</h2>
+<ol>
+<li><strong>What SPECIFIC risk?</strong> → Delta, vega, gamma, DV01, credit, concentration, tail, basis, liquidity</li>
+<li><strong>What horizon?</strong> → 1-5 days (weekly options) | 1-4 weeks (monthlies) | 1-6 months (quarterlies) | 6M+ (LEAPs/rolling)</li>
+<li><strong>Upside tolerance?</strong> → None (puts) | Capped (collar) | Partially capped (put spread)</li>
+<li><strong>Premium budget?</strong> → Max ~15% of expected alpha for hedge cost</li>
+<li><strong>Basis risk accepted?</strong> → R² &gt; 0.90 (excellent) | 0.70-0.90 (good) | &lt; 0.70 (reconsider instrument)</li>
+</ol>
+<hr />
+<h2 id="instruments-quick-reference">INSTRUMENTS — QUICK REFERENCE</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Cost</th>
+<th>Gap protection</th>
+<th>Convexity</th>
+<th>Upside impact</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Outright put</strong></td>
+<td>High (1-3% ann.)</td>
+<td>Yes</td>
+<td>Yes (Δ+Γ+ν)</td>
+<td>None</td>
+<td>Event risk, full protection</td>
+</tr>
+<tr>
+<td><strong>Put spread</strong></td>
+<td>~50% of put</td>
+<td>Yes (capped)</td>
+<td>Partial</td>
+<td>None</td>
+<td>Budget hedging, moderate corrections</td>
+</tr>
+<tr>
+<td><strong>Collar</strong></td>
+<td>~Zero</td>
+<td>Yes (floored)</td>
+<td>~Zero (cancels)</td>
+<td><strong>Capped</strong></td>
+<td>Zero-premium constraint</td>
+</tr>
+<tr>
+<td><strong>Short futures</strong></td>
+<td>Margin only</td>
+<td>No (linear)</td>
+<td><strong>None</strong></td>
+<td>Loses upside proportionally</td>
+<td>Temp delta/beta reduction</td>
+</tr>
+<tr>
+<td><strong>Pairs (L/S)</strong></td>
+<td>Borrow cost</td>
+<td>No</td>
+<td>None</td>
+<td>Reduces net exposure</td>
+<td>Alpha isolation</td>
+</tr>
+<tr>
+<td><strong>VIX calls</strong></td>
+<td>Carry cost</td>
+<td>Indirect</td>
+<td>Yes (on vol)</td>
+<td>None</td>
+<td>Crash/vol spike protection</td>
+</tr>
+<tr>
+<td><strong>Deep OTM puts</strong></td>
+<td>1.5-3% ann.</td>
+<td>Yes</td>
+<td>HIGH</td>
+<td>None</td>
+<td>Tail/survival protection</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="key-formulas">KEY FORMULAS</h2>
+<p><strong>Beta hedge sizing:</strong><br />
+$$N = \frac{V_p \times (\beta_{\text{current}} - \beta_{\text{target}})}{V_f}$$</p>
+<p><strong>Optimal hedge ratio:</strong><br />
+$$h^* = \rho \times \frac{\sigma_{\text{position}}}{\sigma_{\text{hedge}}}$$</p>
+<p><strong>Hedge effectiveness:</strong><br />
+$$R^2 = 1 - \frac{\text{Var(hedged)}}{\text{Var(unhedged)}}$$</p>
+<p><strong>Delta-hedged P&amp;L:</strong><br />
+$$\text{P\&amp;L} = \frac{1}{2}\Gamma(\Delta S)^2 - \Theta \Delta t$$</p>
+<p><strong>Breakeven daily move:</strong><br />
+$$\Delta S_{\text{BE}} = \sigma_{\text{implied}} \times S \times \sqrt{\Delta t}$$</p>
+<p><strong>Tail hedge EV:</strong><br />
+$$\text{EV} = P(\text{tail}) \times \text{Payoff} - (1 - P(\text{tail})) \times \text{Annual cost}$$</p>
+<hr />
+<h2 id="hedge-greeks-impact">HEDGE GREEKS IMPACT</h2>
+<table>
+<thead>
+<tr>
+<th>Hedge</th>
+<th>Δ</th>
+<th>Γ</th>
+<th>Θ</th>
+<th>ν</th>
+<th>Net effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long put</td>
+<td>−</td>
+<td>+</td>
+<td>−</td>
+<td>+</td>
+<td>Safer, costs carry, more convex</td>
+</tr>
+<tr>
+<td>Put spread</td>
+<td>− (mod)</td>
+<td>Mixed</td>
+<td>Less −</td>
+<td>Mixed</td>
+<td>Cheaper, less convex, capped</td>
+</tr>
+<tr>
+<td>Collar</td>
+<td>~Modest −</td>
+<td>~0</td>
+<td>~0</td>
+<td>~0</td>
+<td>Budget-neutral, bounded, near-zero Greek change</td>
+</tr>
+<tr>
+<td>Short futures</td>
+<td>−</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td>Pure delta, no convexity</td>
+</tr>
+<tr>
+<td>VIX calls</td>
+<td>~0 on SPX</td>
+<td>~0</td>
+<td>−</td>
+<td><strong>+</strong></td>
+<td>Vol hedge, not delta hedge</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong> Puts get BETTER as crash deepens (gamma + vega spike). Futures respond linearly. The deeper the crash, the greater puts' advantage.</p>
+<hr />
+<h2 id="roll-cost-table">ROLL COST TABLE</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Frequency</th>
+<th>Cost/roll</th>
+<th>Annualized</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monthly OTM puts</td>
+<td>12×/yr</td>
+<td>0.15-0.30%</td>
+<td><strong>1.8-3.6%</strong></td>
+</tr>
+<tr>
+<td>Quarterly OTM puts</td>
+<td>4×/yr</td>
+<td>0.35-0.60%</td>
+<td><strong>1.4-2.4%</strong></td>
+</tr>
+<tr>
+<td>6-month puts</td>
+<td>2×/yr</td>
+<td>0.60-1.00%</td>
+<td><strong>1.2-2.0%</strong></td>
+</tr>
+<tr>
+<td>Equity futures</td>
+<td>4×/yr</td>
+<td>1-2bp</td>
+<td>~0.05%</td>
+</tr>
+<tr>
+<td>VIX futures</td>
+<td>Monthly</td>
+<td>3-5%/month</td>
+<td><strong>30-50%+</strong> (!!)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule:</strong> Roll at ~2 weeks before expiry (monthlies), ~3 weeks (quarterlies).</p>
+<hr />
+<h2 id="stress-comparison-on-80m-equity-book-spx">STRESS COMPARISON (on $80M equity book, SPX)</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>No hedge</th>
+<th>Futures 50%</th>
+<th>ATM put</th>
+<th>5% OTM spread</th>
+<th>Collar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPX −5%</td>
+<td>−$4.0M</td>
+<td>−$2.0M</td>
+<td>−$1.5M</td>
+<td>−$3.5M</td>
+<td>−$2.2M</td>
+</tr>
+<tr>
+<td>SPX −10%</td>
+<td>−$8.0M</td>
+<td>−$4.0M</td>
+<td>−$1.0M</td>
+<td>−$2.0M</td>
+<td>−$1.8M</td>
+</tr>
+<tr>
+<td>SPX −20%</td>
+<td>−$16.0M</td>
+<td>−$8.0M</td>
+<td><strong>+$2.0M</strong></td>
+<td>−$6.0M</td>
+<td>−$1.8M</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="common-mistakes">COMMON MISTAKES</h2>
+<ol>
+<li><strong>Hedging too late</strong> → Buy when VIX is LOW, not after the sell-off</li>
+<li><strong>Over-hedging</strong> → Theta drag &gt; alpha = portfolio can't make money</li>
+<li><strong>Wrong instrument</strong> → R² &lt; 0.70 = find a better instrument</li>
+<li><strong>Set-and-forget</strong> → Roll calendar with alerts, no coverage gaps</li>
+<li><strong>Ignoring roll costs</strong> → Monthly puts = 3%+ annualized drag</li>
+<li><strong>"Free" collar illusion</strong> → Quantify upside surrender in DOLLARS</li>
+<li><strong>Wrong Greek</strong> → Futures = delta only; puts = delta + gamma + vega</li>
+<li><strong>Correlation-dependent</strong> → Monitor ρ weekly, have Plan B</li>
+</ol>
+<hr />
+<h2 id="cross-asset-correlation-warning">CROSS-ASSET CORRELATION WARNING</h2>
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Stocks-bonds ρ</th>
+<th>Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deflation/growth scare (1998-2021)</td>
+<td>−0.30</td>
+<td>Bonds hedge equities well</td>
+</tr>
+<tr>
+<td>Inflation regime (2022-2023)</td>
+<td>+0.40</td>
+<td>Bonds AMPLIFY equity losses</td>
+</tr>
+<tr>
+<td>Financial stress (March 2020)</td>
+<td>+0.50</td>
+<td>Only cash protects</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="hedging-by-asset-class-quick-map">HEDGING BY ASSET CLASS — QUICK MAP</h2>
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Primary hedge</th>
+<th>Secondary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Equity β</strong></td>
+<td>Short SPX futures</td>
+<td>SPX puts</td>
+</tr>
+<tr>
+<td><strong>Single-name</strong></td>
+<td>Single-name put</td>
+<td>Collar, partial exit</td>
+</tr>
+<tr>
+<td><strong>Sector</strong></td>
+<td>Short sector ETF</td>
+<td>Sector puts</td>
+</tr>
+<tr>
+<td><strong>Duration</strong></td>
+<td>Treasury futures</td>
+<td>IRS</td>
+</tr>
+<tr>
+<td><strong>Credit</strong></td>
+<td>CDS</td>
+<td>Short HY ETF</td>
+</tr>
+<tr>
+<td><strong>FX</strong></td>
+<td>Forwards</td>
+<td>FX options</td>
+</tr>
+<tr>
+<td><strong>Commodities</strong></td>
+<td>Futures</td>
+<td>Options on futures</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="interview-answer-templates">INTERVIEW ANSWER TEMPLATES</h2>
+<p><strong>"Hedge concentrated equity?"</strong><br />
+→ Framework first (5 questions) → Single-name put (cleanest, expensive) → Put spread (halves cost, caps protection) → Collar (zero cost, caps upside) → Futures (free but basis risk, R² ≈ 0.6 for single name vs index) → Make tradeoff explicit to PM</p>
+<p><strong>"When NOT to hedge?"</strong><br />
+→ (1) Cost &gt; risk: hedge EV is negative → (2) Hedge adds MORE risk via fragile correlation → (3) PM's thesis IS the risk and it's within limits</p>
+<p><strong>"Puts vs futures?"</strong><br />
+→ Futures: free, liquid, delta-only, linear, no gap protection<br />
+→ Puts: premium cost, delta + gamma + vega, convex, GAP protection, hedge IMPROVES as crash deepens</p>
+<p><strong>"How evaluate hedge effectiveness?"</strong><br />
+→ R² overall + R²_stress on tail days → If R²_stress &lt;&lt; R²_overall, hedge gives false confidence</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

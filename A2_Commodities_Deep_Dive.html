@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2 Commodities Deep Dive — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link active" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="a2-commodities-deep-dive">A2 — COMMODITIES DEEP DIVE</h1>
+<h2 id="every-product-every-contract-every-market-the-physical-reality-behind-the-numbers">Every product, every contract, every market — the physical reality behind the numbers</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="part-1-how-commodity-markets-actually-work">PART 1: HOW COMMODITY MARKETS ACTUALLY WORK</h1>
+<h2 id="cash-vs-physical-vs-futures-the-three-layers">Cash vs Physical vs Futures — The Three Layers</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it is</th>
+<th>Who trades it</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Physical (spot)</strong></td>
+<td>Actual barrels, tonnes, bushels changing hands for near-term delivery</td>
+<td>Producers (Shell, Saudi Aramco), consumers (airlines, refiners), physical trading houses (Vitol, Trafigura, Glencore)</td>
+<td>A refiner buys 500,000 barrels of crude for delivery next week at the Cushing terminal</td>
+</tr>
+<tr>
+<td><strong>Cash / Forward</strong></td>
+<td>OTC contracts for physical delivery at a negotiated future date, priced vs a benchmark</td>
+<td>Physical traders, large consumers, producers locking in prices</td>
+<td>An airline buys jet fuel forward for Q3 delivery tied to Platts assessment</td>
+</tr>
+<tr>
+<td><strong>Futures</strong></td>
+<td>Exchange-traded standardized contracts for a specific commodity, quantity, delivery point, and date</td>
+<td>Financial investors, hedge funds, CTAs, banks, producers hedging, specs</td>
+<td>A fund buys 100 lots of Dec-26 Brent ICE futures</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>One-liner:</strong> Physical is the real stuff. Cash/forward is the OTC deal. Futures is the exchange-traded, standardized, margined version. Financial players mostly trade futures. Physical players trade all three and arbitrage the gaps between them.</p>
+</blockquote>
+<p><strong>Why this distinction matters:</strong><br />
+- Futures prices CONVERGE to physical prices at expiry (otherwise there's free money). But BEFORE expiry, futures can trade at premiums or discounts to physical — this is the basis.<br />
+- A "paper" trader at a hedge fund sees futures prices. A physical trader at Vitol sees actual cargo economics — shipping costs, refinery margins, storage constraints. Sometimes they diverge, and the physical trader has an edge.<br />
+- As an RM at Squarepoint, you're almost certainly dealing with futures and swaps, not physical. But understanding the physical layer helps you understand WHY futures behave the way they do.</p>
+<h2 id="price-discovery-and-benchmarks">Price Discovery and Benchmarks</h2>
+<p>Commodities don't have a single "price" like a stock. They have a web of benchmarks:</p>
+<ul>
+<li><strong>Exchange settlement prices:</strong> ICE Brent, NYMEX WTI, COMEX Gold — official daily settlement from the exchange</li>
+<li><strong>Price reporting agencies (PRAs):</strong> Platts (S&amp;P Global), Argus, ICIS — these agencies collect transaction data and publish reference prices (assessments) used to price physical contracts worldwide</li>
+<li><strong>Why Platts matters:</strong> Most physical oil contracts globally are priced as "Platts Dated Brent + premium/discount." If Platts assesses Dated Brent at $82, and your contract is Dated Brent +$0.50, you pay $82.50. The Platts window (4:00-4:30 PM London time) is when physical traders submit bids/offers that set this benchmark.</li>
+</ul>
+<hr />
+<h1 id="part-2-crude-oil-the-most-important-commodity">PART 2: CRUDE OIL — THE MOST IMPORTANT COMMODITY</h1>
+<h2 id="the-key-crude-benchmarks">The Key Crude Benchmarks</h2>
+<table>
+<thead>
+<tr>
+<th>Benchmark</th>
+<th>Exchange</th>
+<th>Delivery/Settlement</th>
+<th>Contract Size</th>
+<th>What it represents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>WTI (West Texas Intermediate)</strong></td>
+<td>NYMEX (CME Group)</td>
+<td>Physical delivery at Cushing, Oklahoma</td>
+<td>1,000 barrels (42,000 US gallons)</td>
+<td>US domestic crude benchmark. Light sweet crude (API ~39.6°, sulfur ~0.24%).</td>
+</tr>
+<tr>
+<td><strong>Brent (ICE Brent)</strong></td>
+<td>ICE (Intercontinental Exchange)</td>
+<td>Cash-settled against ICE Brent Index</td>
+<td>1,000 barrels</td>
+<td>Global crude benchmark. ~75% of world's traded crude priced off Brent.</td>
+</tr>
+<tr>
+<td><strong>Dated Brent</strong></td>
+<td>OTC (assessed by Platts)</td>
+<td>Physical cargoes loading 10-25 days forward from North Sea fields</td>
+<td>Cargo size (~600,000 barrels)</td>
+<td>The physical benchmark. What the actual barrels are worth for near-term delivery. ICE Brent futures converge to this.</td>
+</tr>
+<tr>
+<td><strong>Dubai/Oman</strong></td>
+<td>DME (Dubai Mercantile Exchange)</td>
+<td>Physical delivery (Oman crude)</td>
+<td>1,000 barrels</td>
+<td>Asian crude benchmark. Sour crude (higher sulfur). Prices Middle East exports to Asia.</td>
+</tr>
+<tr>
+<td><strong>Shanghai INE</strong></td>
+<td>Shanghai Int'l Energy Exchange</td>
+<td>Physical delivery (medium sour crude) in bonded storage in China</td>
+<td>1,000 barrels (CNY-denominated)</td>
+<td>China's attempt at a domestic benchmark. Growing but still secondary.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-these-benchmarks-relate">How These Benchmarks Relate</h3>
+<div class="highlight"><pre><span></span><code>Dated Brent (physical) ←→ ICE Brent Futures (financial) ←→ WTI (US)
+                                                          ←→ Dubai/Oman (Asia)
+</code></pre></div>
+
+<ul>
+<li><strong>Brent-WTI spread:</strong> Reflects the Atlantic Basin supply/demand balance. Normally Brent trades $2-5 above WTI (more global demand, fewer logistical bottlenecks). In 2011, WTI collapsed to $20+ discount when Cushing was flooded with Canadian/shale crude and pipeline capacity was insufficient.</li>
+<li><strong>Brent-Dubai spread (EFS):</strong> Reflects the light-sweet vs heavy-sour differential and the relative supply balance between the Atlantic and Pacific basins.</li>
+</ul>
+<h3 id="crude-oil-quality-matters">Crude Oil Quality Matters</h3>
+<p>Not all oil is the same. Two key specifications:</p>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>What it measures</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API gravity</strong></td>
+<td>Density. Higher API = lighter crude. WTI ~39.6° (light). Arab Heavy ~27° (heavy).</td>
+<td>Light crude yields more valuable products (gasoline, diesel). Heavy crude yields more residual fuel oil. Light commands a premium.</td>
+</tr>
+<tr>
+<td><strong>Sulfur content</strong></td>
+<td>"Sweet" (&lt;0.5% sulfur) vs "Sour" (&gt;0.5%). WTI is sweet. Most Middle East crude is sour.</td>
+<td>Sweet crude is cheaper to refine (less desulfurization needed). IMO 2020 shipping fuel regs increased the sweet premium.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why this matters for risk:</strong> If a PM is trading the "Brent-Dubai spread," they're not just trading oil — they're trading the light-sweet vs heavy-sour quality differential, which is driven by refinery configurations, regulatory changes, and regional demand patterns.</p>
+<h3 id="wti-delivery-mechanics-and-the-37-event">WTI Delivery Mechanics and the -$37 Event</h3>
+<p>WTI futures expire to PHYSICAL delivery at Cushing, Oklahoma:<br />
+- Cushing is a landlocked storage hub with ~76 million barrels of capacity<br />
+- At expiry, if you're still long, you must take delivery of oil AT Cushing<br />
+- April 2020: COVID crushed demand → storage at Cushing was ~80% full → no one could accept delivery → sellers had to PAY buyers to take oil off their hands → WTI went to -$37.63/bbl<br />
+- This can NEVER happen to Brent futures because they're cash-settled — no physical delivery obligation</p>
+<p><strong>RM lesson:</strong> Always know whether a contract is physically or cash-settled, and monitor position sizes relative to open interest as expiry approaches. CME now has negative price functionality permanently.</p>
+<hr />
+<h1 id="part-3-refined-products-what-oil-becomes">PART 3: REFINED PRODUCTS — WHAT OIL BECOMES</h1>
+<p>A barrel of crude yields different products depending on the refinery configuration. This is the "crack spread."</p>
+<h2 id="key-refined-products">Key Refined Products</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>What it is</th>
+<th>Futures contract</th>
+<th>Contract size</th>
+<th>Seasonality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RBOB Gasoline</strong></td>
+<td>Reformulated gasoline blendstock. Motor fuel.</td>
+<td>NYMEX RBOB (RB)</td>
+<td>42,000 gallons (1,000 barrels)</td>
+<td>Summer peak (driving season, May-Sep). "Summer blend" is more expensive to produce.</td>
+</tr>
+<tr>
+<td><strong>ULSD (Ultra-Low Sulfur Diesel)</strong></td>
+<td>Heating oil / diesel. Formerly called "Heating Oil" on NYMEX.</td>
+<td>NYMEX ULSD (HO)</td>
+<td>42,000 gallons (1,000 barrels)</td>
+<td>Winter peak (heating demand). Also industrial demand (trucking, shipping).</td>
+</tr>
+<tr>
+<td><strong>Jet fuel (Kerosene)</strong></td>
+<td>Aviation fuel.</td>
+<td>OTC (priced vs Platts or ULSD)</td>
+<td>No standard exchange contract — traded as crack to ULSD</td>
+<td>Usually trades at small premium to diesel. Airline hedging is massive.</td>
+</tr>
+<tr>
+<td><strong>Fuel oil (HSFO / VLSFO)</strong></td>
+<td>Heavy residual fuel for shipping and power generation.</td>
+<td>ICE, SGX</td>
+<td>Various</td>
+<td>IMO 2020 split the market: VLSFO (0.5% sulfur) vs HSFO (3.5%). HSFO discounted heavily.</td>
+</tr>
+<tr>
+<td><strong>Naphtha</strong></td>
+<td>Light fraction used as petrochemical feedstock (ethylene, plastics).</td>
+<td>OTC (Platts)</td>
+<td>Cargo-based</td>
+<td>Driven by petrochemical margins and ethylene cracker economics.</td>
+</tr>
+<tr>
+<td><strong>LPG (Propane / Butane)</strong></td>
+<td>Light hydrocarbons for heating, petrochemicals.</td>
+<td>NYMEX Propane (PN)</td>
+<td>42,000 gallons</td>
+<td>Winter heating peak. US exports increasingly important.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="crack-spreads-the-refiners-margin">Crack Spreads — The Refiner's Margin</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A crack spread is the difference between the price of refined products and crude oil — it's the refiner's gross profit margin.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Crack spread</th>
+<th>Formula</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Simple gasoline crack</strong></td>
+<td>RBOB price − Crude price</td>
+<td>Margin on turning crude into gasoline</td>
+</tr>
+<tr>
+<td><strong>Simple diesel crack</strong></td>
+<td>ULSD price − Crude price</td>
+<td>Margin on turning crude into diesel</td>
+</tr>
+<tr>
+<td><strong>3-2-1 crack</strong></td>
+<td>(2 × RBOB + 1 × ULSD) − 3 × Crude oil, divided by 3</td>
+<td>Approximate US Gulf Coast refiner margin (assumes 3 barrels crude → 2 barrels gasoline + 1 barrel diesel)</td>
+</tr>
+<tr>
+<td><strong>Gasoline-diesel spread</strong></td>
+<td>RBOB − ULSD</td>
+<td>Relative value within the products complex</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why crack spreads matter:</strong><br />
+- When cracks are wide: Refiners are printing money → they maximize crude throughput → increases crude demand → supports crude prices<br />
+- When cracks compress: Refiner margins squeezed → maintenance shutdowns (cut throughput) → reduces crude demand → weighs on crude<br />
+- Seasonal pattern: Cracks typically widen before driving season (gasoline demand) and before winter (heating oil demand)<br />
+- <strong>2022 example:</strong> Diesel cracks exploded to $70+/bbl (normally $15-25) due to Russia sanctions removing refinery capacity + low diesel inventories. Signaled massive supply disruption.</p>
+<hr />
+<h1 id="part-4-natural-gas-regional-markets">PART 4: NATURAL GAS — REGIONAL MARKETS</h1>
+<p>Natural gas is NOT one global market. It's three separate regional markets connected by LNG:</p>
+<h2 id="us-natural-gas">US Natural Gas</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Benchmark</strong></td>
+<td>Henry Hub (HH) — pipeline delivery point in Erath, Louisiana</td>
+</tr>
+<tr>
+<td><strong>Exchange</strong></td>
+<td>NYMEX (CME Group)</td>
+</tr>
+<tr>
+<td><strong>Contract size</strong></td>
+<td>10,000 MMBtu (million British thermal units)</td>
+</tr>
+<tr>
+<td><strong>Pricing unit</strong></td>
+<td>$/MMBtu</td>
+</tr>
+<tr>
+<td><strong>Current range</strong></td>
+<td>~$2-4/MMBtu (historically low due to shale revolution)</td>
+</tr>
+<tr>
+<td><strong>Key drivers</strong></td>
+<td>Weather (heating/cooling degree days), storage injections/withdrawals (EIA Thursday report), LNG export volumes, associated gas production from shale oil drilling, power generation demand</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key US gas concepts:</strong><br />
+- <strong>Basis differentials:</strong> Henry Hub is the benchmark, but actual gas prices vary by location. Permian Basin gas trades at deep discount to HH (associated gas with no pipeline capacity). Northeast gas (Algonquin) trades at massive premium in winter (heating demand, pipeline constraints).<br />
+- <strong>Storage report:</strong> EIA releases weekly storage data every Thursday at 10:30 AM ET. The market reacts to the deviation from consensus: a build of +80 Bcf when the market expected +90 Bcf is bullish (less gas injected than expected = supply tighter).<br />
+- <strong>Shoulder months:</strong> March-April and October-November — transition between heating and cooling seasons. Prices typically lowest here.<br />
+- <strong>Associated gas:</strong> Gas produced as a byproduct of oil drilling. When oil prices rise → more shale drilling → more associated gas produced → gas prices FALL even though energy demand is up. This decoupled US gas from oil prices.</p>
+<h3 id="us-gas-hubs-and-delivery-locations">US Gas Hubs and Delivery Locations</h3>
+<blockquote>
+<p><strong>One-liner:</strong> The US gas market is a web of interconnected pipeline hubs — Henry Hub sets the benchmark, but every region has its own hub price that reflects local supply, demand, and pipeline capacity.</p>
+</blockquote>
+<p><strong>Henry Hub</strong> — the benchmark:<br />
+- Physical delivery point in Erath, Louisiana, where 13 interstate and intrastate pipelines interconnect<br />
+- Why it became the benchmark: massive pipeline connectivity means gas can flow in and out efficiently, making it a natural meeting point for supply and demand<br />
+- NYMEX NG futures settle to physical delivery at Henry Hub<br />
+- All other US locations price as a basis differential to HH (e.g., "SoCal Citygate at HH + $0.35")</p>
+<p><strong>Major US Gas Hubs:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Hub</th>
+<th>Location</th>
+<th>Key characteristic</th>
+<th>Typical basis to HH</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Henry Hub (HH)</strong></td>
+<td>Erath, Louisiana</td>
+<td>THE benchmark. 13 pipelines converge. Gulf Coast supply center.</td>
+<td>— (is the benchmark)</td>
+</tr>
+<tr>
+<td><strong>Waha</strong></td>
+<td>West Texas (Permian Basin)</td>
+<td>Massive associated gas production from Permian oil drilling. Often oversupplied — pipelines can't move gas out fast enough.</td>
+<td>Deep discount (sometimes negative — producers PAY to get rid of gas)</td>
+</tr>
+<tr>
+<td><strong>Dominion South</strong></td>
+<td>Appalachia (Marcellus/Utica)</td>
+<td>Major shale gas production hub. Cheap gas but constrained by pipeline takeaway to demand centers.</td>
+<td>Discount — reflects pipeline bottlenecks out of Appalachia</td>
+</tr>
+<tr>
+<td><strong>Algonquin Citygate</strong></td>
+<td>New England delivery</td>
+<td>The demand endpoint for Northeast heating/power. Infamous for winter spikes when pipeline capacity is maxed out.</td>
+<td>Sharp premium in winter ($10-30+ vs HH in polar vortex events), near parity in summer</td>
+</tr>
+<tr>
+<td><strong>SoCal Citygate</strong></td>
+<td>Southern California</td>
+<td>West Coast delivery for power generation. Vulnerable to pipeline outages (Aliso Canyon storage leak 2015).</td>
+<td>Moderate premium reflecting transport costs</td>
+</tr>
+<tr>
+<td><strong>Chicago Citygate</strong></td>
+<td>Midwest</td>
+<td>Major demand center for heating + industrial. Well-connected by interstate pipelines.</td>
+<td>Small premium or parity</td>
+</tr>
+<tr>
+<td><strong>AECO</strong></td>
+<td>Alberta, Canada</td>
+<td>Canadian gas. Connects via pipelines to US Midwest and West Coast. Often at discount to HH.</td>
+<td>Discount — long on supply, dependent on US export capacity</td>
+</tr>
+<tr>
+<td><strong>Transco Zone 6 (NY)</strong></td>
+<td>New York City delivery</td>
+<td>Urban Northeast demand center. Extremely high winter premiums.</td>
+<td>Premium, especially winter</td>
+</tr>
+<tr>
+<td><strong>Katy Hub</strong></td>
+<td>Southeast Texas</td>
+<td>Reflects Gulf Coast industrial and LNG export demand near Freeport and Sabine Pass LNG terminals.</td>
+<td>Near parity or slight premium</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why basis matters for risk:</strong><br />
+- A PM trading "US natural gas" at Henry Hub is NOT exposed to the same price as the gas burning in a New England power plant in January. In the 2014 polar vortex, HH traded at $4.50/MMBtu while Algonquin Citygate hit $78/MMBtu — that's a 17x difference at the same moment in time. <br />
+- <strong>Basis risk example:</strong> If you hedge a New England power plant's gas cost using HH futures, you're exposed to the Algonquin-HH basis. If a winter storm hits and pipelines into New England are maxed, HH might move $0.20 while Algonquin moves $30. Your hedge covers almost nothing.<br />
+- <strong>Pipeline constraints are the driver:</strong> Most basis blowouts happen because gas physically can't get from where it's produced (Appalachia, Permian, Gulf Coast) to where it's consumed (New England, California) fast enough. Pipeline capacity isn't just infrastructure — it's a tradable constraint.</p>
+<p><strong>LNG export hubs (increasingly important):</strong><br />
+- <strong>Sabine Pass</strong> (Cheniere, Louisiana) — first US LNG export terminal. 6 trains, ~4.2 Bcf/d capacity.<br />
+- <strong>Freeport LNG</strong> (Texas) — ~2 Bcf/d. Forced offline by fire Jun-Feb 2022/23, contributed to US gas price drop.<br />
+- <strong>Cameron, Calcasieu Pass, Corpus Christi</strong> — expanding US LNG capacity.<br />
+- When US LNG exports increase → more domestic gas demand → tightens HH → supports price. LNG export volumes are now a primary driver of HH pricing.<br />
+- <strong>Feed gas</strong> = the gas flowing into LNG terminals for liquefaction. Daily feed gas data is watched closely — a sudden drop signals operational issues.</p>
+<h3 id="us-power-markets">US Power Markets</h3>
+<blockquote>
+<p><strong>One-liner:</strong> Electricity can't be economically stored at scale, so power prices are set in real-time by the marginal cost of the generator needed to meet demand at that exact moment.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Market (ISO/RTO)</th>
+<th>Region</th>
+<th>Key feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PJM</strong></td>
+<td>Mid-Atlantic + Midwest (13 states)</td>
+<td>Largest US power market. Heavy coal/gas mix. Capacity market.</td>
+</tr>
+<tr>
+<td><strong>ERCOT</strong></td>
+<td>Texas (isolated grid)</td>
+<td>NOT connected to the rest of the US. No capacity market → extreme price spikes. Feb 2021 freeze → prices hit $9,000/MWh (cap).</td>
+</tr>
+<tr>
+<td><strong>CAISO</strong></td>
+<td>California</td>
+<td>Heavy renewables (solar). "Duck curve" — oversupply midday, sharp ramp at sunset.</td>
+</tr>
+<tr>
+<td><strong>NYISO</strong></td>
+<td>New York</td>
+<td>Congested transmission. NYC prices can diverge massively from upstate.</td>
+</tr>
+<tr>
+<td><strong>ISO-NE</strong></td>
+<td>New England</td>
+<td>Winter gas/power price spikes (pipeline constraints, competing heating demand).</td>
+</tr>
+<tr>
+<td><strong>MISO</strong></td>
+<td>Midwest</td>
+<td>Wind-heavy. Low prices in windy periods.</td>
+</tr>
+<tr>
+<td><strong>SPP</strong></td>
+<td>Central US (Plains)</td>
+<td>Very wind-heavy. Negative prices (generators pay to dispatch) when wind oversupplies.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How power prices work:</strong><br />
+- <strong>Merit order / supply stack:</strong> Generators are dispatched from cheapest to most expensive. Renewables (zero marginal cost) → nuclear → coal → gas (CCGT) → gas (peaker). The marginal unit (last one needed to meet demand) sets the price for ALL power that hour.<br />
+- <strong>Heat rate:</strong> The efficiency of converting gas to electricity. Measured in MMBtu/MWh. A heat rate of 7 is efficient (combined cycle). A heat rate of 10+ is inefficient (peaker). <strong>Implied heat rate</strong> = power price / gas price — tells you whether it's profitable to burn gas to make electricity.<br />
+- <strong>Spark spread:</strong> Power price − (Gas price × Heat rate) = Generator's margin. If negative, it's uneconomic to run.<br />
+- <strong>Dark spread:</strong> Power price − (Coal price × Emission cost) = Coal generator's margin.<br />
+- <strong>Congestion:</strong> Transmission lines have limited capacity. When a cheap generator can't deliver power to a high-demand area because wires are full, the high-demand area pays more (locational marginal pricing / LMP).<br />
+- <strong>Capacity markets (PJM, ISO-NE, NYISO):</strong> Generators are paid just to be available, even if they don't run. Ensures reliability. ERCOT has NO capacity market, which is why Texas has both lower average prices and more extreme spikes.<br />
+- <strong>Renewable duck curve:</strong> In CAISO, midday solar floods the market → prices drop (sometimes negative) → at 5 PM, solar dies and everyone turns on AC → prices spike as gas peakers ramp. This 3-hour ramp is the most volatile part of the day.</p>
+<p><strong>Negative power prices:</strong> Yes, power prices can go negative. When wind or solar output exceeds demand plus transmission capacity, generators must PAY to stay connected (because they have contractual take-or-pay obligations or receive renewable subsidies per MWh that exceed the negative price penalty). This is increasingly common in ERCOT, CAISO, and SPP.</p>
+<h2 id="european-natural-gas">European Natural Gas</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Benchmark</strong></td>
+<td>TTF (Title Transfer Facility) — virtual trading hub in the Netherlands</td>
+</tr>
+<tr>
+<td><strong>Exchange</strong></td>
+<td>ICE Endex</td>
+</tr>
+<tr>
+<td><strong>Contract size</strong></td>
+<td>1 lot = 1 MWh per day for the delivery period</td>
+</tr>
+<tr>
+<td><strong>Pricing unit</strong></td>
+<td>€/MWh (NOT $/MMBtu — you must convert to compare to HH)</td>
+</tr>
+<tr>
+<td><strong>Conversion</strong></td>
+<td>1 MMBtu ≈ 0.293 MWh. So $3/MMBtu ≈ €9.5/MWh at current FX (rough).</td>
+</tr>
+<tr>
+<td><strong>NBP</strong></td>
+<td>UK's National Balancing Point — historically the benchmark, but TTF has overtaken it for European price discovery since ~2020</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key European gas concepts:</strong><br />
+- <strong>TTF has become the global LNG benchmark.</strong> When the Europe 2022 energy crisis hit (Russia cut gas), TTF spiked from ~€30/MWh to €340/MWh. This repriced ALL global LNG because cargoes were diverted to Europe for the premium.<br />
+- <strong>NBP vs TTF:</strong> NBP is UK-specific (connected to the continent via interconnectors but separated by the channel). NBP trades at a spread to TTF reflecting UK storage levels, interconnector flows, and LNG terminal capacity.<br />
+- <strong>LNG import dependency:</strong> Europe pivoted from Russian pipeline gas (40% of supply pre-2022) to seaborne LNG. This means European gas prices are now linked to global LNG shipping economics: freight rates, liquefaction costs, and Asian LNG demand compete for the same cargoes.<br />
+- <strong>Storage:</strong> European gas storage (Gasunie, Storengy) follows a fill/draw cycle: inject April-October, withdraw October-March. EU now mandates 90% fill by November 1. Storage levels are THE anxiety metric for European gas prices.<br />
+- <strong>JKM (Japan-Korea Marker):</strong> Asian LNG spot benchmark, assessed by Platts. When JKM &gt; TTF, LNG cargoes go to Asia. When TTF &gt; JKM, cargoes come to Europe. This is the "LNG arbitrage."</p>
+<h2 id="asian-natural-gas-lng">Asian Natural Gas (LNG)</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Benchmark</strong></td>
+<td>JKM (Platts Japan-Korea Marker)</td>
+</tr>
+<tr>
+<td><strong>Pricing</strong></td>
+<td>Spot: JKM ($/MMBtu). Long-term contracts: historically oil-indexed (e.g., 14.85% × JCC + $0.50)</td>
+</tr>
+<tr>
+<td><strong>Major importers</strong></td>
+<td>Japan, South Korea, China, India, Taiwan</td>
+</tr>
+<tr>
+<td><strong>Key feature</strong></td>
+<td>Most LNG is sold under long-term contracts (10-20 years) with oil-linked pricing — NOT spot. But spot share is growing.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Oil-linked LNG pricing explained:</strong> Historically, Asian LNG buyers signed long-term contracts priced as a percentage of crude oil (JCC — Japan Customs-cleared Crude). A typical "slope" is 14-15%: if JCC oil = $80/bbl → LNG price = 0.145 × $80 = $11.60/MMBtu. This means Asian gas prices move with oil, not with Henry Hub — a completely different dynamic.</p>
+<hr />
+<h1 id="part-5-base-metals-the-lme">PART 5: BASE METALS — THE LME</h1>
+<h2 id="london-metal-exchange-lme-how-it-works">London Metal Exchange (LME) — How It Works</h2>
+<p>The LME is unique:<br />
+- <strong>Open-outcry ring trading</strong> (still exists alongside electronic). The "ring" is where official prices are set.<br />
+- <strong>Daily prompt dates:</strong> Unlike other futures where you trade monthly contracts, the LME allows trading for any business day up to 3 months out, then monthly to 63 months. This gives extreme flexibility for hedging physical delivery.<br />
+- <strong>3-month price</strong> is the benchmark. "LME Copper" usually means the 3-month forward price.<br />
+- <strong>Physical delivery via LME-registered warehouses</strong> worldwide. Metal stored in LME warehouses can be tendered for delivery.<br />
+- <strong>Warehouse queues:</strong> Historically, long waiting times to withdraw metal from LME warehouses created artificial tightness (Goldman's aluminum warehouse controversy in 2013).</p>
+<h2 id="key-base-metals">Key Base Metals</h2>
+<table>
+<thead>
+<tr>
+<th>Metal</th>
+<th>LME Code</th>
+<th>Contract Size</th>
+<th>Key Drivers</th>
+<th>LME 3M Price Range (indicative)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Copper</strong></td>
+<td>CA</td>
+<td>25 tonnes</td>
+<td>China demand (50%+), construction, EVs, green energy transition, Chilean/Peruvian supply</td>
+<td>$8,000-10,000/tonne</td>
+</tr>
+<tr>
+<td><strong>Aluminium</strong></td>
+<td>AH</td>
+<td>25 tonnes</td>
+<td>Energy costs (smelting is electricity-intensive), China production cuts, construction, packaging</td>
+<td>$2,200-2,800/tonne</td>
+</tr>
+<tr>
+<td><strong>Zinc</strong></td>
+<td>ZS</td>
+<td>25 tonnes</td>
+<td>Galvanizing steel (anti-corrosion), construction, mine supply disruptions</td>
+<td>$2,400-3,000/tonne</td>
+</tr>
+<tr>
+<td><strong>Nickel</strong></td>
+<td>NI</td>
+<td>6 tonnes</td>
+<td>Stainless steel (65% of use), EV batteries (Class 1 nickel for cathodes), Indonesian supply dominance</td>
+<td>$15,000-25,000/tonne</td>
+</tr>
+<tr>
+<td><strong>Lead</strong></td>
+<td>PB</td>
+<td>25 tonnes</td>
+<td>Batteries (car starter batteries), declining demand in developed markets</td>
+<td>$2,000-2,300/tonne</td>
+</tr>
+<tr>
+<td><strong>Tin</strong></td>
+<td>SN</td>
+<td>5 tonnes</td>
+<td>Soldering (electronics), semiconductor supply chain</td>
+<td>$25,000-35,000/tonne</td>
+</tr>
+</tbody>
+</table>
+<h3 id="copper-doctor-copper-deep-dive">Copper — "Doctor Copper" Deep Dive</h3>
+<blockquote>
+<p><strong>One-liner:</strong> Copper goes into everything — wiring, plumbing, electronics, EVs, grid infrastructure — so its price is a real-time read on global industrial health.</p>
+</blockquote>
+<p><strong>Why copper matters disproportionately:</strong><br />
+- <strong>China consumes 50%+ of global copper.</strong> When China stimulus is announced, copper rallies before GDP data confirms it.<br />
+- <strong>Green energy transition is structurally bullish:</strong> An EV uses 4x more copper than an ICE car. Offshore wind farms use 6-10 tonnes per MW. Grid upgrades for electrification are copper-intensive.<br />
+- <strong>Supply is constrained:</strong> Major mines (Escondida, Grasberg) are mature. New mine development takes 10-15 years from discovery to production. Grade decline is real (ore quality is deteriorating).<br />
+- <strong>Concentrate market:</strong> Most copper is mined as concentrate (30% copper), then smelted. Treatment/refining charges (TC/RCs) reflect the tightness between miners and smelters.</p>
+<p><strong>US copper futures:</strong> COMEX (CME Group). Contract size = 25,000 lbs (~11.3 tonnes). Priced in USD cents/lb. To convert: LME $/tonne ÷ 2,204.6 × 100 = COMEX cents/lb. (e.g., $9,000/tonne ≈ 408 c/lb)</p>
+<h3 id="the-nickel-squeeze-of-march-2022">The Nickel Squeeze of March 2022</h3>
+<p>The LME nickel market broke:<br />
+- Chinese tycoon Xiang Guangda (Tsingshan) was massively short nickel (hedging physical production)<br />
+- Russia-Ukraine war spiked nickel (Russia = 10% of global supply) → prices doubled in days<br />
+- Tsingshan faced margin calls it couldn't meet → forced buying → nickel spiked from $25K to $100K/tonne in 24 hours<br />
+- LME cancelled trades and suspended nickel trading for a week — unprecedented<br />
+- Destroyed LME's credibility as a venue (many participants moved hedging to CME)<br />
+- <strong>RM lesson:</strong> Short hedges on physical production can blow up if margin calls arrive faster than physical revenue. Liquidity in LME nickel has never fully recovered.</p>
+<hr />
+<h1 id="part-6-precious-metals">PART 6: PRECIOUS METALS</h1>
+<h2 id="key-precious-metals">Key Precious Metals</h2>
+<table>
+<thead>
+<tr>
+<th>Metal</th>
+<th>Exchange</th>
+<th>Contract Size</th>
+<th>Key Drivers</th>
+<th>What makes it unique</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gold</strong></td>
+<td>COMEX (CME)</td>
+<td>100 troy oz</td>
+<td>Real rates (inverse), USD (inverse), central bank buying, safe haven, jewelry (India/China)</td>
+<td>The anti-fiat currency. Rises when faith in monetary system falls.</td>
+</tr>
+<tr>
+<td><strong>Silver</strong></td>
+<td>COMEX (CME)</td>
+<td>5,000 troy oz</td>
+<td>Gold correlation (~0.8), industrial demand (solar panels, electronics), retail speculation</td>
+<td>Higher beta gold. More volatile. Industrial demand component.</td>
+</tr>
+<tr>
+<td><strong>Platinum</strong></td>
+<td>NYMEX (CME)</td>
+<td>50 troy oz</td>
+<td>Autocatalysts (diesel vehicles), hydrogen fuel cells, South African supply (70%+)</td>
+<td>Post-diesel scandal demand collapsed. Platinum now cheaper than gold (historically rare).</td>
+</tr>
+<tr>
+<td><strong>Palladium</strong></td>
+<td>NYMEX (CME)</td>
+<td>100 troy oz</td>
+<td>Autocatalysts (gasoline vehicles), Russian supply (40%), South African supply</td>
+<td>Russia sanctions + supply concentration = supply shock risk. Spiked to $3,000+ in 2022.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gold-the-real-rate-relationship">Gold — The Real Rate Relationship</h3>
+<blockquote>
+<p><strong>Key insight:</strong> Gold is NOT an inflation hedge. Gold is a REAL RATE hedge. Higher real rates (nominal rate minus inflation) = lower gold. Lower real rates = higher gold.</p>
+</blockquote>
+<p><strong>Why?</strong> Gold has no yield. It just sits there. When real rates are high, you're giving up a meaningful return by holding gold instead of TIPS. When real rates are low or negative, there's no opportunity cost to holding gold — and it has no counterparty risk.</p>
+<p><strong>The formula that drives gold:</strong> Watch 10-year TIPS yield (real yield). When it falls, gold rises. When it rises, gold falls. This correlation was very strong 2006-2021. It temporarily broke in 2022-2024 due to massive central bank buying (China, Turkey, Poland buying gold regardless of rates).</p>
+<p><strong>Gold contract details:</strong><br />
+- COMEX 100 oz contract: ~$250,000 notional at $2,500/oz. Initial margin ~$10,000 (~4%).<br />
+- London gold fix: LBMA Gold Price, set twice daily (10:30 AM and 3:00 PM London). This is the price used by central banks, ETFs, and physical contracts.<br />
+- Gold ETFs (GLD, IAU): Hold physical gold in vaults. When inflows increase, the ETF buys physical gold → supports price. When outflows occur, they sell → weighs on price. ETF flow data is a leading indicator.</p>
+<hr />
+<h1 id="part-7-agriculture">PART 7: AGRICULTURE</h1>
+<p>Agricultural commodities are fundamentally different from energy and metals because <strong>supply is weather-dependent and seasonal</strong> — you can't decide to "produce more wheat" right now the way you can turn on an oil well.</p>
+<h2 id="us-agriculture-cbot-cme-group">US Agriculture (CBOT — CME Group)</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Contract Size</th>
+<th>Pricing Unit</th>
+<th>Key Drivers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Corn</strong></td>
+<td>5,000 bushels</td>
+<td>US cents/bushel</td>
+<td>US planting (Iowa, Illinois), ethanol demand (40% of US corn), China imports, weather (Midwest drought/flood)</td>
+</tr>
+<tr>
+<td><strong>Soybeans</strong></td>
+<td>5,000 bushels</td>
+<td>US cents/bushel</td>
+<td>China crush demand (70% of global soy imports go to China), Brazilian supply competition, meal vs oil value split</td>
+</tr>
+<tr>
+<td><strong>Wheat (SRW)</strong></td>
+<td>5,000 bushels</td>
+<td>US cents/bushel</td>
+<td>Global weather, Black Sea exports (Russia, Ukraine → 30% of global wheat trade), USDA WASDE report</td>
+</tr>
+<tr>
+<td><strong>Soybean Oil</strong></td>
+<td>60,000 lbs</td>
+<td>US cents/lb</td>
+<td>Biodiesel demand, palm oil competition, food use</td>
+</tr>
+<tr>
+<td><strong>Soybean Meal</strong></td>
+<td>100 short tons</td>
+<td>$/short ton</td>
+<td>Animal feed demand, crush margins</td>
+</tr>
+<tr>
+<td><strong>Cotton</strong></td>
+<td>50,000 lbs</td>
+<td>US cents/lb</td>
+<td>Textile demand (China, SE Asia), weather in US Cotton Belt, polyester substitution</td>
+</tr>
+<tr>
+<td><strong>Live Cattle</strong></td>
+<td>40,000 lbs</td>
+<td>US cents/lb</td>
+<td>Cattle cycle (herd liquidation/rebuild), feed costs, beef demand, drought</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key US agriculture concepts:</strong><br />
+- <strong>WASDE Report:</strong> USDA's World Agricultural Supply and Demand Estimates, released monthly. The single most market-moving ag report. Supply/demand revisions of even 1-2M tonnes can move prices 3-5%.<br />
+- <strong>Crush spread (soybeans):</strong> Soybean processors buy beans and crush them into meal + oil. Crush margin = (meal revenue + oil revenue) − bean cost. When crush margins are high, processors buy more beans → supports bean prices.<br />
+- <strong>Ethanol blend wall:</strong> ~40% of US corn goes to ethanol. The RFS mandate creates a floor under corn demand. But E10 (10% ethanol) is roughly the max blend for standard cars — beyond that, demand is political.<br />
+- <strong>Key growing season:</strong> April-June planting, July-August pollination/critical weather period, September-November harvest. A Midwest drought in July can spike corn/soy 30%+ in weeks.</p>
+<h2 id="european-agriculture">European Agriculture</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Exchange</th>
+<th>Contract Size</th>
+<th>Key Feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Milling Wheat</strong></td>
+<td>Euronext (Paris)</td>
+<td>50 tonnes</td>
+<td>European benchmark. French wheat is a key Black Sea competitor.</td>
+</tr>
+<tr>
+<td><strong>Rapeseed</strong></td>
+<td>Euronext (Paris)</td>
+<td>50 tonnes</td>
+<td>Main European oilseed. Used for biodiesel. Competes with palm oil and soy oil.</td>
+</tr>
+<tr>
+<td><strong>White Sugar</strong></td>
+<td>ICE London</td>
+<td>50 tonnes</td>
+<td>Refined sugar benchmark. Priced in $/tonne.</td>
+</tr>
+<tr>
+<td><strong>Raw Sugar (No. 11)</strong></td>
+<td>ICE US</td>
+<td>112,000 lbs</td>
+<td>Global raw sugar benchmark. Brazil is dominant producer (&gt;40% of global exports).</td>
+</tr>
+<tr>
+<td><strong>Cocoa</strong></td>
+<td>ICE London / ICE US</td>
+<td>10 tonnes (London), 10 metric tonnes (US)</td>
+<td>West Africa (Ghana, Côte d'Ivoire = 60%+ of supply). 2024 cocoa prices tripled due to disease + weather in West Africa.</td>
+</tr>
+<tr>
+<td><strong>Robusta Coffee</strong></td>
+<td>ICE London</td>
+<td>10 tonnes</td>
+<td>"Cheaper" coffee variety. Vietnam is #1 producer. Used in instant coffee and blending.</td>
+</tr>
+<tr>
+<td><strong>Arabica Coffee</strong></td>
+<td>ICE US</td>
+<td>37,500 lbs</td>
+<td>"Premium" coffee variety. Brazil is #1 producer. A single frost event can spike prices 40%+.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="asian-agriculture">Asian Agriculture</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Exchange</th>
+<th>Key Feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Palm Oil (CPO)</strong></td>
+<td>Bursa Malaysia (MDEX)</td>
+<td>World's most consumed vegetable oil. Malaysia + Indonesia = 85%+ of global production. Deforestation controversy limits new supply. Contract = 25 tonnes, priced in MYR/tonne.</td>
+</tr>
+<tr>
+<td><strong>Rubber</strong></td>
+<td>TOCOM (Tokyo), SGX</td>
+<td>Thailand, Indonesia, Malaysia dominate. Used in tires (70%). Natural rubber competes with synthetic (made from oil).</td>
+</tr>
+<tr>
+<td><strong>Rice</strong></td>
+<td>CBOT (rough rice), various Asian exchanges</td>
+<td>Thinly traded on exchanges — most rice is traded government-to-government. But food security concerns make it politically sensitive.</td>
+</tr>
+<tr>
+<td><strong>Iron Ore</strong></td>
+<td>SGX, DCE (Dalian)</td>
+<td>Not agriculture but traded similarly. DCE contract = 100 tonnes (CNY-denominated). SGX = 100 tonnes (USD). China = 70%+ of seaborne imports. Iron ore is really a China real estate / infrastructure bet.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-contract-specifications-reference">PART 8: CONTRACT SPECIFICATIONS REFERENCE</h1>
+<h2 id="energy-contracts">Energy Contracts</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Exchange</th>
+<th>Ticker</th>
+<th>Size</th>
+<th>Quote</th>
+<th>Min Tick</th>
+<th>Settlement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WTI Crude</td>
+<td>NYMEX</td>
+<td>CL</td>
+<td>1,000 bbl</td>
+<td>$/bbl</td>
+<td>$0.01 ($10/contract)</td>
+<td>Physical (Cushing)</td>
+</tr>
+<tr>
+<td>Brent Crude</td>
+<td>ICE</td>
+<td>B</td>
+<td>1,000 bbl</td>
+<td>$/bbl</td>
+<td>$0.01 ($10)</td>
+<td>Cash (ICE Brent Index)</td>
+</tr>
+<tr>
+<td>RBOB Gasoline</td>
+<td>NYMEX</td>
+<td>RB</td>
+<td>42,000 gal</td>
+<td>$/gal</td>
+<td>$0.0001 ($4.20)</td>
+<td>Physical (NYHARBOR)</td>
+</tr>
+<tr>
+<td>ULSD (Heating Oil)</td>
+<td>NYMEX</td>
+<td>HO</td>
+<td>42,000 gal</td>
+<td>$/gal</td>
+<td>$0.0001 ($4.20)</td>
+<td>Physical (NYHARBOR)</td>
+</tr>
+<tr>
+<td>Henry Hub Nat Gas</td>
+<td>NYMEX</td>
+<td>NG</td>
+<td>10,000 MMBtu</td>
+<td>$/MMBtu</td>
+<td>$0.001 ($10)</td>
+<td>Physical (Henry Hub)</td>
+</tr>
+<tr>
+<td>TTF Nat Gas</td>
+<td>ICE Endex</td>
+<td>TFM</td>
+<td>Varies (MWh)</td>
+<td>€/MWh</td>
+<td>€0.001</td>
+<td>Cash/Physical</td>
+</tr>
+<tr>
+<td>NBP Nat Gas</td>
+<td>ICE</td>
+<td>NBP</td>
+<td>1,000 therms/day</td>
+<td>p/therm</td>
+<td>0.01p</td>
+<td>Cash</td>
+</tr>
+</tbody>
+</table>
+<h2 id="metals-contracts">Metals Contracts</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Exchange</th>
+<th>Size</th>
+<th>Quote</th>
+<th>Settlement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gold</td>
+<td>COMEX</td>
+<td>100 troy oz</td>
+<td>$/troy oz</td>
+<td>Physical (COMEX vaults)</td>
+</tr>
+<tr>
+<td>Silver</td>
+<td>COMEX</td>
+<td>5,000 troy oz</td>
+<td>$/troy oz</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Copper</td>
+<td>COMEX</td>
+<td>25,000 lbs</td>
+<td>US cents/lb</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Copper</td>
+<td>LME</td>
+<td>25 tonnes</td>
+<td>$/tonne</td>
+<td>Physical (LME warehouses)</td>
+</tr>
+<tr>
+<td>Aluminium</td>
+<td>LME</td>
+<td>25 tonnes</td>
+<td>$/tonne</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Nickel</td>
+<td>LME</td>
+<td>6 tonnes</td>
+<td>$/tonne</td>
+<td>Physical</td>
+</tr>
+</tbody>
+</table>
+<h2 id="agriculture-contracts">Agriculture Contracts</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Exchange</th>
+<th>Size</th>
+<th>Quote</th>
+<th>Settlement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Corn</td>
+<td>CBOT</td>
+<td>5,000 bu</td>
+<td>US cents/bu</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Soybeans</td>
+<td>CBOT</td>
+<td>5,000 bu</td>
+<td>US cents/bu</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Wheat (SRW)</td>
+<td>CBOT</td>
+<td>5,000 bu</td>
+<td>US cents/bu</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Milling Wheat</td>
+<td>Euronext</td>
+<td>50 tonnes</td>
+<td>€/tonne</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Palm Oil (CPO)</td>
+<td>Bursa Malaysia</td>
+<td>25 tonnes</td>
+<td>MYR/tonne</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Coffee (Arabica)</td>
+<td>ICE US</td>
+<td>37,500 lbs</td>
+<td>US cents/lb</td>
+<td>Physical</td>
+</tr>
+<tr>
+<td>Cocoa</td>
+<td>ICE London</td>
+<td>10 tonnes</td>
+<td>£/tonne</td>
+<td>Physical</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-key-spreads-and-relative-value-trades">PART 9: KEY SPREADS AND RELATIVE VALUE TRADES</h1>
+<p>These are the trades that commodity desks actually focus on — not outright direction:</p>
+<table>
+<thead>
+<tr>
+<th>Spread</th>
+<th>What it is</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Calendar spread (time spread)</strong></td>
+<td>Same commodity, different delivery months (e.g., Jun WTI vs Dec WTI)</td>
+<td>Curve shape (contango/backwardation), storage economics, supply expectations</td>
+</tr>
+<tr>
+<td><strong>Crack spread</strong></td>
+<td>Products vs crude (e.g., RBOB − WTI)</td>
+<td>Refining margin. Wide = refiner profit → runs at capacity → pulls crude</td>
+</tr>
+<tr>
+<td><strong>Spark spread</strong></td>
+<td>Power price − (Gas price × Heat rate)</td>
+<td>Gas-fired power generation margin</td>
+</tr>
+<tr>
+<td><strong>Crush spread</strong></td>
+<td>Soy products (meal + oil) − soybeans</td>
+<td>Soybean processing margin</td>
+</tr>
+<tr>
+<td><strong>Frac spread</strong></td>
+<td>NGL price − gas price</td>
+<td>Whether it's economic to extract NGLs from gas</td>
+</tr>
+<tr>
+<td><strong>Brent-WTI</strong></td>
+<td>Atlantic Basin crude supply balance</td>
+<td>US export capacity, Cushing storage, pipeline economics</td>
+</tr>
+<tr>
+<td><strong>Brent-Dubai (EFS)</strong></td>
+<td>Atlantic vs Pacific basin balance, light-sweet vs heavy-sour differential</td>
+<td>Asian refinery demand, Middle East supply, arbitrage flows</td>
+</tr>
+<tr>
+<td><strong>JKM-TTF</strong></td>
+<td>Asian vs European LNG price</td>
+<td>LNG cargo diversion direction</td>
+</tr>
+<tr>
+<td><strong>Location basis</strong> (gas)</td>
+<td>Regional hub vs Henry Hub (e.g., Algonquin vs HH)</td>
+<td>Pipeline capacity, local supply/demand, weather</td>
+</tr>
+<tr>
+<td><strong>Gold-Silver ratio</strong></td>
+<td>Gold price / Silver price</td>
+<td>Risk appetite. Ratio &gt;80 = stressed (silver underperforming). Ratio &lt;65 = risk-on.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-what-the-rm-monitors-in-commodities">PART 10: WHAT THE RM MONITORS IN COMMODITIES</h1>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>What to watch</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Position vs OI</strong></td>
+<td>Position size relative to open interest</td>
+<td>&gt;5% of OI = you ARE the market. Liquidation will move prices.</td>
+</tr>
+<tr>
+<td><strong>Delivery / expiry</strong></td>
+<td>Calendar of contract expirations</td>
+<td>Large position approaching expiry with no roll plan = operational crisis</td>
+</tr>
+<tr>
+<td><strong>Curve shape</strong></td>
+<td>Contango/backwardation levels</td>
+<td>Deep contango on large long = bleeding roll cost monthly</td>
+</tr>
+<tr>
+<td><strong>Physical vs financial</strong></td>
+<td>Is the PM exposed to physical delivery?</td>
+<td>WTI positions near expiry when Cushing is full</td>
+</tr>
+<tr>
+<td><strong>Margin requirements</strong></td>
+<td>Exchange margin calls, especially in stressed markets</td>
+<td>Margin increases during vol spikes can force liquidation</td>
+</tr>
+<tr>
+<td><strong>Cross-commodity correlations</strong></td>
+<td>Are "diversified" commodity bets actually all correlated?</td>
+<td>Long crude + long NatGas + long copper = all positioned for global growth, not diversified</td>
+</tr>
+<tr>
+<td><strong>Geopolitical event risk</strong></td>
+<td>Hormuz choke point, Black Sea corridor, EM coups</td>
+<td>Positions with binary geopolitical risk that could gap overnight</td>
+</tr>
+<tr>
+<td><strong>Regime / seasonality</strong></td>
+<td>Are positions aligned with seasonal norms?</td>
+<td>Long NatGas in April = fighting seasonal pattern (requires strong thesis)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-11-interview-application">PART 11: INTERVIEW APPLICATION</h1>
+<p>If asked "Tell me about commodity markets":</p>
+<p>"Commodity markets have a physical layer that financial markets don't — real barrels need to go somewhere, real tonnes need warehouse space. This creates unique dynamics.</p>
+<p>In crude oil, there are two main benchmarks: WTI for US delivery at Cushing (physically settled) and Brent for the global market (cash-settled). The fact that WTI is physically settled is why it went negative in April 2020 — there was nowhere to put the oil. Brent can't go negative the same way.</p>
+<p>Natural gas is regional, not global. Henry Hub in the US trades at $3/MMBtu while TTF in Europe traded at the equivalent of $60+ during the 2022 energy crisis. LNG is what connects these markets — cargoes flow to wherever the premium is highest.</p>
+<p>I focus on the curve shape — contango versus backwardation tells you about storage economics and supply tightness. I'd flag to a PM if they're holding a large long in deep contango because the roll cost bleeds their return every month regardless of where spot goes.</p>
+<p>For risk, the key questions are: position size relative to open interest (are we the market?), delivery obligations approaching expiry, and whether what looks like diversified commodity exposure is actually one correlated macro bet."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="A_Cash_Instruments.html">Cash Instruments</a> — overview of all asset classes including commodities<br />
+→ <a href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a> — how commodity shocks cascade to other markets<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — negative oil, Amaranth, and other commodity blow-ups<br />
+→ <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — macro drivers of commodity demand</p>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

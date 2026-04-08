@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link active" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,40 +308,118 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
 <h1 id="b-derivatives-mechanics-pricing-strategies">B — DERIVATIVES: MECHANICS, PRICING &amp; STRATEGIES</h1>
-<h2 id="futures-options-swaps-how-they-work-how-theyre-priced-how-theyre-used">Futures, options, swaps — how they work, how they're priced, how they're used</h2>
-<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<h2 id="futures-options-swaps-what-they-are-how-theyre-priced-how-theyre-traded-and-where-they-blow-up">Futures, options, swaps — what they are, how they're priced, how they're traded, and where they blow up</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="part-1-why-derivatives-exist">PART 1: WHY DERIVATIVES EXIST</h1>
-<p>Three reasons:<br />
-1. <strong>Hedging</strong> — Transfer risk you don't want. Airline buys oil futures to lock in fuel costs.<br />
-2. <strong>Speculation</strong> — Take risk with leverage. Buy call options instead of stock to amplify returns.<br />
-3. <strong>Price discovery</strong> — Futures markets aggregate information and set benchmark prices.</p>
-<p>Every derivative is a contract whose value is derived from an underlying asset. The underlying can be anything: stocks, bonds, rates, currencies, commodities, volatility, even weather.</p>
+<h1 id="part-1-what-is-a-derivative">PART 1: WHAT IS A DERIVATIVE?</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A derivative is a contract whose value is derived from an underlying asset — it lets you take exposure to (or hedge away) the price of something without owning it.</p>
+</blockquote>
+<p><strong>The three purposes:</strong><br />
+1. <strong>Hedging</strong> — Remove risk you don't want. An airline buys oil futures to lock in fuel costs. A PM buys puts to protect a portfolio.<br />
+2. <strong>Speculation</strong> — Take directional or volatility bets with leverage. Buy calls instead of stock to amplify returns.<br />
+3. <strong>Price discovery</strong> — Futures markets aggregate information from thousands of participants and produce benchmark prices.</p>
+<p><strong>Analogy:</strong> A derivative is like a side bet on a football game. You don't own the team (underlying asset), but your bet (derivative) gains or loses value based on how the team performs. The bet is "derived" from the game's outcome.</p>
+<p><strong>Why derivatives matter more than cash instruments for risk management:</strong> Cash instruments have linear payoffs — buy a stock, it goes up 5%, you make 5%. Derivatives can have non-linear payoffs, embedded leverage, and multiple risk dimensions (Greeks). A single options position can generate losses that are multiples of the initial investment. That's why they demand more sophisticated risk monitoring.</p>
 <hr />
 <h1 id="part-2-futures">PART 2: FUTURES</h1>
-<h2 id="what-it-is">What It Is</h2>
-<p>A contract to buy or sell an asset at a specified price on a specified future date. Both sides are OBLIGATED.</p>
+<h2 id="what-is-a-futures-contract">What Is a Futures Contract?</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A future is a binding agreement between two parties to buy or sell a specific asset at a specific price on a specific future date — both sides are OBLIGATED to perform.</p>
+</blockquote>
+<p><strong>Analogy:</strong> If you pre-order a car at a locked-in price for delivery in 6 months, that's a forward contract. A future is the same thing, but standardized by an exchange and with daily settlement of gains/losses.</p>
 <h2 id="key-mechanics">Key Mechanics</h2>
-<ul>
-<li><strong>Standardized:</strong> Exchange-traded, fixed contract size, fixed expiry dates.</li>
-<li><strong>Margin:</strong> You don't pay the full price — you post initial margin (~5-15% of notional). This creates LEVERAGE.</li>
-<li><strong>Daily mark-to-market:</strong> Gains/losses settled daily via a margin account. If your margin falls below maintenance level → margin call → deposit more or get liquidated.</li>
-<li><strong>Physical vs cash settlement:</strong> Some futures deliver the underlying (WTI crude → actual oil). Others settle in cash (S&amp;P 500 E-mini → cash difference).</li>
-</ul>
-<h2 id="pricing-cost-of-carry">Pricing: Cost of Carry</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Standardization</strong></td>
+<td>Exchange-traded: fixed contract size, fixed delivery dates, fixed quality specifications. You can't customize.</td>
+</tr>
+<tr>
+<td><strong>Margin</strong></td>
+<td>You post initial margin (~5-15% of notional), not the full price. This creates LEVERAGE.</td>
+</tr>
+<tr>
+<td><strong>Daily mark-to-market</strong></td>
+<td>Every day, the exchange calculates your P&amp;L and settles it in cash. If you lose → cash debited from your margin account. If margin falls below maintenance level → margin call → post more or get liquidated.</td>
+</tr>
+<tr>
+<td><strong>Central clearing</strong></td>
+<td>The clearinghouse (CME Clearing, ICE Clear) sits between buyer and seller. Both sides face the clearinghouse, not each other. This eliminates bilateral counterparty risk.</td>
+</tr>
+<tr>
+<td><strong>Delivery</strong></td>
+<td>Physical (WTI → actual oil at Cushing) or Cash-settled (S&amp;P E-mini → cash difference). KNOW WHICH ONE you're trading.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Margin and leverage — a worked example:</strong><br />
+- You buy 1 E-mini S&amp;P 500 futures contract. Notional = index level × $50 = 5,400 × $50 = $270,000.<br />
+- Initial margin ≈ $13,000 (~5% of notional). That's the cash you post.<br />
+- Leverage = $270,000 / $13,000 = ~21x.<br />
+- If SPX moves +2%: your gain = $270,000 × 2% = $5,400. That's a 42% return on your $13,000 margin.<br />
+- If SPX moves -5%: your loss = $270,000 × 5% = $13,500. You just lost MORE than your entire margin. You owe the exchange money beyond what you posted. Margin call.</p>
+<p><strong>This is why leverage kills.</strong> The upside looks great. The downside can exceed your entire investment. And the margin call comes at the worst possible time — when the market is moving against you the fastest.</p>
+<h2 id="futures-pricing-cost-of-carry">Futures Pricing: Cost of Carry</h2>
 <p>$$F = S \times e^{(r - q) \times T}$$</p>
-<p>Where:<br />
-- $F$ = futures price<br />
-- $S$ = spot price<br />
-- $r$ = risk-free rate (financing cost)<br />
-- $q$ = dividend yield / convenience yield / storage cost<br />
-- $T$ = time to expiry</p>
-<p><strong>In plain English:</strong> Futures price = spot + cost to hold the asset until delivery (financing, storage, insurance) minus any income from holding (dividends, convenience yield).</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>What it is</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$S$</td>
+<td>Spot price</td>
+<td>Higher spot → higher futures</td>
+</tr>
+<tr>
+<td>$r$</td>
+<td>Risk-free rate (financing cost)</td>
+<td>Higher rates → higher futures (costs more to finance holding the asset)</td>
+</tr>
+<tr>
+<td>$q$</td>
+<td>Yield / convenience yield</td>
+<td>Higher dividends or convenience yield → lower futures (you're missing out by not holding spot)</td>
+</tr>
+<tr>
+<td>$T$</td>
+<td>Time to expiry</td>
+<td>More time → more carry cost</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>In plain English:</strong> The futures price = spot price + what it costs to hold the asset until delivery (financing, storage, insurance) minus any income you'd earn from holding it (dividends, convenience yield). If futures deviate from this, arbitrageurs trade the gap until it closes.</p>
+</blockquote>
+<p><strong>Convenience yield</strong> — a concept unique to commodities: The benefit of physically owning the commodity right now (you can use it, avoid production shutdowns, meet customer orders). When supply is tight, convenience yield is high → futures trade below spot → backwardation.</p>
 <h2 id="contango-vs-backwardation">Contango vs Backwardation</h2>
 <table>
 <thead>
@@ -348,164 +427,497 @@ body {
 <th>State</th>
 <th>Futures vs Spot</th>
 <th>Why</th>
-<th>Impact on roll</th>
+<th>Roll impact</th>
+<th>Who benefits</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Contango</td>
+<td><strong>Contango</strong></td>
 <td>Futures &gt; Spot</td>
-<td>Storage + financing costs dominate. Supply is plentiful.</td>
-<td>Negative roll yield (rolling is expensive)</td>
+<td>Ample supply. Carry costs dominate. Market expects prices flat or higher.</td>
+<td>Negative roll yield (sell cheap near, buy expensive far)</td>
+<td>Short futures positions</td>
 </tr>
 <tr>
-<td>Backwardation</td>
+<td><strong>Backwardation</strong></td>
 <td>Futures &lt; Spot</td>
-<td>Scarcity premium for immediate delivery. Supply is tight.</td>
-<td>Positive roll yield (rolling makes money)</td>
+<td>Tight supply NOW. Convenience yield dominates. Scarcity premium.</td>
+<td>Positive roll yield (sell expensive near, buy cheap far)</td>
+<td>Long futures positions</td>
 </tr>
 </tbody>
 </table>
-<h2 id="roll-mechanics">Roll Mechanics</h2>
-<p>Futures expire. To maintain a position, you must "roll" — sell the expiring contract, buy the next one.<br />
-- In contango: you sell low (near month), buy high (next month) → lose money.<br />
-- In backwardation: you sell high, buy low → make money.<br />
-- <strong>Roll cost can dominate returns.</strong> The USO ETF (oil) lost ~40% of its value over years just from roll costs in a contango oil market.</p>
-<h2 id="futures-risk">Futures Risk</h2>
+<p><strong>Roll mechanics:</strong><br />
+- Futures expire. To maintain exposure, you "roll" — close the expiring contract, open the next month.<br />
+- <strong>In contango:</strong> You sell the near-month at $75, buy the next month at $77. You lost $2/barrel on the roll. Over a year, this can add up to 10-20% return drag.<br />
+- <strong>In backwardation:</strong> You sell near-month at $77, buy next month at $75. You earned $2/barrel. Roll yield adds to your return.<br />
+- <strong>Real-world impact:</strong> The USO ETF (oil) lost approximately 40% of its value over several years purely from roll costs in contango — even as oil prices were relatively stable. This is the "stealth tax" of commodity investing.</p>
+<h2 id="key-futures-contracts">Key Futures Contracts</h2>
+<table>
+<thead>
+<tr>
+<th>Underlying</th>
+<th>Exchange</th>
+<th>Ticker</th>
+<th>Contract Size</th>
+<th>Settlement</th>
+<th>Margin (~)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S&amp;P 500 E-mini</td>
+<td>CME</td>
+<td>ES</td>
+<td>$50 × Index</td>
+<td>Cash</td>
+<td>~$13,000</td>
+</tr>
+<tr>
+<td>Nasdaq 100 E-mini</td>
+<td>CME</td>
+<td>NQ</td>
+<td>$20 × Index</td>
+<td>Cash</td>
+<td>~$17,000</td>
+</tr>
+<tr>
+<td>Euro Stoxx 50</td>
+<td>Eurex</td>
+<td>FESX</td>
+<td>€10 × Index</td>
+<td>Cash</td>
+<td>~€5,000</td>
+</tr>
+<tr>
+<td>10-Year Treasury</td>
+<td>CBOT</td>
+<td>ZN</td>
+<td>$100,000 face value</td>
+<td>Physical (eligible bonds)</td>
+<td>~$2,000</td>
+</tr>
+<tr>
+<td>2-Year Treasury</td>
+<td>CBOT</td>
+<td>ZT</td>
+<td>$200,000 face value</td>
+<td>Physical</td>
+<td>~$1,000</td>
+</tr>
+<tr>
+<td>Eurodollar/SOFR</td>
+<td>CME</td>
+<td>SR3</td>
+<td>$2,500 per bp on $1M notional</td>
+<td>Cash</td>
+<td>~$1,000</td>
+</tr>
+<tr>
+<td>WTI Crude</td>
+<td>NYMEX</td>
+<td>CL</td>
+<td>1,000 barrels</td>
+<td>Physical (Cushing)</td>
+<td>~$7,000</td>
+</tr>
+<tr>
+<td>Brent Crude</td>
+<td>ICE</td>
+<td>B</td>
+<td>1,000 barrels</td>
+<td>Cash</td>
+<td>~$7,000</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>COMEX</td>
+<td>GC</td>
+<td>100 troy oz</td>
+<td>Physical</td>
+<td>~$10,000</td>
+</tr>
+<tr>
+<td>EUR/USD</td>
+<td>CME</td>
+<td>6E</td>
+<td>€125,000</td>
+<td>Physical / Cash</td>
+<td>~$2,500</td>
+</tr>
+</tbody>
+</table>
+<h2 id="futures-risks">Futures Risks</h2>
 <ul>
-<li><strong>Leverage:</strong> A 5% margin means 20x leverage. A 5% move in the underlying = 100% of your margin.</li>
-<li><strong>Margin calls:</strong> Position goes against you → post more margin or get liquidated at the worst time.</li>
-<li><strong>Basis risk:</strong> Futures don't perfectly track the spot price (basis = spot - futures). Basis can move independently.</li>
-<li><strong>Physical delivery:</strong> If you hold to expiry on a physically-settled contract and can't take delivery → disaster (April 2020 WTI).</li>
+<li><strong>Leverage:</strong> 20x leverage means a 5% adverse move wipes out your entire margin. Losses can exceed the initial investment.</li>
+<li><strong>Margin calls:</strong> Arrive at the worst time. In fast markets, you may be liquidated at a loss before you can post additional margin.</li>
+<li><strong>Basis risk:</strong> Futures ≠ spot. The gap (basis = spot − futures) changes unpredictably. Hedging with the "wrong" contract (e.g., Brent hedging jet fuel) means basis risk can blow out.</li>
+<li><strong>Liquidity at expiry:</strong> Volume concentrates in front months. Back-month liquidity can evaporate, leaving you unable to exit.</li>
+<li><strong>Physical delivery:</strong> Holding a physically-settled contract to expiry without delivery capability = catastrophe (WTI, April 2020, -$37/bbl).</li>
 </ul>
 <hr />
 <h1 id="part-3-options">PART 3: OPTIONS</h1>
-<h2 id="what-it-is_1">What It Is</h2>
-<p>The RIGHT (not obligation) to buy or sell an asset at a specified price (strike) before/on a specified date (expiry).<br />
-- <strong>Call option:</strong> Right to BUY at the strike.<br />
-- <strong>Put option:</strong> Right to SELL at the strike.<br />
-- <strong>American:</strong> Can exercise any time before expiry.<br />
-- <strong>European:</strong> Can only exercise at expiry.</p>
-<h2 id="option-value-components">Option Value Components</h2>
-<p><strong>Option Price = Intrinsic Value + Time Value</strong></p>
+<h2 id="what-is-an-option">What Is an Option?</h2>
+<blockquote>
+<p><strong>One-liner:</strong> An option gives you the RIGHT but not the obligation to buy or sell an asset at a specified price (strike) by a specified date (expiry) — the premium you pay is the price of that right.</p>
+</blockquote>
+<p><strong>Analogy:</strong> An option is like a cancellable reservation. You pay a small fee (premium) for the right to buy the house at an agreed price by December. If house prices rise, you exercise and buy cheap. If they fall, you walk away and lose only the reservation fee. The premium is the most you can lose.</p>
 <ul>
-<li><strong>Intrinsic value:</strong> How much the option is worth if exercised now.</li>
-<li>Call: max(0, S - K)</li>
-<li>Put: max(0, K - S)</li>
-<li><strong>Time value:</strong> The extra premium for the POSSIBILITY that the option becomes more valuable before expiry. Always positive (before expiry). Decays as you approach expiry (theta).</li>
+<li><strong>Call option:</strong> Right to BUY at the strike price. You want the underlying to go UP.</li>
+<li><strong>Put option:</strong> Right to SELL at the strike price. You want the underlying to go DOWN.</li>
+<li><strong>Long an option:</strong> You paid premium. Your risk is limited to the premium. You benefit from movement.</li>
+<li><strong>Short an option:</strong> You received premium. Your risk can be unlimited (short call) or very large (short put). You benefit from NO movement.</li>
 </ul>
+<h2 id="option-types-by-exercise-style">Option Types by Exercise Style</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>When can you exercise?</th>
+<th>Pricing model</th>
+<th>Where it's used</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>European</strong></td>
+<td>ONLY at expiry</td>
+<td><strong>Black-Scholes</strong> (analytical, closed-form solution)</td>
+<td>Index options (SPX, Euro Stoxx 50), FX options, most OTC derivatives</td>
+<td>Simpler to price and hedge because exercise is predictable</td>
+</tr>
+<tr>
+<td><strong>American</strong></td>
+<td>ANY TIME before expiry</td>
+<td><strong>Binomial tree</strong> (CRR model) — must check at every node whether early exercise is optimal</td>
+<td>US equity options (AAPL, MSFT — all single-stock options on US exchanges), commodity options</td>
+<td>Early exercise right makes them more expensive than European options. A deep ITM American put may be exercised early to capture the time value of cash. An American call on a dividend-paying stock may be exercised early just before the ex-date.</td>
+</tr>
+<tr>
+<td><strong>Bermudan</strong></td>
+<td>On specific dates (e.g., quarterly)</td>
+<td><strong>Lattice / Monte Carlo with early exercise</strong></td>
+<td>Swaptions, callable bonds, structured products</td>
+<td>"Between" European and American. Common in fixed income derivatives.</td>
+</tr>
+<tr>
+<td><strong>Asian</strong></td>
+<td>At expiry, but payoff based on AVERAGE price over the life</td>
+<td><strong>Monte Carlo simulation</strong> (no closed-form solution because the average is path-dependent)</td>
+<td>Commodity hedging (airlines lock in average fuel cost), FX hedging over a period</td>
+<td>Cheaper than vanilla options because averaging reduces volatility of the payoff. Less sensitive to manipulation at expiry.</td>
+</tr>
+<tr>
+<td><strong>Barrier</strong></td>
+<td>Depends on whether barrier is hit</td>
+<td><strong>Analytical (simple barriers) or Monte Carlo</strong></td>
+<td>Structured products, FX, commodities</td>
+<td>Knock-in: option activates only if underlying hits a level. Knock-out: option dies if underlying hits a level. Pin risk near the barrier — delta jumps massively.</td>
+</tr>
+<tr>
+<td><strong>Digital (Binary)</strong></td>
+<td>At expiry — fixed payout if ITM</td>
+<td><strong>Modified Black-Scholes with discontinuous payoff</strong></td>
+<td>Structured products, betting markets</td>
+<td>Pays fixed amount (e.g., $100) if ITM, regardless of how far ITM. Sharp payoff discontinuity at the strike.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-different-models-for-different-types">Why Different Models for Different Types?</h3>
+<blockquote>
+<p><strong>The key insight:</strong> Black-Scholes gives you a formula you can solve on a calculator — but it only works when you know WHEN exercise happens (European = at expiry, period). The moment you add optionality about WHEN to exercise (American) or path-dependency (Asian), you need numerical methods (trees, simulation) because there's no closed-form shortcut.</p>
+</blockquote>
+<p><strong>Black-Scholes (European):</strong> 5 inputs → 1 formula → 1 price. Fast, elegant, but assumes constant vol, normal returns, no early exercise.</p>
+<p><strong>Binomial tree (American):</strong> Build a tree of possible price paths, step by step from today to expiry. At each node, check: "Is it better to exercise now or hold?" Work backward from expiry to today. More computational but handles early exercise correctly.</p>
+<p><strong>Monte Carlo (Asian/path-dependent):</strong> Simulate thousands of random price paths. For each path, calculate the option payoff (based on the average price, the path taken, etc.). The option price = the average of all simulated payoffs, discounted back. Slow but handles ANY payoff structure.</p>
+<h2 id="option-value-what-youre-paying-for">Option Value: What You're Paying For</h2>
+<p><strong>Option Price = Intrinsic Value + Time Value (Extrinsic Value)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it is</th>
+<th>Example (Call with K=100, S=105, premium=$8)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Intrinsic value</strong></td>
+<td>The value if exercised RIGHT NOW. Call: max(0, S−K). Put: max(0, K−S).</td>
+<td>$5 (stock is $5 above strike)</td>
+</tr>
+<tr>
+<td><strong>Time value</strong></td>
+<td>The premium for the POSSIBILITY that the option becomes more valuable before expiry. Reflects uncertainty.</td>
+<td>$3 ($8 premium minus $5 intrinsic)</td>
+</tr>
+</tbody>
+</table>
+<p>Time value is highest for ATM options (maximum uncertainty about whether they'll expire ITM or OTM) and decays as expiry approaches (theta).</p>
 <h2 id="moneyness">Moneyness</h2>
 <table>
 <thead>
 <tr>
 <th>State</th>
-<th>Call</th>
-<th>Put</th>
-<th>Characteristics</th>
+<th>Call condition</th>
+<th>Put condition</th>
+<th>Delta (approx)</th>
+<th>Key characteristics</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>In-the-money (ITM)</td>
-<td>S &gt; K</td>
-<td>S &lt; K</td>
-<td>Has intrinsic value. Higher delta.</td>
+<td><strong>Deep ITM</strong></td>
+<td>S &gt;&gt; K</td>
+<td>S &lt;&lt; K</td>
+<td>~±0.90-1.00</td>
+<td>Moves almost 1:1 with underlying. Mostly intrinsic value. Small time premium.</td>
 </tr>
 <tr>
-<td>At-the-money (ATM)</td>
-<td>S ≈ K</td>
-<td>S ≈ K</td>
-<td>Delta ≈ 0.50. Max time value. Max gamma.</td>
+<td><strong>ITM</strong></td>
+<td>S &gt; K</td>
+<td>S &lt; K</td>
+<td>~±0.60-0.90</td>
+<td>Has intrinsic value plus some time value.</td>
 </tr>
 <tr>
-<td>Out-of-the-money (OTM)</td>
+<td><strong>ATM</strong></td>
+<td>S ≈ K</td>
+<td>S ≈ K</td>
+<td>~±0.50</td>
+<td>Maximum time value. Maximum gamma. Where most vol trading happens.</td>
+</tr>
+<tr>
+<td><strong>OTM</strong></td>
 <td>S &lt; K</td>
 <td>S &gt; K</td>
-<td>No intrinsic value. Pure time value. Lower delta.</td>
+<td>~±0.10-0.40</td>
+<td>Zero intrinsic value — pure time value. Cheap but unlikely to pay off.</td>
+</tr>
+<tr>
+<td><strong>Deep OTM</strong></td>
+<td>S &lt;&lt; K</td>
+<td>S &gt;&gt; K</td>
+<td>~±0.01-0.10</td>
+<td>Very cheap "lottery tickets." Huge percentage gains if the underlying moves far enough. Tail protection.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="black-scholes-what-it-does-and-what-it-assumes">Black-Scholes: What It Does and What It Assumes</h2>
-<p>The model gives a theoretical price for European options.</p>
-<p><strong>Inputs:</strong> Spot price (S), Strike (K), Time to expiry (T), Risk-free rate (r), Dividend yield (q), Volatility (σ).</p>
-<p><strong>Five outputs:</strong> Option price, and the five Greeks (delta, gamma, theta, vega, rho).</p>
-<p><strong>Key assumptions (and how they break):</strong></p>
+<h2 id="what-makes-an-option-more-expensive-or-cheaper">What Makes an Option More Expensive or Cheaper?</h2>
+<p>This is crucial — you need to understand what you're paying for and what's a good or bad deal.</p>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Higher → option premium is...</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Higher implied vol (σ)</strong></td>
+<td>MORE expensive</td>
+<td>More uncertainty → higher chance of a big move → option is worth more</td>
+</tr>
+<tr>
+<td><strong>More time to expiry (T)</strong></td>
+<td>MORE expensive</td>
+<td>More time for something to happen (time value)</td>
+</tr>
+<tr>
+<td><strong>Higher interest rates (r)</strong></td>
+<td>Calls MORE expensive, Puts CHEAPER</td>
+<td>Higher rates increase the forward price (forward = spot × e^rT), benefiting calls</td>
+</tr>
+<tr>
+<td><strong>Higher dividends (q)</strong></td>
+<td>Calls CHEAPER, Puts MORE expensive</td>
+<td>Dividends reduce the forward price (stock drops by dividend amount on ex-date)</td>
+</tr>
+<tr>
+<td><strong>ATM strike</strong></td>
+<td>MORE expensive (most time value)</td>
+<td>Maximum uncertainty about ITM/OTM outcome</td>
+</tr>
+<tr>
+<td><strong>Deep OTM strike</strong></td>
+<td>CHEAPER</td>
+<td>Very unlikely to pay off</td>
+</tr>
+<tr>
+<td><strong>American vs European (same terms)</strong></td>
+<td>American ≥ European</td>
+<td>Early exercise right has value (or at minimum, no negative value)</td>
+</tr>
+<tr>
+<td><strong>Asian vs European (same terms)</strong></td>
+<td>Asian CHEAPER</td>
+<td>Averaging reduces payoff volatility → less valuable option</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The practical interview insight:</strong> If a PM says "I want to buy downside protection," the key variables are: how much vol am I paying (implied vol vs realized vol), how much time am I buying (theta), and how far out-of-the-money is the strike (delta / probability of exercise). Expensive protection means vol is high and you're paying a lot of theta rent. Cheap protection means vol is low — which is often when you should be buying it (before the market gets scared, not after).</p>
+</blockquote>
+<h2 id="black-scholes-what-it-does-what-it-assumes-where-it-breaks">Black-Scholes — What It Does, What It Assumes, Where It Breaks</h2>
+<p><strong>The formula</strong> (for a European call):<br />
+$$C = S \cdot e^{-qT} \cdot N(d_1) - K \cdot e^{-rT} \cdot N(d_2)$$</p>
+<p>Where:<br />
+$$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1 - \sigma\sqrt{T}$$</p>
+<p><strong>You don't need to derive this.</strong> But you need to understand:<br />
+- $N(d_1)$ and $N(d_2)$ are cumulative normal distribution values — probabilities under a bell curve<br />
+- $N(d_2)$ ≈ probability the option expires ITM (risk-neutral probability)<br />
+- The formula takes 6 inputs and produces 1 output (option price)<br />
+- All inputs are observable EXCEPT implied volatility — which is backed out from the market price</p>
+<p><strong>Implied volatility (IV):</strong> The market price tells you what vol traders are pricing in. If the BS formula gives $5 for a call at 20% vol, but the call trades at $7, the "implied vol" is higher than 20% — the market expects more volatility than the formula's 20% assumption. IV is the market's consensus estimate of future realized volatility.</p>
+<p><strong>Where Black-Scholes breaks:</strong></p>
 <table>
 <thead>
 <tr>
 <th>Assumption</th>
 <th>Reality</th>
+<th>Consequence</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Returns are normally distributed</td>
-<td>Returns have fat tails — extreme moves happen more often than predicted</td>
+<td>Returns are log-normally distributed (no jumps)</td>
+<td>Returns have fat tails — crashes happen far more often than a bell curve predicts</td>
+<td>OTM puts are underpriced by BS → market adds skew (higher IV for OTM puts)</td>
 </tr>
 <tr>
 <td>Volatility is constant</td>
-<td>Vol changes constantly — that's why the vol surface exists</td>
+<td>Vol changes constantly and correlates with price (vol up when market down)</td>
+<td>The volatility surface exists — IV varies by strike and maturity</td>
 </tr>
 <tr>
-<td>No transaction costs or taxes</td>
-<td>Both exist and matter for hedging</td>
+<td>Continuous trading, no gaps</td>
+<td>Markets close overnight and on weekends. Stocks gap on earnings.</td>
+<td>Gap risk isn't captured by BS → actual hedging costs exceed model predictions</td>
 </tr>
 <tr>
-<td>Continuous trading possible</td>
-<td>Markets close, gap risk exists</td>
+<td>No transaction costs</td>
+<td>Every hedge costs bid-ask + commissions</td>
+<td>In practice, you can't delta-hedge continuously — you rebalance discretely</td>
+</tr>
+<tr>
+<td>Risk-free rate is constant</td>
+<td>Rates change</td>
+<td>Minor for short-dated options, material for LEAPS</td>
 </tr>
 <tr>
 <td>No early exercise</td>
-<td>American options can be exercised early (dividends, deep ITM puts)</td>
+<td>American options can be exercised early</td>
+<td>Must use binomial models for American options</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Put-Call Parity:</strong> $C - P = S \times e^{-qT} - K \times e^{-rT}$</p>
-<p>This is an arbitrage relationship. If it breaks beyond transaction costs → arbitrage opportunity.</p>
-<h2 id="option-strategies">Option Strategies</h2>
-<h3 id="single-leg">Single-Leg</h3>
+<p><strong>The vol surface</strong> (the consequence of BS being wrong):<br />
+- If BS were perfectly correct, all strikes and maturities would have the same IV<br />
+- In reality, OTM puts have higher IV than ATM options (the "skew") because the market fears crashes<br />
+- Different maturities have different IV levels (the "term structure")<br />
+- The full picture is a 3D surface: IV as a function of both strike and maturity → covered in depth in <a href="E_Volatility.html">Volatility</a></p>
+<h2 id="put-call-parity">Put-Call Parity</h2>
+<p>$$C - P = S \cdot e^{-qT} - K \cdot e^{-rT}$$</p>
+<blockquote>
+<p><strong>In plain English:</strong> A call minus a put (same strike and expiry) equals a forward position. If this relationship breaks beyond transaction costs, there's an arbitrage opportunity — buy the cheap side, sell the expensive side, and lock in risk-free profit. This is one of the few true "no arbitrage" relationships in finance.</p>
+</blockquote>
+<p><strong>Why it matters for risk:</strong> Put-call parity means if you know 3 of the 4 values (call, put, spot, strike), you can derive the 4th. It also means a long call + short put = synthetic long stock (same P&amp;L, funded differently).</p>
+<hr />
+<h1 id="part-4-option-strategies-what-they-do-and-when-to-use-them">PART 4: OPTION STRATEGIES — WHAT THEY DO AND WHEN TO USE THEM</h1>
+<h2 id="single-leg-strategies">Single-Leg Strategies</h2>
 <table>
 <thead>
 <tr>
 <th>Strategy</th>
-<th>Construction</th>
-<th>View</th>
+<th>What you do</th>
+<th>Your view</th>
 <th>Max gain</th>
 <th>Max loss</th>
+<th>Greeks profile</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Long call</td>
-<td>Buy call</td>
-<td>Bullish</td>
+<td><strong>Long call</strong></td>
+<td>Buy a call</td>
+<td>Bullish, want move UP</td>
 <td>Unlimited</td>
 <td>Premium paid</td>
+<td>+Δ, +Γ, −Θ, +ν</td>
 </tr>
 <tr>
-<td>Long put</td>
-<td>Buy put</td>
-<td>Bearish</td>
-<td>Strike - premium</td>
-<td>Premium paid</td>
-</tr>
-<tr>
-<td>Short call</td>
-<td>Sell call</td>
-<td>Neutral/bearish</td>
+<td><strong>Short call</strong></td>
+<td>Sell a call</td>
+<td>Neutral/bearish, want no move UP</td>
 <td>Premium received</td>
 <td>Unlimited</td>
+<td>−Δ, −Γ, +Θ, −ν</td>
 </tr>
 <tr>
-<td>Short put</td>
-<td>Sell put</td>
-<td>Neutral/bullish</td>
+<td><strong>Long put</strong></td>
+<td>Buy a put</td>
+<td>Bearish, want move DOWN</td>
+<td>Strike − premium</td>
+<td>Premium paid</td>
+<td>−Δ, +Γ, −Θ, +ν</td>
+</tr>
+<tr>
+<td><strong>Short put</strong></td>
+<td>Sell a put</td>
+<td>Neutral/bullish, want no move DOWN</td>
 <td>Premium received</td>
-<td>Strike - premium</td>
+<td>Strike − premium</td>
+<td>+Δ, −Γ, +Θ, −ν</td>
 </tr>
 </tbody>
 </table>
-<h3 id="multi-leg-spreads">Multi-Leg Spreads</h3>
+<blockquote>
+<p><strong>Pattern:</strong> Long options = long gamma, long vega, short theta (you pay rent for protection). Short options = short gamma, short vega, long theta (you collect rent but bear tail risk). Always.</p>
+</blockquote>
+<h3 id="payoff-diagrams-the-four-building-blocks">Payoff Diagrams — The Four Building Blocks</h3>
+<blockquote>
+<p>Every multi-leg strategy is a combination of these four shapes. Memorize them.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>    LONG CALL                           SHORT CALL
+    (Buy call at strike K, pay P)       (Sell call at strike K, receive P)
+
+    P&amp;L                                 P&amp;L
+     ^                  /                ^              K
+     |                 /            +P  +_______________\
+     |                /                  |               \
+   0 +-- -- -- -- --*-------&gt; Price    0 +-- -- -- -- -- --*-------&gt; Price
+     |             K+P                   |                K+P
+ -P  +_____________K                     |                  \
+     |                                   |                   \
+
+    Max gain: Unlimited                  Max gain: Premium (P)
+    Max loss: Premium (P)                Max loss: Unlimited
+    B/E: K + P                           B/E: K + P
+
+
+    LONG PUT                            SHORT PUT
+    (Buy put at strike K, pay P)        (Sell put at strike K, receive P)
+
+    P&amp;L                                 P&amp;L
+     ^                                   ^
+     |  \                           +P  +        K_______________
+     |   \                               |      /
+     |    \                            0 +-----*-- -- -- -- -- --&gt; Price
+   0 +-----*-- -- -- -- --&gt; Price         |    K-P
+     |    K-P                             |   /
+ -P  +        K_______________            |  /
+     |                                    | /
+
+    Max gain: K - P (price to 0)         Max gain: Premium (P)
+    Max loss: Premium (P)                Max loss: K - P (price to 0)
+    B/E: K - P                           B/E: K - P
+</code></pre></div>
+
+<h2 id="multi-leg-strategies">Multi-Leg Strategies</h2>
+<h3 id="directional-spreads-defined-risk">Directional Spreads (Defined Risk)</h3>
 <table>
 <thead>
 <tr>
@@ -513,189 +925,531 @@ body {
 <th>Construction</th>
 <th>View</th>
 <th>What it does</th>
+<th>Cost</th>
+<th>Max gain</th>
+<th>Max loss</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Bull call spread</strong></td>
-<td>Buy low-strike call + sell high-strike call</td>
+<td>Buy lower-strike call + sell higher-strike call</td>
 <td>Moderately bullish</td>
-<td>Caps upside but reduces cost</td>
+<td>Caps your upside but reduces premium cost</td>
+<td>Net debit</td>
+<td>Difference in strikes − net debit</td>
+<td>Net debit</td>
 </tr>
 <tr>
 <td><strong>Bear put spread</strong></td>
-<td>Buy high-strike put + sell low-strike put</td>
+<td>Buy higher-strike put + sell lower-strike put</td>
 <td>Moderately bearish</td>
-<td>Caps downside protection but cheaper</td>
+<td>Caps your downside profit but cheaper than outright put</td>
+<td>Net debit</td>
+<td>Difference in strikes − net debit</td>
+<td>Net debit</td>
 </tr>
 <tr>
-<td><strong>Straddle</strong></td>
-<td>Buy call + put at same strike</td>
-<td>Expecting big move, direction unknown</td>
-<td>Profits from large moves in either direction</td>
+<td><strong>Bull put spread</strong></td>
+<td>Sell higher-strike put + buy lower-strike put</td>
+<td>Moderately bullish (credit)</td>
+<td>Collect premium, hope stock stays above short strike</td>
+<td>Net credit</td>
+<td>Net credit</td>
+<td>Difference in strikes − net credit</td>
 </tr>
 <tr>
-<td><strong>Strangle</strong></td>
-<td>Buy OTM call + OTM put</td>
-<td>Cheaper than straddle, needs bigger move</td>
-<td>Similar to straddle but wider breakevens</td>
-</tr>
-<tr>
-<td><strong>Collar</strong></td>
-<td>Long stock + buy put + sell call</td>
-<td>Protect downside, give up upside</td>
-<td>Zero-cost or near-zero hedge</td>
-</tr>
-<tr>
-<td><strong>Butterfly</strong></td>
-<td>Buy 1 low, sell 2 middle, buy 1 high</td>
-<td>Expecting stock stays near middle strike</td>
-<td>Cheap bet on low volatility</td>
-</tr>
-<tr>
-<td><strong>Risk reversal</strong></td>
-<td>Sell OTM put + buy OTM call (or vice versa)</td>
-<td>Directional with no net premium</td>
-<td>Measures market skew/sentiment</td>
-</tr>
-<tr>
-<td><strong>Iron condor</strong></td>
-<td>Sell OTM put + buy further OTM put + sell OTM call + buy further OTM call</td>
-<td>Range-bound</td>
-<td>Profit if stock stays in a range</td>
-</tr>
-<tr>
-<td><strong>Calendar spread</strong></td>
-<td>Sell near-dated + buy far-dated (same strike)</td>
-<td>Theta play</td>
-<td>Profit from near-dated decaying faster</td>
+<td><strong>Bear call spread</strong></td>
+<td>Sell lower-strike call + buy higher-strike call</td>
+<td>Moderately bearish (credit)</td>
+<td>Collect premium, hope stock stays below short strike</td>
+<td>Net credit</td>
+<td>Net credit</td>
+<td>Difference in strikes − net credit</td>
 </tr>
 </tbody>
 </table>
-<h3 id="when-to-use-what">When to Use What</h3>
+<p><strong>Analogy for spreads:</strong> A spread is like buying insurance with a deductible. The outright option covers everything (full insurance). The spread covers a range — cheaper, but capped. You're giving up the tail to reduce cost.</p>
+<div class="highlight"><pre><span></span><code>    BULL CALL SPREAD                    BEAR PUT SPREAD
+    (Buy K1 call, sell K2 call)         (Buy K2 put, sell K1 put)
+
+    P&amp;L                                 P&amp;L
+     ^                                   ^
+     |          _______________          |
+ Max +........./ K2                 Max +_______________\
+     |        /                          |         K1    \
+   0 +-- -- -*-- -- -- -- --&gt; Price    0 +-- -- -- -- -- --*-- --&gt; Price
+     |      K1                           |                K2
+  -D +_____/                          -D +                 \______
+     |                                   |
+
+    Max gain: (K2-K1) - Debit            Max gain: (K2-K1) - Debit
+    Max loss: Net debit (D)              Max loss: Net debit (D)
+    View: Moderately bullish             View: Moderately bearish
+</code></pre></div>
+
+<h3 id="volatility-strategies-want-movement-vs-stability">Volatility Strategies (Want Movement vs Stability)</h3>
 <table>
 <thead>
 <tr>
-<th>Situation</th>
 <th>Strategy</th>
+<th>Construction</th>
+<th>View</th>
+<th>Breakeven</th>
+<th>What to know</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>"I want downside protection but hate paying premium"</td>
-<td>Collar (buy put, sell call) or put spread</td>
+<td><strong>Long straddle</strong></td>
+<td>Buy ATM call + Buy ATM put (same strike, same expiry)</td>
+<td>Big move expected, DON'T KNOW direction</td>
+<td>Strike ± total premium paid</td>
+<td>Most expensive vol bet. Works if realized vol &gt; implied vol. You're paying double theta.</td>
 </tr>
 <tr>
-<td>"I think this stock will move big on earnings but I don't know which way"</td>
-<td>Straddle or strangle</td>
+<td><strong>Long strangle</strong></td>
+<td>Buy OTM call + Buy OTM put</td>
+<td>Cheaper than straddle, needs BIGGER move</td>
+<td>Call strike + premium (upside) / Put strike − premium (downside)</td>
+<td>Wider breakevens but cheaper premium. Better for "it'll move a lot or not at all" views.</td>
 </tr>
 <tr>
-<td>"I want to express a bullish view with defined risk"</td>
+<td><strong>Short straddle</strong></td>
+<td>Sell ATM call + Sell ATM put</td>
+<td>Market will NOT MOVE</td>
+<td>Strike ± total premium collected</td>
+<td>Maximum premium collected but UNLIMITED risk both ways. The classic "selling vol" trade. Feb 2018 Volmageddon.</td>
+</tr>
+<tr>
+<td><strong>Short strangle</strong></td>
+<td>Sell OTM call + Sell OTM put</td>
+<td>Market stays in a range</td>
+<td>Wider range than straddle — profits if stock stays between the two strikes</td>
+<td>Same unlimited risk as short straddle but with more breathing room.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>    LONG STRADDLE                       LONG STRANGLE
+    (Buy ATM call + ATM put at K)       (Buy OTM put at K1 + OTM call at K2)
+
+    P&amp;L                                 P&amp;L
+     ^                                   ^
+     |  \              /                 |  \                   /
+     |   \            /                  |   \                 /
+     |    \          /                   |    \               /
+   0 +-----*--------*-----&gt; Price      0 +----*-- -- -- -- --*----&gt; Price
+     |    K-2P    K+2P                   |   K1-P           K2+P
+-2P  +..........V                    -P  +.....\____________/
+     |          K                        |      K1          K2
+
+    Max gain: Unlimited (both ways)      Max gain: Unlimited (both ways)
+    Max loss: 2 x Premium (2P)           Max loss: Total premium paid
+    B/E: K +/- 2P                        B/E: K1-P (down) / K2+P (up)
+    View: Expect big move                View: Same, cheaper but wider B/E
+</code></pre></div>
+
+<h3 id="income-hedging-structures">Income / Hedging Structures</h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Construction</th>
+<th>View</th>
+<th>What it does</th>
+<th>Key insight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Collar</strong></td>
+<td>Long stock + buy put + sell call</td>
+<td>Protect downside, cap upside</td>
+<td>Creates a range: protected below put strike, capped above call strike</td>
+<td>Can be structured at zero cost (premium from sold call pays for bought put). Extremely common hedge for concentrated stock positions.</td>
+</tr>
+<tr>
+<td><strong>Covered call</strong></td>
+<td>Long stock + sell OTM call</td>
+<td>Slightly bullish, want income</td>
+<td>Earn premium on stock you own. Give up upside beyond the call strike.</td>
+<td>"The income strategy." Popular with retail. Actually a short put synthetically (via put-call parity).</td>
+</tr>
+<tr>
+<td><strong>Protective put</strong></td>
+<td>Long stock + buy put</td>
+<td>Bullish but worried about crash</td>
+<td>Floor on losses at put strike. Keep all upside.</td>
+<td>Insurance policy. Expensive in high-vol environments (exactly when you want it most).</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>    COLLAR                              COVERED CALL
+    (Long stock + buy K1 put +          (Long stock + sell K call)
+     sell K2 call)
+
+    P&amp;L                                 P&amp;L
+     ^                                   ^
+     |          _______________          |
+ Max +........./ K2                 Max +.............____________
+     |        /                          |           / K
+   0 +-- -- */-- -- -- -- --&gt; Price    0 +-- -- -- -*-- -- -- -- --&gt; Price
+     |      K1                           |        /
+ Min +_____/                             |       /
+     |                                   |      /
+
+    Max gain: K2 - entry (capped)        Max gain: (K - entry) + premium
+    Max loss: entry - K1 (floored)       Max loss: entry - premium
+    View: Protect downside, cap up       View: Mildly bullish, earn income
+</code></pre></div>
+
+<h3 id="advanced-structures">Advanced Structures</h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Construction</th>
+<th>View</th>
+<th>What it does</th>
+<th>Key insight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Butterfly</strong></td>
+<td>Buy 1 low K call + sell 2 middle K calls + buy 1 high K call</td>
+<td>Stock stays near middle strike</td>
+<td>Cheap bet on low volatility and pinning near a specific price.</td>
+<td>Max profit if stock closes exactly at middle K at expiry. Very defined risk.</td>
+</tr>
+<tr>
+<td><strong>Iron condor</strong></td>
+<td>Bear call spread + bull put spread (all OTM)</td>
+<td>Range-bound</td>
+<td>Profit if stock stays between the two short strikes</td>
+<td>Defined risk version of short strangle. Premium collected is max gain. Popular with systematic premium-selling funds.</td>
+</tr>
+<tr>
+<td><strong>Risk reversal</strong></td>
+<td>Sell OTM put + buy OTM call (or vice versa)</td>
+<td>Strongly directional (bullish or bearish)</td>
+<td>Net zero or near-zero cost. Full upside exposure funded by downside risk.</td>
+<td>One-for-one with directional view. The spread between ATM call and ATM put implied vols IS the "risk reversal" — it measures skew.</td>
+</tr>
+<tr>
+<td><strong>Calendar spread (time spread)</strong></td>
+<td>Sell near-dated option + buy far-dated option (same strike)</td>
+<td>Low vol now, higher vol later, or theta decay play</td>
+<td>Near-dated option decays faster than far-dated → you profit from the differential</td>
+<td>Profits if stock stays near strike while near-dated bleeds theta. Sensitive to vol term structure.</td>
+</tr>
+<tr>
+<td><strong>Diagonal spread</strong></td>
+<td>Buy far-dated option + sell near-dated option at different strike</td>
+<td>Directional + theta play</td>
+<td>Combines calendar (time decay) with directional tilt</td>
+<td>More complex but allows you to express view on direction + time + vol simultaneously.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>    BUTTERFLY                           IRON CONDOR
+    (Buy K1, sell 2x K2, buy K3 calls)  (Bull put spread + bear call spread)
+
+    P&amp;L                                 P&amp;L
+     ^                                   ^
+     |         /\                        |
+ Max +......../ .\                  +P  +------____________------
+     |       /    \                      |     / K2      K3 \
+   0 +------*------*-------&gt; Price    0 +-- -*-- -- -- -- --*--- Price
+     |     K1  K2  K3                    |  K1                K4
+  -D +____/        \____            Max +_/                    \_
+     |                                Loss|
+
+    Max gain: (K2-K1) - debit            Max gain: Net premium received
+    Max loss: Net debit                  Max loss: Width of spread - premium
+    View: Stock pins at K2               View: Range-bound, defined risk
+</code></pre></div>
+
+<h3 id="strategy-selection-guide">Strategy Selection Guide</h3>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Best strategy</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"I'm bullish with limited budget"</td>
 <td>Bull call spread</td>
+<td>Cheaper than outright call, defined risk</td>
 </tr>
 <tr>
-<td>"I think vol is too high and the stock will stay in a range"</td>
-<td>Iron condor or short straddle</td>
+<td>"I want downside protection, hate paying premium"</td>
+<td>Collar (zero-cost) or put spread</td>
+<td>Sell away upside or tail to fund the protection</td>
 </tr>
 <tr>
-<td>"I want to hedge my portfolio without selling anything"</td>
-<td>Buy index puts or put spreads</td>
+<td>"Earnings next week, stock will move big but I don't know which way"</td>
+<td>Long straddle or strangle</td>
+<td>Pays for movement in either direction</td>
+</tr>
+<tr>
+<td>"Vol is too high, stock will stay in a range"</td>
+<td>Iron condor or short strangle</td>
+<td>Collect premium, profit from vol overestimation</td>
+</tr>
+<tr>
+<td>"I want to express max conviction on direction"</td>
+<td>Risk reversal</td>
+<td>Most directional exposure per dollar</td>
+</tr>
+<tr>
+<td>"I want income on a stock I own"</td>
+<td>Covered call</td>
+<td>Collect premium, give up tail upside</td>
+</tr>
+<tr>
+<td>"I think stock pins at exactly $150 by expiry"</td>
+<td>Butterfly centered at $150</td>
+<td>Cheap, defined risk, max payout at the pin</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-4-swaps">PART 4: SWAPS</h1>
+<h1 id="part-5-swaps">PART 5: SWAPS</h1>
+<h2 id="what-is-a-swap">What Is a Swap?</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A swap is an OTC agreement between two parties to exchange cash flows over time — typically one side pays a fixed amount and the other pays a floating amount, based on an underlying reference.</p>
+</blockquote>
+<p><strong>Analogy:</strong> A swap is like two neighbors agreeing to swap their electricity bills. One pays a flat $200/month (fixed), the other pays whatever the actual bill is (floating). If electricity prices rise, the fixed payer wins. If they fall, the floating payer wins. Neither neighbor buys electricity for the other — they just settle the difference.</p>
 <h2 id="interest-rate-swap-irs">Interest Rate Swap (IRS)</h2>
-<ul>
-<li>Exchange fixed rate payments for floating rate payments (or vice versa) over a period.</li>
-<li><strong>Fixed payer:</strong> Pays fixed, receives floating. Benefits if rates RISE.</li>
-<li><strong>Fixed receiver:</strong> Pays floating, receives fixed. Benefits if rates FALL.</li>
-<li><strong>Notional:</strong> Not exchanged — just used to calculate payment amounts.</li>
-<li><strong>DV01 of a swap:</strong> How much the swap's value changes per 1bp move in rates. An IRS with $100M notional and 5Y maturity has DV01 ≈ $50K.</li>
-<li><strong>Who uses them:</strong> Banks manage interest rate exposure, corporates convert floating debt to fixed, hedge funds express rate views.</li>
-</ul>
+<blockquote>
+<p><strong>One-liner:</strong> An IRS is an agreement to exchange fixed-rate payments for floating-rate payments on a notional amount — the most traded derivative in the world.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Pays</th>
+<th>Receives</th>
+<th>Wins when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fixed payer</strong> (pays fixed, receives floating)</td>
+<td>Fixed rate (e.g., 4.00%)</td>
+<td>SOFR (floating, resets periodically)</td>
+<td>Rates RISE (you locked in low fixed, receive higher floating)</td>
+</tr>
+<tr>
+<td><strong>Fixed receiver</strong> (pays floating, receives fixed)</td>
+<td>SOFR</td>
+<td>Fixed rate (e.g., 4.00%)</td>
+<td>Rates FALL (you locked in high fixed, pay lower floating)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key features:</strong><br />
+- <strong>Notional amount</strong> is never exchanged — it's just a reference for calculating payments. A $100M notional swap doesn't mean $100M changes hands — just the net interest differential.<br />
+- <strong>Tenor:</strong> Common: 2Y, 5Y, 10Y, 30Y. Longer tenor = more rate sensitivity (higher DV01).<br />
+- <strong>DV01 of a swap:</strong> A 5Y IRS with $100M notional has DV01 ≈ $50,000. Meaning: a 1bp move in the swap rate changes the swap's value by $50K.<br />
+- <strong>Swap rate</strong> = the fixed rate that makes the swap fair (PV of fixed leg = PV of floating leg at inception).<br />
+- <strong>Swap curve</strong> = swap rates plotted by tenor. It's the market's expectation of future short-term rates, incorporating credit and liquidity premiums.</p>
+<p><strong>Who uses IRS:</strong><br />
+- <strong>Banks:</strong> Convert floating-rate assets to fixed income streams (or vice versa)<br />
+- <strong>Corporates:</strong> Issue floating-rate debt but want fixed → enter swap as fixed payer<br />
+- <strong>Hedge funds:</strong> Express rate views with leverage. A $100M swap requires much less capital than buying $100M in bonds.<br />
+- <strong>Pension funds:</strong> Match long-dated liabilities (pension payments) with long-dated fixed-rate swap receipts</p>
 <h2 id="total-return-swap-trs">Total Return Swap (TRS)</h2>
-<ul>
-<li>One party receives the total return (price change + dividends) on a reference asset, the other receives a financing rate (SOFR + spread).</li>
-<li><strong>Why it matters:</strong> TRS gives you synthetic exposure WITHOUT owning the asset. No 13F reporting. No share borrowing needed for shorting.</li>
-<li><strong>Archegos used TRS</strong> to build $30B+ in notional equity exposure that no single prime broker could see in full. → <a href="V_Case_Studies.html">Case Studies</a></li>
-<li><strong>Risk:</strong> Counterparty risk (PB can call margin), leverage (small equity, large notional), opacity (no public reporting).</li>
-</ul>
+<blockquote>
+<p><strong>One-liner:</strong> A TRS gives you the total economic exposure (price change + dividends) to an asset WITHOUT owning it — in exchange for paying a financing rate.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Party</th>
+<th>Receives</th>
+<th>Pays</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total return receiver</strong></td>
+<td>Price appreciation + dividends on reference asset</td>
+<td>SOFR + spread (financing cost)</td>
+</tr>
+<tr>
+<td><strong>Total return payer</strong></td>
+<td>SOFR + spread</td>
+<td>Exposes themselves to price depreciation + pays dividends</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why TRS matters — the Archegos lesson:</strong><br />
+- <strong>No ownership:</strong> You never buy the stock, so no 13F disclosure (for equity TRS). No voting rights. But you have full economic exposure.<br />
+- <strong>Leverage:</strong> Initial margin on a TRS might be 10-15%, giving you 7-10x leverage. Archegos used TRS to build $30B+ in notional equity exposure on ~$3B of capital.<br />
+- <strong>Opacity:</strong> Each prime broker only sees their own TRS positions with you. No single PB saw Archegos' total exposure until it was too late.<br />
+- <strong>Risk:</strong> Counterparty risk (PB can demand margin or terminate), leverage (amplifies both ways), concentration (TRS on a single name is a leveraged single-stock bet).<br />
+- <strong>Post-Archegos regulations:</strong> The SEC now requires TRS reporting on large positions. Prime brokers improved cross-margining visibility. But the fundamental risk of synthetic leverage remains.</p>
 <h2 id="credit-default-swap-cds">Credit Default Swap (CDS)</h2>
-<ul>
-<li>Insurance against default. Buyer pays spread, seller pays par minus recovery if default occurs.</li>
-<li>Covered in <a href="A_Cash_Instruments.html">Cash Instruments</a> Part 5 (credit section).</li>
-</ul>
-<h2 id="commodity-swap">Commodity Swap</h2>
-<ul>
-<li>Exchange floating commodity price for a fixed price. Airlines use these to fix fuel costs.</li>
-<li>Physical vs financially settled.</li>
-</ul>
+<blockquote>
+<p><strong>One-liner:</strong> A CDS is insurance against a company defaulting — the buyer pays a regular premium and gets paid if the reference entity has a "credit event."</p>
+</blockquote>
+<p>See <a href="A_Cash_Instruments.html">Cash Instruments</a> Part 5 for full CDS mechanics, spreads, and basis.</p>
+<h2 id="other-swap-types">Other Swap Types</h2>
+<table>
+<thead>
+<tr>
+<th>Swap</th>
+<th>What it is</th>
+<th>Who uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cross-currency swap</strong></td>
+<td>Exchange principal AND interest payments in two different currencies. Includes FX exchange at inception and maturity.</td>
+<td>Corporates with foreign-currency borrowing. Banks managing multi-currency books.</td>
+</tr>
+<tr>
+<td><strong>Basis swap</strong></td>
+<td>Exchange two floating rates (e.g., 3M SOFR vs 6M SOFR, or SOFR vs Fed Funds rate)</td>
+<td>Banks managing funding spread; relative value traders exploiting basis gaps</td>
+</tr>
+<tr>
+<td><strong>Commodity swap</strong></td>
+<td>Exchange floating commodity price for fixed price. Airline pays fixed for fuel, counterparty pays floating.</td>
+<td>Airlines, utilities, producers locking in revenue/cost</td>
+</tr>
+<tr>
+<td><strong>Equity swap</strong></td>
+<td>TRS variant — exchange equity index return for financing rate</td>
+<td>Funds gaining synthetic equity exposure, tax-efficient access to foreign markets</td>
+</tr>
+<tr>
+<td><strong>Variance swap</strong></td>
+<td>Pay fixed variance (strike), receive realized variance. Pure vol bet with NO delta exposure.</td>
+<td>Vol traders, hedge funds. Short variance = unlimited downside (Volmageddon 2018).</td>
+</tr>
+<tr>
+<td><strong>Inflation swap</strong></td>
+<td>Exchange fixed rate for realized CPI inflation</td>
+<td>Pension funds matching inflation-linked liabilities</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h1 id="part-5-exotic-derivatives-awareness">PART 5: EXOTIC DERIVATIVES (AWARENESS)</h1>
-<p>You won't get deep questions on these but should know they exist:</p>
+<h1 id="part-6-exotic-derivatives-awareness-level">PART 6: EXOTIC DERIVATIVES — AWARENESS LEVEL</h1>
+<p>You won't be asked to price these, but you should know what they are and why they're risky:</p>
 <table>
 <thead>
 <tr>
 <th>Exotic</th>
 <th>What it is</th>
-<th>Risk concern</th>
+<th>Pricing approach</th>
+<th>Key risk</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Barrier options</td>
-<td>Knock-in/knock-out at a specific price level. Changes payoff structure.</td>
-<td>Pin risk near barrier, sharp delta changes</td>
+<td><strong>Barrier option</strong></td>
+<td>Knock-in (activates at barrier) or knock-out (dies at barrier)</td>
+<td>Analytical (simple) or Monte Carlo</td>
+<td>Pin risk near barrier — delta jumps violently. A knock-out at $100 means at $99.90 you have an option and at $100.10 you don't.</td>
 </tr>
 <tr>
-<td>Asian options</td>
-<td>Payoff based on AVERAGE price over a period, not just final price.</td>
-<td>Lower vol than vanilla → cheaper. You priced these at BNP.</td>
+<td><strong>Asian option</strong></td>
+<td>Payoff based on AVERAGE price over the option's life</td>
+<td>Monte Carlo (path-dependent, no closed-form)</td>
+<td>Lower vol than vanilla → cheaper. Useful for hedging average costs (e.g., monthly fuel purchases).</td>
 </tr>
 <tr>
-<td>Variance swap</td>
-<td>Pays realized variance minus strike variance. Pure vol bet.</td>
-<td>Short variance = unlimited downside. Volmageddon 2018.</td>
+<td><strong>Lookback option</strong></td>
+<td>Payoff based on the maximum or minimum price achieved during the life</td>
+<td>Monte Carlo</td>
+<td>Very expensive — like being told "you can buy at the lowest price of the year." High path dependency.</td>
 </tr>
 <tr>
-<td>Swaption</td>
-<td>Option on a swap. Right to enter an IRS at a future date.</td>
-<td>Vol-of-rates exposure. Key for rates vol trading.</td>
+<td><strong>Quanto option</strong></td>
+<td>Payoff in one currency, underlying in another, with FX rate FIXED</td>
+<td>Modified BS with correlation adjustment</td>
+<td>Removes FX risk from foreign asset exposure. Requires modeling correlation between asset and FX.</td>
 </tr>
 <tr>
-<td>Convertible bond</td>
-<td>Bond that can convert to equity. Embedded call option.</td>
-<td>Complex Greeks, hard to hedge, arb strategies exist.</td>
+<td><strong>Cliquet / Ratchet</strong></td>
+<td>Series of forward-starting options — locks in periodic returns</td>
+<td>Monte Carlo or semi-analytical</td>
+<td>Popular in structured products. Complex vol surface dependency.</td>
+</tr>
+<tr>
+<td><strong>Swaption</strong></td>
+<td>Option on a swap — right to enter an IRS at a future date at a set rate</td>
+<td>Modified BS (Black's model for swaptions)</td>
+<td>Vol-of-rates exposure. Critical for rates vol trading. Used by mortgage servicers to hedge prepayment risk.</td>
+</tr>
+<tr>
+<td><strong>Variance swap</strong></td>
+<td>Pays realized variance minus strike variance × notional</td>
+<td>No option pricing needed — traded as pure swap</td>
+<td>Short variance = unlimited downside. In Feb 2018, XIV (short VIX ETN) lost 96% of its value overnight.</td>
+</tr>
+<tr>
+<td><strong>Convertible bond</strong></td>
+<td>Bond with embedded call option on the issuer's equity</td>
+<td>BS + credit model + bond pricing</td>
+<td>Complex Greeks (delta, gamma, rho, credit spread sensitivity). "Cheap equity" if conversion value exceeds bond value. Arb strategy: long convert, short stock, harvest gamma.</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-6-derivative-risk-what-kills-funds">PART 6: DERIVATIVE RISK — WHAT KILLS FUNDS</h1>
+<h1 id="part-7-derivative-risk-what-kills-funds">PART 7: DERIVATIVE RISK — WHAT KILLS FUNDS</h1>
 <h3 id="1-leverage">1. Leverage</h3>
-<p>Every derivative has implicit leverage. A $2M options position can have $20M notional exposure. If the underlying moves, your losses scale to the notional, not the premium.</p>
-<h3 id="2-non-linear-payoffs">2. Non-Linear Payoffs</h3>
-<p>Options don't move 1-for-1 with the underlying. Gamma accelerates or decelerates P&amp;L. A short gamma position can go from "manageable" to "catastrophic" in a single session.</p>
+<blockquote>
+<p>Every derivative has implicit leverage. A $500K premium on SPX options can give you $20M notional exposure. If SPX moves 10%, your option P&amp;L scales to the $20M notional, not the $500K premium. This is by design.</p>
+</blockquote>
+<h3 id="2-non-linear-payoffs-gamma-risk">2. Non-Linear Payoffs (Gamma Risk)</h3>
+<p>Options don't move 1:1 with the underlying — gamma accelerates or decelerates P&amp;L. A short gamma position can go from "manageable" to "catastrophic" in a single session because losses ACCELERATE as the market moves against you. The sell-off doesn't just cost you delta × move — it costs you delta × move PLUS gamma × move² / 2. That squared term is what kills.</p>
 <h3 id="3-liquidity-illusion">3. Liquidity Illusion</h3>
-<p>OTC derivatives can have wide bid-ask spreads in stress. Mark-to-market valuation may not reflect what you can actually sell for.</p>
+<p>In calm markets, OTC derivatives show tight bid-ask spreads. In stress, market makers widen quotes or stop quoting entirely. Your mark-to-market valuation may not reflect what you can actually sell for. This is especially true for:<br />
+- Long-dated options<br />
+- OTM options in stressed names<br />
+- Exotic structures with no active secondary market</p>
 <h3 id="4-model-dependence">4. Model Dependence</h3>
-<p>Exotic derivatives are priced by models. If the model is wrong (February 2018, March 2020), your "hedged" position isn't hedged.</p>
+<p>Exotic derivatives are priced by models. If the model's assumptions break (vol surface shifts in an unexpected way, correlations spike to 1, liquidity vanishes), your "perfectly hedged" position isn't hedged. This happened in:<br />
+- Feb 2018 (vol models didn't anticipate VIX &gt; 50)<br />
+- March 2020 (correlation assumptions broke in credit derivatives)<br />
+- LME nickel 2022 (price moves exceeded model boundaries)</p>
 <h3 id="5-margin-cascades">5. Margin Cascades</h3>
-<p>Commodity futures margin example:<br />
-- Oil vol spike → exchange increases initial margin → fund must post more cash → sell other positions to raise cash → those positions drop → more margin calls elsewhere → spiral.</p>
+<p>The deadly spiral:<br />
+1. Market moves against you → exchange increases initial margin requirements during the vol spike<br />
+2. You must post more cash → sell other positions to raise cash<br />
+3. Those forced sales push down prices → trigger margin calls at OTHER counterparties<br />
+4. They sell → prices drop further → more margin calls → spiral</p>
+<p>This is how Nick Leeson (Barings), Amaranth (NG), and MF Global (European sovereign bonds) all died.</p>
+<h3 id="6-counterparty-risk">6. Counterparty Risk</h3>
+<p>OTC derivatives (swaps, forwards, exotic options) expose you to the counterparty's ability to pay. If your counterparty defaults while you have a large unrealized gain, you lose that gain. AIG in 2008 sold massive CDS protection and couldn't pay when defaults spiked — required a $182B government bailout. Post-2008 reforms (central clearing, margin requirements, CSA agreements) reduced but didn't eliminate this risk.</p>
 <hr />
-<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
+<h1 id="part-8-interview-application">PART 8: INTERVIEW APPLICATION</h1>
 <p>If asked "Explain the difference between a future and an option":</p>
-<p>"A future is an obligation — both sides must transact at expiry. An option gives the holder the RIGHT but not the obligation. This asymmetry is the key difference and it's why options cost a premium while futures are theoretically free to enter.</p>
-<p>The risk profiles are completely different. A futures position has linear P&amp;L — you gain or lose dollar-for-dollar with the underlying (amplified by leverage). An option position has non-linear P&amp;L — your maximum loss is the premium paid (if you're long), but your exposure changes as the underlying moves (that's gamma).</p>
-<p>For risk management, futures are simpler to hedge (just offset the delta) but options require managing multiple dimensions of risk simultaneously — delta, gamma, vega, theta. That's why options books are more complex to risk-manage."</p>
+<p>"A future is an obligation — both sides MUST transact at expiry. An option gives the holder the RIGHT but not the obligation. This asymmetry is the fundamental difference, and it's why options cost a premium while futures are theoretically free to enter.</p>
+<p>The risk profiles are completely different. Futures have linear payoffs — you gain or lose dollar-for-dollar with the underlying, amplified by leverage. Options have non-linear payoffs — if you're long, your max loss is the premium, but your exposure changes as the underlying moves because of gamma. For risk management, futures are simpler — just offset the delta. Options require managing multiple dimensions simultaneously: delta, gamma, vega, theta. A single Greek in isolation is misleading — it's the interaction of all of them together that determines the real risk."</p>
+<p>If asked "How do you price different types of options?":</p>
+<p>"It depends on the exercise style and payoff structure. European options — where exercise only happens at expiry — can be priced with Black-Scholes, which gives a closed-form analytical solution. American options — where you can exercise early — need a binomial tree, because at every point you have to check whether early exercise is optimal. Asian options — where the payoff depends on the average price over the life — require Monte Carlo simulation because the average is path-dependent and there's no analytical shortcut.</p>
+<p>The practical implication: American options are always at least as expensive as European options because the early exercise right has value. Asian options are cheaper than European because averaging reduces the payoff volatility. So when a PM asks 'how should I hedge my quarterly fuel costs?' an Asian option structure makes more sense — and it's cheaper — than a chain of European options."</p>
+<p>If asked "What makes options more or less expensive?":</p>
+<p>"Five things drive option premiums. Implied vol is the dominant factor — higher vol means bigger expected moves means the option is worth more. Time to expiry matters because more time = more opportunity for the option to become valuable. Interest rates affect the forward price, making calls pricier and puts cheaper when rates rise. Dividends do the opposite — they reduce the forward, making calls cheaper. And moneyness: ATM options have maximum time value, while deep OTM options are cheap but have low probability of paying off.</p>
+<p>For the RM, the key question is: 'Are we paying too much?' If implied vol is well above recent realized vol, we're overpaying for protection. If it's below, we're getting cheap insurance — which is often the best time to buy, even though it feels like we don't need it."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>15_Derivatives_Deep_Dive</em> — deeper mechanics and interview Q&amp;A<br />
-→ <a href="D_Greeks.html">Greeks</a> — measuring the risk of derivative positions<br />
-→ <a href="E_Volatility.html">Volatility</a> — volatility as the key input to option pricing<br />
+→ <a href="D_Greeks.html">Greeks</a> — measuring the risk of derivative positions (delta, gamma, theta, vega and second-order Greeks)<br />
+→ <a href="E_Volatility.html">Volatility</a> — implied volatility, vol surface, skew, term structure<br />
 → <a href="A_Cash_Instruments.html">Cash Instruments</a> — the underlyings these derivatives are based on<br />
-→ <a href="V_Case_Studies.html">Case Studies</a> — where derivatives killed funds</p>
+→ <a href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a> — commodity futures and swaps in detail<br />
+→ <a href="I_Hedging_Strategies.html">Hedging Strategies</a> — how to use these instruments to build hedges<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — Barings, Amaranth, Archegos, Volmageddon — where derivatives killed funds</p>
 </main>
 
 <script>

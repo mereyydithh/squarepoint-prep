@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,118 +308,243 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="f-risk-measures">F — RISK MEASURES</h1>
-<h2 id="var-es-stress-testing-dv01-performance-metrics-the-quant-toolkit">VaR, ES, stress testing, DV01, performance metrics — the quant toolkit</h2>
+<h1 id="f-risk-measures-the-quantitative-language-of-risk">F — RISK MEASURES: THE QUANTITATIVE LANGUAGE OF RISK</h1>
+<h2 id="var-es-stress-testing-factor-sensitivities-performance-metrics-backtesting-and-the-rms-measurement-toolkit">VaR, ES, stress testing, factor sensitivities, performance metrics, backtesting, and the RM's measurement toolkit</h2>
 <h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="part-1-value-at-risk-var">PART 1: VALUE AT RISK (VaR)</h1>
-<h2 id="what-it-is">What It Is</h2>
-<p>"What is the maximum loss, at a given confidence level, over a given time horizon, under normal market conditions?"</p>
-<p>Example: "1-day 99% VaR = $5M" means: there is a 99% chance that losses will not exceed $5M over the next trading day. Equivalently: on 1 day in 100, losses WILL exceed $5M — and VaR says nothing about how much.</p>
-<h2 id="three-methods">Three Methods</h2>
-<h3 id="1-parametric-variance-covariance">1. Parametric (Variance-Covariance)</h3>
-<p><strong>How it works:</strong> Assume returns are normally distributed. VaR = portfolio value × σ × z-score.</p>
-<p>$$\text{VaR}<em>{99\%} = \mu - z</em>{0.99} \times \sigma = \mu - 2.326 \times \sigma$$</p>
-<p>For 95% confidence: z = 1.645. For 99%: z = 2.326.</p>
-<table>
-<thead>
-<tr>
-<th>Pros</th>
-<th>Cons</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Fast — analytical formula</td>
-<td>Assumes normal distribution (misses fat tails)</td>
-</tr>
-<tr>
-<td>Easy to compute for large portfolios</td>
-<td>Doesn't capture non-linear positions (options) well</td>
-</tr>
-<tr>
-<td>Works for linear instruments (stocks, futures, bonds)</td>
-<td>Correlation matrix can be unstable</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-historical-simulation">2. Historical Simulation</h3>
-<p><strong>How it works:</strong> Take actual historical returns (say, last 500 days). Apply each day's returns to current positions. Sort the resulting P&amp;L distribution. The 99th percentile loss IS the VaR.</p>
-<table>
-<thead>
-<tr>
-<th>Pros</th>
-<th>Cons</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>No distribution assumption — uses actual data</td>
-<td>Limited by history: if your window doesn't include a crisis, you miss it</td>
-</tr>
-<tr>
-<td>Captures fat tails if they're in the data</td>
-<td>All days weighted equally (yesterday = 2 years ago)</td>
-</tr>
-<tr>
-<td>Captures non-linear positions naturally</td>
-<td>Look-back window choice is subjective</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3-monte-carlo-simulation">3. Monte Carlo Simulation</h3>
-<p><strong>How it works:</strong> Simulate thousands of random scenarios using specified distributions and correlations for each risk factor. Price the portfolio under each scenario. Build a P&amp;L distribution. Take the percentile.</p>
-<table>
-<thead>
-<tr>
-<th>Pros</th>
-<th>Cons</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Most flexible — any distribution, any payoff</td>
-<td>Computationally expensive</td>
-</tr>
-<tr>
-<td>Handles non-linear instruments well</td>
-<td>Only as good as the model assumptions</td>
-</tr>
-<tr>
-<td>Can model complex correlations</td>
-<td>Need to specify the simulation parameters (model risk)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="var-limitations-know-these-cold">VaR Limitations — KNOW THESE COLD</h2>
+<h1 id="why-this-is-your-operating-system">WHY THIS IS YOUR OPERATING SYSTEM</h1>
+<p>At Squarepoint, everything is measured. Every PM has a VaR budget, a drawdown limit, a set of stress scenarios they must survive, and a decomposition of their P&amp;L into risk factors. As a Junior Risk Manager, your daily job involves:</p>
 <ol>
-<li>
-<p><strong>VaR is not worst case.</strong> It tells you the threshold, not what happens BEYOND it. "99% VaR = $5M" means on that 1-in-100 day, the loss could be $5M or $50M or $500M. VaR is silent on the magnitude of tail losses.</p>
-</li>
-<li>
-<p><strong>VaR assumes normal conditions.</strong> It doesn't capture regime changes, liquidity dry-ups, or correlation spikes. The loss distribution in crisis is different from the loss distribution used to calculate VaR.</p>
-</li>
-<li>
-<p><strong>VaR is backward-looking.</strong> Historical VaR uses past data. If the past was calm, VaR will be low — just when risk is building (complacency).</p>
-</li>
-<li>
-<p><strong>VaR is not subadditive.</strong> The VaR of a combined portfolio can be GREATER than the sum of individual VaRs. This violates a basic property of a "coherent" risk measure. (ES/CVaR is subadditive.)</p>
-</li>
-<li>
-<p><strong>VaR can be gamed.</strong> A trader can structure a position that has low VaR but massive tail risk — sell deep OTM options, collect premium, VaR looks clean. Until it doesn't.</p>
-</li>
+<li><strong>Reading risk reports</strong> — "Desk A has 95% VaR of $3.2M, ES/VaR ratio of 1.8, 65% utilization of risk budget"</li>
+<li><strong>Flagging anomalies</strong> — "Desk B's parametric VaR dropped 20% but their gamma exposure doubled — VaR is misleading because of nonlinearity"</li>
+<li><strong>Running stress tests</strong> — "What happens to the fund under SPX −15%, VIX +30, UST 10Y +100bp?"</li>
+<li><strong>Challenging PMs</strong> — "Your Sharpe is 1.8 but your Sortino is 0.6 — your return is coming from selling tail risk, not alpha"</li>
 </ol>
+<p>Risk measures are not abstract math. They are the WORDS you use to communicate risk, set limits, and protect capital. Get them wrong, or use them naively, and you miss what kills the fund.</p>
 <hr />
-<h1 id="part-2-expected-shortfall-es-cvar">PART 2: EXPECTED SHORTFALL (ES / CVaR)</h1>
-<h2 id="what-it-is_1">What It Is</h2>
-<p>"What is the AVERAGE loss when losses exceed VaR?"</p>
-<p>ES answers the question VaR refuses to: "how bad is it when it's bad?"</p>
-<p>$$\text{ES}<em>{99\%} = E[\text{Loss} | \text{Loss} &gt; \text{VaR}</em>{99\%}]$$</p>
-<h2 id="why-es-is-better-than-var">Why ES Is Better Than VaR</h2>
+<h1 id="part-1-value-at-risk-var">PART 1: VALUE AT RISK (VaR)</h1>
+<blockquote>
+<p><strong>One-liner:</strong> VaR is the maximum loss at a given confidence level over a given horizon under NORMAL conditions — and it says absolutely nothing about what happens when conditions stop being normal.</p>
+</blockquote>
+<h2 id="the-definition">The Definition</h2>
+<p>$$\text{VaR}_\alpha = \inf { x : P(\text{Loss} &gt; x) \leq 1 - \alpha }$$</p>
+<p><strong>In English:</strong> "99% 1-day VaR = $5M" means: "On 99 out of 100 days, the loss will NOT exceed $5M." Equivalently: "On 1 in 100 days, losses WILL exceed $5M — and VaR is completely silent on HOW FAR beyond $5M."</p>
+<p><strong>Key parameters:</strong><br />
+| Parameter | Common choices | Impact |<br />
+|---|---|---|<br />
+| <strong>Confidence level</strong> | 95%, 97.5%, 99%, 99.5% | Higher confidence → larger VaR number → more tail captured |<br />
+| <strong>Time horizon</strong> | 1 day, 10 days | 10-day VaR ≈ 1-day VaR × √10 (scaling assumption — crude but standard) |</p>
+<p><strong>Regulatory context:</strong><br />
+| Framework | VaR spec | Notes |<br />
+|---|---|---|<br />
+| Basel II/III (banks) | 99% 10-day VaR | Plus multiplier (3× or higher if backtesting fails) |<br />
+| FRTB (new) | 97.5% ES replacing VaR | Moving to ES — more tail-sensitive |<br />
+| Hedge fund (internal) | 95% or 99% 1-day VaR | Fund-specific. Squarepoint uses internal risk budgets. |</p>
+<h2 id="three-methods-of-computing-var">Three Methods of Computing VaR</h2>
+<h3 id="1-parametric-variance-covariance-delta-normal">1. Parametric (Variance-Covariance / Delta-Normal)</h3>
+<p><strong>Assumption:</strong> Portfolio returns are normally distributed.</p>
+<p>$$\text{VaR}<em>{99\%} = z</em>{0.99} \times \sigma_p \times \text{Portfolio Value}$$</p>
+<p>Where $z_{0.99} = 2.326$, $z_{0.975} = 1.96$, $z_{0.95} = 1.645$.</p>
+<p><strong>For a portfolio of N assets:</strong></p>
+<p>$$\sigma_p^2 = \mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w}$$</p>
+<p>Where <strong>w</strong> = weight vector, <strong>Σ</strong> = covariance matrix.</p>
+<p><strong>Worked example — Two-asset portfolio:</strong><br />
+- $60M in SPX (σ = 18%), $40M in UST 10Y (σ = 8%), correlation ρ = −0.30<br />
+- Portfolio variance = (0.6)²(0.18)² + (0.4)²(0.08)² + 2(0.6)(0.4)(0.18)(0.08)(−0.30)<br />
+  = 0.011664 + 0.001024 − 0.003456 = <strong>0.009232</strong><br />
+- Portfolio σ = √0.009232 = <strong>9.61%</strong><br />
+- 99% 1-day VaR = 2.326 × 9.61%/√252 × $100M = 2.326 × 0.605% × $100M = <strong>$1.41M</strong><br />
+- Note: without correlation benefit (ρ=0), VaR would be $1.53M. The −0.30 correlation saves $120K of daily VaR.</p>
+<table>
+<thead>
+<tr>
+<th>Strengths</th>
+<th>Weaknesses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fast — closed-form, scales to 10,000+ positions</td>
+<td><strong>Assumes normality</strong> — misses fat tails, skewness</td>
+</tr>
+<tr>
+<td>Transparent — can decompose into factor contributions</td>
+<td><strong>Fails for non-linear positions</strong> (options). Delta-normal only.</td>
+</tr>
+<tr>
+<td>Easy to communicate</td>
+<td><strong>Covariance matrix can be unstable</strong> — 500 assets need 125,000 pairwise correlations</td>
+</tr>
+<tr>
+<td>Component VaR and marginal VaR derivable analytically</td>
+<td><strong>Correlation breakdown in crisis</strong> — the matrix estimated from calm times doesn't apply in stress</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Option-unfriendly:</strong> Parametric VaR uses delta (linear) approximation. An option P&amp;L is nonlinear (gamma). Parametric VaR UNDERESTIMATES risk for short gamma positions and OVERESTIMATES risk for long gamma positions. At a fund running options, this is dangerous.</p>
+<h3 id="2-historical-simulation">2. Historical Simulation</h3>
+<p><strong>Process:</strong><br />
+1. Collect N days of historical returns for all risk factors (typically 250-1000 days)<br />
+2. Apply each day's actual returns to today's portfolio positions<br />
+3. Generate N simulated P&amp;L outcomes<br />
+4. Sort them. The loss at the (1−α)×N-th percentile = VaR.</p>
+<p><strong>Worked example:</strong><br />
+- 500 trading days of history<br />
+- Apply each day's returns to current $100M portfolio<br />
+- Sort the 500 simulated P&amp;Ls<br />
+- 99% VaR: the 5th worst day (500 × 1% = 5) → say that's −$4.8M<br />
+- 95% VaR: the 25th worst day → say that's −$2.1M</p>
+<table>
+<thead>
+<tr>
+<th>Strengths</th>
+<th>Weaknesses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>No distribution assumption</strong> — captures actual fat tails, skewness</td>
+<td><strong>Hostage to history</strong> — if the window doesn't include a crisis, VaR misses it</td>
+</tr>
+<tr>
+<td>Naturally handles non-linear positions (options repriced each scenario)</td>
+<td><strong>Equal weighting</strong> — a return from 3 years ago counts the same as yesterday (unless you use EWMA weighting)</td>
+</tr>
+<tr>
+<td>Captures cross-asset correlation as it actually occurred</td>
+<td><strong>Look-back window dilemma</strong>: long window = smoother but includes stale data; short window = responsive but noisier</td>
+</tr>
+<tr>
+<td>Easy to explain to non-quants</td>
+<td><strong>Ghost effects</strong>: a single extreme day drops OUT of the window → VaR drops suddenly, even though nothing changed in the portfolio</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Improvement — BHS (Bootstrapped Historical Simulation):</strong> Resample with replacement from the historical window to generate more scenarios. Reduces dependence on a single ordering. Also allows confidence intervals around VaR itself.</p>
+<p><strong>Improvement — Filtered Historical Simulation (FHS):</strong> Use GARCH to standardize returns (remove time-varying vol), then resample. Combines historical tail shape with current vol estimate. Best of both worlds.</p>
+<h3 id="3-monte-carlo-var">3. Monte Carlo VaR</h3>
+<p><strong>Process:</strong><br />
+1. Specify return distributions and correlation structure for all risk factors<br />
+2. Generate 10,000-100,000+ random scenarios<br />
+3. For each scenario, fully reprice the portfolio (including options, exotics)<br />
+4. Build the P&amp;L distribution. Take the percentile.</p>
+<table>
+<thead>
+<tr>
+<th>Strengths</th>
+<th>Weaknesses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Most flexible</strong> — any distribution, any payoff, any correlation structure</td>
+<td><strong>Computationally expensive</strong> — tens of thousands of full portfolio repricings</td>
+</tr>
+<tr>
+<td>Handles non-linear instruments properly</td>
+<td><strong>Model risk</strong> — only as good as your distributional assumptions</td>
+</tr>
+<tr>
+<td>Can incorporate fat tails (t-distribution), jumps, stochastic vol</td>
+<td><strong>Convergence</strong> — need enough simulations for stable tail estimates</td>
+</tr>
+<tr>
+<td>Can model regime changes, dynamic correlations</td>
+<td><strong>False precision risk</strong> — fancy simulation doesn't mean accurate if the model is wrong</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When MC is essential:</strong> Portfolios heavy in exotic options (barriers, Asian, lookbacks), structured products, or complex multi-asset derivatives. Parametric and historical VaR can't handle these — only full repricing captures the nonlinearity.</p>
+<h2 id="var-decomposition-where-the-risk-lives">VaR Decomposition — Where the Risk Lives</h2>
+<blockquote>
+<p>At Squarepoint, a single aggregate VaR number is useless. You need to know WHERE the risk is.</p>
+</blockquote>
+<h3 id="component-var">Component VaR</h3>
+<p>$$\text{Component VaR}<em>i = \rho</em>{i,p} \times \sigma_i \times w_i \times z \times V$$</p>
+<p>The contribution of position i to total portfolio VaR. Component VaRs SUM to total VaR (they account for diversification).</p>
+<p><strong>The power:</strong> "Your total VaR is $5M. Desk A contributes $3.2M. Desk B contributes $2.8M. Desk C contributes −$1.0M." Desk C is a diversifier — its risk REDUCES total VaR because it's negatively correlated with the rest.</p>
+<h3 id="marginal-var">Marginal VaR</h3>
+<p>$$\text{Marginal VaR}_i = \frac{\partial \text{VaR}}{\partial w_i}$$</p>
+<p>How much does VaR change if you add $1 more to position i? Tells you which positions are most efficient to add or trim from a risk perspective.</p>
+<h3 id="incremental-var">Incremental VaR</h3>
+<p>$$\text{Incremental VaR}<em>i = \text{VaR}</em>{\text{with position}} - \text{VaR}_{\text{without position}}$$</p>
+<p>Unlike marginal (infinitesimal change), incremental measures the FULL effect of adding/removing a position. Critical for new trade approval: "This new position adds $400K of incremental VaR. Do we have risk budget?"</p>
+<h2 id="var-limitations-the-critical-section">VaR Limitations — THE Critical Section</h2>
+<blockquote>
+<p>Every interviewer at Squarepoint will test whether you blindly trust VaR or understand its failures.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Limitation</th>
+<th>Why it matters</th>
+<th>Real-world consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Not a worst case</strong></td>
+<td>VaR = threshold, not a range beyond it. The 1% tail could be $5M or $500M.</td>
+<td>LTCM, Bear Stearns — losses far beyond VaR</td>
+</tr>
+<tr>
+<td><strong>Assumes normal conditions</strong></td>
+<td>Crisis behavior (correlation spike, liquidity dry-up, gap moves) ≠ normal behavior</td>
+<td>Every major blowup violates the conditions VaR assumed</td>
+</tr>
+<tr>
+<td><strong>Backward-looking</strong></td>
+<td>Computed from recent history. If recent history was calm → VaR is low → just when risk is building</td>
+<td>2008: VaR was LOW entering the crisis because 2005-2007 was calm</td>
+</tr>
+<tr>
+<td><strong>Not subadditive</strong></td>
+<td>VaR(A+B) can &gt; VaR(A) + VaR(B) — violates coherence</td>
+<td>Portfolio combination can look RISKIER than sum of parts — nonsensical for allocation</td>
+</tr>
+<tr>
+<td><strong>Gameable</strong></td>
+<td>Sell deep OTM options → premium income, VaR looks clean, massive hidden tail risk</td>
+<td>Every "low-VaR, high-Sharpe" strategy should be checked for hidden concavity</td>
+</tr>
+<tr>
+<td><strong>Point-in-time</strong></td>
+<td>Computed at close. Positions change intraday. VaR at 4pm may not reflect 2pm risk.</td>
+<td>Intraday blowups not captured by EOD VaR</td>
+</tr>
+<tr>
+<td><strong>Correlation instability</strong></td>
+<td>Calm-period correlations used in VaR → wrong in crisis (correlations spike to 0.8+)</td>
+<td>Diversification assumed by VaR vanishes in the tail</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The interview line:</strong> "VaR is necessary but far from sufficient. I think of it as a speedometer — useful for daily monitoring, but it doesn't tell you there's a cliff ahead. For that you need stress testing, ES, and judgment."</p>
+<hr />
+<h1 id="part-2-expected-shortfall-es-cvar-tail-var">PART 2: EXPECTED SHORTFALL (ES / CVaR / Tail VaR)</h1>
+<blockquote>
+<p><strong>One-liner:</strong> ES answers the question VaR refuses to ask — "When we breach VaR, how bad does it actually get?"</p>
+</blockquote>
+<h2 id="the-definition_1">The Definition</h2>
+<p>$$\text{ES}<em>\alpha = E[\text{Loss} \mid \text{Loss} &gt; \text{VaR}</em>\alpha] = \frac{1}{1-\alpha} \int_\alpha^1 \text{VaR}_u \, du$$</p>
+<p><strong>In English:</strong> The average of ALL losses in the tail beyond VaR. If 99% VaR = $5M, ES averages the losses on the 1% worst days.</p>
+<h2 id="why-es-var">Why ES &gt; VaR</h2>
 <table>
 <thead>
 <tr>
@@ -429,268 +555,1081 @@ body {
 </thead>
 <tbody>
 <tr>
-<td>Tells you tail severity?</td>
-<td>No — only the cut-off point</td>
-<td>Yes — average of all losses beyond VaR</td>
+<td><strong>Tail severity</strong></td>
+<td>Blind — only the threshold</td>
+<td>Measures the whole tail</td>
 </tr>
 <tr>
-<td>Subadditive?</td>
-<td>No (can violate for non-normal distributions)</td>
-<td>Yes — always</td>
+<td><strong>Subadditivity</strong></td>
+<td>Violates (not coherent)</td>
+<td>Always satisfies (coherent)</td>
 </tr>
 <tr>
-<td>Responds to tail shape?</td>
-<td>No — blind to what's beyond the threshold</td>
-<td>Yes — fatter tails → higher ES</td>
+<td><strong>Sensitivity to tail shape</strong></td>
+<td>None — two portfolios with same VaR but different tail sizes look identical</td>
+<td>Higher for fatter tails</td>
 </tr>
 <tr>
-<td>FRTB standard?</td>
-<td>Old regime (VaR-based)</td>
-<td>New regime (ES-based) — banks moving to ES</td>
+<td><strong>Regulatory trend</strong></td>
+<td>Old regime (Basel II/III)</td>
+<td>New regime (FRTB) — banks moving to 97.5% ES</td>
+</tr>
+<tr>
+<td><strong>Gameability</strong></td>
+<td>Easy to manipulate (sell tail)</td>
+<td>Much harder to game</td>
 </tr>
 </tbody>
 </table>
-<h2 id="example">Example</h2>
-<p>Portfolio with 99% VaR = $5M.</p>
-<p>If the 1% worst scenarios average -$12M → ES = $12M.<br />
-If the 1% worst scenarios average -$50M → ES = $50M.</p>
-<p>Both portfolios have the SAME VaR. But the second one has 4x worse tail risk. Only ES captures this.</p>
+<h2 id="worked-example-why-es-matters">Worked Example — Why ES Matters</h2>
+<p><strong>Portfolio A (selling OTM puts):</strong><br />
+- 99% VaR = $5M<br />
+- On the 1% worst days: losses are $10M, $15M, $25M, $40M, $80M<br />
+- ES = average($10M, $15M, $25M, $40M, $80M) = <strong>$34M</strong><br />
+- ES/VaR ratio = 34/5 = <strong>6.8</strong> ← FAT tail. Concave payoff. Hidden risk.</p>
+<p><strong>Portfolio B (diversified long equity):</strong><br />
+- 99% VaR = $5M<br />
+- On the 1% worst days: losses are $5.5M, $6M, $6.5M, $7M, $7.5M<br />
+- ES = average = <strong>$6.5M</strong><br />
+- ES/VaR ratio = 6.5/5 = <strong>1.3</strong> ← thin tail. Linear payoff. What you see is what you get.</p>
+<p><strong>Both have IDENTICAL VaR. Only ES reveals that Portfolio A has 5× worse tail risk.</strong></p>
+<h2 id="esvar-ratio-the-tail-shape-indicator">ES/VaR Ratio — The Tail Shape Indicator</h2>
+<table>
+<thead>
+<tr>
+<th>ES/VaR ratio</th>
+<th>Tail shape</th>
+<th>What it means</th>
+<th>Typical position type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1.0-1.5</strong></td>
+<td>Thin / normal</td>
+<td>VaR captures most of the risk</td>
+<td>Diversified long equity, futures</td>
+</tr>
+<tr>
+<td><strong>1.5-2.5</strong></td>
+<td>Moderate</td>
+<td>Some tail concentration</td>
+<td>Mixed books, moderate option overlay</td>
+</tr>
+<tr>
+<td><strong>2.5-4.0</strong></td>
+<td>Fat</td>
+<td>Significant hidden tail risk</td>
+<td>Concentrated trades, short gamma positions</td>
+</tr>
+<tr>
+<td><strong>4.0+</strong></td>
+<td>Very fat / cliff</td>
+<td>Extreme concavity — DANGER</td>
+<td>Short deep OTM options, short var swaps, illiquid credit</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>RM rule of thumb:</strong> If a desk's ES/VaR ratio exceeds 3.0, investigate. They're likely running a concave P&amp;L profile — earning steady premium but exposed to catastrophic tail loss.</p>
+</blockquote>
+<h2 id="es-under-different-distributions">ES Under Different Distributions</h2>
+<p>For <strong>normal</strong> distribution: $\text{ES}<em>{99\%} = \sigma \times \frac{\phi(z</em>{0.99})}{0.01} = \sigma \times 2.665$</p>
+<p>Compare to $\text{VaR}_{99\%} = 2.326 \sigma$ → ES/VaR = 2.665/2.326 = <strong>1.15</strong> (thin tail for normal).</p>
+<p>For <strong>Student-t (ν=5)</strong>: ES/VaR ≈ <strong>1.83</strong>. Fatter tails → bigger gap between VaR and ES.</p>
+<p>For <strong>actual equity markets</strong> (empirical): ES/VaR typically <strong>1.4-1.6</strong> for diversified portfolios, <strong>2.0-5.0+</strong> for option-heavy books.</p>
 <hr />
-<h1 id="part-3-stress-testing">PART 3: STRESS TESTING</h1>
-<h2 id="what-it-is_2">What It Is</h2>
-<p>"What happens to our portfolio under extreme but plausible scenarios?"</p>
-<p>Stress testing complements VaR/ES by not relying on historical distributions. You DEFINE the scenario and measure the impact.</p>
-<h2 id="three-types">Three Types</h2>
+<h1 id="part-3-stress-testing-the-complement-to-var">PART 3: STRESS TESTING — THE COMPLEMENT TO VaR</h1>
+<blockquote>
+<p><strong>One-liner:</strong> VaR tells you what happens on a normal bad day. Stress tests tell you what happens on the WORST day — the one that actually threatens the fund's survival.</p>
+</blockquote>
+<h2 id="why-stress-testing-exists">Why Stress Testing Exists</h2>
+<p>VaR and ES are statistical — they rely on historical distributions or model assumptions. Stress testing is <strong>scenario-based</strong> — you DEFINE the scenario and measure the impact. This makes it:</p>
+<ul>
+<li><strong>Not backward-looking</strong> — you can test events that haven't happened yet</li>
+<li><strong>Not model-dependent</strong> — you specify the shocks directly</li>
+<li><strong>Intuitive</strong> — "If SPX drops 20% and VIX hits 60, we lose $X" is understood by everyone</li>
+</ul>
+<h2 id="three-types-of-stress-tests">Three Types of Stress Tests</h2>
 <h3 id="1-historical-stress-tests">1. Historical Stress Tests</h3>
-<p>Replay actual crisis events. "What if March 2020 happened again with our current portfolio?"</p>
+<blockquote>
+<p>Replay actual crises with current positions.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
 <th>Event</th>
-<th>SPX</th>
-<th>VIX</th>
-<th>10Y</th>
+<th>Equity</th>
+<th>Vol</th>
+<th>Rates</th>
 <th>Credit</th>
-<th>Oil</th>
+<th>Commodities</th>
+<th>Duration</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GFC 2008 (Sep-Nov)</td>
-<td>-40%</td>
-<td>80+</td>
-<td>-200bps (flight to quality)</td>
-<td>+400bps HY</td>
-<td>-55%</td>
+<td><strong>Black Monday 1987</strong></td>
+<td><strong>SPX −22% (1 day)</strong></td>
+<td>N/A (pre-VIX)</td>
+<td>−50bp</td>
+<td>+100bp</td>
+<td>−5%</td>
+<td>1 day</td>
 </tr>
 <tr>
-<td>Volmageddon Feb 2018</td>
-<td>-10%</td>
-<td>14 → 50</td>
-<td>+30bps</td>
-<td>+50bps</td>
-<td>-5%</td>
+<td><strong>LTCM 1998</strong></td>
+<td>SPX −19%</td>
+<td>+40pts</td>
+<td>−100bp (flight to quality)</td>
+<td>+300bp Russia, +200bp HY</td>
+<td>−15%</td>
+<td>3 months</td>
 </tr>
 <tr>
-<td>COVID crash Mar 2020</td>
-<td>-34%</td>
-<td>14 → 82</td>
-<td>-100bps then +50bps</td>
-<td>+600bps HY</td>
-<td>-65%</td>
+<td><strong>GFC 2008 (Sep–Nov)</strong></td>
+<td><strong>SPX −40%</strong></td>
+<td>VIX 80+</td>
+<td>−200bp</td>
+<td>+400bp HY</td>
+<td><strong>Oil −55%</strong></td>
+<td>3 months</td>
 </tr>
 <tr>
-<td>Russia/Ukraine 2022</td>
-<td>-10%</td>
-<td>36</td>
-<td>+100bps (inflation)</td>
-<td>+100bps</td>
-<td>+50%</td>
+<td><strong>Flash Crash 2010</strong></td>
+<td>SPX −9% intraday</td>
+<td>VIX 40</td>
+<td>−20bp</td>
+<td>+30bp</td>
+<td>−2%</td>
+<td>36 minutes</td>
 </tr>
 <tr>
-<td>SVB crisis Mar 2023</td>
-<td>-5%</td>
-<td>26</td>
-<td>-50bps (flight to quality)</td>
-<td>+80bps</td>
-<td>-10%</td>
+<td><strong>Volmageddon Feb 2018</strong></td>
+<td>SPX −10%</td>
+<td><strong>VIX 14→50</strong></td>
+<td>+30bp</td>
+<td>+50bp</td>
+<td>−5%</td>
+<td>2 weeks</td>
+</tr>
+<tr>
+<td><strong>COVID Mar 2020</strong></td>
+<td><strong>SPX −34%</strong></td>
+<td><strong>VIX 14→82</strong></td>
+<td>−100bp then +50bp</td>
+<td>+600bp HY</td>
+<td><strong>Oil −65%</strong></td>
+<td>5 weeks</td>
+</tr>
+<tr>
+<td><strong>Russia/Ukraine 2022</strong></td>
+<td>SPX −10%</td>
+<td>VIX 36</td>
+<td>+100bp (inflation)</td>
+<td>+100bp</td>
+<td><strong>Oil +50%</strong></td>
+<td>Several months</td>
+</tr>
+<tr>
+<td><strong>SVB/banking Mar 2023</strong></td>
+<td>SPX −5%</td>
+<td>VIX 26</td>
+<td>−50bp (flight to quality)</td>
+<td>+80bp bank CDS</td>
+<td>−10% oil</td>
+<td>2 weeks</td>
+</tr>
+<tr>
+<td><strong>Japan carry unwind Aug 2024</strong></td>
+<td>Nikkei −12%, SPX −5%</td>
+<td>VIX 38</td>
+<td>−30bp UST</td>
+<td>+30bp</td>
+<td>−3%</td>
+<td>3 days</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Apply these moves to your current positions and aggregate the P&amp;L.</strong></p>
+<p><strong>How to use:</strong> Take each event's factor moves, apply to current portfolio positions, aggregate P&amp;L. "If 2008 replayed today, we'd lose $X on equities, $Y on credit, gain $Z on rates = net −$W."</p>
 <h3 id="2-hypothetical-stress-tests">2. Hypothetical Stress Tests</h3>
-<p>Create plausible scenarios that haven't happened. Often MORE useful than historical because the next crisis won't look exactly like the last one.</p>
-<p>Examples:<br />
-- "Iran closes Hormuz → Oil +30%, equities -15%, vol +40pts"<br />
-- "Fed emergency rate hike 50bps → 2Y +80bps, equities -10%"<br />
-- "US Treasury downgrade → Treasuries sell off AND equities sell off simultaneously"</p>
-<h3 id="3-sensitivity-tests-factor-shocks">3. Sensitivity Tests (Factor Shocks)</h3>
-<p>Bump one factor at a time. "What happens if SPX moves -5%? -10%? -20%?"</p>
-<p>Build a grid:</p>
+<blockquote>
+<p>Plausible scenarios that haven't occurred — often MORE valuable because the next crisis is never identical to the last.</p>
+</blockquote>
+<p><strong>Examples calibrated for 2026:</strong></p>
 <table>
 <thead>
 <tr>
 <th>Scenario</th>
-<th>SPX -5%</th>
-<th>SPX -10%</th>
-<th>SPX -15%</th>
+<th>Equity</th>
+<th>Vol</th>
+<th>Rates</th>
+<th>FX</th>
+<th>Commodities</th>
+<th>Probability assessment</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Vol unchanged</td>
-<td>-$XM</td>
-<td>-$YM</td>
-<td>-$ZM</td>
+<td>US-China military escalation (Taiwan)</td>
+<td>−20%</td>
+<td>+45pts</td>
+<td>−100bp (quality)</td>
+<td>USD +8%</td>
+<td>Oil +40%</td>
+<td>Low prob, extreme impact</td>
 </tr>
 <tr>
-<td>Vol +5pts</td>
-<td>-$X'M</td>
-<td>-$Y'M</td>
-<td>-$Z'M</td>
+<td>Simultaneous US + EU recession</td>
+<td>−25%</td>
+<td>+35pts</td>
+<td>−150bp</td>
+<td>EUR/USD flat</td>
+<td>Oil −30%</td>
+<td>Medium prob</td>
 </tr>
 <tr>
-<td>Vol +15pts</td>
-<td>-$X''M</td>
-<td>-$Y''M</td>
-<td>-$Z''M</td>
+<td>Fed emergency hike (inflation surge)</td>
+<td>−12%</td>
+<td>+25pts</td>
+<td>2Y +100bp, 10Y +50bp</td>
+<td>USD +5%</td>
+<td>+15%</td>
+<td>Low prob</td>
+</tr>
+<tr>
+<td>US Treasury downgrade / auction fail</td>
+<td>−15%</td>
+<td>+30pts</td>
+<td><strong>UST SELL OFF +80bp</strong></td>
+<td><strong>USD −10%</strong></td>
+<td>Gold +20%</td>
+<td>V.low prob, v.high impact</td>
+</tr>
+<tr>
+<td>Systematic strategy crowding unwind</td>
+<td>−10%</td>
+<td>+20pts</td>
+<td>±20bp</td>
+<td>±3%</td>
+<td>Mixed</td>
+<td>Medium prob, correlations spike</td>
+</tr>
+<tr>
+<td>Cyber attack on major exchange/clearinghouse</td>
+<td>−8%</td>
+<td>+30pts</td>
+<td>−30bp</td>
+<td>±5%</td>
+<td>−5%</td>
+<td>Low prob</td>
 </tr>
 </tbody>
 </table>
-<p>This creates a "heat map" of portfolio P&amp;L across scenarios. The RM can see at a glance where the danger zones are.</p>
-<hr />
-<h1 id="part-4-fixed-income-risk-measures">PART 4: FIXED INCOME RISK MEASURES</h1>
-<h2 id="dv01-dollar-value-of-a-basis-point">DV01 (Dollar Value of a Basis Point)</h2>
-<p>"How much does my position gain/lose for a 1bp move in yield?"</p>
-<p>$$\text{DV01} = \text{Duration} \times \text{Price} \times 0.0001$$</p>
-<p>A bond portfolio with DV01 = $200K loses $200K per basis point of yield increase. A 50bp move → -$10M.</p>
-<h2 id="cs01-credit-spread-01">CS01 (Credit Spread 01)</h2>
-<p>Same concept but for credit spread changes. "How much does my position gain/lose for a 1bp widening in credit spreads?"</p>
-<h2 id="key-rate-duration-krd">Key Rate Duration (KRD)</h2>
-<p>Duration broken down by tenor point. Instead of "the portfolio has duration 5," you get: "2Y bucket: 0.8, 5Y: 1.5, 10Y: 1.8, 30Y: 0.9."</p>
-<p>This matters because the yield curve doesn't move in parallel. If you have zero net duration but +3 at the short end and -3 at the long end → you're making a steepener bet. Net duration hides this.</p>
-<hr />
-<h1 id="part-5-performance-risk-adjusted-metrics">PART 5: PERFORMANCE &amp; RISK-ADJUSTED METRICS</h1>
-<h2 id="sharpe-ratio">Sharpe Ratio</h2>
-<p>$$\text{Sharpe} = \frac{R_p - R_f}{\sigma_p}$$</p>
-<p>Return above risk-free rate, divided by volatility. How much return per unit of risk.</p>
+<h3 id="3-sensitivity-factor-shock-tests">3. Sensitivity / Factor Shock Tests</h3>
+<blockquote>
+<p>Systematic grid of factor bumps — the "heat map."</p>
+</blockquote>
+<p><strong>Example grid — Equity × Vol shock:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Sharpe</th>
+<th></th>
+<th>SPX −2%</th>
+<th>SPX −5%</th>
+<th>SPX −10%</th>
+<th>SPX −15%</th>
+<th>SPX −20%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vol unch</strong></td>
+<td>−$0.6M</td>
+<td>−$1.5M</td>
+<td>−$3M</td>
+<td>−$4.5M</td>
+<td>−$6M</td>
+</tr>
+<tr>
+<td><strong>Vol +5</strong></td>
+<td>−$0.4M</td>
+<td>−$1.8M</td>
+<td>−$5M</td>
+<td>−$8M</td>
+<td>−$12M</td>
+</tr>
+<tr>
+<td><strong>Vol +15</strong></td>
+<td>+$0.2M</td>
+<td>−$3M</td>
+<td>−$9M</td>
+<td><strong>−$16M</strong></td>
+<td><strong>−$25M</strong></td>
+</tr>
+<tr>
+<td><strong>Vol +30</strong></td>
+<td>+$1M</td>
+<td>−$5M</td>
+<td><strong>−$15M</strong></td>
+<td><strong>−$28M</strong></td>
+<td><strong>−$42M</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reading the heat map:</strong> The upper-left is normal. The lower-right is crisis. If losses in the lower-right quadrant exceed the fund's drawdown limit, ACTION is required NOW, not during the crisis.</p>
+<p><strong>Rate sensitivity grid (for FI book):</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Parallel +50bp</th>
+<th>Parallel +100bp</th>
+<th>Steepener (2s10s +50bp)</th>
+<th>Flattener (2s10s −50bp)</th>
+<th>Twist (short end +50, long end −50)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DV01 P&amp;L</td>
+<td>−$XM</td>
+<td>−$2XM</td>
+<td>Depends on KRD</td>
+<td>Depends on KRD</td>
+<td>Depends on KRD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reverse-stress-testing">Reverse Stress Testing</h3>
+<blockquote>
+<p><strong>Start from the loss. Work backward to find the scenario that causes it.</strong></p>
+</blockquote>
+<p>"What scenario causes a $30M loss (our drawdown limit)?" → solve for the combination of factor moves. This is arguably the most important stress test because it directly answers: "What kills us?"</p>
+<p><strong>Process:</strong><br />
+1. Define the loss threshold (e.g., max drawdown limit, fund-breaking loss)<br />
+2. Optimize over scenarios: find the minimum-severity scenario that hits the threshold<br />
+3. Ask: "Is this scenario plausible?" If yes → you have a problem.<br />
+4. The scenarios that produce fund-death with PLAUSIBLE moves are the ones to hedge against.</p>
+<hr />
+<h1 id="part-4-fixed-income-credit-risk-measures">PART 4: FIXED INCOME &amp; CREDIT RISK MEASURES</h1>
+<h2 id="dv01-dollar-value-of-a-basis-point">DV01 (Dollar Value of a Basis Point)</h2>
+<blockquote>
+<p><strong>One-liner:</strong> How much money you make or lose for a 1bp move in yield. THE unit of rates risk.</p>
+</blockquote>
+<p>$$\text{DV01} \approx \frac{\text{ModDur} \times \text{Price} \times \text{Notional}}{10{,}000}$$</p>
+<p><strong>Worked example:</strong><br />
+- $50M par of 10Y UST, modified duration = 8.5, price = 95<br />
+- DV01 = 8.5 × 95/100 × $50M / 10,000 = <strong>$40,375 per bp</strong><br />
+- If yields rise 25bp: loss = 25 × $40,375 = <strong>−$1,009,375</strong><br />
+- If yields fall 50bp: gain = 50 × $40,375 = <strong>+$2,018,750</strong></p>
+<p><strong>DV01 ladder — decomposition by maturity:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tenor</th>
+<th>DV01</th>
 <th>What it means</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&lt; 0.5</td>
-<td>Poor risk-adjusted return</td>
+<td>2Y bucket</td>
+<td>+$15K/bp</td>
+<td>Long duration at the short end (benefits from rate cuts)</td>
 </tr>
 <tr>
-<td>0.5 - 1.0</td>
-<td>Decent</td>
+<td>5Y bucket</td>
+<td>−$8K/bp</td>
+<td>Short duration at 5Y (hedging?)</td>
 </tr>
 <tr>
-<td>1.0 - 2.0</td>
-<td>Very good. Most successful hedge funds are here.</td>
+<td>10Y bucket</td>
+<td>+$40K/bp</td>
+<td>Main risk — long 10Y</td>
 </tr>
 <tr>
-<td>&gt; 2.0</td>
-<td>Exceptional or the track record is too short to be reliable</td>
+<td>30Y bucket</td>
+<td>+$5K/bp</td>
+<td>Small long-end exposure</td>
+</tr>
+<tr>
+<td><strong>Net</strong></td>
+<td><strong>+$52K/bp</strong></td>
+<td>Net long duration — loses if yields rise</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Sharpe limitations:</strong><br />
-- Treats upside and downside vol equally. A fund with high upside vol looks "worse" than it should.<br />
-- Can be gamed by selling tail risk (high Sharpe until the tail event arrives).<br />
-- Time-period dependent. A 1-year Sharpe can look great; a 10-year Sharpe is more meaningful.</p>
-<h2 id="sortino-ratio">Sortino Ratio</h2>
-<p>$$\text{Sortino} = \frac{R_p - R_f}{\sigma_{\text{downside}}}$$</p>
-<p>Like Sharpe but only penalizes DOWNSIDE volatility. Better for strategies with asymmetric returns.</p>
-<h2 id="maximum-drawdown">Maximum Drawdown</h2>
-<p>The largest peak-to-trough decline in the portfolio. Not a distributional metric — it's the observed worst case.</p>
-<ul>
-<li>Max drawdown = -15% means at some point, the fund lost 15% from its peak before recovering.</li>
-<li>Recovery time matters too: -15% drawdown recovered in 3 months is very different from -15% recovered in 18 months.</li>
-</ul>
-<h2 id="calmar-ratio">Calmar Ratio</h2>
-<p>$$\text{Calmar} = \frac{\text{Annualized return}}{\text{Max drawdown}}$$</p>
-<p>Return per unit of worst loss. Particularly useful for evaluating funds that had a bad drawdown: "Yes they drew down 20%, but they returned 30% annualized."</p>
-<h2 id="information-ratio">Information Ratio</h2>
-<p>$$\text{IR} = \frac{R_p - R_b}{\text{Tracking error}}$$</p>
-<p>Alpha (excess return above benchmark) divided by tracking error (volatility of that excess return). Measures skill in beating the benchmark, risk-adjusted.</p>
-<h2 id="alpha-beta-decomposition">Alpha &amp; Beta Decomposition</h2>
-<p>$$R_p = \alpha + \beta \times R_m + \epsilon$$</p>
-<ul>
-<li>β = how much the fund moves with the market. β = 0.5 means 50% of returns are explained by market moves.</li>
-<li>α = the excess return after removing market exposure. THIS is what the fund charges 2-and-20 for.</li>
-<li>If a fund has high returns but β = 1.2, most of the return is just leveraged market exposure — not alpha.</li>
-</ul>
-<p><strong>Your job as RM:</strong> If a PM claims they're generating alpha but their β is 0.9 and Sharpe is 0.7, they're basically a leveraged index fund. The PM should deliver alpha with controlled beta. Monitor the decomposition.</p>
-<hr />
-<h1 id="part-6-drawdown-management">PART 6: DRAWDOWN MANAGEMENT</h1>
-<h2 id="the-math-of-recovery">The Math of Recovery</h2>
+<p><strong>Why the ladder matters more than total DV01:</strong> A portfolio can have DV01 = $0 (duration-neutral) but have +$50K/bp at 2Y and −$50K/bp at 30Y — that's a massive curve steepener bet that nets to zero DV01. The RM must see the LADDER, not just the total.</p>
+<h2 id="key-rate-duration-krd">Key Rate Duration (KRD)</h2>
+<p>Duration decomposed by tenor point. Instead of one number, you get a vector:</p>
+<p>$$\text{KRD}_i = -\frac{1}{P} \frac{\partial P}{\partial y_i}$$</p>
+<p>Where $y_i$ is the yield at tenor i. This captures <strong>non-parallel yield curve moves</strong> — flattening, steepening, butterfly — that parallel duration completely misses.</p>
+<h2 id="cs01-credit-spread-01">CS01 (Credit Spread 01)</h2>
+<blockquote>
+<p>P&amp;L for a 1bp widening in credit spreads. The credit equivalent of DV01.</p>
+</blockquote>
+<p>$$\text{CS01} \approx \text{Spread Duration} \times \text{MV} / 10{,}000$$</p>
+<p><strong>Worked example:</strong><br />
+- $20M corporate bond, spread duration = 4.5<br />
+- CS01 = 4.5 × $20M / 10,000 = <strong>$9,000 per bp of spread widening</strong><br />
+- If credit spreads widen 100bp (stress): loss = 100 × $9,000 = <strong>−$900,000</strong></p>
+<p><strong>Portfolio CS01 by rating bucket:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Drawdown</th>
-<th>Recovery needed</th>
+<th>Rating</th>
+<th>CS01</th>
+<th>Risk contribution</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>-10%</td>
-<td>+11.1%</td>
+<td>IG (A/BBB)</td>
+<td>$25K/bp</td>
+<td>Main exposure — investment-grade credit</td>
 </tr>
 <tr>
-<td>-20%</td>
-<td>+25.0%</td>
+<td>HY (BB)</td>
+<td>$8K/bp</td>
+<td>Higher-yielding, more volatile</td>
 </tr>
 <tr>
-<td>-30%</td>
-<td>+42.9%</td>
-</tr>
-<tr>
-<td>-50%</td>
-<td>+100%</td>
-</tr>
-<tr>
-<td>-75%</td>
-<td>+300%</td>
+<td>HY (B/CCC)</td>
+<td>$3K/bp</td>
+<td>Small but spreads can widen 500bp+ in crisis</td>
 </tr>
 </tbody>
 </table>
-<p>This is why drawdown limits exist. A -50% drawdown requires doubling your capital to recover. It's NOT symmetric.</p>
-<h2 id="risk-budget-framework">Risk Budget Framework</h2>
-<p>Total fund risk is allocated to PMs:<br />
-- PM A: $2M daily VaR budget (40% of fund risk)<br />
-- PM B: $1.5M daily VaR budget (30%)<br />
-- PM C: $1M daily VaR budget (20%)<br />
-- Reserve: $0.5M (10%)</p>
-<p>Each PM must operate within their budget. If they exceed, they must reduce positions or get IC approval.</p>
-<p><strong>What the RM monitors:</strong><br />
-- Current VaR vs budget (utilization %)<br />
-- Drawdown vs soft/hard limits<br />
-- Marginal contribution to risk (does adding PM A's positions make the fund riskier or provide diversification?)</p>
+<h2 id="cr01-credit-rho-01-and-jtd-jump-to-default">CR01 (Credit Rho 01) and JTD (Jump to Default)</h2>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Definition</th>
+<th>When it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CR01</strong></td>
+<td>P&amp;L for a 1bp parallel shift in the credit curve</td>
+<td>Standard credit sensitivity</td>
+</tr>
+<tr>
+<td><strong>JTD</strong></td>
+<td>Loss if a single name defaults immediately (recovery assumed at ~40%)</td>
+<td>Concentration risk — what if our biggest credit position defaults tomorrow?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>JTD worked example:</strong> $10M notional in Company X CDS (protection buyer). If X defaults: you receive (1 − Recovery) × Notional = 0.60 × $10M = $6M gain. If you're the protection SELLER: you PAY $6M. JTD monitors this single-name concentration.</p>
 <hr />
-<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
-<p>If asked "What are the limitations of VaR?":</p>
-<p>"VaR has four key limitations. First, it tells you nothing about losses beyond the threshold — a 99% VaR of $5M could mean the 1% scenarios average $6M or $60M. That's why Expected Shortfall is a better measure of tail risk.</p>
-<p>Second, it assumes relatively normal market conditions. In a crisis, correlations spike, liquidity dries up, and the loss distribution changes — VaR calculated from calm periods systematically underestimates crisis losses.</p>
-<p>Third, it can be gamed — a trader can sell deep OTM options, which generates premium income and keeps VaR low, while taking on massive tail risk that VaR doesn't capture.</p>
-<p>Fourth, it's not subadditive — combining two portfolios can produce a VaR higher than the sum of individual VaRs, which is counterintuitive and technically violates the definition of a coherent risk measure.</p>
-<p>That's why good risk management never relies on VaR alone. You need ES for tail risk, stress testing for extreme scenarios, and qualitative judgment for risks that no model captures."</p>
-<p>If asked "How would you set up a stress testing framework?":</p>
-<p>"I'd run three types. Historical stress tests — replay actual crises like 2008, March 2020 — to see if our current portfolio survives past shocks. Hypothetical scenarios — things that haven't happened but could, like Hormuz closure or a Fed policy reversal — because the next crisis won't look exactly like the last one. And sensitivity tests — systematic factor shocks across a grid of scenarios — to map out where our P&amp;L breaks.</p>
-<p>The most important output isn't a single number but the heat map: what combination of moves hurts us most? If a -10% equity move with a +20pt vol spike creates a $25M loss, and our drawdown limit is $30M, that's a conversation worth having before it happens, not after."</p>
+<h1 id="part-5-performance-risk-adjusted-metrics">PART 5: PERFORMANCE &amp; RISK-ADJUSTED METRICS</h1>
+<blockquote>
+<p>These metrics evaluate WHETHER the risk being taken is generating adequate return. A PM with high return but higher risk is not necessarily good — and a PM with low return but well-controlled risk might be excellent.</p>
+</blockquote>
+<h2 id="sharpe-ratio">Sharpe Ratio</h2>
+<p>$$\text{Sharpe} = \frac{R_p - R_f}{\sigma_p}$$</p>
+<p>Where:<br />
+- $R_p$ = annualized portfolio return<br />
+- $R_f$ = risk-free rate (typically the T-bill or OIS rate)<br />
+- $\sigma_p$ = annualized portfolio volatility (standard deviation of returns)</p>
+<p>The numerator ($R_p - R_f$) is the <strong>excess return</strong> — what you earned above the risk-free alternative. The denominator is how much risk you took to get it.</p>
+<table>
+<thead>
+<tr>
+<th>Sharpe</th>
+<th>Assessment</th>
+<th>Reality check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 0.3</td>
+<td>Poor — not justifying the risk</td>
+<td>Why is the fund open?</td>
+</tr>
+<tr>
+<td>0.3-0.7</td>
+<td>Below average</td>
+<td>Typical for beta-heavy strategies</td>
+</tr>
+<tr>
+<td>0.7-1.0</td>
+<td>Good</td>
+<td>Solid risk-adjusted performance</td>
+</tr>
+<tr>
+<td>1.0-2.0</td>
+<td>Very good</td>
+<td>Most successful hedge funds live here</td>
+</tr>
+<tr>
+<td>2.0-3.0</td>
+<td>Exceptional</td>
+<td>Either genuine edge, short track record, or illiquidity premium</td>
+</tr>
+<tr>
+<td>&gt; 3.0</td>
+<td>Suspicious</td>
+<td>Too good — likely short vol/tail risk, illiquidity marks, or data mining</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sharpe-limitations-why-you-cant-trust-it-alone">Sharpe Limitations — Why You Can't Trust It Alone</h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Explanation</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Symmetric vol penalty</strong></td>
+<td>Penalizes upside vol equally with downside</td>
+<td>A fund that makes 50% in one month and 2% in 11 months has "high vol" but spectacular returns</td>
+</tr>
+<tr>
+<td><strong>Short-vol gaming</strong></td>
+<td>Selling OTM options generates steady premium + low vol → high Sharpe — until the blowup</td>
+<td>Many "Sharpe 2.0+" funds blew up in Feb 2018. Pre-blowup Sharpe was excellent.</td>
+</tr>
+<tr>
+<td><strong>Time dependence</strong></td>
+<td>Sharpe from the last 6 months ≠ Sharpe over 5 years</td>
+<td>Short-period Sharpe is noisy: √(1/n) standard error</td>
+</tr>
+<tr>
+<td><strong>Non-normal returns</strong></td>
+<td>Sharpe assumes return/risk = mean/stdev, which assumes normality. Skew/kurtosis ignored.</td>
+<td>A fund with negative skew has worse TRUE risk-adjusted performance than Sharpe suggests</td>
+</tr>
+<tr>
+<td><strong>Benchmark-blind</strong></td>
+<td>Sharpe doesn't tell you if returns come from skill (alpha) or market exposure (beta)</td>
+<td>A PM with β=1.2 in a bull market has high Sharpe but zero alpha</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Statistical significance of Sharpe:</strong> To distinguish Sharpe = 1.0 from Sharpe = 0 at 95% confidence, you need:</p>
+<p>$$n \geq \left(\frac{1.96}{\text{Sharpe}}\right)^2 = \left(\frac{1.96}{1.0}\right)^2 \approx 4 \text{ years of monthly data}$$</p>
+<p>Two years of good performance is NOT enough to conclude skill.</p>
+<h2 id="sortino-ratio">Sortino Ratio</h2>
+<p>$$\text{Sortino} = \frac{R_p - R_f}{\sigma_{\text{downside}}}$$</p>
+<p>Same $R_p$ and $R_f$ as Sharpe, but the denominator is <strong>downside deviation</strong> — standard deviation computed only from returns BELOW a target (usually 0 or $R_f$). Upside volatility is ignored entirely.</p>
+<p><strong>Why Sortino &gt; Sharpe for hedge funds:</strong> A fund that generates its return through positively skewed bets (long gamma, event-driven, distressed credit) has LOW downside vol and HIGH upside vol. Sharpe penalizes both. Sortino correctly rewards the upside skew.</p>
+<p><strong>RM insight:</strong> Compare Sharpe to Sortino. If Sortino &gt;&gt; Sharpe → positive skew (good). If Sortino &lt;&lt; Sharpe → NEGATIVE skew (P&amp;L distribution has a fat left tail — investigate).</p>
+<h2 id="maximum-drawdown-mdd">Maximum Drawdown (MDD)</h2>
+<blockquote>
+<p>The largest peak-to-trough decline before a new peak.</p>
+</blockquote>
+<p>$$\text{MDD} = \max_{t \in [0,T]} \left( \max_{s \leq t} V_s - V_t \right) / \max_{s \leq t} V_s$$</p>
+<p><strong>Why drawdown matters more than vol for survival:</strong><br />
+- A fund with 12% annualized vol can survive indefinitely.<br />
+- A fund with a −40% drawdown might not survive — investors redeem, margin calls hit, the PM is fired.<br />
+- <strong>Drawdowns are path-dependent and NOT captured by VaR/σ.</strong> A fund can have low vol and still hit a massive drawdown through a slow grind lower.</p>
+<h3 id="the-math-of-recovery-non-symmetric">The Math of Recovery — Non-Symmetric</h3>
+<table>
+<thead>
+<tr>
+<th>Drawdown</th>
+<th>Return required to recover</th>
+<th>Time at 10% annual return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>−5%</td>
+<td>+5.3%</td>
+<td>~6 months</td>
+</tr>
+<tr>
+<td>−10%</td>
+<td>+11.1%</td>
+<td>~1.1 years</td>
+</tr>
+<tr>
+<td>−20%</td>
+<td>+25.0%</td>
+<td>~2.3 years</td>
+</tr>
+<tr>
+<td>−30%</td>
+<td>+42.9%</td>
+<td>~3.6 years</td>
+</tr>
+<tr>
+<td>−50%</td>
+<td>+100%</td>
+<td>~7.3 years</td>
+</tr>
+<tr>
+<td>−75%</td>
+<td>+300%</td>
+<td>&gt;15 years (fund is dead)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>RM implication:</strong> This is why drawdown limits are HARD limits. Once you're past −20%, recovery becomes a multi-year project. Past −50%, the fund is effectively done — even if it could recover mathematically, investors will have redeemed.</p>
+</blockquote>
+<h2 id="calmar-ratio">Calmar Ratio</h2>
+<p>$$\text{Calmar} = \frac{\text{Annualized return}}{|\text{Max drawdown}|}$$</p>
+<p>Return per unit of worst loss. Typical for CTAs and macro funds.</p>
+<table>
+<thead>
+<tr>
+<th>Calmar</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 0.5</td>
+<td>Poor — the drawdown is too large relative to returns</td>
+</tr>
+<tr>
+<td>0.5-1.0</td>
+<td>Decent</td>
+</tr>
+<tr>
+<td>1.0-2.0</td>
+<td>Very good</td>
+</tr>
+<tr>
+<td>&gt; 2.0</td>
+<td>Excellent or too-short track record</td>
+</tr>
+</tbody>
+</table>
+<h2 id="information-ratio-ir">Information Ratio (IR)</h2>
+<p>$$\text{IR} = \frac{R_p - R_b}{\text{Tracking Error}}$$</p>
+<p>Alpha divided by tracking error. Measures the CONSISTENCY of outperformance relative to benchmark.</p>
+<table>
+<thead>
+<tr>
+<th>IR</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 0.3</td>
+<td>No distinguishable skill. Could be noise.</td>
+</tr>
+<tr>
+<td>0.3-0.5</td>
+<td>Some evidence of skill</td>
+</tr>
+<tr>
+<td>0.5-1.0</td>
+<td>Good — consistent outperformance</td>
+</tr>
+<tr>
+<td>&gt; 1.0</td>
+<td>Rare. Very high skill or very concentrated bets that happened to work.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="alpha-beta-decomposition">Alpha &amp; Beta Decomposition</h2>
+<p>$$R_p = \alpha + \beta \times R_m + \epsilon$$</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it is</th>
+<th>What to check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>β (beta)</strong></td>
+<td>Market exposure — how much of the return is just riding the index</td>
+<td>β &gt; 0.3 → significant market dependency. Not pure alpha.</td>
+</tr>
+<tr>
+<td><strong>α (alpha)</strong></td>
+<td>Excess return after removing market exposure</td>
+<td>This is what justifies management fees. Should be positive and significant.</td>
+</tr>
+<tr>
+<td><strong>ε (residual)</strong></td>
+<td>Idiosyncratic — unexplained by market factor</td>
+<td>High residual vol = concentrated bets. Check factor exposures.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Multi-factor decomposition (Fama-French, Barra):</strong></p>
+<p>$$R_p = \alpha + \beta_1 R_{\text{market}} + \beta_2 R_{\text{size}} + \beta_3 R_{\text{value}} + \beta_4 R_{\text{momentum}} + \epsilon$$</p>
+<p>A PM who claims alpha but has β_momentum = 0.8 is just running momentum — the "alpha" is factor exposure, not skill. Real alpha should be the residual after ALL known factor exposures are removed.</p>
+<h2 id="omega-ratio">Omega Ratio</h2>
+<p>$$\Omega = \frac{\int_r^\infty (1-F(x)) \, dx}{\int_{-\infty}^r F(x) \, dx}$$</p>
+<p>The ratio of gains above a threshold to losses below it. Captures the ENTIRE distribution — no normality assumption. Higher is better. Unlike Sharpe, properly accounts for skew and kurtosis.</p>
+<hr />
+<h1 id="part-6-var-backtesting-verifying-the-risk-model">PART 6: VaR BACKTESTING — VERIFYING THE RISK MODEL</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A VaR model that's never tested is just an expensive guess. Backtesting asks: "How many times did actual losses exceed VaR?" and if the answer is too many (or too few), the model is broken.</p>
+</blockquote>
+<h2 id="the-framework">The Framework</h2>
+<p><strong>Process:</strong> Compare daily realized P&amp;L against the previous day's VaR prediction. Count "exceptions" (days where loss &gt; VaR).</p>
+<p>For a 99% VaR model over 250 trading days: expected exceptions = 250 × 0.01 = <strong>2.5 per year</strong>.</p>
+<h2 id="kupiec-test-proportion-of-failures">Kupiec Test (Proportion of Failures)</h2>
+<p>Tests whether the number of exceptions is statistically consistent with the stated confidence level.</p>
+<p>$$LR_{\text{POF}} = -2 \ln \left[ \frac{(1-p)^{n-x} p^x}{(1-x/n)^{n-x} (x/n)^x} \right] \sim \chi^2(1)$$</p>
+<p>Where p = expected failure rate (1% for 99% VaR), x = actual exceptions, n = total observations.</p>
+<p><strong>Traffic light system (Basel):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Exceptions (250 days, 99% VaR)</th>
+<th>Zone</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-4</td>
+<td>🟢 Green</td>
+<td>Model is acceptable</td>
+</tr>
+<tr>
+<td>5-9</td>
+<td>🟡 Yellow</td>
+<td>Model under review. Multiplier increases.</td>
+</tr>
+<tr>
+<td>10+</td>
+<td>🔴 Red</td>
+<td>Model rejected. Major multiplier increase or model replacement.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="christoffersen-test-independence">Christoffersen Test (Independence)</h2>
+<p>Kupiec tests whether exceptions are the RIGHT NUMBER. Christoffersen tests whether they're INDEPENDENT (not clustered).</p>
+<p><strong>Why independence matters:</strong> If your model has 3 exceptions per year but they ALL occur in the same week, that's worse than 3 exceptions spread across the year — it means your model fails exactly when risk is highest (volatility clustering → model is too slow to adapt).</p>
+<h2 id="conditional-coverage-test">Conditional Coverage Test</h2>
+<p>Combines both: correct number AND independent. The joint test is the gold standard for VaR backtesting.</p>
+<h2 id="what-backtesting-results-tell-you">What Backtesting Results Tell You</h2>
+<table>
+<thead>
+<tr>
+<th>Result</th>
+<th>Diagnosis</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Too FEW exceptions (0 in 2 years)</td>
+<td>VaR is too conservative — overstating risk</td>
+<td>Capital inefficiency. PM is being constrained unnecessarily. Recalibrate(lower vol estimates or update correlation).</td>
+</tr>
+<tr>
+<td>Correct exceptions (evenly spaced)</td>
+<td>Model is well-calibrated</td>
+<td>Continue monitoring.</td>
+</tr>
+<tr>
+<td>Too MANY exceptions (10+ per year)</td>
+<td>VaR underestimates risk — dangerous</td>
+<td>Investigate: stale correlations? Missing risk factors? Nonlinearity not captured? Increase multiplier or switch methods.</td>
+</tr>
+<tr>
+<td>Exceptions clustered</td>
+<td>Model doesn't adapt to regime changes</td>
+<td>Switch from equal-weight historical to EWMA/GARCH-weighted. Or use Filtered Historical Simulation.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-risk-budgeting-limit-framework">PART 7: RISK BUDGETING &amp; LIMIT FRAMEWORK</h1>
+<blockquote>
+<p>At a fund like Squarepoint, risk measures aren't academic — they're the LIMITS that constrain PMs and protect capital.</p>
+</blockquote>
+<h2 id="the-hierarchy-of-limits">The Hierarchy of Limits</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Limit type</th>
+<th>Set by</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fund level</strong></td>
+<td>Total fund VaR, gross/net exposure, drawdown</td>
+<td>CRO / Board</td>
+<td>Fund VaR &lt; $15M (99% 1d). Max DD = −15%.</td>
+</tr>
+<tr>
+<td><strong>Desk / PM level</strong></td>
+<td>VaR budget, Greeks limits, concentration</td>
+<td>Risk team</td>
+<td>Desk A: VaR ≤ $3M, short gamma &lt; $1M/1%, max single-name = 5% of NAV</td>
+</tr>
+<tr>
+<td><strong>Position level</strong></td>
+<td>Size limits, liquidity thresholds</td>
+<td>Risk team + compliance</td>
+<td>No single equity &gt; 3% of ADV. No illiquid bond &gt; $5M notional.</td>
+</tr>
+<tr>
+<td><strong>Factor level</strong></td>
+<td>Factor exposure limits</td>
+<td>Risk team</td>
+<td>Beta &lt; ±0.3. Sector concentration &lt; 20%. Duration &lt; ±2Y.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="risk-budget-allocation">Risk Budget Allocation</h2>
+<p>$$\text{Fund VaR budget} = \sum_i \text{Desk}_i \text{ VaR allocation} + \text{Reserve}$$</p>
+<p><strong>Example:</strong><br />
+- Fund 99% 1-day VaR budget: $10M<br />
+- Desk A (equity vol): $4M (40%)<br />
+- Desk B (macro rates): $3M (30%)<br />
+- Desk C (credit): $2M (20%)<br />
+- <strong>Reserve / unallocated: $1M (10%)</strong></p>
+<p><strong>Key concepts:</strong><br />
+- <strong>Utilization:</strong> Desk A running $3.2M actual VaR on $4M budget = 80% utilization. Normal.<br />
+- <strong>Over-utilization:</strong> Running $4.5M on $4M budget = 112%. Requires risk approval or position reduction.<br />
+- <strong>Correlation benefit:</strong> If desks are uncorrelated, total fund VaR &lt; sum of desk VaRs. This is the diversification benefit — the reserve accounts for the possibility that correlations spike.</p>
+<h2 id="drawdown-limits-hard-and-soft">Drawdown Limits — Hard and Soft</h2>
+<table>
+<thead>
+<tr>
+<th>Limit</th>
+<th>Level</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Soft drawdown (−5%)</strong></td>
+<td>Warning</td>
+<td>PM briefs IC. Risk reviews positions. No forced action yet.</td>
+</tr>
+<tr>
+<td><strong>Hard drawdown (−10%)</strong></td>
+<td>Action required</td>
+<td>Risk budget cut by 50%. PM must present recovery plan. IC approval for any new trades.</td>
+</tr>
+<tr>
+<td><strong>Kill switch (−15%)</strong></td>
+<td>Book liquidation</td>
+<td>Systematic position reduction. PM may be suspended. Book handed to risk desk for orderly unwind.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Drawdown measurement:</strong> Typically measured from high-water mark on a rolling 12-month basis. Intraday marks may apply for systematic strategies.</p>
+<h2 id="marginal-contribution-to-risk-capital-allocation">Marginal Contribution to Risk — Capital Allocation</h2>
+<p>$$\text{MCR}<em>i = \frac{\partial \text{VaR}</em>{\text{fund}}}{\partial w_i}$$</p>
+<p>Tells you: "If Desk A gets $1M more capital, how much does fund VaR increase?" Used for:<br />
+- <strong>Capital allocation decisions</strong> — allocate more to desks with low MCR (they add return efficiently relative to risk)<br />
+- <strong>Performance evaluation</strong> — RAROC (Risk-Adjusted Return On Capital) = Return / Economic Capital consumed</p>
+<p>$$\text{RAROC}_i = \frac{\text{Desk}_i \text{ P\&amp;L}}{\text{Desk}_i \text{ VaR allocation}}$$</p>
+<hr />
+<h1 id="part-8-liquidity-risk-measurement">PART 8: LIQUIDITY RISK MEASUREMENT</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A position isn't just risky because it can lose value — it's risky because you might not be able to EXIT when you need to.</p>
+</blockquote>
+<h2 id="liquidity-adjusted-var-lvar">Liquidity-Adjusted VaR (LVaR)</h2>
+<p>Standard VaR assumes you can close positions at mid-price. Reality: you close at bid (selling) or ask (buying), and the spread widens in stress.</p>
+<p>$$\text{LVaR} = \text{VaR} + \text{Liquidation Cost}$$</p>
+<p>Where:<br />
+$$\text{Liquidation Cost} = \frac{1}{2} \sum_i \text{Spread}_i \times \text{Position Size}_i \times \text{Stress Multiplier}_i$$</p>
+<p><strong>Worked example:</strong><br />
+- Standard VaR = $5M<br />
+- Portfolio has $200M notional with average normal spread of 5bp, stress spread 25bp<br />
+- Normal liquidation cost = ½ × 0.0005 × $200M = $50K (negligible)<br />
+- Stress liquidation cost = ½ × 0.0025 × $200M = $250K<br />
+- LVaR = $5M + $250K = $5.25M</p>
+<p>For ILLIQUID positions (HY bonds, small-cap, EM): stress spreads can be 200bp+ → liquidation cost dominates.</p>
+<h2 id="days-to-liquidate">Days to Liquidate</h2>
+<p>$$\text{DTL} = \frac{\text{Position Size}}{\text{ADV} \times \text{Participation Rate}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Participation rate</th>
+<th>Meaning</th>
+<th>Typical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10% of ADV</td>
+<td>Conservative — minimal market impact</td>
+<td>Standard assumption</td>
+</tr>
+<tr>
+<td>25% of ADV</td>
+<td>Moderate</td>
+<td>Acceptable for liquid names</td>
+</tr>
+<tr>
+<td>50%+ of ADV</td>
+<td>Aggressive — significant market impact</td>
+<td>Emergency only</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example:</strong><br />
+- Hold $20M of stock X, ADV = $5M, 10% participation<br />
+- DTL = $20M / ($5M × 0.10) = <strong>40 days</strong><br />
+- Your 1-day VaR assumes you can exit in 1 day. You can't. Liquidity-adjusted horizon should be 40 days. VaR should be scaled: VaR_40d ≈ VaR_1d × √40 = <strong>6.3× larger</strong>.</p>
+<h2 id="liquidity-tiering">Liquidity Tiering</h2>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Liquidity profile</th>
+<th>DTL</th>
+<th>VaR treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1 (Liquid)</strong></td>
+<td>ADV &gt; $50M, tight spreads, deep book</td>
+<td>&lt; 3 days</td>
+<td>Standard 1-day VaR</td>
+</tr>
+<tr>
+<td><strong>2 (Semi-liquid)</strong></td>
+<td>ADV $5-50M, moderate spreads</td>
+<td>3-10 days</td>
+<td>Apply √DTL scaling</td>
+</tr>
+<tr>
+<td><strong>3 (Illiquid)</strong></td>
+<td>ADV &lt; $5M, wide spreads, thin book</td>
+<td>10-30 days</td>
+<td>Apply √DTL + stress spread + redemption gate consideration</td>
+</tr>
+<tr>
+<td><strong>4 (Very illiquid)</strong></td>
+<td>Bespoke OTC, no secondary market</td>
+<td>30+ days or impossible</td>
+<td>Mark uncertainty. Full position size at risk in stress. May need side-pocket.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-model-risk-meta-risk">PART 9: MODEL RISK &amp; META-RISK</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Every risk measure is the output of a model. If the model is wrong, the risk measure is worse than useless — it creates false confidence.</p>
+</blockquote>
+<h2 id="sources-of-model-risk">Sources of Model Risk</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What goes wrong</th>
+<th>Impact on risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Wrong distribution</strong></td>
+<td>Assumed normal, actual is fat-tailed</td>
+<td>VaR underestimates tail risk by 2-5×</td>
+</tr>
+<tr>
+<td><strong>Stale parameters</strong></td>
+<td>Correlations estimated from calm period used in crisis</td>
+<td>Diversification benefit evaporates — actual risk much higher</td>
+</tr>
+<tr>
+<td><strong>Missing risk factors</strong></td>
+<td>Model has 5 factors, but the 6th (liquidity, correlation, convexity) is the one that kills you</td>
+<td>"Unknown unknowns" — risk model shows green while the portfolio bleeds</td>
+</tr>
+<tr>
+<td><strong>Wrong pricing model</strong></td>
+<td>Options priced with BS (constant vol), actual dynamics are stochastic vol</td>
+<td>Greeks are wrong → hedges are wrong → P&amp;L leaks</td>
+</tr>
+<tr>
+<td><strong>Overfitting</strong></td>
+<td>Model calibrated to fit history perfectly, fails on new data</td>
+<td>Backtests look perfect, live performance is terrible</td>
+</tr>
+<tr>
+<td><strong>Implementation errors</strong></td>
+<td>Bugs in risk system, data feed errors, stale prices</td>
+<td>"Garbage in, garbage out" — most common source of risk model failure</td>
+</tr>
+</tbody>
+</table>
+<h2 id="model-validation-framework">Model Validation Framework</h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>What you do</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Backtesting</strong></td>
+<td>Compare VaR predictions to realized P&amp;L</td>
+<td>Daily (automated)</td>
+</tr>
+<tr>
+<td><strong>Benchmarking</strong></td>
+<td>Compare internal model to external/vendor models</td>
+<td>Quarterly</td>
+</tr>
+<tr>
+<td><strong>Sensitivity analysis</strong></td>
+<td>Perturb model inputs — does output change reasonably?</td>
+<td>Quarterly or on model change</td>
+</tr>
+<tr>
+<td><strong>Challenger model</strong></td>
+<td>Run a completely different model in parallel</td>
+<td>Continuous</td>
+</tr>
+<tr>
+<td><strong>P&amp;L explain</strong></td>
+<td>Compare model-predicted P&amp;L (from Greeks) to actual P&amp;L</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td><strong>Expert review</strong></td>
+<td>Quants review model assumptions, limitations, edge cases</td>
+<td>Annual or on model change</td>
+</tr>
+</tbody>
+</table>
+<p><strong>P&amp;L explain as model validation:</strong> If your model predicts today's P&amp;L should be −$2.3M (from delta + gamma + vega + theta) but actual is −$4.1M, the −$1.8M "unexplained" is model error. Persistent unexplained P&amp;L = model is wrong. Investigate.</p>
+<hr />
+<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
+<p><strong>"What are the limitations of VaR?"</strong></p>
+<p>"VaR is a useful speedometer but a terrible crash detector. Five key limitations: First, it tells you nothing about losses BEYOND the threshold — a $5M VaR could be hiding $50M of tail risk, and you'd only know from Expected Shortfall or stress testing. Second, it's computed from historical data under normal conditions — but the distribution changes in a crisis: correlations spike, liquidity vanishes, and your calm-period covariance matrix is wrong. Third, it's not subadditive — combining portfolios can produce higher VaR than the sum, which violates basic intuition and makes it unreliable for capital allocation. Fourth, it's gameable — selling deep OTM options generates premium income with low measured VaR while embedding massive tail risk. Finally, it's a point-in-time snapshot at market close that misses intraday risk.</p>
+<p>That's why I'd always supplement VaR with ES for tail severity, stress tests for extreme scenarios, and the ES/VaR ratio as a quick diagnostic — if that ratio exceeds 3, there's a concave payoff hiding in the book."</p>
+<p><strong>"How would you set up a stress testing framework?"</strong></p>
+<p>"Three layers. Historical stress tests — replay 2008, COVID, Volmageddon with current positions — because you need to know if the portfolio survives past crises. Hypothetical scenarios — events that haven't happened, like a Taiwan conflict or US Treasury auction failure — because the next crisis won't look like the last one. And sensitivity grids — systematic factor bumps across equity × vol × rates dimensions — to map out the P&amp;L heat map and find exactly where the portfolio breaks.</p>
+<p>I'd add a fourth: reverse stress testing. Start from the loss threshold — say our drawdown limit is $30M — and work backward to find the minimum-severity scenario that causes it. If that scenario is plausible, we have an actionable problem to address TODAY, not during the crisis."</p>
+<p><strong>"Walk me through the Sharpe ratio and its problems":</strong></p>
+<p>"Sharpe is excess return over risk-free divided by vol. It's the standard risk-adjusted performance metric — most successful hedge funds are in the 0.7-2.0 range. But it has three fatal flaws for evaluating hedge fund strategies.</p>
+<p>First, it treats upside and downside vol equally, so a positively skewed fund is penalized for its best feature. The Sortino ratio fixes this by only measuring downside deviation. Second, it can be gamed — any strategy that sells tail risk generates steady premium with low measured vol, producing Sharpe 2.0+ until the tail event arrives and it goes to zero. I'd check Sortino/Sharpe ratio: if Sortino is much lower than Sharpe, the fund has hidden negative skew. Third, short-period Sharpe is statistically noisy — you need ~4 years of monthly data to distinguish Sharpe 1.0 from zero at 95% confidence. Two quarters of good performance proves nothing."</p>
+<p><strong>"Explain the difference between VaR, ES, and stress testing":</strong></p>
+<p>"These three form a risk measurement pyramid. VaR tells you the boundary of normal losses — 'on 99 out of 100 days, you won't lose more than $5M.' It's the daily speedometer. ES tells you what happens when you crash — 'when you DO breach VaR, the average loss is $12M.' It captures tail severity and is what FRTB is moving toward for banks. Stress testing asks 'what if the road disappears entirely?' — you define specific extreme scenarios and measure the impact directly, without relying on historical distributions.</p>
+<p>A complete risk framework uses all three: VaR for daily monitoring and limit-setting, ES for tail adequacy and identifying concave payoffs, and stress tests for the extreme scenarios that the statistical models can't capture. If I had to choose one, I'd choose stress testing — it's the only one that works in a true crisis, because it doesn't depend on the past looking like the future."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>07_Risk_Reference</em> — formulas, detailed risk framework<br />
-→ <a href="D_Greeks.html">Greeks</a> — the risk sensitivities that feed into VaR<br />
-→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — portfolio-level risk concepts<br />
-→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using risk measures to explain daily P&amp;L<br />
-→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — backtesting VaR, Kupiec test<br />
-→ <em>18_Round1_Trader_BattlePrep</em> — Section 2 (risk measures in interview context)</p>
+→ <a href="D_Greeks.html">Greeks</a> — the risk sensitivities that generate VaR<br />
+→ <a href="E_Volatility.html">Volatility</a> — vol regimes, VRP, regime shifts — the context behind risk measures<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — portfolio-level risk concepts, diversification, factor models<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using risk measures to decompose P&amp;L<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — GARCH, backtesting, model validation<br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — applying risk measures to real decisions</p>
 </main>
 
 <script>

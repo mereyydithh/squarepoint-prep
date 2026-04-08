@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Mechanics — Cheat — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --sidebar-w: 280px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 10px 20px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.nav-section {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(88,166,255,0.08);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 40px 60px 80px;
+  max-width: 900px;
+}
+.content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.content h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 14px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.content ul, .content ol {
+  margin: 0 0 16px 24px;
+}
+.content li {
+  margin-bottom: 4px;
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 20px;
+  margin: 16px 0;
+  background: rgba(88,166,255,0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-muted);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.content th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+}
+.content td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  vertical-align: top;
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 20px; }
+  .content h3 { font-size: 16px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 8px; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
+<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link active" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="c-market-mechanics-cheat-sheet">C — MARKET MECHANICS CHEAT SHEET</h1>
+<hr />
+<h2 id="one-liners">ONE-LINERS</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>One-liner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Trade lifecycle</strong></td>
+<td>Order → route → execute → clear (CCP novation) → settle (delivery vs payment)</td>
+</tr>
+<tr>
+<td><strong>Market order</strong></td>
+<td>Guaranteed execution, NOT guaranteed price. Can cross multiple levels in a thin book.</td>
+</tr>
+<tr>
+<td><strong>Limit order</strong></td>
+<td>Guaranteed price, NOT execution. You may never get filled.</td>
+</tr>
+<tr>
+<td><strong>CCP</strong></td>
+<td>Steps between buyer and seller → eliminates bilateral risk but creates concentration risk</td>
+</tr>
+<tr>
+<td><strong>Novation</strong></td>
+<td>CCP replaces original contract with two: A→CCP and CCP→B</td>
+</tr>
+<tr>
+<td><strong>Settlement</strong></td>
+<td>US equities T+1 (since May 2024). European equities T+2. FX spot T+2.</td>
+</tr>
+<tr>
+<td><strong>ISDA</strong></td>
+<td>Constitution of OTC derivatives — governs netting, close-out, events of default</td>
+</tr>
+<tr>
+<td><strong>CSA</strong></td>
+<td>Collateral framework — thresholds, eligible collateral, haircuts, rehypothecation</td>
+</tr>
+<tr>
+<td><strong>Initial margin</strong></td>
+<td>Deposit to OPEN a position. Performance bond.</td>
+</tr>
+<tr>
+<td><strong>Variation margin</strong></td>
+<td>Daily mark-to-market settlement. Losing side pays.</td>
+</tr>
+<tr>
+<td><strong>Maintenance margin</strong></td>
+<td>Minimum level. Below → margin call (post to IM, not maintenance).</td>
+</tr>
+<tr>
+<td><strong>Pro-cyclical margin</strong></td>
+<td>Exchanges RAISE margin in vol spikes → demand cash when you can least afford it</td>
+</tr>
+<tr>
+<td><strong>Margin cascade</strong></td>
+<td>Margin call → forced selling → price drops → more margin calls → spiral</td>
+</tr>
+<tr>
+<td><strong>Repo</strong></td>
+<td>Collateralized short-term loan. Sell securities today, agree to buy back tomorrow.</td>
+</tr>
+<tr>
+<td><strong>Haircut</strong></td>
+<td>Discount on collateral: post $100M bonds, receive $98M cash (2% haircut).</td>
+</tr>
+<tr>
+<td><strong>Gross leverage</strong></td>
+<td>(Longs + Shorts) / NAV → total exposure</td>
+</tr>
+<tr>
+<td><strong>Net leverage</strong></td>
+<td>(Longs − Shorts) / NAV → directional exposure</td>
+</tr>
+<tr>
+<td><strong>Market liquidity</strong></td>
+<td>Can you sell at fair value in size? Bid-ask, depth, ADV, impact.</td>
+</tr>
+<tr>
+<td><strong>Funding liquidity</strong></td>
+<td>Can you access cash? Credit lines, repo, margin availability.</td>
+</tr>
+<tr>
+<td><strong>Liquidity spiral</strong></td>
+<td>Market illiquidity → funding pressure → forced selling → more illiquidity → doom loop</td>
+</tr>
+<tr>
+<td><strong>Short squeeze</strong></td>
+<td>Forced buying feedback loop — shorts cover → price rises → more shorts forced to cover</td>
+</tr>
+<tr>
+<td><strong>Days to cover</strong></td>
+<td>Short interest / ADV. Above 10 = crowded short, squeeze risk.</td>
+</tr>
+<tr>
+<td><strong>Gamma flip</strong></td>
+<td>Price where dealer gamma goes from positive (dampening) to negative (amplifying moves)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="order-types">ORDER TYPES</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Guarantees</th>
+<th>Risk</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market</td>
+<td>Execution ✓</td>
+<td>Bad price in thin books</td>
+<td>Small/urgent, liquid names</td>
+</tr>
+<tr>
+<td>Limit</td>
+<td>Price ✓</td>
+<td>No fill if moves away</td>
+<td>Have a target, can wait</td>
+</tr>
+<tr>
+<td>Stop</td>
+<td>Exit (once triggered)</td>
+<td>Gap through stop level</td>
+<td>Automatic risk management</td>
+</tr>
+<tr>
+<td>Stop-limit</td>
+<td>Price floor (once triggered)</td>
+<td>May not execute at all</td>
+<td>Want stop but refuse to sell below floor</td>
+</tr>
+<tr>
+<td>MOC</td>
+<td>Closing price</td>
+<td>Must submit before cutoff</td>
+<td>Benchmark to close, rebalancing</td>
+</tr>
+<tr>
+<td>Iceberg</td>
+<td>Stealth</td>
+<td>Can be detected by algos</td>
+<td>Large orders, minimize info leakage</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="execution-algorithms">EXECUTION ALGORITHMS</h2>
+<table>
+<thead>
+<tr>
+<th>Algo</th>
+<th>How</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VWAP</td>
+<td>Volume-profile weighted</td>
+<td>Benchmark to VWAP</td>
+</tr>
+<tr>
+<td>TWAP</td>
+<td>Even time intervals</td>
+<td>Even execution</td>
+</tr>
+<tr>
+<td>Implementation Shortfall</td>
+<td>Front-loaded</td>
+<td>Minimize slippage from decision price</td>
+</tr>
+<tr>
+<td>Liquidity-seeking</td>
+<td>Finds pockets of liquidity</td>
+<td>Minimize impact at all costs</td>
+</tr>
+<tr>
+<td>POV (% of Volume)</td>
+<td>Fixed % of real-time volume</td>
+<td>Adapt to live conditions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Market impact ∝ √(order size / ADV).</strong> Double size → ~40% more impact.</p>
+<hr />
+<h2 id="key-ccps">KEY CCPs</h2>
+<table>
+<thead>
+<tr>
+<th>CCP</th>
+<th>Clears</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DTCC/NSCC</td>
+<td>US equities, corporates</td>
+</tr>
+<tr>
+<td>CME Clearing</td>
+<td>Futures, cleared IRS</td>
+</tr>
+<tr>
+<td>LCH (SwapClear)</td>
+<td>~90% of global cleared IRS</td>
+</tr>
+<tr>
+<td>ICE Clear</td>
+<td>Energy futures, CDS</td>
+</tr>
+<tr>
+<td>OCC</td>
+<td>US listed equity options</td>
+</tr>
+<tr>
+<td>Eurex Clearing</td>
+<td>Euro Stoxx, Euro rates</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CCP waterfall:</strong> Defaulter's IM → Defaulter's default fund → CCP capital → Other members' default fund → Assessment.</p>
+<hr />
+<h2 id="settlement">SETTLEMENT</h2>
+<table>
+<thead>
+<tr>
+<th>Market</th>
+<th>Cycle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US equities</td>
+<td>T+1</td>
+</tr>
+<tr>
+<td>US Treasuries</td>
+<td>T+1</td>
+</tr>
+<tr>
+<td>European equities</td>
+<td>T+2</td>
+</tr>
+<tr>
+<td>FX spot</td>
+<td>T+2 (CLS Bank)</td>
+</tr>
+<tr>
+<td>Futures</td>
+<td>Daily MTM</td>
+</tr>
+<tr>
+<td>OTC derivatives</td>
+<td>Per ISDA/CSA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Herstatt risk:</strong> Time zone mismatch in FX settlement → CLS Bank created to settle simultaneously.</p>
+<hr />
+<h2 id="isda-csa-key-terms">ISDA / CSA KEY TERMS</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Netting</td>
+<td>Multiple trades → single net amount if default. Reduces exposure 80-90%.</td>
+</tr>
+<tr>
+<td>Close-out</td>
+<td>All trades terminated and netted on credit event. No cherry-picking.</td>
+</tr>
+<tr>
+<td>Threshold</td>
+<td>Below this, no collateral required. Higher = more unsecured exposure.</td>
+</tr>
+<tr>
+<td>MTA</td>
+<td>Minimum transfer amount. Small moves ignored.</td>
+</tr>
+<tr>
+<td>Haircut</td>
+<td>Discount on non-cash collateral.</td>
+</tr>
+<tr>
+<td>Rehypothecation</td>
+<td>Receiver re-uses your collateral. Efficient but risky (Lehman trapped $65B+).</td>
+</tr>
+<tr>
+<td>SIMM</td>
+<td>ISDA's standard model for bilateral IM calculation. Sensitivity-based.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="margin-models">MARGIN MODELS</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Used by</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPAN</td>
+<td>CME, futures exchanges</td>
+<td>16 scenarios, worst-case loss</td>
+</tr>
+<tr>
+<td>TIMS</td>
+<td>OCC (equity options)</td>
+<td>Scenario-based</td>
+</tr>
+<tr>
+<td>SIMM</td>
+<td>Bilateral OTC (ISDA)</td>
+<td>Sensitivity-based (delta, vega, curvature)</td>
+</tr>
+<tr>
+<td>VaR-based</td>
+<td>Prime brokers</td>
+<td>Historical/MC VaR, 99%, 10-day</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="repo-mechanics">REPO MECHANICS</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repo rate</td>
+<td>≈ SOFR for UST repo</td>
+</tr>
+<tr>
+<td>Haircut</td>
+<td>UST: 1-2%. IG corp: 3-5%. HY: 10-25%. Equity: 15-25%.</td>
+</tr>
+<tr>
+<td>Term</td>
+<td>Mostly overnight (70%+). Also 1W, 1M, 3M, open.</td>
+</tr>
+<tr>
+<td>GC</td>
+<td>General collateral — any acceptable security</td>
+</tr>
+<tr>
+<td>Special</td>
+<td>Specific bond demanded — lower repo rate (scarce collateral)</td>
+</tr>
+<tr>
+<td>Reverse repo</td>
+<td>Mirror: LEND cash, receive securities</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Leverage via repo:</strong> Buy $100M bonds → repo for $99M → buy more → repo again → 50x leverage on $2M equity. A 2% move = total wipeout.</p>
+<hr />
+<h2 id="leverage-profiles">LEVERAGE PROFILES</h2>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Gross</th>
+<th>Net</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market neutral</td>
+<td>6x</td>
+<td>0.2x</td>
+<td>Lots of positions, little directional risk</td>
+</tr>
+<tr>
+<td>Levered directional</td>
+<td>6x</td>
+<td>4x</td>
+<td>Maximum risk</td>
+</tr>
+<tr>
+<td>Conviction, low lev</td>
+<td>1.5x</td>
+<td>1.2x</td>
+<td>Concentrated longs, modest leverage</td>
+</tr>
+<tr>
+<td>Conservative hedged</td>
+<td>1.5x</td>
+<td>0.1x</td>
+<td>Low leverage, well hedged</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Better than notional:</strong> Risk-adjusted leverage, DV01/NAV, marginal VaR leverage, effective leverage (gross × beta).</p>
+<p><strong>Why leverage kills:</strong> -50% needs +100% to recover. -75% needs +300%. Margin calls force selling AT the bottom.</p>
+<hr />
+<h2 id="liquidity-tiering">LIQUIDITY TIERING</h2>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Exit time</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tier 1</td>
+<td>&lt; 1 day</td>
+<td>G10 FX, SPY, index futures, on-the-run UST</td>
+</tr>
+<tr>
+<td>Tier 2</td>
+<td>1-5 days</td>
+<td>Large-cap stocks, IG bonds, liquid options</td>
+</tr>
+<tr>
+<td>Tier 3</td>
+<td>5-20 days</td>
+<td>Small-cap, HY bonds, EM credit, off-the-run UST</td>
+</tr>
+<tr>
+<td>Tier 4</td>
+<td>&gt; 20 days</td>
+<td>Distressed debt, exotic OTC, private placements</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Red flag:</strong> Tier 3+4 &gt; 15% NAV for open-ended fund = redemption mismatch.</p>
+<hr />
+<h2 id="dealer-gamma">DEALER GAMMA</h2>
+<table>
+<thead>
+<tr>
+<th>Dealer position</th>
+<th>They do</th>
+<th>Market effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long gamma</td>
+<td>Buy dips, sell rallies</td>
+<td>DAMPENS moves, range-bound</td>
+</tr>
+<tr>
+<td>Short gamma</td>
+<td>Sell declines, buy rallies</td>
+<td>AMPLIFIES moves, vol spikes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gamma flip:</strong> Below this level → dealer short gamma → sell-offs accelerate.</p>
+<hr />
+<h2 id="intraday-patterns">INTRADAY PATTERNS</h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Pattern</th>
+<th>RM implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9:30-10:00</td>
+<td>Opening vol, gap fills</td>
+<td>Noise, not signal</td>
+</tr>
+<tr>
+<td>8:30/10:00</td>
+<td>Econ data (CPI, NFP, PMI)</td>
+<td>Genuine information events</td>
+</tr>
+<tr>
+<td>11:30-1:30</td>
+<td>Lunch lull, thin books</td>
+<td>Don't trust moves</td>
+</tr>
+<tr>
+<td>3:00-3:50</td>
+<td>Power hour, real flow</td>
+<td>High conviction moves</td>
+</tr>
+<tr>
+<td>3:50-4:00</td>
+<td>MOC imbalance, close</td>
+<td>Large rebalancing flows</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="circuit-breakers">CIRCUIT BREAKERS</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Trigger</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Level 1</td>
+<td>SPX -7%</td>
+<td>15-min halt (before 3:25 PM)</td>
+</tr>
+<tr>
+<td>Level 2</td>
+<td>SPX -13%</td>
+<td>15-min halt (before 3:25 PM)</td>
+</tr>
+<tr>
+<td>Level 3</td>
+<td>SPX -20%</td>
+<td>Market closes for the day</td>
+</tr>
+<tr>
+<td>LULD</td>
+<td>Single stock outside band</td>
+<td>Individual halt</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="short-selling">SHORT SELLING</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Process</td>
+<td>Locate → borrow → sell → wait → cover (buy back &amp; return)</td>
+</tr>
+<tr>
+<td>Borrow fee</td>
+<td>Easy: 0.25-0.50%. Hard-to-borrow: 5-50%+</td>
+</tr>
+<tr>
+<td>You pay</td>
+<td>Borrow fee + dividends to lender</td>
+</tr>
+<tr>
+<td>You earn</td>
+<td>Short rebate on restricted cash proceeds</td>
+</tr>
+<tr>
+<td>Max loss</td>
+<td>Unlimited (price can rise infinitely)</td>
+</tr>
+<tr>
+<td>Buy-in risk</td>
+<td>Lender recalls → forced cover at market</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Squeeze signals:</strong> SI &gt; 20% float, days-to-cover &gt; 10, borrow utilization &gt; 90%, rising borrow cost.</p>
+<hr />
+<h2 id="rm-red-flags">RM RED FLAGS</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Margin utilization</td>
+<td>&gt; 70% in calm markets</td>
+</tr>
+<tr>
+<td>Stressed margin</td>
+<td>&gt; 90% at VIX +20</td>
+</tr>
+<tr>
+<td>Gross leverage</td>
+<td>&gt; 4x for discretionary</td>
+</tr>
+<tr>
+<td>Days-to-close (DTC)</td>
+<td>Any position &gt; 5 days</td>
+</tr>
+<tr>
+<td>Tier 3+4 % NAV</td>
+<td>&gt; 15% for open-ended fund</td>
+</tr>
+<tr>
+<td>Overnight repo funding</td>
+<td>&gt; 50% on long-dated assets</td>
+</tr>
+<tr>
+<td>Borrow utilization (shorts)</td>
+<td>&gt; 80% on any position</td>
+</tr>
+<tr>
+<td>Bid-ask vs 30d avg</td>
+<td>&gt; 2x normal = liquidity deteriorating</td>
+</tr>
+</tbody>
+</table>
+</main>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

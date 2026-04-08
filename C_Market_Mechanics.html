@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link active" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,70 +308,261 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="c-market-mechanics">C — MARKET MECHANICS</h1>
-<h2 id="how-markets-actually-work-trade-lifecycle-margin-leverage-liquidity">How markets actually work: trade lifecycle, margin, leverage, liquidity</h2>
-<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<h1 id="c-market-mechanics-how-markets-actually-work">C — MARKET MECHANICS: HOW MARKETS ACTUALLY WORK</h1>
+<h2 id="trade-lifecycle-order-types-clearing-margin-leverage-repo-liquidity-microstructure-and-short-selling">Trade lifecycle, order types, clearing, margin, leverage, repo, liquidity, microstructure, and short selling</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="part-1-trade-lifecycle">PART 1: TRADE LIFECYCLE</h1>
-<h2 id="the-journey-of-a-trade-equities">The Journey of a Trade (Equities)</h2>
-<div class="highlight"><pre><span></span><code>1. Order placement → 2. Order routing → 3. Execution → 4. Clearing → 5. Settlement
+<h1 id="part-1-trade-lifecycle-from-click-to-settlement">PART 1: TRADE LIFECYCLE — FROM CLICK TO SETTLEMENT</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A trade isn't done when you click "buy" — it has to be routed, executed, cleared, and settled, and things can go wrong at every step.</p>
+</blockquote>
+<h2 id="the-journey-of-a-trade">The Journey of a Trade</h2>
+<div class="highlight"><pre><span></span><code>1. Order Decision → 2. Order Placement → 3. Routing → 4. Execution → 5. Confirmation
+→ 6. Clearing (CCP novation) → 7. Settlement (delivery vs payment)
 </code></pre></div>
 
-<h3 id="step-1-order-placement">Step 1: Order Placement</h3>
-<p>PM decides to buy 50,000 shares of XOM. Sends the order to the execution desk (or electronic algo).</p>
-<h3 id="step-2-order-routing">Step 2: Order Routing</h3>
-<p>Order goes to the market. Multiple venues: NYSE, NASDAQ, dark pools, electronic crossing networks. Best execution obligation means the broker must seek the best available price.</p>
-<h3 id="step-3-execution">Step 3: Execution</h3>
-<p>The order matches with a seller. Execution can be:<br />
-- <strong>Market order:</strong> Execute now at current best price. Guaranteed execution, not guaranteed price.<br />
-- <strong>Limit order:</strong> Execute only at my price or better. Guaranteed price, not guaranteed execution.<br />
-- <strong>Algo execution:</strong> VWAP, TWAP, iceberg — break into smaller orders to minimize market impact.</p>
-<h3 id="step-4-clearing">Step 4: Clearing</h3>
-<p>The clearinghouse (e.g., DTCC for US equities, LCH for swaps, CME for futures) steps between buyer and seller. It becomes:<br />
-- Buyer to the seller<br />
-- Seller to the buyer</p>
-<p>This eliminates bilateral counterparty risk. Both sides now face the CCP, not each other.</p>
-<h3 id="step-5-settlement">Step 5: Settlement</h3>
-<p>Actual delivery of shares and cash. US equities: T+1 (trade date + 1 business day). Used to be T+2. Shortened in May 2024.</p>
+<h3 id="step-1-order-decision">Step 1 — Order Decision</h3>
+<p>The PM decides to buy 50,000 shares of XOM at ~$115. The execution desk assesses: current ADV ≈ 20M shares/day, so 50K is 0.25% of ADV — no market impact concern. But if the order were 5M shares (25% ADV), the approach changes completely.</p>
+<h3 id="step-2-order-placement-order-types">Step 2 — Order Placement &amp; Order Types</h3>
+<blockquote>
+<p><strong>One-liner:</strong> The order type you choose determines whether you prioritize speed or price — and the wrong choice in the wrong market can cost you millions.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Order Type</th>
+<th>What it does</th>
+<th>Guaranteed</th>
+<th>Risk</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Market order</strong></td>
+<td>Execute immediately at the best available price</td>
+<td>Execution ✓</td>
+<td>NOT price. In a thin book, you can cross multiple levels. Flash Crash 2010: market orders sold into empty order books.</td>
+<td>Small, liquid positions. Urgency trumps cost.</td>
+</tr>
+<tr>
+<td><strong>Limit order</strong></td>
+<td>Execute only at my price or better</td>
+<td>Price ✓</td>
+<td>NOT execution. You may never get filled if the price moves away.</td>
+<td>You have a target price and can afford to wait.</td>
+</tr>
+<tr>
+<td><strong>Stop order</strong></td>
+<td>Becomes a market order when a trigger price is hit</td>
+<td>Execution (once triggered) ✓</td>
+<td>Gap risk — stock can gap through your stop and execute far worse than expected.</td>
+<td>Risk management: automatic exit if position moves against you.</td>
+</tr>
+<tr>
+<td><strong>Stop-limit</strong></td>
+<td>Becomes a limit order when trigger is hit</td>
+<td>Price (once triggered) ✓</td>
+<td>May NOT execute if price gaps past both levels. The "worst of both worlds" risk.</td>
+<td>Want stop protection but refuse to sell below a floor.</td>
+</tr>
+<tr>
+<td><strong>MOC (Market on Close)</strong></td>
+<td>Execute at the official closing price</td>
+<td>Closing price ✓</td>
+<td>Must submit before cutoff (~3:45 PM). Large MOC imbalances move the close.</td>
+<td>Benchmark to close. Index rebalancing. Pension flows.</td>
+</tr>
+<tr>
+<td><strong>Iceberg</strong></td>
+<td>Shows only a small "visible" portion; the rest is hidden</td>
+<td>Stealth execution</td>
+<td>Only partially hidden — sophisticated algos can detect the pattern.</td>
+<td>Large orders: minimize information leakage to other participants.</td>
+</tr>
+<tr>
+<td><strong>Pegged</strong></td>
+<td>Automatically adjusts with the NBBO (midpoint peg, primary peg)</td>
+<td>Best available price</td>
+<td>In fast markets, the peg may lag and result in adverse fills.</td>
+<td>Dark pool orders seeking price improvement.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="step-3-execution-algorithms">Step 3 — Execution Algorithms</h3>
+<p>When the order is large relative to ADV, you use an algo to minimize market impact:</p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>How it works</th>
+<th>Best for</th>
+<th>Weakness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VWAP</strong> (Volume-Weighted Average Price)</td>
+<td>Splits order across the day proportional to historical volume profile</td>
+<td>Benchmark to VWAP, minimize deviation</td>
+<td>Predictable — HFTs can detect VWAP algos and trade ahead</td>
+</tr>
+<tr>
+<td><strong>TWAP</strong> (Time-Weighted Average Price)</td>
+<td>Splits order evenly across fixed time intervals</td>
+<td>Even execution when volume profile doesn't matter</td>
+<td>Doesn't adapt to actual volume</td>
+</tr>
+<tr>
+<td><strong>Implementation Shortfall</strong> (IS)</td>
+<td>Front-loads execution to minimize slippage from decision price</td>
+<td>Minimize total cost vs arrival price</td>
+<td>More market impact upfront, but less slippage from delay</td>
+</tr>
+<tr>
+<td><strong>Liquidity-seeking</strong></td>
+<td>Only executes when it finds pockets of liquidity (dark pools, crosses)</td>
+<td>Minimize market impact at all costs</td>
+<td>Slow — may not complete if liquidity is thin</td>
+</tr>
+<tr>
+<td><strong>Percentage of Volume (POV)</strong></td>
+<td>Participates at a fixed % of real-time volume (e.g., 10% of volume)</td>
+<td>Adapt execution to live market conditions</td>
+<td>Slow in low-volume periods, fast in high-volume</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Market impact cost — the hidden tax:</strong><br />
+If you're buying 500K shares of a mid-cap stock (ADV = 2M), your buying pressure itself pushes the price up. Suppose you buy all day at 25% POV:<br />
+- Shares 1–100K: filled at $50.00–$50.05 (barely noticed)<br />
+- Shares 100K–300K: filled at $50.05–$50.20 (market starts sensing the buyer)<br />
+- Shares 300K–500K: filled at $50.20–$50.40 (aggressive sellers pull back, market adjusts)<br />
+- Your VWAP: ~$50.18 vs arrival price of $50.00 → market impact cost = 36bps ($90K on $25M notional)</p>
+<p>This is called <strong>slippage</strong> and it can eat into returns more than commissions for any fund of meaningful size.</p>
+<h3 id="step-4-clearing">Step 4 — Clearing</h3>
+<blockquote>
+<p><strong>One-liner:</strong> The clearinghouse (CCP) steps between buyer and seller, becoming the counterparty to both — this eliminates bilateral default risk but concentrates systemic risk in the CCP itself.</p>
+</blockquote>
+<p><strong>The novation process:</strong><br />
+1. Trade is matched and reported to the CCP<br />
+2. CCP "novates" — the original contract between A and B becomes TWO contracts: A→CCP and CCP→B<br />
+3. Both sides post initial margin to the CCP<br />
+4. Daily variation margin is exchanged based on mark-to-market</p>
+<p><strong>Key CCPs:</strong></p>
+<table>
+<thead>
+<tr>
+<th>CCP</th>
+<th>What it clears</th>
+<th>Region</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DTCC / NSCC</strong></td>
+<td>US equities, corporate bonds</td>
+<td>US</td>
+</tr>
+<tr>
+<td><strong>CME Clearing</strong></td>
+<td>Futures, options on futures, cleared OTC IRS</td>
+<td>US</td>
+</tr>
+<tr>
+<td><strong>ICE Clear</strong></td>
+<td>Futures (energy, credit), CDS</td>
+<td>US/Europe</td>
+</tr>
+<tr>
+<td><strong>LCH (SwapClear)</strong></td>
+<td>~90% of cleared IRS globally</td>
+<td>Global</td>
+</tr>
+<tr>
+<td><strong>Eurex Clearing</strong></td>
+<td>Euro Stoxx futures/options, Euro rates</td>
+<td>Europe</td>
+</tr>
+<tr>
+<td><strong>OCC</strong></td>
+<td>Listed equity options in the US</td>
+<td>US</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CCP risk management — the "waterfall":</strong><br />
+If a clearing member defaults, the CCP uses this sequence to absorb losses:<br />
+1. <strong>Defaulter's initial margin</strong> — first line of defense<br />
+2. <strong>Defaulter's contribution to the guaranty/default fund</strong><br />
+3. <strong>CCP's own capital ("skin in the game")</strong> — usually small<br />
+4. <strong>Other members' default fund contributions</strong> — this is where contagion risk lives. You can lose money from SOMEONE ELSE's default.<br />
+5. <strong>Assessment powers</strong> — CCP can demand additional contributions (up to a limit)</p>
+<p><strong>The systemic risk tension:</strong> CCPs eliminate bilateral counterparty risk but create a single point of failure. If a CCP itself fails, the entire market freezes. This is why CCPs are designated as "systemically important financial market utilities" (SIFMUs) and are subject to central bank backstops.</p>
+<h3 id="step-5-settlement">Step 5 — Settlement</h3>
+<blockquote>
+<p><strong>One-liner:</strong> Settlement is the actual exchange of securities for cash — until settlement, you have counterparty risk even on exchange-traded instruments.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
 <th>Market</th>
-<th>Settlement</th>
+<th>Settlement Cycle</th>
+<th>Key detail</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>US equities</td>
-<td>T+1</td>
+<td><strong>T+1</strong></td>
+<td>Shortened from T+2 in May 2024. Reduces counterparty exposure but requires faster cash/stock delivery.</td>
 </tr>
 <tr>
 <td>US Treasuries</td>
-<td>T+1</td>
+<td><strong>T+1</strong></td>
+<td>Same-day settlement available for some.</td>
 </tr>
 <tr>
 <td>European equities</td>
-<td>T+2</td>
+<td><strong>T+2</strong></td>
+<td>TARGET2-Securities platform. Moving toward T+1.</td>
 </tr>
 <tr>
 <td>FX spot</td>
-<td>T+2</td>
+<td><strong>T+2</strong></td>
+<td>CLS Bank settles ~$6T/day, eliminating "Herstatt risk" (time zone mismatch).</td>
 </tr>
 <tr>
 <td>Futures</td>
-<td>Daily mark-to-market, physical/cash at expiry</td>
+<td><strong>Daily MTM</strong></td>
+<td>No end settlement for financially-settled. Physical delivery at expiry for physical.</td>
 </tr>
 <tr>
 <td>OTC derivatives</td>
-<td>Per ISDA agreement</td>
+<td><strong>Per ISDA/CSA</strong></td>
+<td>Bilateral or cleared. CSA governs collateral exchange.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="listed-vs-otc">Listed vs OTC</h2>
+<p><strong>Settlement risk (Herstatt risk):</strong> In 1974, Bankhaus Herstatt received DEM payments in Frankfurt (morning) but was closed by regulators before paying out USD in New York (afternoon). Counterparties paid but never received. This is why CLS Bank was created — simultaneous (payment-vs-payment) settlement of FX across time zones.</p>
+<p><strong>Failed trades:</strong> When a seller can't deliver securities by settlement date. Fails spiked during March 2020 (Treasury market stress) and September 2019 (repo crisis). Chronic fails signal market dysfunction and can trigger regulatory penalties.</p>
+<h2 id="listed-vs-otc-the-two-worlds">Listed vs OTC — The Two Worlds</h2>
 <table>
 <thead>
 <tr>
@@ -381,69 +573,296 @@ body {
 </thead>
 <tbody>
 <tr>
-<td>Standardization</td>
-<td>Standardized contracts</td>
-<td>Custom terms</td>
+<td><strong>Standardization</strong></td>
+<td>Fixed contract specs (strike, expiry, size)</td>
+<td>Fully customizable terms</td>
 </tr>
 <tr>
-<td>Counterparty risk</td>
-<td>CCP guarantees</td>
-<td>Bilateral (unless cleared)</td>
+<td><strong>Counterparty risk</strong></td>
+<td>CCP guarantees both sides</td>
+<td>Bilateral (unless centrally cleared post-Dodd-Frank)</td>
 </tr>
 <tr>
-<td>Transparency</td>
-<td>Public prices, volume</td>
-<td>Private pricing</td>
+<td><strong>Transparency</strong></td>
+<td>Public prices, volume, open interest</td>
+<td>Private pricing (price reported post-trade for some, e.g., TRACE for bonds)</td>
 </tr>
 <tr>
-<td>Liquidity</td>
-<td>Generally better</td>
-<td>Depends on the instrument</td>
+<td><strong>Liquidity</strong></td>
+<td>Concentrated in standard contracts</td>
+<td>Fragmented, dealer-dependent</td>
 </tr>
 <tr>
-<td>Examples</td>
-<td>Equity options, futures</td>
-<td>IRS, CDS, exotic options, TRS</td>
+<td><strong>Margin</strong></td>
+<td>Exchange-set, rules-based (SPAN/TIMS)</td>
+<td>Per CSA negotiation or cleared margin rules (SIMM)</td>
 </tr>
 <tr>
-<td>Regulation</td>
-<td>Exchange rules, SEC/CFTC</td>
-<td>ISDA Master Agreement</td>
+<td><strong>Examples</strong></td>
+<td>Equity options, futures, ETFs</td>
+<td>IRS, CDS, swaptions, TRS, exotic options, FX forwards</td>
+</tr>
+<tr>
+<td><strong>Regulation</strong></td>
+<td>Exchange rules, SEC/CFTC oversight</td>
+<td>ISDA Master Agreement, Dodd-Frank/EMIR clearing mandates</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-2-margin-the-mechanics-of-leverage">PART 2: MARGIN — THE MECHANICS OF LEVERAGE</h1>
+<h1 id="part-2-the-otc-infrastructure-isda-csa-collateral">PART 2: THE OTC INFRASTRUCTURE — ISDA, CSA &amp; COLLATERAL</h1>
+<blockquote>
+<p><strong>One-liner:</strong> The ISDA Master Agreement is the constitution of OTC derivatives — it governs what happens when things go wrong between two counterparties.</p>
+</blockquote>
+<h2 id="isda-master-agreement">ISDA Master Agreement</h2>
+<p>Every OTC derivative trade between two institutions is governed by a single overarching ISDA Master Agreement. Key provisions:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Netting</strong></td>
+<td>If you have multiple trades with the same counterparty, only the NET amount is owed if one side defaults</td>
+<td>Without netting, you'd owe on losing trades but be an unsecured creditor on winning trades. Netting can reduce exposure by 80-90%.</td>
+</tr>
+<tr>
+<td><strong>Close-out</strong></td>
+<td>If a "credit event" occurs (default, bankruptcy, failure to pay), ALL trades are terminated and netted to a single amount</td>
+<td>Prevents cherry-picking: the defaulter can't keep profitable trades and walk away from losses.</td>
+</tr>
+<tr>
+<td><strong>Events of default</strong></td>
+<td>Failure to pay, breach of agreement, bankruptcy, credit downgrade triggers</td>
+<td>Defines when you can terminate all trades and demand payment.</td>
+</tr>
+<tr>
+<td><strong>CSA (Credit Support Annex)</strong></td>
+<td>Governs collateral posting for mark-to-market exposure</td>
+<td>Determines margin requirements, eligible collateral, thresholds, minimum transfer amounts.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="credit-support-annex-csa-the-collateral-framework">Credit Support Annex (CSA) — The Collateral Framework</h2>
+<p>The CSA defines HOW counterparties exchange collateral on bilateral OTC trades:</p>
+<table>
+<thead>
+<tr>
+<th>CSA Term</th>
+<th>What it means</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Threshold</strong></td>
+<td>The amount of exposure BELOW which no collateral is required</td>
+<td>Higher threshold = more unsecured exposure = more counterparty risk</td>
+</tr>
+<tr>
+<td><strong>Minimum transfer amount (MTA)</strong></td>
+<td>Don't bother exchanging collateral for tiny moves. Typical: $500K–$1M</td>
+<td>Reduces operational burden but creates small uncollateralized gaps</td>
+</tr>
+<tr>
+<td><strong>Eligible collateral</strong></td>
+<td>What you can post: cash (USD, EUR), G10 govt bonds, sometimes equities/gold</td>
+<td>Non-cash collateral gets a "haircut" (e.g., 10Y UST posted at 98% of market value)</td>
+</tr>
+<tr>
+<td><strong>Haircuts</strong></td>
+<td>Discount applied to non-cash collateral to protect against collateral's own price risk</td>
+<td>Higher haircut = more conservative = need to post more</td>
+</tr>
+<tr>
+<td><strong>Frequency</strong></td>
+<td>How often margin is called — daily is standard now (post-2008 reforms)</td>
+<td>Before 2008, some CSAs were weekly or even monthly — huge gap risk</td>
+</tr>
+<tr>
+<td><strong>Rehypothecation</strong></td>
+<td>Can the collateral receiver RE-USE posted collateral (lend it, pledge it)?</td>
+<td>If yes: more capital efficient. If the receiver defaults: your collateral may be gone. Lehman's collapse trapped $65B+ of rehypothecated client collateral.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Post-2008 reforms (UMR — Uncleared Margin Rules):</strong><br />
+- Bilateral OTC derivatives now require MANDATORY initial margin AND variation margin<br />
+- IM must be segregated with a third-party custodian (can't be rehypothecated)<br />
+- Standard Initial Margin Model (SIMM) — ISDA's formula for calculating IM based on sensitivities<br />
+- Goal: reduce the unsecured exposure that amplified the 2008 crisis</p>
+<hr />
+<h1 id="part-3-margin-the-mechanics-of-leverage">PART 3: MARGIN — THE MECHANICS OF LEVERAGE</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Margin is the collateral you post to hold a position — it creates leverage, and the margin cycle is what kills funds in a crisis.</p>
+</blockquote>
 <h2 id="three-types-of-margin">Three Types of Margin</h2>
-<h3 id="initial-margin-im">Initial Margin (IM)</h3>
-<p>The deposit required to OPEN a position. Think of it as a performance bond.<br />
-- Futures: typically 5-15% of notional.<br />
-- Options: depends on the position (long options: premium paid; short options: margin required).<br />
-- OTC derivatives: per CSA agreement.</p>
-<h3 id="variation-margin-vm">Variation Margin (VM)</h3>
-<p>Daily mark-to-market adjustment. If the position moves against you, you OWE variation margin. If it moves for you, you RECEIVE variation margin.<br />
-- Futures: settled daily by the clearinghouse.<br />
-- OTC (bilateral): per CSA, usually daily with minimum transfer amounts.</p>
-<h3 id="maintenance-margin">Maintenance Margin</h3>
-<p>The minimum margin level you must maintain. If your account falls below this → margin call.<br />
-- Example: IM = $100K, maintenance = $75K. If your losses bring the account to $70K → margin call for $30K (back to IM level, not maintenance).</p>
-<h2 id="the-margin-call-cascade">The Margin Call Cascade</h2>
-<p>This is how funds die:</p>
-<div class="highlight"><pre><span></span><code>Position moves against you
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What it is</th>
+<th>When it's posted</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Initial margin (IM)</strong></td>
+<td>Deposit required to OPEN a position. Performance bond against future losses.</td>
+<td>At trade inception</td>
+<td>Futures: 5-15% of notional. E-mini S&amp;P: ~$13K on $270K notional.</td>
+</tr>
+<tr>
+<td><strong>Variation margin (VM)</strong></td>
+<td>Daily mark-to-market settlement. Losing side pays, winning side receives.</td>
+<td>Daily (or intraday in extreme moves)</td>
+<td>You're short oil at $75. Oil goes to $77. You owe $2 × 1,000 barrels = $2,000 per contract.</td>
+</tr>
+<tr>
+<td><strong>Maintenance margin</strong></td>
+<td>The MINIMUM margin level you must maintain. Below this → margin call.</td>
+<td>Ongoing monitoring</td>
+<td>IM = $13,000, maintenance = $10,500. Account drops to $9,000 → margin call for $4,000 (back to IM).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How margin is calculated — the models:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Used by</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SPAN</strong> (Standard Portfolio Analysis of Risk)</td>
+<td>CME, most futures exchanges</td>
+<td>Simulates 16 scenarios of price and vol moves. Margin = worst-case loss. Portfolio-based (offsets recognized).</td>
+</tr>
+<tr>
+<td><strong>TIMS</strong> (Theoretical Intermarket Margin System)</td>
+<td>OCC (US equity options)</td>
+<td>Similar scenario-based approach for options.</td>
+</tr>
+<tr>
+<td><strong>SIMM</strong> (Standard Initial Margin Model)</td>
+<td>Bilateral OTC (ISDA)</td>
+<td>Sensitivity-based: margin = weighted sum of delta, vega, curvature sensitivities across risk factors.</td>
+</tr>
+<tr>
+<td><strong>VaR-based</strong></td>
+<td>Some prime brokers</td>
+<td>Historical or Monte Carlo VaR at 99% confidence, 10-day horizon.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-margin-call-cascade-how-funds-die">The Margin Call Cascade — How Funds Die</h2>
+<div class="highlight"><pre><span></span><code>Price moves against your position
   → Account falls below maintenance margin
-    → Margin call: post more cash by [deadline, usually same day]
+    → MARGIN CALL: post additional cash by deadline (same day, sometimes hours)
       → You don&#39;t have cash → sell other positions to raise it
-        → Selling pressure pushes those positions down
-          → MORE margin calls on those positions
-            → Spiral → Forced liquidation
+        → Selling pressure pushes THOSE positions down
+          → More margin calls on those newly-declining positions
+            → Other leveraged funds in the same trade face the same pressure
+              → Coordinated forced selling → prices collapse
+                → Clearinghouse raises IM requirements (pro-cyclical)
+                  → Even solvent funds face calls they can&#39;t meet → SPIRAL
 </code></pre></div>
 
-<p>March 2020 Treasury basis trade: this exact cascade. Leveraged 50-100x, margin requirements spiked, forced selling of Treasuries → Fed had to intervene.</p>
-<h2 id="pro-cyclical-margin">Pro-Cyclical Margin</h2>
-<p>In calm markets: exchanges reduce margin requirements (lower vol = lower risk). In volatile markets: exchanges INCREASE margin requirements (higher vol = higher risk).</p>
-<p>The problem: they increase margin exactly when you can LEAST afford it. You need more cash precisely when your positions are losing money and liquidity is drying up.</p>
+<p><strong>Real examples:</strong><br />
+- <strong>March 2020 Treasury basis trade:</strong> Hedge funds leveraged 50-100x (via repo), long cash Treasuries, short Treasury futures. Margin calls spiked → forced selling of "safe" assets into an illiquid market → Treasury prices dropped (yields spiked) → more margin calls. The Fed bought $1T+ of Treasuries to stop the spiral.<br />
+- <strong>LME Nickel, March 2022:</strong> Tsingshan's short position faced margin calls as nickel doubled. LME cancelled trades, suspended the market for a week — breaking market integrity to prevent a clearing member default.<br />
+- <strong>Archegos, March 2021:</strong> TRS positions concentrated in a few stocks. One stock dropped → margin call → couldn't pay → prime brokers liquidated → fire-sale of $30B+ in positions crashed other names → contagion to Credit Suisse ($5.5B loss), Nomura ($3B loss).</p>
+<h2 id="pro-cyclical-margin-the-design-flaw">Pro-Cyclical Margin — The Design Flaw</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Exchanges raise margin requirements when volatility spikes — demanding more cash from you exactly when your positions are losing money and markets are illiquid.</p>
+</blockquote>
+<p>In calm markets (VIX 12): E-mini IM ≈ $10,000. Exchange says: "Low risk, low margin."<br />
+In volatile markets (VIX 40): E-mini IM ≈ $25,000. Exchange says: "High risk, need more collateral."</p>
+<p><strong>The problem:</strong> That $15,000 increase hits EVERY contract you hold into a spike. If you have 200 contracts: that's an additional $3M in margin needed — exactly when your positions are losing money, your credit lines are maxed, and everyone else is scrambling for cash too.</p>
+<p><strong>Regulatory response:</strong> Post-2008 reforms introduced anti-procyclicality buffers — CCPs must set floors below which margin can't fall, and use longer lookback periods so margin doesn't spike as violently. But the fundamental tension remains.</p>
 <hr />
-<h1 id="part-3-leverage">PART 3: LEVERAGE</h1>
+<h1 id="part-4-repo-the-plumbing-of-financial-markets">PART 4: REPO — THE PLUMBING OF FINANCIAL MARKETS</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A repo (repurchase agreement) is a short-term collateralized loan — I sell you a Treasury today and agree to buy it back tomorrow at a slightly higher price. The difference is the interest rate.</p>
+</blockquote>
+<h2 id="how-repo-works">How Repo Works</h2>
+<div class="highlight"><pre><span></span><code>Day 1 (trading):
+  Fund A: sells $100M of Treasuries to Dealer B
+  Dealer B: pays Fund A $99M (haircut = $1M = 1%)
+  Fund A now has $99M cash to deploy
+
+Day 2 (maturity):
+  Fund A: buys back Treasuries from Dealer B
+  Fund A: pays $99M + interest ($99M × repo rate × days/360)
+  Dealer B: returns the Treasuries
+</code></pre></div>
+
+<p><strong>It's a LOAN with extra steps.</strong> The Treasuries are collateral. The haircut is the lender's cushion. The repo rate is the interest rate on the loan.</p>
+<h2 id="repo-terms">Repo Terms</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What it is</th>
+<th>Typical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Repo rate</strong></td>
+<td>The interest rate on the loan</td>
+<td>Close to SOFR (currently ~4.3% for overnight UST repo)</td>
+</tr>
+<tr>
+<td><strong>Haircut</strong></td>
+<td>% discount applied to collateral value. $100M bonds → receive $99M cash.</td>
+<td>UST: 1-2%. IG corporates: 3-5%. HY: 10-25%. Equities: 15-25%.</td>
+</tr>
+<tr>
+<td><strong>Term</strong></td>
+<td>Duration of the repo. Overnight (most common), term (1 week to 3 months), or open (rolls daily).</td>
+<td>70%+ is overnight</td>
+</tr>
+<tr>
+<td><strong>General collateral (GC)</strong></td>
+<td>Any Treasury of acceptable quality. No specific bond requested.</td>
+<td>Most repo is GC</td>
+</tr>
+<tr>
+<td><strong>Special</strong></td>
+<td>A SPECIFIC bond is demanded (e.g., the on-the-run 10Y). Commands a lower repo rate because the collateral is scarce.</td>
+<td>When a bond is heavily shorted or in high demand</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reverse-repo">Reverse Repo</h2>
+<p>The mirror image: you LEND cash and receive securities as collateral. The Fed's Reverse Repo Facility (ON RRP) became a $2T+ parking facility — money market funds lent cash to the Fed overnight and received Treasuries as collateral, effectively setting a floor on short-term rates.</p>
+<h2 id="why-repo-matters-for-risk">Why Repo Matters for Risk</h2>
+<p><strong>Leverage via repo — how basis trades work:</strong><br />
+1. Buy $100M cash Treasuries<br />
+2. Repo them out → receive $99M cash<br />
+3. Use the $99M to buy $99M MORE Treasuries<br />
+4. Repo those out → receive $98M cash<br />
+5. Repeat → you now have $500M+ of Treasury exposure on maybe $10M of equity<br />
+6. Leverage = 50x. A 2% adverse move wipes out your equity 10 times over.</p>
+<p><strong>Repo market stress signals:</strong><br />
+- <strong>Repo rate spikes above SOFR/Fed Funds:</strong> Indicates collateral shortage or cash hoarding. September 2019: overnight repo rate spiked to 10% (from ~2%) → Fed launched repo operations.<br />
+- <strong>Haircut increases:</strong> A lender suddenly demanding 5% haircut instead of 2% is effectively CUTTING your leverage by 60%. If you built positions at 2% haircuts, you now need more of your own capital.<br />
+- <strong>Repo rollover risk:</strong> If you fund a 10-year position with overnight repo (duration mismatch), you depend on rolling the repo every single day. If one day the dealer says "no" — you're forced to sell the bonds.</p>
+<p><strong>Rehypothecation in repo:</strong> The collateral you posted can be re-used by the lender, who repos it to someone else, who repos it again. This creates a "collateral chain" — the same Treasury can support multiple repos simultaneously. This is efficient but creates systemic fragility: if one link in the chain fails, multiple parties are affected.</p>
+<hr />
+<h1 id="part-5-leverage-mechanics-and-measurement">PART 5: LEVERAGE — MECHANICS AND MEASUREMENT</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Leverage is borrowed risk — it amplifies returns in both directions and transforms manageable volatility into existential losses.</p>
+</blockquote>
 <h2 id="how-hedge-funds-get-leverage">How Hedge Funds Get Leverage</h2>
 <table>
 <thead>
@@ -451,176 +870,718 @@ body {
 <th>Method</th>
 <th>How it works</th>
 <th>Typical leverage</th>
+<th>Key risk</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Prime broker financing</strong></td>
-<td>Borrow cash from PB to buy more securities. Pay a financing rate (SOFR + spread).</td>
-<td>1.5-5x for discretionary</td>
+<td>Borrow cash from PB against portfolio as collateral. Pay SOFR + spread.</td>
+<td>1.5-5x (discretionary), up to 8x (quant)</td>
+<td>PB can change terms or pull financing at any time</td>
 </tr>
 <tr>
 <td><strong>Futures</strong></td>
 <td>Post 5-15% margin for 100% notional exposure</td>
-<td>7-20x on the futures position</td>
+<td>7-20x on the position</td>
+<td>Daily MTM, margin calls, forced liquidation</td>
 </tr>
 <tr>
 <td><strong>Options (selling)</strong></td>
-<td>Collect premium but bear full notional risk</td>
-<td>Varies widely</td>
+<td>Collect premium but bear full notional risk (or more for naked calls)</td>
+<td>Varies — effective leverage can be enormous</td>
+<td>Non-linear: small move can create massive loss</td>
 </tr>
 <tr>
 <td><strong>Total return swaps</strong></td>
-<td>Synthetic exposure, post only margin (not full notional)</td>
-<td>3-10x</td>
+<td>Synthetic exposure, post only TRS margin (10-15%)</td>
+<td>7-10x (Archegos had estimated 5-8x)</td>
+<td>Opacity — no position disclosure until post-Archegos rules</td>
 </tr>
 <tr>
 <td><strong>Repo</strong></td>
-<td>Borrow cash using securities as collateral</td>
-<td>10-50x for government bonds</td>
+<td>Collateralized borrowing against securities</td>
+<td>10-50x for govt bonds, 3-5x for corporates</td>
+<td>Rollover risk, haircut changes, collateral chain fragility</td>
+</tr>
+<tr>
+<td><strong>CFDs</strong> (Contracts for Difference)</td>
+<td>Synthetic delta-one exposure, margin-based</td>
+<td>5-20x (retail FX up to 50x pre-regulation)</td>
+<td>Retail graveyard. ESMA capped leverage for EU retail.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="measuring-leverage">Measuring Leverage</h2>
-<p><strong>Gross leverage</strong> = (Long notional + Short notional) / NAV<br />
-- A fund with $100M NAV, $200M longs, $150M shorts → gross leverage = 3.5x<br />
-- Tells you TOTAL market exposure.</p>
-<p><strong>Net leverage</strong> = (Long notional - Short notional) / NAV<br />
-- Same fund: net leverage = 0.5x (net long $50M on $100M NAV)<br />
-- Tells you DIRECTIONAL exposure.</p>
-<p><strong>Why both matter:</strong><br />
-- High gross + low net = "market neutral" — lots of positions but little directional risk. But still exposed to idiosyncratic, factor, and liquidity risk.<br />
-- High gross + high net = directional AND leveraged. Maximum risk.</p>
-<h2 id="why-leverage-kills">Why Leverage Kills</h2>
-<p>The math is simple:<br />
-- 2x leverage: a 10% move in the underlying → 20% move in your equity. A 50% decline in the underlying → 100% of your equity → wiped.<br />
-- 10x leverage: a 10% decline in the underlying → 100% of your equity → wiped.</p>
-<p>Leverage amplifies BOTH gains and losses. But losses are more dangerous because:<br />
-1. You can always make more money. You can't un-lose your capital.<br />
-2. Drawdowns require outsized recoveries: -50% requires +100% to get back to even.<br />
-3. Margin calls force you to sell at the WORST time (when prices are lowest).</p>
-<hr />
-<h1 id="part-4-liquidity">PART 4: LIQUIDITY</h1>
-<h2 id="two-types-of-liquidity">Two Types of Liquidity</h2>
-<h3 id="market-liquidity">Market Liquidity</h3>
-<p>Can you buy/sell the asset quickly without moving the price?</p>
-<p>Measured by:<br />
-- <strong>Bid-ask spread:</strong> Tight spread = liquid. Wide spread = illiquid.<br />
-- <strong>Depth:</strong> How much size is available at the current price? (Level 2 order book)<br />
-- <strong>Market impact:</strong> How much does YOUR trade move the price?<br />
-- <strong>Average daily volume (ADV):</strong> How much normally trades. If your position is &gt;10% of ADV, you'll move the price exiting.</p>
-<h3 id="funding-liquidity">Funding Liquidity</h3>
-<p>Can you access cash/credit to meet obligations (margin calls, redemptions)?</p>
-<p>Measured by:<br />
-- Cash on hand / credit lines<br />
-- Repo availability<br />
-- PB willingness to extend margin<br />
-- LP redemption terms (gates, lock-ups)</p>
-<h3 id="the-liquidity-spiral-brunnermeier">The Liquidity Spiral (Brunnermeier)</h3>
-<p>Market liquidity and funding liquidity are connected in a doom loop:</p>
-<div class="highlight"><pre><span></span><code>Market becomes illiquid (bid-ask widens, depth drops)
-  → Position mark-to-market drops
-    → Funding pressure (margin calls, LPs redeem)
-      → Forced selling
-        → Selling pressure makes market MORE illiquid
-          → Further price drops
-            → More funding pressure → SPIRAL
-</code></pre></div>
-
-<p>This happened in 2008, March 2020, and multiple other crises. The key insight: liquidity dries up exactly when you need it most.</p>
-<h2 id="liquidity-risk-for-a-discretionary-fund">Liquidity Risk for a Discretionary Fund</h2>
-<ul>
-<li><strong>Position sizing relative to ADV:</strong> If your position is 20% of ADV, it'll take ~4-5 days of 5% ADV to exit without excessive market impact. In stress, ADV drops 50%+ → your exit takes 2x longer.</li>
-<li><strong>Liquidity tiering:</strong> Classify every position: Tier 1 (exit in 1 day), Tier 2 (exit in 3-5 days), Tier 3 (exit in 1 week+). Monitor the mix.</li>
-<li><strong>Redemption mismatch:</strong> If the fund offers quarterly redemptions but holds positions that take 2 weeks to liquidate → liquidity mismatch. The fund can be forced to sell at fire-sale prices.</li>
-</ul>
-<h2 id="dealer-positioning-order-flow">Dealer Positioning &amp; Order Flow</h2>
-<p>Market makers (dealers) provide liquidity but manage their own risk:<br />
-- <strong>Dealer long gamma:</strong> Dealers who sold puts are short gamma → they need to sell as the market drops (to hedge). This AMPLIFIES downward moves.<br />
-- <strong>Dealer short gamma:</strong> Dealers who bought puts from clients are long gamma → they buy dips and sell rallies. This DAMPENS moves and provides stability.<br />
-- <strong>Gamma exposure flip level:</strong> The price at which dealers switch from long to short gamma. Below this level, market moves become larger and faster.<br />
-- <strong>End-of-month/quarter rebalancing:</strong> Pension funds, target-date funds rebalance. Large, predictable flows that move markets at MOC.</p>
-<hr />
-<h1 id="part-5-market-microstructure">PART 5: MARKET MICROSTRUCTURE</h1>
-<h2 id="price-discovery">Price Discovery</h2>
-<p>How markets find the "right" price:<br />
-- <strong>Limit order book:</strong> Bids and asks arranged by price/time priority. The highest bid and lowest ask define the spread.<br />
-- <strong>Dark pools:</strong> Orders matched privately. No pre-trade transparency. Used for large institutional orders to avoid market impact. ~40% of US equity volume.<br />
-- <strong>Auction mechanisms:</strong> Opening/closing auctions concentrate liquidity at key times.</p>
-<h2 id="intraday-patterns">Intraday Patterns</h2>
+<h3 id="notional-leverage">Notional Leverage</h3>
+<p><strong>Gross leverage</strong> = (Long notional + |Short notional|) / NAV</p>
+<p><strong>Net leverage</strong> = (Long notional − |Short notional|) / NAV</p>
+<p><strong>Example:</strong> Fund NAV = $100M. Long $200M equities, short $150M equities.<br />
+- Gross = ($200M + $150M) / $100M = <strong>3.5x</strong> → total market exposure<br />
+- Net = ($200M − $150M) / $100M = <strong>0.5x</strong> → directional exposure</p>
 <table>
 <thead>
 <tr>
-<th>Time</th>
-<th>What happens</th>
-<th>Why it matters</th>
+<th>Profile</th>
+<th>Gross</th>
+<th>Net</th>
+<th>Interpretation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>9:30-10:00 AM</td>
-<td>Opening volatility. Overnight order flow, gap fills.</td>
-<td>Don't overreact to first 30 minutes. Wait for real flow.</td>
+<td>High gross, low net</td>
+<td>6x</td>
+<td>0.2x</td>
+<td>"Market neutral" — lots of positions, little directional risk. But exposed to: factor risk, pair correlation, basis risk, crowding.</td>
 </tr>
 <tr>
-<td>10:00 AM</td>
-<td>Econ data releases (CPI, PMI at 10 AM).</td>
-<td>Can reverse the opening move entirely.</td>
+<td>High gross, high net</td>
+<td>6x</td>
+<td>4x</td>
+<td>Levered directional. Maximum risk.</td>
 </tr>
 <tr>
-<td>11:30-1:30 PM</td>
-<td>Lunch lull. Low volume, thin liquidity.</td>
-<td>Don't trust moves in thin markets. Susceptible to manipulation.</td>
+<td>Low gross, high net</td>
+<td>1.5x</td>
+<td>1.2x</td>
+<td>Low leverage, directional. Conviction portfolio.</td>
 </tr>
 <tr>
-<td>3:00-3:50 PM</td>
-<td>Power hour. Real institutional flow appears.</td>
-<td>More informative than morning moves.</td>
-</tr>
-<tr>
-<td>3:50-4:00 PM</td>
-<td>MOC imbalance published. Rebalancing flow.</td>
-<td>Can create large last-minute moves. Fixed income / pension driven.</td>
+<td>Low gross, low net</td>
+<td>1.5x</td>
+<td>0.1x</td>
+<td>Low leverage, hedged. Conservative.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="circuit-breakers">Circuit Breakers</h2>
-<p>Automatic halts when markets move too fast:<br />
-- <strong>Level 1:</strong> SPX -7% → 15-minute halt (before 3:25 PM only)<br />
-- <strong>Level 2:</strong> SPX -13% → 15-minute halt (before 3:25 PM only)<br />
-- <strong>Level 3:</strong> SPX -20% → market closes for the day<br />
-- <strong>Single stock:</strong> LULD (Limit Up/Limit Down) bands. Stock halts if price moves outside a defined % from reference price.</p>
-<p>These exist to prevent panic selling and give participants time to reassess. They were triggered during COVID (March 2020) — 4 Level 1 halts in 2 weeks.</p>
-<hr />
-<h1 id="part-6-short-selling-mechanics">PART 6: SHORT SELLING MECHANICS</h1>
-<h2 id="how-shorting-works">How Shorting Works</h2>
-<ol>
-<li><strong>Locate:</strong> Find shares to borrow (from the PB's inventory or securities lending desks).</li>
-<li><strong>Borrow:</strong> Borrow shares. Pay a borrow fee (annualized, varies from 0.5% for easy-to-borrow to 50%+ for hard-to-borrow).</li>
-<li><strong>Sell:</strong> Sell the borrowed shares in the market.</li>
-<li><strong>Cover:</strong> Buy back shares later (hopefully at a lower price) and return them to the lender.</li>
-</ol>
-<h2 id="short-selling-risks">Short Selling Risks</h2>
+<h3 id="better-leverage-measures">Better Leverage Measures</h3>
+<p>Notional alone is misleading. $100M notional in 2Y Treasuries (DV01 ≈ $200/bp) is NOT the same risk as $100M notional in 30Y Treasuries (DV01 ≈ $2,000/bp). Better measures:</p>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>What it captures</th>
+<th>Why it's better</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Risk-adjusted leverage</strong></td>
+<td>Notional × risk factor (e.g., vol, duration) / NAV</td>
+<td>$100M in SPY (vol 15%) vs $100M in MSTR (vol 80%) → wildly different risk despite same notional</td>
+</tr>
+<tr>
+<td><strong>DV01/NAV</strong></td>
+<td>Total portfolio DV01 relative to NAV</td>
+<td>Captures rate risk regardless of notional. A $500M 2Y position and a $50M 30Y position may have similar DV01.</td>
+</tr>
+<tr>
+<td><strong>Marginal VaR leverage</strong></td>
+<td>Portfolio VaR / NAV</td>
+<td>Shows the actual loss potential normalized to capital. Accounts for correlations and netting.</td>
+</tr>
+<tr>
+<td><strong>Effective leverage</strong></td>
+<td>Gross exposure × average beta / NAV</td>
+<td>A $200M portfolio of beta-0.5 stocks has effective leverage of only 1x on $100M NAV, even though notional leverage is 2x.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="why-leverage-kills-the-math">Why Leverage Kills — The Math</h2>
 <ul>
-<li><strong>Unlimited loss:</strong> A stock can go up infinitely. There's no natural cap on losses.</li>
-<li><strong>Short squeeze:</strong> Stock price rises → shorts forced to cover → buying pressure pushes price higher → more shorts forced to cover → cascade.</li>
-<li><strong>Recall risk:</strong> The lender can recall the shares at any time. You're forced to buy back at market price.</li>
-<li><strong>Borrow cost:</strong> High borrow costs eat into your short P&amp;L. A stock with 30% annualized borrow costs needs to drop 30%+ just for you to break even.</li>
-<li><strong>Reg SHO / uptick rule:</strong> Regulatory restrictions on when/how you can short.</li>
+<li><strong>2x leverage:</strong> A 10% decline → 20% of equity gone. A 50% decline → 100% of equity → wiped.</li>
+<li><strong>10x leverage:</strong> A 10% decline → 100% of equity → wiped.</li>
+<li><strong>50x leverage (Treasury basis):</strong> A 2% decline → 100% of equity → wiped.</li>
 </ul>
+<p>But losses are <strong>worse than gains</strong> because:<br />
+1. <strong>Drawdown asymmetry:</strong> -50% requires +100% to recover. -75% requires +300%.<br />
+2. <strong>Forced selling:</strong> Margin calls force you to sell at the bottom — locking in the loss and removing any chance of recovery.<br />
+3. <strong>Path dependency:</strong> A levered position that drops 30% then recovers 30% does NOT return to starting value. You lost more dollars on the way down (larger base) than you gained on the recovery.</p>
+<p><strong>The Kelly Criterion insight:</strong> Even if your trades have positive expected value, too much leverage guarantees eventual ruin. The optimal bet size (Kelly fraction) is much smaller than most traders intuit. Over-leveraging a winning strategy still blows up because one bad draw can wipe out years of gains.</p>
 <hr />
-<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
-<p>If asked "How does margin work and why does it matter for risk?":</p>
-<p>"Margin is the collateral you post to hold a position — it creates leverage. The key distinction is initial margin (required to open the position) and variation margin (daily mark-to-market settlements).</p>
-<p>What makes margin dangerous for risk is the pro-cyclical nature: exchanges increase margin requirements when volatility spikes. So you need to post MORE cash exactly when your positions are losing money and markets are illiquid. This creates a cascade: margin call → forced selling → more price declines → more margin calls. This is exactly what happened in March 2020 with the Treasury basis trade — highly leveraged positions faced margin calls they couldn't meet, forcing liquidation into an illiquid market, until the Fed stepped in.</p>
-<p>As an RM, I'd monitor margin utilization as a percentage of available credit — not just current margin, but projected margin under a vol spike scenario. If we're at 80% utilization in calm markets, we have no cushion for a vol event."</p>
+<h1 id="part-6-liquidity-the-risk-that-doesnt-show-up-in-var">PART 6: LIQUIDITY — THE RISK THAT DOESN'T SHOW UP IN VaR</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Liquidity is the ability to transact at fair value in size — it's abundant when you don't need it and vanishes when you do.</p>
+</blockquote>
+<h2 id="two-types-of-liquidity">Two Types of Liquidity</h2>
+<h3 id="market-liquidity-can-you-trade-at-fair-value">Market Liquidity — Can You Trade at Fair Value?</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What it measures</th>
+<th>Signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bid-ask spread</strong></td>
+<td>Cost of immediate execution. The "tax" for transacting.</td>
+<td>Tight spread = liquid. Wide = illiquid. SPY bid-ask ≈ $0.01 (1bp). Distressed corporate bond ≈ $2 (200bps).</td>
+</tr>
+<tr>
+<td><strong>Depth</strong></td>
+<td>How much size is available at the current bid and ask? (Level 2 order book)</td>
+<td>If best bid shows 5,000 shares but you need to sell 500,000 → you'll walk the book and eat through multiple price levels.</td>
+</tr>
+<tr>
+<td><strong>Market impact</strong></td>
+<td>How much does YOUR trade move the price? Measured in bps.</td>
+<td>Impact ∝ √(order size / ADV). Doubling order size doesn't double impact — it increases by ~40% (square root law).</td>
+</tr>
+<tr>
+<td><strong>ADV (Average Daily Volume)</strong></td>
+<td>Normal daily turnover</td>
+<td>Position &gt; 10% ADV → takes multiple days to exit. In stress, ADV drops 30-50%. 3-day exit becomes 6-day.</td>
+</tr>
+<tr>
+<td><strong>Resilience</strong></td>
+<td>How quickly does the market recover after a large trade?</td>
+<td>Liquid markets snap back fast (S&amp;P futures). Illiquid markets stay dislocated (HY bonds, small-cap equity).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="funding-liquidity-can-you-access-cash">Funding Liquidity — Can You Access Cash?</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Normal conditions</th>
+<th>Stress conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash reserves</td>
+<td>Available immediately</td>
+<td>Being drawn down to meet margin calls</td>
+</tr>
+<tr>
+<td>Credit lines (PB)</td>
+<td>Readily available at SOFR + spread</td>
+<td>PB may REDUCE or REVOKE lines. They have discretion. "Fair weather friends."</td>
+</tr>
+<tr>
+<td>Repo availability</td>
+<td>Haircuts 1-2%, easy to roll</td>
+<td>Haircuts jump to 5-10%, some collateral types unacceptable. Rollover refused.</td>
+</tr>
+<tr>
+<td>LP/investor redemptions</td>
+<td>Predictable, quarterly</td>
+<td>Investors queue to redeem. You must return capital while positions are losing.</td>
+</tr>
+<tr>
+<td>Asset sales</td>
+<td>You choose what/when to sell</td>
+<td>Forced selling at worst possible prices</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-brunnermeier-liquidity-spiral">The Brunnermeier Liquidity Spiral</h3>
+<p>Market liquidity and funding liquidity feed on each other in a doom loop:</p>
+<div class="highlight"><pre><span></span><code>Market becomes illiquid (spreads widen, depth evaporates)
+  → Positions can&#39;t be sold at fair value → mark-to-market drops
+    → Funding pressure (margin calls, PB haircut increases, LP redemptions)
+      → FORCED SELLING into an illiquid market
+        → Your selling makes the market EVEN MORE illiquid
+          → Prices drop further below fundamental value
+            → Other funds in similar positions face the same pressure
+              → Correlation spikes to 1 — everything sells together → CONTAGION
+                → CCP raises margin requirements (pro-cyclical) → SPIRAL
+</code></pre></div>
+
+<p><strong>Key insight:</strong> This spiral is WHY seemingly safe portfolios (low-vol, hedged, "liquid" names) can have catastrophic losses. The positions aren't dangerous individually — the COMBINATION of leverage + illiquidity + correlated exits is what kills.</p>
+<h2 id="liquidity-risk-for-a-discretionary-fund">Liquidity Risk for a Discretionary Fund</h2>
+<h3 id="position-sizing-rule-of-thumb">Position Sizing Rule of Thumb</h3>
+<p>Your position in any name should be less than <strong>X days × Y% of ADV</strong> where you're comfortable with the exit timeline.</p>
+<table>
+<thead>
+<tr>
+<th>Position as % of ADV</th>
+<th>Exit time (5% POV)</th>
+<th>Exit time (10% POV, more impact)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5%</td>
+<td>1 day</td>
+<td>Half day</td>
+</tr>
+<tr>
+<td>25%</td>
+<td>5 days</td>
+<td>2.5 days</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>10 days</td>
+<td>5 days</td>
+</tr>
+<tr>
+<td>100%</td>
+<td>20 days</td>
+<td>10 days</td>
+</tr>
+</tbody>
+</table>
+<p>In stress, ADV drops by 30-50%. Double your exit estimates.</p>
+<h3 id="liquidity-tiering">Liquidity Tiering</h3>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Exit time</th>
+<th>Examples</th>
+<th>RM treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tier 1</strong></td>
+<td>&lt; 1 day</td>
+<td>G10 FX, SPY, major index futures, on-the-run Treasuries</td>
+<td>Full mark-to-market confidence</td>
+</tr>
+<tr>
+<td><strong>Tier 2</strong></td>
+<td>1–5 days</td>
+<td>Large-cap single stocks, IG corporate bonds, liquid options</td>
+<td>Mark is reliable, but exit creates market impact</td>
+</tr>
+<tr>
+<td><strong>Tier 3</strong></td>
+<td>5–20 days</td>
+<td>Small-cap stocks, HY bonds, emerging market credit, off-the-run Treasuries</td>
+<td>Mark may be stale. Apply liquidity discount.</td>
+</tr>
+<tr>
+<td><strong>Tier 4</strong></td>
+<td>&gt; 20 days / uncertain</td>
+<td>Distressed debt, exotic OTC derivatives, private placements, illiquid structured products</td>
+<td>Mark to model, not market. Real exit price could be 10-30% worse.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM monitoring:</strong> Track portfolio mix by tier. If Tier 3+4 exceeds X% of NAV, the fund has a liquidity mismatch risk — especially if LPs can redeem quarterly.</p>
+<h3 id="redemption-mismatch-risk">Redemption Mismatch Risk</h3>
+<p>The fund offers quarterly redemptions but holds positions that take 3 weeks to liquidate → <strong>structural mismatch</strong>. In a crisis:<br />
+1. LPs rush to redeem (first-mover advantage)<br />
+2. Fund must sell illiquid positions to raise cash<br />
+3. Fire-sale prices → NAV drops → remaining LPs face worse performance<br />
+4. Remaining LPs redeem too → death spiral</p>
+<p><strong>Real example — Woodford Equity Income (2019):</strong> Open-ended fund held 20%+ illiquid positions. Redemptions surged. Fund was "gated" — investors couldn't withdraw. Eventually liquidated at massive losses.</p>
+<hr />
+<h1 id="part-7-market-microstructure-how-price-discovery-works">PART 7: MARKET MICROSTRUCTURE — HOW PRICE DISCOVERY WORKS</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Price discovery is the process by which the market aggregates information from thousands of participants into a single number — and understanding the mechanics tells you when to trust that number and when not to.</p>
+</blockquote>
+<h2 id="the-limit-order-book-lob">The Limit Order Book (LOB)</h2>
+<div class="highlight"><pre><span></span><code>    SELL SIDE (ASKS/OFFERS)
+    ┌──────────────┬──────────┐
+    │  Price       │  Size    │
+    │  $50.05      │  2,000   │  ← Best ask (best offer)
+    │  $50.06      │  8,000   │
+    │  $50.07      │  15,000  │
+    │  $50.08      │  5,000   │
+    │  $50.10      │  20,000  │
+    └──────────────┴──────────┘
+        SPREAD = $0.02 (2 cents)
+    ┌──────────────┬──────────┐
+    │  $50.03      │  3,000   │  ← Best bid
+    │  $50.02      │  10,000  │
+    │  $50.01      │  7,000   │
+    │  $50.00      │  25,000  │
+    │  $49.98      │  12,000  │
+    └──────────────┴──────────┘
+    BUY SIDE (BIDS)
+</code></pre></div>
+
+<p><strong>Reading the book:</strong><br />
+- <strong>Thick book</strong> (lots of size at each level): resilient market. Your order won't move the price much.<br />
+- <strong>Thin book</strong> (small size): fragile market. A 50,000-share market order eats through multiple levels.<br />
+- <strong>Asymmetric book</strong> (heavy bids, thin asks): potential bullish pressure — lots of buyers, few sellers.<br />
+- <strong>Spoofing</strong> (illegal): Placing large fake orders to mislead other traders about supply/demand, then cancelling before execution.</p>
+<h2 id="trading-venues">Trading Venues</h2>
+<table>
+<thead>
+<tr>
+<th>Venue</th>
+<th>How it works</th>
+<th>% of US equity volume</th>
+<th>Key feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NYSE / NASDAQ</strong></td>
+<td>Lit exchanges. Public order book. Price/time priority.</td>
+<td>~55-60% combined</td>
+<td>Transparent price discovery. Maker/taker fees.</td>
+</tr>
+<tr>
+<td><strong>Dark pools</strong></td>
+<td>No pre-trade transparency. Orders match privately at or within NBBO.</td>
+<td>~15-18%</td>
+<td>Minimizes information leakage. Large blocks.</td>
+</tr>
+<tr>
+<td><strong>Wholesale market makers (Citadel, Virtu)</strong></td>
+<td>Internalize retail orders. "Payment for order flow" (PFOF).</td>
+<td>~20-25% (retail flow)</td>
+<td>Retail gets price improvement vs NBBO. But the market maker profits from the information in retail flow.</td>
+</tr>
+<tr>
+<td><strong>Crossing networks</strong></td>
+<td>Match buy and sell orders at scheduled times (auctions).</td>
+<td>~3-5%</td>
+<td>Block trading, reduced market impact.</td>
+</tr>
+<tr>
+<td><strong>ECNs</strong></td>
+<td>Electronic matching, similar to exchanges but often with different fee structures.</td>
+<td>Included in lit exchange %</td>
+<td>IEX (speed bump), BATS (now Cboe).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reg NMS (US) / MiFID II (Europe):</strong> Mandates best execution — brokers must route orders to the venue offering the best price. Creates competition between venues but also fragments liquidity.</p>
+<h3 id="maker-taker-fee-model">Maker-Taker Fee Model</h3>
+<p>Exchanges incentivize liquidity provision:<br />
+- <strong>Maker</strong> (adds liquidity — posts limit order): RECEIVES a rebate (~$0.002/share)<br />
+- <strong>Taker</strong> (removes liquidity — sends market order that hits a resting limit): PAYS a fee (~$0.003/share)</p>
+<p>This creates a perverse incentive: some HFTs post fake limit orders to earn rebates, creating "phantom liquidity" that disappears when you try to trade against it.</p>
+<h2 id="dealer-positioning-gamma-effects">Dealer Positioning &amp; Gamma Effects</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Dealers are not neutral pipes — their hedging of options positions creates systematic buying and selling pressure that amplifies or dampens market moves.</p>
+</blockquote>
+<p><strong>Dealer gamma exposure (GEX):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Dealer position</th>
+<th>Hedging behavior</th>
+<th>Effect on market</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Long gamma</strong> (dealers bought options from clients)</td>
+<td>Buy dips, sell rallies (to stay delta-neutral)</td>
+<td><strong>DAMPENS</strong> moves. Market stays range-bound. Low realized vol.</td>
+</tr>
+<tr>
+<td><strong>Short gamma</strong> (dealers sold options to clients)</td>
+<td>Sell into declines, buy into rallies (to stay delta-neutral)</td>
+<td><strong>AMPLIFIES</strong> moves. Market becomes more volatile. Moves accelerate.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gamma flip level:</strong> The spot price where dealers' aggregate gamma switches from positive to negative. BELOW this level, dealers are short gamma → they sell into declines → moves accelerate → this is why sell-offs speed up past a certain point.</p>
+<p><strong>Dealer hedging flows that matter:</strong><br />
+- <strong>Monthly/quarterly OpEx:</strong> Options expiring removes the associated delta hedges. Large open interest at a strike can "pin" the stock there as dealers adjust hedges. After expiry, the pin releases and the stock moves freely.<br />
+- <strong>End-of-month rebalancing:</strong> Pension funds, target-date funds rebalance to fixed allocation targets. If stocks rose, they sell stocks and buy bonds at month-end. These flows are predictable and large (estimated $5-15B on big months).<br />
+- <strong>0DTE (zero-days-to-expiry) options:</strong> Rapidly growing volume. Gamma is enormous (tiny time value, huge sensitivity to price). Creates intraday volatility spikes as dealers constantly rebalance.</p>
+<h2 id="intraday-patterns">Intraday Patterns</h2>
+<table>
+<thead>
+<tr>
+<th>Time (US Eastern)</th>
+<th>What happens</th>
+<th>RM implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>9:30–10:00 AM</strong></td>
+<td>Opening auction. Overnight order flow, gap fills, knee-jerk reactions to news.</td>
+<td>DON'T overreact. The first 15 minutes of price action is noise, not signal. Wait for real flow.</td>
+</tr>
+<tr>
+<td><strong>8:30/10:00 AM</strong></td>
+<td>Economic data releases (CPI, NFP at 8:30; PMI, JOLTS at 10:00).</td>
+<td>Can completely reverse the opening move. These are genuine information events.</td>
+</tr>
+<tr>
+<td><strong>11:30–1:30 PM</strong></td>
+<td>Lunch lull. Volume drops 40-60%. Thin order books.</td>
+<td>Don't trust moves in thin markets. A single large order can create a "false" breakout.</td>
+</tr>
+<tr>
+<td><strong>3:00–3:50 PM</strong></td>
+<td>"Power hour." Real institutional flow appears. Last chance for portfolio adjustments.</td>
+<td>MORE informative than morning. Moves in the last hour tend to have higher conviction.</td>
+</tr>
+<tr>
+<td><strong>3:50–4:00 PM</strong></td>
+<td>MOC (Market on Close) imbalance published at 3:50. Rebalancing flow. Closing auction.</td>
+<td>Can create large last-minute moves. $2B+ MOC imbalance on rebalancing days is common.</td>
+</tr>
+<tr>
+<td><strong>4:00–8:00 PM &amp; pre-market</strong></td>
+<td>After-hours / pre-market. VERY thin.</td>
+<td>Earnings announcements move stocks ±10% on 1/10th of normal volume. Marks may gap at open.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="circuit-breakers-halts">Circuit Breakers &amp; Halts</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Response</th>
+<th>Key detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Level 1: SPX -7%</strong></td>
+<td>15-minute halt (before 3:25 PM only)</td>
+<td>Triggered 4 times in March 2020 (2 weeks). Only once before that (Oct 1997).</td>
+</tr>
+<tr>
+<td><strong>Level 2: SPX -13%</strong></td>
+<td>15-minute halt (before 3:25 PM only)</td>
+<td>Never triggered since current rules enacted (2013).</td>
+</tr>
+<tr>
+<td><strong>Level 3: SPX -20%</strong></td>
+<td>Market closes for the day</td>
+<td>Never triggered. Would signal a systemic crisis.</td>
+</tr>
+<tr>
+<td><strong>Single-stock LULD</strong></td>
+<td>Halt if price moves outside price band (5-20% depending on tier) for 15 seconds</td>
+<td>Prevents flash crashes in individual names. Bands tighten for more liquid stocks.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why halts matter for RM:</strong> During a halt, you CANNOT exit your position. If you're levered and the halt resolves with a gap against you, your losses can exceed any stop-loss level you set. Halts also create uncertainty — margin calls may be calculated on pre-halt prices, but the actual liquidation price may be far worse.</p>
+<hr />
+<h1 id="part-8-short-selling-mechanics-and-risks">PART 8: SHORT SELLING — MECHANICS AND RISKS</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Shorting is selling something you don't own by borrowing it first — the potential loss is unlimited because there's no ceiling on how high a stock can go.</p>
+</blockquote>
+<h2 id="the-short-selling-process">The Short Selling Process</h2>
+<div class="highlight"><pre><span></span><code>Step 1: LOCATE — find shares to borrow from PB inventory, securities lending desks,
+                 beneficial owners (pension funds, ETFs, mutual funds)
+  ↓
+Step 2: BORROW — borrow shares, agree to borrow fee (annualized rate)
+  ↓
+Step 3: SELL — sell borrowed shares into the market (receive cash proceeds)
+  ↓
+Step 4: WAIT — position earns if stock drops, loses if stock rises
+         You pay: borrow cost + any dividends on the shares
+  ↓
+Step 5: COVER — buy back shares in the open market and return to lender
+         Profit = sell price − buy price − borrow costs − dividends paid
+</code></pre></div>
+
+<h2 id="key-short-selling-economics">Key Short Selling Economics</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Detail</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Short sale proceeds</strong></td>
+<td>When you sell borrowed shares, cash goes into your account — but it's RESTRICTED. Can't withdraw it.</td>
+<td>Sell 10,000 shares at $50 → $500K proceeds. This collateralizes the borrow.</td>
+</tr>
+<tr>
+<td><strong>Short rebate</strong></td>
+<td>You earn interest on the restricted cash proceeds (at a rate below SOFR)</td>
+<td>$500K × (SOFR − spread) = ~$18K/year income</td>
+</tr>
+<tr>
+<td><strong>Borrow fee</strong></td>
+<td>The cost to borrow shares. Expressed as annualized rate.</td>
+<td>Easy-to-borrow (GC): 0.25-0.50%. Special/hard-to-borrow: 5-50%+ annualized</td>
+</tr>
+<tr>
+<td><strong>Net carry</strong></td>
+<td>Short rebate − borrow fee. Can be positive (you earn) or negative (you pay).</td>
+<td>GC short: you EARN ~3.5%. HTB short at 30%: you PAY ~26%.</td>
+</tr>
+<tr>
+<td><strong>Dividends</strong></td>
+<td>If the stock pays a dividend while you're short, YOU pay the dividend to the lender.</td>
+<td>Short $500K of a 3% dividend stock = $15K/year cost on top of borrow.</td>
+</tr>
+<tr>
+<td><strong>Buy-in risk</strong></td>
+<td>If the lender recalls shares and you can't find a new borrow → forced buy-in at market price.</td>
+<td>Recall on a hard-to-borrow stock that's up 40% → catastrophic forced cover.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="short-interest-metrics">Short Interest Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What it is</th>
+<th>Signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Short interest (SI)</strong></td>
+<td>Total shares currently sold short</td>
+<td>High SI = crowded short, squeeze risk</td>
+</tr>
+<tr>
+<td><strong>Short interest ratio (SIR)</strong></td>
+<td>SI / ADV = "days to cover"</td>
+<td>SIR &gt; 10 days = very crowded. Squeeze potential.</td>
+</tr>
+<tr>
+<td><strong>Borrow utilization</strong></td>
+<td>SI / total shares available to borrow</td>
+<td>&gt;90% = almost all available shares are borrowed. New shorts hard to open. Squeeze risk extreme.</td>
+</tr>
+<tr>
+<td><strong>Cost to borrow</strong></td>
+<td>Current annualized borrow rate</td>
+<td>Spike in cost signals: increased short demand, tighter supply, or upcoming catalyst</td>
+</tr>
+</tbody>
+</table>
+<h2 id="short-squeeze-mechanics">Short Squeeze Mechanics</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A short squeeze is a forced-buying feedback loop — shorts are compelled to buy, their buying pushes the price higher, which forces MORE shorts to buy.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>Stock rises on positive catalyst (or coordinated buying)
+  → Shorts face mark-to-market losses
+    → Some shorts hit stop-losses or margin limits → forced to cover (buy)
+      → Their buying PUSHES the price higher
+        → Lenders recall shares (want to sell into the rally) → forced buy-ins
+          → More buying pressure → price goes parabolic
+            → Remaining shorts capitulate → cover at massive losses
+</code></pre></div>
+
+<p><strong>GameStop (Jan 2021):</strong> 140% short interest (more shares sold short than existed — possible because of rehypothecation in the borrow chain). Coordinated retail buying via r/WallStreetBets triggered the squeeze. Stock went from $17 to $483. Melvin Capital lost 53% in January alone.</p>
+<p><strong>VW (Oct 2008):</strong> Porsche disclosed it controlled 74% of VW shares + 31.5% via options = 95.5%. Only 5% of float was available. Shorts couldn't cover. VW briefly became the world's most valuable company at €1,000/share (from €200). A classic "infinite squeeze."</p>
+<h2 id="regulatory-constraints-on-shorting">Regulatory Constraints on Shorting</h2>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>What it does</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Reg SHO (US)</strong></td>
+<td>Must "locate" shares to borrow BEFORE selling short. Prevents naked shorting.</td>
+<td>Creates a cost/friction for shorting. Hard-to-borrow names are genuinely hard to short.</td>
+</tr>
+<tr>
+<td><strong>Short Sale Rule (SSR/uptick rule)</strong></td>
+<td>If a stock drops &gt;10% in a day, short selling is restricted to upticks only (next day too)</td>
+<td>Reduces SHORT pressure in rapid declines but doesn't prevent it entirely</td>
+</tr>
+<tr>
+<td><strong>Disclosure (EU SFTR, US 13F-2)</strong></td>
+<td>Must disclose large short positions</td>
+<td>Alerts the market to crowded shorts (can trigger squeezes)</td>
+</tr>
+<tr>
+<td><strong>Temporary bans</strong></td>
+<td>Regulators can BAN shorting in a crisis (2008: financial stocks banned in US, UK, EU)</td>
+<td>Removes price discovery. Historically INCREASES long-term volatility, doesn't help stock prices.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-putting-it-all-together-rm-monitoring-dashboard">PART 9: PUTTING IT ALL TOGETHER — RM MONITORING DASHBOARD</h1>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What to watch</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Margin utilization</strong></td>
+<td>Current margin used / total margin available</td>
+<td>&gt; 70% in calm markets → NO cushion for vol spike</td>
+</tr>
+<tr>
+<td><strong>Projected margin (stress)</strong></td>
+<td>What margin would be at VIX +20 pts</td>
+<td>&gt; 90% → must reduce exposure NOW</td>
+</tr>
+<tr>
+<td><strong>Gross leverage</strong></td>
+<td>Total exposure / NAV</td>
+<td>Discretionary: &gt;4x is aggressive. Above 6x: extreme.</td>
+</tr>
+<tr>
+<td><strong>Net leverage</strong></td>
+<td>Directional exposure / NAV</td>
+<td>Diverging from gross → check if hedges are effective</td>
+</tr>
+<tr>
+<td><strong>Portfolio liquidity (DTC)</strong></td>
+<td>Days-to-close: position size / (ADV × participation rate)</td>
+<td>Any position &gt; 5 days DTC deserves attention. &gt; 10 days is a problem.</td>
+</tr>
+<tr>
+<td><strong>Tier 3+4 as % of NAV</strong></td>
+<td>How much is in illiquid positions?</td>
+<td>&gt; 15% for an open-ended fund = redemption mismatch risk</td>
+</tr>
+<tr>
+<td><strong>Repo rollover concentration</strong></td>
+<td>How much is funded by overnight repo?</td>
+<td>&gt; 50% funded overnight on a portfolio of long-dated assets = duration mismatch</td>
+</tr>
+<tr>
+<td><strong>Short interest in book</strong></td>
+<td>Borrow utilization on your shorts</td>
+<td>Any position &gt; 80% utilization = squeeze risk. Monitor daily.</td>
+</tr>
+<tr>
+<td><strong>Bid-ask spread widening</strong></td>
+<td>Track spreads vs 30-day average on top positions</td>
+<td>Spreads &gt; 2x normal = liquidity deteriorating. Reduce before it gets worse.</td>
+</tr>
+<tr>
+<td><strong>MOC imbalance direction</strong></td>
+<td>Large systematic flows at close</td>
+<td>Consistent one-way imbalance may signal forced flows (index rebalance, pension)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
+<p><strong>If asked "Walk me through the lifecycle of a trade":</strong></p>
+<p>"It starts with the order decision — the PM decides to buy and the execution desk assesses market impact. For a large order, you'd use an algo — VWAP to match the volume profile, implementation shortfall to minimize cost from decision price, or a liquidity-seeking algo to reduce market impact in a thin name. The order gets routed to the best venue under Reg NMS — could be the lit exchange, a dark pool for large blocks, or matched by a wholesale market maker.</p>
+<p>Once executed, the trade goes to clearing. The CCP novates the trade, stepping between buyer and seller. Both sides post initial margin. Daily variation margin settles the P&amp;L. The CCP is the critical infrastructure here — it eliminates bilateral counterparty risk but creates concentration risk in the CCP itself. Settlement is T+1 for US equities — actual delivery of shares and cash via DTC. Until settlement completes, there's settlement risk."</p>
+<p><strong>If asked "How does margin create systemic risk?":</strong></p>
+<p>"Margin is inherently pro-cyclical. In calm markets, exchanges set low margin requirements — which encourages leverage. In a vol spike, they raise margin requirements, demanding more cash precisely when positions are losing money and liquidity is drying up. This creates the margin cascade: price drops → margin call → forced selling → more price drops → more margin calls.</p>
+<p>The March 2020 Treasury basis trade is the perfect example. Hedge funds were leveraged 50-100x via repo, long cash Treasuries versus short futures. When markets panicked, margin requirements spiked, repo haircuts increased, and the supposedly safest trade in the world — long US government bonds — turned into forced liquidation. The Fed had to buy over a trillion dollars of Treasuries to stop the cascade. As an RM, I'd monitor margin utilization under STRESSED scenarios — not current utilization but projected utilization at VIX +20 — because by the time the crisis hits, it's too late to reduce."</p>
+<p><strong>If asked "How do you think about liquidity risk?":</strong></p>
+<p>"I think about liquidity in two dimensions that are connected in a doom loop. Market liquidity — can I sell at fair value? — measured by bid-ask spreads, depth, ADV, and market impact. Funding liquidity — can I access cash? — measured by margin availability, repo access, and credit lines. The danger is when both collapse simultaneously, which is exactly what happens in a crisis.</p>
+<p>For a discretionary fund, I'd tier every position by days-to-close. If more than 15% of the portfolio is in Tier 3 or worse — positions taking more than a week to exit — and we offer quarterly redemptions, we have a structural mismatch. The first investors to redeem get out at fair value, but the remaining investors bear the cost of the fire sale. This is what killed Woodford in 2019. I'd set hard limits on the illiquid bucket and stress test the exit timeline under 50% ADV reduction — because in a real crisis, volume doesn't just drop, it shifts to the most liquid names, and the illiquid tail becomes untradeable."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>14_Hedge_Fund_Mechanics</em> — fund structure, PB relationships, margin details<br />
-→ <em>09_Market_Intuition</em> — market microstructure, intraday patterns<br />
 → <a href="B_Derivatives.html">Derivatives</a> — the instruments that create margin/leverage exposure<br />
-→ <a href="V_Case_Studies.html">Case Studies</a> — margin cascades in real blow-ups<br />
-→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — liquidity risk as a portfolio concept</p>
+→ <a href="L_Fund_Structure.html">Fund Structure</a> — PB relationships, fund structure, terms<br />
+→ <a href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a> — ISDA, counterparty risk, regulatory framework<br />
+→ <a href="V_Case_Studies.html">Case Studies</a> — margin cascades in real blow-ups (Archegos, LTCM, March 2020)<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — liquidity risk as a portfolio concept<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, stress testing, risk metrics</p>
 </main>
 
 <script>

@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,363 +308,1569 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
 <h1 id="j-position-portfolio-management">J — POSITION &amp; PORTFOLIO MANAGEMENT</h1>
-<h2 id="sizing-conviction-drawdown-budgets-broken-thesis-exits-and-risk-budgeting">Sizing, conviction, drawdown budgets, broken-thesis exits, and risk budgeting</h2>
-<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<h2 id="sizing-conviction-drawdown-budgets-broken-thesis-exits-liquidity-adjusted-sizing-scaling-risk-budgeting-and-the-rms-position-monitoring-framework">Sizing, conviction, drawdown budgets, broken-thesis exits, liquidity-adjusted sizing, scaling, risk budgeting, and the RM's position monitoring framework</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="part-1-position-sizing-the-most-important-decision">PART 1: POSITION SIZING — THE MOST IMPORTANT DECISION</h1>
-<p>The PM decides WHAT to trade. The RM helps decide HOW MUCH.</p>
-<h2 id="why-sizing-matters-more-than-selection">Why Sizing Matters More Than Selection</h2>
-<p>If your best idea is 2% of the book and your worst idea is 8%, your PORTFOLIO will underperform even if your selection is perfect. A study of discretionary fund returns shows that sizing explains more P&amp;L variance than stock selection in most years.</p>
-<h2 id="sizing-frameworks">Sizing Frameworks</h2>
-<h3 id="1-equal-weight">1. Equal Weight</h3>
-<p>Every position gets the same notional or risk allocation.<br />
-- <strong>Pros:</strong> Simple, diversified, no overconfidence bias.<br />
-- <strong>Cons:</strong> Doesn't reflect conviction. Your best idea and your 30th-best idea get the same allocation.</p>
-<h3 id="2-conviction-based-sizing">2. Conviction-Based Sizing</h3>
-<p>Size the position proportional to PM conviction level.</p>
+<h1 id="why-position-management-is-the-rms-daily-operating-system">WHY POSITION MANAGEMENT IS THE RM'S DAILY OPERATING SYSTEM</h1>
+<p>Stock selection gets the headlines. Position management determines the actual returns.</p>
+<p>A PM who picks 60% winners but sizes them poorly — overweight busted trades, underweight winners, concentrated in correlated names — will UNDERPERFORM a PM who picks 50% winners but sizes them intelligently, cuts losers fast, and maintains diversification.</p>
+<p><strong>The RM's role in position management:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Conviction</th>
-<th>Position size (% of book)</th>
-<th>Typical</th>
+<th>Function</th>
+<th>What you do</th>
+<th>What you DON'T do</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Highest (top 3 ideas)</td>
-<td>5-10%</td>
-<td>Concentrated, well-researched</td>
+<td><strong>Sizing</strong></td>
+<td>Flag when position size exceeds conviction/liquidity/risk budget</td>
+<td>Tell the PM WHICH stocks to buy</td>
 </tr>
 <tr>
-<td>High</td>
-<td>3-5%</td>
-<td>Strong thesis with identified catalysts</td>
+<td><strong>Monitoring</strong></td>
+<td>Track every position's risk contribution, P&amp;L, thesis status</td>
+<td>Trade for the PM</td>
 </tr>
 <tr>
-<td>Medium</td>
-<td>1-3%</td>
-<td>Good risk/reward but less conviction</td>
+<td><strong>Escalation</strong></td>
+<td>Surface drawdown protocols, force the broken-thesis conversation</td>
+<td>Override the PM's investment judgment</td>
 </tr>
 <tr>
-<td>Low / exploratory</td>
-<td>0.5-1%</td>
-<td>"Let me see how this develops"</td>
+<td><strong>Architecture</strong></td>
+<td>Ensure portfolio construction rules are applied consistently</td>
+<td>Design the PM's trading strategy</td>
 </tr>
 </tbody>
 </table>
-<h3 id="3-risk-based-sizing">3. Risk-Based Sizing</h3>
-<p>Size so each position contributes EQUAL RISK, not equal notional.</p>
-<p>$$\text{Position notional} = \frac{\text{Target risk contribution}}{\text{Asset volatility}}$$</p>
-<p>A 30-vol stock gets half the notional of a 15-vol stock so both contribute the same risk.</p>
-<h3 id="4-kelly-criterion-theoretical">4. Kelly Criterion (Theoretical)</h3>
-<p>$$f^* = \frac{p \cdot b - q}{b}$$<br />
-Where p = win probability, b = win/loss ratio, q = 1-p.</p>
-<p>In practice, nobody uses full Kelly. Half-Kelly or quarter-Kelly is common because:<br />
-- Parameter estimates are uncertain<br />
-- Full Kelly has enormous drawdowns<br />
-- It assumes you can continuously adjust</p>
-<p><strong>Key insight for interview:</strong> "Position sizing should reflect conviction AND volatility. A high-conviction position in a 50-vol stock might be smaller in notional terms than a medium-conviction position in a 15-vol stock, because we want to equalize risk contribution."</p>
+<p>At Squarepoint, the discretionary desk is embedded in a systematic-at-core firm. The CRO expects the same RIGOR in position management from the discretionary PM that the quant models apply automatically. You are the bridge — translating discretionary judgment into systematic discipline.</p>
 <hr />
-<h1 id="part-2-conviction-and-the-broken-thesis-framework">PART 2: CONVICTION AND THE BROKEN-THESIS FRAMEWORK</h1>
-<h2 id="how-pms-build-conviction">How PMs Build Conviction</h2>
-<p>Conviction isn't "I feel strongly." It should be structured:</p>
+<h1 id="part-1-position-sizing-the-most-important-decision">PART 1: POSITION SIZING — THE MOST IMPORTANT DECISION</h1>
+<blockquote>
+<p><strong>One-liner:</strong> The PM decides WHAT to trade. The RM helps decide HOW MUCH. Sizing is the largest single driver of portfolio P&amp;L variance.</p>
+</blockquote>
+<h2 id="why-sizing-matters-more-than-selection">Why Sizing Matters More Than Selection</h2>
+<p><strong>The math is stark:</strong><br />
+- A fund with 60% win rate and EQUAL sizing across positions has a Sharpe of ~0.5<br />
+- The SAME fund with CONVICTION-WEIGHTED sizing (larger in high-conviction winners) has Sharpe of ~0.8<br />
+- The SAME fund with POOR sizing (overweight losers due to averaging down) has Sharpe of ~0.2</p>
+<p>Sizing explains 40-60% of P&amp;L variance. Selection explains 20-30%. The remainder is timing and luck.</p>
+<h2 id="five-sizing-frameworks">Five Sizing Frameworks</h2>
+<h3 id="1-equal-weight">1. Equal Weight</h3>
+<p>Every position gets the same notional allocation.</p>
+<p>$$w_i = \frac{1}{N}$$</p>
 <table>
 <thead>
 <tr>
-<th>Conviction pillar</th>
-<th>Question</th>
+<th>Pros</th>
+<th>Cons</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Variant perception</td>
+<td>Simple, no overconfidence bias</td>
+<td>Ignores conviction — best idea = worst idea</td>
+</tr>
+<tr>
+<td>Mechanically diversified</td>
+<td>Ignores volatility — 50-vol biotech = 12-vol utility</td>
+</tr>
+<tr>
+<td>Easy to implement and monitor</td>
+<td>Rebalancing on every new position entry</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When it's right:</strong> High-turnover statistical strategies, initial deployment of new desk, when PM track record is unproven.</p>
+<h3 id="2-conviction-based-sizing">2. Conviction-Based Sizing</h3>
+<p>Size proportional to PM confidence level, within a structured tier system.</p>
+<table>
+<thead>
+<tr>
+<th>Conviction tier</th>
+<th>Size (% NAV)</th>
+<th># of positions typical</th>
+<th>Total allocation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tier 1 — Anchor</strong> (top 3-5 ideas)</td>
+<td>5-8% each</td>
+<td>3-5</td>
+<td>15-40%</td>
+</tr>
+<tr>
+<td><strong>Tier 2 — Core</strong></td>
+<td>2-4% each</td>
+<td>8-12</td>
+<td>20-40%</td>
+</tr>
+<tr>
+<td><strong>Tier 3 — Satellite</strong></td>
+<td>0.5-2% each</td>
+<td>10-20</td>
+<td>10-30%</td>
+</tr>
+<tr>
+<td><strong>Tier 4 — Exploratory</strong></td>
+<td>0.25-0.5% each</td>
+<td>5-10</td>
+<td>2-5%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM checks on conviction sizing:</strong><br />
+- Does the PM have enough Tier 1 positions to justify concentration?<br />
+- Are Tier 4 positions consuming disproportionate attention relative to their P&amp;L contribution?<br />
+- Is there "conviction creep" — positions that started as Tier 3 growing to Tier 1 through price appreciation without the PM consciously deciding to increase conviction?</p>
+<h3 id="3-risk-based-sizing-vol-weighted">3. Risk-Based Sizing (Vol-Weighted)</h3>
+<p>Size so each position contributes EQUAL RISK (volatility contribution), not equal dollars.</p>
+<p>$$\text{Notional}_i = \frac{\text{Target risk budget per position}}{\sigma_i}$$</p>
+<p>Where $\sigma_i$ = annualized volatility of asset $i$.</p>
+<p><strong>Worked example:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Stock</th>
+<th>Annualized vol (σ)</th>
+<th>Target risk $/position = $200K</th>
+<th>Notional allocation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JNJ</td>
+<td>15%</td>
+<td>$200K / 0.15</td>
+<td><strong>$1.33M</strong></td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>25%</td>
+<td>$200K / 0.25</td>
+<td><strong>$800K</strong></td>
+</tr>
+<tr>
+<td>TSLA</td>
+<td>50%</td>
+<td>$200K / 0.50</td>
+<td><strong>$400K</strong></td>
+</tr>
+<tr>
+<td>MSTR</td>
+<td>80%</td>
+<td>$200K / 0.80</td>
+<td><strong>$250K</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Each contributes ~$200K of annual risk to the portfolio despite wildly different notionals. Without vol-weighting, equal notional in TSLA vs JNJ means TSLA dominates portfolio risk 3:1.</p>
+<h3 id="4-kelly-criterion-and-practical-variants">4. Kelly Criterion and Practical Variants</h3>
+<p><strong>Full Kelly:</strong></p>
+<p>$$f^* = \frac{p \cdot b - q}{b} = \frac{\text{Edge}}{\text{Odds}}$$</p>
+<p>Where:<br />
+- $f^*$ = fraction of capital to bet<br />
+- $p$ = probability of winning<br />
+- $b$ = win/loss ratio (amount won per dollar risked if correct)<br />
+- $q = 1 - p$ = probability of losing</p>
+<p><strong>Worked example:</strong><br />
+- Trade has 55% win rate ($p = 0.55$), with 2:1 payoff ($b = 2$)<br />
+- $f^* = (0.55 \times 2 - 0.45) / 2 = 0.65 / 2 = 0.325$ = 32.5% of capital</p>
+<p><strong>That's insane.</strong> Full Kelly implies enormous bets and drawdowns of 50%+ routinely. In practice:</p>
+<table>
+<thead>
+<tr>
+<th>Kelly fraction</th>
+<th>Max drawdown (approximate)</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full Kelly</td>
+<td>50%+ periodic</td>
+<td><strong>Never used</strong> in discretionary</td>
+</tr>
+<tr>
+<td>Half Kelly</td>
+<td>~25%</td>
+<td>Aggressive quant strategies</td>
+</tr>
+<tr>
+<td>Quarter Kelly</td>
+<td>~12%</td>
+<td>Discretionary with good track record</td>
+</tr>
+<tr>
+<td>Eighth Kelly</td>
+<td>~6%</td>
+<td>New PM, untested strategy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM insight:</strong> Kelly is a CEILING, not a target. The edge estimate ($p$ and $b$) is always uncertain — if your edge estimate is wrong by even 20%, full Kelly turns into overbet → ruin. The PM's confidence in the edge should determine how far below Kelly they size.</p>
+<h3 id="5-maximum-loss-based-sizing">5. Maximum Loss-Based Sizing</h3>
+<p>Size so the defined stop-loss represents an acceptable portfolio hit:</p>
+<p>$$\text{Notional} = \frac{\text{Acceptable loss per position}}{\text{Stop-loss distance (%)}}$$</p>
+<p><strong>Worked example:</strong><br />
+- Portfolio: $100M. Max loss per position: 0.5% of NAV = $500K<br />
+- Stop-loss distance: 8% (PM will exit if the stock drops 8%)<br />
+- Max notional = $500K / 0.08 = <strong>$6.25M</strong> (6.25% of NAV)</p>
+<p>If the stop is tighter (3%): max notional = $500K / 0.03 = <strong>$16.7M</strong> — but this risks whipsaw exits.<br />
+If the stop is wider (15%): max notional = $500K / 0.15 = <strong>$3.3M</strong> — smaller position, more room.</p>
+<p><strong>The tradeoff:</strong> Wide stop × small position = less whipsaw, lower aggregate risk per position. Tight stop × large position = more whipsaw but higher individual position conviction.</p>
+<hr />
+<h1 id="part-2-liquidity-adjusted-sizing-the-constraint-most-pms-ignore">PART 2: LIQUIDITY-ADJUSTED SIZING — THE CONSTRAINT MOST PMs IGNORE</h1>
+<blockquote>
+<p><strong>One-liner:</strong> You can't size a position larger than you can EXIT. Liquidity is not a soft constraint — it's a hard wall.</p>
+</blockquote>
+<h2 id="adv-average-daily-volume-constraint">ADV (Average Daily Volume) Constraint</h2>
+<p><strong>The core rule:</strong> Never own more than N days of ADV in a single position, where N represents the maximum acceptable liquidation timeline.</p>
+<p>$$\text{Max notional} = \text{ADV}(\$) \times \text{Participation rate} \times \text{Max exit days}$$</p>
+<p>Where:<br />
+- $\text{ADV}$ = average daily dollar volume (20-day average)<br />
+- $\text{Participation rate}$ = % of daily volume you can trade without moving the market (typically 10-25%)<br />
+- $\text{Max exit days}$ = how many days to fully exit (depends on urgency and market conditions)</p>
+<p><strong>Worked example — normal markets:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Stock</th>
+<th>ADV ($)</th>
+<th>15% participation</th>
+<th>5-day exit</th>
+<th>Max position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AAPL</td>
+<td>$12B</td>
+<td>$1.8B/day</td>
+<td>5 days</td>
+<td>$9.0B (unconstrained)</td>
+</tr>
+<tr>
+<td>XOM</td>
+<td>$2.5B</td>
+<td>$375M/day</td>
+<td>5 days</td>
+<td>$1.9B (unconstrained)</td>
+</tr>
+<tr>
+<td>Mid-cap stock</td>
+<td>$50M</td>
+<td>$7.5M/day</td>
+<td>5 days</td>
+<td><strong>$37.5M</strong></td>
+</tr>
+<tr>
+<td>Small-cap stock</td>
+<td>$5M</td>
+<td>$750K/day</td>
+<td>5 days</td>
+<td><strong>$3.75M</strong></td>
+</tr>
+<tr>
+<td>Micro-cap</td>
+<td>$500K</td>
+<td>$75K/day</td>
+<td>5 days</td>
+<td><strong>$375K</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stress-adjusted ADV:</strong> In a crisis, volumes can DROP 30-50% (bid disappears) or SPIKE 300%+ (panic selling floods the market but at dislocated prices). The RM should size to the STRESS ADV, not the calm-weather ADV.</p>
+<p>$$\text{Stress ADV} = \text{Normal ADV} \times \text{Stress factor}$$</p>
+<table>
+<thead>
+<tr>
+<th>Market condition</th>
+<th>Stress factor</th>
+<th>Effect on max position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal</td>
+<td>1.0</td>
+<td>Full position</td>
+</tr>
+<tr>
+<td>Moderate stress</td>
+<td>0.6-0.7</td>
+<td>40% smaller max position</td>
+</tr>
+<tr>
+<td>Crisis</td>
+<td>0.3-0.5</td>
+<td>50-70% smaller max position</td>
+</tr>
+<tr>
+<td>Flash crash / circuit breaker</td>
+<td>0.1-0.2</td>
+<td>80%+ reduction — may not be able to exit at all</td>
+</tr>
+</tbody>
+</table>
+<h2 id="market-impact-cost">Market Impact Cost</h2>
+<p>$$\text{Impact cost} \approx \sigma \times \sqrt{\frac{Q}{V}} \times k$$</p>
+<p>Where:<br />
+- $\sigma$ = daily volatility<br />
+- $Q$ = quantity being traded<br />
+- $V$ = daily volume<br />
+- $k$ = impact coefficient (typically 0.5-1.5 depending on asset class)</p>
+<p><strong>Example:</strong> Selling $5M of a $50M ADV stock:<br />
+- σ = 2%/day, Q/V = 0.10, k = 1.0<br />
+- Impact = 2% × √0.10 × 1.0 = 2% × 0.316 = <strong>0.63%</strong> per execution<br />
+- On $5M: slippage = <strong>$31.5K</strong> — manageable</p>
+<p><strong>Example:</strong> Selling $5M of a $5M ADV stock:<br />
+- σ = 3.5%/day, Q/V = 1.0, k = 1.0<br />
+- Impact = 3.5% × √1.0 × 1.0 = <strong>3.5%</strong> per execution<br />
+- On $5M: slippage = <strong>$175K</strong> — THIS is the liquidity tax</p>
+<h2 id="the-rms-liquidity-sizing-check">The RM's Liquidity Sizing Check</h2>
+<p>Before EVERY new position, the RM should verify:</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Formula</th>
+<th>Threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Days to exit (normal)</td>
+<td>Position / (ADV × 15%)</td>
+<td><strong>&lt; 5 days for most; &lt; 3 for volatile names</strong></td>
+</tr>
+<tr>
+<td>Days to exit (stress)</td>
+<td>Position / (ADV × stress factor × 15%)</td>
+<td><strong>&lt; 10 days</strong></td>
+</tr>
+<tr>
+<td>Position as % of ADV</td>
+<td>Position / ADV</td>
+<td><strong>&lt; 100%</strong> for most; <strong>&lt; 50%</strong> for small/mid</td>
+</tr>
+<tr>
+<td>Estimated impact</td>
+<td>Almgren-Chriss or simple model</td>
+<td><strong>&lt; 1%</strong> one-way; <strong>&lt; 0.5%</strong> preferred</td>
+</tr>
+<tr>
+<td>Crowding check</td>
+<td>Ownership % of float</td>
+<td><strong>&lt; 5%</strong> of free float</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-3-conviction-and-the-broken-thesis-framework">PART 3: CONVICTION AND THE BROKEN-THESIS FRAMEWORK</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Conviction isn't "I feel strongly." It's a structured assessment of variant perception, catalyst, downside, and edge durability — each of which can break independently.</p>
+</blockquote>
+<h2 id="the-four-pillars-of-conviction">The Four Pillars of Conviction</h2>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Question the PM must answer</th>
+<th>Red flag if absent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Variant perception</strong></td>
 <td>What do I see that the market doesn't?</td>
+<td>"I just like the stock" → no edge</td>
 </tr>
 <tr>
-<td>Catalyst identification</td>
-<td>What will make the market agree with me, and WHEN?</td>
+<td><strong>Catalyst identification</strong></td>
+<td>What event will make the market agree with me — and WHEN?</td>
+<td>No catalyst = a dead-money trade</td>
 </tr>
 <tr>
-<td>Downside quantification</td>
-<td>If I'm wrong, how much do I lose?</td>
+<td><strong>Downside quantification</strong></td>
+<td>If I'm wrong, how much do I lose? Where's the floor?</td>
+<td>"I don't know" → position is unsized</td>
 </tr>
 <tr>
-<td>Edge durability</td>
-<td>Why won't this edge get arbitraged away immediately?</td>
+<td><strong>Edge durability</strong></td>
+<td>Why won't this edge get arbitraged away before my catalyst?</td>
+<td>Edge is common knowledge → already priced</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conviction scoring (the RM's internal framework):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Score</th>
+<th>Each pillar</th>
+<th>Size implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4/4 — All four solid</td>
+<td>Clear edge, known catalyst, defined downside, durable edge</td>
+<td>Tier 1: 5-8% of NAV</td>
+</tr>
+<tr>
+<td>3/4 — One pillar weak</td>
+<td>One area of uncertainty</td>
+<td>Tier 2: 2-4%</td>
+</tr>
+<tr>
+<td>2/4 — Two pillars weak</td>
+<td>Significant uncertainty</td>
+<td>Tier 3: 0.5-2%</td>
+</tr>
+<tr>
+<td>1/4 — Only one pillar</td>
+<td>Speculative</td>
+<td>Tier 4: 0.25-0.5% max</td>
+</tr>
+<tr>
+<td>0/4 — None articulated</td>
+<td>Gambling</td>
+<td><strong>Reject or challenge</strong></td>
 </tr>
 </tbody>
 </table>
 <h2 id="the-three-broken-thesis-tests">The Three Broken-Thesis Tests</h2>
-<p>When a position is losing money, the PM (and RM) must ask:</p>
+<p>When a position is losing money, the PM (and RM) must answer three sequential questions:</p>
 <h3 id="test-1-is-the-original-thesis-intact">Test 1: Is the original thesis intact?</h3>
+<p>"We bought XOM at $110 because we expected Brent above $85 through Q3 and XOM's breakeven at $55 gives 55% margin of safety."</p>
 <ul>
-<li>"We bought XOM because we expected oil above $85 through Q3."</li>
-<li>Oil is at $78. Is the thesis broken or just delayed?</li>
-<li>If the fundamental thesis is still valid, holding (or adding) may be correct.</li>
+<li>Brent is now at $78. XOM is at $102. The PM is down $800K.</li>
+<li>But: XOM breakeven is STILL $55. Brent at $78 is STILL profitable. The thesis thesis might be intact — the market is just disagreeing temporarily.</li>
+<li>If thesis is intact → HOLD or ADD (if risk budget allows). The loss is unrealized and the fundamental setup hasn't changed.</li>
 </ul>
-<h3 id="test-2-has-new-information-changed-the-picture">Test 2: Has new information changed the picture?</h3>
-<ul>
-<li>Did something happen that wasn't in the original analysis?</li>
-<li>New regulation, management change, competitor action, macro regime shift?</li>
-<li>If yes → reassess from scratch. Don't anchor to original thesis.</li>
-</ul>
-<h3 id="test-3-would-you-put-the-position-on-today-at-the-current-price">Test 3: Would you put the position on today at the current price?</h3>
-<ul>
-<li>Forget your entry price. If you had no position, would you buy it NOW?</li>
-<li>If no → the position is only alive because of loss aversion. Cut it.</li>
-<li>This is the most powerful test because it strips out anchoring bias.</li>
-</ul>
-<p><strong>RM role:</strong> When a PM is underwater and anchoring, the RM's job is to run these three tests objectively and surface the conversation. Not to force the decision, but to make the PM articulate why they're staying in.</p>
-<hr />
-<h1 id="part-3-drawdown-risk-budgets">PART 3: DRAWDOWN &amp; RISK BUDGETS</h1>
-<h2 id="what-is-a-risk-budget">What Is a Risk Budget?</h2>
-<p>Each PM gets a "risk budget" — the maximum amount of risk (and/or loss) they're allowed to take. This is allocated by the CRO or head of risk.</p>
-<h2 id="typical-risk-budget-structure">Typical Risk Budget Structure</h2>
+<h3 id="test-2-has-new-information-arrived-that-wasnt-in-the-original-analysis">Test 2: Has new information arrived that wasn't in the original analysis?</h3>
 <table>
 <thead>
 <tr>
+<th>New information</th>
+<th>Impact</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OPEC signals production increase</td>
+<td>Supply thesis broken</td>
+<td><strong>Cut or reduce significantly</strong></td>
+</tr>
+<tr>
+<td>New regulation on carbon emissions</td>
+<td>Long-term fundamental shift</td>
+<td>Reassess from scratch</td>
+</tr>
+<tr>
+<td>XOM management change / strategy pivot</td>
+<td>Company-specific thesis changed</td>
+<td>May need to cut</td>
+</tr>
+<tr>
+<td>Competitor discovers major new field</td>
+<td>Market share thesis weakened</td>
+<td>Reduce position</td>
+</tr>
+<tr>
+<td>Brent just drifted lower on no news</td>
+<td>No new information — just price</td>
+<td>Thesis may still be intact</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical distinction:</strong> Price movement is NOT new information. Price moving against you doesn't break the thesis — only NEW FUNDAMENTAL INFORMATION breaks the thesis. The RM's job is to separate the two.</p>
+<h3 id="test-3-would-you-put-this-position-on-today-at-the-current-price">Test 3: Would you put this position on TODAY at the current price?</h3>
+<ul>
+<li>Forget your entry. You have NO position. Would you buy XOM here at $102 with Brent at $78?</li>
+<li>If YES → hold. Loss aversion isn't driving the decision.</li>
+<li>If NO → the position is alive only because of anchoring bias. Cut it.</li>
+<li>If MAYBE → the conviction has degraded. Trim to Tier 3 or Tier 4 size.</li>
+</ul>
+<p><strong>This is the most powerful test because it strips out:</strong><br />
+- Anchoring to entry price<br />
+- Sunk cost fallacy ("I've already lost $800K, I need to make it back")<br />
+- Loss aversion ("I'll just wait for it to come back to even")<br />
+- Ego ("I can't be wrong about this")</p>
+<p><strong>RM role:</strong> When a PM is underwater and anchoring, don't argue about the stock. Simply ask: "Would you put this on today?" If the PM hesitates, the position is dead. The PM already knows — they just need someone to say it out loud.</p>
+<hr />
+<h1 id="part-4-drawdown-protocols-risk-budgets">PART 4: DRAWDOWN PROTOCOLS &amp; RISK BUDGETS</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A risk budget is a CONCESSION of trust from the firm. Breach it and you lose trust. Manage it well and you earn more.</p>
+</blockquote>
+<h2 id="risk-budget-architecture">Risk Budget Architecture</h2>
+<p>Each PM operates within a multi-dimensional risk budget allocated by the CRO:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
 <th>Metric</th>
 <th>Soft limit</th>
 <th>Hard limit</th>
-<th>What happens</th>
+<th>Breach consequence</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Daily P&amp;L loss</td>
-<td>-$500K</td>
-<td>-$1M</td>
-<td>Soft: conversation. Hard: mandatory reduction.</td>
+<td><strong>Daily P&amp;L</strong></td>
+<td>Worst daily loss</td>
+<td>−$500K</td>
+<td>−$1M</td>
+<td>Soft: RM conversation. Hard: mandatory de-risk to 50% gross.</td>
 </tr>
 <tr>
-<td>Monthly P&amp;L loss</td>
-<td>-$2M</td>
-<td>-$4M</td>
-<td>Hard: positions partially liquidated.</td>
+<td><strong>Weekly P&amp;L</strong></td>
+<td>Cumulative week loss</td>
+<td>−$1M</td>
+<td>−$2M</td>
+<td>Hard: position review + gross cap reduction</td>
 </tr>
 <tr>
-<td>VaR (1-day 99%)</td>
+<td><strong>Monthly P&amp;L</strong></td>
+<td>Cumulative month loss</td>
+<td>−$2M</td>
+<td>−$4M</td>
+<td>Hard: forced liquidation of worst risk/reward positions</td>
+</tr>
+<tr>
+<td><strong>YTD drawdown</strong></td>
+<td>Peak-to-trough</td>
+<td>−$5M</td>
+<td>−$8M</td>
+<td>Hard: desk shutdown discussion with CRO</td>
+</tr>
+<tr>
+<td><strong>VaR (1-day 99%)</strong></td>
+<td>Parametric or historical</td>
 <td>$3M</td>
 <td>$5M</td>
-<td>Hard: no new risk.</td>
+<td>Hard: no new risk-adding trades</td>
 </tr>
 <tr>
-<td>Gross exposure</td>
+<td><strong>Gross exposure</strong></td>
+<td>|L| + |S|</td>
 <td>$80M</td>
 <td>$100M</td>
-<td>Hard: reduce positions.</td>
+<td>Hard: reduce positions to limit</td>
 </tr>
 <tr>
-<td>Single-name concentration</td>
-<td>5% NAV</td>
-<td>8% NAV</td>
-<td>Hard: trim to limit.</td>
+<td><strong>Net exposure</strong></td>
+<td>L − S</td>
+<td>±$30M</td>
+<td>±$50M</td>
+<td>Hard: bring within band</td>
 </tr>
 <tr>
-<td>Sector concentration</td>
-<td>20% NAV</td>
-<td>30% NAV</td>
-<td>Hard: diversify or hedge.</td>
+<td><strong>Single name</strong></td>
+<td>% of NAV</td>
+<td>5%</td>
+<td>8%</td>
+<td>Hard: trim immediately</td>
+</tr>
+<tr>
+<td><strong>Sector</strong></td>
+<td>% of gross</td>
+<td>25%</td>
+<td>35%</td>
+<td>Hard: diversify or hedge</td>
+</tr>
+<tr>
+<td><strong>Top 5 concentration</strong></td>
+<td>Top 5 as % of gross</td>
+<td>40%</td>
+<td>55%</td>
+<td>Hard: spread risk across more positions</td>
 </tr>
 </tbody>
 </table>
-<h2 id="drawdown-protocols">Drawdown Protocols</h2>
-<p>As a PM draws down, risk limits typically TIGHTEN:</p>
+<h2 id="the-drawdown-escalation-ladder">The Drawdown Escalation Ladder</h2>
+<p>As the PM consumes more of their loss budget, risk limits TIGHTEN progressively:</p>
 <table>
 <thead>
 <tr>
-<th>Drawdown level</th>
-<th>Risk response</th>
+<th>Zone</th>
+<th>Loss budget consumed</th>
+<th>RM response</th>
+<th>PM restrictions</th>
+<th>Escalation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>0-25% of monthly budget used</td>
-<td>Green. Normal operations.</td>
+<td>🟢 <strong>Green</strong></td>
+<td>0-25%</td>
+<td>Normal monitoring</td>
+<td>None</td>
+<td>None</td>
 </tr>
 <tr>
-<td>25-50% used</td>
-<td>Yellow. Review largest positions. RM escalation.</td>
+<td>🟡 <strong>Yellow</strong></td>
+<td>25-50%</td>
+<td>Daily position review with PM</td>
+<td>Review all Tier 1 positions. Run broken-thesis tests.</td>
+<td>RM flags to CRO in morning report</td>
 </tr>
 <tr>
-<td>50-75% used</td>
-<td>Orange. Reduce gross. No new positions without RM discussion.</td>
+<td>🟠 <strong>Orange</strong></td>
+<td>50-75%</td>
+<td>Twice-daily check-ins</td>
+<td>Gross capped at 80% of limit. No new Tier 1 positions without RM approval.</td>
+<td>CRO briefed directly. Recovery plan requested.</td>
 </tr>
 <tr>
+<td>🔴 <strong>Red</strong></td>
 <td>75-100%</td>
-<td>Red. Active de-risking. Only hedges or risk-reducing trades allowed.</td>
+<td>Continuous monitoring</td>
+<td>Gross capped at 60%. Only risk-reducing trades. All new trades require RM + CRO approval.</td>
+<td>PM presents recovery plan to CRO within 24 hours.</td>
 </tr>
 <tr>
-<td>Budget exhausted</td>
-<td>Stop-loss: all risk positions closed or hedged to flat. PM sits out until reset.</td>
+<td>⚫ <strong>Stop-out</strong></td>
+<td>100%</td>
+<td>Full de-risk</td>
+<td>All positions closed or hedged to delta-flat. PM sits out until reset period.</td>
+<td>Formal review with CRO + management.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Why this matters for Squarepoint:</strong> The discretionary desk is NEW. Risk limits will be TIGHT initially — the firm needs to build confidence in the PM before extending more budget. As RM, you're the credibility bridge between the discretionary PM and the systematic-oriented CRO.</p>
+<p><strong>Squarepoint context:</strong> The discretionary desk is NEW. Initial loss budgets will be TIGHT:<br />
+- Monthly: probably $2-3M soft, $4-5M hard<br />
+- YTD: probably $6-8M before mandatory review<br />
+- VaR: $3-5M 1-day 99%</p>
+<p>As the PM builds track record, budgets expand. The RM is the credibility bridge — documenting disciplined risk-taking is how the desk earns more capital.</p>
+<h2 id="monthly-drawdown-worked-scenario">Monthly Drawdown Worked Scenario</h2>
+<p><strong>Setup:</strong> PM has $100M AUM, $4M monthly loss budget, starting fresh on May 1.</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+<th>Cumulative loss</th>
+<th>Zone</th>
+<th>RM action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>May 3</td>
+<td>TSLA position drops 8%</td>
+<td>−$320K</td>
+<td>🟢 8%</td>
+<td>Normal monitoring</td>
+</tr>
+<tr>
+<td>May 8</td>
+<td>Sector sell-off hits 3 positions</td>
+<td>−$1.1M</td>
+<td>🟡 28%</td>
+<td>Daily review initiated. Run broken-thesis on all losers.</td>
+</tr>
+<tr>
+<td>May 12</td>
+<td>PM adds to TSLA (averaging down)</td>
+<td>−$1.1M (same — new position, no new loss yet)</td>
+<td>🟡 28%</td>
+<td>Flag: "You're adding to your biggest loser at 28% of budget. Are you sure thesis is intact?"</td>
+</tr>
+<tr>
+<td>May 15</td>
+<td>TSLA drops another 5%</td>
+<td>−$1.9M</td>
+<td>🟠 48% → Orange</td>
+<td>Gross capped. No new positions without RM discussion. CRO briefed.</td>
+</tr>
+<tr>
+<td>May 19</td>
+<td>Two positions recover partially</td>
+<td>−$1.3M</td>
+<td>🟡 33% → back to Yellow</td>
+<td>Restrictions ease. But RM notes the TSLA averaging-down pattern.</td>
+</tr>
+<tr>
+<td>May 23</td>
+<td>FOMC surprise, broad sell-off</td>
+<td>−$2.8M</td>
+<td>🔴 70% → Red</td>
+<td>All new risk frozen. PM presents recovery plan. Debate: trim losers or ride it out?</td>
+</tr>
+<tr>
+<td>May 28</td>
+<td>Partial recovery</td>
+<td>−$2.1M</td>
+<td>🟠 53%</td>
+<td>Restrictions partially relaxed. PM has 5 days of month remaining.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM judgment throughout:</strong> The hardest call was May 12 — the PM wants to average down on TSLA. The RM doesn't say no (that's the PM's investment decision), but surfaces: "You're at 28% of budget, your biggest loss is TSLA, and you want to ADD to it. Run the three broken-thesis tests with me right now."</p>
 <hr />
-<h1 id="part-4-portfolio-construction">PART 4: PORTFOLIO CONSTRUCTION</h1>
-<h2 id="gross-vs-net-exposure">Gross vs Net Exposure</h2>
+<h1 id="part-5-portfolio-construction-monitoring">PART 5: PORTFOLIO CONSTRUCTION MONITORING</h1>
+<blockquote>
+<p><strong>One-liner:</strong> The PM builds the portfolio. The RM monitors whether the portfolio the PM ACTUALLY has matches the portfolio they MEANT to have.</p>
+</blockquote>
+<h2 id="exposure-metrics">Exposure Metrics</h2>
 <table>
 <thead>
 <tr>
 <th>Metric</th>
 <th>Formula</th>
-<th>What it tells you</th>
+<th>Interpretation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Gross exposure</td>
-<td>|Longs| + |Shorts|</td>
-<td>Total market exposure — how much capital is at work</td>
+<td><strong>Gross exposure</strong></td>
+<td>$\lvert L \rvert + \lvert S \rvert$</td>
+<td>Total capital deployed. Higher = more leverage/activity.</td>
 </tr>
 <tr>
-<td>Net exposure</td>
-<td>Longs - Shorts</td>
-<td>Directional bias — bullish if positive, bearish if negative</td>
+<td><strong>Net exposure</strong></td>
+<td>$L - S$</td>
+<td>Directional bias. +$20M = bullish. −$10M = bearish.</td>
 </tr>
 <tr>
-<td>Net/Gross ratio</td>
-<td>Net / Gross</td>
-<td>How directional the portfolio is (0 = market-neutral, 1 = fully long)</td>
+<td><strong>Net/Gross ratio</strong></td>
+<td>$\text{Net} / \text{Gross}$</td>
+<td>0.0 = market-neutral. 0.5 = moderately long. 1.0 = fully long (no shorts).</td>
+</tr>
+<tr>
+<td><strong>Beta-adjusted net</strong></td>
+<td>$\sum w_i \beta_i$</td>
+<td>True market exposure accounting for betas. A portfolio can be $0 net exposure but net long beta if longs have higher β than shorts.</td>
+</tr>
+<tr>
+<td><strong>Effective leverage</strong></td>
+<td>Gross / NAV</td>
+<td>How much capital is at work relative to equity. &gt;2× is aggressive for discretionary.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Example:</strong><br />
-- Longs: $60M, Shorts: $40M<br />
-- Gross: $100M. Net: $20M. Net/Gross: 0.2 (slightly bullish)</p>
-<h2 id="factor-exposure-management">Factor Exposure Management</h2>
-<p>Beyond stock selection, portfolios have factor exposures:</p>
+<p><strong>Worked example:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Longs</th>
+<th>Shorts</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Notional</td>
+<td>$65M</td>
+<td>$35M</td>
+<td></td>
+</tr>
+<tr>
+<td>Gross</td>
+<td></td>
+<td></td>
+<td><strong>$100M</strong></td>
+</tr>
+<tr>
+<td>Net</td>
+<td></td>
+<td></td>
+<td><strong>$30M</strong> (long biased)</td>
+</tr>
+<tr>
+<td>Net/Gross</td>
+<td></td>
+<td></td>
+<td><strong>0.30</strong></td>
+</tr>
+<tr>
+<td>Avg beta (long)</td>
+<td>1.15</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Avg beta (short)</td>
+<td>0.90</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Beta-adjusted net</td>
+<td>$65M × 1.15 − $35M × 0.90</td>
+<td></td>
+<td><strong>$43.3M</strong> (MORE long than net $ suggests)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM insight:</strong> The PM says "I'm only modestly net long at $30M." But beta-adjusted net is $43.3M — the PM's longs are higher-beta than the shorts. In a sell-off, the portfolio behaves like a $43M long portfolio, not a $30M one. This is a common surprise that the RM must surface.</p>
+<h2 id="factor-drift-monitoring">Factor Drift Monitoring</h2>
 <table>
 <thead>
 <tr>
 <th>Factor</th>
 <th>How it sneaks in</th>
-<th>How to manage</th>
+<th>Detection</th>
+<th>Management</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Market (beta)</td>
-<td>If you're net long, you have beta exposure</td>
-<td>Adjust net exposure with index futures</td>
+<td><strong>Market β</strong></td>
+<td>Net long → hidden beta exposure</td>
+<td>β-adjusted net calculation</td>
+<td>Index futures to neutralize</td>
 </tr>
 <tr>
-<td>Sector</td>
-<td>Over/underweight sectors vs benchmark</td>
-<td>Track sector weights, use sector ETFs to balance</td>
+<td><strong>Sector</strong></td>
+<td>PM's circle of competence → sector overweight</td>
+<td>Sector % vs benchmark</td>
+<td>Sector ETFs to rebalance</td>
 </tr>
 <tr>
-<td>Style (value/growth/momentum)</td>
-<td>PMs have natural style biases</td>
-<td>Monitor factor attribution in risk system</td>
+<td><strong>Style (value/growth)</strong></td>
+<td>PM's natural bias → unintentional factor bet</td>
+<td>Factor attribution in risk system</td>
+<td>Acknowledge or hedge with factor ETF</td>
 </tr>
 <tr>
-<td>Size (large/small cap)</td>
-<td>Concentrated in one cap band</td>
-<td>Diversify or acknowledge the tilt</td>
+<td><strong>Momentum</strong></td>
+<td>Letting winners run → high-momentum tilt</td>
+<td>Factor loading analysis</td>
+<td>Conscious decision to accept or trim</td>
 </tr>
 <tr>
-<td>Currency</td>
-<td>Non-USD positions without FX hedges</td>
-<td>FX forwards or options</td>
+<td><strong>Size</strong></td>
+<td>Preference for large-cap → small-cap underweight</td>
+<td>Cap band analysis</td>
+<td>Diversify if unintentional</td>
+</tr>
+<tr>
+<td><strong>Currency</strong></td>
+<td>Non-USD positions without FX hedge</td>
+<td>FX exposure report</td>
+<td>FX forwards</td>
+</tr>
+<tr>
+<td><strong>Crowding</strong></td>
+<td>Popular positions → correlated with L/S universe</td>
+<td>13F overlap score</td>
+<td>Monitor; reduce if overlap &gt; 30%</td>
 </tr>
 </tbody>
 </table>
-<h2 id="concentration-risk">Concentration Risk</h2>
+<p><strong>Daily factor check:</strong> "PM, you've drifted to 1.4 beta exposure over the past week — that was 1.1 last Monday. Was this intentional or did it happen because your shorts covered faster than your longs?"</p>
+<h2 id="concentration-dashboard">Concentration Dashboard</h2>
 <table>
 <thead>
 <tr>
 <th>Metric</th>
-<th>Red flag level</th>
+<th>Green</th>
+<th>Yellow</th>
+<th>Red</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Top 5 positions as % of gross</td>
+<td>Top 1 position (% gross)</td>
+<td>&lt;8%</td>
+<td>8-12%</td>
+<td>&gt;12%</td>
+</tr>
+<tr>
+<td>Top 5 positions (% gross)</td>
+<td>&lt;35%</td>
+<td>35-50%</td>
 <td>&gt;50%</td>
 </tr>
 <tr>
-<td>Single name as % of NAV</td>
+<td>Single sector (% gross)</td>
+<td>&lt;20%</td>
+<td>20-30%</td>
+<td>&gt;30%</td>
+</tr>
+<tr>
+<td>Correlated cluster (ρ &gt; 0.7, combined)</td>
+<td>&lt;15%</td>
+<td>15-25%</td>
+<td>&gt;25%</td>
+</tr>
+<tr>
+<td>Single-name (% NAV)</td>
+<td>&lt;5%</td>
+<td>5-8%</td>
 <td>&gt;8%</td>
 </tr>
 <tr>
-<td>Single sector as % of gross</td>
-<td>&gt;35%</td>
-</tr>
-<tr>
-<td>Correlated pair as combined %</td>
-<td>&gt;15%</td>
+<td>Effective N (1/HHI)</td>
+<td>&gt;15</td>
+<td>8-15</td>
+<td>&lt;8</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-5-position-lifecycle">PART 5: POSITION LIFECYCLE</h1>
-<p>The RM tracks every position from entry to exit:</p>
-<h3 id="entry">Entry</h3>
-<ul>
-<li>PM presents thesis. RM checks: does this fit within risk limits? Does it add unwanted factor exposure? How does it correlate with existing positions?</li>
-<li>Sizing: RM may push back if the position is too large relative to conviction or liquidity.</li>
-</ul>
-<h3 id="holding">Holding</h3>
-<ul>
-<li>Daily P&amp;L attribution: is the position making/losing money for the right reasons?</li>
-<li>Thesis monitoring: is the catalyst on track? Has anything changed?</li>
-<li>Correlation shifts: has the position become more correlated with the rest of the book?</li>
-</ul>
-<h3 id="exit-profitable">Exit — Profitable</h3>
-<ul>
-<li>Profit target hit or catalyst realized. PM should articulate why they're exiting.</li>
-<li>Is there still edge? Don't close winners too early (disposition effect).</li>
-</ul>
-<h3 id="exit-loss">Exit — Loss</h3>
-<ul>
-<li>Run three broken-thesis tests.</li>
-<li>If thesis is broken → cut immediately, don't wait for a bounce.</li>
-<li>If thesis is intact → is the PM willing to allocate MORE risk? If not, trim to a smaller size reflecting reduced conviction.</li>
-</ul>
-<h3 id="exit-forced">Exit — Forced</h3>
-<ul>
-<li>Risk limit breach → mandatory reduction.</li>
-<li>Liquidity event → position becomes illiquid, must be unwound carefully.</li>
-<li>Correlation event → position is no longer diversifying the book as expected.</li>
-</ul>
+<h1 id="part-6-position-lifecycle-from-entry-to-exit">PART 6: POSITION LIFECYCLE — FROM ENTRY TO EXIT</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Every position has a birth, a life, and a death. The RM tracks all three stages with a different lens at each.</p>
+</blockquote>
+<h2 id="entry-the-pre-trade-check">Entry — The Pre-Trade Check</h2>
+<p>Before EVERY new position, the RM runs a structured check:</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>What the RM verifies</th>
+<th>Pass/Fail criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Risk budget</strong></td>
+<td>Does adding this breach any limit?</td>
+<td>All limits remain below soft threshold</td>
+</tr>
+<tr>
+<td><strong>Marginal VaR</strong></td>
+<td>What's the INCREMENTAL VaR of this position?</td>
+<td>Marginal VaR &lt; position's pro-rata share</td>
+</tr>
+<tr>
+<td><strong>Correlation</strong></td>
+<td>How does this position correlate with existing book?</td>
+<td>If ρ &gt; 0.7 with any existing position → flag</td>
+</tr>
+<tr>
+<td><strong>Factor exposure</strong></td>
+<td>Does this add unwanted factor tilt?</td>
+<td>Factor loads within ±0.5 of target</td>
+</tr>
+<tr>
+<td><strong>Liquidity</strong></td>
+<td>Can we exit in &lt;5 days at &lt;1% impact?</td>
+<td>Days to exit (normal) &lt; 5</td>
+</tr>
+<tr>
+<td><strong>Conviction tier</strong></td>
+<td>Does size match conviction?</td>
+<td>Size within tier band</td>
+</tr>
+<tr>
+<td><strong>Crowding</strong></td>
+<td>Are we entering a crowded position?</td>
+<td>Ownership &lt; 5% of float; 13F overlap &lt; 30%</td>
+</tr>
+<tr>
+<td><strong>Hedge plan</strong></td>
+<td>If this goes wrong, what's the exit plan?</td>
+<td>PM articulates stop-loss level and/or hedge</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The RM doesn't have VETO power</strong> (at most firms). But they can:<br />
+- Flag concerns in writing<br />
+- Escalate to CRO if risk budget is threatened<br />
+- Require the PM to explicitly acknowledge risks<br />
+- Document the conversation (CYA is real)</p>
+<h2 id="holding-ongoing-monitoring">Holding — Ongoing Monitoring</h2>
+<table>
+<thead>
+<tr>
+<th>Frequency</th>
+<th>What the RM checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Daily</strong></td>
+<td>P&amp;L, VaR contribution, drawdown status, any limit breach</td>
+</tr>
+<tr>
+<td><strong>Weekly</strong></td>
+<td>Thesis status for top 10 positions, factor drift, correlation changes, concentration metrics</td>
+</tr>
+<tr>
+<td><strong>Monthly</strong></td>
+<td>Full portfolio review with PM: every position discussed, broken-thesis tests on losers, winner management</td>
+</tr>
+<tr>
+<td><strong>Quarterly</strong></td>
+<td>Performance attribution: are we making money from selection, sizing, or luck?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Red flags during holding period:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it means</th>
+<th>RM response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Position grows from Tier 3 to Tier 1 size via appreciation, no PM action</td>
+<td>"Conviction creep" — PM didn't consciously decide to increase size</td>
+<td>"This position has grown to 7% of NAV. Do you want to be Tier 1 conviction, or should we trim to target weight?"</td>
+</tr>
+<tr>
+<td>High P&amp;L volatility relative to conviction</td>
+<td>Position dominates book risk despite being a Tier 2 idea</td>
+<td>Re-examine sizing. Is the vol-adjusted size appropriate?</td>
+</tr>
+<tr>
+<td>Correlation with existing positions increasing</td>
+<td>Portfolio becoming less diversified over time</td>
+<td>Run stress scenario: "What if all your correlated positions drop together?"</td>
+</tr>
+<tr>
+<td>PM stops talking about a position</td>
+<td>Often a sign it's not working and PM is avoiding the conversation</td>
+<td>Force the conversation: "Let's review all positions that haven't been discussed in 2+ weeks."</td>
+</tr>
+</tbody>
+</table>
+<h2 id="exit-four-types">Exit — Four Types</h2>
+<h3 id="1-profit-exit-thesis-realized">1. Profit Exit — Thesis Realized</h3>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Catalyst hit: stock re-rated as thesis predicted</td>
+<td>Close or trim to Tier 4 "monitoring" size</td>
+</tr>
+<tr>
+<td>Valuation target reached</td>
+<td>Close and reallocate capital to next-best idea</td>
+</tr>
+<tr>
+<td>Risk/reward no longer attractive at new price</td>
+<td>Trim. Don't hold winners forever without thesis.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Disposition effect warning:</strong> PMs cut winners too early ("let me lock in profit") and hold losers too long ("it'll come back"). The RM should challenge BOTH impulses.</p>
+<h3 id="2-loss-exit-thesis-broken">2. Loss Exit — Thesis Broken</h3>
+<p>Run the three tests (Part 3). If thesis is broken:<br />
+- Cut immediately. Do NOT wait for a bounce.<br />
+- The entry price is IRRELEVANT. The only question is: would you buy this today?<br />
+- If position is large enough that exit moves the market, use an execution algo (VWAP/TWAP) over 1-3 days.</p>
+<h3 id="3-thesis-intact-exit-risk-budget-drives-exit">3. Thesis Intact Exit — Risk Budget Drives Exit</h3>
+<p>Sometimes the thesis is fine but the PORTFOLIO situation forces the exit:<br />
+- Drawdown protocol at 🔴 Red → all new risk frozen, may need to trim existing positions<br />
+- VaR limit breach → must reduce risk contribution<br />
+- Correlation event → position is no longer diversifying</p>
+<p><strong>Hardest conversation in RM:</strong> "The thesis is right, but we need to sell because we're out of risk budget." The PM hates this. But the alternative is breaching the hard limit and losing 100% of risk authority.</p>
+<h3 id="4-forced-exit-exogenous">4. Forced Exit — Exogenous</h3>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regulatory (e.g., sanctions, compliance)</td>
+<td>Exit immediately regardless of P&amp;L</td>
+</tr>
+<tr>
+<td>Short borrow recall</td>
+<td>Cover short immediately</td>
+</tr>
+<tr>
+<td>Liquidity event (stock halts, ADV collapses)</td>
+<td>Reduce as fast as market allows</td>
+</tr>
+<tr>
+<td>Fund-level redemption</td>
+<td>Pro-rata reduction across all positions</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h1 id="part-6-risk-budgeting-frameworks">PART 6: RISK BUDGETING FRAMEWORKS</h1>
-<h2 id="risk-contribution-approach">Risk Contribution Approach</h2>
-<p>The portfolio's total risk (VaR or vol) can be decomposed into each position's contribution:</p>
-<p>$$\text{Risk Contribution}_i = w_i \cdot \frac{\partial \sigma_p}{\partial w_i}$$</p>
-<p>Where $w_i$ is the weight and $\sigma_p$ is portfolio volatility.</p>
-<p><strong>Insight:</strong> A 5% position in a high-beta, high-correlation stock might contribute 20% of portfolio risk. A 5% position in a low-beta, low-correlation stock might contribute 2%.</p>
-<h2 id="risk-parity">Risk Parity</h2>
-<p>Allocate so each position contributes EQUAL risk. Used at some quant funds as a portfolio construction tool.<br />
-- Forces diversification<br />
-- Naturally underweights volatile, correlated positions<br />
-- Naturally overweights low-vol, uncorrelated positions</p>
-<h2 id="how-squarepoints-discretionary-rm-would-use-this">How Squarepoint's Discretionary RM Would Use This</h2>
-<p>You're not constructing the portfolio. But you're MONITORING the risk decomposition:<br />
-- "PM, your top 3 positions are contributing 65% of portfolio VaR. That's concentration risk."<br />
-- "This new position has 0.7 correlation with your largest holding. You're doubling down on the same bet."<br />
-- "Your risk budget is 70% consumed, and 80% of that consumption comes from one sector."</p>
+<h1 id="part-7-position-scaling-when-and-how-to-add-or-trim">PART 7: POSITION SCALING — WHEN AND HOW TO ADD OR TRIM</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Scaling in and out of positions is the PM's primary expression of changing conviction. The RM ensures scaling decisions are CONSCIOUS, not reactive.</p>
+</blockquote>
+<h2 id="scaling-in-adding-to-position">Scaling In (Adding to Position)</h2>
+<table>
+<thead>
+<tr>
+<th>When to add</th>
+<th>When NOT to add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Thesis confirmed by new data (earnings beat expectation, catalyst approaching)</td>
+<td>Averaging down on a broken thesis ("it's cheaper now!")</td>
+</tr>
+<tr>
+<td>Stock at better entry point with thesis INTACT</td>
+<td>Adding because of loss aversion ("I need it to recover")</td>
+</tr>
+<tr>
+<td>Risk budget has capacity and correlations support it</td>
+<td>Risk budget is at Orange or Red zone</td>
+</tr>
+<tr>
+<td>PM has explicit pre-planned scaling schedule</td>
+<td>Impulse reaction to a price drop</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pre-planned scaling approach:</strong></p>
+<p>"I want to build a 5% position in XOM. I'll enter 2% initially, add 1.5% if Q2 earnings confirm thesis, and add the final 1.5% if Brent stays above $80 through July."</p>
+<p>This is GOOD because:<br />
+- Each tranche has explicit conditions<br />
+- The position grows WITH evidence, not against it<br />
+- If conditions aren't met, the position stays small</p>
+<p><strong>RM check:</strong> "You planned to add at 2 specific trigger points. Earnings MISSED. Why are you adding now?"</p>
+<h2 id="scaling-out-trimming">Scaling Out (Trimming)</h2>
+<table>
+<thead>
+<tr>
+<th>When to trim</th>
+<th>When NOT to trim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Valuation target partially reached</td>
+<td>Panic — price dropped and you're scared</td>
+</tr>
+<tr>
+<td>Position has grown too large relative to conviction tier</td>
+<td>Disposition effect — taking profit too early on a working thesis</td>
+</tr>
+<tr>
+<td>Concentration risk emerging (&gt;5% NAV single name)</td>
+<td>Forced by irrelevant noise</td>
+</tr>
+<tr>
+<td>Risk budget constraints (approaching Orange/Red)</td>
+<td>To "be doing something" — activity is not progress</td>
+</tr>
+<tr>
+<td>Approaching known risk event (earnings) where PM wants to reduce exposure</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example — Scaling out of a winner:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>XOM price</th>
+<th>Position size</th>
+<th>% NAV</th>
+<th>PM action</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entry</td>
+<td>$108</td>
+<td>$4.2M</td>
+<td>4.2%</td>
+<td>Buy full Tier 2 position</td>
+<td>Thesis: Brent &gt; $85, XOM breakeven $55</td>
+</tr>
+<tr>
+<td>+3 months</td>
+<td>$118</td>
+<td>$4.6M (appreciated)</td>
+<td>4.6%</td>
+<td>Hold — thesis intact</td>
+<td>Brent at $87, everything tracking</td>
+</tr>
+<tr>
+<td>+5 months</td>
+<td>$128</td>
+<td>$5.0M (appreciated)</td>
+<td>5.0%</td>
+<td>Trim $1.0M → $4.0M</td>
+<td>Position hit 5% NAV → concentration risk. Trim to original dollar amount.</td>
+</tr>
+<tr>
+<td>+7 months</td>
+<td>$135</td>
+<td>$4.2M</td>
+<td>4.2%</td>
+<td>Trim $1.2M → $3.0M</td>
+<td>Reaching valuation target ($135). Move from Tier 2 to Tier 3.</td>
+</tr>
+<tr>
+<td>+9 months</td>
+<td>$140</td>
+<td>$3.2M</td>
+<td>3.2%</td>
+<td>Close fully</td>
+<td>Thesis fully realized. Re-deploy capital.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total P&amp;L: Entry at $108, exits at $128/$135/$140. Weighted avg exit ~$133. Gain = ~23%. On ~$4M avg position = ~$920K.</strong></p>
 <hr />
-<h1 id="part-7-interview-application">PART 7: INTERVIEW APPLICATION</h1>
-<p>If asked "A PM wants to add a new position but is already at 85% of their risk budget. What do you do?"</p>
-<p>"First, I'd look at the marginal risk contribution of the new position. If it's diversifying — low correlation to existing positions — it might actually reduce portfolio VaR even though it adds gross exposure. In that case, the risk budget consumption might only go from 85% to 87%.</p>
-<p>But if it's correlated with existing positions (same sector, same factor exposure), it could push consumption to 95%+. In that scenario, I'd have a direct conversation: 'You're at 85% with a month left in the period. Adding this takes you to 95%. If any existing position moves against you, you'll breach the hard limit and face mandatory de-risking. Do you want to trim something else to make room?'</p>
-<p>I'm not saying no. I'm making the trade-off explicit and giving the PM agency in the decision while protecting the firm's risk framework."</p>
+<h1 id="part-8-risk-budgeting-decomposing-portfolio-risk">PART 8: RISK BUDGETING — DECOMPOSING PORTFOLIO RISK</h1>
+<blockquote>
+<p><strong>One-liner:</strong> A 5% position in a high-beta, high-correlation stock might contribute 20% of portfolio VaR. The RM's job is to make RISK CONTRIBUTION visible, not just dollar weight.</p>
+</blockquote>
+<h2 id="marginal-risk-contribution">Marginal Risk Contribution</h2>
+<p>$$\text{Marginal VaR}<em>i = \frac{\partial \text{VaR}_p}{\partial w_i} = \beta</em>{i,p} \times \text{VaR}_p$$</p>
+<p>Where $\beta_{i,p}$ = beta of position $i$ to the portfolio.</p>
+<p><strong>Component Risk Contribution:</strong></p>
+<p>$$\text{Component VaR}_i = w_i \times \text{Marginal VaR}_i$$</p>
+<p>$$\sum_{i=1}^{N} \text{Component VaR}_i = \text{VaR}_p$$</p>
+<p>This decomposes total portfolio VaR into each position's contribution. The sum of all component VaRs equals the total portfolio VaR.</p>
+<h2 id="worked-example-risk-decomposition">Worked Example — Risk Decomposition</h2>
+<p><strong>Portfolio: $80M, 5 positions</strong></p>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Weight ($)</th>
+<th>Weight (%)</th>
+<th>Daily vol</th>
+<th>Correlation w/ port</th>
+<th>Component VaR ($K)</th>
+<th>Risk contribution (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TSLA</td>
+<td>$12M</td>
+<td>15%</td>
+<td>3.5%</td>
+<td>0.85</td>
+<td>$380K</td>
+<td><strong>33%</strong></td>
+</tr>
+<tr>
+<td>XOM</td>
+<td>$20M</td>
+<td>25%</td>
+<td>1.8%</td>
+<td>0.70</td>
+<td>$280K</td>
+<td><strong>24%</strong></td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>$18M</td>
+<td>22.5%</td>
+<td>2.0%</td>
+<td>0.75</td>
+<td>$270K</td>
+<td><strong>23%</strong></td>
+</tr>
+<tr>
+<td>JNJ</td>
+<td>$15M</td>
+<td>18.75%</td>
+<td>1.0%</td>
+<td>0.50</td>
+<td>$90K</td>
+<td><strong>8%</strong></td>
+</tr>
+<tr>
+<td>TLT (short)</td>
+<td>$15M</td>
+<td>18.75%</td>
+<td>1.2%</td>
+<td>−0.30</td>
+<td>−$68K</td>
+<td><strong>−6%</strong> (reduces risk)</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>$80M</strong></td>
+<td><strong>100%</strong></td>
+<td></td>
+<td></td>
+<td><strong>$952K</strong></td>
+<td><strong>82%</strong> (short TLT diversifies)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM observations:</strong><br />
+1. TSLA is 15% of dollars but <strong>33% of risk</strong>. This is the classic vol-weight vs risk-weight divergence.<br />
+2. JNJ is 18.75% of dollars but only 8% of risk. It's barely contributing to portfolio volatility.<br />
+3. TLT short has NEGATIVE risk contribution — it's diversifying. This is a functioning hedge.<br />
+4. "PM, TSLA is your smallest dollar position but your biggest risk. If TSLA drops 10%, you lose ~$120K MORE than if any other single position drops 10%. Is that intentional?"</p>
+<h2 id="risk-parity-equal-risk-contribution">Risk Parity — Equal Risk Contribution</h2>
+<p>Target each position to contribute EQUAL risk:</p>
+<p>$$\text{Risk Contribution}_i = \frac{1}{N} \times \text{Total VaR}$$</p>
+<p>With 5 positions: each should contribute 20% of total VaR. Currently:<br />
+- TSLA: 33% → <strong>OVERWEIGHT in risk terms</strong> (need to trim from 15% to ~9% of capital)<br />
+- JNJ: 8% → <strong>UNDERWEIGHT in risk terms</strong> (could increase or accept as intentional)</p>
+<p><strong>RM doesn't enforce risk parity</strong> — discretionary PMs deliberately concentrate risk on their best ideas. But the RM SHOWS the risk decomposition so the PM's concentration is INTENTIONAL, not accidental.</p>
+<hr />
+<h1 id="part-9-the-position-monitoring-dashboard">PART 9: THE POSITION MONITORING DASHBOARD</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Every morning, the RM should be able to answer 10 questions about the book in under 60 seconds by looking at their dashboard.</p>
+</blockquote>
+<h2 id="the-daily-dashboard-15-metrics">The Daily Dashboard — 15 Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Metric</th>
+<th>Current</th>
+<th>Limit</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Exposure</strong></td>
+<td>Gross ($)</td>
+<td>$92M</td>
+<td>$100M</td>
+<td>🟡 92%</td>
+</tr>
+<tr>
+<td></td>
+<td>Net ($)</td>
+<td>$28M</td>
+<td>±$50M</td>
+<td>🟢 56%</td>
+</tr>
+<tr>
+<td></td>
+<td>Net/Gross</td>
+<td>0.30</td>
+<td>n/a</td>
+<td>Moderately long</td>
+</tr>
+<tr>
+<td></td>
+<td>Beta-adjusted net</td>
+<td>$38M</td>
+<td>±$50M</td>
+<td>🟢 76%</td>
+</tr>
+<tr>
+<td><strong>Risk</strong></td>
+<td>VaR (1d 99%)</td>
+<td>$3.8M</td>
+<td>$5M</td>
+<td>🟡 76%</td>
+</tr>
+<tr>
+<td></td>
+<td>Worst stress scenario</td>
+<td>−$6.2M</td>
+<td>−$8M</td>
+<td>🟡 78%</td>
+</tr>
+<tr>
+<td><strong>P&amp;L</strong></td>
+<td>Daily P&amp;L</td>
+<td>−$180K</td>
+<td>−$1M soft</td>
+<td>🟢 18%</td>
+</tr>
+<tr>
+<td></td>
+<td>MTD P&amp;L</td>
+<td>−$1.4M</td>
+<td>−$4M hard</td>
+<td>🟡 35%</td>
+</tr>
+<tr>
+<td></td>
+<td>YTD P&amp;L</td>
+<td>+$2.1M</td>
+<td></td>
+<td>Positive</td>
+</tr>
+<tr>
+<td><strong>Concentration</strong></td>
+<td>Top 1 position (% gross)</td>
+<td>8.5%</td>
+<td>10%</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td></td>
+<td>Top 5 (% gross)</td>
+<td>42%</td>
+<td>55%</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td></td>
+<td>Worst sector (% gross)</td>
+<td>28% (Energy)</td>
+<td>35%</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td><strong>Liquidity</strong></td>
+<td>Worst single-name days-to-exit</td>
+<td>7 days</td>
+<td>5 days</td>
+<td>🔴 Breach</td>
+</tr>
+<tr>
+<td><strong>Drawdown</strong></td>
+<td>Peak-to-trough MTD</td>
+<td>−$1.4M / $4M</td>
+<td>35% consumed</td>
+<td>🟡 Yellow zone</td>
+</tr>
+<tr>
+<td></td>
+<td>Zone</td>
+<td><strong>YELLOW</strong></td>
+<td></td>
+<td>Review top positions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-morning-process">The Morning Process</h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Activity</th>
+<th>Duration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6:30 AM</td>
+<td>Pull overnight marks, check P&amp;L, update dashboard</td>
+<td>10 min</td>
+</tr>
+<tr>
+<td>6:45 AM</td>
+<td>Review any limit breaches or near-breaches</td>
+<td>5 min</td>
+</tr>
+<tr>
+<td>7:00 AM</td>
+<td>Pre-market check: any news on top 10 positions?</td>
+<td>10 min</td>
+</tr>
+<tr>
+<td>7:15 AM</td>
+<td>Flag items for PM discussion</td>
+<td>5 min</td>
+</tr>
+<tr>
+<td>7:30 AM</td>
+<td>Morning risk meeting with PM (or CRO if escalation needed)</td>
+<td>15 min</td>
+</tr>
+<tr>
+<td>8:00 AM</td>
+<td>Document any decisions, update position notes</td>
+<td>5 min</td>
+</tr>
+</tbody>
+</table>
+<h2 id="escalation-matrix">Escalation Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Trigger</th>
+<th>Escalate to</th>
+<th>Timeline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Low</strong></td>
+<td>Single metric at yellow</td>
+<td>PM only</td>
+<td>Morning meeting</td>
+</tr>
+<tr>
+<td><strong>Medium</strong></td>
+<td>Multiple metrics yellow OR one metric red</td>
+<td>PM + RM lead</td>
+<td>Same day</td>
+</tr>
+<tr>
+<td><strong>High</strong></td>
+<td>Any hard limit breach OR drawdown zone Orange+</td>
+<td>PM + CRO</td>
+<td>Within 1 hour</td>
+</tr>
+<tr>
+<td><strong>Critical</strong></td>
+<td>Stop-out triggered OR multiple hard breaches</td>
+<td>PM + CRO + Head of desk</td>
+<td>Immediately</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
+<p><strong>"A PM wants to add a new position but is already at 85% of their risk budget. What do you do?"</strong></p>
+<p>"First, I'd look at the MARGINAL risk contribution. If the new position is diversifying — low correlation to the existing book — it might barely change portfolio VaR. A negatively correlated position could actually REDUCE VaR even though it adds gross exposure. In that case, 85% might only go to 86%.</p>
+<p>But if it's correlated — same sector, same factor exposure — it could push to 95%+. That's one bad day from breaching the hard limit and triggering mandatory de-risking.</p>
+<p>My response isn't 'no.' It's: 'You're at 85%. This position takes you to 94% because it's 0.75 correlated with your two largest holdings. If any of those three names drops 3%, you'll breach the hard limit and I'll have to reduce your gross by 30%. Do you want to trim an existing position to make room, or is this idea worth that risk?'</p>
+<p>I'm making the tradeoff transparent. The PM makes the investment decision — I make sure it's a CONSCIOUS one."</p>
+<p><strong>"How do you know when a position is too large?"</strong></p>
+<p>"Three lenses. First, RISK CONTRIBUTION: if one position contributes more than 25% of portfolio VaR, it's the portfolio — everything else is noise. That concentration better be the PM's highest-conviction idea with a clear catalyst.</p>
+<p>Second, LIQUIDITY: if the position takes more than 5 days to exit at 15% participation, it's too large for the strategy's risk profile. In stress, that 5-day exit becomes 15 days when volumes dry up.</p>
+<p>Third, LOSS IMPACT: if the defined stop-loss distance on this position would consume more than 30% of the monthly loss budget in a single trade, the position is too large relative to the risk budget. You can't afford to be right on 4 positions and wrong on 1 if that 1 takes out half your budget."</p>
+<p><strong>"Walk me through how you'd manage a drawdown."</strong></p>
+<p>"It's a structured escalation. At 25% of monthly budget consumed, I have a conversation. We review the top losers and run broken-thesis tests: is the thesis intact? Has new information arrived? Would you put this on today?</p>
+<p>At 50%, restrictions kick in — gross exposure capped, no new positions without my review. This isn't punishment; it's capital preservation. The worst outcome is a PM losing 75% of budget in the first two weeks and having to sit out the remaining two weeks of the month.</p>
+<p>At 75%, we're in active defense. Only risk-reducing trades. The PM presents a recovery plan: 'Here's what I'm keeping, here's what I'm cutting, and here's why I expect to recover X% by month end.'</p>
+<p>And at 100% — stop-out. Positions closed or hedged flat. Reset at the next period. This sounds harsh, but it protects the PM's career. A systematic fund would have cut risk automatically at −5%. The discretionary desk gets more rope, but the rope has a defined length."</p>
+<p><strong>"How would you handle a PM who keeps averaging down on losing positions?"</strong></p>
+<p>"That's one of the most common and dangerous patterns. Averaging down is rational IF the thesis is intact, the PM planned to scale in, and the risk budget allows it. But in practice, most averaging down is loss aversion disguised as conviction.</p>
+<p>I'd approach it with data, not judgment. I'd show the PM three things: First, this position was originally sized as Tier 2 at $3M. Through averaging down, it's now $6.5M and Tier 1 by size — but did your conviction actually increase to Tier 1, or did the price drop force your hand? Second, here's your risk contribution: this position went from 12% of portfolio VaR to 28%. It's dominating the book. Third, here's the asymmetry: you need a 15% recovery just to get back to breakeven — is that realistic in your time horizon?</p>
+<p>If the PM can pass all three broken-thesis tests and articulate why today — at this price — they would put on a Tier 1 position, I'll support it. If they hesitate, the position needs to be cut to its original Tier 2 size at minimum."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <a href="I_Hedging_Strategies.html">Hedging Strategies</a> — hedging tools for position protection<br />
-→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, stress metrics used in risk budgets<br />
-→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — portfolio-level risk concepts<br />
-→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a> — anchoring, disposition effect in position management<br />
-→ <em>18_Round1_Trader_BattlePrep</em> — Section 5 (position management in interview context)</p>
+→ <a href="I_Hedging_Strategies.html">Hedging Strategies</a> — hedging tools for protecting positions during drawdowns<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, stress metrics used in risk budgets<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — correlation, concentration, factor exposure concepts<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — attributing P&amp;L to selection, sizing, and timing<br />
+→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a> — anchoring, disposition effect, loss aversion in position management<br />
+→ <a href="E_Volatility.html">Volatility</a> — vol regimes that affect position sizing and risk budgets</p>
 </main>
 
 <script>

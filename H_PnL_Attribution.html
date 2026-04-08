@@ -283,6 +283,7 @@ body {
   <div class="nav-section">Study Guide</div>
 <a class="nav-link" href="00_Home.html">Home</a>
 <a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">A2 Commodities Deep Dive</a>
 <a class="nav-link" href="B_Derivatives.html">Derivatives</a>
 <a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
 <a class="nav-link" href="D_Greeks.html">Greeks</a>
@@ -307,78 +308,485 @@ body {
 <a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
 <a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
 <a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">A2 Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="h-pl-attribution">H — P&amp;L ATTRIBUTION</h1>
-<h2 id="decomposing-daily-pl-where-did-the-money-come-from-or-go">Decomposing daily P&amp;L: where did the money come from (or go)?</h2>
-<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<h1 id="h-pl-attribution-forensic-accounting-for-risk">H — P&amp;L ATTRIBUTION: FORENSIC ACCOUNTING FOR RISK</h1>
+<h2 id="decomposing-daily-pl-into-greeks-factors-alpha-timing-and-the-unexplained-the-rms-most-important-diagnostic-tool">Decomposing daily P&amp;L into Greeks, factors, alpha, timing, and the unexplained — the RM's most important diagnostic tool</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="why-this-matters">WHY THIS MATTERS</h1>
-<p>Every morning, the RM looks at yesterday's P&amp;L. The number alone is useless. What matters is WHY.</p>
-<ul>
-<li>PM is down $2M. Is it because their thesis was wrong (delta loss), or because vol spiked (vega), or because time passed (theta)?</li>
-<li>These have completely different implications. A delta loss means the market moved against the view. A vega loss means the cost of optionality changed. A theta loss is expected — that's the price of holding options.</li>
-</ul>
-<p>If you can't decompose P&amp;L, you can't diagnose risk.</p>
+<h1 id="why-this-is-your-most-important-daily-task">WHY THIS IS YOUR MOST IMPORTANT DAILY TASK</h1>
+<p>At Squarepoint, every morning starts with the same question: <strong>"Why did we make or lose money yesterday?"</strong> The number is not what matters. The DECOMPOSITION is everything. P&amp;L attribution is the bridge between risk measures (VaR, Greeks, factor exposures) and real-world money. It turns abstract risk into concrete dollars.</p>
+<p>As a Junior Risk Manager, P&amp;L attribution is how you:</p>
+<ol>
+<li><strong>Diagnose risk</strong> — "The $3M gain was 80% vega. The PM thinks they're a stock picker — they're actually a vol trader."</li>
+<li><strong>Validate models</strong> — "Our Greeks predicted −$1.5M. Actual was −$3.2M. The $1.7M unexplained means the model is missing a risk factor."</li>
+<li><strong>Challenge PMs</strong> — "Your Sharpe is 2.0, but 70% of your return is theta collection on short gamma. You're earning premium with hidden tail risk."</li>
+<li><strong>Detect fraud or error</strong> — "Persistent large unexplained P&amp;L = stale marks, wrong Greeks, hidden positions, or something worse."</li>
+</ol>
 <hr />
-<h1 id="part-1-the-framework">PART 1: THE FRAMEWORK</h1>
-<p>Daily P&amp;L breaks down into components. For a portfolio with equities and options:</p>
-<h2 id="total-pl-delta-pl-gamma-pl-theta-pl-vega-pl-rho-pl-cross-effects-unexplained">Total P&amp;L = Delta P&amp;L + Gamma P&amp;L + Theta P&amp;L + Vega P&amp;L + Rho P&amp;L + Cross Effects + Unexplained</h2>
-<h3 id="delta-pl">Delta P&amp;L</h3>
-<p><strong>What it is:</strong> The P&amp;L from the underlying moving. If you're long 100 shares of AAPL and it goes up $2, your delta P&amp;L is +$200.</p>
-<p><strong>Formula:</strong> Δ P&amp;L = Σ (Delta × ΔS × Multiplier)</p>
-<p>For a portfolio: sum across all positions.</p>
-<p><strong>Why it matters:</strong> This is the "directional bet." If delta P&amp;L dominates, the PM's performance is driven by market direction, not skill.</p>
-<h3 id="gamma-pl">Gamma P&amp;L</h3>
-<p><strong>What it is:</strong> The P&amp;L from convexity — the delta changing as the underlying moves. If you're long gamma (long options), big moves help you. If you're short gamma (short options), big moves hurt you.</p>
-<p><strong>Formula:</strong> Γ P&amp;L = ½ × Gamma × (ΔS)²</p>
-<p><strong>Why it matters:</strong><br />
-- Gamma P&amp;L is always positive for long gamma (regardless of direction). Big up move? Win. Big down move? Also win.<br />
-- Short gamma: opposite. Small moves = ok (collect theta). Big moves = painful losses that accelerate.<br />
-- This is the "insurance" component — long gamma costs theta but protects in tail events.</p>
-<h3 id="theta-pl">Theta P&amp;L</h3>
-<p><strong>What it is:</strong> The P&amp;L from time passage. Options lose value every day (time decay). If you're long options, theta is negative. Short options, theta is positive.</p>
-<p><strong>Formula:</strong> Θ P&amp;L = Theta × Δt (usually 1 day)</p>
-<p><strong>Why it matters:</strong> Theta is the "rent" you pay for holding optionality. A PM who is consistently long options is paying theta every day. That cost needs to be offset by delta or gamma gains.</p>
-<h3 id="vega-pl">Vega P&amp;L</h3>
-<p><strong>What it is:</strong> The P&amp;L from changes in implied volatility. If implied vol rises and you're long options, you make money (even if the underlying doesn't move).</p>
-<p><strong>Formula:</strong> V P&amp;L = Vega × ΔIV</p>
-<p><strong>Why it matters:</strong><br />
-- If a PM's P&amp;L is dominated by vega, they're making a vol bet, not a directional bet.<br />
-- Important to distinguish: did the PM intend to trade vol? If yes, this is alpha. If no, this is unintended risk.</p>
-<h3 id="rho-pl">Rho P&amp;L</h3>
-<p><strong>What it is:</strong> P&amp;L from interest rate changes. Usually small for equity options (short-dated), but material for long-dated options, convertible bonds, or any fixed income.</p>
+<h1 id="part-1-the-fundamental-decomposition">PART 1: THE FUNDAMENTAL DECOMPOSITION</h1>
+<blockquote>
+<p><strong>One-liner:</strong> P&amp;L attribution splits yesterday's dollar outcome into the building blocks that caused it — so you know whether the PM was RIGHT about their thesis, LUCKY from market moves, or EXPOSED to a risk they don't understand.</p>
+</blockquote>
+<h2 id="the-master-equation">The Master Equation</h2>
+<p>For a portfolio containing options and linear instruments:</p>
+<p>$$\text{Total P\&amp;L} = \underbrace{\Delta \text{P\&amp;L}}<em>{\text{direction}} + \underbrace{\Gamma \text{P\&amp;L}}</em>{\text{convexity}} + \underbrace{\Theta \text{P\&amp;L}}<em>{\text{time decay}} + \underbrace{\mathcal{V} \text{P\&amp;L}}</em>{\text{vol change}} + \underbrace{\rho \text{P\&amp;L}}<em>{\text{rates}} + \underbrace{\text{Cross/Higher-order}}</em>{\text{vanna, charm, volga}} + \underbrace{\text{Unexplained}}_{\text{residual}}$$</p>
+<h2 id="each-component-in-detail">Each Component in Detail</h2>
+<h3 id="delta-pl-the-directional-bet">Delta P&amp;L — The Directional Bet</h3>
+<p>$$\Delta \text{P\&amp;L} = \sum_i \delta_i \times \Delta S_i$$</p>
+<p>Where $\delta_i$ = dollar delta of position i, $\Delta S_i$ = price change in underlying i.</p>
+<p><strong>What it tells you:</strong><br />
+- This is the "was the PM right about direction?" component<br />
+- If delta P&amp;L dominates, the PM is running a directional book — their performance is driven by market moves, not skill unless those directional calls are consistently correct<br />
+- For a market-neutral fund: delta P&amp;L should be small relative to total. If it's consistently large → the fund isn't market-neutral</p>
+<p><strong>Components within delta:</strong><br />
+| Source | Calculation | Interpretation |<br />
+|---|---|---|<br />
+| Stock/equity delta | Position × ΔPrice | Direct equity exposure |<br />
+| Options delta | Σ(contracts × multiplier × Δ_option × ΔS) | Directional option exposure |<br />
+| Futures delta | Contracts × multiplier × ΔFutures | Futures directional |<br />
+| Cross-asset delta | FX delta, commodity delta, etc. | Non-equity directional |</p>
+<h3 id="gamma-pl-the-convexity-payoff">Gamma P&amp;L — The Convexity Payoff</h3>
+<p>$$\Gamma \text{P\&amp;L} = \frac{1}{2} \sum_i \gamma_i \times (\Delta S_i)^2$$</p>
+<p><strong>What it tells you:</strong><br />
+- Gamma P&amp;L is ALWAYS positive for long gamma positions (regardless of direction — up or down)<br />
+- Gamma P&amp;L is ALWAYS negative for short gamma positions when moves are large<br />
+- This is the "insurance payoff" — long gamma pays when markets move big; short gamma pays in quiet markets but bleeds during big moves</p>
+<p><strong>Key insight for RM:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Move size</th>
+<th>Long gamma P&amp;L</th>
+<th>Short gamma P&amp;L</th>
+<th>Who wins</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Small (ΔS &lt; 0.5σ)</td>
+<td>Small positive</td>
+<td>Small negative (offset by theta)</td>
+<td>Short gamma (theta &gt; gamma cost)</td>
+</tr>
+<tr>
+<td>Medium (ΔS ≈ 1σ)</td>
+<td>Moderate positive</td>
+<td>Moderate negative</td>
+<td>Break-even zone</td>
+</tr>
+<tr>
+<td>Large (ΔS &gt; 2σ)</td>
+<td><strong>Large positive (quadratic)</strong></td>
+<td><strong>Large negative (quadratic)</strong></td>
+<td>Long gamma dominates</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The math of why short gamma kills:</strong> Gamma P&amp;L scales with $({\Delta S})^2$. Double the move → 4× the gamma P&amp;L. A −3σ day produces 9× the gamma P&amp;L of a −1σ day. Short gamma positions look fine in calm markets and EXPLODE in stress.</p>
+<h3 id="theta-pl-the-cost-of-time">Theta P&amp;L — The Cost of Time</h3>
+<p>$$\Theta \text{P\&amp;L} = \sum_i \theta_i \times \Delta t$$</p>
+<p>Where $\Delta t$ = 1 calendar day / 365 (or 1 trading day / 252, depending on convention).</p>
+<p><strong>What it tells you:</strong><br />
+- Long options → negative theta (paying rent for optionality)<br />
+- Short options → positive theta (collecting rent, but exposed to gamma/vega)<br />
+- Theta is the MOST PREDICTABLE component of P&amp;L — you know roughly what it will be before the day starts</p>
+<p><strong>Daily theta as a P&amp;L constraint:</strong><br />
+- If theta = −$80K/day, the PM needs to earn $80K/day from delta/gamma/vega just to break even<br />
+- Over 250 trading days, that's −$20M of theta drag<br />
+- If realized vol &lt; implied vol → theta OVERPAYS for the gamma you receive → net loss on the options position<br />
+- If realized vol &gt; implied vol → gamma gains exceed theta cost → net gain</p>
+<p><strong>Theta-Gamma breakeven:</strong> The daily move needed for gamma P&amp;L to offset theta:</p>
+<p>$$\Delta S_{\text{BE}} = \sqrt{\frac{2 |\theta|}{\gamma}}$$</p>
+<p>If the underlying moves MORE than this daily, long gamma wins. If it moves LESS, short gamma wins.</p>
+<h3 id="vega-pl-the-volatility-bet">Vega P&amp;L — The Volatility Bet</h3>
+<p>$$\mathcal{V} \text{P\&amp;L} = \sum_i \nu_i \times \Delta \text{IV}_i$$</p>
+<p>Where $\nu_i$ = dollar vega, $\Delta \text{IV}_i$ = change in implied volatility.</p>
+<p><strong>What it tells you:</strong><br />
+- If vega P&amp;L dominates, the PM is a VOL TRADER whether they know it or not<br />
+- A PM who "buys options for hedging" but makes all their money from vol expansion is running a vol strategy — they should be evaluated on vol forecasting, not directional views<br />
+- Vega P&amp;L can swamp delta P&amp;L: a 5-vol-point move in IV on a $50M vega book = $250K, regardless of what the stock did</p>
+<p><strong>Bucketed vega P&amp;L (important for vol surfaces):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tenor bucket</th>
+<th>Vega ($K/vol pt)</th>
+<th>ΔIV</th>
+<th>Vega P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1M expiry</td>
+<td>+$30K</td>
+<td>+2 pts</td>
+<td>+$60K</td>
+</tr>
+<tr>
+<td>3M expiry</td>
+<td>+$50K</td>
+<td>+3 pts</td>
+<td>+$150K</td>
+</tr>
+<tr>
+<td>6M expiry</td>
+<td>−$20K</td>
+<td>+4 pts</td>
+<td>−$80K</td>
+</tr>
+<tr>
+<td>1Y expiry</td>
+<td>+$10K</td>
+<td>+5 pts</td>
+<td>+$50K</td>
+</tr>
+<tr>
+<td><strong>Total vega P&amp;L</strong></td>
+<td></td>
+<td></td>
+<td><strong>+$180K</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The PM is long short-dated vol and short 6M vol — a calendar spread. The attribution reveals this structure.</p>
+<h3 id="rho-pl-the-interest-rate-effect">Rho P&amp;L — The Interest Rate Effect</h3>
+<p>$$\rho \text{P\&amp;L} = \sum_i \rho_i \times \Delta r$$</p>
+<p>Usually small for short-dated equity options. Material for:<br />
+- Long-dated options (LEAPS)<br />
+- Convertible bonds (embedded option + bond = rate-sensitive)<br />
+- Fixed income derivatives (pure rate expression)<br />
+- Dividend swaps and forwards (discount rate matters)</p>
 <h3 id="cross-effects-higher-order-terms">Cross Effects / Higher-Order Terms</h3>
-<ul>
-<li>Vanna: delta change due to vol change</li>
-<li>Charm: delta change due to time passing</li>
-<li>Volga: vega change due to vol change</li>
-</ul>
-<p>These are usually small but can matter in high-vol regimes or for large gamma/vega positions.</p>
-<h3 id="unexplained-pl">Unexplained P&amp;L</h3>
-<p><strong>What it is:</strong> Whatever's left after you've accounted for all the Greeks. This should be small (ideally &lt;5% of total P&amp;L).</p>
-<p><strong>If unexplained is large:</strong><br />
-- Data issue (bad prices, stale marks)<br />
-- Missing risk factor (exposure not captured by the model)<br />
-- Model calibration issue<br />
-- Someone is hiding something (Barings, London Whale)</p>
-<p><strong>Large unexplained P&amp;L is a red flag. Always investigate.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>Formula</th>
+<th>When it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vanna</strong> P&amp;L</td>
+<td>$\frac{\partial \delta}{\partial \sigma} \times \Delta S \times \Delta \sigma$</td>
+<td>Delta change due to vol change. Large in crash: spot drops + vol spikes = delta shifts.</td>
+</tr>
+<tr>
+<td><strong>Charm</strong> P&amp;L</td>
+<td>$\frac{\partial \delta}{\partial t} \times \Delta t \times \Delta S$</td>
+<td>Delta changes as time passes. Important near expiry — delta becomes more binary.</td>
+</tr>
+<tr>
+<td><strong>Volga</strong> P&amp;L</td>
+<td>$\frac{1}{2} \frac{\partial^2 V}{\partial \sigma^2} \times (\Delta \sigma)^2$</td>
+<td>Vega convexity. Matters for large vol moves (10+ points).</td>
+</tr>
+<tr>
+<td><strong>Speed</strong> P&amp;L</td>
+<td>$\frac{1}{6} \frac{\partial^3 V}{\partial S^3} \times (\Delta S)^3$</td>
+<td>Gamma-of-gamma. Matters for very large spot moves.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When cross-effects matter:</strong><br />
+- Normal days: cross-effects &lt; 5% of total P&amp;L. Ignorable.<br />
+- Crisis days (SPX −5%, VIX +15): cross-effects can be 20-30% of total P&amp;L. Vanna dominates.<br />
+- 0DTE options: charm effects dominate as delta accelerates toward 0 or 1 through the day.</p>
+<h2 id="greek-pl-ratio-diagnostics-the-rms-blood-panel">Greek P&amp;L Ratio Diagnostics — The RM's Blood Panel</h2>
+<p>The individual Greek P&amp;L components are useful. The RATIOS between them are diagnostic — they reveal the risk profile the PM is actually running.</p>
+<table>
+<thead>
+<tr>
+<th>Ratio / Metric</th>
+<th>How to compute</th>
+<th>What it tells you</th>
+<th>Healthy range</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vega % of total P&amp;L</strong></td>
+<td>|Vega P&amp;L| / |Total P&amp;L|</td>
+<td>Is the PM a directional trader or a vol trader?</td>
+<td>&lt;30% for equity PM</td>
+<td>&gt;50% → PM is trading vol, not stocks</td>
+</tr>
+<tr>
+<td><strong>Theta % of total P&amp;L</strong></td>
+<td>|Theta P&amp;L| / |Total P&amp;L|</td>
+<td>How much of the return is carry (renting options) vs active?</td>
+<td>Depends on strategy</td>
+<td>&gt;70% consistently → short gamma collector</td>
+</tr>
+<tr>
+<td><strong>Gamma / Theta ratio</strong></td>
+<td>Cumulative Gamma P&amp;L / Cumulative |Theta P&amp;L|</td>
+<td>Is the PM paying fair rent for gamma protection?</td>
+<td>&gt;0.8 (realized vol ≥ implied)</td>
+<td>&lt;0.5 → theta overpaying for gamma received</td>
+</tr>
+<tr>
+<td><strong>Cumulative Theta / Worst-case tail loss</strong></td>
+<td>Σ Theta collected / Stress-day gamma+vega loss</td>
+<td>How many months of theta does one tail event wipe out?</td>
+<td>&gt;0.3 (tail &lt; 3× theta)</td>
+<td>&lt;0.1 → earning pennies in front of a steamroller</td>
+</tr>
+<tr>
+<td><strong>Delta % of total P&amp;L</strong></td>
+<td>|Delta P&amp;L| / |Total P&amp;L|</td>
+<td>Is the PM a directional bettor?</td>
+<td>Varies by mandate</td>
+<td>&gt;90% consistently → PM is just riding beta, no edge in convexity or vol</td>
+</tr>
+<tr>
+<td><strong>Factor P&amp;L / Total P&amp;L</strong></td>
+<td>Σ factor-attributed P&amp;L / Total P&amp;L</td>
+<td>Is "alpha" really factor exposure?</td>
+<td>&lt;50% → genuine alpha</td>
+<td>&gt;80% → PM delivers factor, not skill</td>
+</tr>
+<tr>
+<td><strong>Unexplained / Total P&amp;L</strong></td>
+<td>|Unexplained| / |Total P&amp;L|</td>
+<td>Is the model capturing reality?</td>
+<td>&lt;5%</td>
+<td>&gt;15% → model is broken, escalate</td>
+</tr>
+<tr>
+<td><strong>Cross-effects / Total P&amp;L</strong></td>
+<td>|Vanna + Charm + Volga| / |Total P&amp;L|</td>
+<td>Are higher-order risks material?</td>
+<td>&lt;5% on normal days</td>
+<td>&gt;20% → large gamma/vega positions in a crisis; model needs full repricing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example of ratio diagnosis:</strong></p>
+<blockquote>
+<p>PM's monthly P&amp;L = +$2.4M. Decomposition: Delta = +$600K (25%), Gamma = +$200K (8%), <strong>Theta = +$1.8M (75%)</strong>, Vega = −$200K.</p>
+<p><strong>Diagnosis:</strong> Theta is 75% of total P&amp;L → this PM is a short gamma collector. They're earning $90K/day in theta. On a 3σ day with +10 vol points, gamma + vega loss could be $8M+. The PM has collected $1.8M to risk $8M — a 4.4:1 ratio against them. The Sharpe looks great (theta is smooth), but the P&amp;L distribution is negatively skewed. <strong>Action:</strong> stress-test the book against a tail event, verify drawdown limits cover the $8M scenario, and flag to CRO.</p>
+<p>PM's monthly P&amp;L = +$1.5M. Decomposition: Delta = +$300K (20%), Gamma = −$100K, <strong>Vega = +$1.3M (87%)</strong>, Theta = $0.</p>
+<p><strong>Diagnosis:</strong> Vega is 87% of P&amp;L → this PM is an implied-vol trader. They're long vol and it's been expanding. If vol compresses, they give it all back AND potentially lose on delta too. <strong>Action:</strong> "Is the vol expansion trade your thesis, or a side-effect of your position structure?"</p>
+</blockquote>
 <hr />
-<h1 id="part-2-worked-example">PART 2: WORKED EXAMPLE</h1>
-<h2 id="setup">Setup</h2>
-<p>PM runs a long-short equity book with options overlay:<br />
-- Long 10,000 shares of XOM at $110 (delta = +10,000)<br />
-- Short 5,000 shares of CVX at $155 (delta = -5,000)<br />
-- Long 50 XOM June $115 calls (delta per contract = 0.45, gamma = 0.03, theta = -0.15, vega = 0.22)</p>
-<h2 id="what-happened-yesterday">What happened yesterday</h2>
-<ul>
-<li>XOM: $110 → $113 (+$3)</li>
-<li>CVX: $155 → $157 (+$2)</li>
-<li>XOM implied vol: 28% → 31% (+3 vol points)</li>
-</ul>
-<h2 id="pl-decomposition">P&amp;L Decomposition</h2>
+<h3 id="unexplained-pl-the-red-flag">Unexplained P&amp;L — The Red Flag</h3>
+<p>$$\text{Unexplained} = \text{Actual P\&amp;L} - \text{Sum of attributed P\&amp;L}$$</p>
+<table>
+<thead>
+<tr>
+<th>Unexplained</th>
+<th>Interpretation</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 2% of total</td>
+<td>Normal model noise</td>
+<td>No action</td>
+</tr>
+<tr>
+<td>2-5% of total</td>
+<td>Worth investigating</td>
+<td>Check prices, marks, missing Greeks</td>
+</tr>
+<tr>
+<td>5-15% of total</td>
+<td>Material model gap</td>
+<td>Formal investigation. Missing risk factor? Wrong pricing model?</td>
+</tr>
+<tr>
+<td>&gt; 15% of total</td>
+<td><strong>Red flag</strong></td>
+<td>Escalate immediately. Possible: hidden position, stale marks, model error, rogue trading</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Common causes of unexplained P&amp;L:</strong><br />
+1. <strong>Stale marks</strong> — illiquid OTC positions not re-marked → sudden catch-up creates unexplained jump<br />
+2. <strong>Wrong Greeks</strong> — model calculates Greeks with wrong vol surface, wrong spot, or wrong dividend<br />
+3. <strong>Missing risk factor</strong> — correlation move, basis move, or liquidity premium not in the model<br />
+4. <strong>Discrete vs continuous</strong> — Greeks assume infinitesimal moves; actual moves are discrete → Taylor expansion residual<br />
+5. <strong>Gap risk</strong> — overnight moves not captured by Greeks computed at EOD<br />
+6. <strong>Dividend/corporate action</strong> — ex-div adjustments, spin-offs, special dividends not modeled</p>
+<p><strong>The P&amp;L explain as model validation:</strong><br />
+If daily unexplained P&amp;L is consistently 10%+, your RISK MODEL IS WRONG. The VaR, stress tests, and Greeks reports generated by the same model are also wrong. Persistent unexplained P&amp;L is the canary in the coal mine for model risk.</p>
+<hr />
+<h1 id="part-2-factor-based-pl-attribution">PART 2: FACTOR-BASED P&amp;L ATTRIBUTION</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Greek-based attribution tells you WHICH INSTRUMENTS drove P&amp;L. Factor-based attribution tells you WHICH BETS drove P&amp;L — market direction, sector rotation, style tilt, or genuine stock selection.</p>
+</blockquote>
+<h2 id="the-framework">The Framework</h2>
+<p>$$R_p = \underbrace{\alpha}<em>{\text{skill (residual)}} + \underbrace{\beta</em>{\text{MKT}} \times R_{\text{MKT}}}<em>{\text{market}} + \underbrace{\beta</em>{\text{SECT}} \times R_{\text{SECT}}}<em>{\text{sector}} + \underbrace{\beta</em>{\text{STYLE}} \times R_{\text{STYLE}}}<em>{\text{style factors}} + \underbrace{\epsilon}</em>{\text{idiosyncratic}}$$</p>
+<h2 id="decomposition-layers">Decomposition Layers</h2>
+<h3 id="layer-1-asset-allocation-effect">Layer 1: Asset Allocation Effect</h3>
+<p>How much P&amp;L came from market/sector exposure (beta) vs stock selection (alpha)?</p>
+<p><strong>Brinson attribution (for long-only):</strong></p>
+<p>$$\text{Allocation effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{b,j} - R_b)$$<br />
+$$\text{Selection effect} = \sum_j w_{b,j} \times (R_{p,j} - R_{b,j})$$<br />
+$$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,j})$$</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it measures</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Allocation</strong></td>
+<td>Did the PM overweight the right sectors?</td>
+<td>Overweight tech in a tech rally → positive allocation</td>
+</tr>
+<tr>
+<td><strong>Selection</strong></td>
+<td>Within each sector, did the PM pick the right stocks?</td>
+<td>Within tech, bought NVDA not INTC → positive selection</td>
+</tr>
+<tr>
+<td><strong>Interaction</strong></td>
+<td>Combined effect of being in the right sector AND picking the right stock</td>
+<td>Overweight tech AND best stock in tech → interaction bonus</td>
+</tr>
+</tbody>
+</table>
+<h3 id="layer-2-factor-pl-attribution">Layer 2: Factor P&amp;L Attribution</h3>
+<p>For a multi-factor model (Barra, Axioma, or internal):</p>
+<p>$$\text{Factor P\&amp;L}<em>k = \beta</em>{p,k} \times f_k \times \text{Portfolio Notional}$$</p>
+<p>Where $\beta_{p,k}$ = portfolio's loading on factor k, $f_k$ = factor return on the day.</p>
+<p><strong>Worked example — Daily factor P&amp;L:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Portfolio β</th>
+<th>Factor return</th>
+<th>Factor P&amp;L ($100M fund)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market</td>
+<td>+0.25</td>
+<td>−1.2%</td>
+<td>−$300K</td>
+</tr>
+<tr>
+<td>Momentum</td>
+<td>+0.40</td>
+<td>+0.8%</td>
+<td>+$320K</td>
+</tr>
+<tr>
+<td>Value</td>
+<td>−0.15</td>
+<td>+0.3%</td>
+<td>−$45K</td>
+</tr>
+<tr>
+<td>Size (small)</td>
+<td>+0.10</td>
+<td>−0.5%</td>
+<td>−$50K</td>
+</tr>
+<tr>
+<td>Rates (DV01=$20K/bp)</td>
+<td>N/A</td>
+<td>+3bp</td>
+<td>−$60K</td>
+</tr>
+<tr>
+<td>VIX (vega=$50K/pt)</td>
+<td>N/A</td>
+<td>+1.5 pts</td>
+<td>−$75K</td>
+</tr>
+<tr>
+<td><strong>Total factor</strong></td>
+<td></td>
+<td></td>
+<td><strong>−$210K</strong></td>
+</tr>
+<tr>
+<td><strong>Specific (stock selection)</strong></td>
+<td></td>
+<td></td>
+<td><strong>+$450K</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td></td>
+<td><strong>+$240K</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Diagnosis:</strong> "You made $240K. But factor P&amp;L was −$210K — the market went against you, and your momentum/size/rates/vol exposures all dragged. Your ACTUAL stock-picking P&amp;L was +$450K — that's genuine alpha. Today, the factor headwinds masked your skill."</p>
+<p><strong>Why this matters at Squarepoint:</strong> A systematic-at-its-core fund KNOWS the factor exposures. The RM's job is to verify that the alpha component (specific return) is real and persistent, and that the factor exposures are intentional and within limits.</p>
+<h3 id="layer-3-timing-vs-carrying-attribution">Layer 3: Timing vs Carrying Attribution</h3>
+<p>Separate P&amp;L into decisions that require TIMING (active bets) versus returns from simply holding the position (carry/dividend/roll):</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Source</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Carry</strong></td>
+<td>Coupon income, dividend yield, theta income, roll yield</td>
+<td>Bond pays 4.5% coupon → daily carry = $12.3K</td>
+</tr>
+<tr>
+<td><strong>Rolldown</strong></td>
+<td>Move down the yield curve over time → price appreciation</td>
+<td>5Y bond "becomes" 4.9Y bond → gains from curve steepness</td>
+</tr>
+<tr>
+<td><strong>Market move</strong></td>
+<td>Changes in yields, spreads, prices</td>
+<td>Credit spreads widen 5bp → CS01 loss</td>
+</tr>
+<tr>
+<td><strong>Active trading</strong></td>
+<td>Intraday/intraweek repositioning — buy/sell decisions</td>
+<td>PM traded around the position → $X gain from timing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For a rates desk specifically:</strong></p>
+<p>$$\text{P\&amp;L} = \underbrace{\text{Carry}}<em>{\text{coupon}} + \underbrace{\text{Rolldown}}</em>{\text{curve}} + \underbrace{\text{Duration P\&amp;L}}<em>{\text{ΔYield × DV01}} + \underbrace{\text{Curve P\&amp;L}}</em>{\text{KRD moves}} + \underbrace{\text{Spread P\&amp;L}}<em>{\text{ΔCredit × CS01}} + \underbrace{\text{Convexity P\&amp;L}}</em>{\text{½ × Conv × ΔY²}} + \underbrace{\text{Residual}}_{\text{unexplained}}$$</p>
+<hr />
+<h1 id="part-3-worked-examples-three-scenarios">PART 3: WORKED EXAMPLES — THREE SCENARIOS</h1>
+<h2 id="scenario-1-equity-options-book">Scenario 1: Equity + Options Book</h2>
+<p><strong>Setup:</strong> PM runs long-short equity with options overlay.<br />
+- Long 10,000 shares XOM at $110 (δ = +10,000 shares, $1.1M dollar delta)<br />
+- Short 5,000 shares CVX at $155 (δ = −5,000 shares, −$775K dollar delta)<br />
+- Long 50 XOM Jun $115 calls (δ per contract = 0.45, γ = 0.03, θ = −$0.15/day, ν = $0.22/vol pt, each contract = 100 shares)</p>
+<p><strong>Yesterday's moves:</strong><br />
+- XOM: $110 → $113 (+$3, +2.7%)<br />
+- CVX: $155 → $157 (+$2, +1.3%)<br />
+- XOM IV: 28% → 31% (+3 vol points)</p>
 <table>
 <thead>
 <tr>
@@ -391,93 +799,689 @@ body {
 <tr>
 <td><strong>Delta — XOM shares</strong></td>
 <td>+10,000 × $3</td>
-<td>+$30,000</td>
+<td><strong>+$30,000</strong></td>
 </tr>
 <tr>
 <td><strong>Delta — CVX shares</strong></td>
-<td>-5,000 × $2</td>
-<td>-$10,000</td>
+<td>−5,000 × $2</td>
+<td><strong>−$10,000</strong></td>
 </tr>
 <tr>
 <td><strong>Delta — XOM calls</strong></td>
 <td>50 × 100 × 0.45 × $3</td>
-<td>+$6,750</td>
+<td><strong>+$6,750</strong></td>
 </tr>
 <tr>
 <td><strong>Gamma — XOM calls</strong></td>
 <td>50 × 100 × ½ × 0.03 × $3²</td>
-<td>+$675</td>
+<td><strong>+$675</strong></td>
 </tr>
 <tr>
 <td><strong>Theta — XOM calls</strong></td>
-<td>50 × 100 × (-$0.15)</td>
-<td>-$750</td>
+<td>50 × 100 × (−$0.15)</td>
+<td><strong>−$750</strong></td>
 </tr>
 <tr>
 <td><strong>Vega — XOM calls</strong></td>
-<td>50 × 100 × 0.22 × 3</td>
-<td>+$3,300</td>
+<td>50 × 100 × $0.22 × 3</td>
+<td><strong>+$3,300</strong></td>
 </tr>
 <tr>
-<td><strong>Total</strong></td>
+<td><strong>Rho</strong></td>
+<td>Negligible (short-dated, no rate move)</td>
+<td>~$0</td>
+</tr>
+<tr>
+<td><strong>Cross-effects</strong></td>
+<td>Vanna/charm small (moderate move, mid-life option)</td>
+<td>~+$50</td>
+</tr>
+<tr>
+<td><strong>TOTAL ATTRIBUTED</strong></td>
 <td></td>
-<td><strong>+$29,975</strong></td>
+<td><strong>+$30,025</strong></td>
 </tr>
 </tbody>
 </table>
-<h3 id="what-you-tell-the-pm">What you tell the PM:</h3>
-<p>"You're up $30K. Roughly 90% is delta — XOM rallied and your net long paid off. You also picked up $3.3K from vol expanding. Theta cost you $750, which is normal for the long call position. Net delta risk went up because gamma added to your effective long. Your effective XOM delta is now ~+12,600 shares equivalent, up from ~+12,250 yesterday."</p>
-<h3 id="what-you-flag-to-yourself">What you flag to yourself:</h3>
-<ul>
-<li>The PM is net long $5K shares of "oil" — XOM up, CVX up, but XOM outperformed. If this was meant to be a pair trade (long XOM, short CVX), the unhedged residual oil beta is growing.</li>
-<li>Vol expanding on XOM: is there a catalyst? Earnings? Geopolitical (oil)?</li>
-<li>Effective delta growing via gamma: if XOM continues rallying, the PM's long exposure gets bigger automatically. Is the PM aware?</li>
-</ul>
+<p><strong>What you tell the PM (30 seconds):</strong><br />
+"You're up $30K. Main driver: delta — XOM rallied $3, your net long paid off. You also picked up $3.3K from vol expanding on XOM, which offset the $750 theta cost. Gamma added $675. One flag: your effective XOM delta grew via gamma — you're now long ~12,600 share-equivalents of XOM vs 12,250 yesterday. And the XOM-CVX pair spread widened — XOM outperformed CVX by $1 ratio — your 'pair trade' is becoming a directional oil bet."</p>
+<p><strong>What you flag internally:</strong><br />
+- Net delta grew automatically (gamma). If XOM rallies another $3, delta grows further → exposure is self-reinforcing<br />
+- XOM IV jumped 3 pts → is there a catalyst? Earnings? Geopolitical? If vol is pricing an event, gamma exposure changes around the event<br />
+- The "pair trade" (long XOM / short CVX) isn't hedging well — XOM outperformed by 1.4% → basis risk</p>
+<h2 id="scenario-2-rates-desk">Scenario 2: Rates Desk</h2>
+<p><strong>Setup:</strong> PM runs a curve steepener: long 2Y, short 10Y.<br />
+- Long $100M 2Y UST, DV01 = $18K/bp<br />
+- Short $40M 10Y UST, DV01 = $34K/bp<br />
+- Net DV01 = $18K − $34K = <strong>−$16K/bp (net short duration)</strong></p>
+<p><strong>Yesterday's curve move:</strong><br />
+- 2Y yield: 4.20% → 4.15% (−5bp)<br />
+- 10Y yield: 4.50% → 4.55% (+5bp)<br />
+- Curve steepened: 2s10s spread went from 30bp to 40bp (+10bp)</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Calculation</th>
+<th>P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2Y position</strong></td>
+<td>$18K/bp × (−5bp) = price UP</td>
+<td><strong>+$90,000</strong></td>
+</tr>
+<tr>
+<td><strong>10Y position</strong></td>
+<td>−$34K/bp × (+5bp) = price DOWN, you're short → GAIN</td>
+<td><strong>+$170,000</strong></td>
+</tr>
+<tr>
+<td><strong>Carry</strong></td>
+<td>Net coupon (2Y yield − 10Y yield × position sizes) / 252</td>
+<td><strong>+$2,500</strong></td>
+</tr>
+<tr>
+<td><strong>Convexity</strong></td>
+<td>Small — rates move not large enough</td>
+<td><strong>+$500</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td><strong>+$263,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Factor decomposition:</strong><br />
+| Factor | P&amp;L |<br />
+|---|---|<br />
+| Parallel rates move (avg = 0bp) | ~$0 (parallel was ~0) |<br />
+| Curve steepening (+10bp 2s10s) | <strong>+$260K</strong> (the active bet) |<br />
+| Carry | +$2.5K |<br />
+| Convexity + residual | +$0.5K |</p>
+<p><strong>What you tell the PM:</strong> "You made $263K. Essentially all of it is from the curve steepening — 2s10s went from 30 to 40bp, your steepener paid off. Your parallel duration risk was roughly neutral, so you weren't exposed to the level moving — just the shape. Net DV01 is still −$16K/bp, so you'd lose $160K on a 10bp parallel selloff."</p>
+<h2 id="scenario-3-short-gamma-the-quiet-bleed-and-the-crisis">Scenario 3: Short Gamma — The Quiet Bleed and the Crisis</h2>
+<p><strong>Setup:</strong> PM sells 1-month ATM straddles on SPX.<br />
+- Sold 200 SPX straddles (100 calls + 100 puts)<br />
+- Total theta collected: +$150K/day<br />
+- Total gamma exposure: −$500K per 1% SPX move (dollar gamma)<br />
+- Total vega: −$800K per vol point</p>
+<p><strong>Day 1-19: calm market (SPX moves ±0.3% daily, IV steady)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Delta P&amp;L</th>
+<th>Gamma P&amp;L</th>
+<th>Theta P&amp;L</th>
+<th>Vega P&amp;L</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Each calm day</td>
+<td>±$15K</td>
+<td>−$5K</td>
+<td><strong>+$150K</strong></td>
+<td>~$0</td>
+<td><strong>~+$130K/day</strong></td>
+</tr>
+<tr>
+<td><strong>19-day total</strong></td>
+<td>~$0 (random walk)</td>
+<td>−$95K</td>
+<td><strong>+$2,850K</strong></td>
+<td>~$0</td>
+<td><strong>~+$2,470K</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Day 20: SPX drops 4%, VIX jumps 12 points</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Calculation</th>
+<th>P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Delta</strong></td>
+<td>Approximately −$200K (delta was near-flat but gamma creates delta during the move)</td>
+<td><strong>−$200K</strong></td>
+</tr>
+<tr>
+<td><strong>Gamma</strong></td>
+<td>−$500K × (4%)² / (1%)² = −$500K × 16 =</td>
+<td><strong>−$8,000K</strong></td>
+</tr>
+<tr>
+<td><strong>Theta</strong></td>
+<td>+$150K (still collect one day's theta)</td>
+<td><strong>+$150K</strong></td>
+</tr>
+<tr>
+<td><strong>Vega</strong></td>
+<td>−$800K × 12 pts</td>
+<td><strong>−$9,600K</strong></td>
+</tr>
+<tr>
+<td><strong>Cross</strong></td>
+<td>Vanna + Volga (significant in crash + vol spike)</td>
+<td><strong>−$1,200K</strong></td>
+</tr>
+<tr>
+<td><strong>Day 20 total</strong></td>
+<td></td>
+<td><strong>−$18,850K</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Running total: +$2,470K − $18,850K = −$16,380K</strong></p>
+<p><strong>One bad day wiped out 19 good days and then some.</strong> The Sharpe ratio for days 1-19 was stellar (~3.0+). Including day 20, cumulative P&amp;L is deeply negative. This is the prototypical short-gamma/short-vol strategy that P&amp;L attribution reveals.</p>
+<p><strong>RM lesson:</strong> When you see a PM with consistently positive theta, low delta P&amp;L, and near-zero gamma P&amp;L for weeks → they're short gamma/short vol. The P&amp;L attribution is SCREAMING the risk profile. The blowup is a matter of WHEN, not IF. Monitor theta/gamma ratio, stress-test the position against a 3σ + vol-spike day, and ensure the drawdown limits can absorb the tail event.</p>
 <hr />
-<h1 id="part-3-common-patterns">PART 3: COMMON PATTERNS</h1>
+<h1 id="part-4-pl-explain-the-model-validation-tool">PART 4: P&amp;L EXPLAIN — THE MODEL VALIDATION TOOL</h1>
+<blockquote>
+<p><strong>One-liner:</strong> P&amp;L explain compares what your model PREDICTED the P&amp;L should be (from Greeks and factor sensitivities) against what ACTUALLY happened. The gap is your model error — and persistent gaps mean your risk system is lying to you.</p>
+</blockquote>
+<h2 id="the-process">The Process</h2>
+<p>$$\text{Predicted P\&amp;L} = \sum_k \text{Sensitivity}_k \times \Delta \text{Factor}_k$$</p>
+<p>$$\text{P\&amp;L Explain Ratio} = \frac{\text{Predicted P\&amp;L}}{\text{Actual P\&amp;L}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Ratio</th>
+<th>Model quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.95-1.05</td>
+<td>Excellent — model captures &gt;95% of P&amp;L drivers</td>
+</tr>
+<tr>
+<td>0.80-0.95</td>
+<td>Acceptable — small gaps, monitor</td>
+</tr>
+<tr>
+<td>0.60-0.80</td>
+<td>Poor — significant unexplained. Formal review needed.</td>
+</tr>
+<tr>
+<td>&lt;0.60</td>
+<td>Failed — model is fundamentally wrong</td>
+</tr>
+</tbody>
+</table>
+<h2 id="common-gaps-and-their-causes">Common Gaps and Their Causes</h2>
+<table>
+<thead>
+<tr>
+<th>Gap pattern</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unexplained always POSITIVE</td>
+<td>Model overestimates losses → conservative Greeks</td>
+<td>Check vol surface calibration. Are Greeks computed with correct IV?</td>
+</tr>
+<tr>
+<td>Unexplained always NEGATIVE</td>
+<td>Model underestimates losses → DANGEROUS</td>
+<td>Missing risk factor. Possibly: correlation move, basis shift, liquidity premium. Most concerning direction.</td>
+</tr>
+<tr>
+<td>Unexplained spikes on high-vol days</td>
+<td>Gamma/convexity not captured correctly</td>
+<td>Taylor expansion truncation. Need higher-order terms or full repricing.</td>
+</tr>
+<tr>
+<td>Unexplained on specific names</td>
+<td>Wrong Greeks for those positions</td>
+<td>Pricing model issue: wrong dividend assumptions, wrong borrow rate, exercise style mismatch.</td>
+</tr>
+<tr>
+<td>Unexplained on OTC positions</td>
+<td>Mark uncertainty</td>
+<td>OTC marks are dealer quotes or models — may differ from actual liquidation value.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pl-explain-across-asset-classes">P&amp;L Explain Across Asset Classes</h2>
+<table>
+<thead>
+<tr>
+<th>Asset class</th>
+<th>Key sensitivities to explain</th>
+<th>Common unexplained sources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Equities</strong></td>
+<td>Delta, beta, sector exposure</td>
+<td>Corporate actions (splits, dividends), short borrow costs</td>
+</tr>
+<tr>
+<td><strong>Equity options</strong></td>
+<td>Delta, gamma, theta, vega, vanna, charm</td>
+<td>Vol surface move (skew/term structure rotation), discrete dividends</td>
+</tr>
+<tr>
+<td><strong>Rates / FI</strong></td>
+<td>DV01, KRD, convexity, carry, rolldown</td>
+<td>Curve shape changes (butterfly, twist), repo rate changes</td>
+</tr>
+<tr>
+<td><strong>Credit</strong></td>
+<td>CS01, JTD, recovery rate, carry</td>
+<td>Rating transitions, recovery assumption changes, CDS-bond basis</td>
+</tr>
+<tr>
+<td><strong>FX</strong></td>
+<td>Spot delta, forward points, vol</td>
+<td>Central bank intervention, cross-currency basis</td>
+</tr>
+<tr>
+<td><strong>Commodities</strong></td>
+<td>Spot delta, roll yield, basis, storage</td>
+<td>Physical delivery dynamics, weather, transportation constraints</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-5-common-pl-patterns-the-rm-must-recognize">PART 5: COMMON P&amp;L PATTERNS THE RM MUST RECOGNIZE</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Certain P&amp;L signatures are diagnostic — like a doctor reading an ECG, the RM reads daily P&amp;L to diagnose the risk the PM is actually taking.</p>
+</blockquote>
 <h2 id="pattern-1-the-accidental-vol-trader">Pattern 1: "The Accidental Vol Trader"</h2>
-<p>PM buys options "for hedging" but most of their P&amp;L comes from vega, not delta. They're actually trading vol, not the underlying. Risk: they may not understand their true exposure.</p>
-<p><strong>RM action:</strong> Show the P&amp;L attribution. "80% of your month's return came from vol expansion, not from the stock moving. Is that the trade you intended?"</p>
-<h2 id="pattern-2-theta-bleed">Pattern 2: "Theta Bleed"</h2>
-<p>PM holds long options that slowly decay. Daily theta cost is -$50K. In 20 trading days, that's -$1M. If their delta bets aren't making $1M/month, the options are a drag.</p>
-<p><strong>RM action:</strong> "Your option book is costing $50K/day in theta. You need the underlying to move [this much] just to break even. Are you comfortable with that carry cost?"</p>
-<h2 id="pattern-3-short-gamma-pl-pattern">Pattern 3: "Short Gamma P&amp;L Pattern"</h2>
-<p>PM sold options — collecting premium (positive theta) but losing on big moves (negative gamma). Daily P&amp;L: small positive, small positive, small positive... then a big negative.</p>
-<p><strong>RM action:</strong> The P&amp;L looks great until it doesn't. Track the running P&amp;L against max potential loss. "You've collected $800K in premium YTD but your worst-case loss on these short puts is $4M. Your Sharpe looks great because you haven't had a vol event — but when it comes, it'll take back more than you earned."</p>
-<h2 id="pattern-4-unexplained-is-too-big">Pattern 4: "Unexplained is Too Big"</h2>
-<p>P&amp;L attribution says delta/gamma/theta/vega explain 65% of the P&amp;L. 35% is unexplained.</p>
-<p><strong>RM action:</strong> Investigate immediately. Check pricing (stale marks?), missing positions, wrong Greeks, OTC instruments with non-standard terms. If you can't explain it after digging → escalate.</p>
+<p><strong>Signature:</strong> PM buys options "for hedging" but 60%+ of monthly P&amp;L is from vega, not delta.</p>
+<p><strong>Diagnosis:</strong> They're not hedging — they're running a vol book they don't recognize as a vol book. Their delta views may be wrong, but they're making money because vol is expanding.</p>
+<p><strong>Risk:</strong> When vol COMPRESSES, they'll lose on vega AND potentially on their wrong delta view simultaneously. Double hit.</p>
+<p><strong>RM action:</strong> "80% of your month's return came from vol expansion. Is that the trade you intended? If vol hadn't moved, you'd be down $X from delta alone."</p>
+<h2 id="pattern-2-the-theta-bleed">Pattern 2: "The Theta Bleed"</h2>
+<p><strong>Signature:</strong> Consistently negative daily attribution from theta: −$80K/day. Monthly cost: −$1.6M.</p>
+<p><strong>Diagnosis:</strong> PM holds long options. The carry cost is significant. They need delta/gamma/vega to earn $1.6M/month just to BREAK EVEN.</p>
+<p><strong>Key question:</strong> Is realized vol higher than implied vol? If yes → gamma gains offset theta → option position is well-priced. If no → PM is paying above fair value for the optionality.</p>
+<p><strong>RM action:</strong> "Your option book costs $80K/day in theta. SPX would need to move ±$X daily for your gamma to offset this. Over the last 20 days, actual daily moves averaged $Y. You're [above/below] breakeven."</p>
+<h2 id="pattern-3-the-short-gamma-collector">Pattern 3: "The Short Gamma Collector"</h2>
+<p><strong>Signature:</strong> Daily P&amp;L: +$100K, +$110K, +$95K, +$105K... then suddenly −$2M. Small consistent gains followed by sharp losses.</p>
+<p><strong>Diagnosis:</strong> Classic short gamma/short vol profile. Theta income is steady and positive. Gamma P&amp;L is slightly negative on normal days, catastrophically negative on big-move days.</p>
+<p><strong>The give-away metrics:</strong><br />
+- Sharpe looks excellent (2.0+) before the blowup<br />
+- Theta P&amp;L is consistently +$100K/day → PM is SHORT options<br />
+- Gamma P&amp;L is −$5K/day on calm days → tolerable<br />
+- BUT tail gamma P&amp;L on a 3σ day: −$3M+</p>
+<p><strong>RM action:</strong> Track the cumulative theta collected vs worst-case gamma/vega loss. "You've collected $1.5M in theta YTD. A 4% SPX drop with +15 vol points costs you $18M. Your risk/reward on this position is asymmetric — you're earning $1.5M to risk $18M."</p>
+<h2 id="pattern-4-unexplained-is-growing">Pattern 4: "Unexplained Is Growing"</h2>
+<p><strong>Signature:</strong> Unexplained P&amp;L is 2% of total in month 1, 5% in month 2, 12% in month 3.</p>
+<p><strong>Diagnosis:</strong> Progressive model deterioration. Either:<br />
+- Market regime changed and the model hasn't adapted (stale parameters)<br />
+- PM is adding positions/instruments the model doesn't cover<br />
+- Data feed degradation (stale prices, missing marks)</p>
+<p><strong>RM action:</strong> Escalate. Formally document the trend. Request quant/model review.</p>
+<h2 id="pattern-5-factor-dress-up">Pattern 5: "Factor Dress-Up"</h2>
+<p><strong>Signature:</strong> PM's gross alpha is +$2M/month. Factor attribution shows: momentum factor contributed +$1.8M. Genuine alpha = +$200K.</p>
+<p><strong>Diagnosis:</strong> The PM is charging alpha fees for delivering momentum exposure. A momentum ETF would deliver roughly the same return at 1/10th the cost.</p>
+<p><strong>RM action:</strong> Not a risk issue per se — but the CIO/allocators should know. "Your returns decompose as 90% momentum factor, 10% idiosyncratic alpha. Your information ratio on the alpha component alone is 0.15."</p>
+<h2 id="pattern-6-the-basis-drift">Pattern 6: "The Basis Drift"</h2>
+<p><strong>Signature:</strong> PM runs a hedged book (long stock, short index). Delta P&amp;L is small. But basis P&amp;L (stock vs index spread) is growing — sometimes positive, sometimes negative, but increasingly volatile.</p>
+<p><strong>Diagnosis:</strong> The hedge is drifting. The stock and the index are becoming less correlated, or the hedge ratio is stale.</p>
+<p><strong>RM action:</strong> "Your hedge effectiveness (R²) was 0.93 last month, now 0.78. The basis between your position and hedge has widened. You may need to adjust the hedge ratio or find a better instrument."</p>
 <hr />
-<h1 id="part-4-talking-to-pms-about-pl">PART 4: TALKING TO PMs ABOUT P&amp;L</h1>
-<h2 id="what-pms-want-to-hear">What PMs Want to Hear</h2>
-<ol>
-<li><strong>Was I right?</strong> (Did my thesis play out?)</li>
-<li><strong>Where'd the money come from?</strong> (Delta? Gamma? Vol?)</li>
-<li><strong>What's changed in my risk profile?</strong> (Am I bigger than yesterday?)</li>
-<li><strong>What should I watch?</strong> (Upcoming catalyst, Greek exposure shift)</li>
-</ol>
-<h2 id="what-pms-dont-want">What PMs Don't Want</h2>
-<ul>
-<li>A 10-minute lecture on cross-Greeks</li>
-<li>Being told they're wrong</li>
-<li>Math they didn't ask for</li>
-</ul>
+<h1 id="part-6-talking-to-pms-the-30-second-brief">PART 6: TALKING TO PMs — THE 30-SECOND BRIEF</h1>
+<blockquote>
+<p><strong>One-liner:</strong> The PM wants to know three things: Am I up or down? Why? What changed in my risk? Deliver all three in 30 seconds or less.</p>
+</blockquote>
 <h2 id="the-template">The Template</h2>
 <blockquote>
-<p>"[PM name], you're [up/down] [$X] on the day. Main driver: [delta on NAME moving $Y / vol expansion / theta decay]. Your net delta is now [$Z equivalent], [up/down from yesterday]. One thing to flag: [specific risk — growing position, approaching limit, upcoming event]."</p>
+<p><strong>"[PM], you're [up/down] [$X] today. Main driver: [delta on NAME moving $Y / vol expansion-compression / theta / curve steepener-flattener]. Your [key exposure metric] is now [$Z], [up/from/unchanged] vs yesterday. One flag: [specific risk — growing position, approaching limit, upcoming catalyst, basis drift, correlation shift]."</strong></p>
 </blockquote>
-<p>30 seconds. Done. If they want more detail, they'll ask.</p>
+<h2 id="what-pms-want">What PMs Want</h2>
+<table>
+<thead>
+<tr>
+<th>What they ask</th>
+<th>What they mean</th>
+<th>What to say</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Was I right?"</td>
+<td>Did my thesis work?</td>
+<td>Focus on delta P&amp;L for their key position</td>
+</tr>
+<tr>
+<td>"Where did the money come from?"</td>
+<td>attribution by Greek/factor</td>
+<td>"60% delta, 25% vega, 15% theta"</td>
+</tr>
+<tr>
+<td>"Am I bigger?"</td>
+<td>Did risk grow?</td>
+<td>Report effective delta, gamma, VaR change</td>
+</tr>
+<tr>
+<td>"What should I watch?"</td>
+<td>Upcoming risks to my position</td>
+<td>Catalyst, event, approaching limit, correlation shift</td>
+</tr>
+<tr>
+<td>"Is my hedge working?"</td>
+<td>Basis risk check</td>
+<td>Report hedge ratio, correlation, basis P&amp;L separately</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-pms-dont-want">What PMs Don't Want</h2>
+<ul>
+<li>A 10-minute lecture on second-order Greeks</li>
+<li>Being told they're wrong (approach: ask questions, don't accuse)</li>
+<li>Math they didn't ask for (save the derivations for the quant meeting)</li>
+<li>Caveats without conclusions ("it could be this OR it could be that" → pick one and explain why)</li>
+</ul>
+<h2 id="how-to-challenge-without-confronting">How to Challenge Without Confronting</h2>
+<table>
+<thead>
+<tr>
+<th>Instead of</th>
+<th>Say</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Your position is too risky"</td>
+<td>"Your effective delta has grown 30% via gamma. Was that intentional, or should we look at rebalancing?"</td>
+</tr>
+<tr>
+<td>"You're bleeding theta"</td>
+<td>"The options book is costing $80K/day. What's the thesis for continuing to hold?"</td>
+</tr>
+<tr>
+<td>"You're just running momentum"</td>
+<td>"Factor attribution shows 85% of your month's alpha is from momentum. What's your view on the sustainability of the momentum factor?"</td>
+</tr>
+<tr>
+<td>"Your unexplained is too high"</td>
+<td>"We're seeing 12% unexplained on this book. I want to make sure we're capturing all the risk — can we walk through the positions?"</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h1 id="part-5-pl-attribution-in-the-interview">PART 5: P&amp;L ATTRIBUTION IN THE INTERVIEW</h1>
-<p>If asked "How would you explain a PM's daily P&amp;L?":</p>
-<p>"I'd start by decomposing it into delta, gamma, theta, vega, and any higher-order effects. Delta tells me if the directional bet worked. Gamma tells me about convexity — important for understanding how exposure changes with market moves. Theta shows the cost of holding options. Vega shows the impact of vol changes. Anything unexplained gets flagged.</p>
-<p>The attribution isn't just accounting — it tells me what risk the PM is actually taking. If a PM thinks they're trading direction but 60% of their P&amp;L is from vol, that's a conversation worth having. And if unexplained P&amp;L is consistently large, that's a red flag that our risk model might be missing something."</p>
+<h1 id="part-7-systematic-pl-attribution-infrastructure">PART 7: SYSTEMATIC P&amp;L ATTRIBUTION INFRASTRUCTURE</h1>
+<blockquote>
+<p>At a fund like Squarepoint, P&amp;L attribution is NOT a human exercise done on a spreadsheet. It's an automated pipeline that runs every night and produces reports by morning.</p>
+</blockquote>
+<h2 id="the-pipeline">The Pipeline</h2>
+<div class="highlight"><pre><span></span><code>EOD MARKET DATA (prices, vols, curves)
+          │
+          ▼
+POSITION DATA (from OMS/PMS)
+          │
+          ▼
+RISK ENGINE (compute Greeks, factor exposures)
+          │
+          ▼
+YESTERDAY&#39;S Greeks × TODAY&#39;S factor moves = PREDICTED P&amp;L
+          │
+          ▼
+COMPARE to ACTUAL P&amp;L (from prime broker/custodian)
+          │
+          ▼
+ATTRIBUTION REPORT (by Greek, by factor, by desk, by PM)
+          │
+          ▼
+UNEXPLAINED P&amp;L REPORT → flags if &gt; threshold
+          │
+          ▼
+RM DASHBOARD → morning meeting
+</code></pre></div>
+
+<h2 id="quality-checks-in-the-pipeline">Quality Checks in the Pipeline</h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>What it catches</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Price validation</strong></td>
+<td>Stale prices, outlier marks, failed feeds</td>
+<td>Every EOD run</td>
+</tr>
+<tr>
+<td><strong>Position reconciliation</strong></td>
+<td>PM system vs prime broker mismatch (trades not booked, wrong quantities)</td>
+<td>Daily, automated</td>
+</tr>
+<tr>
+<td><strong>Greek validation</strong></td>
+<td>Greeks that are outliers vs historical (e.g., delta &gt;1.0, negative gamma for a long call)</td>
+<td>Every EOD</td>
+</tr>
+<tr>
+<td><strong>Corporate action check</strong></td>
+<td>Ex-div dates, splits, spin-offs that change position economics</td>
+<td>Daily, semi-automated</td>
+</tr>
+<tr>
+<td><strong>New position check</strong></td>
+<td>Newly opened positions that may not have Greeks computed yet</td>
+<td>Daily</td>
+</tr>
+</tbody>
+</table>
+<h2 id="attribution-hierarchy-multiple-cuts">Attribution Hierarchy — Multiple Cuts</h2>
+<p>The same P&amp;L gets sliced multiple ways:</p>
+<table>
+<thead>
+<tr>
+<th>Cut</th>
+<th>What it shows</th>
+<th>Who uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>By position</strong></td>
+<td>Which specific names/instruments made or lost money</td>
+<td>PM</td>
+</tr>
+<tr>
+<td><strong>By Greek</strong></td>
+<td>Delta vs gamma vs theta vs vega</td>
+<td>PM + RM</td>
+</tr>
+<tr>
+<td><strong>By factor</strong></td>
+<td>Market, sector, style, macro factor contributions</td>
+<td>RM + CIO</td>
+</tr>
+<tr>
+<td><strong>By desk</strong></td>
+<td>Each desk's contribution to fund-level P&amp;L</td>
+<td>CRO + CIO</td>
+</tr>
+<tr>
+<td><strong>By strategy</strong></td>
+<td>Performance of each strategy within a desk</td>
+<td>PM + RM</td>
+</tr>
+<tr>
+<td><strong>Alpha vs factor</strong></td>
+<td>Genuine skill vs systematic exposure</td>
+<td>CIO (for compensation, allocation)</td>
+</tr>
+<tr>
+<td><strong>Carry vs active</strong></td>
+<td>Passive income vs active trading P&amp;L</td>
+<td>RM (carry is predictable, active is not)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-pl-attribution-as-a-fraud-detection-tool">PART 8: P&amp;L ATTRIBUTION AS A FRAUD DETECTION TOOL</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Every major rogue trading scandal has one thing in common — the P&amp;L didn't match the risk. If the P&amp;L attribution had been taken seriously, the fraud would have been caught earlier.</p>
+</blockquote>
+<h2 id="historical-failures">Historical Failures</h2>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>What happened</th>
+<th>What P&amp;L attribution would have shown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Barings (1995)</strong></td>
+<td>Nick Leeson hid losses in error account 88888. Reported profits from "arbitrage" that required no risk.</td>
+<td>P&amp;L showed profit but NO CORRESPONDING RISK EXPOSURES. Attribution would show: "You're making $X/day but your Greeks are zero — where is this coming from?"</td>
+</tr>
+<tr>
+<td><strong>SocGen (2008)</strong></td>
+<td>Kerviel built massive long equity futures (~€50B). Hedged with fictitious offsetting trades.</td>
+<td>Delta P&amp;L on real positions was enormous. The "hedge" P&amp;L was fabricated. Position reconciliation between PM system and exchange would have caught the mismatch.</td>
+</tr>
+<tr>
+<td><strong>London Whale (2012)</strong></td>
+<td>Bruno Iksil at JPM accumulated massive CDS positions. Marked them at mid-market (favorable) while actual liquidation prices were much worse.</td>
+<td>Reported P&amp;L (at model marks) vs theoretical P&amp;L (from Greeks × market moves) had growing divergence. The MODEL was being manipulated — marks were moved to minimize apparent losses.</td>
+</tr>
+<tr>
+<td><strong>Archegos (2021)</strong></td>
+<td>Total return swaps to avoid 13F disclosure. Multiple PBs didn't know about each other's exposure.</td>
+<td>At the PB level, each PB would see that P&amp;L attribution on single-name swaps was dominated by a few names. Concentration risk was visible within each PB's book — they just didn't aggregate across PBs.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="red-flags-in-pl-attribution">Red Flags in P&amp;L Attribution</h2>
+<table>
+<thead>
+<tr>
+<th>Red flag</th>
+<th>What it might mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Profit with no risk</td>
+<td>Fabricated trades or mismarked positions</td>
+</tr>
+<tr>
+<td>Large unexplained P&amp;L that always goes ONE direction (positive)</td>
+<td>Marks being smoothed in the PM's favor</td>
+</tr>
+<tr>
+<td>Greeks show big positions but P&amp;L is suspiciously flat</td>
+<td>Offsetting fictional trades or unauthorized loss-hiding</td>
+</tr>
+<tr>
+<td>P&amp;L is dominated by ONE illiquid position with no observable market price</td>
+<td>Mark manipulation on OTC/illiquid instruments</td>
+</tr>
+<tr>
+<td>P&amp;L explain ratio consistently &lt; 0.70 on specific positions</td>
+<td>Those positions aren't what they appear to be</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-advanced-topics">PART 9: ADVANCED TOPICS</h1>
+<h2 id="pl-attribution-for-multi-asset-portfolios">P&amp;L Attribution for Multi-Asset Portfolios</h2>
+<p>In a discretionary multi-asset fund (like Squarepoint's discretionary team), a single PM might have:<br />
+- Equity positions (delta P&amp;L)<br />
+- Options overlay (gamma, theta, vega P&amp;L)<br />
+- Rate hedges (DV01 P&amp;L)<br />
+- FX exposure (spot delta + forward points P&amp;L)<br />
+- Commodity trades (spot delta + roll P&amp;L)</p>
+<p>The attribution must capture the CROSS-ASSET INTERACTION:<br />
+- "SPX dropped 3% and your equity delta lost $1.5M. But your SPX put hedge gained $800K (delta + gamma + vega). Your rate hedge gained $200K (flight to quality). Your commodity short gained $100K (risk-off). Net: −$400K — the PM was RIGHT to have the hedge structure."</p>
+<p>Without the integrated multi-asset attribution, each asset class would show a different story, and the PM's actual risk management (the hedge structure) would be invisible.</p>
+<h2 id="intraday-pl-attribution">Intraday P&amp;L Attribution</h2>
+<p>EOD attribution is the standard. But for significant intraday moves (SPX opens −2%, or a name gaps on news), intraday attribution can be critical:</p>
+<ul>
+<li>What time did the loss occur?</li>
+<li>Was the PM in the position before the move, or did they trade INTO the loss?</li>
+<li>Did the PM's hedges respond in real-time?</li>
+<li>Was the loss from market impact (trading into an illiquid market)?</li>
+</ul>
+<p><strong>Intraday attribution data sources:</strong><br />
+- Trade timestamps from execution management system<br />
+- Intraday price snapshots (typically every minute or 5 minutes)<br />
+- Greeks at each snapshot</p>
+<h2 id="attribution-aggregation-across-time">Attribution Aggregation Across Time</h2>
+<p>Daily attribution doesn't tell the whole story. Aggregate over:</p>
+<table>
+<thead>
+<tr>
+<th>Horizon</th>
+<th>What it reveals</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Daily</strong></td>
+<td>Immediate diagnosis. What just happened?</td>
+</tr>
+<tr>
+<td><strong>Weekly</strong></td>
+<td>Short-term P&amp;L trends. Is theta dominating? Is factor exposure drifting?</td>
+</tr>
+<tr>
+<td><strong>Monthly</strong></td>
+<td>Strategy evaluation. Is the PM's stated thesis matching their P&amp;L source?</td>
+</tr>
+<tr>
+<td><strong>Quarterly</strong></td>
+<td>Performance review. Alpha vs factor. Sharpe on alpha component.</td>
+</tr>
+<tr>
+<td><strong>Annual</strong></td>
+<td>Compensation review. Genuine value-add.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cumulative factor P&amp;L chart:</strong> Plot cumulative alpha, cumulative factor contributions, and cumulative total P&amp;L over time. If cumulative alpha is flat while total P&amp;L rises → the PM is delivering factor, not alpha.</p>
+<hr />
+<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
+<p><strong>"How would you explain a PM's daily P&amp;L?"</strong></p>
+<p>"I'd decompose it along two dimensions. First, Greek-based: delta tells me if the directional bet worked, gamma shows convexity payoff — critical for understanding how exposure changes with market moves — theta shows the time decay cost, and vega shows the impact of vol changes. Each Greek isolates a different source of risk. Second, factor-based: I'd attribute the return to market beta, sector, style factors like momentum or value, and macro factors like rates and vol. What's left after removing all factor exposure is genuine alpha — the PM's actual skill.</p>
+<p>The attribution isn't just accounting — it's diagnostic. If a PM thinks they're trading direction but 60% of P&amp;L is from vega, they're actually a vol trader. If a PM claims alpha but factor attribution shows 90% momentum exposure, they're selling factor at alpha prices. And if unexplained P&amp;L is consistently large, it means our risk model is missing a factor or — worse — someone is manipulating marks.</p>
+<p>At a multi-PM fund, the highest-value use is cross-desk attribution: are all four desks making money from the same factor? Because then the 'diversified' fund isn't diversified — it's four levered bets on one factor."</p>
+<p><strong>"What would you do if unexplained P&amp;L keeps growing?"</strong></p>
+<p>"I'd treat persistent unexplained P&amp;L as a model risk red flag with escalating severity. First, quantify: is it 2% of total P&amp;L (noise) or 15% (broken model)? Is it consistently one direction (systematic bias) or random (missing risk factor)?</p>
+<p>Then diagnose: check data quality — stale prices, missed corporate actions, position mismatches between PM system and prime broker. Check model calibration — are Greeks computed with the correct vol surface, correct dividend assumptions, correct repo rates? Check for missing risk factors — is there a correlation move, basis shift, or liquidity premium change the model doesn't capture?</p>
+<p>If the gap persists after data and calibration checks, escalate formally. A model that can't explain its own P&amp;L is a model whose VaR, stress tests, and Greeks outputs should not be trusted. The P&amp;L explain is the canary in the coal mine — it tells you the entire risk framework is degraded before the tail event that proves it."</p>
+<p><strong>"How do you distinguish a PM's alpha from factor exposure?"</strong></p>
+<p>"Multi-factor regression: regress daily PM returns against market, size, value, momentum, quality, rates, and sector factors. Three outputs I focus on.</p>
+<p>The R² tells me how much is explained by known factors — if it's 0.90, only 10% is idiosyncratic. The intercept (alpha) tells me whether there's systematic outperformance after removing factor exposure — I need a t-stat above 2.0 with at least 3-4 years of data for statistical significance. And the factor loadings tell me whether the PM's ACTUAL exposures match their STATED strategy — a PM claiming 'stock picking' with β_momentum of 0.7 is running a momentum strategy.</p>
+<p>I'd also plot cumulative factor P&amp;L vs cumulative alpha P&amp;L over time. If the alpha line goes flat while total return rises, the PM's recent P&amp;L is ALL factor — and that factor exposure can reverse."</p>
+<p><strong>"Short gamma P&amp;L profile — how do you identify and manage it?"</strong></p>
+<p>"The P&amp;L signature is diagnostic: small consistent daily gains from positive theta, near-zero gamma P&amp;L on calm days, then a massive single-day loss when the market moves sharply.</p>
+<p>I'd identify it through attribution: if theta P&amp;L is consistently positive and represents &gt;80% of daily P&amp;L, the PM is short options — short gamma, short vega. The Sharpe ratio will look attractive, maybe 2.0+, but it's misleading because the return distribution is negatively skewed.</p>
+<p>To manage it, I'd track the ratio of cumulative theta collected to worst-case tail loss. If the PM has collected $2M in theta YTD but a 4σ day with 15 vol-point spike costs $20M, the risk-reward is 10:1 against them. I'd run that scenario daily and ensure either the position is sized so the tail loss stays within drawdown limits, or the PM has tail hedges — long OTM puts or VIX calls — that cap the downside."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>07_Risk_Reference</em> — Greeks defined, VaR, stress testing<br />
-→ <em>15_Derivatives_Deep_Dive</em> — options mechanics, Black-Scholes inputs<br />
-→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — communicating risk to PMs<br />
-→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — model validation, challenging quant output</p>
+→ <a href="D_Greeks.html">Greeks</a> — the sensitivities that drive Greek-based P&amp;L attribution<br />
+→ <a href="E_Volatility.html">Volatility</a> — vol dynamics that explain vega P&amp;L<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, model validation via P&amp;L explain<br />
+→ <a href="G_Portfolio_Risk.html">Portfolio Risk</a> — factor models, concentration, cross-desk aggregation<br />
+→ <a href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — communicating P&amp;L attribution to PMs<br />
+→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — model risk, backtesting, parameter estimation</p>
 </main>
 
 <script>
