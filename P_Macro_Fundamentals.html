@@ -355,15 +355,14 @@ body {
 <a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
 <a class="nav-link active" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
 <a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
-<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
-<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
-<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
-<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
-<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
-<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
-<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
-<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
-<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
 <div class="nav-section">Cheat Sheets</div>
 <a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
 <a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
@@ -376,6 +375,16 @@ body {
 <a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
 <a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
 <a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
 
 </nav>
 
@@ -385,465 +394,1510 @@ body {
 <h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
 <h1 id="why-this-matters">WHY THIS MATTERS</h1>
-<p>A trader says "I think the Fed is behind the curve." A quant says "our model shows inflation expectations are de-anchoring." Constantine asks "where are we in the cycle?" If you can't engage with these statements — understand them, challenge them, connect them to portfolio risk — you're a calculator, not a risk manager.</p>
+<p>A trader says "I'm adding to my long-duration position because the Fed is behind the curve." A quant shows a regime-switch model predicting stagflation with 72% probability. Constantine asks "where are we in the cycle, and what does that mean for cross-asset correlation?" If you can't engage with these statements — decompose the macro logic, challenge the assumptions, quantify the portfolio consequences — you're reading Bloomberg headlines, not managing risk.</p>
+<p>Macro fundamentals are the connective tissue between individual trades and portfolio-level risk. Every position has embedded macro assumptions: a curve steepener assumes growth or term premium is rising. A long equity / short rates trade assumes Goldilocks. A PM who says "I have no macro view" is lying — they're just not aware of the macro embedded in their book.</p>
 <hr />
-<h1 id="part-1-gdp-economic-growth">PART 1: GDP &amp; ECONOMIC GROWTH</h1>
-<h3 id="what-gdp-actually-measures">What GDP Actually Measures</h3>
-<p><strong>One-liner:</strong> The total value of goods and services produced in an economy over a period.</p>
-<p><strong>The components (Y = C + I + G + NX):</strong><br />
-- <strong>C — Consumer spending (~68% of US GDP):</strong> The engine. When consumers stop spending, everything else follows. Watch retail sales, consumer confidence, personal income.<br />
-- <strong>I — Business investment (~18%):</strong> CapEx, inventory, residential construction. Forward-looking — companies invest when they expect growth. Watch durable goods orders, ISM manufacturing.<br />
-- <strong>G — Government spending (~17%):</strong> Fiscal policy lever. Deficits stimulate (more spending than taxes). Austerity constrains.<br />
-- <strong>NX — Net exports (-3%):</strong> Exports minus imports. Strong dollar → imports cheaper, exports more expensive → NX worsens. Trade deficits matter for FX.</p>
-<p><strong>Real vs Nominal:</strong> Nominal GDP includes inflation. Real GDP strips it out. If nominal GDP grows 5% and inflation is 4%, real growth is only ~1%. The economy FEELS like it's growing but it's mostly price increases. That's the current problem.</p>
-<p><strong>Growth rate matters more than level:</strong> US GDP ~$28T is meaningless. US GDP growing at 0.5% vs 3% is everything. Below 1% = recession risk. 2-3% = healthy. Above 4% = overheating → inflation risk.</p>
-<h3 id="leading-indicators-for-growth">Leading Indicators for Growth</h3>
+<h1 id="part-1-gdp-the-output-gap">PART 1: GDP &amp; THE OUTPUT GAP</h1>
+<h3 id="gdp-identity">GDP Identity</h3>
+<p>$$Y = C + I + G + (X - M)$$</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>US share</th>
+<th>What drives it</th>
+<th>Lead indicators</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>C — Consumption</strong></td>
+<td>~68%</td>
+<td>Disposable income, wealth effect, credit conditions, confidence</td>
+<td>Retail sales, Michigan sentiment, credit card data</td>
+</tr>
+<tr>
+<td><strong>I — Investment</strong></td>
+<td>~18%</td>
+<td>Interest rates, CEO confidence, capacity utilization</td>
+<td>Durable goods orders, CAPEX surveys, permits</td>
+</tr>
+<tr>
+<td><strong>G — Government</strong></td>
+<td>~17%</td>
+<td>Fiscal policy, appropriations, defense spending</td>
+<td>CBO projections, Treasury issuance calendars</td>
+</tr>
+<tr>
+<td><strong>NX — Net exports</strong></td>
+<td>~-3%</td>
+<td>FX rates, relative growth, tariffs, supply chains</td>
+<td>Trade balance, container volumes, PMI export orders</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Real vs Nominal:</strong></p>
+<p>$$\text{Real GDP growth} \approx \text{Nominal GDP growth} - \text{GDP deflator}$$</p>
+<p>If nominal GDP grows 5% and the deflator is 4%, real growth is ~1%. The economy <em>feels</em> like it's growing but mostly from price increases. This distinction matters enormously for risk — nominal earnings can grow while real economic activity contracts.</p>
+<h3 id="the-output-gap">The Output Gap</h3>
+<p>$$\text{Output Gap} = \frac{Y_{\text{actual}} - Y_{\text{potential}}}{Y_{\text{potential}}} \times 100$$</p>
+<table>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Meaning</th>
+<th>Inflation pressure</th>
+<th>Policy response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Positive (&gt;0)</strong></td>
+<td>Economy above trend</td>
+<td>Inflationary — demand &gt; supply</td>
+<td>Tighten</td>
+</tr>
+<tr>
+<td><strong>Zero</strong></td>
+<td>At potential</td>
+<td>Neutral</td>
+<td>Hold</td>
+</tr>
+<tr>
+<td><strong>Negative (&lt;0)</strong></td>
+<td>Economy below trend</td>
+<td>Disinflationary — slack</td>
+<td>Ease</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why it matters for risk:</strong> The output gap determines whether inflation pressures are cyclical or structural. A positive output gap with rising inflation = overheating (rate hikes coming). A negative output gap with rising inflation = supply-side shock (policy dilemma). The distinction drives completely different portfolio outcomes.</p>
+<h3 id="okuns-law-growth-to-unemployment">Okun's Law — Growth to Unemployment</h3>
+<p>$$\Delta U \approx -0.5 \times (g_Y - g_Y^*)$$</p>
+<p>For every 1% GDP growth above trend (~2%), unemployment falls ~0.5pp. This relationship is approximate but gives a quick sanity check: if someone claims GDP will grow 3% with rising unemployment, something is inconsistent.</p>
+<h3 id="the-taylor-rule-policy-rate-framework">The Taylor Rule — Policy Rate Framework</h3>
+<p>$$r^<em> = r_{\text{neutral}} + 0.5({\pi} - {\pi^</em>}) + 0.5(y - y^*)$$</p>
+<p>Where:<br />
+- $r^<em>$ = prescribed policy rate<br />
+- $r_{\text{neutral}}$ = neutral real rate (~2.5% nominal currently)<br />
+- $\pi - \pi^</em>$ = inflation gap (actual minus 2% target)<br />
+- $y - y^*$ = output gap</p>
+<p><strong>Worked example (April 2026):</strong><br />
+- Neutral rate: 2.5%<br />
+- Core PCE: 3.2%, target 2.0% → gap = +1.2%<br />
+- Output gap estimate: +0.3%<br />
+- Taylor Rule: $2.5 + 0.5(1.2) + 0.5(0.3) = 2.5 + 0.6 + 0.15 = 3.25\%$<br />
+- Actual fed funds: 3.75%</p>
+<p>Interpretation: The Fed is <em>above</em> the Taylor Rule prescription. But with headline inflation re-accelerating from oil, the "correct" rate is debatable. Hawks argue effective inflation gap is larger; doves argue the oil shock is supply-side and shouldn't be fought with rates.</p>
+<h3 id="growth-indicator-dashboard">Growth Indicator Dashboard</h3>
 <table>
 <thead>
 <tr>
 <th>Indicator</th>
-<th>What it tells you</th>
-<th>Release</th>
-<th>Current signal</th>
+<th>What it signals</th>
+<th>Frequency</th>
+<th>Key thresholds</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>ISM Manufacturing PMI</strong></td>
-<td>&gt;50 = expansion, &lt;50 = contraction</td>
-<td>Monthly, 1st business day</td>
-<td>Weakening — energy costs compressing margins</td>
+<td>Factory sector health</td>
+<td>Monthly, 1st biz day</td>
+<td>&gt;50 expansion, &lt;50 contraction, &lt;45 recession</td>
 </tr>
 <tr>
 <td><strong>ISM Services PMI</strong></td>
-<td>Same but for 80% of the economy</td>
-<td>Monthly, 3rd business day</td>
-<td>Still expanding but decelerating</td>
+<td>80% of economy</td>
+<td>Monthly, 3rd biz day</td>
+<td>&gt;50 expansion, &lt;53 slowing</td>
 </tr>
 <tr>
 <td><strong>Initial jobless claims</strong></td>
-<td>Real-time labor market distress</td>
+<td>Real-time labor distress</td>
 <td>Weekly, Thursday</td>
-<td>Low — labor market resilient so far</td>
+<td>&lt;220K strong, &gt;300K recession signal</td>
 </tr>
 <tr>
-<td><strong>Yield curve (2Y-10Y)</strong></td>
-<td>Inverted = recession signal (historically reliable)</td>
-<td>Continuous</td>
-<td>Was inverted, now steepening — normalization or term premium?</td>
+<td><strong>Continuing claims</strong></td>
+<td>Length of unemployment</td>
+<td>Weekly</td>
+<td>Rising = difficulty finding work</td>
 </tr>
 <tr>
 <td><strong>Conference Board LEI</strong></td>
-<td>Composite of 10 indicators</td>
+<td>Composite of 10 leading indicators</td>
 <td>Monthly</td>
-<td>Has been declining — recessionary signal</td>
+<td>6+ months declining = recession</td>
 </tr>
 <tr>
-<td><strong>Retail sales</strong></td>
-<td>Consumer health</td>
+<td><strong>Atlanta Fed GDPNow</strong></td>
+<td>Real-time GDP tracking</td>
+<td>Multiple/week</td>
+<td>Tracks consensus vs surprise direction</td>
+</tr>
+<tr>
+<td><strong>Yield curve (2Y-10Y)</strong></td>
+<td>Recession predictor</td>
+<td>Continuous</td>
+<td>Inversion precedes recessions by 6-18 months</td>
+</tr>
+<tr>
+<td><strong>NFIB Small Business Optimism</strong></td>
+<td>Small-biz hiring/capex intent</td>
 <td>Monthly</td>
-<td>Mixed — energy spending up, discretionary down</td>
+<td>Below 90 = pessimistic</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-2-inflation-the-mechanism">PART 2: INFLATION — THE MECHANISM</h1>
-<h3 id="what-inflation-is">What Inflation Is</h3>
-<p><strong>One-liner:</strong> The rate at which the general price level rises, eroding purchasing power.</p>
-<h3 id="cpi-components-know-these-they-come-up-in-trader-conversations">CPI Components (know these — they come up in trader conversations)</h3>
+<h1 id="part-2-inflation-mechanics-measurement">PART 2: INFLATION — MECHANICS &amp; MEASUREMENT</h1>
+<h3 id="cpi-decomposition">CPI Decomposition</h3>
 <table>
 <thead>
 <tr>
 <th>Component</th>
-<th>Weight in CPI</th>
+<th>CPI-U weight</th>
 <th>What drives it</th>
-<th>Current dynamic</th>
+<th>Lag structure</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Shelter (rent + OER)</strong></td>
 <td>~36%</td>
-<td>Housing market, construction, demographics</td>
-<td>Still elevated, slow to adjust (lease renewal lag)</td>
+<td>Rents, home prices, vacancy rates</td>
+<td>12-18 month lag to new leases</td>
 </tr>
 <tr>
-<td><strong>Food</strong></td>
-<td>~13%</td>
-<td>Agricultural supply, weather, transport costs</td>
-<td>Rising — oil/transport feeding through</td>
+<td><strong>Food at home</strong></td>
+<td>~8%</td>
+<td>Agricultural supply, transport, weather</td>
+<td>2-4 month pass-through</td>
+</tr>
+<tr>
+<td><strong>Food away from home</strong></td>
+<td>~5%</td>
+<td>Wages (labor-intensive), rent</td>
+<td>Sticky — adjusted 1-2x/year</td>
 </tr>
 <tr>
 <td><strong>Energy</strong></td>
 <td>~7%</td>
-<td>Oil, natural gas, electricity</td>
-<td>SPIKING — Hormuz is the headline story</td>
+<td>Crude oil, natural gas, electricity</td>
+<td>Immediate to 2-week pass-through</td>
 </tr>
 <tr>
-<td><strong>Used cars</strong></td>
+<td><strong>New vehicles</strong></td>
 <td>~4%</td>
-<td>Supply chain, credit conditions</td>
-<td>Normalizing</td>
+<td>Supply chain, incentives, input costs</td>
+<td>1-3 month pass-through</td>
+</tr>
+<tr>
+<td><strong>Used vehicles</strong></td>
+<td>~2.5%</td>
+<td>Supply/demand, fleet age, credit</td>
+<td>Fast-moving, mean-reverting</td>
 </tr>
 <tr>
 <td><strong>Medical care</strong></td>
-<td>~6%</td>
-<td>Insurance costs, drug prices</td>
-<td>Sticky, slow-moving</td>
+<td>~6.5%</td>
+<td>Insurance resets, drug prices, labor</td>
+<td>Annual reset cycle (January)</td>
 </tr>
 <tr>
 <td><strong>Core services ex-housing</strong></td>
 <td>~25%</td>
 <td>Wages, labor market tightness</td>
-<td>The Fed's obsession — this is where "sticky" inflation lives</td>
+<td>3-6 month wage pass-through</td>
 </tr>
 </tbody>
 </table>
-<h3 id="headline-vs-core">Headline vs Core</h3>
-<ul>
-<li><strong>Headline CPI:</strong> Includes everything. Volatile because of energy and food. This is what consumers FEEL.</li>
-<li><strong>Core CPI:</strong> Excludes food and energy. This is what the Fed TARGETS because it reflects underlying trend.</li>
-<li><strong>The current problem:</strong> Headline is re-accelerating because of oil (+53% from Hormuz). Core was declining but energy costs are now feeding into core via transportation, production costs, and services. If core re-accelerates, the Fed is trapped.</li>
-</ul>
-<h3 id="inflation-transmission-how-an-oil-shock-becomes-sticky-inflation">Inflation Transmission — How an Oil Shock Becomes Sticky Inflation</h3>
-<div class="highlight"><pre><span></span><code>Oil spike → gasoline prices rise (immediate, 1-2 weeks)
-         → transport costs rise (1-2 months)
-         → food prices rise (2-4 months, transport + fertilizer)
-         → business input costs rise (2-4 months)
-         → businesses raise prices to consumers (3-6 months)
-         → workers demand wage increases (6-12 months)
-         → wages rise → businesses raise prices to cover wages (wage-price spiral)
+<h3 id="the-inflation-measures-that-matter">The Inflation Measures That Matter</h3>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>What it captures</th>
+<th>Who uses it</th>
+<th>Current level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPI-U YoY</strong></td>
+<td>Headline, all items</td>
+<td>Media, Treasury (TIPS)</td>
+<td>Elevated from oil</td>
+</tr>
+<tr>
+<td><strong>Core CPI YoY</strong></td>
+<td>Ex food/energy</td>
+<td>Markets, tactical</td>
+<td>Was declining, now re-accelerating</td>
+</tr>
+<tr>
+<td><strong>Core CPI MoM</strong></td>
+<td>Monthly momentum</td>
+<td>Traders — THE number</td>
+<td>&gt;0.3% = too hot, &lt;0.2% = progress</td>
+</tr>
+<tr>
+<td><strong>PCE YoY</strong></td>
+<td>Broader basket, chain-weighted</td>
+<td>Fed's official target</td>
+<td>Typically 30-40bp below CPI</td>
+</tr>
+<tr>
+<td><strong>Core PCE YoY</strong></td>
+<td>Fed's actual target gauge</td>
+<td>FOMC decisions</td>
+<td>~3.2% vs 2.0% target</td>
+</tr>
+<tr>
+<td><strong>Supercore (core services ex-housing)</strong></td>
+<td>Wage-driven inflation</td>
+<td>Powell specifically cites this</td>
+<td>Sticky — the persistence signal</td>
+</tr>
+<tr>
+<td><strong>Trimmed mean (Dallas Fed)</strong></td>
+<td>Removes outliers both ways</td>
+<td>Underlying trend</td>
+<td>Smooths energy/food noise</td>
+</tr>
+<tr>
+<td><strong>Sticky CPI (Atlanta Fed)</strong></td>
+<td>Items that change slowly</td>
+<td>Persistence forecast</td>
+<td>High = inflation entrenched</td>
+</tr>
+</tbody>
+</table>
+<h3 id="inflation-dynamics-the-phillips-curve">Inflation Dynamics — The Phillips Curve</h3>
+<p>$$\pi_t = \pi^e + \beta(U^* - U_t) + \epsilon_t$$</p>
+<p>Where:<br />
+- $\pi^e$ = inflation expectations<br />
+- $U^*$ = NAIRU (non-accelerating inflation rate of unemployment ≈ 4.0%)<br />
+- $U_t$ = actual unemployment<br />
+- $\epsilon_t$ = supply shocks</p>
+<p><strong>When $U_t &lt; U^*$:</strong> Labor market tighter than sustainable → wage pressure → inflation rises.<br />
+<strong>When $U_t &gt; U^*$:</strong> Slack in labor market → wage pressure eases → inflation falls.</p>
+<p><strong>The problem today:</strong> The Phillips curve has been <em>flat</em> for a decade — low unemployment didn't produce proportional inflation. Then 2021-2023 showed it can steepen violently when hit with simultaneous demand and supply shocks. The curve's slope is regime-dependent. Risk managers should not assume a stable relationship.</p>
+<h3 id="inflation-transmission-oil-shock-sticky-inflation">Inflation Transmission — Oil Shock → Sticky Inflation</h3>
+<div class="highlight"><pre><span></span><code>Stage 1 (Immediate):    Oil spike → gasoline, heating, jet fuel ↑
+Stage 2 (1-2 months):   Transport costs ↑ → shipping, trucking, rail
+Stage 3 (2-4 months):   Food prices ↑ (transport + fertilizer inputs)
+Stage 4 (2-4 months):   Business input costs ↑ → margins compress
+Stage 5 (3-6 months):   Businesses pass costs to consumers → core CPI ↑
+Stage 6 (6-12 months):  Workers demand wage increases to offset cost of living
+Stage 7 (12-18 months): Wages ↑ → businesses raise prices → wage-price spiral
 </code></pre></div>
 
-<p><strong>The dangerous part:</strong> Steps 1-4 are "cost-push" — temporary. Steps 5-6 are "demand-pull" — self-reinforcing. The Fed can ignore cost-push. The Fed CANNOT ignore a wage-price spiral. The question RIGHT NOW is whether Hormuz oil shock stays at step 4 or progresses to step 6.</p>
-<h3 id="inflation-expectations-why-they-matter-more-than-actual-inflation">Inflation Expectations — Why They Matter More Than Actual Inflation</h3>
-<ul>
-<li><strong>If people EXPECT 2% inflation:</strong> They set wages, prices, contracts at 2%. Inflation stays at 2%. Self-fulfilling.</li>
-<li><strong>If people EXPECT 5% inflation:</strong> They demand higher wages, raise prices preemptively. Inflation goes to 5%. Also self-fulfilling.</li>
-<li><strong>De-anchoring:</strong> When expectations break away from the target. Once de-anchored, it's extremely hard to re-anchor without aggressive policy (Volcker 1980 — raised rates to 20%).</li>
-<li><strong>Measures:</strong> Michigan 1Y and 5Y consumer expectations, TIPS breakevens (market-derived), NY Fed Survey of Consumer Expectations.</li>
-</ul>
-<p><strong>Current risk:</strong> Hormuz oil shock could de-anchor expectations if it persists. Gas prices are the single most visible price to consumers. If they see $5/gallon for 3+ months, expectations shift.</p>
+<p><strong>Stages 1-4</strong> = cost-push (transitory if shock reverses). <strong>Stages 5-7</strong> = demand-pull feedback (self-reinforcing). The Fed can look through Stages 1-4. If Stage 6 begins, they MUST respond or expectations de-anchor.</p>
+<p><strong>Monitoring the transition:</strong><br />
+- Stage 1-2: Energy weight in CPI, PPI pipeline<br />
+- Stage 3-4: PPI finished goods, ISM Prices Paid<br />
+- Stage 5: Core CPI acceleration, trimmed mean<br />
+- Stage 6: Atlanta Fed Wage Tracker, ECI (Employment Cost Index), quits rate<br />
+- Stage 7: Michigan/NY Fed 1Y and 5Y inflation expectations, TIPS breakevens</p>
+<h3 id="inflation-expectations-the-anchoring-framework">Inflation Expectations — The Anchoring Framework</h3>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Type</th>
+<th>Anchored signal</th>
+<th>De-anchoring signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Michigan 1Y</strong></td>
+<td>Survey (consumers)</td>
+<td>2.5-3.5%</td>
+<td>&gt;5% sustained</td>
+</tr>
+<tr>
+<td><strong>Michigan 5-10Y</strong></td>
+<td>Survey (long-run)</td>
+<td>2.5-3.0%</td>
+<td>&gt;3.5% sustained</td>
+</tr>
+<tr>
+<td><strong>TIPS 5Y breakeven</strong></td>
+<td>Market-derived</td>
+<td>2.0-2.5%</td>
+<td>&gt;3.0% sustained</td>
+</tr>
+<tr>
+<td><strong>5Y5Y forward</strong></td>
+<td>Market, further out</td>
+<td>2.0-2.3%</td>
+<td>&gt;2.5% sustained</td>
+</tr>
+<tr>
+<td><strong>NY Fed 3Y median</strong></td>
+<td>Survey (richer data)</td>
+<td>2.5-3.0%</td>
+<td>&gt;4.0%</td>
+</tr>
+<tr>
+<td><strong>SPF 10Y</strong></td>
+<td>Professional forecasters</td>
+<td>2.0-2.3%</td>
+<td>&gt;2.5%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Current risk:</strong> Hormuz oil shock has pushed gasoline to visible levels. Consumer surveys are the first to move because gas prices are the most salient price households see. If 1Y expectations hit 5%+ for 3+ months and 5Y expectations start drifting above 3.5%, we're in de-anchoring territory. That triggers aggressive Fed response regardless of growth.</p>
 <hr />
-<h1 id="part-3-monetary-policy-how-the-fed-works">PART 3: MONETARY POLICY — HOW THE FED WORKS</h1>
+<h1 id="part-3-central-bank-policy-comparative-framework">PART 3: CENTRAL BANK POLICY — COMPARATIVE FRAMEWORK</h1>
 <h3 id="the-feds-dual-mandate">The Fed's Dual Mandate</h3>
 <ol>
-<li><strong>Maximum employment</strong> (~4% unemployment target)</li>
-<li><strong>Price stability</strong> (2% inflation target, measured by PCE)</li>
+<li><strong>Maximum employment</strong> (~4.0% NAIRU)</li>
+<li><strong>Price stability</strong> (2.0% PCE target, symmetric)</li>
 </ol>
-<p>When these conflict — high inflation AND weakening employment — the Fed is boxed in. That's NOW.</p>
-<h3 id="how-rate-changes-flow-through-the-economy">How Rate Changes Flow Through the Economy</h3>
-<div class="highlight"><pre><span></span><code>Fed raises fed funds rate
-    → Short-term borrowing costs rise (immediately)
-    → Bank lending rates rise (1-3 months)
-    → Mortgage rates rise → housing cools (3-12 months)
-    → Corporate borrowing costs rise → CapEx slows (3-12 months)
-    → Consumer credit costs rise → spending slows (3-12 months)
-    → Demand falls → businesses stop hiring → unemployment rises (6-18 months)
-    → Inflation falls (12-24 months)
+<p>When these objectives conflict — rising inflation AND weakening labor market — the Fed faces a dilemma. Historical precedent: they almost always prioritize inflation first (credibility), then pivot to growth once inflation is contained. Volcker (1980), Powell (2022-2023).</p>
+<h3 id="global-central-bank-comparison">Global Central Bank Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Central bank</th>
+<th>Mandate</th>
+<th>Target</th>
+<th>Current rate</th>
+<th>Balance sheet</th>
+<th>Key difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Federal Reserve</strong></td>
+<td>Dual (employment + inflation)</td>
+<td>2% PCE</td>
+<td>3.75%</td>
+<td>~$7.5T (QT running)</td>
+<td>Dual mandate → more dovish toggle</td>
+</tr>
+<tr>
+<td><strong>ECB</strong></td>
+<td>Price stability (primary)</td>
+<td>2% HICP</td>
+<td>3.25%</td>
+<td>~€5T</td>
+<td>Single mandate → more hawkish on inflation</td>
+</tr>
+<tr>
+<td><strong>Bank of England</strong></td>
+<td>Price stability (primary), growth (secondary)</td>
+<td>2% CPI</td>
+<td>4.50%</td>
+<td>~£750B</td>
+<td>UK politics adds pressure; gilt market fragility (2022 LDI crisis)</td>
+</tr>
+<tr>
+<td><strong>Bank of Japan</strong></td>
+<td>Price stability + YCC legacy</td>
+<td>2% CPI</td>
+<td>0.50%</td>
+<td>~¥760T (&gt;100% GDP)</td>
+<td>Exiting 30 years of deflation; JPY weakness; carry trade anchor</td>
+</tr>
+<tr>
+<td><strong>PBoC</strong></td>
+<td>Multiple (growth, FX, stability)</td>
+<td>None explicit</td>
+<td>MLF 2.50%</td>
+<td>Capital controls</td>
+<td>State-directed; USDCNY managed float; RRR as primary tool</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-central-bank-divergence-matters-for-risk">Why Central Bank Divergence Matters for Risk</h3>
+<p>When central banks move at different speeds, FX rates move. The carry trade connects them:</p>
+<p>$$\text{Carry} = r_{\text{invest}} - r_{\text{fund}} - E[\Delta \text{FX}]$$</p>
+<p>If the Fed holds at 3.75% while the BoJ is at 0.50%, the rate differential incentivizes borrow-JPY/buy-USD. This keeps USDJPY elevated. If the BoJ hikes aggressively or the Fed cuts, the carry unwinds violently (see August 2024 JPY carry unwind — Nikkei -12% in 2 days).</p>
+<p><strong>For risk managers:</strong> Check PM books for embedded carry assumptions. A PM long EM local-currency bonds is implicitly short dollar strength and long EM central bank credibility. If the Fed signals higher-for-longer while EM central banks cut, that position gets crushed on FX.</p>
+<h3 id="monetary-transmission-mechanism">Monetary Transmission Mechanism</h3>
+<div class="highlight"><pre><span></span><code>Policy rate change
+├── SHORT END (immediate)
+│   ├── Money market rates (fed funds, SOFR, repo)
+│   ├── Commercial paper, T-bill yields
+│   └── Bank funding costs
+├── FINANCIAL CONDITIONS (1-3 months)
+│   ├── Mortgage rates → housing demand
+│   ├── Corporate bond yields → capex decisions
+│   ├── Equity valuations (discount rate effect)
+│   ├── Credit availability (bank lending standards)
+│   └── Dollar strength/weakness → trade competitiveness
+├── REAL ECONOMY (3-12 months)
+│   ├── Consumer spending (credit cost, wealth effect)
+│   ├── Business investment (hurdle rate comparison)
+│   ├── Housing construction (starts, permits)
+│   └── Net exports (FX effect on competitiveness)
+└── INFLATION (12-24 months)
+    ├── Demand reduction → output gap widens
+    ├── Labor market loosens → wage pressure falls
+    └── Expectations adjust → self-reinforcing disinflation
 </code></pre></div>
 
-<p><strong>The lag:</strong> Monetary policy operates with a 12-24 month lag. The rate hikes from 2023-2024 are STILL working through the economy. The Fed cut to 3.75% but the effects of prior tightening haven't fully materialized. This is why "behind the curve" cuts both ways — they could be behind on cutting OR they could have been right to wait.</p>
-<h3 id="the-feds-toolkit">The Fed's Toolkit</h3>
+<p><strong>The lag problem:</strong> Monetary policy operates with long and variable lags (Friedman). The full impact of a rate change takes 12-24 months. This means the Fed is always flying partially blind — they're reacting to data that reflects past policy, not current conditions.</p>
+<h3 id="the-feds-toolkit-ranked-by-usage">The Fed's Toolkit — Ranked by Usage</h3>
 <table>
 <thead>
 <tr>
 <th>Tool</th>
-<th>What it does</th>
-<th>When used</th>
+<th>Mechanism</th>
+<th>When deployed</th>
+<th>Current status</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Fed funds rate</strong></td>
-<td>Sets the overnight borrowing rate between banks — anchors all short-term rates</td>
-<td>Primary tool. All other rates key off this.</td>
+<td>Overnight interbank rate → anchors all short rates</td>
+<td>Primary (always)</td>
+<td>3.75%, on hold</td>
 </tr>
 <tr>
 <td><strong>Forward guidance</strong></td>
-<td>Telling the market what you PLAN to do — moves rates before you actually act</td>
-<td>"Higher for longer" = tightening without hiking. Dot plot.</td>
+<td>Shapes expectations → moves term rates without action</td>
+<td>Continuous</td>
+<td>"Data dependent" = ambiguous</td>
 </tr>
 <tr>
-<td><strong>QE (Quantitative Easing)</strong></td>
-<td>Buying Treasuries/MBS → pushes long-term rates down, adds liquidity</td>
-<td>Crisis tool. 2008, 2020.</td>
+<td><strong>Dot plot</strong></td>
+<td>FOMC median rate projections → anchors expectations</td>
+<td>Quarterly (SEP)</td>
+<td>Showing path uncertainty</td>
 </tr>
 <tr>
-<td><strong>QT (Quantitative Tightening)</strong></td>
-<td>Letting bonds roll off the balance sheet → withdraws liquidity</td>
-<td>Currently running. ~$60B/month roll-off.</td>
+<td><strong>QE</strong></td>
+<td>Buy Treasuries/MBS → suppress long rates, inject reserves</td>
+<td>Crisis (2008, 2020)</td>
+<td>Not active</td>
 </tr>
 <tr>
-<td><strong>Emergency lending</strong></td>
-<td>Discount window, special facilities (BTFP in March 2023)</td>
-<td>Bank/market stress events.</td>
+<td><strong>QT</strong></td>
+<td>Let bonds mature → drain reserves, raise long rates</td>
+<td>Normalization</td>
+<td>~$60B/month roll-off</td>
+</tr>
+<tr>
+<td><strong>Reverse repo (RRP)</strong></td>
+<td>Absorb excess liquidity → floor under short rates</td>
+<td>Daily operations</td>
+<td>Declining as reserves normalize</td>
+</tr>
+<tr>
+<td><strong>Discount window</strong></td>
+<td>Lender of last resort → emergency liquidity</td>
+<td>Bank stress</td>
+<td>Available; stigma reduced post-SVB</td>
+</tr>
+<tr>
+<td><strong>Emergency facilities</strong></td>
+<td>BTFP, CPFF, etc. → targeted market dysfunction</td>
+<td>Acute crisis</td>
+<td>Authorization lapsed</td>
 </tr>
 </tbody>
 </table>
-<h3 id="what-behind-the-curve-means">What "Behind the Curve" Means</h3>
-<ul>
-<li><strong>Behind on hiking:</strong> Inflation is running away and the Fed hasn't raised rates fast enough. They let the fire spread.</li>
-<li><strong>Behind on cutting:</strong> The economy is weakening and the Fed hasn't cut rates fast enough. They're strangling growth unnecessarily.</li>
-<li><strong>The current debate (April 2026):</strong> With oil spiking and inflation re-accelerating, is the Fed behind on hiking (should they raise rates to crush inflation) or should they cut to support growth that's weakening under the oil shock? The answer depends on whether you believe the oil shock is transitory or structural.</li>
-</ul>
 <hr />
-<h1 id="part-4-fiscal-policy-government">PART 4: FISCAL POLICY &amp; GOVERNMENT</h1>
-<h3 id="how-fiscal-policy-interacts-with-monetary-policy">How Fiscal Policy Interacts with Monetary Policy</h3>
-<ul>
-<li><strong>Fiscal stimulus + monetary tightening = conflict.</strong> Government spending adds demand while the Fed is trying to reduce it. This is what happened in 2023-2024 — massive fiscal deficits while the Fed hiked. Result: inflation stickier than expected.</li>
-<li><strong>Fiscal austerity + monetary easing = aligned.</strong> Both removing demand. Deflationary.</li>
-<li><strong>Current US:</strong> Deficit running ~6% of GDP. That's fiscal stimulus. But the Fed is at 3.75% trying to control inflation. They're working against each other.</li>
-</ul>
-<h3 id="why-deficits-matter-for-markets">Why Deficits Matter for Markets</h3>
-<p>Large deficits → more Treasury issuance → more supply → higher yields (all else equal). This is the "term premium" story — investors demand a higher yield to hold long-dated Treasuries when they know the government will keep issuing more. This pushes the long end of the curve up independently of what the Fed does.</p>
-<hr />
-<h1 id="part-5-the-business-cycle">PART 5: THE BUSINESS CYCLE</h1>
-<h3 id="four-phases">Four Phases</h3>
+<h1 id="part-4-yield-curve-analytics">PART 4: YIELD CURVE ANALYTICS</h1>
+<h3 id="term-structure-theory">Term Structure Theory</h3>
+<p>The yield curve plots yields against maturity. Its shape encodes market expectations about growth, inflation, and risk:</p>
+<p>$$y_n = \frac{1}{n} \sum_{t=1}^{n} E[r_t] + \text{Term Premium}_n$$</p>
 <table>
 <thead>
 <tr>
-<th>Phase</th>
-<th>Growth</th>
-<th>Inflation</th>
-<th>Policy</th>
-<th>Asset implications</th>
+<th>Theory</th>
+<th>Explanation</th>
+<th>Implication</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Expansion</strong></td>
-<td>Rising</td>
-<td>Rising slowly</td>
-<td>Rates rising gradually</td>
-<td>Equities up, commodities up, yields rising</td>
+<td><strong>Expectations hypothesis</strong></td>
+<td>Long rates = average of expected future short rates</td>
+<td>Curve shape reflects rate path expectations</td>
 </tr>
 <tr>
-<td><strong>Peak/Overheating</strong></td>
-<td>Still strong</td>
-<td>Rising fast</td>
-<td>Rates peaking</td>
-<td>Equities topping, vol rising, curve flattening</td>
+<td><strong>Liquidity preference</strong></td>
+<td>Investors demand premium for holding longer maturities</td>
+<td>Curve normally upward-sloping (term premium &gt; 0)</td>
 </tr>
 <tr>
-<td><strong>Contraction</strong></td>
-<td>Falling</td>
-<td>Falling</td>
-<td>Rates being cut</td>
-<td>Equities falling, bonds rallying, flight to quality</td>
+<td><strong>Preferred habitat</strong></td>
+<td>Supply/demand at each maturity segment matters independently</td>
+<td>QE at long end can depress long rates</td>
 </tr>
 <tr>
-<td><strong>Trough/Recovery</strong></td>
-<td>Bottoming</td>
-<td>Low</td>
-<td>Rates at bottom, QE</td>
-<td>Equities bottoming, credit tightening then loosening</td>
+<td><strong>Market segmentation</strong></td>
+<td>Different investors at different maturities → can create kinks</td>
+<td>Pension demand at 30Y → ultra-long bid</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Where are we now (April 2026)?</strong> Ambiguous — and that's the problem. Growth is decelerating but not collapsing. Inflation was falling but is re-accelerating from oil. We might be at Peak/Overheating on the inflation side and early Contraction on the growth side simultaneously. That's stagflation — the worst quadrant.</p>
-<h3 id="the-credit-cycle-nested-within-the-business-cycle">The Credit Cycle (nested within the business cycle)</h3>
-<div class="highlight"><pre><span></span><code>Recovery → banks loosen lending → credit expands → asset prices rise
-   → leverage builds → risk appetite increases → lending standards drop
-   → overextension → defaults begin → banks tighten → credit contracts
-   → asset prices fall → deleveraging → recession → recovery
+<h3 id="curve-shapes-and-their-signals">Curve Shapes and Their Signals</h3>
+<table>
+<thead>
+<tr>
+<th>Shape</th>
+<th>What it signals</th>
+<th>Historical accuracy</th>
+<th>Portfolio implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Normal (steep)</strong></td>
+<td>Growth optimism, policy accommodation</td>
+<td>Standard in expansions</td>
+<td>Pro-risk, banks outperform (NIM ↑)</td>
+</tr>
+<tr>
+<td><strong>Flat</strong></td>
+<td>Transition — late cycle, policy uncertainty</td>
+<td>Precedes regime shift</td>
+<td>Reduce risk, increase liquidity</td>
+</tr>
+<tr>
+<td><strong>Inverted (2Y &gt; 10Y)</strong></td>
+<td>Market expects rate cuts → recession coming</td>
+<td>8/8 last recessions (12-18 month lead)</td>
+<td>Defensive, long duration (if recession materializes)</td>
+</tr>
+<tr>
+<td><strong>Bear steepening</strong></td>
+<td>Long rates rising faster than short → term premium ↑</td>
+<td>Fiscal concern, supply worry</td>
+<td>Risk-off for levered positions; mortgages crushed</td>
+</tr>
+<tr>
+<td><strong>Bull steepening</strong></td>
+<td>Short rates falling faster → Fed cutting</td>
+<td>Early easing cycle</td>
+<td>Pro-risk transition, rate-sensitive rally</td>
+</tr>
+<tr>
+<td><strong>Bear flattening</strong></td>
+<td>Short rates rising faster → Fed hiking</td>
+<td>Active tightening cycle</td>
+<td>Credit spreads widen, equity multiple compression</td>
+</tr>
+<tr>
+<td><strong>Bull flattening</strong></td>
+<td>Long rates falling faster → flight to quality</td>
+<td>Risk-off, recession fear</td>
+<td>Defensive, TLT rallies, equities sell</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-spreads-to-monitor">Key Spreads to Monitor</h3>
+<table>
+<thead>
+<tr>
+<th>Spread</th>
+<th>Calculation</th>
+<th>What it signals</th>
+<th>Current level matters because</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2Y-10Y</strong></td>
+<td>10Y yield - 2Y yield</td>
+<td>Recession predictor</td>
+<td>Was inverted, now re-steepening: normalization or term premium?</td>
+</tr>
+<tr>
+<td><strong>3M-10Y</strong></td>
+<td>10Y - 3M T-bill</td>
+<td>Fed's preferred recession signal</td>
+<td>More sensitive to near-term policy expectations</td>
+</tr>
+<tr>
+<td><strong>10Y-30Y</strong></td>
+<td>30Y - 10Y</td>
+<td>Ultra-long term premium</td>
+<td>Pension demand, fiscal sustainability worry</td>
+</tr>
+<tr>
+<td><strong>TIPS breakeven (5Y)</strong></td>
+<td>Nominal 5Y - TIPS 5Y</td>
+<td>Market inflation expectation</td>
+<td>De-anchoring monitor</td>
+</tr>
+<tr>
+<td><strong>5Y5Y forward</strong></td>
+<td>Derived from forward curve</td>
+<td>Long-run inflation expectation</td>
+<td>The Fed's preferred market measure</td>
+</tr>
+<tr>
+<td><strong>TED spread</strong></td>
+<td>3M LIBOR/SOFR - 3M T-bill</td>
+<td>Banking system stress</td>
+<td>Spikes in crises (2008: 450bp)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="worked-example-reading-a-curve-move">Worked Example — Reading a Curve Move</h3>
+<p><strong>Scenario:</strong> 10Y up 25bp, 2Y up 5bp (bear steepening)</p>
+<p><strong>What happened:</strong> Long-end sold off more than short-end.</p>
+<p><strong>Decomposition:</strong><br />
+- Fed policy expectations (short-end): Barely moved → market doesn't expect near-term rate changes<br />
+- Term premium (long-end): Increased → either fiscal supply concerns, inflation risk premium, or foreign selling<br />
+- Real rate vs breakeven: Check if the 25bp was real rates (growth/fiscal) or breakevens (inflation)</p>
+<p><strong>Portfolio impact:</strong><br />
+- Duration-sensitive positions: 10Y DV01 = $87.50/bp per $1M notional → $2,187.50 loss per $1M exposure on 25bp move<br />
+- Mortgage REITs: Crushed (funding at short end, assets at long end, spread compressed)<br />
+- Banks: Mixed — deposit costs stable (short end flat), loan rates higher, but credit risk up if term premium reflects growth concern<br />
+- Equities: Growth stocks hurt more (higher discount rate), value/commodity relatively better</p>
+<hr />
+<h1 id="part-5-fiscal-policy-sovereign-risk">PART 5: FISCAL POLICY &amp; SOVEREIGN RISK</h1>
+<h3 id="fiscal-monetary-interaction-matrix">Fiscal-Monetary Interaction Matrix</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Monetary tight</strong></th>
+<th><strong>Monetary easy</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fiscal expansionary</strong></td>
+<td>CONFLICT: Deficit spending adds demand while Fed removes it → rates higher, dollar stronger, crowding out</td>
+<td>ALIGNED STIMULUS: Both adding demand → risk of overheating, asset prices ↑↑</td>
+</tr>
+<tr>
+<td><strong>Fiscal contractionary</strong></td>
+<td>OVERKILL: Both removing demand → deep recession risk, deflation</td>
+<td>CONFLICT: Fiscal drag partially offsets easing → muddles recovery</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Current US (April 2026):</strong> Fiscal expansionary (~6% deficit/GDP) + monetary restrictive (3.75% + QT). Classic conflict. Result: sticky inflation (fiscal keeps demand up), higher long-end rates (supply), and constrained Fed flexibility.</p>
+<h3 id="debt-sustainability-the-r-g-framework">Debt Sustainability — The r-g Framework</h3>
+<p>$$\Delta \left(\frac{D}{Y}\right) = (r - g) \times \frac{D}{Y} + \text{Primary Deficit}$$</p>
+<p>Where:<br />
+- $D/Y$ = debt-to-GDP ratio<br />
+- $r$ = average interest rate on government debt<br />
+- $g$ = nominal GDP growth rate<br />
+- Primary deficit = government deficit excluding interest payments</p>
+<p><strong>The key insight:</strong> If $g &gt; r$ (growth exceeds interest costs), the debt ratio can be stabilized even with moderate primary deficits. If $r &gt; g$ (interest costs exceed growth), the debt ratio spirals without primary surpluses.</p>
+<p><strong>Current US numbers:</strong><br />
+- Debt/GDP: ~125%<br />
+- Weighted average interest on Treasury debt: ~3.2% (rising as old low-rate debt matures and is refinanced)<br />
+- Nominal GDP growth: ~4.5%<br />
+- Currently g &gt; r, but the gap is narrowing as rates stay elevated and refinancing occurs</p>
+<p><strong>Why this matters for portfolio risk:</strong><br />
+1. <strong>Term premium:</strong> If markets doubt fiscal sustainability, they demand higher yields on long bonds → bear steepening<br />
+2. <strong>Crowding out:</strong> Government bond supply competes with corporate issuance → wider credit spreads<br />
+3. <strong>FX impact:</strong> Fiscal dominance perception → currency weakness (see UK gilt crisis September 2022: Truss mini-budget → GBP -5% in days, 30Y gilt +150bp)<br />
+4. <strong>Rating downgrades:</strong> S&amp;P downgraded US in 2011, Fitch in 2023. Future downgrades would trigger forced selling from mandated-investment-grade portfolios</p>
+<h3 id="the-gilt-crisis-case-study-september-2022">The Gilt Crisis Case Study (September 2022)</h3>
+<p><strong>What happened:</strong> UK PM Truss announced £45B unfunded tax cuts. Markets repriced UK fiscal trajectory. 30Y gilt yields spiked ~150bp in days. LDI (liability-driven investment) pension funds hit margin calls → forced selling of gilts → further price drops → doom loop.</p>
+<p><strong>RM lessons:</strong><br />
+1. Fiscal credibility matters — markets can revolt against sovereign borrowers<br />
+2. Leverage + illiquidity + rates = toxic (LDI funds were levered 4-7x on gilt exposure)<br />
+3. Cross-asset contagion: gilt → GBP → UK equities → global rate vol → US Treasuries<br />
+4. Central bank as backstop: BoE intervened with £65B emergency purchasing — but only after the crash</p>
+<hr />
+<h1 id="part-6-fx-dynamics-balance-of-payments">PART 6: FX DYNAMICS &amp; BALANCE OF PAYMENTS</h1>
+<h3 id="fx-determination-framework">FX Determination Framework</h3>
+<p>Three time horizons, three drivers:</p>
+<table>
+<thead>
+<tr>
+<th>Horizon</th>
+<th>Primary driver</th>
+<th>Key relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Short-term (days-weeks)</strong></td>
+<td>Interest rate differentials, risk sentiment, positioning</td>
+<td>Higher rates → currency appreciation (carry)</td>
+</tr>
+<tr>
+<td><strong>Medium-term (months-quarters)</strong></td>
+<td>Current account, relative growth, policy divergence</td>
+<td>BoP flows, portfolio rebalancing</td>
+</tr>
+<tr>
+<td><strong>Long-term (years)</strong></td>
+<td>Purchasing power parity (PPP), productivity</td>
+<td>Currencies converge toward fair value</td>
+</tr>
+</tbody>
+</table>
+<h3 id="interest-rate-parity">Interest Rate Parity</h3>
+<p><strong>Covered interest rate parity (CIP):</strong></p>
+<p>$$F = S \times \frac{(1 + r_d)}{(1 + r_f)}$$</p>
+<p>Where $F$ = forward rate, $S$ = spot rate, $r_d$ = domestic rate, $r_f$ = foreign rate. In theory, the forward premium/discount exactly offsets the interest rate differential, so there's no riskless profit. CIP deviations (basis) signal banking system stress or regulation-driven distortions.</p>
+<p><strong>Uncovered interest rate parity (UIP) — often violated:</strong><br />
+The currency with the higher interest rate should depreciate to offset the carry. In practice, it doesn't (at least in the short run) — this is the carry trade's foundation.</p>
+<h3 id="the-carry-trade-mechanics-risks">The Carry Trade — Mechanics &amp; Risks</h3>
+<p>$$\text{Carry P\&amp;L} = \text{Notional} \times (r_{\text{invest}} - r_{\text{fund}}) + \text{FX P\&amp;L}$$</p>
+<p><strong>Example (USDJPY carry):</strong><br />
+- Borrow JPY at 0.50%, invest in USD at 3.75% → 325bp positive carry per year<br />
+- If USDJPY stays flat: pure carry profit<br />
+- Risk: If JPY appreciates 3.25%+ per year, the carry is wiped out<br />
+- Tail risk: Sudden JPY appreciation of 10-15% in days (August 2024: USDJPY fell from 161 to 141 in weeks)</p>
+<p><strong>RM implications:</strong><br />
+- Carry trades are short vol — they earn steady returns until they blow up<br />
+- Portfolio scanning: Check for embedded carry across asset classes (EM bonds, basis trades, cross-currency positions)<br />
+- Crowding indicator: When the same carry trade is consensus, the unwind is violent</p>
+<h3 id="em-fx-vulnerability-framework">EM FX Vulnerability Framework</h3>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Assessment metric</th>
+<th>Fragile signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Current account</strong></td>
+<td>CA/GDP ratio</td>
+<td>Deficit &gt; 5% of GDP</td>
+</tr>
+<tr>
+<td><strong>FX reserves</strong></td>
+<td>Reserves / short-term external debt</td>
+<td>&lt; 100% (Guidotti rule)</td>
+</tr>
+<tr>
+<td><strong>External debt</strong></td>
+<td>FX-denominated debt / GDP</td>
+<td>&gt; 60%</td>
+</tr>
+<tr>
+<td><strong>Inflation differential</strong></td>
+<td>Domestic CPI vs US CPI</td>
+<td>&gt; 5pp → likely depreciation</td>
+</tr>
+<tr>
+<td><strong>Real rate differential</strong></td>
+<td>Policy rate - CPI vs Fed rate - US CPI</td>
+<td>Negative real rate differential → outflow risk</td>
+</tr>
+<tr>
+<td><strong>Political stability</strong></td>
+<td>Institutional quality, rule of law</td>
+<td>Elections, regime uncertainty</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The "Fragile Five" template:</strong> Any EM with twin deficits (fiscal + current account), high FX debt, and low real rates is vulnerable to a Fed-driven tightening in global dollar liquidity. History: 2013 taper tantrum hit BRL, INR, TRY, ZAR, IDR.</p>
+<h3 id="dollar-smile-theory">Dollar Smile Theory</h3>
+<p>The USD strengthens in two opposite scenarios:<br />
+1. <strong>US exceptionalism:</strong> US growth outperforms → capital inflows → USD ↑ (right side of smile)<br />
+2. <strong>Global crisis:</strong> Flight to safety → USD ↑ regardless of US fundamentals (left side of smile)<br />
+3. <strong>Middle (weakness):</strong> Global synchronized growth → risk appetite → capital flows to non-US markets → USD ↓</p>
+<p><strong>Current position on the smile:</strong> Debatable. Oil shock could push toward left side (risk-off, safe haven USD) OR right side (US relative outperformance if it's self-sufficient in energy). The ambiguity itself creates vol.</p>
+<hr />
+<h1 id="part-7-business-cycle-macro-regimes">PART 7: BUSINESS CYCLE &amp; MACRO REGIMES</h1>
+<h3 id="the-four-quadrant-framework">The Four-Quadrant Framework</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Growth ↑</strong></th>
+<th><strong>Growth ↓</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Inflation ↑</strong></td>
+<td><strong>REFLATION</strong> — Pro-cyclical overheating. Equities +, commodities +, bonds -.</td>
+<td><strong>STAGFLATION</strong> — Worst quadrant. Equities -, commodities +, bonds -. Nothing works except energy/commodities and CTA trend.</td>
+</tr>
+<tr>
+<td><strong>Inflation ↓</strong></td>
+<td><strong>GOLDILOCKS</strong> — Best quadrant. Equities ++, bonds +, credit tight, vol low.</td>
+<td><strong>DEFLATION</strong> — Risk-off. Equities -, bonds ++, credit widens, USD ↑.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Asset allocation implications by regime:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Equities</th>
+<th>Duration</th>
+<th>Credit</th>
+<th>Commodities</th>
+<th>Vol</th>
+<th>FX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Goldilocks</strong></td>
+<td>OW growth</td>
+<td>Neutral</td>
+<td>OW tight</td>
+<td>UW</td>
+<td>Sell</td>
+<td>Short USD</td>
+</tr>
+<tr>
+<td><strong>Reflation</strong></td>
+<td>OW value/cyclical</td>
+<td>UW (rates up)</td>
+<td>Neutral</td>
+<td>OW</td>
+<td>Neutral</td>
+<td>EM +, commodity FX +</td>
+</tr>
+<tr>
+<td><strong>Stagflation</strong></td>
+<td>UW</td>
+<td>UW (rates up)</td>
+<td>UW</td>
+<td>OW energy</td>
+<td>Buy</td>
+<td>USD +, commodity FX +</td>
+</tr>
+<tr>
+<td><strong>Deflation</strong></td>
+<td>UW</td>
+<td>OW (rates down)</td>
+<td>UW (defaults)</td>
+<td>UW</td>
+<td>Buy</td>
+<td>USD ++ (safe haven)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Where are we now (April 2026)?</strong> Transitioning from Goldilocks (late 2025 — disinflation + moderate growth) toward Reflation or Stagflation depending on whether the oil shock kills growth. This is the crux of the current debate. If growth holds → Reflation (manageable). If growth cracks → Stagflation (dangerous).</p>
+<h3 id="stock-bond-correlation-regime">Stock-Bond Correlation Regime</h3>
+<p>This is ONE of the most important concepts for portfolio risk:</p>
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Stock-bond correlation</th>
+<th>Why</th>
+<th>Diversification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Growth-driven</strong> (pre-2020)</td>
+<td><strong>Negative</strong> — stocks down → bonds up</td>
+<td>Rate cuts expected in downturn</td>
+<td>60/40 works, bonds hedge equities</td>
+</tr>
+<tr>
+<td><strong>Inflation-driven</strong> (2022-2023)</td>
+<td><strong>Positive</strong> — stocks down AND bonds down</td>
+<td>Inflation → rates up → both sell off</td>
+<td>60/40 breaks, need alternatives</td>
+</tr>
+<tr>
+<td><strong>Current (2026)</strong></td>
+<td><strong>Unstable</strong> — oscillating between regimes</td>
+<td>Oil shock creates inflation-growth ambiguity</td>
+<td>Correlation can flip intra-day</td>
+</tr>
+</tbody>
+</table>
+<p>$$\rho_{\text{stock,bond}} \approx f(\text{inflation vol}, \text{growth vol}, \text{policy regime})$$</p>
+<p><strong>Rule of thumb:</strong> When inflation is the dominant risk, correlation is positive. When growth is the dominant risk, correlation is negative. When both are risk, correlation is unstable and hedging is hardest.</p>
+<p><strong>RM action:</strong> Monitor rolling 3M stock-bond correlation daily. When it flips sign, reassess all hedge ratios. A portfolio hedged with duration in a negative-correlation regime will suffer if correlation turns positive — the hedge becomes an additional source of loss.</p>
+<h3 id="the-credit-cycle">The Credit Cycle</h3>
+<div class="highlight"><pre><span></span><code>Trough:   Banks cautious, spreads wide, defaults peaking
+          → Survivors refinance at high rates
+Recovery: Banks loosen, spreads tighten, defaults falling
+          → Credit creation expands, animal spirits rise
+Expansion: Easy money, tight spreads, covenants weaken
+          → Leverage builds, zombie companies survive on cheap debt
+Peak:     Spreads at cycle lows, leverage at highs, complacency
+          → Any shock → defaults spike
+Downturn: Banks tighten, spreads widen, defaults rising
+          → Forced selling, margin calls, contagion
 </code></pre></div>
 
-<p><strong>Watch:</strong> Bank lending surveys (Senior Loan Officer Survey), high-yield spreads, default rates. When HY spreads start widening from tight levels and bank lending standards start tightening, you're late-cycle.</p>
+<p><strong>Key metrics:</strong><br />
+- HY OAS: Current vs 5Y average → tighter = late cycle<br />
+- IG issuance: High issuance at tight spreads = peak behavior<br />
+- Default rate forecast: Moody's trailing 12M default rate<br />
+- Leverage ratios: Net debt/EBITDA for HY universe<br />
+- Senior Loan Officer Survey (SLOOS): Tightening standards predict recession with 4-6 quarter lead</p>
 <hr />
-<h1 id="part-6-key-relationships-to-internalize">PART 6: KEY RELATIONSHIPS TO INTERNALIZE</h1>
-<h3 id="the-impossible-triangle-for-central-banks-current-version">The Impossible Triangle for Central Banks (current version)</h3>
-<p>Right now the Fed cannot simultaneously:<br />
-1. Control inflation (requires higher rates)<br />
-2. Support growth (requires lower rates)<br />
-3. Maintain financial stability (requires stable rates)</p>
-<p>Pick two. Currently prioritizing #1 (inflation) at the expense of #2 (growth), while hoping #3 (stability) doesn't break.</p>
-<h3 id="rates-everything">Rates → Everything</h3>
-<table>
-<thead>
-<tr>
-<th>If rates rise...</th>
-<th>Effect</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Equity valuations fall</td>
-<td>Higher discount rate → future cash flows worth less today</td>
-<td>DCF mechanics</td>
-</tr>
-<tr>
-<td>Dollar strengthens</td>
-<td>Higher US rates attract foreign capital</td>
-<td>Carry flows</td>
-</tr>
-<tr>
-<td>EM currencies weaken</td>
-<td>Capital flows out of EM into US</td>
-<td>Risk-off + carry unwind</td>
-</tr>
-<tr>
-<td>Housing cools</td>
-<td>Mortgages more expensive</td>
-<td>Direct transmission</td>
-</tr>
-<tr>
-<td>Credit spreads can widen</td>
-<td>Higher funding cost → more defaults</td>
-<td>Debt servicing burden</td>
-</tr>
-<tr>
-<td>Gold can fall</td>
-<td>Higher real rates → higher opportunity cost of holding gold</td>
-<td>Gold has no yield</td>
-</tr>
-<tr>
-<td>Growth stocks hurt more than value</td>
-<td>Long-duration equity = more sensitive to discount rate</td>
-<td>Duration of cash flows</td>
-</tr>
-</tbody>
-</table>
-<h3 id="oil-everything-the-current-cascade">Oil → Everything (the current cascade)</h3>
-<table>
-<thead>
-<tr>
-<th>If oil rises...</th>
-<th>Effect</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Headline inflation rises</td>
-<td>Energy is direct CPI component + transport costs</td>
-<td>Direct</td>
-</tr>
-<tr>
-<td>Consumer spending falls</td>
-<td>Gas takes bigger share of wallet</td>
-<td>Disposable income squeeze</td>
-</tr>
-<tr>
-<td>Airlines, transport crushed</td>
-<td>Fuel is biggest cost</td>
-<td>Direct input cost</td>
-</tr>
-<tr>
-<td>Energy equities rally</td>
-<td>Revenue increases</td>
-<td>Direct</td>
-</tr>
-<tr>
-<td>EM importers (India, Thailand) crushed</td>
-<td>Current account worsens, FX weakens</td>
-<td>Trade balance</td>
-</tr>
-<tr>
-<td>Central banks can't cut</td>
-<td>Inflation re-accelerates</td>
-<td>Policy constraint</td>
-</tr>
-<tr>
-<td>Recession risk rises</td>
-<td>Growth hit + inflation = stagflation</td>
-<td>Dual squeeze</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h1 id="part-7-what-to-follow-and-why">PART 7: WHAT TO FOLLOW AND WHY</h1>
-<h3 id="the-macro-calendar-key-us-releases">The Macro Calendar (key US releases)</h3>
+<h1 id="part-8-the-macro-data-calendar-how-to-interpret-releases">PART 8: THE MACRO DATA CALENDAR — HOW TO INTERPRET RELEASES</h1>
+<h3 id="tier-1-market-moving-releases">Tier 1 — Market-Moving Releases</h3>
 <table>
 <thead>
 <tr>
 <th>Release</th>
 <th>Frequency</th>
-<th>Why it matters</th>
-<th>Market impact</th>
+<th>Key number</th>
+<th>Market reaction logic</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Non-Farm Payrolls (NFP)</strong></td>
 <td>Monthly, 1st Friday</td>
-<td>Labor market health. &gt;200K = strong. &lt;100K = alarm.</td>
-<td>High — moves rates, equities, FX</td>
+<td>Headline jobs + unemployment rate + AHE</td>
+<td>&gt;250K = strong (hawkish), &lt;100K = alarm (dovish), AHE MoM &gt;0.4% = wage spiral</td>
 </tr>
 <tr>
 <td><strong>CPI</strong></td>
 <td>Monthly, ~10th-15th</td>
-<td>Inflation reading. Core MoM is THE number.</td>
-<td>Very high — directly affects Fed expectations</td>
+<td>Core MoM = THE number</td>
+<td>&gt;0.3% = too hot → rates up, equities down. &lt;0.2% = progress → rates down, equities up</td>
 </tr>
 <tr>
 <td><strong>FOMC Decision</strong></td>
 <td>8x/year</td>
-<td>Rate decision + statement + dot plot + press conference</td>
-<td>Very high — THE event</td>
+<td>Rate decision + statement + dot plot + presser</td>
+<td>Tone matters more than action when rate is on hold</td>
 </tr>
 <tr>
-<td><strong>PCE (Personal Consumption)</strong></td>
+<td><strong>PCE Deflator</strong></td>
 <td>Monthly, end of month</td>
-<td>Fed's preferred inflation measure (vs CPI)</td>
-<td>Moderate — but Fed watches this, not CPI</td>
-</tr>
-<tr>
-<td><strong>ISM PMIs</strong></td>
-<td>Monthly, 1st &amp; 3rd</td>
-<td>Manufacturing + services health</td>
-<td>Moderate-high</td>
-</tr>
-<tr>
-<td><strong>Retail Sales</strong></td>
-<td>Monthly</td>
-<td>Consumer spending health</td>
-<td>Moderate</td>
+<td>Core PCE YoY = Fed's target measure</td>
+<td>Confirms/contradicts CPI signal</td>
 </tr>
 <tr>
 <td><strong>GDP</strong></td>
-<td>Quarterly (3 releases)</td>
-<td>Backward-looking but sets narrative</td>
-<td>Moderate</td>
-</tr>
-<tr>
-<td><strong>JOLTS</strong></td>
-<td>Monthly</td>
-<td>Job openings — leading indicator of labor demand</td>
-<td>Moderate</td>
-</tr>
-<tr>
-<td><strong>Beige Book</strong></td>
-<td>8x/year</td>
-<td>Anecdotal economic survey from Fed districts</td>
-<td>Low-moderate — qualitative color</td>
+<td>Quarterly (advance, 2nd, 3rd)</td>
+<td>Real GDP QoQ annualized</td>
+<td>&lt;1% = recession worry. &gt;3% = overheating worry</td>
 </tr>
 </tbody>
 </table>
+<h3 id="tier-2-important-for-context">Tier 2 — Important for Context</h3>
+<table>
+<thead>
+<tr>
+<th>Release</th>
+<th>Key insight</th>
+<th>What professionals focus on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ISM Manufacturing PMI</strong></td>
+<td>Leading indicator of cycle turn</td>
+<td>New orders vs inventories ratio (below 1.0 = contraction signal)</td>
+</tr>
+<tr>
+<td><strong>ISM Services PMI</strong></td>
+<td>80% of economy represented</td>
+<td>Prices Paid sub-index (inflation pipeline)</td>
+</tr>
+<tr>
+<td><strong>Retail Sales</strong></td>
+<td>Consumer spending health</td>
+<td>Ex-auto, ex-gas "control group" = GDP input</td>
+</tr>
+<tr>
+<td><strong>JOLTS</strong></td>
+<td>Labor demand leading indicator</td>
+<td>Job openings / unemployed (Beveridge curve)</td>
+</tr>
+<tr>
+<td><strong>Initial Claims</strong></td>
+<td>Real-time labor distress</td>
+<td>4-week moving average &gt; 250K = deterioration</td>
+</tr>
+<tr>
+<td><strong>PPI</strong></td>
+<td>Upstream price pressure → future CPI</td>
+<td>Final demand vs intermediate goods pipeline</td>
+</tr>
+<tr>
+<td><strong>Michigan Sentiment</strong></td>
+<td>Consumer inflation expectations</td>
+<td>1Y and 5-10Y expected inflation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-to-read-an-nfp-report">How to Read an NFP Report</h3>
+<ol>
+<li><strong>Headline number (births-deaths adjustment matters):</strong> Large positive = strong labor market (hawkish), but check prior month revision — often revised ±50K</li>
+<li><strong>Unemployment rate:</strong> U-3 (headline) vs U-6 (broad, includes underemployment). U-6 gap tells you about labor market slack</li>
+<li><strong>Average Hourly Earnings (AHE):</strong> MoM &gt; 0.4% = wage-push inflation concern. YoY &gt; 4% with 2% productivity = unit labor costs rising</li>
+<li><strong>Labor force participation rate:</strong> If UE falls because people leave the workforce (not because they got jobs), it's not a strong signal</li>
+<li><strong>Sectoral breakdown:</strong> Government hiring doesn't count the same as private. Healthcare vs goods-producing tells you about the economy's composition</li>
+</ol>
 <h3 id="how-to-read-a-cpi-print">How to Read a CPI Print</h3>
 <ol>
-<li><strong>Headline MoM and YoY</strong> — the press headline. If MoM is &gt;0.3%, markets react.</li>
-<li><strong>Core MoM</strong> — strip food/energy. This is what matters. Above 0.2% = too hot. Below 0.1% = progress.</li>
-<li><strong>Shelter</strong> — is it finally declining? This is 36% of the index and the stickiest component.</li>
-<li><strong>Core services ex-housing ("supercore")</strong> — Powell's obsession. Driven by wages. If this is sticky, the Fed stays hawkish.</li>
-<li><strong>Energy</strong> — the Hormuz-driven wildcard. How much is feeding through to other categories?</li>
+<li><strong>Headline MoM and YoY</strong> — the press headline. If MoM &gt; 0.3%, markets react negatively</li>
+<li><strong>Core MoM</strong> — strip food/energy. &gt;0.2% = too hot for the Fed. Annualize it: 0.3% MoM ≈ 3.6% YoY pace</li>
+<li><strong>Shelter</strong> — is it finally declining? 36% weight. The pipeline (new lease data, Zillow) leads CPI shelter by 12-18 months</li>
+<li><strong>Supercore (core services ex-housing)</strong> — Powell's obsession. Driven by wages. If sticky, Fed stays hawkish</li>
+<li><strong>Energy</strong> — how much is passing through to non-energy categories? Compare energy CPI to core CPI diffusion index</li>
+<li><strong>Diffusion:</strong> How many categories are above 2% annualized? Broad-based &gt; 60% = entrenched inflation</li>
+</ol>
+<h3 id="the-surprise-framework">The Surprise Framework</h3>
+<p>$$\text{Surprise} = \text{Actual} - \text{Consensus}$$</p>
+<p>Markets price consensus <em>before</em> the release. The move comes from the surprise, not the level. A CPI print of 3.5% that was expected at 3.5% = no move. A print of 3.3% vs 3.5% expected = dovish surprise → rates down, equities up.</p>
+<p><strong>Citi Economic Surprise Index:</strong> Aggregates surprises across all releases. Rising = data beating expectations. Falling = data disappointing. This tends to be mean-reverting — consensus catches up with 4-8 week lag.</p>
+<hr />
+<h1 id="part-9-macro-to-portfolio-transmission-the-rm-framework">PART 9: MACRO-TO-PORTFOLIO TRANSMISSION — THE RM FRAMEWORK</h1>
+<h3 id="why-risk-managers-need-macro">Why Risk Managers Need Macro</h3>
+<p>You are not a macro strategist. But every position in the portfolio has embedded macro assumptions:</p>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Embedded macro assumption</th>
+<th>What breaks it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long equities</td>
+<td>Growth continues, no recession</td>
+<td>GDP contraction, earnings miss</td>
+</tr>
+<tr>
+<td>Long duration</td>
+<td>Fed cuts, disinflation continues</td>
+<td>Inflation re-accelerates, term premium rises</td>
+</tr>
+<tr>
+<td>Short vol</td>
+<td>Low-vol regime persists</td>
+<td>Regime shift (Goldilocks → Stagflation)</td>
+</tr>
+<tr>
+<td>Long EM bonds</td>
+<td>EM central banks credible, USD stable</td>
+<td>Fed higher-for-longer, USD strength</td>
+</tr>
+<tr>
+<td>Curve steepener</td>
+<td>Growth/term premium rises</td>
+<td>Flight-to-quality bull flattening</td>
+</tr>
+<tr>
+<td>Long credit</td>
+<td>Default rates stay low</td>
+<td>Recession, refinancing wall at higher rates</td>
+</tr>
+<tr>
+<td>Long energy</td>
+<td>Supply disruption persists</td>
+<td>Diplomacy resolves Hormuz, demand destruction</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM job:</strong> Surface these embedded assumptions, stress test them, and ensure the PM has consciously chosen the macro view rather than stumbling into it.</p>
+<h3 id="regime-dependent-risk-metrics">Regime-Dependent Risk Metrics</h3>
+<p>The same VaR/volatility number means different things in different macro regimes:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Goldilocks interpretation</th>
+<th>Stagflation interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VaR $5M (95%)</strong></td>
+<td>Losses likely contained; correlations benign</td>
+<td>Understated — correlation breakdown means tail events are larger</td>
+</tr>
+<tr>
+<td><strong>Vol 15%</strong></td>
+<td>Normal, well-diversified</td>
+<td>False comfort — could spike to 30%+ as regime shifts</td>
+</tr>
+<tr>
+<td><strong>Sharpe 1.5</strong></td>
+<td>Genuine alpha</td>
+<td>May be beta-driven carry that reverses in regime change</td>
+</tr>
+<tr>
+<td><strong>Beta 0.8</strong></td>
+<td>Slightly defensive</td>
+<td>Beta is unstable — could be 1.5 in a sell-off</td>
+</tr>
+<tr>
+<td><strong>HY spread 350bp</strong></td>
+<td>Tight but not extreme</td>
+<td>Floor — could blow out to 600+ if defaults spike</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cross-asset-correlation-in-macro-regimes">Cross-Asset Correlation in Macro Regimes</h3>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Goldilocks</th>
+<th>Stagflation</th>
+<th>Deflation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPX / UST 10Y</td>
+<td>-0.3 (hedge works)</td>
+<td>+0.4 (hedge fails)</td>
+<td>-0.5 (strong hedge)</td>
+</tr>
+<tr>
+<td>SPX / USD</td>
+<td>-0.2</td>
+<td>-0.4 (both hurt portfolios)</td>
+<td>-0.5</td>
+</tr>
+<tr>
+<td>Oil / SPX</td>
+<td>+0.3</td>
+<td>-0.4 (diverge: oil up, SPX down)</td>
+<td>+0.3</td>
+</tr>
+<tr>
+<td>Gold / UST 10Y</td>
+<td>-0.2</td>
+<td>-0.3 (gold up, bonds down)</td>
+<td>+0.4 (both safe haven)</td>
+</tr>
+<tr>
+<td>HY / IG</td>
+<td>+0.8</td>
+<td>+0.6 (HY underperforms)</td>
+<td>+0.5 (HY collapses more)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM application:</strong> Run correlation regime scenarios. If portfolio assumes Goldilocks correlations and we shift to Stagflation, recalculate portfolio VaR with Stagflation correlation matrix. The difference = regime risk.</p>
+<h3 id="the-daily-macro-checklist-for-risk-managers">The Daily Macro Checklist for Risk Managers</h3>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Check</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>06:00</td>
+<td>Overnight: Asia/Europe indices, FX, oil</td>
+<td>Flag any &gt;1σ moves</td>
+</tr>
+<tr>
+<td>07:30</td>
+<td>Key data release preview (if any)</td>
+<td>Flag PM positions exposed to surprise</td>
+</tr>
+<tr>
+<td>08:30</td>
+<td>US data release (NFP Friday, CPI Wednesday)</td>
+<td>Real-time: watch core number vs consensus</td>
+</tr>
+<tr>
+<td>09:30</td>
+<td>US equity open — first 30 minutes</td>
+<td>Monitor sector rotation, VIX, credit</td>
+</tr>
+<tr>
+<td>10:00</td>
+<td>ISM/JOLTS/Consumer confidence (release times)</td>
+<td>Cross-reference with PM theses</td>
+</tr>
+<tr>
+<td>14:00</td>
+<td>FOMC decision (if meeting day)</td>
+<td>Pre-position review, scenario P&amp;L</td>
+</tr>
+<tr>
+<td>15:30</td>
+<td>MOC flows, ETF flows</td>
+<td>Positioning signals</td>
+</tr>
+<tr>
+<td>16:00</td>
+<td>Post-close — summarize macro signal for PMs</td>
+<td>Daily risk note with macro context</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-scenario-analysis-macro-coherent-stress-testing">PART 10: SCENARIO ANALYSIS — MACRO-COHERENT STRESS TESTING</h1>
+<h3 id="building-macro-coherent-scenarios">Building Macro-Coherent Scenarios</h3>
+<p>A stress test is only useful if the macro assumptions are internally consistent. "Equities -20% and rates -100bp" is a recession scenario. "Equities -20% and rates +100bp" is a stagflation scenario. They have completely different implications.</p>
+<h3 id="the-scenario-framework">The Scenario Framework</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>GDP</th>
+<th>CPI</th>
+<th>Fed</th>
+<th>10Y UST</th>
+<th>SPX</th>
+<th>HY OAS</th>
+<th>Oil</th>
+<th>USD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Base case</strong></td>
+<td>+2.0%</td>
+<td>3.0%</td>
+<td>Hold 3.75%</td>
+<td>4.25%</td>
+<td>+5%</td>
+<td>380bp</td>
+<td>$85</td>
+<td>Stable</td>
+</tr>
+<tr>
+<td><strong>Soft landing</strong></td>
+<td>+2.5%</td>
+<td>2.5%</td>
+<td>Cut to 3.00%</td>
+<td>3.75%</td>
+<td>+12%</td>
+<td>300bp</td>
+<td>$75</td>
+<td>Weaker</td>
+</tr>
+<tr>
+<td><strong>Recession</strong></td>
+<td>-1.5%</td>
+<td>1.5%</td>
+<td>Cut to 1.50%</td>
+<td>3.00%</td>
+<td>-25%</td>
+<td>700bp</td>
+<td>$55</td>
+<td>Stronger</td>
+</tr>
+<tr>
+<td><strong>Stagflation</strong></td>
+<td>+0.3%</td>
+<td>5.0%</td>
+<td>Hike to 5.00%</td>
+<td>5.50%</td>
+<td>-20%</td>
+<td>650bp</td>
+<td>$120</td>
+<td>Stronger</td>
+</tr>
+<tr>
+<td><strong>Hormuz escalation</strong></td>
+<td>-0.5%</td>
+<td>6.0%</td>
+<td>Hold (trapped)</td>
+<td>5.25%</td>
+<td>-30%</td>
+<td>800bp</td>
+<td>$150</td>
+<td>Stronger</td>
+</tr>
+<tr>
+<td><strong>China hard landing</strong></td>
+<td>+0.5%</td>
+<td>1.0%</td>
+<td>Cut to 2.00%</td>
+<td>2.75%</td>
+<td>-20%</td>
+<td>650bp</td>
+<td>$50</td>
+<td>Stronger</td>
+</tr>
+<tr>
+<td><strong>Financial crisis</strong></td>
+<td>-3.0%</td>
+<td>0.5%</td>
+<td>Cut to 0%, QE</td>
+<td>2.00%</td>
+<td>-40%</td>
+<td>1200bp</td>
+<td>$40</td>
+<td>Initially ↑↑, then ↓ (QE)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="scenario-construction-discipline">Scenario Construction Discipline</h3>
+<p>Each scenario must answer:<br />
+1. <strong>What is the shock?</strong> (Demand vs supply, domestic vs external)<br />
+2. <strong>What is the transmission mechanism?</strong> (Through rates, credit, FX, commodities?)<br />
+3. <strong>What is the policy response?</strong> (Accommodative, restrictive, or constrained?)<br />
+4. <strong>What are the second-order effects?</strong> (Contagion, feedback loops, non-linearities)<br />
+5. <strong>What is the timeline?</strong> (Acute shock = days, slow grind = months)</p>
+<h3 id="worked-example-hormuz-closure-scenario">Worked Example — Hormuz Closure Scenario</h3>
+<p><strong>Shock:</strong> Full Strait of Hormuz closure (20% of global oil transit).</p>
+<p><strong>Transmission:</strong><br />
+1. Oil → $140-150 immediately (supply shock)<br />
+2. Energy CPI → +3pp within 2 months<br />
+3. Headline CPI → 6-7% YoY within 3 months<br />
+4. Core CPI → starts rising at month 3 as energy feeds through (transport, production)<br />
+5. Consumer spending → -2% (energy crowds out discretionary)<br />
+6. Corporate margins → compress 200bp (input costs, unable to fully pass through)<br />
+7. Earnings → -15% to -20% → SPX -25% to -30%<br />
+8. Fed → TRAPPED. Inflation says hike. Growth says cut. Likely holds and hopes for diplomatic resolution.<br />
+9. Credit → HY spreads +400bp as energy-intensive issuers face liquidity crunch<br />
+10. FX → USD strengthens (safe haven + US relatively energy-independent)<br />
+11. EM → Importers crushed (India, Thailand, Philippines). Exporters benefit (Saudi, UAE, Norway)</p>
+<p><strong>P&amp;L sensitivity for a balanced portfolio ($500M):</strong><br />
+| Sleeve | Weight | Scenario return | P&amp;L impact |<br />
+|---|---|---|---|<br />
+| US equities | 40% | -25% | -$50M |<br />
+| Duration (10Y) | 25% | -8% (rates +100bp) | -$10M |<br />
+| HY credit | 10% | -15% | -$7.5M |<br />
+| Commodities | 10% | +35% | +$17.5M |<br />
+| Cash/MM | 15% | +3.75% | +$2.8M |<br />
+| <strong>Total</strong> | | | <strong>-$47.2M (-9.4%)</strong> |</p>
+<p><strong>Hedge analysis:</strong> The commodities sleeve absorbs only ~37% of the equity+duration loss. Need additional protection: long put spreads on SPX, short EM FX basket, long energy vs energy-consumer relative value.</p>
+<hr />
+<h1 id="part-11-historical-macro-crises-pattern-recognition">PART 11: HISTORICAL MACRO CRISES — PATTERN RECOGNITION</h1>
+<h3 id="crisis-taxonomy">Crisis Taxonomy</h3>
+<table>
+<thead>
+<tr>
+<th>Crisis</th>
+<th>Macro type</th>
+<th>Duration</th>
+<th>Peak drawdown (SPX)</th>
+<th>Policy response</th>
+<th>Key lesson</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Volcker (1980-82)</strong></td>
+<td>Policy-induced recession</td>
+<td>18 months</td>
+<td>-27%</td>
+<td>FFR to 20% → crushed inflation</td>
+<td>Credibility &gt; short-term pain</td>
+</tr>
+<tr>
+<td><strong>Asian Crisis (1997)</strong></td>
+<td>EM BoP crisis → contagion</td>
+<td>12 months</td>
+<td>-6% (US), -60% (Thai SET)</td>
+<td>IMF bailouts, capital controls</td>
+<td>FX pegs + hot money + leverage = fragile</td>
+</tr>
+<tr>
+<td><strong>LTCM (1998)</strong></td>
+<td>Leverage + convergence trade</td>
+<td>3 months</td>
+<td>-19%</td>
+<td>Fed rate cut + orchestrated bailout</td>
+<td>$125B leverage on $4.7B equity → 27x. Crowded trades unwind non-linearly</td>
+</tr>
+<tr>
+<td><strong>GFC (2008-09)</strong></td>
+<td>Credit + housing + banking</td>
+<td>18 months</td>
+<td>-57%</td>
+<td>ZIRP + QE1/2/3, TARP, FDIC</td>
+<td>Subprime → CDOs → bank capital → everything. Counterparty risk cascades.</td>
+</tr>
+<tr>
+<td><strong>Euro Crisis (2010-12)</strong></td>
+<td>Sovereign debt + banking nexus</td>
+<td>30 months</td>
+<td>-21%</td>
+<td>OMT ("whatever it takes"), ESM</td>
+<td>Sovereign-bank doom loop. Monetary union without fiscal union</td>
+</tr>
+<tr>
+<td><strong>Taper Tantrum (2013)</strong></td>
+<td>Policy communication shock</td>
+<td>4 months</td>
+<td>-6%</td>
+<td>Bernanke clarified, delayed taper</td>
+<td>Forward guidance matters. EM FX bore the brunt.</td>
+</tr>
+<tr>
+<td><strong>COVID (2020)</strong></td>
+<td>Exogenous demand shock</td>
+<td>2 months</td>
+<td>-34%</td>
+<td>Unlimited QE, fiscal bazooka</td>
+<td>Fastest crash AND recovery. Policy scale matters.</td>
+</tr>
+<tr>
+<td><strong>2022 Inflation</strong></td>
+<td>Supply + demand → rate shock</td>
+<td>10 months</td>
+<td>-25%</td>
+<td>Fastest hiking cycle in 40Y</td>
+<td>Stock-bond correlation flipped positive. 60/40 worst year since 1970s.</td>
+</tr>
+<tr>
+<td><strong>UK Gilt Crisis (2022)</strong></td>
+<td>Fiscal credibility shock</td>
+<td>1 week</td>
+<td>-8% (FTSE)</td>
+<td>BoE emergency QE, PM resigned</td>
+<td>Fiscal policy can break markets. LDI leverage exposed.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-anatomy-of-a-macro-crisis">The Anatomy of a Macro Crisis</h3>
+<div class="highlight"><pre><span></span><code>Phase 1: ACCUMULATION (months-years before)
+         Leverage builds, risk premia compress, complacency
+         └── Signs: VIX &lt;15, HY OAS &lt;350, yield-chasing, covenant-lite issuance
+
+Phase 2: TRIGGER (days)
+         Exogenous shock or endogenous crack exposes the accumulated fragility
+         └── Signs: Single-name blow-up, unexpected data, geopolitical event
+
+Phase 3: CONTAGION (days-weeks)
+         Forced selling → margin calls → liquidity withdrawal → correlation spike
+         └── Signs: Cross-asset correlation → 1.0, spreads gap, vol explodes
+
+Phase 4: POLICY RESPONSE (days-weeks)
+         Central bank intervenes, governments act
+         └── Signs: Emergency meetings, new facilities, rate cuts, fiscal packages
+
+Phase 5: RESOLUTION (months)
+         Markets stabilize, fundamentals reassessed, new regime established
+         └── Signs: Vol declines, sectoral differentiation returns, flows normalize
+</code></pre></div>
+
+<h3 id="lessons-across-all-crises">Lessons Across All Crises</h3>
+<ol>
+<li><strong>Leverage is the accelerant:</strong> Every major crisis involved excess leverage somewhere — banks (2008), hedge funds (LTCM), pension funds (UK 2022), family offices (Archegos)</li>
+<li><strong>Correlations spike to 1 in a crisis:</strong> Diversification fails exactly when you need it. Cross-asset hedges that "worked" in normal times can fail simultaneously</li>
+<li><strong>Liquidity disappears when you need it most:</strong> Market depth evaporates. Bid-ask spreads widen 5-10x. Forced sellers face no bids</li>
+<li><strong>Policy response determines the trough:</strong> Markets bottom when policy intervention is sufficiently large and credible. "Whatever it takes" works; "measured response" doesn't</li>
+<li><strong>The next crisis looks different from the last one:</strong> Regulators fix the previous vulnerability (banks after 2008). Risk migrates to wherever regulation isn't — shadow banking, private credit, levered LDI, basis trades</li>
 </ol>
 <hr />
-<h1 id="part-8-connecting-macro-to-risk-management">PART 8: CONNECTING MACRO TO RISK MANAGEMENT</h1>
-<h3 id="why-a-risk-manager-needs-macro">Why a Risk Manager Needs Macro</h3>
-<p>You're not a macro strategist. But you need macro understanding for three reasons:</p>
-<ol>
-<li>
-<p><strong>Stress testing:</strong> Your scenarios need to be macro-coherent. "Equities -20% and rates -100bps" is a recession scenario. "Equities -20% and rates +100bps" is a stagflation scenario. They require completely different hedges. If you don't understand macro, your stress tests are incoherent.</p>
-</li>
-<li>
-<p><strong>Challenging PM theses:</strong> A PM says "I'm long duration because the Fed is about to cut aggressively." You need to be able to say: "But core services ex-housing is re-accelerating from the oil shock — what if the Fed holds? What's your P&amp;L if 10Y goes to 4.75% instead of 3.75%?"</p>
-</li>
-<li>
-<p><strong>Portfolio construction:</strong> If you know we're late-cycle with rising inflation, you know that stock-bond correlation is likely positive (both can sell off together). That means traditional 60/40 diversification doesn't work. You need alternative hedges — and you need to tell the PM that before the correlation regime shift, not after.</p>
-</li>
-</ol>
+<h1 id="part-12-interview-answers">PART 12: INTERVIEW ANSWERS</h1>
+<h3 id="q1-walk-me-through-how-youd-think-about-the-hormuz-oil-shock-from-a-risk-management-perspective">Q1: "Walk me through how you'd think about the Hormuz oil shock from a risk management perspective"</h3>
+<p><strong>Answer:</strong> "I'd structure this in three layers: immediate, medium-term, and tail.</p>
+<p>Immediate — I'd look at our direct energy exposure, both longs and shorts. Then I'd map the second-order exposures: which PMs have positions in energy-intensive sectors like airlines, transport, or materials? What's our total portfolio sensitivity to a $10/barrel oil move? I'd want that DV01-equivalent for oil running by end of day.</p>
+<p>Medium-term — the macro question is whether this stays as a cost-push shock that reverses or whether it feeds into core inflation via the wage-price transmission channel. I'd monitor the pipeline: PPI, ISM Prices Paid, then core CPI diffusion. If core CPI MoM starts exceeding 0.3% for two consecutive prints, we're in trouble because the Fed is trapped — they can't cut to support growth without re-igniting inflation, and they can't hike without deepening the growth shock.</p>
+<p>Tail scenario — a full, prolonged closure means $140+ oil, recession probability jumps to 60%+, and we're in a stagflation regime where stock-bond correlation flips positive and traditional hedges fail. I'd run the scenario through our portfolio with stagflation correlation assumptions rather than recent correlations, because the correlation regime shift is where the real risk is hiding.</p>
+<p>For the desk, I'd communicate this as: 'Our VaR number assumes recent correlations. If we enter a stagflation regime, effective portfolio risk could be 1.5-2x what VaR shows.' Then I'd recommend reviewing our hedge overlay — specifically, whether our duration hedges still work if both stocks and bonds sell off."</p>
+<h3 id="q2-the-10-year-yield-moved-15bp-this-morning-how-would-you-decompose-that">Q2: "The 10-year yield moved 15bp this morning. How would you decompose that?"</h3>
+<p><strong>Answer:</strong> "I'd break it into three components.</p>
+<p>First, expected policy rates — what's the market's revised expectation for the Fed path? I'd check fed funds futures across the curve. If the 2-year moved proportionally, the move is policy-driven, meaning the market is repricing the number of rate hikes or cuts.</p>
+<p>Second, real rate versus inflation expectations — I'd compare the TIPS yield move to the nominal yield move. If the nominal 10Y moved 15bp and the TIPS 10Y moved 10bp, that's 10bp real rate increase and 5bp breakeven increase. Real rate moves suggest growth expectations or fiscal supply concerns. Breakeven moves suggest inflation repricing.</p>
+<p>Third, term premium — the residual after accounting for expected rates and inflation. Using the ACM term premium model from the New York Fed, if most of the move is term premium, it suggests investor confidence in holding long-duration government bonds has shifted, possibly from fiscal supply concerns, foreign selling, or reduced QE expectations.</p>
+<p>Then I'd map this to our portfolio: multiply the move by our aggregate DV01 for a first-order P&amp;L estimate, then check which PMs have the most duration exposure and whether their positions are directional bets or hedged structures. A PM who's long a 2s10s steepener actually benefits from a bear steepening move, whereas a PM who's outright long 10Y duration is taking a loss."</p>
+<h3 id="q3-where-are-we-in-the-business-cycle-and-what-does-that-mean-for-portfolio-risk">Q3: "Where are we in the business cycle and what does that mean for portfolio risk?"</h3>
+<p><strong>Answer:</strong> "I'd frame this using the growth-inflation quadrant. Right now we're in an unusual position — we were in Goldilocks territory in late 2025, with disinflation and moderate growth, but the oil shock is pushing us toward either Reflation or Stagflation, depending on whether growth holds up.</p>
+<p>The key data to distinguish: if ISM holds above 50 and payrolls stay above 150K while inflation re-accelerates, we're in Reflation — which means equities can still work but positioning needs to rotate toward value and commodities, and duration should be underweight. If ISM breaks below 48 and claims start rising while inflation stays elevated, we're entering Stagflation — the worst quadrant for a balanced portfolio because stock-bond correlation turns positive and traditional diversification breaks.</p>
+<p>For our book specifically, this regime ambiguity means I'd want to stress-test under BOTH scenarios and see which one causes more damage. I'd also want to check our hedge ratios — are we assuming negative stock-bond correlation? Because if we shift to a positive-correlation regime, our rate hedges could amplify losses rather than absorb them. That's the single biggest regime-change risk I'd flag to our PMs right now."</p>
 <p><strong>Deep dive on current context:</strong> <em>10_Market_Context_Today</em><br />
 <strong>Cross-asset cascade logic:</strong> <em>09_Market_Intuition</em></p>
 </main>

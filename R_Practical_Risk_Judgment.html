@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practical Risk Judgment — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-hover: #1c2331;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #e6edf3;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --accent-subtle: rgba(88,166,255,0.1);
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --orange: #db6d28;
+  --sidebar-w: 290px;
+  --content-max: 980px;
+}
+html { scroll-behavior: smooth; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar-header {
+  padding: 14px 20px 18px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.nav-section {
+  padding: 16px 20px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
+.nav-link {
+  display: block;
+  padding: 5px 20px 5px 22px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 48px 64px 100px;
+  max-width: var(--content-max);
+}
+.content h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 48px;
+  margin-bottom: 14px;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 22px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 16px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+.content ul, .content ol {
+  margin: 0 0 18px 24px;
+}
+.content li {
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+}
+.content li strong {
+  color: var(--text);
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 14px 22px;
+  margin: 20px 0;
+  background: rgba(88,166,255,0.05);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.content blockquote strong {
+  color: var(--text-secondary);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.content th {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+.content td {
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
+  vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.content td strong {
+  color: var(--text);
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.015);
+}
+.content tr:hover td {
+  background: rgba(88,166,255,0.03);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MATH (KaTeX) */
+.katex-display {
+  margin: 20px 0;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+.katex { font-size: 1.05em; }
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 15px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 10px; }
+  .content { padding: 60px 16px 40px; }
+  .katex { font-size: 0.95em; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link active" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="r-practical-risk-judgment">R — PRACTICAL RISK JUDGMENT</h1>
+<h2 id="the-difference-between-knowing-risk-and-doing-risk">The difference between knowing risk and DOING risk</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>A junior RM who knows every formula but can't navigate a live trading floor is useless. A junior RM who can read a blotter in 5 minutes, sense when a PM is rationalizing a losing position, flag the one cross-asset risk that matters today, and communicate it in 30 seconds to a busy Head of Risk — that person is invaluable from week one.</p>
+<p>This domain is the JUDGMENT layer. Technical knowledge gets you in the room. Judgment keeps you there.</p>
+<p>At Squarepoint, you'll sit between discretionary PMs who think in conviction and narrative, and a systematic infrastructure that thinks in quantitative constraints. Your job is to bridge both — translate quant frameworks into actionable PM guidance, and translate PM intuition into risk-budgeted positions. Every section below is designed for immediate practical application.</p>
+<hr />
+<h1 id="part-1-reading-a-risk-report-the-5-minute-scan">PART 1: READING A RISK REPORT — THE 5-MINUTE SCAN</h1>
+<h3 id="the-position-blotter">The Position Blotter</h3>
+<p>When you sit down at 7:00 AM, you'll see something like this on your screen:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Dir</th>
+<th>Notional ($M)</th>
+<th>% NAV</th>
+<th>Sector</th>
+<th>Delta</th>
+<th>Gamma</th>
+<th>Vega</th>
+<th>DV01 ($K)</th>
+<th>P&amp;L Today ($K)</th>
+<th>P&amp;L MTD ($K)</th>
+<th>Days Held</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>XOM</td>
+<td>Long</td>
+<td>80</td>
+<td>8.0%</td>
+<td>Energy</td>
+<td>1.00</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>+950</td>
+<td>+2,100</td>
+<td>34</td>
+</tr>
+<tr>
+<td>2</td>
+<td>AAPL</td>
+<td>Long</td>
+<td>45</td>
+<td>4.5%</td>
+<td>Tech</td>
+<td>0.85</td>
+<td>0.02</td>
+<td>—</td>
+<td>—</td>
+<td>-320</td>
+<td>-850</td>
+<td>22</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SPX Jun 5200P</td>
+<td>Short</td>
+<td>30</td>
+<td>3.0%</td>
+<td>Index</td>
+<td>+0.35</td>
+<td>-0.04</td>
+<td>-180</td>
+<td>—</td>
+<td>-410</td>
+<td>-600</td>
+<td>15</td>
+</tr>
+<tr>
+<td>4</td>
+<td>TLT</td>
+<td>Long</td>
+<td>25</td>
+<td>2.5%</td>
+<td>Rates</td>
+<td>1.00</td>
+<td>—</td>
+<td>—</td>
+<td>38</td>
+<td>-150</td>
+<td>-400</td>
+<td>40</td>
+</tr>
+<tr>
+<td>5</td>
+<td>BUND Jun 130C</td>
+<td>Long</td>
+<td>15</td>
+<td>1.5%</td>
+<td>EU Rates</td>
+<td>0.45</td>
+<td>0.01</td>
+<td>65</td>
+<td>12</td>
+<td>+30</td>
+<td>-120</td>
+<td>18</td>
+</tr>
+<tr>
+<td>6</td>
+<td>BRL/USD</td>
+<td>Short</td>
+<td>20</td>
+<td>2.0%</td>
+<td>EM FX</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>+80</td>
+<td>-200</td>
+<td>28</td>
+</tr>
+<tr>
+<td>7</td>
+<td>CVX</td>
+<td>Long</td>
+<td>35</td>
+<td>3.5%</td>
+<td>Energy</td>
+<td>1.00</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>+420</td>
+<td>+900</td>
+<td>34</td>
+</tr>
+<tr>
+<td>8</td>
+<td>NVDA Jun 900C</td>
+<td>Long</td>
+<td>12</td>
+<td>1.2%</td>
+<td>Tech</td>
+<td>0.55</td>
+<td>0.03</td>
+<td>95</td>
+<td>—</td>
+<td>-180</td>
+<td>-500</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Portfolio summary:</strong><br />
+- Gross: $262M | Net long: $182M (net/gross = 69% long-biased)<br />
+- NAV: $1,000M<br />
+- VaR (95%, 1d): $8.2M (limit: $10M)<br />
+- Margin utilization: 72%<br />
+- MTD P&amp;L: +$330K</p>
+<h3 id="the-systematic-scan-8-checks-in-5-minutes">The Systematic Scan — 8 Checks in 5 Minutes</h3>
+<p><strong>1. CONCENTRATION (30 seconds)</strong><br />
+- XOM at 8.0% NAV → large single-name. Combined with CVX at 3.5% → 11.5% in energy. Any energy-specific shock (oil reversal, earnings miss) causes 10%+ portfolio impact.<br />
+- Rule of thumb: &gt;5% NAV in one name = flag. &gt;15% in one sector = escalate.</p>
+<p><strong>2. DIRECTION (30 seconds)</strong><br />
+- Net long $182M on $1B NAV → 18.2% net equity exposure<br />
+- But the short puts ADD to effective long when market falls. At SPX -5%, those puts' delta increases → effective long exposure could reach 25%+<br />
+- Question: is this intentional directional allocation or drift?</p>
+<p><strong>3. GREEKS — ACCELERATION RISK (45 seconds)</strong><br />
+- Short gamma via SPX puts (-0.04) = PM gets LONGER as market falls. This is the toxic convexity profile.<br />
+- Short vega (-180) via puts + long vega (+95 + 65) via calls = net short vega -20. Manageable, but if vol spikes 5 points, that's -$100K from vega alone.<br />
+- Key calculation: if SPX drops 3% in a day:</p>
+<p>$$\text{New put delta} \approx 0.35 + 0.04 \times \frac{0.03 \times 5200}{1} \approx 0.35 + 6.24 = \text{capped at } {\sim}0.65$$</p>
+<p>Put delta roughly doubles → adds ~$9M to effective long exposure → total portfolio gets 50% longer at the worst possible time.</p>
+<p><strong>4. CORRELATION — ARE "DIFFERENT" POSITIONS THE SAME BET? (45 seconds)</strong><br />
+- XOM + CVX = both long oil → obvious energy concentration<br />
+- But also: BRL/USD short → Brazil is an oil exporter → if oil rallies, BRL strengthens → the short BRL position LOSES money. So this is partially hedging the energy longs... or is it an independent macro view?<br />
+- TLT long = supposed equity hedge → but in a stagflation scenario, equities AND bonds sell off. The "hedge" becomes additional loss. Check: is the stock-bond correlation currently positive or negative?</p>
+<p><strong>5. P&amp;L TRAJECTORY — WHAT'S BLEEDING? (30 seconds)</strong><br />
+- AAPL: -$850K MTD, held 22 days. That's -1.9% on the position. Modest, but what's the thesis? Is this a conviction hold or a stale position?<br />
+- NVDA calls: -$500K MTD in only 10 days, with 0.55 delta on a long call = time decay is eating this. At what point does the PM cut?<br />
+- BRL: -$200K, held 28 days. No signs of thesis working. Time-horizon question.</p>
+<p><strong>6. HEDGE EFFECTIVENESS (30 seconds)</strong><br />
+- TLT hedge: $25M notional with DV01 of $38K. For a $182M net equity portfolio, this provides partial duration offset but minimal equity hedge UNLESS stock-bond ρ &lt; 0.<br />
+- Quick check: rolling 21d SPX/TLT correlation. If ρ &gt; 0 (currently likely due to oil shock), TLT is NOT hedging — it's an independent risk source.</p>
+<p><strong>7. LIQUIDITY (30 seconds)</strong><br />
+- All names are liquid large-cap or deep options markets. No liquidity flags today.<br />
+- But: in a stress scenario, bid-ask on deep OTM puts widens 3-5x. The short puts become harder to close at fair value.</p>
+<p><strong>8. STRESS — WORST SINGLE DAY (30 seconds)</strong><br />
+- Scenario: SPX -5%, oil -10%, rates +20bp (stagflation shock)<br />
+- Quick estimate: Equity: -$182M × 5% × beta(~1.1) = -$10M. Energy: XOM+CVX -$115M × 5% extra = -$5.8M. Puts: gamma adds $9M long exposure, then loses on that too. TLT: -$38K × 20 = -$760K.<br />
+- Combined worst case: -$16M+ → BREACHES $10M VaR limit. Flag.</p>
+<h3 id="the-output-one-page-morning-summary">The Output: One-Page Morning Summary</h3>
+<p>After the 5-minute scan, you produce:</p>
+<div class="highlight"><pre><span></span><code>MORNING RISK SNAPSHOT — [Date]
+PM: [Name] | NAV: $1,000M | VaR: $8.2M/$10M (82%)
+
+TOP 3 RISKS:
+1. Energy concentration: XOM + CVX = 11.5% NAV. Oil reversal -10%
+   → estimated -$5.8M (58% of VaR limit consumed by ONE factor).
+2. Short gamma: SPX puts → effective exposure increases 50% on SPX -3%.
+   Book gets longest at the worst time.
+3. TLT hedge may not work: stock-bond ρ is currently positive.
+   In stagflation scenario, TLT adds $760K loss, not protection.
+
+KEY EVENTS TODAY: CPI release 08:30. Consensus core MoM +0.3%.
+If hot (&gt;0.35%): expect rates +10bp, SPX -1-2%, oil impact ambiguous.
+PM EXPOSURE: Long equities + short puts = max pain on a sell-off day.
+
+MY RECOMMENDATION: Consider rolling SPX puts down 100 strikes to
+reduce gamma exposure ahead of CPI. Cost: ~$200K in premium.
+Benefit: VaR drops to $7.5M, tail exposure capped.
+</code></pre></div>
+
+<hr />
+<h1 id="part-2-risk-prioritization-framework">PART 2: RISK PRIORITIZATION FRAMEWORK</h1>
+<h3 id="the-urgency-matrix">The Urgency Matrix</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Low probability (&lt;10%)</strong></th>
+<th><strong>Medium probability (10-40%)</strong></th>
+<th><strong>High probability (&gt;40%)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>High impact (&gt;$5M)</strong></td>
+<td>MONITOR — stress tests, contingency plans. Don't dismiss because "unlikely." These are the cases that end careers.</td>
+<td>PREPARE — active hedge, position size review, IC discussion within 24h</td>
+<td><strong>ACT NOW</strong> — reduce, hedge, or get explicit IC sign-off. No debate.</td>
+</tr>
+<tr>
+<td><strong>Medium impact ($1-5M)</strong></td>
+<td>ACCEPT — standard operating risk</td>
+<td>WATCH — daily monitoring, pre-defined action triggers</td>
+<td>ADDRESS — within 1-2 days, ensure intentional</td>
+</tr>
+<tr>
+<td><strong>Low impact (&lt;$1M)</strong></td>
+<td>IGNORE — don't waste bandwidth</td>
+<td>ACCEPT — limits handle this</td>
+<td>ROUTINE — manage through standing limits</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-escalation-ladder">The Escalation Ladder</h3>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Trigger</th>
+<th>Who to tell</th>
+<th>When</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GREEN</strong></td>
+<td>Approaching soft limit (70-80%)</td>
+<td>PM only</td>
+<td>As it happens</td>
+<td>Verbal: "FYI, approaching [limit]"</td>
+</tr>
+<tr>
+<td><strong>YELLOW</strong></td>
+<td>Breaching soft limit / unusual risk concentration</td>
+<td>PM + note for desk head</td>
+<td>Within 1 hour</td>
+<td>Message: "At 85% of [limit]. Recommendation: [action]"</td>
+</tr>
+<tr>
+<td><strong>ORANGE</strong></td>
+<td>Approaching hard limit (90%+) / correlation breakdown</td>
+<td>PM + desk head + risk committee</td>
+<td>Same day</td>
+<td>Formal: documented escalation with alternatives</td>
+</tr>
+<tr>
+<td><strong>RED</strong></td>
+<td>Hard limit breach / margin call / system failure</td>
+<td>Everyone up to CRO</td>
+<td>Immediately</td>
+<td>Call + written documentation. Timestamp everything.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-gets-flagged-and-when-the-decision-tree">What Gets Flagged and When — The Decision Tree</h3>
+<div class="highlight"><pre><span></span><code>New information arrives (market move, news, PM request)
+│
+├── Does it change our risk profile by &gt; 10% of any limit?
+│   ├── YES → Quantify immediately. Prepare recommendation.
+│   │   ├── Is it approaching/breaching a HARD limit?
+│   │   │   ├── YES → ESCALATE to IC. No discretion.
+│   │   │   └── NO → Talk to PM. &quot;Here&#39;s what I see. Here&#39;s what I recommend.&quot;
+│   │   │       ├── PM agrees → Implement
+│   │   │       └── PM disagrees → Document PM&#39;s rationale. If you believe genuine
+│   │   │                          risk exists, escalate to desk head with data.
+│   └── NO → Log it, monitor, include in next regular check
+│
+├── Is a PM requesting a new trade / position increase?
+│   ├── YES → Pre-trade risk check:
+│   │   ├── Impact on VaR, concentration, margin, Greeks
+│   │   ├── Does it breach any soft/hard limit?
+│   │   ├── Does it change the portfolio&#39;s factor profile?
+│   │   └── Present: &quot;Adding this position does [X] to your risk profile. 
+│   │                 You&#39;ll be at [Y]% of [limit]. Proceed?&quot;
+│   └── NO → Continue monitoring
+│
+└── Is this a BEHAVIORAL signal from PM?
+    ├── YES → See Part 7: Behavioral Red Flags
+    └── NO → Standard workflow
+</code></pre></div>
+
+<h3 id="worked-example-prioritizing-5-simultaneous-risks">Worked Example — Prioritizing 5 Simultaneous Risks</h3>
+<p>At 10:15 AM, you notice all of these:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Issue</th>
+<th>Impact</th>
+<th>Probability</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>XOM approaching 10% NAV (limit: 10%)</td>
+<td>Medium</td>
+<td>High (current drift)</td>
+<td><strong>YELLOW</strong> — talk to PM in next 30 min</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Overnight EM crisis → BRL gap open -4%</td>
+<td>Small ($400K)</td>
+<td>Already happened</td>
+<td><strong>GREEN</strong> — inform PM, it's small</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SPX -2% in first 45 min, gamma adding exposure</td>
+<td>High ($3M+ at risk)</td>
+<td>Real-time</td>
+<td><strong>ORANGE</strong> — prepare recommendation now</td>
+</tr>
+<tr>
+<td>4</td>
+<td>AAPL earnings tonight — PM hasn't mentioned it</td>
+<td>Medium</td>
+<td>Known catalyst</td>
+<td><strong>YELLOW</strong> — ask PM about overnight risk plan</td>
+</tr>
+<tr>
+<td>5</td>
+<td>IT tells you the VaR model didn't run overnight</td>
+<td>Unknown (flying blind)</td>
+<td>Already happened</td>
+<td><strong>RED</strong> — escalate to desk head immediately</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Correct triage order:</strong> 5 → 3 → 1 → 4 → 2</p>
+<p>You handle #5 first (you can't manage risk you can't measure), then #3 (active P&amp;L risk), then #1 and #4 (medium-priority conversations), and #2 last (small, already happened).</p>
+<hr />
+<h1 id="part-3-the-risk-management-value-spectrum">PART 3: THE RISK MANAGEMENT VALUE SPECTRUM</h1>
+<h3 id="from-compliance-to-alpha-partner">From Compliance to Alpha Partner</h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>What they do</th>
+<th>Example</th>
+<th>PM perception</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Level 1: Compliance</strong></td>
+<td>Reports limit breaches after they happen</td>
+<td>"Your VaR is $12M against a $10M limit. You need to reduce."</td>
+<td>"Useless. I already know."</td>
+</tr>
+<tr>
+<td><strong>Level 2: Monitoring</strong></td>
+<td>Tracks metrics in real time, sends alerts</td>
+<td>"You're at 92% of concentration limit in energy."</td>
+<td>"At least they're watching."</td>
+</tr>
+<tr>
+<td><strong>Level 3: Diagnosis</strong></td>
+<td>Decomposes risk and explains where it comes from</td>
+<td>"Your VaR is $12M. 60% is from short gamma, 30% from energy concentration, 10% from FX."</td>
+<td>"OK, that's helpful."</td>
+</tr>
+<tr>
+<td><strong>Level 4: Solutions</strong></td>
+<td>Provides actionable alternatives with trade-offs</td>
+<td>"To get VaR to $10M: Option A — roll puts down 100 (saves $2.5M VaR, costs $200K premium). Option B — trim XOM by 20% (saves $1.8M VaR, reduces your best thesis). Your call."</td>
+<td>"This person makes me better."</td>
+</tr>
+<tr>
+<td><strong>Level 5: Anticipation</strong></td>
+<td>Identifies risks before they materialize and builds frameworks to prevent them</td>
+<td>"CPI is in 2 hours. If core prints &gt;0.4%, your short gamma + energy concentration creates a -$8M scenario. I recommend a pre-CPI adjustment: [specific trade]. Here's the cost-benefit."</td>
+<td>"I won't trade without them."</td>
+</tr>
+</tbody>
+</table>
+<h3 id="concrete-good-vs-bad-examples">Concrete Good-vs-Bad Examples</h3>
+<p><strong>Situation: Oil up 8%</strong></p>
+<table>
+<thead>
+<tr>
+<th>Bad RM</th>
+<th>Good RM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Oil is up 8%. Here's the P&amp;L."</td>
+<td>"Oil up 8%. Your net P&amp;L is +$900K, mostly XOM/CVX. But here are two second-order risks you should know about:"</td>
+</tr>
+<tr>
+<td>(Stops there)</td>
+<td>"1. Your short SPX puts are now deeper short gamma — if the market sells off on stagflation fear, your puts add $9M to your long exposure at exactly the wrong moment."</td>
+</tr>
+<tr>
+<td></td>
+<td>"2. TIPS breakevens widened 8bp, which means the market is repricing rate cut expectations. If fed funds futures reprice to 'no cuts this year,' your TLT and BUND positions lose another $500K."</td>
+</tr>
+<tr>
+<td></td>
+<td>"Recommendation: roll the SPX puts down 100 strikes to flatten gamma. Cost: $200K. Or add a 5100/5000 put spread as a crash hedge — cost: $350K."</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Situation: PM wants to double a losing position</strong></p>
+<table>
+<thead>
+<tr>
+<th>Bad RM</th>
+<th>Good RM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"That will breach your concentration limit."</td>
+<td>"I want to understand the thesis first. When you entered AAPL at $185, the thesis was iPhone cycle + AI services. It's now at $172 — what's changed in the fundamental story?"</td>
+</tr>
+<tr>
+<td>(End of conversation)</td>
+<td><em>[If PM says nothing has changed]:</em> "OK, I can support adding if the thesis is intact. But let me show you the portfolio impact: VaR goes from $8.2M to $9.7M. You'll be at 97% of limit. And if AAPL reports earnings and misses, combined with your existing positions, max loss is $4.2M on that name alone — that's 42% of your VaR budget on one event. Alternative: add $15M instead of $45M, which captures 80% of the thesis with half the concentration risk."</td>
+</tr>
+<tr>
+<td></td>
+<td><em>[If PM says "it has to come back"]:</em> "That's not a thesis — that's hope. I need to flag this to the desk head. I'm not blocking you, but I need an explicit sign-off with that rationale documented."</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Situation: Vol running 30%+ above target</strong></p>
+<table>
+<thead>
+<tr>
+<th>Bad RM</th>
+<th>Good RM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"The portfolio's realized vol is above target."</td>
+<td>"Realized vol is running 18% vs your 12% target, for 8 straight days. I decomposed it:"</td>
+</tr>
+<tr>
+<td></td>
+<td>"• 60% from market vol increase (VIX moved from 16 to 22 — that's beta, not your fault)"</td>
+</tr>
+<tr>
+<td></td>
+<td>"• 40% from XOM/CVX concentration, which is running 3x the vol of the rest of the book right now"</td>
+</tr>
+<tr>
+<td></td>
+<td>"If you want to bring vol back to target: trimming XOM by 25% does it. If you want to keep the position because the thesis is strong, we need IC sign-off on elevated vol. Which path do you prefer?"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-core-principle">The Core Principle</h3>
+<p><strong>Your job is not to minimize risk. Your job is to maximize INFORMED risk-taking.</strong></p>
+<p>Every dollar of risk should be:<br />
+1. <strong>Intentional</strong> — the PM explicitly chose to take this risk (not drift, not accident)<br />
+2. <strong>Sized</strong> — within the risk budget, with buffer for stress<br />
+3. <strong>Understood</strong> — at the portfolio level, including second-order effects and cross-asset transmission<br />
+4. <strong>Compensated</strong> — the expected return justifies the risk (Sharpe &gt; 0 on marginal capital)<br />
+5. <strong>Hedgeable</strong> — there's a way out if the thesis is wrong (or the PM consciously doesn't hedge and accepts the tail)</p>
+<hr />
+<h1 id="part-4-the-daily-workflow-hour-by-hour">PART 4: THE DAILY WORKFLOW — HOUR BY HOUR</h1>
+<h3 id="pre-market-0630-0915">Pre-Market (06:30 – 09:15)</h3>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Task</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>06:30</td>
+<td><strong>Overnight scan:</strong> Asia close, Europe open, oil, rates, FX, any &gt;1σ moves</td>
+<td>3-line overnight summary</td>
+</tr>
+<tr>
+<td>07:00</td>
+<td><strong>Position check:</strong> Re-mark to overnight levels. Has anything moved enough to change Greeks or VaR materially?</td>
+<td>Updated P&amp;L and Greeks estimate</td>
+</tr>
+<tr>
+<td>07:15</td>
+<td><strong>News scan:</strong> Geopolitical, company-specific (earnings after close yesterday?), central bank commentary</td>
+<td>Tag anything that affects current positions</td>
+</tr>
+<tr>
+<td>07:30</td>
+<td><strong>Stress test refresh:</strong> Re-run top 3 scenarios with current marks</td>
+<td>Updated stress P&amp;L numbers</td>
+</tr>
+<tr>
+<td>07:45</td>
+<td><strong>Data calendar check:</strong> Any Tier 1 releases today? Consensus for each?</td>
+<td>Pre-position analysis: PM exposure to surprises</td>
+</tr>
+<tr>
+<td>08:00</td>
+<td><strong>Morning summary:</strong> Compile one-page snapshot for PM</td>
+<td>Deliver to PM as they arrive, or ping pre-market</td>
+</tr>
+<tr>
+<td>08:30</td>
+<td><strong>Data release (if applicable):</strong> NFP/CPI/GDP — watch real-time vs consensus</td>
+<td>Immediate: "Core CPI came in at 0.4% vs 0.3% expected. Here's impact on our book."</td>
+</tr>
+<tr>
+<td>09:00</td>
+<td><strong>PM conversation:</strong> Walk through morning summary. "Here are the 2-3 things I'd focus on today."</td>
+<td>Aligned on priorities for the day</td>
+</tr>
+</tbody>
+</table>
+<h3 id="market-hours-0930-1600">Market Hours (09:30 – 16:00)</h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Frequency</th>
+<th>What to look for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P&amp;L monitoring</strong></td>
+<td>Continuous</td>
+<td>Any position losing &gt; $1M or &gt; 2% of entry → flag</td>
+</tr>
+<tr>
+<td><strong>Greeks monitoring</strong></td>
+<td>Every 30 min</td>
+<td>Gamma drift: are we getting longer/shorter as market moves?</td>
+</tr>
+<tr>
+<td><strong>Limit utilization</strong></td>
+<td>Hourly</td>
+<td>VaR, concentration, sector, Greeks limits → dashboard</td>
+</tr>
+<tr>
+<td><strong>Cross-asset regime</strong></td>
+<td>Continuous</td>
+<td>SPX and TLT moving same direction? Regime flag. Oil &gt;3%? Cascade check.</td>
+</tr>
+<tr>
+<td><strong>PM requests</strong></td>
+<td>As they come</td>
+<td>"Can I add $20M?" → Run pre-trade check → "Impact: VaR +$1.2M, 90% of limit. Margin +5%. Proceed?"</td>
+</tr>
+<tr>
+<td><strong>Anomaly detection</strong></td>
+<td>Continuous</td>
+<td>Unusual vol in held names, liquidity deterioration, basis widening, ETF discount</td>
+</tr>
+<tr>
+<td><strong>Event monitoring</strong></td>
+<td>Scheduled</td>
+<td>FOMC at 14:00? → Pre-position: "Here's our exposure to each outcome."</td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-close-1600-1800">Post-Close (16:00 – 18:00)</h3>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Task</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16:00</td>
+<td><strong>Mark-to-close P&amp;L</strong></td>
+<td>Official daily P&amp;L with attribution (delta/gamma/vega/theta/residual)</td>
+</tr>
+<tr>
+<td>16:15</td>
+<td><strong>Limit status update</strong></td>
+<td>All limits: current utilization vs limits. Any approaching/breaching.</td>
+</tr>
+<tr>
+<td>16:30</td>
+<td><strong>End-of-day risk report</strong></td>
+<td>Full report: P&amp;L, P&amp;L attribution, Greeks, factor exposures, stress scenarios</td>
+</tr>
+<tr>
+<td>17:00</td>
+<td><strong>Tomorrow's catalysts</strong></td>
+<td>Earnings, data releases, options expiry, geopolitical. What could gap overnight?</td>
+</tr>
+<tr>
+<td>17:15</td>
+<td><strong>Scenario update</strong></td>
+<td>If market conditions changed today, refresh scenario assumptions</td>
+</tr>
+<tr>
+<td>17:30</td>
+<td><strong>PM debrief (if needed)</strong></td>
+<td>"Today we gained/lost $X. The key risk going into tomorrow is [Y]."</td>
+</tr>
+</tbody>
+</table>
+<h3 id="weekly-deep-dive-friday-afternoon-or-monday-morning">Weekly Deep Dive (Friday afternoon or Monday morning)</h3>
+<table>
+<thead>
+<tr>
+<th>Analysis</th>
+<th>What it reveals</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Factor decomposition</strong></td>
+<td>Is the PM generating alpha or harvesting beta?</td>
+<td>If R²(SPX) &gt; 0.6, the "alpha" is really equity beta. Flag.</td>
+</tr>
+<tr>
+<td><strong>Correlation evolution</strong></td>
+<td>Are positions becoming more correlated?</td>
+<td>If avg pairwise ρ &gt; 0.6, diversification is collapsing. Flag.</td>
+</tr>
+<tr>
+<td><strong>P&amp;L attribution by source</strong></td>
+<td>Where's the money coming from? Delta? Gamma? Theta?</td>
+<td>If &gt;50% from theta (selling options premium), the strategy has tail risk</td>
+</tr>
+<tr>
+<td><strong>Drawdown analysis</strong></td>
+<td>How far is the PM from max drawdown limit?</td>
+<td>&lt;70% remaining → monitor. &lt;40% → discuss position reductions.</td>
+</tr>
+<tr>
+<td><strong>Position age vs thesis</strong></td>
+<td>Are there "zombie" positions past their time horizon?</td>
+<td>Positions &gt;60 days with no P&amp;L → challenge: "Is this still a live thesis?"</td>
+</tr>
+<tr>
+<td><strong>Liquidity scoring</strong></td>
+<td>Can we exit the portfolio in N days at what cost?</td>
+<td>If total exit &gt; 5 days at 2% impact, we're too concentrated/illiquid</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-5-communication-the-art-of-being-heard">PART 5: COMMUNICATION — THE ART OF BEING HEARD</h1>
+<h3 id="how-to-talk-to-traders-pms">How to Talk to Traders / PMs</h3>
+<p><strong>Rule 1: Lead with P&amp;L impact, not Greek letters.</strong><br />
+- ❌ "Your gamma is -0.04 on the SPX puts"<br />
+- ✅ "If SPX drops 2%, your short gamma adds $9M to your long exposure and your P&amp;L swing is -$3.5M"</p>
+<p><strong>Rule 2: Speak their language.</strong><br />
+- ❌ "The portfolio's standard deviation is elevated"<br />
+- ✅ "Your book moves $2.3M per 1% SPX move — that's up from $1.5M last week"</p>
+<p><strong>Rule 3: Time it right.</strong><br />
+- 🟢 Pre-market and post-close: deep conversations, thesis reviews, structural adjustments<br />
+- 🟡 During market hours: alerts, quick answers, pre-trade checks<br />
+- 🔴 During active trading/execution: only urgent alerts (limit breach, margin call, system failure)</p>
+<p><strong>Rule 4: Be definitive, not wishy-washy.</strong><br />
+- ❌ "Maybe we should think about potentially reducing some of the energy exposure..."<br />
+- ✅ "I'd recommend reducing XOM by $15M. Here's why: [30 seconds]. Your call."</p>
+<p><strong>Rule 5: Pick your battles. Seriously.</strong><br />
+- If you flag 10 things a day, you get tuned out by day 3<br />
+- Flag the 1-2 things that TRULY matter. Earn credibility through precision, not volume.<br />
+- The PM should think: "When this person speaks up, I listen, because they only speak up when it matters."</p>
+<h3 id="the-pushback-framework-without-being-annoying">The Pushback Framework (without being annoying)</h3>
+<p><strong>Step 1: Validate the thesis first</strong><br />
+"I understand the trade is [X] because you believe [Y]. I think the thesis has merit."</p>
+<p><strong>Step 2: Add the risk dimension</strong><br />
+"My concern isn't the thesis — it's the sizing relative to what else is in the book."</p>
+<p><strong>Step 3: Bring data, not opinions</strong><br />
+"Under the current scenario set, this position alone generates a -$15M loss in a March 2020 replay. Combined with the rest of the book, total drawdown is -$22M, which breaches your 5% NAV limit."</p>
+<p><strong>Step 4: Offer alternatives</strong><br />
+"Instead of $45M notional, what about $25M plus a call spread overlay? You get 80% of the upside thesis with 55% of the risk. VaR stays within limit."</p>
+<p><strong>Step 5: Escalate with documentation if needed</strong><br />
+"If you want to proceed at $45M, I respect your judgment, but I need to flag this to the desk head with the scenario numbers. Not blocking — just ensuring visibility."</p>
+<h3 id="talking-to-senior-risk-cro-head-of-risk-constantine">Talking to Senior Risk (CRO / Head of Risk / Constantine)</h3>
+<p><strong>Format:</strong> Situation → Quantification → Recommendation → Trade-offs. 90 seconds max.</p>
+<p><strong>Template:</strong></p>
+<blockquote>
+<p>"PM [name] is at [X]% drawdown against [Y]% limit. The concentration is in [sector/factor], currently [Z]% of NAV. The concern is [specific scenario]: if [event], portfolio loss is estimated at $[number], which would [breach/approach limit]. I recommend [action A]. PM prefers [action B] because [their rationale]. I'm requesting [visibility/IC review/limit exception]."</p>
+</blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<p>"PM Chen is at 4.2% drawdown against a 5% limit. Concentrated in energy — XOM + CVX = 11.5% NAV — and short SPX gamma. If oil reverses 10% and SPX drops 5% simultaneously, estimated loss is $16M, which breaches the VaR limit and approaches the drawdown limit. I recommend trimming energy by 25% and rolling the puts. PM disagrees — believes oil hasn't peaked. Requesting IC review before the close."</p>
+</blockquote>
+<p><strong>What they want to hear:</strong><br />
+1. <strong>Numbers</strong> — not "it's getting risky" but "$16M loss scenario"<br />
+2. <strong>Context</strong> — how does this compare to limits, historical, other PMs<br />
+3. <strong>Your judgment</strong> — are you concerned or just reporting? If concerned, say so explicitly<br />
+4. <strong>What you need</strong> — a decision, visibility, or approval. Be specific.</p>
+<hr />
+<h1 id="part-6-pre-trade-risk-analysis">PART 6: PRE-TRADE RISK ANALYSIS</h1>
+<h3 id="when-a-pm-wants-to-put-on-a-new-trade">When a PM Wants to Put on a New Trade</h3>
+<p>Every new trade request should trigger a rapid risk check before execution:</p>
+<p><strong>The Pre-Trade Checklist (2 minutes):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Calculation</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VaR impact</strong></td>
+<td>Marginal VaR: ΔVaR from adding this position</td>
+<td>"VaR goes from $8.2M → $9.7M. You're at 97% of limit."</td>
+</tr>
+<tr>
+<td><strong>Concentration</strong></td>
+<td>New position size as % NAV, combined with same-sector exposure</td>
+<td>"This takes energy to 14.5% NAV. Above our 12% soft limit."</td>
+</tr>
+<tr>
+<td><strong>Margin impact</strong></td>
+<td>Additional margin required + new margin utilization</td>
+<td>"Margin utilization goes from 72% → 81%. Leaves thin buffer."</td>
+</tr>
+<tr>
+<td><strong>Correlation</strong></td>
+<td>How does this position correlate with existing book?</td>
+<td>"ρ = 0.7 with rest of energy book. Not diversifying."</td>
+</tr>
+<tr>
+<td><strong>Factor overlap</strong></td>
+<td>Does this add new factor exposure or amplify existing?</td>
+<td>"This adds another $800K of oil beta. You already have $2.1M."</td>
+</tr>
+<tr>
+<td><strong>Liquidity</strong></td>
+<td>Can we exit this position in 1 day at &lt;1% impact?</td>
+<td>"ADV is $50M. $35M position = 70% ADV. Exit takes 2-3 days."</td>
+</tr>
+<tr>
+<td><strong>Worst case</strong></td>
+<td>If this position goes wrong, what's the max loss?</td>
+<td>"If it gaps -15%, that's -$5.3M. Combined with existing book: -$21M."</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The delivery:</strong><br />
+"Adding $35M long in [name]. Here's the impact: VaR +$1.5M to $9.7M (97% of limit). Energy concentration goes to 14.5% (above 12% soft limit). Margin to 81%. The position is correlated 0.7 with your existing energy book — so you're amplifying, not diversifying. If you still want to proceed, I'd recommend either (a) trimming CVX by $15M to make room, or (b) getting IC sign-off on the limit exception. Which do you prefer?"</p>
+<h3 id="pm-says-what-if-i-restructure-it-as-options">PM Says: "What if I restructure it as options?"</h3>
+<p><strong>You should be able to immediately respond:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Risk profile vs equity</th>
+<th>Advantage</th>
+<th>Disadvantage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Long stock ($35M)</strong></td>
+<td>Full delta, no optionality</td>
+<td>Full upside, no time decay</td>
+<td>Full downside, max margin</td>
+</tr>
+<tr>
+<td><strong>Long call (ATM, 3M)</strong></td>
+<td>Delta ~0.5, long gamma, long vega</td>
+<td>Defined loss, less margin</td>
+<td>Premium cost ($1.5M), time decay</td>
+</tr>
+<tr>
+<td><strong>Call spread (ATM/+15%)</strong></td>
+<td>Delta ~0.35, defined upside</td>
+<td>Cheaper than call, defined risk</td>
+<td>Capped upside at 15%</td>
+</tr>
+<tr>
+<td><strong>Risk reversal (sell put, buy call)</strong></td>
+<td>Delta ~0.7, short downside gamma</td>
+<td>Zero premium</td>
+<td>Naked downside risk, margin-intensive</td>
+</tr>
+<tr>
+<td><strong>Collar on existing</strong></td>
+<td>Caps upside and downside</td>
+<td>No premium, defined range</td>
+<td>No participation above cap</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your job:</strong> Help the PM find the structure that best expresses their thesis within the risk budget. "If your thesis is 'XOM goes up 10% in 2 months with limited downside,' a call spread captures that at 40% of the marginal risk. Want me to price it?"</p>
+<hr />
+<h1 id="part-7-behavioral-red-flags-the-pattern-recognition-guide">PART 7: BEHAVIORAL RED FLAGS — THE PATTERN RECOGNITION GUIDE</h1>
+<h3 id="position-level-red-flags">Position-Level Red Flags</h3>
+<table>
+<thead>
+<tr>
+<th>Red flag</th>
+<th>What it really means</th>
+<th>What to say</th>
+<th>Escalation?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Position &gt; 5% NAV in single name</strong></td>
+<td>Concentration risk — one event can cause significant damage</td>
+<td>"At 8% NAV, this is your largest position. An earnings miss could cost you $4M. Is this size intentional?"</td>
+<td>If &gt;8% and PM won't reduce, document and flag to desk head</td>
+</tr>
+<tr>
+<td><strong>Adding to a losing position (no new catalyst)</strong></td>
+<td>Loss aversion / averaging down on hope</td>
+<td>"Walk me through what's changed since entry. The stock is down 12% — is there new information supporting the thesis?"</td>
+<td>If PM says "it has to come back" → ESCALATE. Most dangerous sentence in trading.</td>
+</tr>
+<tr>
+<td><strong>Thesis has changed 3+ times</strong></td>
+<td>Post-hoc rationalization</td>
+<td>Document each thesis version with dates. Present the timeline: "You entered for reason A, then it was B, now C. Is this still a high-conviction idea?"</td>
+<td>Document. This IS the escalation evidence.</td>
+</tr>
+<tr>
+<td><strong>Stop-loss moved lower repeatedly</strong></td>
+<td>Discipline breakdown</td>
+<td>"The stop was originally at $165, then $155, now $148. The original risk/reward assumed a $165 stop. At $148, the trade has a very different risk/reward."</td>
+<td>Yes — this pattern ends in blow-ups</td>
+</tr>
+<tr>
+<td><strong>Position held past original time horizon</strong></td>
+<td>Thesis drift, dead capital</td>
+<td>"This was originally a 3-week catalyst trade. It's been 8 weeks. Is the thesis still live or is this tying up risk budget?"</td>
+<td>Flag in weekly review</td>
+</tr>
+<tr>
+<td><strong>PM trading much larger after a win streak</strong></td>
+<td>Overconfidence bias</td>
+<td>Don't say "you're overconfident." Instead: "Your position sizes have grown 40% this month. The average trade is $40M vs $28M last month. Is this a deliberate strategy shift or should we recalibrate?"</td>
+<td>Flag in weekly review if persistent</td>
+</tr>
+<tr>
+<td><strong>PM refusing to take ANY losses</strong></td>
+<td>Inability to accept being wrong</td>
+<td>Monitor the aggregate of held losers. If 60%+ of positions are underwater with no catalysts, flag holistically</td>
+<td>Escalate if aggregate drawdown approaching limits</td>
+</tr>
+</tbody>
+</table>
+<h3 id="portfolio-level-red-flags">Portfolio-Level Red Flags</h3>
+<table>
+<thead>
+<tr>
+<th>Red Flag</th>
+<th>Detection</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>All positions profitable in the same way</strong></td>
+<td>Factor decomposition: if one factor explains &gt;60% of P&amp;L</td>
+<td>"Your 8 positions are actually 1 bet on [oil]. If oil reverses 10%, all 8 lose simultaneously. Is that intentional?"</td>
+</tr>
+<tr>
+<td><strong>Vol persistently above target (&gt;1 week)</strong></td>
+<td>Realized vol / target vol &gt; 1.3 for 5+ consecutive days</td>
+<td>Decompose: market vol (beta) vs position-specific (alpha controllable). Recommend action on the controllable part.</td>
+</tr>
+<tr>
+<td><strong>Margin utilization &gt; 80%</strong></td>
+<td>Daily margin report</td>
+<td>"You have 20% buffer. One bad day forces involuntary liquidation at the worst prices. I recommend creating buffer by reducing [lowest conviction position]."</td>
+</tr>
+<tr>
+<td><strong>Growing "unexplained" P&amp;L residual</strong></td>
+<td>P&amp;L attribution:</td>
+<td>residual</td>
+</tr>
+<tr>
+<td><strong>Hedge ratio drifting</strong></td>
+<td>Ratio of hedge P&amp;L vs portfolio P&amp;L in stress scenarios shifting &gt;20% from target</td>
+<td>Rebalance hedges. If stock-bond ρ has changed, the old hedge ratio is wrong.</td>
+</tr>
+<tr>
+<td><strong>All positions entered in the last 5 days</strong></td>
+<td>Position age distribution</td>
+<td>PM may have over-traded after stress/drawdown. Check if this is a considered rebuild or emotional re-entry.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-limit-frameworks-the-structure-of-risk-governance">PART 8: LIMIT FRAMEWORKS — THE STRUCTURE OF RISK GOVERNANCE</h1>
+<h3 id="typical-multi-strategy-hedge-fund-limit-architecture">Typical Multi-Strategy Hedge Fund Limit Architecture</h3>
+<table>
+<thead>
+<tr>
+<th>Limit type</th>
+<th>What it controls</th>
+<th>Typical threshold</th>
+<th>Hard vs soft</th>
+<th>Breach consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VaR (95%, 1d)</strong></td>
+<td>Overall portfolio risk</td>
+<td>1-2% of NAV</td>
+<td>Hard</td>
+<td>Must reduce within 24h or IC approval</td>
+</tr>
+<tr>
+<td><strong>Single-name concentration</strong></td>
+<td>Idiosyncratic risk</td>
+<td>5-8% NAV</td>
+<td>Soft (5%), Hard (10%)</td>
+<td>Soft: PM discretion. Hard: mandatory reduction.</td>
+</tr>
+<tr>
+<td><strong>Sector concentration</strong></td>
+<td>Sector tail risk</td>
+<td>15-25% NAV net</td>
+<td>Soft</td>
+<td>Review with desk head</td>
+</tr>
+<tr>
+<td><strong>Gross exposure</strong></td>
+<td>Leverage / total capital deployed</td>
+<td>200-400% NAV</td>
+<td>Hard</td>
+<td>Must reduce</td>
+</tr>
+<tr>
+<td><strong>Net exposure</strong></td>
+<td>Directional bias</td>
+<td>±30-50% NAV</td>
+<td>Soft</td>
+<td>PM must justify directionally</td>
+</tr>
+<tr>
+<td><strong>Max drawdown</strong></td>
+<td>Stop-loss on PM pod</td>
+<td>3-5% of allocated capital</td>
+<td>Hard</td>
+<td>Triggers capital reduction / PM review</td>
+</tr>
+<tr>
+<td><strong>Greeks (gamma)</strong></td>
+<td>Convexity risk</td>
+<td>Fund-specific</td>
+<td>Soft</td>
+<td>Case-by-case review</td>
+</tr>
+<tr>
+<td><strong>Greeks (vega)</strong></td>
+<td>Vol exposure</td>
+<td>Fund-specific</td>
+<td>Soft</td>
+<td>Case-by-case review</td>
+</tr>
+<tr>
+<td><strong>Liquidity (days-to-exit)</strong></td>
+<td>Portfolio can be unwound in N days</td>
+<td>3-5 days for full book</td>
+<td>Soft</td>
+<td>Flag illiquid positions</td>
+</tr>
+<tr>
+<td><strong>Factor budgets</strong></td>
+<td>Intended vs unintended factor loading</td>
+<td>Factor-specific</td>
+<td>Soft</td>
+<td>Decompose and discuss with PM</td>
+</tr>
+<tr>
+<td><strong>Correlation limit</strong></td>
+<td>Avg pairwise ρ in portfolio</td>
+<td>&lt; 0.5 target</td>
+<td>Soft</td>
+<td>Flag hidden concentration</td>
+</tr>
+</tbody>
+</table>
+<h3 id="limit-interaction-the-non-obvious-part">Limit Interaction — The Non-Obvious Part</h3>
+<p>Limits interact. A portfolio can be within every individual limit and still be dangerously risky:</p>
+<p><strong>Example:</strong><br />
+- VaR: 92% of limit (fine individually)<br />
+- Energy concentration: 14% (fine individually, under 15% limit)<br />
+- Short gamma: moderate (within Greeks limit)<br />
+- Margin: 78% (fine individually)</p>
+<p><strong>BUT:</strong> In a stagflation scenario (oil -10%, SPX -5%, rates +20bp):<br />
+- Energy concentration → -$6M<br />
+- Short gamma adds effective long exposure → -$4M more<br />
+- Margin call triggered → forced to sell at worst prices → -$2M additional slippage<br />
+- Total: -$12M on a $10M VaR limit → breach</p>
+<p><strong>Lesson:</strong> The RM's job is to check limits INDIVIDUALLY and IN COMBINATION. The scenario analysis catches what individual limits miss.</p>
+<h3 id="monthly-limit-calibration">Monthly Limit Calibration</h3>
+<p>Limits should not be static. Review monthly:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>If YES</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Has market vol regime changed?</td>
+<td>VaR limit may need tightening (same $ limit means more market risk in high-vol)</td>
+</tr>
+<tr>
+<td>Has the PM's strategy evolved?</td>
+<td>Greeks and factor limits may need adjusting</td>
+</tr>
+<tr>
+<td>Are correlations structurally different?</td>
+<td>Concentration limits may need tightening (higher ρ = less true diversification)</td>
+</tr>
+<tr>
+<td>Has the PM hit drawdown?</td>
+<td>Reduce capital allocation / risk limits proportionally</td>
+</tr>
+<tr>
+<td>Has the PM demonstrated consistent alpha?</td>
+<td>May warrant limit increase with IC approval</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-margin-and-liquidity-management">PART 9: MARGIN AND LIQUIDITY MANAGEMENT</h1>
+<h3 id="margin-framework">Margin Framework</h3>
+<p>$$\text{Margin utilization} = \frac{\text{Total initial margin required}}{\text{Available margin (equity − haircuts)}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Utilization</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&lt; 60%</strong></td>
+<td>Comfortable</td>
+<td>No action needed</td>
+</tr>
+<tr>
+<td><strong>60-75%</strong></td>
+<td>Normal operating range</td>
+<td>Monitor daily</td>
+</tr>
+<tr>
+<td><strong>75-85%</strong></td>
+<td>Elevated</td>
+<td>Flag to PM: "Running tight. One bad day = margin call."</td>
+</tr>
+<tr>
+<td><strong>85-95%</strong></td>
+<td>Danger zone</td>
+<td>Active discussion: which position to trim for buffer?</td>
+</tr>
+<tr>
+<td><strong>&gt; 95%</strong></td>
+<td>Margin call imminent</td>
+<td>Emergency: identify most expendable position. Act within hours.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-margin-call-protocol">The Margin Call Protocol</h3>
+<p>When a margin call arrives:</p>
+<ol>
+<li><strong>Verify the call</strong> — check the numbers. Margin systems have errors. Confirm with PB/clearing.</li>
+<li><strong>Quantify the shortfall</strong> — how much do we need to post or liquidate?</li>
+<li><strong>Triage positions</strong> — rank by: (a) conviction, (b) liquidity, (c) contribution to margin requirement</li>
+<li><strong>Simulate liquidation options:</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Capital freed</th>
+<th>Market impact</th>
+<th>Strategy damage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sell AAPL ($45M, liquid)</td>
+<td>$12M margin</td>
+<td>Low (0.1% ADV)</td>
+<td>Moderate — removes a conviction position</td>
+</tr>
+<tr>
+<td>Close SPX puts ($30M, liquid)</td>
+<td>$18M margin</td>
+<td>Low</td>
+<td>Low — reduces risk and margin simultaneously</td>
+</tr>
+<tr>
+<td>Trim XOM by 30% ($24M)</td>
+<td>$8M margin</td>
+<td>Medium (1.5% ADV)</td>
+<td>High — reduces best-performing position</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>Recommend</strong> — "I'd close the SPX puts first — frees $18M margin, reduces our biggest risk (short gamma), and has minimal market impact. That covers the margin call with buffer. If we need more, trim AAPL $15M."</li>
+<li><strong>Execute</strong> — coordinate with PM and trading desk</li>
+<li><strong>Document</strong> — timestamp everything. Post-mortem: why did we get here? How do we prevent recurrence?</li>
+</ol>
+<h3 id="liquidity-risk-management">Liquidity Risk Management</h3>
+<p>$$\text{Days to exit} = \frac{\text{Position size}}{\text{ADV} \times \text{participation rate}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Participation rate</th>
+<th>Context</th>
+<th>Market impact estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>5%</strong></td>
+<td>Minimal impact, patient exit</td>
+<td>~5-10bp</td>
+</tr>
+<tr>
+<td><strong>10%</strong></td>
+<td>Normal, moderate impact</td>
+<td>~15-25bp</td>
+</tr>
+<tr>
+<td><strong>20%</strong></td>
+<td>Aggressive, visible</td>
+<td>~40-75bp</td>
+</tr>
+<tr>
+<td><strong>25%+</strong></td>
+<td>Fire sale, price-sensitive</td>
+<td>~100bp+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Portfolio liquidity profile example:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Notional</th>
+<th>ADV</th>
+<th>Days @ 10%</th>
+<th>Days @ 20%</th>
+<th>Classification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XOM</td>
+<td>$80M</td>
+<td>$2.5B</td>
+<td>0.3</td>
+<td>0.2</td>
+<td>Highly liquid</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>$45M</td>
+<td>$10B</td>
+<td>0.05</td>
+<td>0.02</td>
+<td>Ultra-liquid</td>
+</tr>
+<tr>
+<td>Small-cap name</td>
+<td>$15M</td>
+<td>$25M</td>
+<td>6.0</td>
+<td>3.0</td>
+<td><strong>ILLIQUID — flag</strong></td>
+</tr>
+<tr>
+<td>SPX puts</td>
+<td>$30M</td>
+<td>Deep market</td>
+<td>0.1</td>
+<td>0.05</td>
+<td>Liquid (but spread widens in stress)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong> Liquidity is a fair-weather friend. A position that trades $25M/day normally might trade $5M/day in a crisis as market-makers pull back. Always stress-test liquidity:</p>
+<p>$$\text{Stressed days to exit} = \text{Normal days} \times \frac{1}{\text{liquidity stress factor (0.3-0.5)}}$$</p>
+<p>That small-cap position that's "6 days to exit" in normal conditions could be <strong>15-20 days</strong> in a crisis. If the PM needs to get out during a sell-off, they're trapped.</p>
+<hr />
+<h1 id="part-10-scenario-design-for-practical-risk">PART 10: SCENARIO DESIGN FOR PRACTICAL RISK</h1>
+<h3 id="building-scenarios-that-actually-help-pms">Building Scenarios That Actually Help PMs</h3>
+<p>Bad scenarios are arbitrary: "SPX -20%." Good scenarios are macro-coherent stories that connect:</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Must specify</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Trigger</strong></td>
+<td>What causes the scenario?</td>
+<td>Determines speed and cross-asset mechanics</td>
+</tr>
+<tr>
+<td><strong>Macro path</strong></td>
+<td>Growth, inflation, policy response</td>
+<td>Ensures internal consistency</td>
+</tr>
+<tr>
+<td><strong>Cross-asset</strong></td>
+<td>Rates, FX, credit, commodities</td>
+<td>Cascades are where real risk lives</td>
+</tr>
+<tr>
+<td><strong>Time horizon</strong></td>
+<td>Acute (1 day), short (1 week), medium (1 month)</td>
+<td>Some exposures are only dangerous over time</td>
+</tr>
+<tr>
+<td><strong>Magnitude</strong></td>
+<td>Calibrated to historical analogues</td>
+<td>Prevents both over- and under-estimation</td>
+</tr>
+<tr>
+<td><strong>Correlation assumption</strong></td>
+<td>Which correlation regime?</td>
+<td>The same portfolio has dramatically different losses under different ρ assumptions</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-scenario-set-for-a-discretionary-energy-heavy-book">The Scenario Set for a Discretionary Energy-Heavy Book</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Scenario</th>
+<th>SPX</th>
+<th>10Y</th>
+<th>Oil</th>
+<th>DXY</th>
+<th>HY OAS</th>
+<th>Portfolio P&amp;L</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Base case (no change)</td>
+<td>0%</td>
+<td>0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0</td>
+<td>$0</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Goldilocks: soft CPI + moderate growth</td>
+<td>+3%</td>
+<td>-15bp</td>
+<td>-3%</td>
+<td>-1%</td>
+<td>-15bp</td>
+<td>+$2.1M</td>
+<td>Disinflation continuation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Growth scare: ISM &lt;47, claims rising</td>
+<td>-5%</td>
+<td>-25bp</td>
+<td>-8%</td>
+<td>+2%</td>
+<td>+50bp</td>
+<td>-$6.3M</td>
+<td>Late-cycle rollover</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Inflation shock: core CPI +0.5% MoM</td>
+<td>-3%</td>
+<td>+25bp</td>
+<td>+5%</td>
+<td>+1.5%</td>
+<td>+25bp</td>
+<td>-$4.7M</td>
+<td>Stagflation entry</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Oil crash: Hormuz resolution + demand weakness</td>
+<td>-1%</td>
+<td>-10bp</td>
+<td>-25%</td>
+<td>-0.5%</td>
+<td>+10bp</td>
+<td>-$8.2M</td>
+<td>Energy-specific tail</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Oil spike: full Hormuz closure</td>
+<td>-8%</td>
+<td>+15bp</td>
+<td>+30%</td>
+<td>+3%</td>
+<td>+75bp</td>
+<td>-$3.4M</td>
+<td>Energy buffer helps, but gamma kills</td>
+</tr>
+<tr>
+<td>7</td>
+<td>March 2020 replay: -34% equity</td>
+<td>-12%</td>
+<td>-40bp (flight)</td>
+<td>-20%</td>
+<td>+4%</td>
+<td>+200bp</td>
+<td>-$18.5M</td>
+<td>Liquidity crisis</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2022 replay: inflation + rate shock</td>
+<td>-6%</td>
+<td>+50bp</td>
+<td>+10%</td>
+<td>+3%</td>
+<td>+80bp</td>
+<td>-$11.2M</td>
+<td>Correlation regime shift</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Vol spike: VIX 15 → 35</td>
+<td>-4%</td>
+<td>-10bp</td>
+<td>-5%</td>
+<td>+1%</td>
+<td>+30bp</td>
+<td>-$7.8M</td>
+<td>Short gamma gets killed</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Custom PM scenario</strong></td>
+<td>(PM defines)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>(Calculate)</td>
+<td>PM's own worst fear</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight from the scenario table:</strong> Scenario 5 (oil crash) is the WORST scenario for this energy-heavy book — worse than a broader equity crash — because the energy concentration dominates. The PM's biggest risk isn't the market; it's oil reversal. This is the kind of insight that makes the RM indispensable.</p>
+<h3 id="presenting-scenarios-to-pms">Presenting Scenarios to PMs</h3>
+<p><strong>Do NOT present a 10-row table and say "here are the numbers."</strong></p>
+<p>Instead:</p>
+<blockquote>
+<p>"I ran 10 scenarios. Three things stood out:</p>
+<p>First, your biggest single risk isn't a market crash — it's an oil reversal. Scenario 5 (oil -25%) costs you $8.2M. That's worse than a 12% equity crash because your portfolio is so concentrated in energy.</p>
+<p>Second, in the inflation shock scenario, your TLT hedge COSTS you $760K instead of helping, because stock-bond correlation is positive in that regime. Your effective hedge ratio is about 30% of what you think it is.</p>
+<p>Third, the short gamma on SPX puts creates asymmetric exposure: you get longer as the market falls. In any scenario with SPX -5% or more, your effective portfolio delta is 50% higher than what the blotter currently shows.</p>
+<p>My recommendation: [specific trade adjustments]."</p>
+</blockquote>
+<hr />
+<h1 id="part-11-the-risk-management-toolbox-situational-playbook">PART 11: THE RISK MANAGEMENT TOOLBOX — SITUATIONAL PLAYBOOK</h1>
+<h3 id="playbook-1-approaching-drawdown-limit">Playbook 1: Approaching Drawdown Limit</h3>
+<p><strong>Situation:</strong> PM is at 4.2% drawdown against 5% limit.</p>
+<p><strong>Step 1 — Quantify remaining budget:</strong> $1B × (5% - 4.2%) = $8M remaining risk budget. At current VaR ($8.2M), one average bad day could breach the limit.</p>
+<p><strong>Step 2 — Identify P&amp;L drivers:</strong> What positions are causing the drawdown? Where is P&amp;L concentrated?</p>
+<p><strong>Step 3 — Present options:</strong><br />
+| Option | Risk reduction | P&amp;L impact | PM acceptance |<br />
+|---|---|---|---|<br />
+| Reduce all positions pro-rata by 20% | VaR: $8.2M → $6.6M | Reduces recovery potential equally | Low — blunt instrument |<br />
+| Cut losing positions only | VaR: variable | Crystallizes losses but stops bleeding | Medium — emotional resistance |<br />
+| Hedge with index puts | VaR: $8.2M → $6.0M | Costs $300K premium but preserves upside | High — retains thesis |<br />
+| Cut the position most correlated with primary loss driver | VaR: targeted reduction | Most efficient risk reduction per $ | High — surgical, smart |</p>
+<p><strong>Step 4 — Recommend:</strong> "I'd recommend reducing XOM by 25% (cuts VaR by $1.5M, low market impact) and buying a 2-week put spread on SPX ($300K cost, caps tail at -$5M). This preserves your oil thesis at reduced sizing while capping your drawdown exposure. Total cost: $300K in premium. Budget freed: $2.3M in VaR."</p>
+<h3 id="playbook-2-event-day-cpi-fomc-nfp">Playbook 2: Event Day (CPI, FOMC, NFP)</h3>
+<p><strong>T-minus 1 day:</strong><br />
+- Map PM exposures to potential outcomes (beat, meet, miss)<br />
+- Run scenarios for ±1σ and ±2σ surprises<br />
+- Identify: "If [X], which positions gain/lose the most?"<br />
+- Prepare recommendations for each outcome: "If hot CPI: [action]. If cold CPI: [no action needed]."</p>
+<p><strong>T-minus 30 minutes:</strong><br />
+- Send PM the scenario summary: "In 30 minutes, CPI prints. Your exposure: [summary]. If hot, estimated impact: -$X. If cold: +$Y. I recommend [Z] if you want to de-risk ahead."</p>
+<p><strong>T-zero:</strong><br />
+- Watch the number. Immediately compare to consensus.<br />
+- Within 2 minutes, estimate PM-specific P&amp;L impact.<br />
+- If the print is in the tail (&gt;2σ surprise), reach out immediately: "Core CPI +0.5%. This is a 2σ miss. Your estimated hit is -$4.7M across [positions]. Recommend: [action]."</p>
+<p><strong>T-plus 15 minutes:</strong><br />
+- Check if the reaction is following the "expected" cross-asset pattern or something unusual<br />
+- If unusual (markets not reacting as expected to the data), that's information — the narrative may be shifting</p>
+<h3 id="playbook-3-overnight-geopolitical-shock">Playbook 3: Overnight Geopolitical Shock</h3>
+<p><strong>You wake up to: "Missiles reported near Strait of Hormuz. Oil futures +12%. Equity futures -3%."</strong></p>
+<ol>
+<li><strong>Assess direct exposure (5 min):</strong> Energy longs, EM FX, shipping/transport, defense. Quick P&amp;L estimate.</li>
+<li><strong>Assess second-order (15 min):</strong> Cross-asset cascade: oil → rates → equities → credit → FX. Run stagflation scenario.</li>
+<li><strong>Check liquidity (5 min):</strong> Will markets open normally? Any positions in affected regions? Circuit breaker risk?</li>
+<li><strong>Prepare 1-page brief (15 min):</strong></li>
+<li>Direct P&amp;L impact: +$Y (energy) / -$Z (equity, FX)</li>
+<li>Net impact: $[number]</li>
+<li>Scenarios: escalation path vs de-escalation path</li>
+<li>Recommendations: "Hold energy longs (thesis confirmed). Reduce SPX short gamma immediately (dangerous in vol spike). Consider adding USDJPY hedge for carry unwind risk."</li>
+<li><strong>Be at desk before PM arrives.</strong> Hand them the page. "Here's where we stand."</li>
+</ol>
+<h3 id="playbook-4-liquidity-event">Playbook 4: Liquidity Event</h3>
+<p><strong>Situation:</strong> A position's bid-ask spread has widened 5x. Volume has dropped 80%.</p>
+<ol>
+<li><strong>Mark check:</strong> Is the position marked correctly? In illiquid conditions, mid-market marks can be misleading. Check: last trade price, dealer quotes, comparable names.</li>
+<li><strong>Size the problem:</strong> What % of NAV is this position? At current liquidity, how many days to exit?</li>
+<li><strong>Impact estimate:</strong> If we sell into this market, what's the expected slippage?</li>
+<li><strong>Alternatives:</strong> Can we hedge the exposure synthetically (correlated ETF, index, options) rather than selling the illiquid position directly?</li>
+<li><strong>Communicate:</strong> "The bid-ask on [name] has widened from 5bp to 25bp. We can't exit our $15M position without significant impact (~100bp = $150K slippage). I recommend hedging with [ETF/index] at 10bp cost while we wait for liquidity to normalize."</li>
+</ol>
+<hr />
+<h1 id="part-12-interview-answers">PART 12: INTERVIEW ANSWERS</h1>
+<h3 id="q1-walk-me-through-how-youd-read-a-risk-report-for-a-discretionary-pms-portfolio">Q1: "Walk me through how you'd read a risk report for a discretionary PM's portfolio"</h3>
+<p><strong>Answer:</strong> "I'd do a systematic 8-check scan, prioritized by what can hurt us most.</p>
+<p>First, concentration — is any single name more than 5% of NAV or any sector more than 15%? I want to know what one surprise can do.</p>
+<p>Second, direction — what's the net exposure? A book that's 70% net long is making a directional bet whether the PM intends it or not. I'd check if that's deliberate.</p>
+<p>Third, Greeks — specifically short gamma and short vega. Short gamma is the most dangerous because it makes the portfolio longer when the market falls. I'd calculate: if the market drops 3%, how much does our effective exposure increase? If it doubles, that's a flag.</p>
+<p>Fourth, correlation — are positions that look different actually the same bet? I'd run a quick factor decomposition. If 60% of the book is explained by one factor, everything falls together.</p>
+<p>Fifth, I'd check hedge effectiveness. If the PM has TLT as a hedge, but we're in a positive stock-bond correlation regime, that hedge isn't working — it's an independent source of risk. I'd flag that immediately.</p>
+<p>Sixth, P&amp;L trajectory — anything bleeding for more than 2 weeks without a catalyst gets a thesis review.</p>
+<p>Seventh, liquidity — can we exit every position in less than 2 days at under 50bp impact?</p>
+<p>Eighth, stress — what's the worst plausible single-day scenario? I'd run it through the current book and check: does it breach any limits?</p>
+<p>The output of all this is a 1-page morning summary for the PM with the top 3 risks and my specific recommendation for each."</p>
+<h3 id="q2-a-pm-wants-to-add-40m-to-a-losing-energy-position-what-do-you-do">Q2: "A PM wants to add $40M to a losing energy position. What do you do?"</h3>
+<p><strong>Answer:</strong> "First, I'd want to understand the thesis — not challenge it, but genuinely understand it. What was the entry thesis, and what has changed? If the stock is down 15% and the PM says 'nothing has changed, the thesis is intact, and the market is mispricing this,' that's one conversation. If the PM says 'it has to come back,' that's a very different conversation — that's hope, not a thesis, and I'd flag it.</p>
+<p>Assuming the thesis is intact, I'd run the numbers. Adding $40M takes this name to [X]% of NAV — is that within concentration limits? It takes energy sector exposure to [Y]% — within sector limits? What's the VaR impact — how much risk budget does this consume? And critically, what's the portfolio impact if this position AND the rest of the energy book move against us? I'd present the correlated tail loss.</p>
+<p>Then I'd offer alternatives. 'Instead of $40M in stock, what about $20M in stock plus a $20M-notional call spread? You get 80% of the upside conviction with 55% of the downside risk, and VaR stays within budget.' Or: 'If you want the full $40M, I'd recommend trimming CVX by $15M to make room — you're effectively concentrating the energy bet in your highest-conviction name.'</p>
+<p>If the PM wants to proceed at full size and it breaches a limit, I'd say: 'I respect your conviction, but this triggers a limit discussion. I need to flag it to the desk head with the scenario numbers. Not blocking, but ensuring visibility.'"</p>
+<h3 id="q3-how-do-you-distinguish-between-a-genuine-risk-issue-and-normal-noise">Q3: "How do you distinguish between a genuine risk issue and normal noise?"</h3>
+<p><strong>Answer:</strong> "Three filters.</p>
+<p>First, magnitude relative to limits. If a daily P&amp;L move is 1% of VaR, that's noise. If it's 30% of daily VaR, something structural may have shifted on the day. I track a trailing ratio of realized P&amp;L to predicted P&amp;L from the previous night's VaR — if realized consistently exceeds predicted, the risk model is under-estimating something.</p>
+<p>Second, persistence. One day of elevated vol or an unusual correlation is noise. Five consecutive days is a regime shift. I track rolling 5-day metrics against 60-day norms. If the 5-day realized vol is more than 1.5x the 60-day average, I flag it. Same for correlations — if a hedge that was -0.3 correlated is now +0.1, that's not noise, that's a structural shift.</p>
+<p>Third, source identification. I decompose the unexpected P&amp;L. Did it come from delta (market moved)? Gamma (market moved a LOT)? Vega (vol changed)? Correlation (assets moved together unexpectedly)? Or is it unexplained residual? If the residual is growing, there's something the model isn't capturing, and THAT is the genuine risk issue — what you can't measure is more dangerous than what you can.</p>
+<p>When I find a genuine issue, I apply the urgency matrix: high impact × high probability = act now. High impact × low probability = monitor with scenarios. Most 'noise' is low impact regardless of probability — I let those go. The skill is not flagging everything. It's flagging the right thing at the right time."</p>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a> — full behavioral framework for PM biases<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — the daily P&amp;L decomposition skill<br />
+→ <a href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a> — cross-asset cascades for scenario design<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, stress testing, risk metrics</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+});
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

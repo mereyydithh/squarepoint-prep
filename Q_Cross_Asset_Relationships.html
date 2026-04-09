@@ -355,15 +355,14 @@ body {
 <a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
 <a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
 <a class="nav-link active" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
-<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
-<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
-<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
-<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
-<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
-<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
-<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
-<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
-<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
 <div class="nav-section">Cheat Sheets</div>
 <a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
 <a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
@@ -376,6 +375,16 @@ body {
 <a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
 <a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
 <a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
 
 </nav>
 
@@ -384,326 +393,805 @@ body {
 <h2 id="cascade-chains-correlation-regimes-flight-to-quality-risk-onrisk-off-and-how-everything-connects">Cascade chains, correlation regimes, flight to quality, risk-on/risk-off, and how everything connects</h2>
 <h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="part-1-why-cross-asset-thinking-matters">PART 1: WHY CROSS-ASSET THINKING MATTERS</h1>
-<p>A discretionary risk manager who watches only equities is blind. Markets are connected. A move in oil changes inflation expectations, which changes rate expectations, which changes equity valuations, which changes credit spreads, which changes EM currencies. Understanding these cascades is what separates a risk manager from a position monitor.</p>
-<p><strong>The fundamental question:</strong> "If X moves, what else moves — and in what order?"</p>
+<h1 id="why-this-matters">WHY THIS MATTERS</h1>
+<p>A discretionary risk manager who watches only one asset class is not managing risk — they're monitoring a position. Markets are a coupled system: a move in oil changes inflation expectations, which changes rate expectations, which changes equity valuations, which changes credit spreads, which changes EM currencies, which changes central bank decisions that feed back into rates. Understanding these transmission chains — their speeds, magnitudes, conditional behaviors, and failure modes — is the core intellectual skill of a cross-asset risk manager.</p>
+<p>At Squarepoint, where discretionary PMs sit alongside systematic desks, cross-asset thinking is non-optional. A PM who's "only trading European equities" has embedded views on ECB policy, EURUSD, oil, and credit conditions. Your job is to surface those embedded exposures, quantify the cross-asset sensitivities, and ensure the PM's book survives the scenarios they haven't considered.</p>
+<p><strong>The fundamental question:</strong> "If X moves, what else moves — in what order, at what speed, with what magnitude, and under what conditions does the usual relationship break?"</p>
 <hr />
-<h1 id="part-2-the-major-transmission-chains">PART 2: THE MAJOR TRANSMISSION CHAINS</h1>
-<h2 id="chain-1-oil-inflation-rates-equities-credit">Chain 1: Oil → Inflation → Rates → Equities → Credit</h2>
-<div class="highlight"><pre><span></span><code>Oil spike → CPI rises → Fed holds/hikes → Bond yields up
-         → Growth slows → Earnings compress → Equities de-rate
-         → Credit spreads widen → Leveraged borrowers struggle
-         → EM importers crushed → FX depreciation → Capital flight
+<h1 id="part-1-the-five-major-transmission-chains">PART 1: THE FIVE MAJOR TRANSMISSION CHAINS</h1>
+<h2 id="chain-1-oil-inflation-rates-equities-credit-em">Chain 1: Oil → Inflation → Rates → Equities → Credit → EM</h2>
+<div class="highlight"><pre><span></span><code>Oil spike (+20%)
+├── IMMEDIATE (hours)
+│   ├── TIPS breakevens widen (inflation expectations repriced)
+│   ├── Energy equities rally
+│   ├── Airlines, transport sell off
+│   └── Fed funds futures reprice (fewer cuts / more hikes priced)
+├── SHORT-TERM (days-weeks)
+│   ├── DXY strengthens (US relatively energy-independent)
+│   ├── Equity P/E multiples compress (higher discount rate)
+│   ├── EM oil importers: FX weakens, bonds sell off
+│   └── HY energy issuers rally; HY transport/consumer widen
+├── MEDIUM-TERM (weeks-months)
+│   ├── Realized CPI prints higher (4-8 week lag to release)
+│   ├── Fed rhetoric shifts hawkish → curve bear flattens
+│   ├── Earnings estimates revised down (margin compression)
+│   └── Consumer spending shifts (gas crowds out discretionary)
+└── LONG-TERM (months-quarters)
+    ├── Second-round inflation via wages (if sustained)
+    ├── Credit cycle tightens → defaults in energy-intensive sectors
+    ├── EM BoP crises (persistent trade deficit deterioration)
+    └── Potential recession if oil stays elevated 6+ months
 </code></pre></div>
 
-<p><strong>Speed of transmission:</strong><br />
-- Oil → inflation expectations: hours (TIPS breakevens move instantly)<br />
-- Oil → realized CPI: 4-8 weeks (monthly data lag)<br />
-- Higher CPI → rate expectations: same day (Fed Funds futures reprice)<br />
-- Rate expectations → equity multiples: days to weeks<br />
-- Equity weakness → credit spreads: days to weeks<br />
-- Credit tightening → real economy: 3-12 months</p>
-<p><strong>Real example — 2022:</strong><br />
-1. Russia invades Ukraine (Feb 24) → Brent from $90 to $130 in 2 weeks<br />
-2. CPI prints 8.5%, 8.3%, 8.6% → Fed goes from 25bp to 75bp hikes<br />
-3. 10Y yield: 1.5% → 4.2% in 9 months<br />
-4. S&amp;P 500: -25% peak to trough<br />
-5. HY credit spreads: 300bp → 600bp<br />
-6. Crypto collapse, EM FX sell-off, UK mini-budget pension crisis</p>
+<p><strong>Speed calibration (critical for risk management):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>Transmission time</th>
+<th>What to watch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oil → breakevens</td>
+<td>Minutes-hours</td>
+<td>TIPS 5Y, 10Y intraday</td>
+</tr>
+<tr>
+<td>Oil → energy equity</td>
+<td>Same day</td>
+<td>XLE, individual names</td>
+</tr>
+<tr>
+<td>Oil → transport/airlines</td>
+<td>Same day</td>
+<td>DAL, UAL, FDX, UPS</td>
+</tr>
+<tr>
+<td>Oil → FX (EM importers)</td>
+<td>Hours-days</td>
+<td>USDINR, USDTHB, USDPHP</td>
+</tr>
+<tr>
+<td>Oil → realized CPI</td>
+<td>4-8 weeks</td>
+<td>Monthly CPI report</td>
+</tr>
+<tr>
+<td>CPI → Fed repricing</td>
+<td>Same day (CPI day)</td>
+<td>Fed funds futures, 2Y UST</td>
+</tr>
+<tr>
+<td>Fed repricing → equity multiples</td>
+<td>Days-weeks</td>
+<td>Forward P/E compression</td>
+</tr>
+<tr>
+<td>Equity weakness → credit</td>
+<td>1-5 days</td>
+<td>CDX HY, iTraxx XO</td>
+</tr>
+<tr>
+<td>Credit tightening → real economy</td>
+<td>3-12 months</td>
+<td>SLOOS, bank lending</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2022 case study (full chain):</strong><br />
+1. Russia invades Ukraine (Feb 24) → Brent $90 → $130 in 2 weeks<br />
+2. CPI prints: 7.9%, 8.5%, 8.3%, 8.6%, 9.1% (June peak)<br />
+3. Fed: 25bp → 50bp → 75bp × 4 consecutive<br />
+4. 10Y UST: 1.5% → 4.2% in 9 months (+270bp)<br />
+5. SPX: -25% peak to trough (Jan high → Oct low)<br />
+6. HY OAS: 300bp → 600bp<br />
+7. EURUSD: 1.14 → 0.96 (below parity for first time in 20Y)<br />
+8. UK mini-budget → gilt crisis → LDI margin calls → BoE emergency QE<br />
+9. Crypto collapse (TerraLuna, FTX) — parallel deleveraging event</p>
 <h2 id="chain-2-rate-shock-duration-fx-em-contagion">Chain 2: Rate Shock → Duration → FX → EM Contagion</h2>
-<div class="highlight"><pre><span></span><code>Unexpected rate move → Long-duration assets reprice (bonds, growth stocks, real estate)
-                     → USD strengthens (rate differential widens)
-                     → EM currencies weaken (capital exits)
-                     → EM central banks forced to hike (defend currency)
-                     → EM growth collapses → default risk rises → contagion
+<div class="highlight"><pre><span></span><code>Unexpected rate hike / hawkish pivot
+├── Long-duration bonds reprice (10Y+, TLT)
+├── Growth/tech equity multiples compress
+│   └── ARKK-type: -60% to -80% from peak
+├── Real estate reprices (cap rates widen)
+├── USD strengthens (rate differential widens)
+│   ├── DXY up → commodity prices in USD pressured
+│   ├── EM FX weakens (capital outflow)
+│   │   ├── Countries with FX-denominated debt face double hit
+│   │   │   └── Weaker FX + higher refinancing cost → default risk
+│   │   └── EM central banks forced to hike (defend currency, at cost of growth)
+│   └── US multinationals: FX translation headwind on earnings
+└── Mortgage rates spike → housing demand collapses → wealth effect reversal
 </code></pre></div>
 
-<p><strong>Key mechanism:</strong> The "dollar wrecking ball." When US rates rise unexpectedly, capital flows to USD assets. EM countries with USD-denominated debt face a double hit: weaker currency + higher debt service costs.</p>
-<h2 id="chain-3-risk-off-cascade">Chain 3: Risk-Off Cascade</h2>
-<div class="highlight"><pre><span></span><code>Shock event → VIX spikes → Dealers hedge (buy protection, sell equity)
-           → Margin calls → Forced selling of liquid assets
-           → Correlation spikes → Diversification fails
-           → Credit freezes → Funding stress → Redemptions
-           → More forced selling → Death spiral
+<p><strong>The "dollar wrecking ball":</strong> When US rates rise unexpectedly, the USD strengthens, draining dollar liquidity from the global system. Countries with:<br />
+- USD-denominated debt → debt service costs spike<br />
+- Commodity imports priced in USD → trade deficit widens<br />
+- Foreign reserves in USD → depleted defending the peg/float</p>
+<p><strong>Historical instances:</strong> 2013 Taper Tantrum (Fragile Five: BRL, INR, IDR, TRY, ZAR), 2018 EM sell-off (TRY -40%, ARS -50%), 2022 global dollar squeeze.</p>
+<h2 id="chain-3-risk-off-cascade-liquidity-spiral">Chain 3: Risk-Off Cascade (Liquidity Spiral)</h2>
+<div class="highlight"><pre><span></span><code>Shock event (exogenous or endogenous)
+├── Phase 1: PRICE DISCOVERY (Day 1)
+│   ├── VIX spikes 10-30 points
+│   ├── Equity down 3-5%
+│   ├── Treasuries rally (flight to quality) — IF growth shock
+│   └── Credit spreads gap wider (CDX, iTraxx)
+├── Phase 2: FORCED SELLING (Days 2-5)
+│   ├── Margin calls trigger → liquid assets sold first
+│   ├── Dealer hedging amplifies (short gamma = sell into weakness)
+│   ├── Correlation spikes → diversification fails
+│   └── ETF redemptions create selling pressure across baskets
+├── Phase 3: LIQUIDITY CRISIS (Week 1-2)
+│   ├── Bid-ask spreads widen 5-10x
+│   ├── Market depth evaporates (thin order books)
+│   ├── Funding markets stress (repo, CP fails to roll)
+│   ├── EVEN safe havens can sell off (dash for cash)
+│   └── Redemption queues → gates → forced liquidation
+├── Phase 4: POLICY RESPONSE (Week 2-4)
+│   ├── Central bank rate cuts / emergency meetings
+│   ├── Special lending facilities activated
+│   ├── Regulatory forbearance (mark-to-market relaxation)
+│   └── Fiscal stimulus packages announced
+└── Phase 5: STABILIZATION / RECOVERY
+    ├── Vol elevated but declining
+    ├── Dispersion returns (not everything correlated)
+    ├── Credit differentiation resumes (zombies fail, quality recovers)
+    └── Carry trades slowly rebuilt → new cycle begins
 </code></pre></div>
 
-<p><strong>March 2020 sequence:</strong><br />
-1. COVID spreads → VIX: 13 → 82 in 3 weeks<br />
-2. Margin calls across all asset classes<br />
-3. Even Treasuries sold (dash for cash) — BROKE the bonds-as-hedge assumption<br />
-4. Fed intervened with unlimited QE, lending facilities, corporate bond buying<br />
-5. Everything recovered — but only because of central bank backstop</p>
+<p><strong>March 2020 — The archetype:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Event</th>
+<th>Key market moves</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mar 9</td>
+<td>Oil price war (Saudi-Russia)</td>
+<td>Brent -25%, circuit breakers triggered</td>
+</tr>
+<tr>
+<td>Mar 11</td>
+<td>WHO declares pandemic</td>
+<td>SPX enters bear market (fastest ever from ATH)</td>
+</tr>
+<tr>
+<td>Mar 12</td>
+<td>SPX -9.5% (worst since 1987)</td>
+<td>VIX touches 82 (all-time high)</td>
+</tr>
+<tr>
+<td>Mar 13-16</td>
+<td>Margin calls everywhere</td>
+<td>Even Treasuries sold (TLT -5% in a week). Gold -10%.</td>
+</tr>
+<tr>
+<td>Mar 15</td>
+<td>Fed emergency cut to 0% + $700B QE</td>
+<td>Not enough — futures hit limit down</td>
+</tr>
+<tr>
+<td>Mar 18-19</td>
+<td>USD funding crisis (3M basis swap -150bp)</td>
+<td>Commercial paper market freezes</td>
+</tr>
+<tr>
+<td>Mar 23</td>
+<td>Fed: unlimited QE + corporate bond buying</td>
+<td>SPX bottoms (-34% from peak). Recovery begins.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key lesson:</strong> In Phase 3, correlation goes to ~1.0. Even "safe" assets sell off because the dominant factor is LIQUIDITY, not fundamentals. The only true safe haven in a liquidity crisis is <strong>cash</strong> (specifically, USD cash or T-bills with &lt; 1 month maturity).</p>
 <h2 id="chain-4-carry-trade-unwind">Chain 4: Carry Trade Unwind</h2>
-<div class="highlight"><pre><span></span><code>Low-rate currency (JPY, CHF) borrowed → invested in high-rate assets (EM, HY)
-Rate differential narrows OR vol spikes →
-     → Carry trade unprofitable → Unwind (sell HY/EM, buy JPY/CHF)
-     → JPY/CHF spike → More carry trades go underwater → Accelerating unwind
-     → EM assets sold → EM FX crashes → EM central banks intervene
+<div class="highlight"><pre><span></span><code>Carry trade accumulation (months-years):
+    Borrow low-rate (JPY 0.50%, CHF 1.50%)
+    → Convert to high-rate currency
+    → Invest in HY bonds, EM local debt, equity dividend
+    → Earn positive carry spread
+
+Unwind trigger:
+    Rate differential narrows (BoJ hikes / Fed cuts)
+    OR vol spikes (carry is implicitly short vol)
+    OR EM/HY shock (investment leg drops)
+
+Cascade:
+    ├── Sell HY/EM positions (investment leg)
+    ├── Buy back funding currency (JPY/CHF)
+    ├── JPY/CHF spike → other carry traders underwater
+    ├── MORE unwinds → self-reinforcing
+    ├── EM FX crashes → EM central banks intervene (sell reserves)
+    └── Volatility spikes further → triggers systematic de-risking (CTAs, risk parity)
 </code></pre></div>
 
-<p><strong>July-August 2024 example:</strong> BOJ hiked rates + US recession fears → JPY strengthened → carry unwind → Nikkei -12% in one day → global equity sell-off → VIX spiked to 65 intraday.</p>
-<p><strong>Key insight:</strong> Carry trades are "picking up pennies in front of a steamroller." They earn small, steady returns then collapse violently. The RM must monitor JPY, CHF, VIX together as carry-trade risk indicators.</p>
-<hr />
-<h1 id="part-3-correlation-regimes">PART 3: CORRELATION REGIMES</h1>
-<h2 id="what-correlations-look-like-in-different-environments">What Correlations Look Like in Different Environments</h2>
+<p><strong>August 2024 carry unwind — Anatomy:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Regime</th>
-<th>Stocks-Bonds</th>
-<th>Stocks-Oil</th>
-<th>VIX-Stocks</th>
-<th>Gold-Stocks</th>
-<th>USD-Stocks</th>
+<th>Date</th>
+<th>Event</th>
+<th>Impact</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Normal growth</strong></td>
-<td>Weakly negative</td>
-<td>Weakly positive</td>
-<td>-0.8</td>
-<td>Low</td>
-<td>Low</td>
+<td>Jul 31</td>
+<td>BoJ hikes to 0.25% (unexpected hawkish tilt)</td>
+<td>USDJPY: 153 → 149</td>
 </tr>
 <tr>
-<td><strong>Risk-off / crisis</strong></td>
-<td>Negative (flight to quality)</td>
-<td>Negative</td>
-<td>-0.95</td>
-<td>Positive</td>
-<td>Positive (USD ↑, stocks ↓)</td>
+<td>Aug 1</td>
+<td>Weak US ISM + jobless claims</td>
+<td>Recession fears → carry viability questioned</td>
 </tr>
 <tr>
-<td><strong>Inflation shock</strong></td>
-<td><strong>POSITIVE</strong> (both fall)</td>
-<td>Positive (oil causes)</td>
+<td>Aug 2</td>
+<td>Weak NFP (+114K, UE to 4.3%)</td>
+<td>USDJPY crashes to 146. Carry unwind accelerates.</td>
+</tr>
+<tr>
+<td>Aug 5</td>
+<td><strong>"Black Monday"</strong> — Nikkei -12.4%</td>
+<td>Worst single-day since 1987. VIX → 65 intraday. Global equity sell-off.</td>
+</tr>
+<tr>
+<td>Aug 6-9</td>
+<td>BoJ deputy gov walks back hawkishness</td>
+<td>USDJPY stabilizes 145-148. Equities recover 50%.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Carry = short volatility:</strong> The P&amp;L profile of a carry trade is identical to selling options — small, steady income with occasional catastrophic loss. Position sizing and stop-loss discipline are critical.</p>
+<h2 id="chain-5-credit-impulse-real-economy-feedback-loop">Chain 5: Credit Impulse → Real Economy Feedback Loop</h2>
+<div class="highlight"><pre><span></span><code>Financial conditions tighten (spreads widen, lending standards rise)
+├── Corporate refinancing costs rise
+│   ├── Marginal borrowers can&#39;t roll debt → defaults
+│   ├── Capex plans deferred → investment drops
+│   └── Share buybacks slow → equity support removed
+├── Consumer credit tightens
+│   ├── Auto loan / credit card rates rise → spending falls
+│   ├── Mortgage availability drops → housing weakens
+│   └── Wealth effect reverses → confidence drops
+├── Bank capital consumed by losses
+│   ├── Loan loss provisions rise → earnings fall
+│   ├── Capital ratios tighten → lending further constrained
+│   └── Bank equity falls → market signals more stress
+└── FEEDBACK: Weaker economy → more defaults → tighter conditions → weaker economy
+</code></pre></div>
+
+<p><strong>The credit impulse</strong> (change in new credit / GDP) is one of the most powerful leading indicators. When credit growth is accelerating, the economy strengthens with a 6-9 month lead. When credit growth decelerates, recession risk rises.</p>
+<p><strong>Monitoring:</strong><br />
+- Senior Loan Officer Survey (SLOOS) — quarterly, leads growth by 4-6 quarters<br />
+- HY OAS level AND rate of change — widening from tight = late cycle<br />
+- IG issuance volumes — if dry up at tight spreads = fear; if heavy at tight spreads = late-cycle greed<br />
+- Bank CDS spreads — rising = market pricing bank stress<br />
+- Private credit default rates (delayed reporting — shadow banking risk)</p>
+<hr />
+<h1 id="part-2-correlation-regimes-the-quantitative-framework">PART 2: CORRELATION REGIMES — THE QUANTITATIVE FRAMEWORK</h1>
+<h2 id="regime-dependent-correlation-matrix">Regime-Dependent Correlation Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Goldilocks</th>
+<th>Reflation</th>
+<th>Stagflation</th>
+<th>Deflation / Crisis</th>
+<th>What drives the shift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SPX / UST 10Y</strong></td>
+<td>-0.30</td>
+<td>+0.20</td>
+<td>+0.40</td>
+<td>-0.50</td>
+<td>Inflation vol vs growth vol dominance</td>
+</tr>
+<tr>
+<td><strong>SPX / USD (DXY)</strong></td>
+<td>-0.15</td>
+<td>-0.20</td>
+<td>-0.40</td>
+<td>-0.50</td>
+<td>Risk appetite channel</td>
+</tr>
+<tr>
+<td><strong>SPX / Oil (Brent)</strong></td>
+<td>+0.25</td>
+<td>+0.30</td>
+<td>-0.40</td>
+<td>+0.20</td>
+<td>Demand-driven vs supply-driven oil</td>
+</tr>
+<tr>
+<td><strong>SPX / Gold</strong></td>
+<td>-0.10</td>
+<td>-0.20</td>
+<td>-0.30</td>
+<td>-0.20</td>
+<td>Risk channel (gold = hedge)</td>
+</tr>
+<tr>
+<td><strong>SPX / VIX</strong></td>
+<td>-0.80</td>
+<td>-0.75</td>
 <td>-0.85</td>
-<td>Complex</td>
-<td>Strong positive</td>
+<td>-0.95</td>
+<td>Always inverse, strength varies</td>
 </tr>
 <tr>
-<td><strong>Stagflation</strong></td>
-<td><strong>POSITIVE</strong></td>
-<td>Positive</td>
-<td>High</td>
-<td>Positive</td>
-<td>Strong positive</td>
+<td><strong>SPX / HY OAS</strong></td>
+<td>-0.70</td>
+<td>-0.60</td>
+<td>-0.80</td>
+<td>-0.90</td>
+<td>Credit + equity share default risk</td>
 </tr>
 <tr>
-<td><strong>Goldilocks</strong></td>
-<td>Negative</td>
-<td>Low</td>
-<td>Low</td>
-<td>Low</td>
-<td>Low</td>
+<td><strong>UST 10Y / Oil</strong></td>
+<td>-0.20</td>
+<td>-0.40</td>
+<td>-0.50</td>
+<td>+0.30</td>
+<td>Oil drives inflation → rates; but in deflation, both safe haven</td>
+</tr>
+<tr>
+<td><strong>Gold / UST 10Y (real)</strong></td>
+<td>-0.40</td>
+<td>-0.30</td>
+<td>-0.30</td>
+<td>+0.40</td>
+<td>Real rate competition normally; co-safe-haven in deflation</td>
+</tr>
+<tr>
+<td><strong>JPY / VIX</strong></td>
+<td>+0.30</td>
+<td>+0.20</td>
+<td>+0.50</td>
+<td>+0.60</td>
+<td>JPY as safe haven + carry unwind</td>
+</tr>
+<tr>
+<td><strong>EM FX / DXY</strong></td>
+<td>-0.60</td>
+<td>-0.50</td>
+<td>-0.70</td>
+<td>-0.80</td>
+<td>Dollar liquidity channel</td>
 </tr>
 </tbody>
 </table>
-<h2 id="the-critical-regime-shift-stocks-bonds-correlation">The Critical Regime Shift: Stocks-Bonds Correlation</h2>
-<p>This is the most important correlation for portfolio construction:</p>
-<ul>
-<li><strong>2000-2021:</strong> Negative. Stocks down → bonds up. Bonds were a natural hedge. 60/40 worked.</li>
-<li><strong>2022-present:</strong> Positive in inflation episodes. Stocks AND bonds sell off together. 60/40 fails.</li>
-<li><strong>Why?</strong> When inflation drives both asset classes, the Fed must tighten, hurting both equity multiples (higher discount rate) and bond prices (higher yields).</li>
-</ul>
-<p><strong>RM implication:</strong> If your portfolio uses bonds as a hedge and we're in an inflation regime, YOUR HEDGE DOESN'T WORK. You're doubling down on the same macro bet.</p>
-<h2 id="conditional-vs-unconditional-correlation">Conditional vs Unconditional Correlation</h2>
-<ul>
-<li><strong>Unconditional:</strong> Average correlation over a long period. Useful for normal times.</li>
-<li><strong>Conditional:</strong> Correlation during STRESS. Almost always HIGHER than unconditional.</li>
-</ul>
-<p>$$\rho_{\text{stress}} &gt; \rho_{\text{normal}}$$</p>
-<p>Why? In crises, everything becomes driven by the same factor (risk appetite), so correlations converge toward 1. This is exactly when you need diversification most — and it fails.</p>
-<p><strong>Practical rule:</strong> If your VaR model uses a 6-month lookback correlation of 0.3, the actual correlation during a crisis might be 0.7-0.9. Your VaR is LYINGto you about the portfolio's true risk.</p>
-<hr />
-<h1 id="part-4-flight-to-quality">PART 4: FLIGHT TO QUALITY</h1>
-<h2 id="what-happens-when-fear-takes-over">What Happens When Fear Takes Over</h2>
-<p>Investors sell risky assets and buy safe haven assets:</p>
+<h3 id="the-stock-bond-correlation-the-master-variable">The Stock-Bond Correlation — The Master Variable</h3>
+<p>This is the SINGLE most important cross-asset relationship for portfolio construction:</p>
+<p>$$\rho_{SB} = f(\sigma_{\text{inflation}}^2, \ \sigma_{\text{growth}}^2, \ \text{policy regime})$$</p>
+<p><strong>The regime framework:</strong></p>
 <table>
 <thead>
 <tr>
-<th>FROM (sell)</th>
-<th>TO (buy)</th>
+<th>Era</th>
+<th>ρ(SPX, UST)</th>
+<th>Dominant risk</th>
+<th>Why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Equities (especially EM, small-cap)</td>
-<td>US Treasuries, German Bunds, JGBs</td>
+<td>1965-1999</td>
+<td><strong>Positive</strong> (+0.2 to +0.4)</td>
+<td>Inflation</td>
+<td>Volcker era, inflation expectations volatile</td>
 </tr>
 <tr>
-<td>High-yield credit</td>
-<td>Investment-grade / government bonds</td>
+<td>2000-2021</td>
+<td><strong>Negative</strong> (-0.2 to -0.5)</td>
+<td>Growth</td>
+<td>Low stable inflation, growth shocks dominate</td>
 </tr>
 <tr>
-<td>EM currencies</td>
-<td>USD, JPY, CHF</td>
+<td>2022-2023</td>
+<td><strong>Positive</strong> (+0.3 to +0.5)</td>
+<td>Inflation</td>
+<td>Post-COVID inflation shock, rate hiking cycle</td>
 </tr>
 <tr>
-<td>Commodity currencies (AUD, CAD, NOK)</td>
+<td>Late 2024-2025</td>
+<td><strong>Negative</strong> (-0.1 to -0.3)</td>
+<td>Growth</td>
+<td>Disinflation, growth concerns return</td>
+</tr>
+<tr>
+<td>April 2026</td>
+<td><strong>Unstable</strong> (oscillating)</td>
+<td>Both</td>
+<td>Oil shock creates inflation risk while growth decelerating</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why this matters more than anything else:</strong><br />
+- If ρ &lt; 0: Duration hedges work → 60/40 portfolio diversifies → VaR accurately reflects risk<br />
+- If ρ &gt; 0: Duration hedges AMPLIFY losses → 60/40 is a concentrated bet → VaR UNDERSTATES risk<br />
+- If ρ is unstable: Hedge ratios are unreliable → need to run multiple correlation scenarios</p>
+<p><strong>RM action:</strong> Track rolling 21-day and 63-day SPX/TLT correlation. When the sign flips, immediately re-evaluate:<br />
+1. All hedge ratios<br />
+2. Portfolio VaR under both correlation assumptions<br />
+3. PM positions with embedded duration hedges</p>
+<h3 id="conditional-correlation-crisis-dynamics">Conditional Correlation — Crisis Dynamics</h3>
+<p>$$\rho_{\text{conditional | stress}} = \rho_{\text{unconditional}} + \Delta\rho(\text{vol regime}, \text{liquidity})$$</p>
+<p><strong>Empirical fact:</strong> Correlations increase during stress. A portfolio that appears diversified in normal markets concentrates during crises.</p>
+<table>
+<thead>
+<tr>
+<th>Lookback period</th>
+<th>Estimated ρ(SPX, HY)</th>
+<th>True stress ρ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3-year unconditional</td>
+<td>0.55</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Conditional on VIX &lt; 20</td>
+<td>0.40</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Conditional on VIX &gt; 30</td>
+<td>0.75</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Conditional on VIX &gt; 40</td>
+<td>0.85</td>
+<td>Diversification mostly gone</td>
+</tr>
+<tr>
+<td>Conditional on VIX &gt; 60</td>
+<td>0.93</td>
+<td>Effectively same asset</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Practical rule:</strong> Your VaR model uses unconditional (or short lookback) correlations. During a crisis, actual portfolio risk is 1.5-2.5x what VaR reports because correlations spike. This is why stressed VaR and scenario analysis exist — to capture the gap.</p>
+<h3 id="correlation-breakdown-detection">Correlation Breakdown Detection</h3>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>What it means</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rolling 21d SPX/TLT correlation crosses zero</td>
+<td>Inflation vs growth dominance shifting</td>
+<td>Re-evaluate hedge ratios</td>
+</tr>
+<tr>
+<td>Cross-sector equity correlation &gt; 0.7</td>
+<td>Macro factor dominating stock-specific</td>
+<td>Reduce gross; beta risk exceeds alpha</td>
+</tr>
+<tr>
+<td>VIX-of-VIX (VVIX) rising while VIX stable</td>
+<td>Uncertainty about uncertainty</td>
+<td>Markets fragile; tail risk underpriced</td>
+</tr>
+<tr>
+<td>JPY and gold moving together sharply</td>
+<td>Multiple safe havens bid = genuine fear</td>
+<td>Reduce risk exposure</td>
+</tr>
+<tr>
+<td>IG-HY spread differential widening</td>
+<td>Credit differentiation → default cycle starting</td>
+<td>Reduce HY exposure</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-3-flight-to-quality-mechanics-failure-modes">PART 3: FLIGHT TO QUALITY — MECHANICS &amp; FAILURE MODES</h1>
+<h2 id="the-safe-haven-hierarchy">The Safe Haven Hierarchy</h2>
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Mechanism</th>
+<th>Reliability</th>
+<th>When it FAILS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>US T-bills (&lt; 3M)</strong></td>
+<td>Sovereign credit, USD, zero duration</td>
+<td>Most reliable</td>
+<td>Only if US defaults (never happened on USD debt)</td>
+</tr>
+<tr>
+<td><strong>US Treasuries (10Y+)</strong></td>
+<td>Flight to quality, duration rally in recession</td>
+<td>Very high</td>
+<td>Inflation shock (2022: TLT -31%)</td>
+</tr>
+<tr>
+<td><strong>German Bunds</strong></td>
+<td>European safe sovereign</td>
+<td>High in EU crises</td>
+<td>Inflation shock (same as UST)</td>
+</tr>
+<tr>
+<td><strong>Gold</strong></td>
+<td>No counterparty risk, inflation hedge</td>
+<td>Moderate</td>
+<td>Real rate spikes, liquidity crises (margin calls force sale)</td>
+</tr>
+<tr>
+<td><strong>Japanese Yen</strong></td>
+<td>Net creditor nation, carry unwind flow</td>
+<td>Moderate</td>
+<td>BoJ policy shifts (Aug 2024)</td>
+</tr>
+<tr>
+<td><strong>Swiss Franc</strong></td>
+<td>Neutrality, current account surplus</td>
+<td>Moderate</td>
+<td>SNB intervention (2015 peg removal — CHF +20% in minutes)</td>
+</tr>
+<tr>
+<td><strong>US Dollar (DXY)</strong></td>
+<td>Reserve currency, deepest market</td>
+<td>High in EM crises</td>
+<td>When the US IS the crisis (2008 briefly, dollar initially weakened)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="flight-to-quality-velocity-how-fast-capital-moves">Flight-to-Quality Velocity — How Fast Capital Moves</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Speed</th>
+<th>What moves</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Electronic / systematic</strong></td>
+<td>Seconds-minutes</td>
+<td>CTA trend signals, risk-parity rebalancing, gamma hedging</td>
+</tr>
+<tr>
+<td><strong>Liquid institutional</strong></td>
+<td>Hours-days</td>
+<td>Mutual fund hedging, bank prop desk de-risking</td>
+</tr>
+<tr>
+<td><strong>Slower institutional</strong></td>
+<td>Days-weeks</td>
+<td>Pension rebalancing, insurance portfolio shifts</td>
+</tr>
+<tr>
+<td><strong>Retail</strong></td>
+<td>Weeks-months</td>
+<td>Panic selling, fund redemptions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implication:</strong> The first phase creates the gap move. By the time retail panic-sells, the move is often 60-80% done. Risk managers need to be ahead of Phase 2, not reacting in Phase 3.</p>
+<h2 id="when-all-safe-havens-fail-the-dash-for-cash">When ALL Safe Havens Fail: The Dash for Cash</h2>
+<p><strong>March 2020 proved that in a severe liquidity crisis, NOTHING is truly safe except cash:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Expected behavior</th>
+<th>Actual behavior (Mar 9-23)</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US Treasuries</td>
+<td>Rally (flight to quality)</td>
+<td>SOLD OFF (10Y yield +60bp, then -100bp)</td>
+<td>Forced sellers needed cash; basis trades blew up</td>
+</tr>
+<tr>
 <td>Gold</td>
+<td>Rally (safe haven)</td>
+<td>Fell -12% (Mar 9-19)</td>
+<td>Margin calls → sell everything liquid</td>
 </tr>
 <tr>
-<td>Illiquid assets</td>
-<td>Cash, money market funds</td>
+<td>Investment Grade bonds</td>
+<td>Minor spread widening</td>
+<td>IG OAS +100bp in 2 weeks</td>
+<td>Redemption queues, ETF discount to NAV</td>
+</tr>
+<tr>
+<td>Money market funds</td>
+<td>Stable</td>
+<td>Some broke the buck (prime funds)</td>
+<td>CP market froze, redemption pressure</td>
+</tr>
+<tr>
+<td><strong>What worked</strong></td>
+<td>Cash, T-bills</td>
+<td>T-bills rallied (negative yields briefly)</td>
+<td>Pure cash equivalent = only true safe haven</td>
 </tr>
 </tbody>
 </table>
-<h2 id="safe-haven-hierarchy">Safe Haven Hierarchy</h2>
-<ol>
-<li><strong>US Treasuries:</strong> THE global safe haven. Even in 2008, Treasuries rallied as everything fell.</li>
-<li><strong>Gold:</strong> Traditional safe haven but can fail when rates rise sharply or liquidity is needed (margin calls → sell gold for cash).</li>
-<li><strong>JPY:</strong> Safe haven due to Japan's net creditor status. Carry unwinds amplify.</li>
-<li><strong>CHF:</strong> Swiss neutrality + current account surplus.</li>
-<li><strong>USD:</strong> Reserve currency status. Works except when the US itself is the problem.</li>
-</ol>
-<h2 id="when-safe-havens-fail">When Safe Havens Fail</h2>
-<table>
-<thead>
-<tr>
-<th>Scenario</th>
-<th>What broke</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>March 2020 (Covid dash for cash)</td>
-<td>Even Treasuries sold — everyone needed CASH. Correlation went to +1.</td>
-</tr>
-<tr>
-<td>2022 inflation</td>
-<td>Bonds sold off alongside equities. Interest rate risk overwhelmed flight-to-quality.</td>
-</tr>
-<tr>
-<td>Gold in real rate spikes</td>
-<td>Gold falls when real rates rise sharply (opportunity cost of holding zero-yield asset).</td>
-</tr>
-<tr>
-<td>JPY in BOJ tightening</td>
-<td>If BOJ raises rates, JPY strengthens on fundamentals, not safe-haven flow — different dynamic.</td>
-</tr>
-</tbody>
-</table>
+<p><strong>RM lesson:</strong> In tail scenarios, DON'T assume your "hedge" is a hedge. Model the scenario where everything correlates, hedges fail, and the only thing that works is cash. That's the portfolio's true tail risk.</p>
 <hr />
-<h1 id="part-5-risk-on-risk-off-roro">PART 5: RISK-ON / RISK-OFF (RORO)</h1>
-<h2 id="the-roro-framework">The RORO Framework</h2>
-<p>Markets increasingly operate in binary mode: "risk on" or "risk off."</p>
+<h1 id="part-4-risk-on-risk-off-framework">PART 4: RISK-ON / RISK-OFF FRAMEWORK</h1>
+<h2 id="the-roro-regime">The RORO Regime</h2>
+<p>Markets oscillate between two dominant modes. Identifying which mode is active determines how every cross-asset signal should be interpreted:</p>
 <table>
 <thead>
 <tr>
 <th>Indicator</th>
-<th>Risk-On</th>
-<th>Risk-Off</th>
+<th>Risk-On signature</th>
+<th>Risk-Off signature</th>
+<th>Transition signal</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>VIX</td>
-<td>Falling / low</td>
-<td>Rising / high</td>
+<td><strong>VIX</strong></td>
+<td>&lt;18, term structure in contango</td>
+<td>&gt;25, backwardation</td>
+<td>VIX crosses 20 with momentum</td>
 </tr>
 <tr>
-<td>S&amp;P 500</td>
-<td>Rising</td>
-<td>Falling</td>
+<td><strong>S&amp;P 500</strong></td>
+<td>Making new highs, low vol</td>
+<td>Falling, high vol</td>
+<td>Breaks 50-day MA</td>
 </tr>
 <tr>
-<td>Credit spreads</td>
-<td>Tightening</td>
-<td>Widening</td>
+<td><strong>Credit spreads (HY OAS)</strong></td>
+<td>&lt;350bp, tightening</td>
+<td>&gt;450bp, widening</td>
+<td>Rate of change &gt; 50bp/week</td>
 </tr>
 <tr>
-<td>USD</td>
+<td><strong>US Dollar (DXY)</strong></td>
 <td>Weakening</td>
 <td>Strengthening</td>
+<td>DXY breaks range</td>
 </tr>
 <tr>
-<td>EM FX</td>
-<td>Strengthening</td>
-<td>Weakening</td>
+<td><strong>EM FX (EMFX index)</strong></td>
+<td>Appreciating</td>
+<td>Depreciating</td>
+<td>Broad-based not single country</td>
 </tr>
 <tr>
-<td>Gold</td>
-<td>Flat / down</td>
-<td>Up (usually)</td>
+<td><strong>Gold</strong></td>
+<td>Flat or softening</td>
+<td>Rising (usually)</td>
+<td>&gt; $50/day moves</td>
 </tr>
 <tr>
-<td>Treasuries</td>
-<td>Selling (yield up)</td>
-<td>Buying (yield down)</td>
+<td><strong>Treasuries</strong></td>
+<td>Yields rising (selling)</td>
+<td>Yields falling (buying)</td>
+<td>10Y breaks key level</td>
 </tr>
 <tr>
-<td>Commodities</td>
-<td>Rising (demand)</td>
+<td><strong>Commodities (copper)</strong></td>
+<td>Rising (demand-driven)</td>
 <td>Falling (recession fear)</td>
+<td>Dr. Copper disagrees with equity</td>
+</tr>
+<tr>
+<td><strong>JPY crosses</strong></td>
+<td>Weakening (carry on)</td>
+<td>Strengthening (carry unwinding)</td>
+<td>USDJPY multi-day trend reversal</td>
 </tr>
 </tbody>
 </table>
-<h2 id="roro-dashboard-what-to-watch">RORO Dashboard — What to Watch</h2>
-<p>The RM should monitor these daily as a regime indicator:</p>
+<h2 id="the-roro-dashboard-composite-scoring">The RORO Dashboard — Composite Scoring</h2>
 <table>
 <thead>
 <tr>
-<th>Metric</th>
-<th>Where to find it</th>
-<th>What it tells you</th>
+<th>Factor</th>
+<th>Risk-On (score +1)</th>
+<th>Neutral (score 0)</th>
+<th>Risk-Off (score -1)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>VIX level &amp; term structure</td>
-<td>CBOE, Bloomberg</td>
-<td>Fear level + whether it's expected to persist</td>
+<td>VIX level</td>
+<td>&lt;15</td>
+<td>15-25</td>
+<td>&gt;25</td>
 </tr>
 <tr>
-<td>HY OAS (option-adjusted spread)</td>
-<td>Bloomberg, ICE BofA index</td>
-<td>Credit stress</td>
+<td>VIX term structure</td>
+<td>Steep contango</td>
+<td>Flat</td>
+<td>Backwardation</td>
 </tr>
 <tr>
-<td>TED spread or FRA-OIS</td>
-<td>Bloomberg</td>
-<td>Funding stress</td>
+<td>HY OAS direction</td>
+<td>Tightening</td>
+<td>Stable</td>
+<td>Widening</td>
 </tr>
 <tr>
-<td>DXY (dollar index)</td>
-<td>Bloomberg</td>
-<td>Global risk appetite</td>
+<td>SPX vs 50d MA</td>
+<td>Above, rising</td>
+<td>At</td>
+<td>Below, falling</td>
 </tr>
 <tr>
-<td>JPY cross-rates</td>
-<td>Bloomberg</td>
-<td>Carry trade health</td>
+<td>USDJPY direction</td>
+<td>Rising (JPY weak)</td>
+<td>Flat</td>
+<td>Falling (JPY strong)</td>
+</tr>
+<tr>
+<td>Copper vs gold ratio</td>
+<td>Rising</td>
+<td>Flat</td>
+<td>Falling</td>
 </tr>
 <tr>
 <td>EM sovereign CDS</td>
-<td>Bloomberg</td>
-<td>Contagion risk</td>
+<td>Tightening</td>
+<td>Stable</td>
+<td>Widening</td>
+</tr>
+<tr>
+<td>MOVE index (rate vol)</td>
+<td>&lt; 100</td>
+<td>100-120</td>
+<td>&gt; 120</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Score +4 to +8:</strong> Full risk-on. Correlations benign, VaR reliable, alpha opportunity high.<br />
+<strong>Score -2 to +3:</strong> Neutral/transitional. Regime uncertain, monitor closely.<br />
+<strong>Score -3 to -8:</strong> Risk-off. Correlations elevating, VaR understating, consider reducing gross.</p>
 <hr />
-<h1 id="part-6-cross-asset-relationships-table">PART 6: CROSS-ASSET RELATIONSHIPS TABLE</h1>
-<h2 id="how-each-asset-responds-to-key-macro-shocks">How Each Asset Responds to Key Macro Shocks</h2>
+<h1 id="part-5-cross-asset-sensitivity-matrix">PART 5: CROSS-ASSET SENSITIVITY MATRIX</h1>
+<h2 id="macro-shock-asset-response">Macro Shock → Asset Response</h2>
 <table>
 <thead>
 <tr>
 <th>Shock</th>
-<th>Equities</th>
-<th>Bonds (price)</th>
-<th>USD</th>
+<th>SPX</th>
+<th>10Y Price</th>
+<th>HY OAS</th>
+<th>DXY</th>
 <th>Gold</th>
 <th>Oil</th>
 <th>VIX</th>
-<th>EM</th>
+<th>EM FX</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Surprise rate hike</td>
+<td><strong>Surprise rate hike</strong></td>
 <td>↓↓</td>
 <td>↓↓</td>
+<td>+30bp</td>
 <td>↑↑</td>
 <td>↓</td>
 <td>↓</td>
@@ -711,49 +1199,21 @@ Rate differential narrows OR vol spikes →
 <td>↓↓</td>
 </tr>
 <tr>
-<td>Surprise rate cut</td>
+<td><strong>Surprise rate cut</strong></td>
 <td>↑↑</td>
 <td>↑↑</td>
+<td>-25bp</td>
 <td>↓↓</td>
 <td>↑</td>
 <td>↑</td>
-<td>↓</td>
+<td>↓↓</td>
 <td>↑↑</td>
 </tr>
 <tr>
-<td>Oil supply shock</td>
-<td>↓</td>
-<td>↓ (inflation)</td>
-<td>↑</td>
-<td>↑</td>
-<td>↑↑↑</td>
-<td>↑↑</td>
-<td>↓↓</td>
-</tr>
-<tr>
-<td>Recession signal</td>
-<td>↓↓</td>
-<td>↑↑ (flight to quality)</td>
-<td>↑</td>
-<td>↑↑</td>
-<td>↓↓</td>
-<td>↑↑↑</td>
-<td>↓↓</td>
-</tr>
-<tr>
-<td>Geopolitical crisis</td>
-<td>↓</td>
-<td>↑</td>
-<td>↑</td>
-<td>↑↑</td>
-<td>↑</td>
-<td>↑↑</td>
-<td>↓↓</td>
-</tr>
-<tr>
-<td>Inflation surprise</td>
+<td><strong>Hot CPI (core +0.4%)</strong></td>
 <td>↓</td>
 <td>↓↓</td>
+<td>+15bp</td>
 <td>↑</td>
 <td>Complex</td>
 <td>↑</td>
@@ -761,9 +1221,87 @@ Rate differential narrows OR vol spikes →
 <td>↓</td>
 </tr>
 <tr>
-<td>Growth surprise (positive)</td>
+<td><strong>Cold CPI (core +0.1%)</strong></td>
+<td>↑↑</td>
+<td>↑↑</td>
+<td>-20bp</td>
+<td>↓</td>
+<td>↓</td>
+<td>Flat</td>
+<td>↓↓</td>
+<td>↑</td>
+</tr>
+<tr>
+<td><strong>Strong NFP (+300K)</strong></td>
+<td>Context*</td>
+<td>↓</td>
+<td>-10bp</td>
+<td>↑</td>
+<td>↓</td>
+<td>↑</td>
+<td>↓</td>
+<td>Mixed</td>
+</tr>
+<tr>
+<td><strong>Weak NFP (+80K)</strong></td>
+<td>Context*</td>
+<td>↑↑</td>
+<td>+20bp</td>
+<td>↓</td>
+<td>↑</td>
+<td>↓↓</td>
 <td>↑↑</td>
 <td>↓</td>
+</tr>
+<tr>
+<td><strong>Oil supply shock (+20%)</strong></td>
+<td>↓</td>
+<td>↓</td>
+<td>+25bp</td>
+<td>↑</td>
+<td>↑</td>
+<td>↑↑↑</td>
+<td>↑↑</td>
+<td>↓↓</td>
+</tr>
+<tr>
+<td><strong>Recession confirmed</strong></td>
+<td>↓↓↓</td>
+<td>↑↑↑</td>
+<td>+200bp</td>
+<td>↑↑</td>
+<td>↑↑</td>
+<td>↓↓</td>
+<td>↑↑↑</td>
+<td>↓↓↓</td>
+</tr>
+<tr>
+<td><strong>Geopolitical shock</strong></td>
+<td>↓ to ↓↓</td>
+<td>↑</td>
+<td>+30bp</td>
+<td>↑</td>
+<td>↑↑</td>
+<td>↑ to ↑↑</td>
+<td>↑↑</td>
+<td>↓↓</td>
+</tr>
+<tr>
+<td><strong>Credit event</strong></td>
+<td>↓↓</td>
+<td>↑</td>
+<td>+100bp</td>
+<td>↑</td>
+<td>↑</td>
+<td>↓</td>
+<td>↑↑↑</td>
+<td>↓↓↓</td>
+</tr>
+<tr>
+<td><strong>Positive growth surprise</strong></td>
+<td>↑↑</td>
+<td>↓</td>
+<td>-15bp</td>
 <td>Mixed</td>
 <td>↓</td>
 <td>↑</td>
@@ -771,210 +1309,759 @@ Rate differential narrows OR vol spikes →
 <td>↑</td>
 </tr>
 <tr>
-<td>Credit event</td>
-<td>↓↓</td>
-<td>↑ (flight)</td>
-<td>↑</td>
-<td>↑</td>
+<td><strong>Fiscal credibility shock</strong></td>
 <td>↓</td>
-<td>↑↑↑</td>
 <td>↓↓↓</td>
+<td>+50bp</td>
+<td>↓↓ (if domestic)</td>
+<td>↑↑</td>
+<td>Flat</td>
+<td>↑↑</td>
+<td>N/A</td>
 </tr>
 </tbody>
 </table>
-<h2 id="sector-level-cross-asset-sensitivity">Sector-Level Cross-Asset Sensitivity</h2>
+<p>*NFP is narrative-dependent: In "inflation is sticky" regime, strong NFP = hawkish = equities down. In "soft landing" regime, strong NFP = economy is fine = equities up.</p>
+<h2 id="sector-level-cross-asset-beta-matrix">Sector-Level Cross-Asset Beta Matrix</h2>
 <table>
 <thead>
 <tr>
-<th>Equity Sector</th>
-<th>Key cross-asset driver</th>
-<th>Relationship</th>
+<th>Equity sector</th>
+<th>Oil β</th>
+<th>10Y yield β</th>
+<th>DXY β</th>
+<th>Copper β</th>
+<th>VIX β</th>
+<th>Key driver</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Energy</td>
-<td>Oil price</td>
-<td>Direct positive</td>
+<td><strong>Energy (XLE)</strong></td>
+<td>+0.7</td>
+<td>-0.1</td>
+<td>+0.1</td>
+<td>+0.2</td>
+<td>-0.3</td>
+<td>Oil price dominant</td>
 </tr>
 <tr>
-<td>Financials</td>
-<td>Yield curve slope (10Y-2Y)</td>
-<td>Positive — steeper = better for banks</td>
+<td><strong>Financials (XLF)</strong></td>
+<td>+0.1</td>
+<td>+0.4</td>
+<td>+0.2</td>
+<td>+0.2</td>
+<td>-0.5</td>
+<td>Yield curve slope (NIM)</td>
 </tr>
 <tr>
-<td>Tech/Growth</td>
-<td>Real rates (10Y - breakevens)</td>
-<td>Negative — higher real rates hurt long-duration</td>
+<td><strong>Tech (XLK)</strong></td>
+<td>-0.1</td>
+<td>-0.3</td>
+<td>-0.2</td>
+<td>+0.1</td>
+<td>-0.6</td>
+<td>Real rates (duration)</td>
 </tr>
 <tr>
-<td>Utilities/REITs</td>
-<td>Bond yields</td>
-<td>Negative — bond proxies get sold as yields rise</td>
+<td><strong>Utilities (XLU)</strong></td>
+<td>-0.1</td>
+<td>-0.5</td>
+<td>-0.1</td>
+<td>0</td>
+<td>-0.2</td>
+<td>Bond proxy, interest sensitivity</td>
 </tr>
 <tr>
-<td>Materials/Industrials</td>
-<td>Copper, commodity complex</td>
-<td>Positive — China PMI is key</td>
+<td><strong>REITs</strong></td>
+<td>0</td>
+<td>-0.6</td>
+<td>-0.1</td>
+<td>+0.1</td>
+<td>-0.3</td>
+<td>Direct rate sensitivity</td>
 </tr>
 <tr>
-<td>Consumer Discretionary</td>
+<td><strong>Materials (XLB)</strong></td>
+<td>+0.2</td>
+<td>+0.1</td>
+<td>-0.3</td>
+<td>+0.6</td>
+<td>-0.3</td>
+<td>Commodity prices, China</td>
+</tr>
+<tr>
+<td><strong>Industrials (XLI)</strong></td>
+<td>+0.1</td>
+<td>+0.2</td>
+<td>-0.1</td>
+<td>+0.4</td>
+<td>-0.4</td>
+<td>Capex cycle, PMI</td>
+</tr>
+<tr>
+<td><strong>Consumer Disc. (XLY)</strong></td>
+<td>-0.2</td>
+<td>-0.1</td>
+<td>-0.1</td>
+<td>+0.1</td>
+<td>-0.5</td>
 <td>Consumer confidence, employment</td>
-<td>Positive</td>
 </tr>
 <tr>
-<td>Healthcare/Staples</td>
-<td>Defensive — inverse of risk appetite</td>
-<td>Negative with VIX</td>
+<td><strong>Staples (XLP)</strong></td>
+<td>0</td>
+<td>-0.2</td>
+<td>+0.1</td>
+<td>0</td>
+<td>+0.2</td>
+<td>Defensive, low beta</td>
+</tr>
+<tr>
+<td><strong>Healthcare (XLV)</strong></td>
+<td>0</td>
+<td>-0.1</td>
+<td>0</td>
+<td>0</td>
+<td>+0.1</td>
+<td>Defensive, regulatory</td>
 </tr>
 </tbody>
 </table>
+<p><strong>RM application:</strong> When a macro variable moves, instantly estimate sector-level P&amp;L impact:</p>
+<p>$$\Delta P\&amp;L_{\text{sector}} \approx \text{sector exposure} \times \beta_{\text{factor}} \times \Delta\text{factor}$$</p>
+<p>Example: If oil moves +10% and the portfolio has $50M XLE long and $30M XLY long:<br />
+- XLE impact: $50M × 0.7 × 10% = +$3.5M<br />
+- XLY impact: $30M × (-0.2) × 10% = -$0.6M<br />
+- Net oil impact: +$2.9M</p>
+<p>But this is just the first-order effect. Oil also moves rates, USD, and VIX — calculate the second-order effects through other betas.</p>
 <hr />
-<h1 id="part-7-the-narrative-matters-more-than-the-data">PART 7: THE NARRATIVE MATTERS MORE THAN THE DATA</h1>
-<p>The same data print can cause OPPOSITE reactions depending on the prevailing narrative:</p>
+<h1 id="part-6-narrative-regime-why-the-same-data-causes-opposite-reactions">PART 6: NARRATIVE REGIME — WHY THE SAME DATA CAUSES OPPOSITE REACTIONS</h1>
+<h2 id="the-interpretation-matrix">The Interpretation Matrix</h2>
 <table>
 <thead>
 <tr>
-<th>Data</th>
-<th>"Inflation is sticky" narrative</th>
-<th>"Soft landing" narrative</th>
+<th>Data print</th>
+<th>"Growth scare" narrative</th>
+<th>"Inflation scare" narrative</th>
+<th>"Goldilocks" narrative</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Strong NFP (+300K)</td>
-<td>Equities DOWN (Fed won't cut)</td>
-<td>Equities UP (economy is fine)</td>
+<td>↑ Equities (no recession!)</td>
+<td>↓ Equities (Fed won't cut)</td>
+<td>↑ Equities (but less; "too hot?")</td>
 </tr>
 <tr>
-<td>Weak NFP (+100K)</td>
-<td>Equities UP (Fed can cut now)</td>
-<td>Equities DOWN (recession coming)</td>
+<td>Weak NFP (+80K)</td>
+<td>↓↓ Equities (recession!)</td>
+<td>↑ Equities (Fed WILL cut)</td>
+<td>↓ Equities (growth slipping)</td>
 </tr>
 <tr>
-<td>Hot CPI</td>
-<td>Equities DOWN hard</td>
-<td>Equities down modest (temporary)</td>
+<td>Hot CPI (core +0.4%)</td>
+<td>Equities mixed (Fed trapped)</td>
+<td>↓↓ Equities (inflation entrenched)</td>
+<td>↓ Equities (cracks the Goldilocks)</td>
 </tr>
 <tr>
-<td>Cool CPI</td>
-<td>Equities UP hard</td>
-<td>Equities UP modest (confirming)</td>
+<td>Cool CPI (core +0.1%)</td>
+<td>↑ Equities (Fed can cut soon)</td>
+<td>↑↑ Equities (inflation solved!)</td>
+<td>↑ Equities (confirming the dream)</td>
+</tr>
+<tr>
+<td>ISM below 50</td>
+<td>↓↓ Equities (recession)</td>
+<td>↑ Equities (demand down = disinflation)</td>
+<td>↓ Equities (wobble)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>RM takeaway:</strong> Don't just know the number. Know HOW THE MARKET WILL INTERPRET the number. This requires understanding:<br />
-1. What's priced in (consensus estimates vs actual)<br />
-2. What narrative is dominant right now<br />
-3. Who is positioned how (short gamma dealers amplify, long gamma dampens)</p>
+<p><strong>The "good news is bad news" regime:</strong><br />
+When the dominant narrative is about the Fed being too hawkish, good economic news is interpreted NEGATIVELY because it means fewer rate cuts. This inverts normal cross-asset relationships:</p>
+<p>$$\frac{\partial\text{SPX}}{\partial\text{NFP}} &lt; 0 \quad \text{in "Fed vigilance" regime}$$<br />
+$$\frac{\partial\text{SPX}}{\partial\text{NFP}} &gt; 0 \quad \text{in "growth scare" regime}$$</p>
+<p><strong>How to identify the prevailing narrative:</strong><br />
+1. Read the first 5 minutes of price action after a data release — the DIRECTION tells you the narrative<br />
+2. Check Fed funds futures reaction — if the rate path reprices more than equities, the narrative is "Fed-driven"<br />
+3. Watch financial media framing — which angle dominates the headline<br />
+4. Cross-reference: if SPX and UST move in the SAME direction after data, the narrative is growth-driven. If OPPOSITE, it's inflation/Fed-driven.</p>
 <hr />
-<h1 id="part-8-dealer-positioning-market-microstructure">PART 8: DEALER POSITIONING &amp; MARKET MICROSTRUCTURE</h1>
-<h2 id="how-dealer-gamma-affects-cross-asset">How Dealer Gamma Affects Cross-Asset</h2>
-<p>Options dealers are massively short gamma in SPX options. Their hedging creates cross-asset ripple effects:</p>
-<p><strong>Short gamma regime (dealers):</strong><br />
-- Market down → dealers sell to hedge → amplifies the move down<br />
-- Market up → dealers buy to hedge → amplifies the move up<br />
-- Volatility INCREASES in both directions<br />
-- Cross-asset cascade is FASTER because dealer hedging is automated and immediate</p>
-<p><strong>Long gamma regime (dealers):</strong><br />
-- Market down → dealers buy → dampens the move<br />
-- Market up → dealers sell → dampens the move<br />
-- Volatility is SUPPRESSED<br />
-- Markets are "sticky" — harder to get big cross-asset cascades</p>
-<p><strong>0DTE options effect:</strong> Daily expiring SPX options are now ~50% of volume. They create intraday gamma effects that didn't exist 5 years ago. Pin risk around key strikes acts as intraday magnet.</p>
+<h1 id="part-7-dealer-positioning-microstructure-transmission">PART 7: DEALER POSITIONING &amp; MICROSTRUCTURE TRANSMISSION</h1>
+<h2 id="gamma-exposure-how-dealer-hedging-amplifies-cross-asset-moves">Gamma Exposure — How Dealer Hedging Amplifies Cross-Asset Moves</h2>
+<p>Options dealers delta-hedge their books. The direction and magnitude of their hedging depends on their aggregate gamma position:</p>
+<p><strong>Short gamma regime:</strong></p>
+<p>$$\text{Dealer hedge} = \Delta \text{delta} \times \text{spot move} = -\Gamma \times (\Delta S)^2 / S$$</p>
+<p>When dealers are short gamma:<br />
+- Market falls → their delta becomes more negative → they SELL more equity to re-hedge → amplifies the fall<br />
+- Market rises → their delta becomes more positive → they BUY more equity → amplifies the rise<br />
+- <strong>Result:</strong> Volatility higher, moves magnified, cross-asset cascades faster</p>
+<p><strong>Long gamma regime:</strong><br />
+- Market falls → dealers BUY (they were over-hedged) → dampens the fall<br />
+- Market rises → dealers SELL → dampens the rise<br />
+- <strong>Result:</strong> Volatility suppressed, "sticky" markets, cross-asset signals muted</p>
+<p><strong>Where gamma estimates live:</strong><br />
+- SpotGamma, GEX indicators<br />
+- Major bank options desks publish daily estimates<br />
+- Zero Gamma Level: the price level where dealer gamma flips sign — acts as an attractor/repulsor</p>
+<h3 id="0dte-options-the-new-cross-asset-amplifier">0DTE Options — The New Cross-Asset Amplifier</h3>
+<p>Daily expiring SPX options now represent ~50% of total SPX options volume. Their effects:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Massive intraday gamma</strong></td>
+<td>Pin risk around major strikes → SPX pins at round numbers</td>
+</tr>
+<tr>
+<td><strong>Rapid gamma decay</strong></td>
+<td>θ → ∞ as expiry approaches → dealers' hedge adjustments accelerate</td>
+</tr>
+<tr>
+<td><strong>Intraday regime shifts</strong></td>
+<td>AM can be long-gamma, PM can be short-gamma in the same day</td>
+</tr>
+<tr>
+<td><strong>Cross-asset amplification</strong></td>
+<td>SPX 0DTE gamma hedging creates intraday VIX spikes, Treasury Vol</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-vanna-charm-gamma-nexus">The Vanna-Charm-Gamma Nexus</h3>
+<table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>Effect on dealer hedging</th>
+<th>Cross-asset impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gamma</strong></td>
+<td>Delta sensitivity to spot → buy/sell equity to hedge</td>
+<td>Directly amplifies/dampens equity moves</td>
+</tr>
+<tr>
+<td><strong>Vanna</strong></td>
+<td>Delta sensitivity to volatility → if vol rises, dealers must adjust delta</td>
+<td>VIX spike → additional equity selling → feedback loop</td>
+</tr>
+<tr>
+<td><strong>Charm</strong></td>
+<td>Delta sensitivity to time → as options approach expiry, delta drifts</td>
+<td>Creates predictable end-of-day flows → MOC imbalances</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vanna feedback loop (the danger):</strong><br />
+- Market drops → VIX spikes → vanna effect forces dealers to sell more delta → market drops further → VIX spikes more → loop continues</p>
+<p>This is how a 2% sell-off can become a 5% sell-off in a day when vanna flows dominate.</p>
+<h3 id="systematic-strategy-flows-as-cross-asset-transmitters">Systematic Strategy Flows as Cross-Asset Transmitters</h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Mechanism</th>
+<th>Speed</th>
+<th>Cross-asset impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CTA / managed futures</strong></td>
+<td>Trend-following → sell when trend breaks</td>
+<td>Days (momentum signals)</td>
+<td>Can accelerate duration and equity trends; flip adds fuel</td>
+</tr>
+<tr>
+<td><strong>Risk parity</strong></td>
+<td>Target constant risk contribution → deleverage when vol spikes</td>
+<td>Hours-days</td>
+<td>Sells BOTH stocks AND bonds when vol rises → amplifies positive correlation</td>
+</tr>
+<tr>
+<td><strong>Vol targeting</strong></td>
+<td>Reduce exposure when realized vol rises</td>
+<td>Days</td>
+<td>Systematic equity selling into weakness → gamma-like amplification</td>
+</tr>
+<tr>
+<td><strong>Passive / rebalancing</strong></td>
+<td>Buy low / sell high to maintain weights</td>
+<td>Monthly/quarterly</td>
+<td>Counter-cyclical — provides liquidity. Month-end/quarter-end flows visible</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CTA positioning as a crowding indicator:</strong><br />
+- When CTAs are max long → any trend reversal triggers massive sell flow → amplifies the sell-off<br />
+- When CTAs are max short → any bounce triggers short-covering → amplifies the rally<br />
+- Track via CFTC Commitment of Traders (CoT) for futures positioning, bank CTA models (SocGen, GS, JPM)</p>
 <hr />
-<h1 id="part-9-practical-cross-asset-monitoring">PART 9: PRACTICAL CROSS-ASSET MONITORING</h1>
-<h2 id="daily-cross-asset-checklist-for-the-discretionary-rm">Daily Cross-Asset Checklist for the Discretionary RM</h2>
+<h1 id="part-8-contagion-mechanics-how-shocks-propagate">PART 8: CONTAGION MECHANICS — HOW SHOCKS PROPAGATE</h1>
+<h2 id="contagion-channels">Contagion Channels</h2>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Mechanism</th>
+<th>Speed</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Information</strong></td>
+<td>News changes expectations globally</td>
+<td>Seconds</td>
+<td>COVID announcement → global equity sell-off simultaneously</td>
+</tr>
+<tr>
+<td><strong>Portfolio balance</strong></td>
+<td>Loss in one asset → sell others to raise cash</td>
+<td>Hours-days</td>
+<td>GFC: US housing → bank equity → fire-sale of all assets</td>
+</tr>
+<tr>
+<td><strong>Funding</strong></td>
+<td>Lender pulls credit from all borrowers, not just impaired</td>
+<td>Days-weeks</td>
+<td>2008: repo market freeze → all holders of MBS affected</td>
+</tr>
+<tr>
+<td><strong>Wake-up call</strong></td>
+<td>Shock reveals vulnerability in "similar" exposures</td>
+<td>Days-weeks</td>
+<td>Greek crisis → market reprices all peripheral European sovereigns</td>
+</tr>
+<tr>
+<td><strong>Margin/collateral</strong></td>
+<td>Losses → margin calls → forced selling → more losses</td>
+<td>Hours-days</td>
+<td>LTCM: Russia default → spread blow-out → margin calls → spiral</td>
+</tr>
+<tr>
+<td><strong>Institutional linkage</strong></td>
+<td>CCP, prime broker, custodian failure</td>
+<td>Hours</td>
+<td>Lehman: PB failure → hedge fund assets frozen → liquidation</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cross-market-contagion-map">Cross-Market Contagion Map</h2>
+<div class="highlight"><pre><span></span><code>Domestic shock
+├── LIQUID MARKETS (seconds-minutes): Equity futures, FX, sovereign bonds
+├── CREDIT (hours-days): CDX/iTraxx → single-name CDS → cash bonds
+├── FUNDING (days): Repo → CP → bank lending → interbank
+├── CROSS-BORDER (hours-days): Correlated sovereigns → EM → commodity FX
+├── REAL ECONOMY (months): Tighter credit → less investment → lower GDP
+└── POLICY FEEDBACK (days-weeks): Central bank response → new equilibrium
+</code></pre></div>
+
+<h2 id="identifying-contagion-risk-before-it-happens">Identifying Contagion Risk Before It Happens</h2>
+<table>
+<thead>
+<tr>
+<th>Vulnerability</th>
+<th>Metric to watch</th>
+<th>Danger threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Leverage concentration</strong></td>
+<td>Gross/net leverage by prime broker</td>
+<td>Rising leverage + falling vol = accumulation</td>
+</tr>
+<tr>
+<td><strong>Crowded trades</strong></td>
+<td>CFTC positioning extremes, ETF flow concentration</td>
+<td>&gt;2σ from mean positioning</td>
+</tr>
+<tr>
+<td><strong>Funding fragility</strong></td>
+<td>FRA-OIS spread, cross-currency basis</td>
+<td>FRA-OIS &gt; 25bp, 3M basis &lt; -30bp</td>
+</tr>
+<tr>
+<td><strong>Counterparty concentration</strong></td>
+<td>CDS of major PBs and dealers</td>
+<td>Any bank CDS +50bp in a week</td>
+</tr>
+<tr>
+<td><strong>Correlation convergence</strong></td>
+<td>Cross-sector, cross-asset dispersion indices</td>
+<td>Average pairwise correlation &gt;0.6 sustained</td>
+</tr>
+<tr>
+<td><strong>Volatility surface</strong></td>
+<td>Skew richness, VVIX level</td>
+<td>VVIX &gt;120 with VIX still low = tension</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-quantitative-cross-asset-tools">PART 9: QUANTITATIVE CROSS-ASSET TOOLS</h1>
+<h2 id="factor-decomposition-of-portfolio-returns">Factor Decomposition of Portfolio Returns</h2>
+<p>$$R_p = \alpha + \beta_{\text{equity}} \cdot R_{\text{SPX}} + \beta_{\text{rates}} \cdot \Delta y_{10} + \beta_{\text{credit}} \cdot \Delta \text{OAS} + \beta_{\text{oil}} \cdot R_{\text{oil}} + \beta_{\text{FX}} \cdot \Delta \text{DXY} + \epsilon$$</p>
+<p><strong>Why this matters:</strong> A PM claims they're generating alpha. Run the factor regression. If their returns are explained by $\beta_{\text{oil}} = 0.6$, they're not generating alpha — they're long oil through equity proxy positions. Different risk compensation, different drawdown profile, different hedge requirement.</p>
+<p><strong>Method:</strong><br />
+1. Run rolling 60-day regression of PM returns against cross-asset factors<br />
+2. R² &gt; 0.6 = macro-dominated book (not alpha-driven)<br />
+3. Track factor betas over time — stable = intentional positioning; drifting = unintentional accumulation<br />
+4. Flag when implied factor exposure contradicts stated PM mandate</p>
+<h2 id="dv01-equivalent-sensitivities-across-asset-classes">DV01-Equivalent Sensitivities Across Asset Classes</h2>
+<p>Create a "universal risk measure" by expressing all portfolio exposures in terms of a common unit:</p>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Sensitivity unit</th>
+<th>Conversion to $ risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rates (10Y)</strong></td>
+<td>DV01 = $ P&amp;L per 1bp yield change</td>
+<td>DV01 × expected move (bp)</td>
+</tr>
+<tr>
+<td><strong>Equity</strong></td>
+<td>Beta × notional</td>
+<td>Beta × notional × expected % move</td>
+</tr>
+<tr>
+<td><strong>Credit</strong></td>
+<td>CS01 = $ P&amp;L per 1bp spread change</td>
+<td>CS01 × expected spread move</td>
+</tr>
+<tr>
+<td><strong>Oil</strong></td>
+<td>$ P&amp;L per $1 oil move</td>
+<td>Oil beta × notional ÷ price × $1</td>
+</tr>
+<tr>
+<td><strong>FX</strong></td>
+<td>$ P&amp;L per 1% FX move</td>
+<td>FX-denominated notional × 1%</td>
+</tr>
+<tr>
+<td><strong>Vol</strong></td>
+<td>Vega = $ P&amp;L per 1 vol point</td>
+<td>Vega × expected vol move</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Aggregation:</strong> With a common $ unit, you can sum sensitivities to answer: "What's our total portfolio P&amp;L if oil rises $10, 10Y yields rise 25bp, and DXY strengthens 2%?" — applying the conditional correlation structure.</p>
+<h2 id="copula-based-tail-dependence">Copula-Based Tail Dependence</h2>
+<p>Standard correlation measures LINEAR co-movement. In tails, the relationship is non-linear:</p>
+<p>$$\lambda_U = \lim_{u \to 1} P(X &gt; F_X^{-1}(u) | Y &gt; F_Y^{-1}(u))$$</p>
+<p><strong>Translation:</strong> What's the probability that asset X has an extreme loss GIVEN that asset Y has an extreme loss? This "tail dependence" is almost always HIGHER than what normal correlation implies.</p>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Linear ρ</th>
+<th>Tail dependence (estimated)</th>
+<th>Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPX / EuroStoxx</td>
+<td>0.80</td>
+<td>0.6</td>
+<td>High — sell-offs are joint events</td>
+</tr>
+<tr>
+<td>SPX / HY bonds</td>
+<td>0.55</td>
+<td>0.5</td>
+<td>Higher than linear suggests — credit blow-ups hit equity</td>
+</tr>
+<tr>
+<td>SPX / UST 10Y</td>
+<td>-0.20</td>
+<td>0.15 (same direction tails)</td>
+<td>LOWER magnitude than linear → bonds are better hedges than expected in most crises (except inflation)</td>
+</tr>
+<tr>
+<td>SPX / Gold</td>
+<td>-0.10</td>
+<td>0.05</td>
+<td>Very low → gold is a genuine diversifier in tail events</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-practical-cross-asset-monitoring-the-rm-daily-framework">PART 10: PRACTICAL CROSS-ASSET MONITORING — THE RM DAILY FRAMEWORK</h1>
+<h2 id="pre-open-dashboard-0600-0915">Pre-Open Dashboard (06:00-09:15)</h2>
 <table>
 <thead>
 <tr>
 <th>Check</th>
+<th>Source</th>
 <th>What you're looking for</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>S&amp;P futures vs 10Y yield move overnight</td>
-<td>Are they moving together (inflation regime) or opposite (growth regime)?</td>
+<td><strong>Asia close / Europe open</strong></td>
+<td>Futures screens</td>
+<td>Any &gt;1σ overnight move; gaps vs US close</td>
 </tr>
 <tr>
-<td>DXY direction</td>
-<td>Strong dollar = headwind for EM exposure and commodity longs</td>
+<td><strong>Oil</strong></td>
+<td>Brent/WTI</td>
+<td>Direction and magnitude → &gt;3% = immediate cascade assessment</td>
 </tr>
 <tr>
-<td>Oil direction + magnitude</td>
-<td>&gt;3% move → check all positions for oil beta</td>
+<td><strong>FX</strong></td>
+<td>DXY, USDJPY, EURUSD</td>
+<td>Dollar direction sets EM/commodity tone</td>
 </tr>
 <tr>
-<td>VIX term structure</td>
-<td>Contango = normal. Backwardation = panic mode.</td>
+<td><strong>VIX futures</strong></td>
+<td>VX term structure</td>
+<td>Contango/backwardation regime</td>
 </tr>
 <tr>
-<td>Credit spreads (HY OAS)</td>
-<td>Widening &gt;20bp in a day = red flag</td>
+<td><strong>10Y UST yield</strong></td>
+<td>Bonds futures</td>
+<td>Down &gt;5bp = flight to quality; Up &gt;5bp = hawkish repricing</td>
 </tr>
 <tr>
-<td>JPY crosses</td>
-<td>Sudden strengthening = carry unwind risk</td>
+<td><strong>Credit</strong></td>
+<td>CDX HY, iTraxx Main</td>
+<td>Any widening overnight = risk-off signal</td>
 </tr>
 <tr>
-<td>Gold vs real rates</td>
-<td>Moving together? Something weird is happening.</td>
+<td><strong>Data calendar</strong></td>
+<td>Econoday, Bloomberg</td>
+<td>Key releases today? What's the consensus? PM exposure to surprise?</td>
 </tr>
 </tbody>
 </table>
-<h2 id="cross-asset-stress-red-flags">Cross-Asset Stress Red Flags</h2>
+<h2 id="intraday-regime-monitoring">Intraday Regime Monitoring</h2>
 <table>
 <thead>
 <tr>
-<th>Signal</th>
+<th>Check</th>
+<th>Frequency</th>
 <th>What it means</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Stocks AND bonds falling together</td>
-<td>Inflation-driven regime — diversification broken</td>
+<td><strong>SPX direction vs 10Y direction</strong></td>
+<td>Continuous</td>
+<td>Same direction = growth-driven. Opposite = inflation/Fed driven.</td>
 </tr>
 <tr>
-<td>VIX &gt;30 AND credit spreads widening</td>
-<td>Systemic risk — may need to reduce gross exposure</td>
+<td><strong>VIX level relative to SPX move</strong></td>
+<td>Continuous</td>
+<td>VIX rising MORE than SPX warrants = fear premium building</td>
 </tr>
 <tr>
-<td>JPY &lt;155 rapidly (strengthening)</td>
-<td>Carry unwind accelerating — EM and HY at risk</td>
+<td><strong>HY spread behavior</strong></td>
+<td>Hourly</td>
+<td>HY widening while equities flat = early warning signal</td>
 </tr>
 <tr>
-<td>Oil &gt;$120 AND breakevens rising</td>
-<td>Stagflation setup — everything correlated</td>
+<td><strong>Sector rotation</strong></td>
+<td>After first 30 min</td>
+<td>Defensive outperforming cyclical = risk-off rotation</td>
 </tr>
 <tr>
-<td>TED spread or FRA-OIS spiking</td>
+<td><strong>Dollar vs commodities</strong></td>
+<td>Continuous</td>
+<td>Divergence from usual pattern = narrative shift</td>
+</tr>
+<tr>
+<td><strong>Dealer gamma level</strong></td>
+<td>Daily estimate</td>
+<td>Below zero gamma level = amplified moves expected</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cross-asset-stress-red-flags-immediate-escalation">Cross-Asset Stress Red Flags — Immediate Escalation</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Severity</th>
+<th>RM Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stocks AND bonds selling off together</strong></td>
+<td>🟡 ALERT</td>
+<td>Confirm inflation-driven; reassess hedge ratios</td>
+</tr>
+<tr>
+<td><strong>VIX &gt; 30 AND HY OAS widening &gt; 25bp/day</strong></td>
+<td>🔴 CRITICAL</td>
+<td>Systemic risk — prepare gross reduction plan</td>
+</tr>
+<tr>
+<td><strong>USDJPY dropping &gt; 3% in a day</strong></td>
+<td>🔴 CRITICAL</td>
+<td>Carry unwind — check EM, HY, yield-seeking exposure</td>
+</tr>
+<tr>
+<td><strong>Oil &gt; $120 AND breakevens rising</strong></td>
+<td>🟡 ALERT</td>
+<td>Stagflation setup — run regime scenarios</td>
+</tr>
+<tr>
+<td><strong>FRA-OIS &gt; 30bp</strong></td>
+<td>🔴 CRITICAL</td>
 <td>Funding market stress — pre-crisis indicator</td>
 </tr>
 <tr>
-<td>Gold falling DURING a crisis</td>
-<td>Dash for cash — margin calls forcing liquidation of everything</td>
+<td><strong>Gold falling DURING equity sell-off</strong></td>
+<td>🔴 CRITICAL</td>
+<td>Dash for cash — margin calls liquidating EVERYTHING</td>
+</tr>
+<tr>
+<td><strong>IG-HY spread ratio widening rapidly</strong></td>
+<td>🟡 ALERT</td>
+<td>Credit differentiation → default cycle accelerating</td>
+</tr>
+<tr>
+<td><strong>VVIX &gt; 140 with VIX &lt; 20</strong></td>
+<td>🟡 ALERT</td>
+<td>Markets are calm but fragile — vol of vol signals tension</td>
+</tr>
+<tr>
+<td><strong>Correlation spike (avg pairwise &gt; 0.7)</strong></td>
+<td>🟡 ALERT</td>
+<td>Macro factor dominating — alpha can't overcome beta</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
-<p>If asked "Oil just spiked 8%. Walk me through what you'd check":</p>
-<p>"First, I'd quantify our direct oil exposure — energy names long and short, any commodity-linked positions. But the bigger risk is the CASCADE. An 8% oil spike changes everything:</p>
-<p>Starting with rates: inflation expectations reprice immediately — I'd check TIPS breakevens and fed funds futures. If the market starts pricing out rate cuts, that hits our duration-sensitive positions: tech, growth, REITs.</p>
-<p>Then USD: oil shock usually strengthens the dollar. If we have any EM or non-USD exposure, that's an immediate headwind.</p>
-<p>Then equities broader: I'd run a sector attribution. Energy longs are making money, but consumer discretionary, airlines, transports are probably bleeding. What's our NET effect across all these offsets?</p>
-<p>Then correlations: in an oil shock, cross-sector correlations spike. Our 'diversified' portfolio might suddenly be 80% correlated. I'd rerun the portfolio stress test with elevated correlations.</p>
-<p>Finally, second-order: if oil stays at this level, what does it mean for earnings next quarter? For the Fed decision? For EM economies that import oil? The direct P&amp;L impact matters today, but the positioning implications matter for the next month.</p>
-<p>I'd present this cascade to the PM with specific numbers: 'Our direct oil impact is +$X, but our indirect exposure through rates, FX, and correlation is -$Y. Net, we're actually vulnerable. Here are three things we could do.'"</p>
+<h1 id="part-11-historical-cross-asset-case-studies">PART 11: HISTORICAL CROSS-ASSET CASE STUDIES</h1>
+<h2 id="case-study-1-the-2022-correlation-regime-shift">Case Study 1: The 2022 Correlation Regime Shift</h2>
+<p><strong>Pre-2022:</strong> Markets assumed negative stock-bond correlation (the post-2000 regime). 60/40 portfolios relied on this. Risk parity strategies were levered on this assumption.</p>
+<p><strong>What happened:</strong><br />
+- Inflation rose from 2% → 9%<br />
+- Fed hiked from 0% → 5.25% in 16 months<br />
+- SPX: -25%. AGG (bonds): -13%. <strong>60/40 portfolio: -18%</strong> (worst since the 1970s)<br />
+- Stock-bond correlation flipped to +0.5 for extended periods<br />
+- Risk parity strategies forced to deleverage → selling both stocks AND bonds → amplifying the correlation</p>
+<p><strong>Lessons for RM:</strong><br />
+1. The stock-bond ρ is not a constant — it's regime-dependent<br />
+2. When inflation is the dominant risk, neither stocks nor bonds protect you<br />
+3. Risk models trained on 2000-2021 data (ρ &lt; 0) were WRONG for 2022 (ρ &gt; 0)<br />
+4. Need regime-conditional VaR, not a single VaR number</p>
+<h2 id="case-study-2-august-2024-carry-unwind-cross-asset-cascade">Case Study 2: August 2024 — Carry Unwind → Cross-Asset Cascade</h2>
+<p><strong>Transmission chain (72 hours):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Event</th>
+<th>Cross-asset impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jul 31 PM</td>
+<td>BoJ hikes 15bp (hawkish surprise)</td>
+<td>USDJPY: 153 → 150</td>
+</tr>
+<tr>
+<td>Aug 1</td>
+<td>Weak ISM manufacturing (46.8)</td>
+<td>10Y UST: 4.20% → 4.05%. Recession fears.</td>
+</tr>
+<tr>
+<td>Aug 2 8:30AM</td>
+<td>NFP miss: +114K, UE 4.3% (Sahm rule triggered)</td>
+<td>USDJPY: 150 → 146. Carry unwind intensifies. 10Y: 3.97%.</td>
+</tr>
+<tr>
+<td>Aug 5 Asia</td>
+<td><strong>Nikkei -12.4%</strong> (worst since 1987)</td>
+<td>VIX: 23 → 65 intraday. SPX futures -3%.</td>
+</tr>
+<tr>
+<td>Aug 5 US</td>
+<td>SPX -3% at open, recovers to -1.8%</td>
+<td>HY OAS +40bp. Gold flat. UST 10Y: 3.78%.</td>
+</tr>
+<tr>
+<td>Aug 6-7</td>
+<td>BoJ deputy governor walks back</td>
+<td>USDJPY stabilizes 145-148. VIX back to 27. Recovery.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lessons:</strong><br />
+1. Carry unwinds transmit from FX → equity → vol → credit → EM in HOURS, not days<br />
+2. The BoJ is a global VOL event, not just a Japan story<br />
+3. VIX can spike 3x its level in a single session when carry + macro + positioning align<br />
+4. Recovery can be equally fast if the trigger reverses (BoJ walked back)</p>
+<h2 id="case-study-3-uk-gilt-crisis-sep-2022-fiscal-fixed-income-equity-fx">Case Study 3: UK Gilt Crisis (Sep 2022) — Fiscal → Fixed Income → Equity → FX</h2>
+<div class="highlight"><pre><span></span><code>Sep 23:  Truss mini-budget (-£45B unfunded tax cuts)
+         └── 30Y gilt yield: 3.5% → 5.0% in 4 days
+Sep 26-27: LDI pension funds hit margin calls
+         └── Forced selling of gilts → price falls further → more margin calls
+         └── DOOM LOOP: margin call → sell → price drop → more margin calls
+Sep 28:  BoE emergency intervention: £65B gilt purchasing
+         └── 30Y gilt yield: 5.0% → 4.0% in 1 day (BoE backstop)
+         └── GBP: 1.12 → 1.07 (within 50 pips of parity to USD)
+         └── FTSE -8% over the week, bank stocks destroyed
+Oct 14:  Truss resigns (shortest-serving PM in UK history)
+Oct 24:  Sunak becomes PM, reverses fiscal plans
+         └── GBP recovers to 1.15. Gilt yields normalize.
+</code></pre></div>
+
+<p><strong>Cross-asset lessons:</strong><br />
+1. FISCAL policy can break FIXED INCOME markets as violently as monetary policy<br />
+2. Leverage in hidden places (LDI pension funds, 4-7x) creates non-linear responses<br />
+3. FX is the pressure valve — when bond markets can't absorb the shock, FX takes the hit<br />
+4. Central bank credibility as backstop works — but only when accompanied by policy reversal<br />
+5. Contagion path: Sovereign bonds → leveraged holders → FX → equity → global rate vol</p>
+<hr />
+<h1 id="part-12-interview-answers">PART 12: INTERVIEW ANSWERS</h1>
+<h3 id="q1-oil-spiked-8-this-morning-walk-me-through-what-youd-check-and-how-youd-communicate-the-risk">Q1: "Oil spiked 8% this morning. Walk me through what you'd check and how you'd communicate the risk"</h3>
+<p><strong>Answer:</strong> "I'd structure this as three concentric rings: direct, secondary transmission, and tail.</p>
+<p><strong>Direct (first 30 minutes):</strong> Which PMs have energy positions — long or short? What's our portfolio's aggregate oil beta? I'd compute this quickly: multiply each position's oil sensitivity by its weight. If we have sell-side research with energy basket betas, I can estimate net P&amp;L impact within 15 minutes. For example, if we're net +$500K per dollar of oil through energy longs but -$200K through airlines and transport shorts, our net direct impact from an $8 oil move is about +$2.4M. That's the easy part.</p>
+<p><strong>Secondary transmission (first 2 hours):</strong> Check TIPS breakevens — have they repriced? If 5Y breakevens widened 10bp, that changes the market's rate path expectations. I'd check fed funds futures — are rate cut expectations being pulled forward or pushed back? That affects our duration positions and growth/tech exposure. Check DXY — oil shocks typically strengthen the dollar, which hurts our EM and non-USD exposure. At this point I'm building a cross-asset sensitivity table: oil impact + rates impact + FX impact + credit spread impact.</p>
+<p><strong>Tail scenario (communicate by end of day):</strong> If oil stays at this level or rises further, what's the macro regime implication? I'd run two scenarios: 'Hormuz resolved in 2 weeks' where the spike reverses, and 'sustained $120+ oil' where we enter stagflation. Under the stagflation scenario, I'd recalculate portfolio VaR using positive stock-bond correlation assumptions, because our current VaR assumes recent negative correlation. My guess is effective portfolio risk would be 1.5-2x what VaR reports.</p>
+<p>I'd communicate this to the PM as: 'Our direct oil P&amp;L is +$2.4M, but our cross-asset exposure through rates, credit, and FX is -$3.8M. Net, we're down roughly $1.4M on the day assuming current marker. More importantly, if oil sustains at this level, our effective portfolio risk under a stagflation correlation regime is approximately 70% higher than current VaR. I'd recommend reviewing our duration hedges, because they may not work if stock-bond correlation flips positive.'"</p>
+<h3 id="q2-the-10-year-yield-dropped-15bp-and-equities-also-dropped-2-whats-happening-and-what-does-it-mean-for-the-portfolio">Q2: "The 10-year yield dropped 15bp and equities also dropped 2%. What's happening and what does it mean for the portfolio?"</h3>
+<p><strong>Answer:</strong> "That combination — yields down AND equities down — tells me the market is pricing a GROWTH shock, not an inflation shock. In an inflation shock, you'd see yields up and equities down. Here, the market is saying: recession risk just increased.</p>
+<p>I'd decompose the 15bp move. First, check if it's real rates or breakevens: look at 10Y TIPS. If TIPS yield fell 12bp and breakevens fell 3bp, the move is overwhelmingly about lower growth expectations compressing real rates, with a slight disinflationary signal.</p>
+<p>Second, check the trigger. Was there a data release? ISM miss? Earnings warning from a bellwether? The trigger determines whether this is a one-day adjustment or the start of a trend. If ISM services broke below 50, that's a regime change signal.</p>
+<p>Third, check cross-asset confirmation. Is HY widening? That confirms growth scare. Is JPY strengthening? That confirms risk-off. Is copper falling? That confirms the industrial-demand story. If ALL of these confirm, we're in a genuine risk-off regime, not just noise.</p>
+<p>For the portfolio: Our equity positions are losing on the sell-off, and our bond positions are gaining from the rally. The QUESTION is whether these offset. If our duration is properly calibrated as a hedge, we should be roughly flat on the day. If our equity P&amp;L is -$3M and our bond P&amp;L is only +$1M, our hedge ratio is too low for a growth-shock regime. I'd recalculate the optimal hedge ratio using the current SPX/UST regression beta: if SPX is moving 2% per 15bp in bonds, we need roughly [2% × equity notional] / [DV01 × 15] in duration to be hedged. If we're underexposed, I'd recommend increasing."</p>
+<h3 id="q3-how-do-you-think-about-correlation-in-a-multi-asset-portfolio-when-does-diversification-fail">Q3: "How do you think about correlation in a multi-asset portfolio? When does diversification fail?"</h3>
+<p><strong>Answer:</strong> "Correlation is regime-dependent, and that's the whole ballgame for portfolio risk.</p>
+<p>The unconditional correlation between, say, equities and bonds over the last 20 years is about -0.20. But that number is an average of two very different regimes. In growth-shock periods, it's -0.40 to -0.50 — bonds are a great hedge. In inflation-shock periods, it's +0.30 to +0.50 — bonds are an additional source of risk. A VaR model that uses a single correlation number is averaging over these regimes and is WRONG in both of them.</p>
+<p>Diversification fails specifically when three conditions coincide. First, the dominant factor shifts from asset-specific to macro-systemic — when everything becomes about the same thing, like 'will inflation stay sticky?' Then all assets respond to the same factor, and pairwise correlations converge toward 1. Second, forced selling creates a mechanical channel: margin calls don't respect correlation — you sell whatever is liquid. In March 2020, even Treasuries sold off because hedge funds needed cash. Third, when volatility spikes, risk-parity and vol-targeting strategies mechanically deleverage, selling across asset classes simultaneously.</p>
+<p>For practical risk management, I track three things. First, the stock-bond correlation on a rolling 21-day basis — if it flips sign, I immediately flag that our hedge ratios need review. Second, cross-sector equity correlations — if average pairwise correlation exceeds 0.6, the portfolio is more concentrated than it looks on paper. Third, I run our portfolio VaR under two correlation matrices — recent empirical and a stress correlation matrix where correlations are elevated by a factor reflecting the current VIX regime. The gap between those two VaR numbers IS our diversification risk.</p>
+<p>The punchline: diversification is a fair-weather friend. It works when you don't need it and fails when you do. That's why stress testing and scenario analysis — not VaR — are the real risk management tools."</p>
 <hr />
 <p><strong>Related files:</strong><br />
 → <a href="P_Macro_Fundamentals.html">Macro Fundamentals</a> — macro drivers that create the cascades<br />
-→ <a href="R_Current_Market_Context.html">Current Market Context</a> — today's specific market numbers and catalysts<br />
+→ <em>R_Current_Market_Context</em> — today's specific market numbers and catalysts<br />
 → <a href="A_Cash_Instruments.html">Cash Instruments</a> — asset classes referenced in cross-asset chains<br />
 → <a href="I_Hedging_Strategies.html">Hedging Strategies</a> — how to hedge cross-asset exposure<br />
-→ <a href="U_Scenario_Analysis.html">Scenario Analysis</a> — scenario framework applied to cross-asset events<br />
+→ <em>U_Scenario_Analysis</em> — scenario framework applied to cross-asset events<br />
 → <em>09_Market_Intuition</em> — detailed macro calendar and microstructure</p>
 </main>
 

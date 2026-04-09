@@ -355,15 +355,14 @@ body {
 <a class="nav-link active" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
 <a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
 <a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
-<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
-<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
-<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
-<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
-<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
-<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
-<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
-<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
-<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
 <div class="nav-section">Cheat Sheets</div>
 <a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
 <a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
@@ -376,214 +375,1327 @@ body {
 <a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
 <a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
 <a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
 
 </nav>
 
 <main class="content">
 <h1 id="no-counterparty-operational-regulatory-risk">NO — COUNTERPARTY, OPERATIONAL &amp; REGULATORY RISK</h1>
-<h2 id="the-non-market-risks-that-can-still-kill-a-fund">The non-market risks that can still kill a fund</h2>
-<h3 id="depth-aware">Depth: 🟢 AWARE</h3>
+<h2 id="cvadva-wrong-way-risk-isdacsa-operational-controls-rogue-traders-technology-risk-basel-iiiiv-frtb-dodd-frank-emir-mifid-ii-and-why-the-non-market-risks-are-the-ones-that-actually-kill-funds">CVA/DVA, wrong-way risk, ISDA/CSA, operational controls, rogue traders, technology risk, Basel III/IV, FRTB, Dodd-Frank, EMIR, MiFID II, and why the non-market risks are the ones that actually kill funds</h2>
+<h3 id="depth-well">Depth: 🟡 WELL</h3>
 <hr />
-<h1 id="why-this-matters">WHY THIS MATTERS</h1>
-<p>You won't get a deep dive question on FRTB or CVA formulas. But you need to know these exist — because:<br />
-1. They come up in "what types of risk exist beyond market risk?" answers<br />
-2. They show you understand the FULL risk landscape, not just Greeks and VaR<br />
-3. Operational and counterparty risk have killed more funds than bad trades</p>
-<hr />
-<h1 id="part-1-counterparty-risk">PART 1: COUNTERPARTY RISK</h1>
-<h2 id="what-is-it">What Is It?</h2>
-<p>The risk that the other side of your trade can't pay what they owe you. If you buy a swap from Bank X and Bank X goes bankrupt, your swap is worthless even if the trade was profitable.</p>
-<h2 id="key-concepts">Key Concepts</h2>
-<h3 id="credit-valuation-adjustment-cva">Credit Valuation Adjustment (CVA)</h3>
-<ul>
-<li>The market price of counterparty credit risk.</li>
-<li>CVA = Expected Exposure × Probability of Default × Loss Given Default</li>
-<li>Translation: "How much is at risk × how likely they default × how much we'd lose if they do."</li>
-<li>Practically: CVA is a deduction from the value of an OTC derivative position. If the counterparty is riskier, the trade is worth less to you.</li>
-</ul>
-<h3 id="debit-valuation-adjustment-dva">Debit Valuation Adjustment (DVA)</h3>
-<ul>
-<li>The mirror image: the market price of YOUR OWN credit risk to counterparties.</li>
-<li>Controversial because: as your own credit deteriorates, DVA creates an accounting gain. "We're closer to bankruptcy, so our liabilities are worth less, so we book a profit." This is technically correct but perverse.</li>
-</ul>
-<h3 id="wrong-way-risk">Wrong-Way Risk</h3>
-<ul>
-<li>When your exposure to a counterparty INCREASES at the same time as their creditworthiness DECREASES.</li>
-<li>Classic example: You buy a credit default swap (CDS) on Italian debt from an Italian bank. If Italy gets into trouble, the bank's credit also deteriorates — exactly when you need them to pay you the most.</li>
-<li>This is what makes counterparty risk non-linear and dangerous.</li>
-</ul>
-<h3 id="netting-collateral">Netting &amp; Collateral</h3>
-<p><strong>Netting agreements (ISDA Master Agreement):</strong><br />
-- If you have multiple trades with the same counterparty, netting means you only owe/are owed the NET amount.<br />
-- Without netting: you owe them $10M on Trade A, they owe you $8M on Trade B → you owe $10M (if they default you lose $8M AND still owe $10M).<br />
-- With netting: net position is $2M. Much less risk.</p>
-<p><strong>Credit Support Annex (CSA):</strong><br />
-- The collateral agreement under ISDA. Specifies:<br />
-  - How often collateral is exchanged (daily/weekly)<br />
-  - Minimum transfer amount<br />
-  - Eligible collateral (cash, government bonds, etc.)<br />
-  - Thresholds (below which no collateral is required)</p>
-<p><strong>Central Clearing (CCP):</strong><br />
-- Post-2008 reform: standardized OTC derivatives must be cleared through a CCP (like LCH, CME).<br />
-- CCP sits between buyer and seller → eliminates bilateral counterparty risk.<br />
-- BUT creates concentration risk: if the CCP fails, EVERYTHING fails. The CCP is "too important to fail."</p>
-<h2 id="for-your-interview">For Your Interview</h2>
-<p>"Counterparty risk is the risk that the other side of an OTC trade can't pay. It's managed through ISDA netting, CSA collateral, and central clearing. The key concept I'd flag is wrong-way risk — when your exposure increases exactly when the counterparty's creditworthiness decreases. That's a correlation most simple models miss."</p>
-<hr />
-<h1 id="part-2-operational-risk">PART 2: OPERATIONAL RISK</h1>
-<h2 id="what-is-it_1">What Is It?</h2>
-<p>Risk of loss from inadequate or failed internal processes, people, systems, or external events.</p>
-<h2 id="the-big-categories">The Big Categories</h2>
-<h3 id="people-risk">People Risk</h3>
-<ul>
-<li>Rogue trader (Barings, Société Générale / Kerviel)</li>
-<li>Key-person dependency (what if the head of risk quits?)</li>
-<li>Human error (wrong notional on a trade, fat-finger)</li>
-</ul>
-<h3 id="process-risk">Process Risk</h3>
-<ul>
-<li>No separation of duties (Barings: Leeson did trading AND back office)</li>
-<li>Inadequate reconciliation (positions not matched between front and back office)</li>
-<li>Missing or incomplete documentation for OTC trades</li>
-</ul>
-<h3 id="technology-risk">Technology Risk</h3>
-<ul>
-<li>System outage during trading hours</li>
-<li>Data feed failures (pricing based on stale data)</li>
-<li>Cybersecurity (theft, ransomware, data breach)</li>
-</ul>
-<h3 id="external-events">External Events</h3>
-<ul>
-<li>Natural disasters, pandemics (COVID forced work-from-home → new op risk)</li>
-<li>Legal/regulatory actions against the firm</li>
-<li>Third-party vendor failures</li>
-</ul>
-<h2 id="the-operational-risk-framework-for-an-rm-answer">The Operational Risk Framework (for an RM answer)</h2>
+<h1 id="why-non-market-risks-kill-more-funds-than-bad-trades">WHY NON-MARKET RISKS KILL MORE FUNDS THAN BAD TRADES</h1>
+<p>Every fund that has ever blown up catastrophically was destroyed by a <strong>non-market</strong> risk — or by market risk combined with structural/operational failures:</p>
 <table>
 <thead>
 <tr>
-<th>Layer</th>
-<th>What it covers</th>
+<th>Fund</th>
+<th>Market loss?</th>
+<th>What ACTUALLY killed it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Barings (1995)</strong></td>
+<td>Nikkei adverse move</td>
+<td><strong>Operational:</strong> Leeson controlled BOTH trading AND back office. No segregation of duties.</td>
+</tr>
+<tr>
+<td><strong>LTCM (1998)</strong></td>
+<td>Spread widening</td>
+<td><strong>Counterparty + structural:</strong> Leverage 25×+ with no margin buffer. PBs withdrew financing.</td>
+</tr>
+<tr>
+<td><strong>Amaranth (2006)</strong></td>
+<td>Nat gas spread</td>
+<td><strong>Concentration + operational:</strong> Single trader controlled &gt;50% of fund risk. No position limit enforcement.</td>
+</tr>
+<tr>
+<td><strong>Knight Capital (2012)</strong></td>
+<td>N/A (no market event)</td>
+<td><strong>Technology:</strong> Erroneous code deployed to production. Lost $440M in 45 minutes.</td>
+</tr>
+<tr>
+<td><strong>Archegos (2021)</strong></td>
+<td>ViacomCBS drop</td>
+<td><strong>Counterparty opacity:</strong> TRS positions invisible across PBs. No aggregate exposure monitoring.</td>
+</tr>
+</tbody>
+</table>
+<p>Market risk is what you lose money ON. Operational, counterparty, and regulatory risk is what PREVENTS you from managing that market risk.</p>
+<hr />
+<h1 id="part-1-counterparty-risk-fundamentals">PART 1: COUNTERPARTY RISK — FUNDAMENTALS</h1>
+<h2 id="definition">Definition</h2>
+<p><strong>Counterparty risk</strong> = the risk that the entity on the other side of your trade can't fulfil its obligations. If you trade a swap with Bank X and Bank X defaults, your in-the-money position is worth zero — even though you were right about the trade.</p>
+<h2 id="where-counterparty-risk-lives">Where Counterparty Risk Lives</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Counterparty risk</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Listed futures/options</strong></td>
+<td>Minimal</td>
+<td>CCP (exchange) stands between buyer and seller</td>
+</tr>
+<tr>
+<td><strong>OTC derivatives (bilateral)</strong></td>
+<td>High</td>
+<td>Direct exposure to the other party</td>
+</tr>
+<tr>
+<td><strong>Total Return Swaps (TRS)</strong></td>
+<td>High</td>
+<td>Counterparty is the PB/dealer providing the swap</td>
+</tr>
+<tr>
+<td><strong>Repo / reverse repo</strong></td>
+<td>Moderate</td>
+<td>Collateralized, but haircut and collateral quality matter</td>
+</tr>
+<tr>
+<td><strong>Securities lending</strong></td>
+<td>Moderate</td>
+<td>Borrower may fail to return shares; cash collateral may be insufficient</td>
+</tr>
+<tr>
+<td><strong>Bank deposits</strong></td>
+<td>Low but non-zero</td>
+<td>FDIC covers only $250K; fund cash balances can be $100M+</td>
+</tr>
+<tr>
+<td><strong>Prime brokerage custody</strong></td>
+<td>Moderate</td>
+<td>Lehman 2008 — assets held at PB frozen in bankruptcy</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-metrics">Key Metrics</h2>
+<h3 id="potential-future-exposure-pfe">Potential Future Exposure (PFE)</h3>
+<p>PFE measures the MAXIMUM expected exposure to a counterparty at a given confidence level over a given time horizon:</p>
+<p>$$\text{PFE}_{95\%} = \text{Current MTM} + \text{Potential increase at 95th percentile over horizon}$$</p>
+<table>
+<thead>
+<tr>
+<th>Trade</th>
+<th>Current MTM</th>
+<th>95th percentile potential increase</th>
+<th>PFE (95%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5Y interest rate swap (receive fixed)</td>
+<td>+$2M</td>
+<td>+$8M</td>
+<td>$10M</td>
+</tr>
+<tr>
+<td>3Y equity TRS</td>
+<td>+$5M</td>
+<td>+$12M</td>
+<td>$17M</td>
+</tr>
+<tr>
+<td>FX forward (6 month)</td>
+<td>−$1M</td>
+<td>+$4M</td>
+<td>$3M</td>
+</tr>
+</tbody>
+</table>
+<p>PFE captures the fact that even a trade currently LOSING money could become an exposure if it swings in your favor — because then you're owed money by the counterparty.</p>
+<h3 id="expected-exposure-ee">Expected Exposure (EE)</h3>
+<p>EE is the AVERAGE exposure over the life of the trade (not the peak):</p>
+<p>$$\text{EE} = \mathbb{E}\left[\max(V_t, 0)\right]$$</p>
+<p>EE is used for CVA calculation (below). PFE is used for counterparty limit monitoring.</p>
+<hr />
+<h1 id="part-2-credit-valuation-adjustment-cva-and-dva">PART 2: CREDIT VALUATION ADJUSTMENT (CVA) AND DVA</h1>
+<h2 id="cva-the-market-price-of-counterparty-risk">CVA — The Market Price of Counterparty Risk</h2>
+<p>CVA answers: <strong>"How much less is this derivative worth because my counterparty might default?"</strong></p>
+<p>$$\text{CVA} = \sum_{i=1}^{n} \text{EE}(t_i) \times \text{PD}(t_{i-1}, t_i) \times \text{LGD} \times \text{DF}(t_i)$$</p>
+<p>Where:<br />
+- <strong>EE(tᵢ)</strong> = Expected Exposure at time tᵢ<br />
+- <strong>PD(tᵢ₋₁, tᵢ)</strong> = Probability of Default during the interval<br />
+- <strong>LGD</strong> = Loss Given Default (typically 60% for senior unsecured)<br />
+- <strong>DF(tᵢ)</strong> = Discount Factor</p>
+<p><strong>Simplified intuition:</strong><br />
+$$\text{CVA} \approx \text{Expected Exposure} \times \text{Probability of Default} \times \text{Loss Given Default}$$</p>
+<p><strong>Worked example:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average expected exposure over 5Y</td>
+<td>$15M</td>
+</tr>
+<tr>
+<td>Counterparty 5Y CDS spread</td>
+<td>200bp (implies ~2% annual PD)</td>
+</tr>
+<tr>
+<td>Cumulative 5Y PD</td>
+<td>~10%</td>
+</tr>
+<tr>
+<td>LGD</td>
+<td>60%</td>
+</tr>
+<tr>
+<td><strong>CVA</strong></td>
+<td>$15M × 10% × 60% = <strong>$900K</strong></td>
+</tr>
+</tbody>
+</table>
+<p>This means the derivative is worth $900K LESS than its risk-free value because of the counterparty's credit risk.</p>
+<p><strong>Who bears CVA?</strong> Both parties. The fund adjusts its mark. The dealer adjusts their mark. CVA is a real economic cost that must be charged to the trading desk or absorbed as a portfolio-level cost.</p>
+<h2 id="dva-the-mirror-image">DVA — The Mirror Image</h2>
+<p>DVA = the market price of YOUR OWN credit risk to counterparties.</p>
+<p>$$\text{DVA} \approx \text{Counter-party's Expected Exposure to YOU} \times \text{YOUR PD} \times \text{LGD}$$</p>
+<p><strong>The perverse accounting result:</strong> As your own credit deteriorates → your DVA increases → you book an accounting GAIN. "We're closer to defaulting, so our liabilities are worth less, so — congratulations — we made money."</p>
+<table>
+<thead>
+<tr>
+<th>Your credit quality</th>
+<th>DVA</th>
+<th>P&amp;L impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Improving</td>
+<td>DVA decreases</td>
+<td>Loss (liabilities worth more)</td>
+</tr>
+<tr>
+<td>Deteriorating</td>
+<td>DVA increases</td>
+<td>Gain (liabilities worth less)</td>
+</tr>
+</tbody>
+</table>
+<p>This is technically correct under mark-to-market but economically bizarre. Many firms and regulators are uncomfortable with it.</p>
+<h2 id="funding-valuation-adjustment-fva">Funding Valuation Adjustment (FVA)</h2>
+<p><strong>FVA</strong> accounts for the cost of FUNDING the collateral required by derivatives positions:</p>
+<p>$$\text{FVA} = \text{Expected Exposure} \times (\text{Funding Spread} - \text{OIS Rate}) \times \text{Duration}$$</p>
+<p>If the fund borrows at SOFR + 100bp to post collateral, and the derivative is collateralized at OIS, the fund incurs a funding cost that reduces the trade's value.</p>
+<p><strong>Why this matters for RM:</strong> A trade that looks profitable on a risk-free basis may be UNPROFITABLE after CVA + FVA. The RM should ensure that the PM's P&amp;L reflects these adjustments — or at minimum, that the risk budget accounts for them.</p>
+<hr />
+<h1 id="part-3-wrong-way-risk">PART 3: WRONG-WAY RISK</h1>
+<h2 id="definition_1">Definition</h2>
+<p><strong>Wrong-way risk (WWR)</strong> occurs when your exposure to a counterparty INCREASES at the same time as their creditworthiness DECREASES. The correlation between exposure and default probability is POSITIVE — exactly when you need them most, they're least able to pay.</p>
+<h2 id="types">Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Definition</th>
 <th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Prevention</td>
-<td>Controls that stop errors before they happen</td>
-<td>4-eye principle (two approvals), automated limit checks</td>
+<td><strong>Specific WWR</strong></td>
+<td>Direct causal link between counterparty and reference entity</td>
+<td>Buy CDS on Italian sovereign debt from an Italian bank</td>
 </tr>
 <tr>
-<td>Detection</td>
-<td>Controls that catch errors quickly</td>
-<td>Daily reconciliation, trade matching, anomaly alerts</td>
-</tr>
-<tr>
-<td>Response</td>
-<td>What to do when an error occurs</td>
-<td>Incident response procedures, escalation, root cause analysis</td>
-</tr>
-<tr>
-<td>Recovery</td>
-<td>Getting back to normal</td>
-<td>Business continuity, backup systems, disaster recovery</td>
+<td><strong>General WWR</strong></td>
+<td>Exposure increases in scenarios where counterparty credit also worsens</td>
+<td>Long emerging market via TRS with an EM-exposed bank; EM crisis → exposure rises AND bank weakens</td>
 </tr>
 </tbody>
 </table>
-<h2 id="key-operational-controls-at-a-hedge-fund">Key Operational Controls at a Hedge Fund</h2>
-<ol>
-<li><strong>Trade reconciliation:</strong> Front office positions must match back office and prime broker records DAILY.</li>
-<li><strong>Pricing verification:</strong> Marks must be independently verified — not just using the broker's mark.</li>
-<li><strong>Access controls:</strong> WHO can enter trades, WHO can modify limits, WHO can override alerts.</li>
-<li><strong>Segregation of duties:</strong> The person who puts on a trade cannot be the person who reconciles it.</li>
-</ol>
-<h2 id="for-your-interview_1">For Your Interview</h2>
-<p>"Operational risk is about controls — making sure the right people are doing the right things and that errors are caught quickly. The lesson from Barings is that no amount of market risk management matters if one person can both trade and reconcile their own positions. As a junior RM, I'd make sure I have independent access to position data and that I'm doing daily reconciliation against the PB blotter."</p>
-<hr />
-<h1 id="part-3-regulatory-landscape">PART 3: REGULATORY LANDSCAPE</h1>
-<h2 id="basel-framework-banks">Basel Framework (Banks)</h2>
-<p>Not directly applicable to a hedge fund, but important to understand because:<br />
-- Prime brokers operate under Basel → their balance sheet constraints affect YOUR margin terms<br />
-- Basel capital requirements influence HOW MUCH leverage PBs will extend to you<br />
-- FRTB (below) changes how PBs calculate market risk capital → may make some trades more expensive</p>
-<h3 id="basel-iii-current">Basel III (current)</h3>
-<ul>
-<li>Capital ratios: minimum CET1 ratio of 4.5% + buffers</li>
-<li>Leverage ratio: 3% minimum (limits total balance sheet leverage)</li>
-<li>Liquidity requirements: LCR (liquid assets to cover 30-day outflows), NSFR (stable funding for illiquid assets)</li>
-<li>Supplementary Leverage Ratio (SLR): constrains bank balance sheets → reduces PB capacity → matters for hedge funds trying to get leverage</li>
-</ul>
-<h3 id="frtb-fundamental-review-of-the-trading-book">FRTB (Fundamental Review of the Trading Book)</h3>
-<ul>
-<li>New market risk capital standard replacing old VaR-based approach.</li>
-<li>Key change: Expected Shortfall (ES) instead of VaR. Why? ES captures tail risk better — it's the average loss beyond VaR, not just the threshold.</li>
-<li>Practically for you: PBs may reprice their services as FRTB increases capital charges. Some strategies (concentrated, illiquid) may become more expensive to finance.</li>
-</ul>
-<h2 id="dodd-frank-us-post-2008">Dodd-Frank (US Post-2008)</h2>
-<ul>
-<li>Volcker Rule: banks can't do proprietary trading. Led many risk professionals to move from banks to hedge funds (where you CAN trade).</li>
-<li>Clearinghouse mandates: standardized swaps must go through CCPs.</li>
-<li>Swap dealer registration: reporting requirements for OTC derivatives.</li>
-<li>Impact on hedge funds: more transparency, higher costs, but also better counterparty infrastructure.</li>
-</ul>
-<h2 id="emir-european-equivalent-of-dodd-frank">EMIR (European equivalent of Dodd-Frank)</h2>
-<ul>
-<li>Trade reporting: all OTC derivatives must be reported to a trade repository.</li>
-<li>Central clearing: mandatory for certain standardized OTC derivatives.</li>
-<li>Risk mitigation: timely confirmation, portfolio reconciliation, margin requirements for non-cleared trades.</li>
-</ul>
-<h2 id="mifid-ii-european-markets-in-financial-instruments">MiFID II (European — Markets in Financial Instruments)</h2>
-<ul>
-<li>Best execution: must prove you got the best price for clients.</li>
-<li>Transparency: pre- and post-trade reporting.</li>
-<li>Research unbundling: research payments must be separated from execution commissions. Changed how funds pay for research.</li>
-</ul>
-<h2 id="sec-us-for-hedge-funds">SEC (US — for hedge funds)</h2>
-<ul>
-<li>Form PF: quarterly or annual reporting for private funds (AUM, leverage, exposures, concentration).</li>
-<li>13F: quarterly filing of long equity positions for managers with &gt;$100M AUM. BUT: short positions NOT reported. Total return swaps NOT reported (this is the Archegos gap).</li>
-<li>Regulation SHO: short-selling rules (locate requirement, circuit breakers).</li>
-</ul>
-<h2 id="for-your-interview_2">For Your Interview</h2>
-<p>"The regulatory landscape is mostly relevant to us through PB constraints — Basel and FRTB determine how much leverage our prime brokers can offer and at what cost. EMIR and Dodd-Frank drive central clearing and reporting requirements for our OTC book. And the 13F reporting gap — where TRS don't appear — is exactly what enabled Archegos. The regulation is catching up but there are still blind spots."</p>
-<hr />
-<h1 id="quick-reference-table">QUICK REFERENCE TABLE</h1>
+<h2 id="classic-wrong-way-risk-scenarios">Classic Wrong-Way Risk Scenarios</h2>
 <table>
 <thead>
 <tr>
-<th>Risk Type</th>
-<th>Key Concern</th>
-<th>Managed By</th>
-<th>Historic Failure</th>
+<th>Trade</th>
+<th>Counterparty</th>
+<th>Scenario</th>
+<th>What happens</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Counterparty</td>
-<td>Default of OTC trading partner</td>
-<td>ISDA/CSA, netting, central clearing, CVA</td>
-<td>Lehman Brothers (2008)</td>
+<td>Buy CDS on Italy from Unicredit</td>
+<td>Italian bank</td>
+<td>Italy sovereign stress</td>
+<td>CDS payout owed to you increases; Unicredit's ability to pay collapses</td>
 </tr>
 <tr>
-<td>Operational</td>
-<td>Internal process/system failure</td>
-<td>Controls, reconciliation, segregation of duties</td>
-<td>Barings (1995), Knight Capital (2012)</td>
+<td>Long oil via TRS with energy-focused bank</td>
+<td>Energy bank</td>
+<td>Oil crash</td>
+<td>TRS losses accrue to counterparty; bank's other portfolios also bleeding</td>
 </tr>
 <tr>
-<td>Regulatory</td>
-<td>Non-compliance, changing rules</td>
-<td>Compliance function, legal review</td>
-<td>Various fines, Archegos (reporting gap)</td>
+<td>FX forward: short USD/buy TRY from Turkish bank</td>
+<td>Turkish bank</td>
+<td>Turkish lira crisis</td>
+<td>Your exposure grows as TRY crashes; bank may fail</td>
+</tr>
+<tr>
+<td>Interest rate swap: receive fixed from a highly-leveraged bank</td>
+<td>Levered bank</td>
+<td>Rate spike</td>
+<td>Bank's bond portfolio loses value; your swap exposure to them increases</td>
+</tr>
+</tbody>
+</table>
+<h2 id="modeling-wrong-way-risk">Modeling Wrong-Way Risk</h2>
+<p>Standard CVA models assume exposure and default probability are INDEPENDENT. Wrong-way risk means they're CORRELATED:</p>
+<p>$$\text{CVA}<em>{\text{WWR}} = \text{CVA}</em>{\text{standard}} \times \text{WWR multiplier}$$</p>
+<p>Typical WWR multipliers: 1.3–2.0× for general WWR; 2.0–5.0× for specific WWR.</p>
+<p><strong>RM action:</strong> When approving an OTC trade, ask: "In a scenario where this counterparty is under stress, does our exposure to them INCREASE?" If yes → wrong-way risk. Apply higher CVA, consider collateralization, or find a different counterparty.</p>
+<hr />
+<h1 id="part-4-isda-netting-and-collateral">PART 4: ISDA, NETTING, AND COLLATERAL</h1>
+<h2 id="the-isda-master-agreement">The ISDA Master Agreement</h2>
+<p>The <strong>International Swaps and Derivatives Association (ISDA) Master Agreement</strong> governs virtually all bilateral OTC derivative transactions:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Master Agreement</strong></td>
+<td>Standard legal terms: default events, termination events, close-out netting</td>
+</tr>
+<tr>
+<td><strong>Schedule</strong></td>
+<td>Customized terms: specific elections, modifications to standard terms</td>
+</tr>
+<tr>
+<td><strong>Credit Support Annex (CSA)</strong></td>
+<td>Collateral terms: what, when, how much</td>
+</tr>
+<tr>
+<td><strong>Confirmations</strong></td>
+<td>Individual trade terms under the master framework</td>
+</tr>
+</tbody>
+</table>
+<h2 id="close-out-netting-why-its-critical">Close-Out Netting — Why It's Critical</h2>
+<p><strong>Without netting:</strong><br />
+- You owe Bank X: +$10M on Trade A<br />
+- Bank X owes you: −$8M on Trade B<br />
+- If Bank X defaults: you STILL owe $10M on Trade A, but you can only claim $8M as an unsecured creditor on Trade B<br />
+- Net loss: potentially the full $8M (recovery rate on unsecured claims in bankruptcy: ~40 cents on the dollar → loss = $8M × 0.6 = $4.8M)</p>
+<p><strong>With netting:</strong><br />
+- Net position: you owe Bank X $2M<br />
+- If Bank X defaults: your exposure is $2M, not $8M<br />
+- Netting REDUCES counterparty exposure by 50–90% in practice</p>
+<p><strong>Legal enforceability:</strong> Netting is ONLY valid if legally enforceable in the counterparty's jurisdiction. In some jurisdictions, bankruptcy "cherry picking" laws allow the administrator to enforce profitable trades and reject unprofitable ones — destroying the netting benefit. ISDA has worked to get netting legal opinions in 70+ jurisdictions.</p>
+<h2 id="credit-support-annex-csa-collateral-mechanics">Credit Support Annex (CSA) — Collateral Mechanics</h2>
+<table>
+<thead>
+<tr>
+<th>CSA parameter</th>
+<th>Typical terms</th>
+<th>RM concern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Valuation frequency</strong></td>
+<td>Daily</td>
+<td>Less frequent = more gap risk</td>
+</tr>
+<tr>
+<td><strong>Threshold</strong></td>
+<td>$0 – $10M (below this, no collateral required)</td>
+<td>Higher threshold = more unsecured exposure</td>
+</tr>
+<tr>
+<td><strong>Minimum transfer amount (MTA)</strong></td>
+<td>$250K – $1M</td>
+<td>Prevents nuisance calls; but creates exposure in the gap</td>
+</tr>
+<tr>
+<td><strong>Eligible collateral</strong></td>
+<td>Cash (USD, EUR, GBP), G7 government bonds</td>
+<td>Equities, corp bonds → haircuts apply; non-cash adds complexity</td>
+</tr>
+<tr>
+<td><strong>Haircuts</strong></td>
+<td>Cash: 0%. G7 bonds: 1–5%. Corporate bonds: 5–15%. Equities: 15–30%</td>
+<td>After haircuts, collateral may not fully cover exposure</td>
+</tr>
+<tr>
+<td><strong>Independent amount (IA)</strong></td>
+<td>Additional margin beyond MTM — similar to initial margin</td>
+<td>Protects against gap between collateral calls</td>
+</tr>
+<tr>
+<td><strong>Rehypothecation</strong></td>
+<td>Can the receiving party re-use the collateral?</td>
+<td>Yes → counterparty risk on YOUR collateral. No → safer but ties up assets.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM monitoring:</strong></p>
+<table>
+<thead>
+<tr>
+<th>What to track</th>
+<th>Why</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gross and net exposure by counterparty</td>
+<td>Concentration</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>Collateral coverage ratio</td>
+<td>Under-collateralized?</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>Counterparty CDS spreads</td>
+<td>Credit deterioration</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>Threshold utilization</td>
+<td>Approaching unsecured limit?</td>
+<td>Weekly</td>
+</tr>
+<tr>
+<td>Number of disputes</td>
+<td>Operational friction / pricing disagreements</td>
+<td>Monthly</td>
+</tr>
+<tr>
+<td>Wrong-way risk flags</td>
+<td>Correlated exposure</td>
+<td>At trade inception + quarterly</td>
 </tr>
 </tbody>
 </table>
 <hr />
+<h1 id="part-5-central-clearing-and-ccps">PART 5: CENTRAL CLEARING AND CCPs</h1>
+<h2 id="post-2008-mandate">Post-2008 Mandate</h2>
+<p>Dodd-Frank (US) and EMIR (EU) mandated central clearing for standardized OTC derivatives:</p>
+<table>
+<thead>
+<tr>
+<th>Before (bilateral)</th>
+<th>After (cleared)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direct exposure to each dealer</td>
+<td>CCP stands between all parties</td>
+</tr>
+<tr>
+<td>Negotiated collateral (CSA)</td>
+<td>Standardized margin (IM + VM)</td>
+</tr>
+<tr>
+<td>Counterparty risk concentrated in banks</td>
+<td>Counterparty risk concentrated in CCPs</td>
+</tr>
+<tr>
+<td>Opaque — regulators couldn't see total exposures</td>
+<td>Transparent — CCP has full position data</td>
+</tr>
+</tbody>
+</table>
+<h2 id="major-ccps">Major CCPs</h2>
+<table>
+<thead>
+<tr>
+<th>CCP</th>
+<th>Products</th>
+<th>Region</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LCH (SwapClear)</strong></td>
+<td>Interest rate swaps (70%+ of global IRS)</td>
+<td>Global (London HQ)</td>
+</tr>
+<tr>
+<td><strong>CME Clearing</strong></td>
+<td>Futures, options, IRS, CDS</td>
+<td>US</td>
+</tr>
+<tr>
+<td><strong>ICE Clear</strong></td>
+<td>CDS, energy, equity derivatives</td>
+<td>US / EU</td>
+</tr>
+<tr>
+<td><strong>Eurex Clearing</strong></td>
+<td>Euro-denominated derivatives</td>
+<td>EU</td>
+</tr>
+<tr>
+<td><strong>JSCC</strong></td>
+<td>Yen IRS, CDS</td>
+<td>Japan</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ccp-default-waterfall">CCP Default Waterfall</h2>
+<p>If a clearing member defaults, losses are absorbed in this order:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Source</th>
+<th>Typical size</th>
+<th>Who bears it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Defaulter's initial margin</td>
+<td>$500M+</td>
+<td>Defaulter</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Defaulter's default fund contribution</td>
+<td>$50M+</td>
+<td>Defaulter</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CCP's own capital ("skin in the game")</td>
+<td>$100M–$500M</td>
+<td>CCP shareholders</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Non-defaulting members' default fund contributions</td>
+<td>$5B+ collectively</td>
+<td>All other members (mutualized loss)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>CCP recovery tools: VM gains haircutting, additional assessments, partial tear-ups</td>
+<td>Uncapped</td>
+<td>All members + end-users</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Layer 4 is critical for hedge funds:</strong> Your fund (through its clearing broker) pays into the default fund. If someone ELSE defaults, YOUR money covers THEIR losses. This is mutualized risk — the opposite of bilateral where you only face your own counterparties.</p>
+<p><strong>Layer 5 is existential:</strong> VM gains haircutting means the CCP can take AWAY your profits to cover the default. Partial tear-ups mean the CCP can unilaterally cancel your trades.</p>
+<h2 id="ccp-risks-for-the-rm">CCP Risks for the RM</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Description</th>
+<th>RM response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Margin pro-cyclicality</strong></td>
+<td>IM increases in stress → fund needs cash exactly when cash is scarce</td>
+<td>Stress-test margin at 1.5–2× current levels</td>
+</tr>
+<tr>
+<td><strong>Concentration</strong></td>
+<td>CCP is a single point of failure for $100T+ notional</td>
+<td>Monitor CCP health; diversify across CCPs where possible</td>
+</tr>
+<tr>
+<td><strong>Default fund exposure</strong></td>
+<td>Fund pays for others' defaults</td>
+<td>Know maximum assessment; build into liquidity buffer</td>
+</tr>
+<tr>
+<td><strong>Model risk</strong></td>
+<td>CCP's risk model determines margin → if wrong, under-margined</td>
+<td>Monitor CCP margin methodology changes</td>
+</tr>
+<tr>
+<td><strong>Operational</strong></td>
+<td>CCP technology failure → can't process trades/margin</td>
+<td>BCP: what if CCP is down for the day?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-6-operational-risk-the-silent-killer">PART 6: OPERATIONAL RISK — THE SILENT KILLER</h1>
+<h2 id="definition_2">Definition</h2>
+<p><strong>Operational risk</strong> = risk of loss from inadequate or failed internal processes, people, systems, or external events. Basel II defines it formally. For a hedge fund, it's everything that goes wrong that ISN'T a market view being wrong.</p>
+<h2 id="the-operational-risk-taxonomy">The Operational Risk Taxonomy</h2>
+<h3 id="1-people-risk">1. People Risk</h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Example</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rogue trading</strong></td>
+<td>Nick Leeson at Barings — unauthorized positions hidden in error account #88888</td>
+<td>Segregation of duties, independent reconciliation, position limits</td>
+</tr>
+<tr>
+<td><strong>Unauthorized trading</strong></td>
+<td>Jérôme Kerviel at SocGen — €50B in hidden futures positions</td>
+<td>Daily P&amp;L attribution, independent position verification</td>
+</tr>
+<tr>
+<td><strong>Fat finger</strong></td>
+<td>Deutsche Bank accidentally transferred €28B to a single counterparty (2018)</td>
+<td>Pre-trade checks, size limits, 4-eye principle</td>
+</tr>
+<tr>
+<td><strong>Key-person risk</strong></td>
+<td>Star PM leaves → strategy collapses, LP redemptions follow</td>
+<td>Documentation of strategy, succession planning, institutional knowledge transfer</td>
+</tr>
+<tr>
+<td><strong>Fraud</strong></td>
+<td>Madoff — fictitious trades, fake statements for decades</td>
+<td>Independent custody, third-party NAV calculation, audited statements</td>
+</tr>
+<tr>
+<td><strong>Insider trading</strong></td>
+<td>PM trades on MNPI from management meetings</td>
+<td>Information barriers, compliance monitoring, trade surveillance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-process-risk">2. Process Risk</h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Example</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Failed reconciliation</strong></td>
+<td>Front office shows +$5M P&L; back office shows +$3M. Who's right?</td>
+<td>Daily 3-way reconciliation (front office ↔ back office ↔ PB)</td>
+</tr>
+<tr>
+<td><strong>Settlement failure</strong></td>
+<td>Trade doesn't settle on T+2 → counterparty exposure extends</td>
+<td>Settlement monitoring, fail-tracking, escalation</td>
+</tr>
+<tr>
+<td><strong>Incorrect trade booking</strong></td>
+<td>Wrong notional, wrong sign (long vs short), wrong maturity</td>
+<td>Trade confirmation, automated booking checks, independent review</td>
+</tr>
+<tr>
+<td><strong>Documentation gaps</strong></td>
+<td>OTC trade executed without signed ISDA confirmation</td>
+<td>Confirmation tracking, legal review, escalation for unsigned trades</td>
+</tr>
+<tr>
+<td><strong>NAV miscalculation</strong></td>
+<td>Wrong marks, missing accruals, incorrect fee calculation</td>
+<td>Independent fund administrator, pricing committee, Level 3 review</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-technology-risk">3. Technology Risk</h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Example</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>System outage</strong></td>
+<td>Trading system down during market hours → can't manage risk</td>
+<td>Redundancy, failover, BCP drills</td>
+</tr>
+<tr>
+<td><strong>Bad code deployment</strong></td>
+<td>Knight Capital: erroneous algorithm deployed; $440M loss in 45 minutes</td>
+<td>Code review, staged rollout, kill switch, regression testing</td>
+</tr>
+<tr>
+<td><strong>Data feed failure</strong></td>
+<td>Pricing engine using stale prices → wrong marks, wrong risk</td>
+<td>Multiple data vendors, automated stale-data detection</td>
+</tr>
+<tr>
+<td><strong>Cybersecurity</strong></td>
+<td>Ransomware locks trading systems; data theft exposes positions</td>
+<td>Network security, penetration testing, incident response, encryption</td>
+</tr>
+<tr>
+<td><strong>Algo malfunction</strong></td>
+<td>Systematic strategy sends orders 10× intended size</td>
+<td>Pre-trade size checks, circuit breakers, real-time monitoring</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-external-event-risk">4. External Event Risk</h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Example</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Natural disaster</strong></td>
+<td>Hurricane destroys data center</td>
+<td>Geographic redundancy, cloud backup, remote capability</td>
+</tr>
+<tr>
+<td><strong>Pandemic</strong></td>
+<td>COVID-19 → entire firm works from home overnight</td>
+<td>WFH infrastructure, secure remote access, tested BCP</td>
+</tr>
+<tr>
+<td><strong>Third-party failure</strong></td>
+<td>Bloomberg terminal outage; data vendor delivers corrupted data</td>
+<td>Vendor diversification, SLA monitoring, backup data sources</td>
+</tr>
+<tr>
+<td><strong>Legal/litigation</strong></td>
+<td>Fund sued by LP for NAV misrepresentation</td>
+<td>Legal review, compliance documentation, D&amp;O insurance</td>
+</tr>
+<tr>
+<td><strong>Regulatory action</strong></td>
+<td>SEC investigation, license revocation</td>
+<td>Compliance function, regulatory reporting, proactive engagement</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-knight-capital-case-study-technology-risk-in-detail">The Knight Capital Case Study — Technology Risk in Detail</h2>
+<p><strong>Date:</strong> August 1, 2012</p>
+<p><strong>What happened:</strong><br />
+1. Knight Capital deployed new software for NYSE's Retail Liquidity Program<br />
+2. A technician failed to deploy the new code to ONE of 8 servers<br />
+3. Old code on that server executed a defunct test function — the "Power Peg" flag — which was designed to BUY at the ask and SELL at the bid (the opposite of normal trading)<br />
+4. At market open (9:30 AM), the server began aggressively buying high and selling low across 154 stocks<br />
+5. By 9:58 AM (28 minutes), the error was identified<br />
+6. By 10:15 AM (45 minutes), trading was halted</p>
+<p><strong>Result:</strong> Knight Capital lost <strong>$440 million</strong> in 45 minutes. The firm had ~$365M in capital. It was dead.</p>
+<p><strong>Root causes:</strong><br />
+| Failure | What went wrong |<br />
+|---|---|<br />
+| Code deployment | No automated deployment system — manual copy to 8 servers |<br />
+| Testing | No integration test with the new code + old code on same network |<br />
+| Monitoring | No real-time P&amp;L monitoring flagged the losses for 28 minutes |<br />
+| Kill switch | No circuit breaker that would halt trading when P&amp;L hit a threshold |<br />
+| Code hygiene | Dead code ("Power Peg") left in production for 8 years — never removed |</p>
+<p><strong>RM lessons:</strong><br />
+1. Technology IS market risk if it can generate unintended positions<br />
+2. Every trading system needs a kill switch with automatic triggers<br />
+3. Real-time P&amp;L monitoring must flag anomalies within SECONDS, not minutes<br />
+4. Code review, automated deployment, and staged rollout are not optional</p>
+<hr />
+<h1 id="part-7-operational-risk-framework-for-a-hedge-fund">PART 7: OPERATIONAL RISK FRAMEWORK FOR A HEDGE FUND</h1>
+<h2 id="the-three-lines-of-defense">The Three Lines of Defense</h2>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>Who</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1st line</strong></td>
+<td>Front office (PMs, traders)</td>
+<td>Own the risk. Follow procedures. Report errors.</td>
+</tr>
+<tr>
+<td><strong>2nd line</strong></td>
+<td>Risk management, compliance</td>
+<td>Monitor, challenge, guide. Set policies. Escalate.</td>
+</tr>
+<tr>
+<td><strong>3rd line</strong></td>
+<td>Internal audit, external audit</td>
+<td>Independent verification. Test that controls work.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-operational-controls">Key Operational Controls</h2>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>What it does</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>3-way reconciliation</strong></td>
+<td>Front office positions = Back office = PB records</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td><strong>Independent pricing</strong></td>
+<td>Marks verified against independent sources (not just PB/dealer)</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td><strong>P&amp;L attribution</strong></td>
+<td>Explain P&amp;L by position, factor, residual — catch unexplained P&amp;L</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td><strong>Trade confirmation</strong></td>
+<td>All OTC trades confirmed with counterparties within T+1</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td><strong>4-eye principle</strong></td>
+<td>Every material action (trade entry, limit override, cash transfer) requires 2 approvals</td>
+<td>Every occurrence</td>
+</tr>
+<tr>
+<td><strong>Access controls</strong></td>
+<td>Restricted system access: who can trade, who can modify limits, who can approve exceptions</td>
+<td>Continuous</td>
+</tr>
+<tr>
+<td><strong>Segregation of duties</strong></td>
+<td>Trader ≠ back office ≠ risk. No single person controls the full chain.</td>
+<td>By design</td>
+</tr>
+<tr>
+<td><strong>Limit breach escalation</strong></td>
+<td>Any limit breach → immediate notification → required response within defined timeframe</td>
+<td>Every occurrence</td>
+</tr>
+<tr>
+<td><strong>BCP testing</strong></td>
+<td>Business continuity plan tested: can the fund operate if the primary office is unavailable?</td>
+<td>Semi-annual</td>
+</tr>
+<tr>
+<td><strong>Disaster recovery drill</strong></td>
+<td>Can systems fail over to backup? How long? Is data preserved?</td>
+<td>Annual</td>
+</tr>
+</tbody>
+</table>
+<h2 id="operational-risk-indicators-kris">Operational Risk Indicators (KRIs)</h2>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>What it signals</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number of trade breaks (recon mismatches)</td>
+<td>Process quality</td>
+<td>&gt;3 unresolved breaks per week</td>
+</tr>
+<tr>
+<td>Settlement failure rate</td>
+<td>Counterparty/process issues</td>
+<td>&gt;1% of trades failing</td>
+</tr>
+<tr>
+<td>System downtime (hours/month)</td>
+<td>Technology reliability</td>
+<td>&gt;2 hours unplanned downtime</td>
+</tr>
+<tr>
+<td>P&amp;L unexplained residual</td>
+<td>Missing/wrong positions, pricing errors</td>
+<td>Residual &gt;5% of daily P&amp;L</td>
+</tr>
+<tr>
+<td>Compliance exceptions</td>
+<td>Control bypasses</td>
+<td>Increasing trend</td>
+</tr>
+<tr>
+<td>Staff turnover in operations</td>
+<td>Knowledge loss, key-person risk</td>
+<td>&gt;20% annual turnover</td>
+</tr>
+<tr>
+<td>Time to confirm OTC trades</td>
+<td>Documentation risk</td>
+<td>&gt;T+3 average</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-regulatory-landscape">PART 8: REGULATORY LANDSCAPE</h1>
+<h2 id="basel-framework-banks-why-it-matters-for-hedge-funds">Basel Framework (Banks) — Why It Matters for Hedge Funds</h2>
+<p>You're not a bank. You won't be regulated under Basel. But your PRIME BROKERS are. Their capital constraints DIRECTLY affect you:</p>
+<table>
+<thead>
+<tr>
+<th>Basel requirement</th>
+<th>Impact on PB</th>
+<th>Impact on YOUR fund</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CET1 ratio (4.5%+)</strong></td>
+<td>PB must hold capital against risk-weighted assets</td>
+<td>Higher capital charge for PB → higher financing cost for you</td>
+</tr>
+<tr>
+<td><strong>Leverage ratio (3%)</strong></td>
+<td>Limits PB's total balance sheet regardless of risk weights</td>
+<td>PBs cut low-margin businesses (e.g., repo financing) → less capacity for you</td>
+</tr>
+<tr>
+<td><strong>LCR (Liquidity Coverage Ratio)</strong></td>
+<td>PB must hold liquid assets against 30-day stress outflows</td>
+<td>PB may treat your deposits as "runnable" → penalizing you</td>
+</tr>
+<tr>
+<td><strong>NSFR (Net Stable Funding Ratio)</strong></td>
+<td>PB must match illiquid assets with stable funding</td>
+<td>Short-term financing to HFs is "unstable" → PB charges more or reduces capacity</td>
+</tr>
+<tr>
+<td><strong>SLR (Supplementary Leverage Ratio)</strong></td>
+<td>Constrains bank balance sheets including derivatives exposure</td>
+<td>Particularly impacts repo-heavy strategies and large derivative books</td>
+</tr>
+</tbody>
+</table>
+<h3 id="frtb-fundamental-review-of-the-trading-book">FRTB (Fundamental Review of the Trading Book)</h3>
+<p>The new market risk capital standard replacing the internal models approach:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Old approach (VaR-based)</th>
+<th>FRTB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Risk metric</td>
+<td>VaR (99%, 10-day)</td>
+<td>Expected Shortfall (97.5%, variable horizon)</td>
+</tr>
+<tr>
+<td>Tail sensitivity</td>
+<td>Cuts off at VaR — ignores what's beyond</td>
+<td>ES captures average loss beyond VaR</td>
+</tr>
+<tr>
+<td>Liquidity horizon</td>
+<td>Single 10-day horizon</td>
+<td>Instrument-dependent: 10 days (liquid) to 120 days (illiquid)</td>
+</tr>
+<tr>
+<td>Non-modellable risk factors (NMRFs)</td>
+<td>Not explicitly captured</td>
+<td>Must capitalize NMRFs separately (often large)</td>
+</tr>
+<tr>
+<td>P&amp;L attribution test</td>
+<td>Not required</td>
+<td>Desks must prove their model's P&amp;L matches actual P&amp;L</td>
+</tr>
+<tr>
+<td>Boundary</td>
+<td>Trading book vs banking book somewhat flexible</td>
+<td>Stricter boundary → less regulatory arbitrage</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Impact on hedge funds:</strong><br />
+- Strategies using ILLIQUID instruments (credit, distressed, structured products) → PBs face higher capital charges → higher financing costs to you<br />
+- NMRFs mean exotic/bespoke OTC products become more expensive to hold for dealers → wider spreads to you<br />
+- PBs may EXIT certain businesses entirely if capital charges make them uneconomical</p>
+<h2 id="dodd-frank-act-us-post-2008">Dodd-Frank Act (US — Post-2008)</h2>
+<table>
+<thead>
+<tr>
+<th>Provision</th>
+<th>What it does</th>
+<th>HF impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Volcker Rule</strong></td>
+<td>Prohibits bank proprietary trading</td>
+<td>Talent migration from banks to HFs. PBs can't warehouse risk as easily → less liquidity.</td>
+</tr>
+<tr>
+<td><strong>OTC clearing mandate</strong></td>
+<td>Standardized swaps must clear via CCP</td>
+<td>Margin requirements increase; but counterparty risk reduced</td>
+</tr>
+<tr>
+<td><strong>Swap dealer registration</strong></td>
+<td>Dealers must register, report, follow conduct rules</td>
+<td>More transparency; compliance cost</td>
+</tr>
+<tr>
+<td><strong>Form PF</strong></td>
+<td>Large HFs (&gt;$1.5B) file quarterly; smaller ($150M+) file annually</td>
+<td>AUM, leverage, exposure, concentration, counterparty data reported to SEC/CFTC</td>
+</tr>
+<tr>
+<td><strong>Systemic risk monitoring</strong></td>
+<td>FSOC can designate non-bank SIFIs</td>
+<td>Theoretically a large HF could be designated → bank-like regulation (hasn't happened yet)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="emir-eu-european-market-infrastructure-regulation">EMIR (EU — European Market Infrastructure Regulation)</h2>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Detail</th>
+<th>HF impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Central clearing</strong></td>
+<td>Mandatory for standardized OTC derivatives (IRS, CDS index)</td>
+<td>Must clear through authorized CCPs; margin requirements</td>
+</tr>
+<tr>
+<td><strong>Trade reporting</strong></td>
+<td>ALL OTC derivative trades reported to trade repositories</td>
+<td>Compliance cost; but improves market transparency</td>
+</tr>
+<tr>
+<td><strong>Risk mitigation for non-cleared</strong></td>
+<td>Timely confirmation, portfolio reconciliation, dispute resolution, margin exchange</td>
+<td>Must post IM and VM for bilateral trades above thresholds</td>
+</tr>
+<tr>
+<td><strong>EMIR Refit (2024)</strong></td>
+<td>Simplified reporting, reduced burden for smaller firms</td>
+<td>Some relief for smaller HFs</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mifid-ii-eu-markets-in-financial-instruments-directive">MiFID II (EU — Markets in Financial Instruments Directive)</h2>
+<table>
+<thead>
+<tr>
+<th>Provision</th>
+<th>What it does</th>
+<th>HF impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Best execution</strong></td>
+<td>Must demonstrate best execution across venues; document execution quality</td>
+<td>Need TCA (Transaction Cost Analysis) infrastructure</td>
+</tr>
+<tr>
+<td><strong>Pre/post-trade transparency</strong></td>
+<td>Expanded to non-equity instruments (bonds, derivatives)</td>
+<td>More data available; but also more scrutiny of fund's execution</td>
+</tr>
+<tr>
+<td><strong>Research unbundling</strong></td>
+<td>Research payments must be separated from execution commissions</td>
+<td>Funds must pay for research explicitly (RPA) — can't bundle with commissions</td>
+</tr>
+<tr>
+<td><strong>Position reporting</strong></td>
+<td>Commodity derivative position limits and reporting</td>
+<td>Affects commodity-trading funds</td>
+</tr>
+<tr>
+<td><strong>Systematic internaliser regime</strong></td>
+<td>Firms executing OTC at scale treated as quasi-exchanges</td>
+<td>Affects execution venues used by funds</td>
+</tr>
+</tbody>
+</table>
+<h2 id="aifmd-alternative-investment-fund-managers-directive-eu">AIFMD (Alternative Investment Fund Managers Directive — EU)</h2>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Authorization</strong></td>
+<td>EU-based AIFM must be authorized by national regulator</td>
+</tr>
+<tr>
+<td><strong>Leverage reporting</strong></td>
+<td>Must report leverage levels (gross and commitment method)</td>
+</tr>
+<tr>
+<td><strong>Depositary</strong></td>
+<td>Must appoint independent depositary (custodian) for fund assets</td>
+</tr>
+<tr>
+<td><strong>Remuneration</strong></td>
+<td>Senior management compensation subject to deferral and clawback rules</td>
+</tr>
+<tr>
+<td><strong>Marketing passport</strong></td>
+<td>Authorized AIFM can market to professional investors across the EU</td>
+</tr>
+<tr>
+<td><strong>Leverage limits</strong></td>
+<td>NCA can impose leverage limits in systemic risk situations</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sec-cftc-us-key-rules-for-hedge-funds">SEC / CFTC (US) — Key Rules for Hedge Funds</h2>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>What it requires</th>
+<th>Gap/issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>13F filing</strong></td>
+<td>Quarterly disclosure of long equity positions (&gt;$100M manager AUM)</td>
+<td>SHORT positions NOT reported. TRS NOT reported (Archegos gap).</td>
+</tr>
+<tr>
+<td><strong>Form PF</strong></td>
+<td>Quarterly/annual reporting of AUM, leverage, exposure, counterparties</td>
+<td>Filed confidentially — not public</td>
+</tr>
+<tr>
+<td><strong>Regulation SHO</strong></td>
+<td>Short-sale rules: locate requirement before shorting, circuit breaker on -10% moves</td>
+<td>Doesn't capture synthetic shorts via TRS</td>
+</tr>
+<tr>
+<td><strong>Regulation D</strong></td>
+<td>Exemption allowing HFs to raise capital without SEC registration</td>
+<td>Fund must only accept accredited/qualified investors</td>
+</tr>
+<tr>
+<td><strong>Advisers Act</strong></td>
+<td>HF managers with &gt;$150M AUM must register as investment advisers with SEC</td>
+<td>Compliance, ADV filing, books and records, custody rules</td>
+</tr>
+<tr>
+<td><strong>CFTC registration</strong></td>
+<td>Commodity pool operators / commodity trading advisors must register</td>
+<td>If trading futures/options on futures/swaps in significant volume</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-13f-reporting-gap-the-archegos-problem">The 13F Reporting Gap — The Archegos Problem</h2>
+<table>
+<thead>
+<tr>
+<th>What 13F captures</th>
+<th>What 13F MISSES</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long equity positions (stocks, ETFs, convertibles, call options)</td>
+<td><strong>Short positions</strong> — no public reporting</td>
+</tr>
+<tr>
+<td>Held at quarter-end with &gt;$200K market value</td>
+<td><strong>TRS / synthetic positions</strong> — not beneficial ownership</td>
+</tr>
+<tr>
+<td>Manager-level aggregation</td>
+<td><strong>Cross-PB exposure</strong> — each PB sees only their slice</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Archegos exploited ALL three gaps:</strong><br />
+1. Used TRS → no 13F filing → market didn't know about $20B in concentrated positions<br />
+2. Used 5 different PBs → no single PB saw the total picture<br />
+3. Regulators had no visibility until the collapse</p>
+<p><strong>Post-Archegos reforms (SEC, 2023-2025):</strong><br />
+- Proposed: expanded 13F to include shorts and TRS<br />
+- Proposed: enhanced Form PF with more granular position data<br />
+- Status: partially implemented, still evolving</p>
+<hr />
+<h1 id="part-9-regulatory-risk-the-risk-of-regulation-itself">PART 9: REGULATORY RISK — THE RISK OF REGULATION ITSELF</h1>
+<p>Beyond COMPLIANCE with regulation, there's the risk that regulation CHANGES in ways that damage your strategy:</p>
+<table>
+<thead>
+<tr>
+<th>Regulatory change risk</th>
+<th>Example</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Short-selling bans</strong></td>
+<td>EU banned short-selling during COVID (March 2020)</td>
+<td>L/S equity funds couldn't hedge → forced to go net long or degross entirely</td>
+</tr>
+<tr>
+<td><strong>Position limits</strong></td>
+<td>CFTC commodity position limits tightened</td>
+<td>Commodity funds must reduce positions</td>
+</tr>
+<tr>
+<td><strong>Margin increases</strong></td>
+<td>EMIR margin requirements for non-cleared derivatives</td>
+<td>Bilateral OTC trades become more expensive</td>
+</tr>
+<tr>
+<td><strong>Tax changes</strong></td>
+<td>Transaction tax (FTT) proposals in EU</td>
+<td>Would significantly impact high-turnover systematic strategies</td>
+</tr>
+<tr>
+<td><strong>Reporting burden</strong></td>
+<td>New reporting requirements → compliance cost increase</td>
+<td>Diverts resources from investing to reporting</td>
+</tr>
+<tr>
+<td><strong>Strategy prohibition</strong></td>
+<td>Volcker Rule eliminated bank prop trading</td>
+<td>Banks exited → reduced liquidity AND reduced competition for HFs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM responsibility:</strong> Track regulatory pipeline. When regulation is PROPOSED (not just enacted), begin assessing impact:<br />
+1. Which positions/strategies are affected?<br />
+2. What's the compliance cost?<br />
+3. Does this create forced selling/buying that moves markets?<br />
+4. Can we benefit from others' forced compliance? (Regulatory arbitrage)</p>
+<hr />
+<h1 id="part-10-building-the-non-market-risk-dashboard">PART 10: BUILDING THE NON-MARKET RISK DASHBOARD</h1>
+<h2 id="the-rms-integrated-non-market-risk-monitor">The RM's Integrated Non-Market Risk Monitor</h2>
+<table>
+<thead>
+<tr>
+<th>Risk type</th>
+<th>Key metrics</th>
+<th>Monitoring frequency</th>
+<th>Escalation trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Counterparty</strong></td>
+<td>Net exposure by CP, CVA, PFE, CDS spreads</td>
+<td>Daily</td>
+<td>Single CP &gt; 5% of NAV; CDS widens &gt;100bp</td>
+</tr>
+<tr>
+<td><strong>Collateral</strong></td>
+<td>Coverage ratio, disputes, rehypothecation level</td>
+<td>Daily</td>
+<td>Under-collateralized &gt; $5M; dispute &gt;3 days</td>
+</tr>
+<tr>
+<td><strong>CCP</strong></td>
+<td>IM requirements, default fund exposure</td>
+<td>Daily</td>
+<td>IM increase &gt;20%; assessment notice received</td>
+</tr>
+<tr>
+<td><strong>Operational</strong></td>
+<td>Trade breaks, settlement failures, system uptime</td>
+<td>Daily</td>
+<td>&gt;3 breaks; &gt;1% fail rate; unplanned downtime &gt;30 min</td>
+</tr>
+<tr>
+<td><strong>Cyber</strong></td>
+<td>Incident count, phishing attempts, access violations</td>
+<td>Weekly</td>
+<td>Any successful breach; privilege escalation</td>
+</tr>
+<tr>
+<td><strong>Regulatory</strong></td>
+<td>Reporting deadlines, limit compliance, pipeline changes</td>
+<td>Weekly</td>
+<td>Filing deadline &lt;5 days; regulatory inquiry received</td>
+</tr>
+<tr>
+<td><strong>People</strong></td>
+<td>Key-person concentration, turnover, compliance exceptions</td>
+<td>Monthly</td>
+<td>Key departure; rising exception trend</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-11-interview-application">PART 11: INTERVIEW APPLICATION</h1>
+<p><strong>"What types of risk exist beyond market risk?"</strong></p>
+<p>"Three main categories. Counterparty risk — the risk that the other side of an OTC trade defaults. This is managed through ISDA netting agreements, CSA collateral posting, and central clearing via CCPs. The subtle version is wrong-way risk, where your exposure to a counterparty increases exactly as their credit deteriorates — buying CDS on Italian debt from an Italian bank is the classic example.</p>
+<p>Operational risk — the risk of internal failures in people, processes, and technology. This is what killed Barings — Leeson controlled both trading and back office with no segregation of duties. And Knight Capital — $440M lost in 45 minutes because of a failed code deployment. As an RM, I'd focus on daily 3-way reconciliation, independent pricing verification, and ensuring no single person controls the full trade lifecycle.</p>
+<p>Regulatory risk — both compliance risk and the risk that regulation changes and impacts our strategy. Short-selling bans during COVID forced L/S funds to degross. FRTB is increasing capital charges for PBs, which flows through as higher financing costs. And the 13F reporting gap — where TRS positions are invisible — is exactly what enabled Archegos. That gap is slowly being closed but isn't fully fixed yet."</p>
+<p><strong>"How would you monitor counterparty risk?"</strong></p>
+<p>"Three layers. First, ongoing monitoring — daily net exposure by counterparty, daily collateral coverage ratios, and daily CDS spread tracking for each major counterparty. If CDS widens 100bp in a week, that's an early warning.</p>
+<p>Second, structural protection — ensuring we have enforceable ISDA netting, CSA collateral with daily margin calls and low thresholds, and where possible, central clearing.</p>
+<p>Third, wrong-way risk screening. At every new trade approval, I'd ask: in a stress scenario where this counterparty is weakening, does our exposure to them increase? If yes, we need to either collateralize more heavily, find a different counterparty, or adjust the CVA charge to reflect the correlation.</p>
+<p>And at the portfolio level, I'd monitor single-counterparty concentration. No single counterparty should hold more than 5% of our net exposure. This is the Lehman lesson — when one counterparty fails, you need to survive without them."</p>
+<p><strong>"Walk me through the key operational controls you'd implement."</strong></p>
+<p>"The foundation is segregation of duties — the person who trades cannot reconcile their own positions. That's Barings, and it's non-negotiable.</p>
+<p>On top of that: daily 3-way reconciliation between front office, back office, and the prime broker. If those three don't match, SOMETHING is wrong — and we find it before it becomes a problem.</p>
+<p>For pricing: independent mark verification. We don't just take the PB's marks — we get independent sources. For Level 3 assets especially, where there's no observable market price, we need a pricing committee and potentially third-party valuations.</p>
+<p>For technology: real-time P&amp;L monitoring with automatic alerts. Knight Capital lost $440M in 45 minutes because nobody noticed the bleeding for 28 minutes. We need circuit breakers that halt trading automatically if daily P&amp;L breaches a threshold — not alerts that require a human to notice and act.</p>
+<p>And the 4-eye principle: every material decision — trade entry above a threshold, limit override, cash transfer — requires two approvals from different people."</p>
+<hr />
 <p><strong>Related files:</strong><br />
-→ <em>14_Hedge_Fund_Mechanics</em> — fund structure, PB relationships, margin<br />
-→ <a href="V_Case_Studies.html">Case Studies</a> — Barings (op risk), Archegos (PB blind spots)<br />
-→ <em>07_Risk_Reference</em> — VaR, stress testing (market risk)<br />
-→ <a href="W_Quant_Mindset.html">Quant Mindset</a> — model risk (related to regulatory model frameworks)</p>
+→ <a href="L_Fund_Structure.html">Fund Structure</a> — prime brokerage, margin, leverage, CCPs, repo<br />
+→ <em>V_Case_Studies</em> — Barings (op risk), Archegos (counterparty opacity), Knight Capital (tech risk)<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, stress testing (market risk measures)<br />
+→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a> — people risk: how biases create operational failures<br />
+→ <a href="M_Disc_vs_Systematic.html">Disc vs Systematic</a> — technology risk is paramount for systematic; people risk for discretionary</p>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>

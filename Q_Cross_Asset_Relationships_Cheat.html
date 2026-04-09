@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hedging Strategies — Cheat — Squarepoint Prep</title>
+<title>Cross Asset Relationships — Cheat — Squarepoint Prep</title>
 <style>
 :root {
   --bg: #0d1117;
@@ -373,14 +373,14 @@ body {
 <a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
 <a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
 <a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
-<a class="nav-link active" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
 <a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
 <a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
 <a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
 <a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
 <a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
 <a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
-<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link active" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
 <a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
 <a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
 <a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
@@ -389,381 +389,300 @@ body {
 </nav>
 
 <main class="content">
-<h1 id="i-hedging-strategies-cheat-sheet">I — HEDGING STRATEGIES — CHEAT SHEET</h1>
-<hr />
-<h2 id="the-five-tradeoffs-every-hedge-has-a-price">THE FIVE TRADEOFFS (EVERY HEDGE HAS A PRICE)</h2>
-<table>
-<thead>
-<tr>
-<th>Tradeoff</th>
-<th>Tension</th>
-<th>PM question</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cost vs protection</td>
-<td>Better protection = more premium</td>
-<td>"How much drag can your Sharpe absorb?"</td>
-</tr>
-<tr>
-<td>Precision vs liquidity</td>
-<td>Single-name = perfect but expensive; Index = cheap but basis risk</td>
-<td>"Exact coverage or directional protection?"</td>
-</tr>
-<tr>
-<td>Horizon mismatch</td>
-<td>Position = no expiry; Hedge = expires → roll costs</td>
-<td>"Event (1 week) or regime (6 months)?"</td>
-</tr>
-<tr>
-<td>Upside surrender</td>
-<td>Collars/call overwriting cap gains</td>
-<td>"Max return you'd accept for zero premium?"</td>
-</tr>
-<tr>
-<td>Timing</td>
-<td>Cheapest when you don't need it; most expensive when you do</td>
-<td>"Pay insurance when the sun is shining?"</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="decision-framework-5-questions">DECISION FRAMEWORK — 5 QUESTIONS</h2>
+<h1 id="q-cross-asset-relationships-cheat-sheet">Q — CROSS-ASSET RELATIONSHIPS — CHEAT SHEET</h1>
+<h2 id="5-transmission-chains">5 Transmission Chains</h2>
 <ol>
-<li><strong>What SPECIFIC risk?</strong> → Delta, vega, gamma, DV01, credit, concentration, tail, basis, liquidity</li>
-<li><strong>What horizon?</strong> → 1-5 days (weekly options) | 1-4 weeks (monthlies) | 1-6 months (quarterlies) | 6M+ (LEAPs/rolling)</li>
-<li><strong>Upside tolerance?</strong> → None (puts) | Capped (collar) | Partially capped (put spread)</li>
-<li><strong>Premium budget?</strong> → Max ~15% of expected alpha for hedge cost</li>
-<li><strong>Basis risk accepted?</strong> → R² &gt; 0.90 (excellent) | 0.70-0.90 (good) | &lt; 0.70 (reconsider instrument)</li>
+<li><strong>Oil → Inflation → Rates → Equities → Credit → EM</strong> (hours to months)</li>
+<li><strong>Rate Shock → Duration → FX → EM Contagion</strong> ("dollar wrecking ball")</li>
+<li><strong>Risk-Off Cascade</strong> → VIX spike → margin calls → forced selling → correlation → 1.0 → liquidity crisis</li>
+<li><strong>Carry Trade Unwind</strong> → borrow JPY/CHF → invest HY/EM → vol spike → self-reinforcing unwind</li>
+<li><strong>Credit Impulse → Real Economy Feedback</strong> → tighter credit → less investment → weaker GDP → more defaults</li>
 </ol>
-<hr />
-<h2 id="instruments-quick-reference">INSTRUMENTS — QUICK REFERENCE</h2>
+<h2 id="speed-calibration">Speed Calibration</h2>
 <table>
 <thead>
 <tr>
-<th>Instrument</th>
-<th>Cost</th>
-<th>Gap protection</th>
-<th>Convexity</th>
-<th>Upside impact</th>
-<th>Best for</th>
+<th>Leg</th>
+<th>Time</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Outright put</strong></td>
-<td>High (1-3% ann.)</td>
-<td>Yes</td>
-<td>Yes (Δ+Γ+ν)</td>
-<td>None</td>
-<td>Event risk, full protection</td>
+<td>Oil → breakevens</td>
+<td>Minutes</td>
 </tr>
 <tr>
-<td><strong>Put spread</strong></td>
-<td>~50% of put</td>
-<td>Yes (capped)</td>
-<td>Partial</td>
-<td>None</td>
-<td>Budget hedging, moderate corrections</td>
+<td>CPI → Fed repricing</td>
+<td>Same day</td>
 </tr>
 <tr>
-<td><strong>Collar</strong></td>
-<td>~Zero</td>
-<td>Yes (floored)</td>
-<td>~Zero (cancels)</td>
-<td><strong>Capped</strong></td>
-<td>Zero-premium constraint</td>
+<td>Equity weakness → credit</td>
+<td>1-5 days</td>
 </tr>
 <tr>
-<td><strong>Short futures</strong></td>
-<td>Margin only</td>
-<td>No (linear)</td>
-<td><strong>None</strong></td>
-<td>Loses upside proportionally</td>
-<td>Temp delta/beta reduction</td>
-</tr>
-<tr>
-<td><strong>Pairs (L/S)</strong></td>
-<td>Borrow cost</td>
-<td>No</td>
-<td>None</td>
-<td>Reduces net exposure</td>
-<td>Alpha isolation</td>
-</tr>
-<tr>
-<td><strong>VIX calls</strong></td>
-<td>Carry cost</td>
-<td>Indirect</td>
-<td>Yes (on vol)</td>
-<td>None</td>
-<td>Crash/vol spike protection</td>
-</tr>
-<tr>
-<td><strong>Deep OTM puts</strong></td>
-<td>1.5-3% ann.</td>
-<td>Yes</td>
-<td>HIGH</td>
-<td>None</td>
-<td>Tail/survival protection</td>
+<td>Credit tightening → real economy</td>
+<td>3-12 months</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="key-formulas">KEY FORMULAS</h2>
-<p><strong>Beta hedge sizing:</strong><br />
-$$N = \frac{V_p \times (\beta_{\text{current}} - \beta_{\text{target}})}{V_f}$$</p>
-<p><strong>Optimal hedge ratio:</strong><br />
-$$h^* = \rho \times \frac{\sigma_{\text{position}}}{\sigma_{\text{hedge}}}$$</p>
-<p><strong>Hedge effectiveness:</strong><br />
-$$R^2 = 1 - \frac{\text{Var(hedged)}}{\text{Var(unhedged)}}$$</p>
-<p><strong>Delta-hedged P&amp;L:</strong><br />
-$$\text{P\&amp;L} = \frac{1}{2}\Gamma(\Delta S)^2 - \Theta \Delta t$$</p>
-<p><strong>Breakeven daily move:</strong><br />
-$$\Delta S_{\text{BE}} = \sigma_{\text{implied}} \times S \times \sqrt{\Delta t}$$</p>
-<p><strong>Tail hedge EV:</strong><br />
-$$\text{EV} = P(\text{tail}) \times \text{Payoff} - (1 - P(\text{tail})) \times \text{Annual cost}$$</p>
-<hr />
-<h2 id="hedge-greeks-impact">HEDGE GREEKS IMPACT</h2>
+<h2 id="stock-bond-correlation-the-master-variable">Stock-Bond Correlation (THE Master Variable)</h2>
+<ul>
+<li><strong>Growth-dominated risk → ρ &lt; 0</strong> → bonds hedge equities → 60/40 works → VaR accurate</li>
+<li><strong>Inflation-dominated risk → ρ &gt; 0</strong> → bonds amplify losses → 60/40 fails → VaR UNDERSTATES</li>
+<li>Track rolling 21d &amp; 63d SPX/TLT correlation. When sign flips → reassess ALL hedge ratios</li>
+</ul>
+<h2 id="regime-dependent-correlation-matrix">Regime-Dependent Correlation Matrix</h2>
 <table>
 <thead>
 <tr>
-<th>Hedge</th>
-<th>Δ</th>
-<th>Γ</th>
-<th>Θ</th>
-<th>ν</th>
-<th>Net effect</th>
+<th>Pair</th>
+<th>Goldilocks</th>
+<th>Reflation</th>
+<th>Stagflation</th>
+<th>Deflation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Long put</td>
-<td>−</td>
-<td>+</td>
-<td>−</td>
-<td>+</td>
-<td>Safer, costs carry, more convex</td>
-</tr>
-<tr>
-<td>Put spread</td>
-<td>− (mod)</td>
-<td>Mixed</td>
-<td>Less −</td>
-<td>Mixed</td>
-<td>Cheaper, less convex, capped</td>
-</tr>
-<tr>
-<td>Collar</td>
-<td>~Modest −</td>
-<td>~0</td>
-<td>~0</td>
-<td>~0</td>
-<td>Budget-neutral, bounded, near-zero Greek change</td>
-</tr>
-<tr>
-<td>Short futures</td>
-<td>−</td>
-<td><strong>0</strong></td>
-<td><strong>0</strong></td>
-<td><strong>0</strong></td>
-<td>Pure delta, no convexity</td>
-</tr>
-<tr>
-<td>VIX calls</td>
-<td>~0 on SPX</td>
-<td>~0</td>
-<td>−</td>
-<td><strong>+</strong></td>
-<td>Vol hedge, not delta hedge</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Key insight:</strong> Puts get BETTER as crash deepens (gamma + vega spike). Futures respond linearly. The deeper the crash, the greater puts' advantage.</p>
-<hr />
-<h2 id="roll-cost-table">ROLL COST TABLE</h2>
-<table>
-<thead>
-<tr>
-<th>Instrument</th>
-<th>Frequency</th>
-<th>Cost/roll</th>
-<th>Annualized</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Monthly OTM puts</td>
-<td>12×/yr</td>
-<td>0.15-0.30%</td>
-<td><strong>1.8-3.6%</strong></td>
-</tr>
-<tr>
-<td>Quarterly OTM puts</td>
-<td>4×/yr</td>
-<td>0.35-0.60%</td>
-<td><strong>1.4-2.4%</strong></td>
-</tr>
-<tr>
-<td>6-month puts</td>
-<td>2×/yr</td>
-<td>0.60-1.00%</td>
-<td><strong>1.2-2.0%</strong></td>
-</tr>
-<tr>
-<td>Equity futures</td>
-<td>4×/yr</td>
-<td>1-2bp</td>
-<td>~0.05%</td>
-</tr>
-<tr>
-<td>VIX futures</td>
-<td>Monthly</td>
-<td>3-5%/month</td>
-<td><strong>30-50%+</strong> (!!)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Rule:</strong> Roll at ~2 weeks before expiry (monthlies), ~3 weeks (quarterlies).</p>
-<hr />
-<h2 id="stress-comparison-on-80m-equity-book-spx">STRESS COMPARISON (on $80M equity book, SPX)</h2>
-<table>
-<thead>
-<tr>
-<th>Scenario</th>
-<th>No hedge</th>
-<th>Futures 50%</th>
-<th>ATM put</th>
-<th>5% OTM spread</th>
-<th>Collar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SPX −5%</td>
-<td>−$4.0M</td>
-<td>−$2.0M</td>
-<td>−$1.5M</td>
-<td>−$3.5M</td>
-<td>−$2.2M</td>
-</tr>
-<tr>
-<td>SPX −10%</td>
-<td>−$8.0M</td>
-<td>−$4.0M</td>
-<td>−$1.0M</td>
-<td>−$2.0M</td>
-<td>−$1.8M</td>
-</tr>
-<tr>
-<td>SPX −20%</td>
-<td>−$16.0M</td>
-<td>−$8.0M</td>
-<td><strong>+$2.0M</strong></td>
-<td>−$6.0M</td>
-<td>−$1.8M</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="common-mistakes">COMMON MISTAKES</h2>
-<ol>
-<li><strong>Hedging too late</strong> → Buy when VIX is LOW, not after the sell-off</li>
-<li><strong>Over-hedging</strong> → Theta drag &gt; alpha = portfolio can't make money</li>
-<li><strong>Wrong instrument</strong> → R² &lt; 0.70 = find a better instrument</li>
-<li><strong>Set-and-forget</strong> → Roll calendar with alerts, no coverage gaps</li>
-<li><strong>Ignoring roll costs</strong> → Monthly puts = 3%+ annualized drag</li>
-<li><strong>"Free" collar illusion</strong> → Quantify upside surrender in DOLLARS</li>
-<li><strong>Wrong Greek</strong> → Futures = delta only; puts = delta + gamma + vega</li>
-<li><strong>Correlation-dependent</strong> → Monitor ρ weekly, have Plan B</li>
-</ol>
-<hr />
-<h2 id="cross-asset-correlation-warning">CROSS-ASSET CORRELATION WARNING</h2>
-<table>
-<thead>
-<tr>
-<th>Regime</th>
-<th>Stocks-bonds ρ</th>
-<th>Implication</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Deflation/growth scare (1998-2021)</td>
-<td>−0.30</td>
-<td>Bonds hedge equities well</td>
-</tr>
-<tr>
-<td>Inflation regime (2022-2023)</td>
+<td>SPX/UST</td>
+<td>-0.30</td>
+<td>+0.20</td>
 <td>+0.40</td>
-<td>Bonds AMPLIFY equity losses</td>
+<td>-0.50</td>
 </tr>
 <tr>
-<td>Financial stress (March 2020)</td>
+<td>SPX/Oil</td>
+<td>+0.25</td>
+<td>+0.30</td>
+<td>-0.40</td>
+<td>+0.20</td>
+</tr>
+<tr>
+<td>SPX/VIX</td>
+<td>-0.80</td>
+<td>-0.75</td>
+<td>-0.85</td>
+<td>-0.95</td>
+</tr>
+<tr>
+<td>JPY/VIX</td>
+<td>+0.30</td>
+<td>+0.20</td>
 <td>+0.50</td>
-<td>Only cash protects</td>
+<td>+0.60</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="hedging-by-asset-class-quick-map">HEDGING BY ASSET CLASS — QUICK MAP</h2>
+<h2 id="conditional-correlation">Conditional Correlation</h2>
+<ul>
+<li>VIX &lt; 20: ρ(SPX,HY) ≈ 0.40</li>
+<li>VIX &gt; 40: ρ(SPX,HY) ≈ 0.85 — diversification mostly gone</li>
+<li>Crisis VaR = 1.5-2.5× normal VaR due to correlation spike</li>
+</ul>
+<h2 id="safe-haven-hierarchy">Safe Haven Hierarchy</h2>
+<ol>
+<li>T-bills (&lt; 3M) — most reliable</li>
+<li>UST 10Y+ — fails in inflation shocks (2022: TLT -31%)</li>
+<li>Gold — fails in dash-for-cash / real rate spikes</li>
+<li>JPY, CHF — fails on CB policy shifts</li>
+<li>USD — fails when US IS the problem</li>
+</ol>
+<h2 id="roro-composite-score">RORO Composite Score</h2>
 <table>
 <thead>
 <tr>
-<th>Asset</th>
-<th>Primary hedge</th>
-<th>Secondary</th>
+<th>Factor</th>
+<th>Risk-On (+1)</th>
+<th>Risk-Off (-1)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Equity β</strong></td>
-<td>Short SPX futures</td>
-<td>SPX puts</td>
+<td>VIX</td>
+<td>&lt;15</td>
+<td>&gt;25</td>
 </tr>
 <tr>
-<td><strong>Single-name</strong></td>
-<td>Single-name put</td>
-<td>Collar, partial exit</td>
+<td>HY OAS</td>
+<td>Tightening</td>
+<td>Widening</td>
 </tr>
 <tr>
-<td><strong>Sector</strong></td>
-<td>Short sector ETF</td>
-<td>Sector puts</td>
+<td>USDJPY</td>
+<td>Rising (JPY weak)</td>
+<td>Falling (JPY strong)</td>
 </tr>
 <tr>
-<td><strong>Duration</strong></td>
-<td>Treasury futures</td>
-<td>IRS</td>
+<td>Copper/Gold ratio</td>
+<td>Rising</td>
+<td>Falling</td>
 </tr>
 <tr>
-<td><strong>Credit</strong></td>
-<td>CDS</td>
-<td>Short HY ETF</td>
-</tr>
-<tr>
-<td><strong>FX</strong></td>
-<td>Forwards</td>
-<td>FX options</td>
-</tr>
-<tr>
-<td><strong>Commodities</strong></td>
-<td>Futures</td>
-<td>Options on futures</td>
+<td>Score &gt; +4 = risk-on</td>
+<td>Score &lt; -3 = risk-off</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="interview-answer-templates">INTERVIEW ANSWER TEMPLATES</h2>
-<p><strong>"Hedge concentrated equity?"</strong><br />
-→ Framework first (5 questions) → Single-name put (cleanest, expensive) → Put spread (halves cost, caps protection) → Collar (zero cost, caps upside) → Futures (free but basis risk, R² ≈ 0.6 for single name vs index) → Make tradeoff explicit to PM</p>
-<p><strong>"When NOT to hedge?"</strong><br />
-→ (1) Cost &gt; risk: hedge EV is negative → (2) Hedge adds MORE risk via fragile correlation → (3) PM's thesis IS the risk and it's within limits</p>
-<p><strong>"Puts vs futures?"</strong><br />
-→ Futures: free, liquid, delta-only, linear, no gap protection<br />
-→ Puts: premium cost, delta + gamma + vega, convex, GAP protection, hedge IMPROVES as crash deepens</p>
-<p><strong>"How evaluate hedge effectiveness?"</strong><br />
-→ R² overall + R²_stress on tail days → If R²_stress &lt;&lt; R²_overall, hedge gives false confidence</p>
+<h2 id="macro-shock-asset-response-quick-ref">Macro Shock → Asset Response (Quick Ref)</h2>
+<table>
+<thead>
+<tr>
+<th>Shock</th>
+<th>SPX</th>
+<th>10Y Price</th>
+<th>DXY</th>
+<th>HY OAS</th>
+<th>Gold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rate hike</td>
+<td>↓↓</td>
+<td>↓↓</td>
+<td>↑↑</td>
+<td>+30bp</td>
+<td>↓</td>
+</tr>
+<tr>
+<td>Hot CPI</td>
+<td>↓</td>
+<td>↓↓</td>
+<td>↑</td>
+<td>+15bp</td>
+<td>Complex</td>
+</tr>
+<tr>
+<td>Recession</td>
+<td>↓↓↓</td>
+<td>↑↑↑</td>
+<td>↑↑</td>
+<td>+200bp</td>
+<td>↑↑</td>
+</tr>
+<tr>
+<td>Oil shock</td>
+<td>↓</td>
+<td>↓</td>
+<td>↑</td>
+<td>+25bp</td>
+<td>↑</td>
+</tr>
+<tr>
+<td>Credit event</td>
+<td>↓↓</td>
+<td>↑</td>
+<td>↑</td>
+<td>+100bp</td>
+<td>↑</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sector-cross-asset-betas-key">Sector Cross-Asset Betas (Key)</h2>
+<table>
+<thead>
+<tr>
+<th>Sector</th>
+<th>Oil β</th>
+<th>10Y yield β</th>
+<th>DXY β</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Energy (XLE)</td>
+<td>+0.7</td>
+<td>-0.1</td>
+<td>+0.1</td>
+</tr>
+<tr>
+<td>Tech (XLK)</td>
+<td>-0.1</td>
+<td>-0.3</td>
+<td>-0.2</td>
+</tr>
+<tr>
+<td>Financials (XLF)</td>
+<td>+0.1</td>
+<td>+0.4</td>
+<td>+0.2</td>
+</tr>
+<tr>
+<td>Utilities (XLU)</td>
+<td>-0.1</td>
+<td>-0.5</td>
+<td>-0.1</td>
+</tr>
+<tr>
+<td>REITs</td>
+<td>0</td>
+<td>-0.6</td>
+<td>-0.1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="narrative-regime">Narrative Regime</h2>
+<ul>
+<li><strong>"Good news is bad news":</strong> Strong NFP → equities DOWN (Fed won't cut)</li>
+<li><strong>"Growth scare":</strong> Strong NFP → equities UP (no recession!)</li>
+<li>How to ID: Check if SPX &amp; UST move SAME direction (growth) or OPPOSITE (Fed/inflation)</li>
+</ul>
+<h2 id="dealer-gamma">Dealer Gamma</h2>
+<ul>
+<li><strong>Short gamma:</strong> dealers sell into weakness, buy into strength → AMPLIFIES moves</li>
+<li><strong>Long gamma:</strong> dealers buy into weakness, sell into strength → DAMPENS moves</li>
+<li>0DTE options ≈ 50% of SPX volume → intraday gamma regimes</li>
+</ul>
+<h2 id="systematic-strategy-flows">Systematic Strategy Flows</h2>
+<ul>
+<li><strong>CTAs:</strong> Trend-following → accelerate momentum, violent on reversal</li>
+<li><strong>Risk parity:</strong> Deleverage when vol rises → sells BOTH stocks AND bonds</li>
+<li><strong>Vol targeting:</strong> Reduces exposure when realized vol rises → pro-cyclical selling</li>
+</ul>
+<h2 id="stress-red-flags-escalate-immediately">Stress Red Flags (Escalate Immediately)</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Severity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stocks AND bonds falling together</td>
+<td>🟡 Inflation regime</td>
+</tr>
+<tr>
+<td>VIX &gt; 30 AND HY widening &gt; 25bp/day</td>
+<td>🔴 Systemic</td>
+</tr>
+<tr>
+<td>USDJPY dropping &gt; 3%/day</td>
+<td>🔴 Carry unwind</td>
+</tr>
+<tr>
+<td>Gold falling DURING equity sell-off</td>
+<td>🔴 Dash for cash</td>
+</tr>
+<tr>
+<td>FRA-OIS &gt; 30bp</td>
+<td>🔴 Funding stress</td>
+</tr>
+</tbody>
+</table>
+<h2 id="contagion-channels">Contagion Channels</h2>
+<ol>
+<li>Information (seconds) — news reprices globally</li>
+<li>Portfolio balance (hours-days) — losses → sell other assets</li>
+<li>Funding (days-weeks) — lender pulls credit broadly</li>
+<li>Wake-up call (days-weeks) — reprices all "similar" exposures</li>
+<li>Margin/collateral (hours-days) — loss → margin call → forced selling → spiral</li>
+</ol>
+<h2 id="factor-decomposition">Factor Decomposition</h2>
+<p>R_p = α + β_eq × R_SPX + β_rates × Δy + β_credit × ΔOAS + β_oil × R_oil + β_FX × ΔDXY + ε<br />
+- R² &gt; 0.6 → PM is macro-dominated, not alpha-driven<br />
+- Track factor betas over time; drift = unintentional accumulation</p>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>

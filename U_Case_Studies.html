@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Studies — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-hover: #1c2331;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #e6edf3;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --accent-subtle: rgba(88,166,255,0.1);
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --orange: #db6d28;
+  --sidebar-w: 290px;
+  --content-max: 980px;
+}
+html { scroll-behavior: smooth; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar-header {
+  padding: 14px 20px 18px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.nav-section {
+  padding: 16px 20px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
+.nav-link {
+  display: block;
+  padding: 5px 20px 5px 22px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 48px 64px 100px;
+  max-width: var(--content-max);
+}
+.content h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 48px;
+  margin-bottom: 14px;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 22px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 16px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+.content ul, .content ol {
+  margin: 0 0 18px 24px;
+}
+.content li {
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+}
+.content li strong {
+  color: var(--text);
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 14px 22px;
+  margin: 20px 0;
+  background: rgba(88,166,255,0.05);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.content blockquote strong {
+  color: var(--text-secondary);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.content th {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+.content td {
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
+  vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.content td strong {
+  color: var(--text);
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.015);
+}
+.content tr:hover td {
+  background: rgba(88,166,255,0.03);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MATH (KaTeX) */
+.katex-display {
+  margin: 20px 0;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+.katex { font-size: 1.05em; }
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 15px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 10px; }
+  .content { padding: 60px 16px 40px; }
+  .katex { font-size: 0.95em; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link active" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="u-case-studies-blow-ups-lessons">U — CASE STUDIES: BLOW-UPS &amp; LESSONS</h1>
+<h2 id="learn-from-the-dead-so-you-dont-join-them">Learn from the dead so you don't join them</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="how-to-use-this-file">HOW TO USE THIS FILE</h1>
+<p>For each case study, internalize:<br />
+1. <strong>What happened</strong> — facts, timeline, magnitudes<br />
+2. <strong>The risk failure chain</strong> — the sequence of breakdowns that turned a loss into a catastrophe<br />
+3. <strong>What the RM should have caught</strong> — the specific signals that were visible BEFORE the blow-up<br />
+4. <strong>The systemic lesson</strong> — the principle that applies to ANY fund, ANY market<br />
+5. <strong>Your interview angle</strong> — the 60-second version that demonstrates risk judgment</p>
+<p><strong>The goal is NOT to memorize dates.</strong> It's to build a mental library of failure patterns so that when you see the SAME PATTERN forming today, you recognize it instantly.</p>
+<hr />
+<h1 id="part-1-ltcm-1998-leverage-correlation-model-arrogance">PART 1: LTCM (1998) — LEVERAGE + CORRELATION + MODEL ARROGANCE</h1>
+<h2 id="timeline-facts">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1994</td>
+<td>Fund launches. Meriwether + Scholes + Merton (Nobel laureates). Initial capital: $1.25B.</td>
+</tr>
+<tr>
+<td>1994-97</td>
+<td>Annualized returns ~40%. Capital grows to $4.7B. Strategy: convergence/relative value across global bonds.</td>
+</tr>
+<tr>
+<td>Early 1998</td>
+<td>Leverage: ~25:1. $4.7B equity → $125B assets → $1.25T notional derivatives.</td>
+</tr>
+<tr>
+<td>Aug 17, 1998</td>
+<td>Russia defaults on domestic debt, devalues ruble.</td>
+</tr>
+<tr>
+<td>Aug-Sep 1998</td>
+<td>Global flight to quality. ALL spreads widen simultaneously. Every LTCM position loses.</td>
+</tr>
+<tr>
+<td>Sep 23, 1998</td>
+<td>Fed-organized rescue: 14 banks contribute $3.6B. LTCM wound down over 12 months.</td>
+</tr>
+<tr>
+<td>Final loss</td>
+<td>~$4.6B — essentially 100% of equity.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-risk-failure-chain">The Risk Failure Chain</h2>
+<div class="highlight"><pre><span></span><code>High leverage (25:1)
+    ↓
+Illiquid positions (EM debt, off-the-run Treasuries, swap spreads)
+    ↓
+Russian default triggers global flight to quality
+    ↓
+ALL spread trades widen simultaneously (ρ → 1)
+    ↓
+&quot;Diversified&quot; portfolio becomes a single bet on spread compression
+    ↓
+Margin calls → can&#39;t liquidate without moving the market
+    ↓
+Every other convergence fund has the same positions → no buyers
+    ↓
+$4.6B loss, systemic bailout required
+</code></pre></div>
+
+<h2 id="quantitative-anatomy">Quantitative Anatomy</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leverage</td>
+<td>25:1 (assets/equity)</td>
+<td>$1 of equity supporting $25 of positions</td>
+</tr>
+<tr>
+<td>Effective leverage (notional)</td>
+<td>~250:1 ($1.25T / $4.7B)</td>
+<td>True risk exposure was astronomical</td>
+</tr>
+<tr>
+<td>Daily VaR (their model)</td>
+<td>$45M at 99%</td>
+<td>Model said max daily loss ~$45M</td>
+</tr>
+<tr>
+<td>Actual daily losses in Aug-Sep</td>
+<td>$100-500M</td>
+<td>VaR was off by 3-10x</td>
+</tr>
+<tr>
+<td>Correlation assumption</td>
+<td>ρ ≈ 0.1-0.3 across strategies</td>
+<td>In crisis, ρ jumped to 0.8-0.95</td>
+</tr>
+<tr>
+<td>Monthly loss (August 1998)</td>
+<td>-$1.85B (-44% of equity)</td>
+<td>VaR model said this was ~20σ — "impossible"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-the-rm-should-have-caught">What the RM Should Have Caught</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Available when</th>
+<th>What it meant</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leverage at 25:1 with illiquid assets</td>
+<td>Continuously</td>
+<td>No margin of safety — ANY adverse move is fatal</td>
+<td>Hard leverage cap (10:1 for illiquid), enforced daily</td>
+</tr>
+<tr>
+<td>All positions loading on "spread compression"</td>
+<td>Q1 1998</td>
+<td>Diversification was illusory — one factor drives everything</td>
+<td>Factor decomposition showing 85%+ variance from one factor</td>
+</tr>
+<tr>
+<td>Funding from 28 counterparties but all with same margin terms</td>
+<td>Continuously</td>
+<td>In stress, all call margin simultaneously</td>
+<td>Stagger maturities, maintain undrawn credit lines</td>
+</tr>
+<tr>
+<td>Liquidity of positions vs liquidation timeline</td>
+<td>Continuously</td>
+<td>Positions needed 3+ months to exit; fund could survive 3 weeks</td>
+<td>Liquidity-adjusted VaR; position limits based on days-to-exit, not notional</td>
+</tr>
+<tr>
+<td>VaR model assuming normal returns and stable ρ</td>
+<td>Continuously</td>
+<td>Fat tails and crisis correlations make VaR useless at the extremes</td>
+<td>Supplement VaR with stress tests using historical ρ spikes (92, 94 bond rout)</td>
+</tr>
+<tr>
+<td>Other funds replicating the same trades</td>
+<td>1997-98</td>
+<td>Crowding → when one unwinds, all must unwind → no exit</td>
+<td>Monitor market positioning; cap position as % of market open interest</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-deep-lesson">The Deep Lesson</h2>
+<p><strong>Leverage is a liquidation timer, not a return amplifier.</strong> LTCM's trades mostly converged eventually — many of their positions were profitable by 2000. But "eventually right" doesn't matter if you're dead in September. The RM's question is never "will this converge?" but "can we survive the path to convergence?"</p>
+<p>$$\text{Survival} = f\left(\frac{\text{Equity cushion}}{\text{Maximum drawdown path}}\right)$$</p>
+<p>If the maximum drawdown path exceeds equity at ANY point, the fund dies — regardless of terminal value.</p>
+<hr />
+<h1 id="part-2-archegos-2021-counterparty-blind-spots-concentration">PART 2: ARCHEGOS (2021) — COUNTERPARTY BLIND SPOTS + CONCENTRATION</h1>
+<h2 id="timeline-facts_1">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2013</td>
+<td>Bill Hwang's Tiger Asia pleads guilty to insider trading. Hwang banned from Hong Kong markets.</td>
+</tr>
+<tr>
+<td>2020</td>
+<td>Hwang's family office (Archegos) builds concentrated positions via Total Return Swaps (TRS) with 6 prime brokers.</td>
+</tr>
+<tr>
+<td>Dec 2020-Mar 2021</td>
+<td>ViacomCBS, Discovery, Baidu, GSX Techedu run up 100-400%. Archegos is the whale.</td>
+</tr>
+<tr>
+<td>Mar 22, 2021</td>
+<td>ViacomCBS announces stock offering → stock drops 9%.</td>
+</tr>
+<tr>
+<td>Mar 24-25</td>
+<td>Margin calls. Hwang can't meet them.</td>
+</tr>
+<tr>
+<td>Mar 26 (Fri)</td>
+<td>Goldman, Morgan Stanley, Deutsche begin liquidating $20B+ in block trades.</td>
+</tr>
+<tr>
+<td>Mar 29 (Mon)</td>
+<td>Credit Suisse and Nomura still holding.</td>
+</tr>
+<tr>
+<td>Final losses</td>
+<td>Credit Suisse: $5.5B. Nomura: $2.9B. Goldman/MS: minimal (sold first). Total: ~$10B.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-risk-failure-chain_1">The Risk Failure Chain</h2>
+<div class="highlight"><pre><span></span><code>Family office → no 13F filing → invisible to market
+    ↓
+Total Return Swaps → positions don&#39;t appear in equity filings
+    ↓
+6 PBs, each seeing only their slice → no one sees the aggregate ($30B+ notional)
+    ↓
+Massive concentrated position: 50%+ of float in some names
+    ↓
+ViacomCBS equity raise → stock drops → margin calls
+    ↓
+Hwang can&#39;t meet margin → forced liquidation
+    ↓
+ALL PBs need to sell the SAME stocks simultaneously
+    ↓
+First-mover advantage: Goldman exits fast (Fri), CS exits slow (Mon) → $5.5B loss
+</code></pre></div>
+
+<h2 id="critical-counterparty-risk-dimensions">Critical Counterparty Risk Dimensions</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>What failed</th>
+<th>What should have existed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Aggregate visibility</strong></td>
+<td>No PB knew Hwang's total exposure across all PBs</td>
+<td>Cross-PB information sharing agreements or concentration limits</td>
+</tr>
+<tr>
+<td><strong>Client due diligence</strong></td>
+<td>CS gave Hwang favorable margin DESPITE SEC conviction</td>
+<td>Enhanced due diligence: prior enforcement = tighter terms, period</td>
+</tr>
+<tr>
+<td><strong>Concentration per name</strong></td>
+<td>Some names: Archegos held &gt;50% of float via swaps</td>
+<td>Position limit: max 10% of average daily volume per client per name</td>
+</tr>
+<tr>
+<td><strong>Margin methodology</strong></td>
+<td>Static margin rates not reflecting crowding risk</td>
+<td>Dynamic margin: increase requirements as position grows relative to float</td>
+</tr>
+<tr>
+<td><strong>Liquidation protocol</strong></td>
+<td>CS waited days to liquidate, hoping for recovery</td>
+<td>Pre-agreed automatic liquidation at margin breach. No discretion.</td>
+</tr>
+<tr>
+<td><strong>First-mover dynamics</strong></td>
+<td>Goldman sold Friday night; CS waited until Monday</td>
+<td>Game theory: in multi-PB margin calls, speed = survival</td>
+</tr>
+</tbody>
+</table>
+<h2 id="worked-example-measuring-concentration-risk">Worked Example — Measuring Concentration Risk</h2>
+<blockquote>
+<p>Archegos held ~$10B of ViacomCBS through TRS across 6 PBs.<br />
+ViacomCBS market cap at peak: ~$60B. Free float: ~$30B. ADV: ~$500M.</p>
+<p>Position as % of float: $10B / $30B = <strong>33%</strong><br />
+Days to exit at 10% participation: $10B / ($500M × 0.10) = <strong>200 days</strong><br />
+Days to exit at 25% participation: $10B / ($500M × 0.25) = <strong>80 days</strong></p>
+<p><strong>Conclusion:</strong> This position is fundamentally unliquidatable in a stress scenario. At any meaningful participation rate, the selling pressure would destroy the stock. This alone should have been a red flag at EVERY prime broker.</p>
+</blockquote>
+<h2 id="the-deep-lesson_1">The Deep Lesson</h2>
+<p><strong>You can't manage risk you can't see.</strong> Archegos exploited the seams between institutions. At Squarepoint, the analog is cross-PM exposure: PM A and PM B might each hold positions that look fine individually but create catastrophic aggregate concentration. The RM who only looks at individual books will miss the same failure that killed Credit Suisse's PB desk.</p>
+<hr />
+<h1 id="part-3-barings-bank-1995-operational-risk-governance-failure">PART 3: BARINGS BANK (1995) — OPERATIONAL RISK + GOVERNANCE FAILURE</h1>
+<h2 id="timeline-facts_2">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1992</td>
+<td>Nick Leeson posted to Singapore. Role: arbitrage Nikkei 225 futures between SIMEX and Osaka.</td>
+</tr>
+<tr>
+<td>1992-94</td>
+<td>Leeson takes directional bets, hides losses in "Error Account 88888." Reports profits to London.</td>
+</tr>
+<tr>
+<td>Jan 17, 1995</td>
+<td>Kobe earthquake. Nikkei drops 1,000 points. Leeson's long Nikkei positions implode.</td>
+</tr>
+<tr>
+<td>Feb 23, 1995</td>
+<td>Leeson flees Singapore. Total losses discovered: £827M.</td>
+</tr>
+<tr>
+<td>Feb 26, 1995</td>
+<td>Barings Bank declared insolvent. 233 years old. Sold to ING for £1.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-risk-failure-chain_2">The Risk Failure Chain</h2>
+<div class="highlight"><pre><span></span><code>Leeson runs BOTH front office (trading) AND back office (settlement)
+    ↓
+No separation of duties → he can hide his own trades
+    ↓
+Losses hidden in Error Account 88888 (since 1992)
+    ↓
+London sees reported &quot;profits&quot; from arbitrage → Leeson treated as star
+    ↓
+No one asks: &quot;How is arb generating 20%+ returns?&quot;
+    ↓
+Kobe earthquake (Jan 1995) → Nikkei crashes
+    ↓
+Leeson doubles down → writes strangles to finance margin on longs
+    ↓
+Losses explode: £827M → more than Barings&#39; entire equity (£540M)
+    ↓
+Bank collapses. 233-year institution → sold for £1.
+</code></pre></div>
+
+<h2 id="operational-risk-red-flags">Operational Risk Red Flags</h2>
+<table>
+<thead>
+<tr>
+<th>Red flag</th>
+<th>Why it should have been caught</th>
+<th>RM principle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same person trading + settling</td>
+<td>Zero internal controls on position reporting</td>
+<td><strong>Segregation of duties</strong>: trader can NEVER reconcile their own book</td>
+</tr>
+<tr>
+<td>Arbitrage "profits" of £28M in 1994</td>
+<td>Nikkei arb should make 2-5%, not 20%+</td>
+<td><strong>Too-good-to-be-true test</strong>: when returns exceed strategy capacity, investigate</td>
+</tr>
+<tr>
+<td>Growing margin calls from SIMEX</td>
+<td>Arb should require constant margin; growing margin = directional position</td>
+<td><strong>Independent margin reconciliation</strong>: match exchange margin calls to reported positions</td>
+</tr>
+<tr>
+<td>Error account with £50M balance</td>
+<td>Error accounts should be near-zero, reconciled daily</td>
+<td><strong>Error account policy</strong>: any balance &gt; $X requires sign-off within 24 hours</td>
+</tr>
+<tr>
+<td>Leeson requested £742M in "financing" from London</td>
+<td>£742M for an arb book? The notional makes no sense.</td>
+<td><strong>Funding requests must reconcile with reported positions</strong></td>
+</tr>
+<tr>
+<td>Internal audit (1994) flagged dual role as "a significant risk"</td>
+<td>The audit was done AND IGNORED</td>
+<td><strong>Audit follow-up</strong>: findings must have remediation deadlines + escalation</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-deep-lesson_2">The Deep Lesson</h2>
+<p><strong>Operational risk is the risk that nobody wants to talk about until it kills you.</strong> Every control that Barings lacked is now standard at fund administrators and prime brokers. But the principle remains: if you rely on a trader's self-reported P&amp;L without independent verification, you're one rogue trader away from £827M. At Squarepoint, verify positions against PB statements, not trader reports.</p>
+<hr />
+<h1 id="part-4-jp-morgan-london-whale-2012-model-gaming-hedge-drift">PART 4: JP MORGAN "LONDON WHALE" (2012) — MODEL GAMING + HEDGE DRIFT</h1>
+<h2 id="timeline-facts_3">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2011</td>
+<td>Bruno Iksil in JPM's Chief Investment Office (CIO) builds credit derivative positions as "portfolio hedge."</td>
+</tr>
+<tr>
+<td>Q4 2011</td>
+<td>Position grows to ~$51B notional in CDX IG and HY tranches.</td>
+</tr>
+<tr>
+<td>Jan 2012</td>
+<td>CIO changes VaR model → reported VaR drops from $129M to $67M overnight.</td>
+</tr>
+<tr>
+<td>Mar 2012</td>
+<td>Position grows to ~$157B notional. Market participants notice → "London Whale."</td>
+</tr>
+<tr>
+<td>Apr 6, 2012</td>
+<td>Bloomberg/WSJ publish stories about "the Whale." JPM CEO Dimon calls it "a tempest in a teapot."</td>
+</tr>
+<tr>
+<td>May 10, 2012</td>
+<td>JPM discloses $2B in losses (later grows to $6.2B). Dimon: "egregious mistakes."</td>
+</tr>
+<tr>
+<td>CIO total loss</td>
+<td>$6.2B</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-risk-failure-chain_3">The Risk Failure Chain</h2>
+<div class="highlight"><pre><span></span><code>CIO tasked with &quot;hedging&quot; JPM&#39;s overall credit portfolio
+    ↓
+Position starts as legitimate hedge → generates P&amp;L
+    ↓
+Management likes the P&amp;L → position treated as profit center
+    ↓
+Position grows: $51B → $157B notional (200% increase in 3 months)
+    ↓
+Size becomes too large → market participants front-run it
+    ↓
+VaR model changed (Jan 2012): $129M → $67M overnight
+    ↓
+New model hides true risk → limits not breached on paper
+    ↓
+Market moves against position → losses accelerate
+    ↓
+CIO marks positions using favorable internal prices (mark-to-model gaming)
+    ↓
+$6.2B loss + regulatory action + CEO credibility destroyed
+</code></pre></div>
+
+<h2 id="model-gaming-the-critical-lesson">Model Gaming — The Critical Lesson</h2>
+<table>
+<thead>
+<tr>
+<th>Model change</th>
+<th>What it hid</th>
+<th>What should have happened</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VaR formula revised → hazard weighting changed</td>
+<td>Risk looked 50% lower overnight</td>
+<td>Model changes require independent validation team approval BEFORE live deployment</td>
+</tr>
+<tr>
+<td>Confidence interval adjusted</td>
+<td>Tail losses disappeared from reporting</td>
+<td>Any change that reduces reported risk by &gt;10% triggers automatic review</td>
+</tr>
+<tr>
+<td>P&amp;L marks moved from external to internal pricing</td>
+<td>Losses understated by $660M</td>
+<td>Independent price verification (IPV) must use external/market prices, not trader marks</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The "VaR Halving" test:</strong> If a risk metric drops &gt;20% without any change in position, it's ALWAYS a red flag. Either the model changed (suspicious) or the market changed (investigate). A 50% drop with no position change = guaranteed model gaming or calculation error.</p>
+<h2 id="the-hedge-drift-problem">The "Hedge Drift" Problem</h2>
+<p>This case defines the concept of <strong>hedge drift</strong> — when a legitimate hedge morphs into a speculative position:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Size</th>
+<th>Purpose</th>
+<th>P&amp;L attribution</th>
+<th>RM should say</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 — Hedge</td>
+<td>$20B</td>
+<td>Offset bank's credit exposure</td>
+<td>~$0 (hedge works)</td>
+<td>"Fine — hedge ratio is appropriate."</td>
+</tr>
+<tr>
+<td>2 — Profitable hedge</td>
+<td>$51B</td>
+<td>Hedge + some P&amp;L on basis</td>
+<td>+$400M</td>
+<td>"Hedge is now generating P&amp;L. Size exceeds hedge need by 2x. Re-justify."</td>
+</tr>
+<tr>
+<td>3 — Profit center</td>
+<td>$100B+</td>
+<td>Actively trading credit for P&amp;L</td>
+<td>+$1B cumulative</td>
+<td><strong>"This is NOT a hedge. It's a proprietary position. Apply full risk limits."</strong></td>
+</tr>
+<tr>
+<td>4 — Trapped position</td>
+<td>$157B</td>
+<td>Too big to exit, market is front-running</td>
+<td>-$6.2B</td>
+<td>Crisis management.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM principle:</strong> Any "hedge" generating more than ±10% of the hedged portfolio's P&amp;L volatility has drifted into a directional trade. Reclassify and apply full limits.</p>
+<hr />
+<h1 id="part-5-amaranth-2006-concentration-illusory-diversification">PART 5: AMARANTH (2006) — CONCENTRATION + ILLUSORY DIVERSIFICATION</h1>
+<h2 id="timeline-facts_4">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2005</td>
+<td>Brian Hunter makes $1B+ from NG calendar spreads post-Hurricane Katrina. Star trader.</td>
+</tr>
+<tr>
+<td>Jan 2006</td>
+<td>Amaranth AUM: ~$9B. Multi-strategy fund. NG positions grow.</td>
+</tr>
+<tr>
+<td>Aug 2006</td>
+<td>Hunter's NG positions: ~$30B notional. Fund risk: &gt;50% in one strategy.</td>
+</tr>
+<tr>
+<td>Sep 14-20, 2006</td>
+<td>NG winter-summer spread collapses. Losses: ~$6B in one week.</td>
+</tr>
+<tr>
+<td>Sep 29, 2006</td>
+<td>Fund liquidated. Lost 65% of NAV. Done.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-risk-failure-chain_4">The Risk Failure Chain</h2>
+<div class="highlight"><pre><span></span><code>Hunter makes $1B in 2005 (Katrina) → management treats him as superstar
+    ↓
+&quot;He&#39;s earned the right to size up&quot; → limits RAISED to accommodate him
+    ↓
+$30B notional in NG calendar spreads → 50%+ of fund risk in one strategy
+    ↓
+Position = significant % of NG futures open interest → CAN&#39;T EXIT
+    ↓
+NG spread moves against him in September
+    ↓
+Can&#39;t exit because position IS the market
+    ↓
+Other liquid positions sold to meet margin → those positions also lose
+    ↓
+$6B loss in one week → fund dead
+</code></pre></div>
+
+<h2 id="concentration-metrics-that-should-have-screamed">Concentration Metrics That Should Have Screamed</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Threshold</th>
+<th>Amaranth actual</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single trader P&amp;L as % of fund P&amp;L</td>
+<td>&lt; 30%</td>
+<td>&gt; 70%</td>
+<td><strong>CATASTROPHIC</strong></td>
+</tr>
+<tr>
+<td>Single strategy as % of fund VaR</td>
+<td>&lt; 25%</td>
+<td>&gt; 50%</td>
+<td><strong>CATASTROPHIC</strong></td>
+</tr>
+<tr>
+<td>Position as % of NG open interest</td>
+<td>&lt; 5%</td>
+<td>~30%</td>
+<td><strong>UNLIQUIDATABLE</strong></td>
+</tr>
+<tr>
+<td>Days to exit at 10% participation</td>
+<td>&lt; 10 days</td>
+<td>&gt; 60 days</td>
+<td><strong>DEAD</strong></td>
+</tr>
+<tr>
+<td>Prior P&amp;L used to justify current risk?</td>
+<td>Never</td>
+<td>"He made $1B last year"</td>
+<td><strong>TEXTBOOK FAILURE</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-moving-goalposts-anti-pattern">The "Moving Goalposts" Anti-Pattern</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Risk limit</th>
+<th>Rationale</th>
+<th>What RM should have said</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jan 2005</td>
+<td>$500M VaR</td>
+<td>Initial allocation</td>
+<td>"Appropriate for NG allocation."</td>
+</tr>
+<tr>
+<td>Jun 2005</td>
+<td>$750M VaR</td>
+<td>"Hunter is performing, deserves more"</td>
+<td>"Performance doesn't change risk. Market liquidity hasn't grown."</td>
+</tr>
+<tr>
+<td>Dec 2005</td>
+<td>$1.5B VaR</td>
+<td>"He made $1B this year"</td>
+<td><strong>"STOP. Past profits are not risk capital. Limit stays at $750M."</strong></td>
+</tr>
+<tr>
+<td>Jun 2006</td>
+<td>$2.5B VaR</td>
+<td>"This is our best strategy"</td>
+<td><strong>"ESCALATE. We're a multi-strat fund with single-strat risk. IC override required."</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-deep-lesson_3">The Deep Lesson</h2>
+<p><strong>"He's earned the right to size up" is the most dangerous sentence in fund management.</strong> Past P&amp;L is informative about the trader's skill but tells you NOTHING about future risk. The market doesn't know your YTD P&amp;L. The next trade's risk is independent of the last trade's return. Any risk limit that gets raised because a trader is performing well is no longer a risk limit — it's a performance reward disguised as risk management.</p>
+<hr />
+<h1 id="part-6-march-2020-treasury-basis-trade-unwind">PART 6: MARCH 2020 — TREASURY BASIS TRADE UNWIND</h1>
+<h2 id="timeline-facts_5">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2018-20</td>
+<td>Hedge funds build leveraged Treasury basis trades: long cash Treasuries, short Treasury futures. Leverage: 50-100x.</td>
+</tr>
+<tr>
+<td>Feb 20, 2020</td>
+<td>COVID sell-off begins. SPX starts falling. Treasuries initially rally (safe haven).</td>
+</tr>
+<tr>
+<td>Mar 9, 2020</td>
+<td>Oil crashes 30% (Saudi-Russia price war + COVID). Equities in freefall.</td>
+</tr>
+<tr>
+<td>Mar 11-12, 2020</td>
+<td>Treasury SELL-OFF begins. Cash Treasuries drop faster than futures. Basis WIDENS instead of converging.</td>
+</tr>
+<tr>
+<td>Mar 12-16, 2020</td>
+<td>Margin calls on basis trades. Forced selling of Treasuries. Bid-ask in on-the-run 10Y widens from 1/32 to 4/32.</td>
+</tr>
+<tr>
+<td>Mar 15, 2020</td>
+<td>Fed cuts to 0% + announces $700B QE. Not enough.</td>
+</tr>
+<tr>
+<td>Mar 23, 2020</td>
+<td>Fed announces UNLIMITED QE. Treasury market stabilizes.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-risk-failure-chain_5">The Risk Failure Chain</h2>
+<div class="highlight"><pre><span></span><code>&quot;Risk-free&quot; convergence trade: long cash Treasury, short futures
+    ↓
+Leverage 50-100x (because spread is only 2-5bp)
+    ↓
+COVID sell-off → flight to quality → Treasuries initially RALLY (trade works)
+    ↓
+Then: PANIC selling → everyone sells everything INCLUDING Treasuries
+    ↓
+Cash Treasuries drop faster than futures → basis WIDENS → leveraged trade LOSES
+    ↓
+Margin calls on 50-100x leveraged positions
+    ↓
+Funds sell Treasuries to meet margin → more selling → basis widens further
+    ↓
+Treasury market liquidity EVAPORATES
+    ↓
+Fed must intervene with unlimited QE to prevent Treasury market collapse
+    ↓
+The &quot;safest&quot; asset class nearly broke the financial system
+</code></pre></div>
+
+<h2 id="leverage-math-that-kills">Leverage Math That Kills</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Normal</th>
+<th>March 2020</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10Y Treasury bid-ask</td>
+<td>1/32 ($312.50 per $1M face)</td>
+<td>4-8/32 (up to $2,500)</td>
+</tr>
+<tr>
+<td>Basis spread (cash-futures)</td>
+<td>2-5bp</td>
+<td>-15 to -25bp (NEGATIVE — complete inversion)</td>
+</tr>
+<tr>
+<td>Margin requirement</td>
+<td>1-2% of notional</td>
+<td>4-6% of notional (2-3x increase)</td>
+</tr>
+<tr>
+<td>Fund equity as % of position</td>
+<td>1-2% (at 50-100x leverage)</td>
+<td>ZERO — margin calls exceed equity</td>
+</tr>
+<tr>
+<td>Market depth (10Y)</td>
+<td>$300M per 1bp</td>
+<td>&lt; $50M per 1bp</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The lethal formula:</strong><br />
+$$\text{Leverage} \times \text{Adverse basis move} &gt; \text{Equity}$$<br />
+$$50\text{x} \times 25\text{bp adverse} = 12.5\% \text{ of notional loss} \gg 1\text{-}2\% \text{ equity}$$</p>
+<p>The fund is dead 5x over before the position has a CHANCE to converge.</p>
+<h2 id="the-deep-lesson_4">The Deep Lesson</h2>
+<p><strong>Path risk — not terminal risk — kills levered trades.</strong> The basis trade converges at maturity BY DEFINITION. Every fund that blew up would have been profitable if they could have held to maturity. But they couldn't, because margin calls forced them out. The RM question is always: "Can we survive the worst path to the destination?" If the answer requires "markets stay liquid" or "correlations stay stable," the answer is NO.</p>
+<hr />
+<h1 id="part-7-negative-oil-april-2020-model-assumption-failure">PART 7: NEGATIVE OIL (APRIL 2020) — MODEL ASSUMPTION FAILURE</h1>
+<h2 id="timeline-facts_6">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jan-Mar 2020</td>
+<td>COVID lockdowns destroy oil demand. Global demand drops ~30%.</td>
+</tr>
+<tr>
+<td>Mar 2020</td>
+<td>Saudi-Russia price war adds supply. Oil collapses from $65 to $20.</td>
+</tr>
+<tr>
+<td>Apr 2-17, 2020</td>
+<td>Cushing, OK storage fills to 80%+. Front-month WTI at $20.</td>
+</tr>
+<tr>
+<td>Apr 17 (Fri)</td>
+<td>May WTI futures: $18.27. Expiry: April 21.</td>
+</tr>
+<tr>
+<td>Apr 20 (Mon)</td>
+<td>May WTI crashes to <strong>-$37.63</strong> — the first negative commodity price in history.</td>
+</tr>
+<tr>
+<td>Apr 21 (Tue)</td>
+<td>May contract expires. Anyone still holding must take physical delivery.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-risk-failure-chain_6">The Risk Failure Chain</h2>
+<div class="highlight"><pre><span></span><code>COVID + price war → oil demand collapses 30%
+    ↓
+Storage fills up globally. Cushing at 80%+ capacity.
+    ↓
+May WTI = PHYSICAL delivery contract. Holding to expiry = receive 1,000 barrels.
+    ↓
+No physical storage available → no one wants delivery
+    ↓
+Sellers MUST exit May contract before expiry
+    ↓
+Buyers know sellers are desperate → bid collapses
+    ↓
+Price goes BELOW ZERO → you PAY someone to take oil
+    ↓
+Risk models with $0 floor: BROKEN. P&amp;L calculations: WRONG. Greeks: UNDEFINED.
+</code></pre></div>
+
+<h2 id="model-failure-anatomy">Model Failure Anatomy</h2>
+<table>
+<thead>
+<tr>
+<th>Assumption</th>
+<th>Why it existed</th>
+<th>Why it failed</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Oil can't go below $0"</td>
+<td>Commodity has intrinsic value</td>
+<td>Storage at capacity → holding cost &gt; commodity value</td>
+<td>Remove hard floors; model storage cost as negative option</td>
+</tr>
+<tr>
+<td>"Smooth price distribution"</td>
+<td>Normal/log-normal returns</td>
+<td>Physical delivery creates discontinuity at expiry</td>
+<td>Model physical delivery mechanics for near-dated contracts</td>
+</tr>
+<tr>
+<td>"Futures converge to spot"</td>
+<td>Arbitrage keeps them aligned</td>
+<td>When arb is impossible (no storage), basis explodes</td>
+<td>Track storage capacity as a risk input</td>
+</tr>
+<tr>
+<td>"Roll risk is small"</td>
+<td>Historically true for liquid contracts</td>
+<td>USO needed to roll 80K contracts in 4 days → front-ran</td>
+<td>Monitor ETF roll mechanics as a separate risk factor</td>
+</tr>
+</tbody>
+</table>
+<h2 id="uso-etf-the-amplifier">USO ETF: The Amplifier</h2>
+<p>USO (United States Oil Fund) held ~80,000 near-month WTI futures contracts ($4B notional). It was forced to roll from May to June in a 4-day window. The market KNEW this.</p>
+<p><strong>Impact:</strong><br />
+- Market makers sold May and bought June ahead of USO → widened the calendar spread by $15+<br />
+- USO's rolling losses were approximately $1.5B+ over the roll period<br />
+- Retail investors holding USO thought they were "buying cheap oil" — they were actually funding market-maker spread extraction</p>
+<p><strong>RM lesson:</strong> Any position large enough that its MECHANICS (roll, rebalance, expiry) are predictable to the market is at risk of being front-run. Track position as % of open interest AND as % of daily volume.</p>
+<hr />
+<h1 id="part-8-uk-gilt-crisis-september-2022-margin-doom-loop">PART 8: UK GILT CRISIS (SEPTEMBER 2022) — MARGIN DOOM LOOP</h1>
+<h2 id="timeline-facts_7">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sep 6, 2022</td>
+<td>New UK PM Liz Truss appoints Kwasi Kwarteng as Chancellor.</td>
+</tr>
+<tr>
+<td>Sep 23, 2022</td>
+<td>"Mini-budget": £45B in unfunded tax cuts announced. Markets react violently.</td>
+</tr>
+<tr>
+<td>Sep 23-28, 2022</td>
+<td>30Y gilt yield: 3.7% → 5.1% (+140bp in 3 days). GBP -5% vs USD.</td>
+</tr>
+<tr>
+<td>Sep 28, 2022</td>
+<td>Bank of England emergency intervention: temporary unlimited gilt purchases.</td>
+</tr>
+<tr>
+<td>Oct 14, 2022</td>
+<td>Kwarteng fired. Mini-budget reversed. Truss resigns Oct 20 (45 days PM).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-ldi-doom-loop">The LDI Doom Loop</h2>
+<p>The crisis was CAUSED by pension fund risk management structures (LDI — Liability-Driven Investment):</p>
+<div class="highlight"><pre><span></span><code>Mini-budget → gilt yields spike +140bp in 3 days
+    ↓
+LDI funds (pension vehicle) used leveraged gilt positions to match liabilities
+    ↓
+Gilt price drops → margin calls on LDI funds
+    ↓
+LDI funds sell gilts to raise cash for margin
+    ↓
+Selling gilts → gilt prices drop further → MORE margin calls
+    ↓
+DOOM LOOP: sell → price drops → more margin → more selling
+    ↓
+Gilt liquidity evaporates (bid-ask widens 10x)
+    ↓
+BoE forced to intervene as buyer of last resort
+    ↓
+Without BoE, UK pension system faced SYSTEMIC FAILURE
+</code></pre></div>
+
+<h2 id="the-margin-driven-amplification">The Margin-Driven Amplification</h2>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>30Y gilt yield</th>
+<th>LDI margin call (est.)</th>
+<th>Forced selling</th>
+<th>Net effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sep 23</td>
+<td>3.7% → 4.0%</td>
+<td>£5B</td>
+<td>£5B of gilts sold</td>
+<td>Self-reinforcing</td>
+</tr>
+<tr>
+<td>Sep 26</td>
+<td>4.0% → 4.5%</td>
+<td>£15B</td>
+<td>£15B of gilts sold</td>
+<td>Accelerating</td>
+</tr>
+<tr>
+<td>Sep 27</td>
+<td>4.5% → 4.9%</td>
+<td>£25B+</td>
+<td>Liquidation panic</td>
+<td>Systemic</td>
+</tr>
+<tr>
+<td>Sep 28</td>
+<td>4.9% → 5.1% (peaked)</td>
+<td>Total est: £50-65B</td>
+<td>BoE intervenes</td>
+<td>Stabilized</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The horrifying math:</strong></p>
+<blockquote>
+<p>LDI funds had ~£1.5T in assets, levered 3-4x on gilts.<br />
+A 100bp yield rise ≈ 20% price decline on 30Y gilts.<br />
+20% × 3-4x leverage = 60-80% of equity wiped out.<br />
+These funds were managing <strong>pension money</strong> for millions of UK workers.</p>
+</blockquote>
+<h2 id="connection-to-multi-strategy-fund-risk">Connection to Multi-Strategy Fund Risk</h2>
+<p>The LDI crisis has a DIRECT parallel to multi-PM fund risk:</p>
+<table>
+<thead>
+<tr>
+<th>LDI crisis element</th>
+<th>Multi-PM fund analog</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leveraged position in one instrument (gilts)</td>
+<td>PM concentrated in one sector/factor</td>
+</tr>
+<tr>
+<td>Margin call → forced selling → price moves against you</td>
+<td>Margin call → forced liquidation at worst prices</td>
+</tr>
+<tr>
+<td>All LDI funds held the same position</td>
+<td>All PMs loading on the same factor (cross-PM correlation)</td>
+</tr>
+<tr>
+<td>No one modeled "gilt yield +140bp in 3 days"</td>
+<td>Scenarios that seem impossible get excluded</td>
+</tr>
+<tr>
+<td>Doom loop required external intervention (BoE)</td>
+<td>At fund level, CRO/IC must break the loop before it becomes terminal</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-deep-lesson_5">The Deep Lesson</h2>
+<p><strong>Margin structures create reflexive feedback loops that turn orderly drawdowns into existential crises.</strong> The RM's job is to BREAK THE LOOP before it accelerates:</p>
+<ol>
+<li>Maintain cash/liquidity buffers sized for 2x the worst historical margin call</li>
+<li>Pre-identify liquidation candidates BEFORE the margin call arrives</li>
+<li>Model margin requirements under stress, not just current conditions</li>
+<li>Never assume the central bank or any external party will rescue you</li>
+</ol>
+<hr />
+<h1 id="part-9-volmageddon-february-2018-structural-product-risk">PART 9: VOLMAGEDDON (FEBRUARY 2018) — STRUCTURAL PRODUCT RISK</h1>
+<h2 id="timeline-facts_8">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feb 5, 2018</td>
+<td>SPX drops 4.1% in regular session. VIX jumps from 17 to 37 (intraday peak: 50).</td>
+</tr>
+<tr>
+<td>Feb 5, 4pm+</td>
+<td>XIV (inverse VIX ETN) NAV drops 93%. Triggers "acceleration event" → product terminated.</td>
+</tr>
+<tr>
+<td>Feb 6, 2018</td>
+<td>Credit Suisse terminates XIV. $1.9B in investor capital → ~$100M.</td>
+</tr>
+<tr>
+<td>Broader impact</td>
+<td>Short vol funds globally wiped out. $6B+ in total losses across short-vol strategies.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-feedback-loop">The Feedback Loop</h2>
+<div class="highlight"><pre><span></span><code>SPX drops 4% → VIX jumps from 17 to 37
+    ↓
+Short VIX products (XIV, SVXY) must BUY VIX futures to rebalance
+    ↓
+Buying VIX futures → VIX rises further
+    ↓
+VIX rising further → more rebalancing needed → MORE buying
+    ↓
+FEEDBACK LOOP: short vol rebalancing AMPLIFIES the vol spike
+    ↓
+VIX reaches 50 intraday (from 17 → 194% increase)
+    ↓
+XIV NAV goes to ~$0 (inverse product: 2x levered × 194% VIX increase &gt; 100% loss)
+    ↓
+Product terminates. $1.9B → $100M.
+</code></pre></div>
+
+<h2 id="the-mechanical-death">The Mechanical Death</h2>
+<p>XIV was a -1x daily inverse VIX futures ETN. Its rebalancing requirement:</p>
+<p>$$\text{VIX futures to trade} = -1 \times \text{NAV} \times \frac{\Delta\text{VIX}}{\text{VIX}_{\text{prev}}}$$</p>
+<p>When VIX doubles, XIV must buy VIX futures equal to 100%+ of its NAV. But it's already lost most of its NAV. The rebalancing demand exceeds the product's ability to survive.</p>
+<p><strong>The critical insight for risk managers:</strong> Any leveraged daily-rebalancing product has an embedded <strong>convexity trap</strong>. The bigger the move, the more it needs to rebalance, which amplifies the move, which requires MORE rebalancing. This is a mechanical doom loop — no human decision required.</p>
+<h2 id="rm-lesson">RM Lesson</h2>
+<p><strong>Short vol is picking up pennies in front of a steamroller — literally.</strong> XIV generated steady returns for years (VIX term structure in contango → short front-month profits from roll-down). But a single day destroyed the product entirely. At Squarepoint:</p>
+<ul>
+<li>Any strategy that implicitly or explicitly shorts vol must be stress-tested for a VIX tripling scenario</li>
+<li>Monitor "gamma contribution" — how much does our rebalancing amplify or dampen market moves?</li>
+<li>Products with mechanical rebalancing rules (leveraged ETFs, risk parity, vol-targeting) create PREDICTABLE forced flows — use them as inputs, not exposures</li>
+</ul>
+<hr />
+<h1 id="part-10-august-2024-carry-unwind-modern-crowding-cross-asset-contagion">PART 10: AUGUST 2024 CARRY UNWIND — MODERN CROWDING + CROSS-ASSET CONTAGION</h1>
+<h2 id="timeline-facts_9">Timeline &amp; Facts</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jul 31, 2024</td>
+<td>Bank of Japan raises rates from 0-0.1% to 0.25%. JPY starts strengthening.</td>
+</tr>
+<tr>
+<td>Aug 1, 2024</td>
+<td>Weak US manufacturing ISM. Recession fears. Tech earnings disappoint.</td>
+</tr>
+<tr>
+<td>Aug 2, 2024</td>
+<td>US NFP misses (114K vs 175K exp). Unemployment jumps to 4.3% → triggers Sahm Rule.</td>
+</tr>
+<tr>
+<td>Aug 5, 2024</td>
+<td><strong>Nikkei -12.4%</strong> (worst since 1987). VIX spikes to 65 intraday (from 23 → 183% increase). SPX -3%. JPY appreciates 7% in 3 days.</td>
+</tr>
+<tr>
+<td>Aug 6-9, 2024</td>
+<td>Recovery. Nikkei bounces +10%. VIX collapses to 20. Carry trades partially re-established.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-contagion-chain">The Contagion Chain</h2>
+<div class="highlight"><pre><span></span><code>BoJ rate hike + US recession fears → JPY strengthens
+    ↓
+Carry traders (borrow JPY, invest in USD/EM assets) face losses
+    ↓
+JPY rising → carry trade P&amp;L negative → margin calls
+    ↓
+Forced selling of carried assets (US equities, EM, crypto)
+    ↓
+Selling US equities → SPX drops → VIX spikes
+    ↓
+VIX spike → vol-targeting strategies must REDUCE exposure
+    ↓
+Vol-targeting selling → MORE equity selling → MORE VIX increase
+    ↓
+CTA trend-followers hit stop-losses → ADDITIONAL selling
+    ↓
+Nikkei -12% (carry unwind + Japanese exporter FX impact + margin)
+    ↓
+Cross-asset correlation → 1. Everything falls together.
+    ↓
+Recovery in 3 days once forced selling exhausts itself
+</code></pre></div>
+
+<h2 id="identifying-the-cascade-pattern">Identifying The Cascade Pattern</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Mechanism</th>
+<th>Timing</th>
+<th>Detectable in advance?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Fundamental</td>
+<td>BoJ hike + weak US data</td>
+<td>Days before</td>
+<td>YES — rate decision was announced; data was scheduled</td>
+</tr>
+<tr>
+<td>2. Carry unwind</td>
+<td>JPY appreciation forces selling of carried assets</td>
+<td>Hours</td>
+<td>PARTIALLY — CFTC data showed record JPY shorts</td>
+</tr>
+<tr>
+<td>3. Systematic amplification</td>
+<td>Vol-targeting + CTA selling</td>
+<td>Minutes-hours</td>
+<td>YES — know the mechanical rules (vol target = vol up → sell)</td>
+</tr>
+<tr>
+<td>4. Liquidity evaporation</td>
+<td>Market-makers widen spreads, depth disappears</td>
+<td>Minutes</td>
+<td>INDIRECTLY — pre-event market depth data</td>
+</tr>
+<tr>
+<td>5. Recovery</td>
+<td>Forced selling exhausts, dip-buyers arrive</td>
+<td>1-3 days</td>
+<td>PROBABILITY — most forced-selling-driven crashes recover quickly</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-key-rm-lesson">The Key RM Lesson</h2>
+<p><strong>The August 2024 crash was 90% mechanical, 10% fundamental.</strong> The actual news (BoJ hike, weak NFP) justified maybe a 2% sell-off. The other 10% was carry unwind → vol-targeting → CTA stops → liquidity death → correlation = 1.</p>
+<p><strong>Implication for Squarepoint:</strong> When you see a 2% equity sell-off that turns into 12%, don't ask "what fundamental news caused this?" Ask: "what MECHANICAL selling is amplifying this?" If the answer is carry unwind + systematic strategies, the move is likely to reverse within days. Your RM job: ensure the fund SURVIVES the mechanical cascade with enough capital to benefit from the recovery.</p>
+<hr />
+<h1 id="part-11-cross-case-synthesis-the-meta-patterns">PART 11: CROSS-CASE SYNTHESIS — THE META-PATTERNS</h1>
+<h2 id="the-universal-failure-taxonomy">The Universal Failure Taxonomy</h2>
+<p>Every blow-up maps to a combination of these 7 failure modes:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Failure mode</th>
+<th>Cases</th>
+<th>Detection method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Excessive leverage</strong></td>
+<td>LTCM, Basis trade, LDI, Amaranth, Archegos</td>
+<td>Leverage ratios × illiquidity score</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Illusory diversification</strong></td>
+<td>LTCM, Amaranth, Aug 2024</td>
+<td>Factor decomposition → "how many independent bets?"</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Concentration</strong></td>
+<td>Archegos, Amaranth, London Whale</td>
+<td>HHI concentration index, % of open interest</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Model failure / gaming</strong></td>
+<td>LTCM, London Whale, Negative oil</td>
+<td>VaR backtest exceptions, model change reviews</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Operational / governance</strong></td>
+<td>Barings, London Whale, Archegos</td>
+<td>Segregation of duties, audit follow-up</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Margin / liquidity doom loop</strong></td>
+<td>Basis trade, UK gilts, Aug 2024</td>
+<td>Stressed margin utilization, days-to-exit</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Mechanical amplification</strong></td>
+<td>Volmageddon, Aug 2024, negative oil</td>
+<td>Identify forced flows: rebalancing, rolls, stops</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pattern-cross-reference-matrix">Pattern Cross-Reference Matrix</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>LTCM</th>
+<th>Archegos</th>
+<th>Barings</th>
+<th>Whale</th>
+<th>Amaranth</th>
+<th>Mar 2020</th>
+<th>Oil -$37</th>
+<th>UK Gilts</th>
+<th>Volmageddon</th>
+<th>Aug 2024</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leverage</td>
+<td>✓✓✓</td>
+<td>✓✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓✓</td>
+<td>✓✓✓</td>
+<td></td>
+<td>✓✓✓</td>
+<td>✓✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Illusory diversification</td>
+<td>✓✓✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓✓</td>
+</tr>
+<tr>
+<td>Concentration</td>
+<td>✓</td>
+<td>✓✓✓</td>
+<td>✓</td>
+<td>✓✓✓</td>
+<td>✓✓✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Model failure</td>
+<td>✓✓</td>
+<td></td>
+<td></td>
+<td>✓✓✓</td>
+<td></td>
+<td></td>
+<td>✓✓✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Operational/governance</td>
+<td></td>
+<td>✓✓</td>
+<td>✓✓✓</td>
+<td>✓✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Margin doom loop</td>
+<td>✓✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓✓✓</td>
+<td></td>
+<td>✓✓✓</td>
+<td></td>
+<td>✓✓</td>
+</tr>
+<tr>
+<td>Mechanical amplification</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓✓</td>
+<td>✓✓</td>
+<td>✓✓✓</td>
+<td>✓✓✓</td>
+</tr>
+</tbody>
+</table>
+<p>✓ = present, ✓✓ = significant, ✓✓✓ = primary cause</p>
+<h2 id="the-top-5-killer-combinations">The Top 5 Killer Combinations</h2>
+<ol>
+<li><strong>Leverage + Illiquidity + Margin call</strong> (LTCM, Basis trade, UK gilts) → the path-to-convergence problem: right at maturity, dead before maturity</li>
+<li><strong>Concentration + Past-performance-as-justification</strong> (Amaranth, Archegos) → "he's earned it" kills funds</li>
+<li><strong>Model trust + Assumption rigidity</strong> (Negative oil, LTCM VaR) → the model is a map, not the territory</li>
+<li><strong>Mechanical selling + Correlation = 1</strong> (Volmageddon, Aug 2024) → feedback loops that amplify small shocks into catastrophes</li>
+<li><strong>Operational gaps + Perverse incentives</strong> (Barings, Whale) → when traders benefit from hiding losses and CAN hide losses</li>
+</ol>
+<hr />
+<h1 id="part-12-interview-answers-case-studies">PART 12: INTERVIEW ANSWERS — CASE STUDIES</h1>
+<h3 id="q-walk-me-through-a-risk-management-failure-that-youve-studied-and-what-you-learned">Q: "Walk me through a risk management failure that you've studied and what you learned."</h3>
+<blockquote>
+<p>"I'll use LTCM because it illustrates three overlapping failures that are directly relevant to a multi-PM fund.</p>
+<p>LTCM ran convergence trades across global bond markets at 25:1 leverage with $1.25 trillion in notional derivatives. Their models showed diversified positions — different instruments, different countries, different maturities. But in August 1998, when Russia defaulted and triggered a global flight to quality, every single spread widened simultaneously. Correlation jumped from 0.2 to 0.95. Their 'diversified' portfolio was actually one trade: spread compression.</p>
+<p>What kills me about LTCM is that their trades were mostly RIGHT. Many of those positions converged by 2000 and would have been profitable. But you can't profit if you're dead. Leverage is a liquidation timer — 25:1 on illiquid assets means you survive maybe 4% against you before margin calls force liquidation. And when every other convergence fund has the same positions, there are no buyers when you need to sell.</p>
+<p>The RM lessons I take: First, factor decomposition is non-negotiable — 'how many independent bets do we actually have?' usually reveals the real number is 2-3, not 20. Second, leverage limits must be liquidity-adjusted — 10:1 on liquid instruments is fine; 3:1 on illiquid is already dangerous. Third, VaR is necessary but insufficient — it told LTCM their max daily loss was $45M; they lost $500M in a day. You need stress tests with stressed correlations, not just point-in-time VaR."</p>
+</blockquote>
+<h3 id="q-how-would-you-apply-the-lessons-from-these-case-studies-in-your-daily-work">Q: "How would you apply the lessons from these case studies in your daily work?"</h3>
+<blockquote>
+<p>"I'd build a daily checklist based on the failure patterns I've studied. Every morning, I'd ask five questions:</p>
+<p>One — Concentration: is any single name, sector, or factor responsible for more than 30% of house VaR? If yes, flag it. This is the Amaranth/Archegos check.</p>
+<p>Two — Cross-PM correlation: are multiple PMs loading on the same factor without knowing it? I'd run a simple factor regression weekly. This is the LTCM check — illusory diversification.</p>
+<p>Three — Model integrity: has any risk metric moved more than 20% without a corresponding position change? If VaR drops 50% overnight, something is wrong with the model, not the risk. This is the London Whale check.</p>
+<p>Four — Margin adequacy: if our worst-case scenario hits, does our margin utilization exceed 85%? If yes, pre-identify what to liquidate BEFORE the margin call. This is the UK gilt / March 2020 check.</p>
+<p>Five — Mechanical amplification: are there systematic strategies (CTAs, vol-targeting, ETF rebalancing) that would amplify a sell-off in our positions? If yes, size the forced-selling estimate and include it in our stress test. This is the Volmageddon / August 2024 check.</p>
+<p>That's five questions, five minutes, every morning — and it covers over 90% of the failure patterns that have killed funds in the last 30 years."</p>
+</blockquote>
+<h3 id="q-whats-the-single-most-important-lesson-from-studying-these-blow-ups">Q: "What's the single most important lesson from studying these blow-ups?"</h3>
+<blockquote>
+<p>"That every catastrophic loss shares the same anatomy: a risk that was VISIBLE was either not measured, not communicated, or not acted upon.</p>
+<p>Barings: the audit flagged Leeson's dual role — it was ignored. London Whale: the VaR model was gamed — nobody challenged it. Amaranth: the concentration was visible — limits were raised instead of enforced. Archegos: each prime broker saw their slice — nobody aggregated.</p>
+<p>None of these were Black Swans. They were visible, measurable risks that the risk management function either couldn't see, chose not to see, or saw but couldn't stop. That tells me the RM's most important skill isn't modeling — it's the combination of SEEING the risk, COMMUNICATING it clearly to people who don't want to hear it, and having the INSTITUTIONAL authority to enforce action. The technical work is necessary but not sufficient. The human system around it is what determines whether the warning actually prevents the loss."</p>
+</blockquote>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="T_Scenario_Analysis.html">Scenario Analysis</a> — scenario frameworks and stress testing methodology<br />
+→ <a href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a> — daily workflows, escalation, and communication<br />
+→ <a href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a> — correlation regimes and contagion mechanics<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, stress testing, and risk metrics</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+});
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

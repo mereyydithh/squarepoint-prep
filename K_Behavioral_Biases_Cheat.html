@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Volatility — Cheat — Squarepoint Prep</title>
+<title>Behavioral Biases — Cheat — Squarepoint Prep</title>
 <style>
 :root {
   --bg: #0d1117;
@@ -369,13 +369,13 @@ body {
 <a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
 <a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
 <a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
-<a class="nav-link active" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
 <a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
 <a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
 <a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
 <a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
 <a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
-<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link active" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
 <a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
 <a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
 <a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
@@ -389,532 +389,323 @@ body {
 </nav>
 
 <main class="content">
-<h1 id="e-volatility-cheat-sheet">E — VOLATILITY CHEAT SHEET</h1>
-<hr />
-<h2 id="core-concepts">CORE CONCEPTS</h2>
+<h1 id="k-behavioral-biases-cheat-sheet">K — BEHAVIORAL BIASES — CHEAT SHEET</h1>
+<h2 id="7-core-biases-pms-traders">7 Core Biases (PMs &amp; Traders)</h2>
 <table>
 <thead>
 <tr>
-<th>Concept</th>
-<th>Definition</th>
-<th>Key fact</th>
+<th>#</th>
+<th>Bias</th>
+<th>PM version</th>
+<th>Trader version</th>
+<th>Detection</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Realized vol</strong></td>
-<td>StdDev of actual returns × √252</td>
-<td>Backward-looking. Lookback window matters (5d vs 20d vs 252d).</td>
+<td>1</td>
+<td><strong>Anchoring</strong></td>
+<td>Won't sell below entry price</td>
+<td>Won't take a loss on fill price</td>
+<td>"Would you buy this TODAY?"</td>
 </tr>
 <tr>
-<td><strong>Implied vol</strong></td>
-<td>Vol backed out of option prices (solve BS for σ)</td>
-<td>Forward-looking. Contains expected vol + VRP.</td>
+<td>2</td>
+<td><strong>Confirmation</strong></td>
+<td>Re-interprets all data as bullish</td>
+<td>Reads order flow selectively</td>
+<td>"What would make you wrong?"</td>
 </tr>
 <tr>
-<td><strong>VRP (Vol Risk Premium)</strong></td>
-<td>IV − subsequent RV</td>
-<td>+2-4 pts SPX average. Positive ~85% of months. Makes selling vol profitable on average, catastrophic in tails.</td>
+<td>3</td>
+<td><strong>Loss aversion</strong></td>
+<td>Holds losers, cuts winners</td>
+<td>Revenge trading, refuses stops</td>
+<td>Avg win:loss ratio &lt; 0.5</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Disposition effect</strong></td>
+<td>Sells winners early, holds losers</td>
+<td>Scalps 5 wins, lets 1 loss run</td>
+<td>Hold period: winners &lt; losers</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Overconfidence</strong></td>
+<td>"90% probability" → 60% hit rate</td>
+<td>"I feel the market today"</td>
+<td>Conviction-outcome calibration</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Recency</strong></td>
+<td>Sizes up in low vol regime</td>
+<td>Sizes on trailing streak</td>
+<td>Size vs trailing P&amp;L R² &gt; 0.3</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Thesis refitting</strong></td>
+<td>4 thesis changes, same position</td>
+<td>"Now it's a mean-reversion trade"</td>
+<td>Monthly thesis audit</td>
 </tr>
 </tbody>
 </table>
-<p><strong>IV ≠ expected vol.</strong> IV = expected RV + insurance premium.</p>
-<hr />
-<h2 id="realized-vol-estimators">REALIZED VOL ESTIMATORS</h2>
+<h2 id="5-trader-specific-biases">5 Trader-Specific Biases</h2>
 <table>
 <thead>
 <tr>
-<th>Estimator</th>
-<th>Inputs</th>
-<th>Advantage</th>
+<th>Bias</th>
+<th>What it is</th>
+<th>P&amp;L signature</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Close-to-close</td>
-<td>Log returns</td>
-<td>Simple standard. Misses intraday.</td>
+<td><strong>Revenge trading</strong></td>
+<td>Increasing size after a loss to "make it back"</td>
+<td>Good AM → cliff PM</td>
 </tr>
 <tr>
-<td>Parkinson</td>
-<td>High, Low</td>
-<td>~5x more efficient.</td>
+<td><strong>Action bias</strong></td>
+<td>Trading when correct action is to wait</td>
+<td>High turnover + flat P&amp;L</td>
 </tr>
 <tr>
-<td>Garman-Klass</td>
-<td>O, H, L, C</td>
-<td>Most efficient for continuous processes.</td>
+<td><strong>Gambler's fallacy</strong></td>
+<td>"Down 5 days → due for a bounce"</td>
+<td>Counter-trend losses</td>
 </tr>
 <tr>
-<td>Yang-Zhang</td>
-<td>O, H, L, C + overnight</td>
-<td>Best all-around. Handles gaps.</td>
+<td><strong>Hot hand fallacy</strong></td>
+<td>Sizing up on a win streak</td>
+<td>Oversized loss breaks streak</td>
+</tr>
+<tr>
+<td><strong>Sunk cost</strong></td>
+<td>"I've spent $350K rolling — can't close now"</td>
+<td>Escalating committed capital</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="the-vol-surface">THE VOL SURFACE</h2>
-<p><strong>Two dimensions:</strong> Strike (skew) × Expiry (term structure)</p>
-<h3 id="skew-strike-dimension">Skew (Strike Dimension)</h3>
-<ul>
-<li>Equities: "smirk" — OTM puts have HIGHER IV than ATM. Pre-1987 this didn't exist.</li>
-<li>Why: demand for puts + fat tails + leverage effect</li>
-<li><strong>25Δ risk reversal</strong> = IV(25Δ put) − IV(25Δ call). SPX typical: −5 to −8. More negative = steeper.</li>
-<li><strong>25Δ butterfly</strong> = ½[IV(25Δ put) + IV(25Δ call)] − IV(ATM). Measures curvature/kurtosis.</li>
-<li>Steep skew = fear. Flat skew = complacency.</li>
-</ul>
-<p><strong>Sticky-strike vs sticky-delta:</strong><br />
-- Sticky-strike: vol stays at the strike → ATM vol rises when spot drops. Empirically correct for equities.<br />
-- Sticky-delta: vol stays at the delta → ATM vol unchanged when spot moves. More FX.<br />
-- Affects delta-hedging: different assumptions → different deltas.</p>
-<h3 id="term-structure-time-dimension">Term Structure (Time Dimension)</h3>
+<h2 id="rm-self-biases">RM Self-Biases</h2>
 <table>
 <thead>
 <tr>
-<th>Shape</th>
-<th>Name</th>
-<th>Meaning</th>
+<th>Bias</th>
+<th>Danger</th>
+<th>Fix</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Upward</td>
-<td>Contango</td>
-<td>Normal — more uncertainty over longer horizons</td>
+<td>Authority</td>
+<td>Defer to senior PM</td>
+<td>Document concern IN WRITING</td>
 </tr>
 <tr>
-<td>Flat</td>
-<td>Flat</td>
-<td>Transition</td>
+<td>Outcome</td>
+<td>"PM made money so process was fine"</td>
+<td>Evaluate process, not result</td>
 </tr>
 <tr>
-<td>Inverted</td>
-<td>Backwardation</td>
-<td>Near-term fear (event risk). Market expects resolution.</td>
+<td>Normalcy</td>
+<td>"Never happened → won't happen"</td>
+<td>Run reverse stress tests</td>
 </tr>
 <tr>
-<td>Humped</td>
-<td>Humped</td>
-<td>Known event at specific future date</td>
+<td>Complacency</td>
+<td>Green dashboard 6 months → stop reading</td>
+<td>Rotate focus weekly</td>
+</tr>
+<tr>
+<td>Anchoring to models</td>
+<td>"VaR says $4M so $4M is risk"</td>
+<td>Triangulate: VaR + ES + stress + concentration</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="vol-models">VOL MODELS</h2>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Key idea</th>
-<th>Strength</th>
-<th>Weakness</th>
-<th>Used for</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>BS</strong></td>
-<td>Constant vol</td>
-<td>Simple, closed-form</td>
-<td>Wrong</td>
-<td>Reference</td>
-</tr>
-<tr>
-<td><strong>Local vol (Dupire)</strong></td>
-<td>σ(S,t) deterministic</td>
-<td>Fits any surface</td>
-<td>Wrong dynamics (forward skew too flat)</td>
-<td>Exotics</td>
-</tr>
-<tr>
-<td><strong>Heston</strong></td>
-<td>Stochastic vol, mean-reverting</td>
-<td>Better dynamics</td>
-<td>Hard to calibrate</td>
-<td>Exotics, research</td>
-</tr>
-<tr>
-<td><strong>SABR</strong></td>
-<td>Stochastic vol, analytical</td>
-<td>Fast, industry standard</td>
-<td>Single-expiry, wing issues</td>
-<td>Rates/FX vanillas</td>
-</tr>
-<tr>
-<td><strong>LSV</strong></td>
-<td>Local + stochastic</td>
-<td>Best of both</td>
-<td>Complex</td>
-<td>Front-office exotics</td>
-</tr>
-<tr>
-<td><strong>Rough vol</strong></td>
-<td>Fractional BM (H≈0.1)</td>
-<td>Matches empirical dynamics</td>
-<td>New, expensive</td>
-<td>Research frontier</td>
-</tr>
-</tbody>
-</table>
-<h3 id="sabr-parameters">SABR Parameters</h3>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Controls</th>
-<th>Calibration</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>α</td>
-<td>ATM vol level</td>
-<td>From market ATM vol</td>
-</tr>
-<tr>
-<td>β</td>
-<td>Backbone (β=0 normal, β=1 lognormal)</td>
-<td>FIXED (not calibrated)</td>
-</tr>
-<tr>
-<td>ρ</td>
-<td>Skew (spot-vol correlation)</td>
-<td>Negative ρ → downside skew</td>
-</tr>
-<tr>
-<td>ν</td>
-<td>Wings/curvature (vol of vol)</td>
-<td>Higher → steeper smile</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="vol-regimes">VOL REGIMES</h2>
-<table>
-<thead>
-<tr>
-<th>Regime</th>
-<th>VIX</th>
-<th>Realized</th>
-<th>Term structure</th>
-<th>Correlation</th>
-<th>Character</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Low</strong></td>
-<td>10-15</td>
-<td>5-12%</td>
-<td>Steep contango</td>
-<td>Low (15-25%)</td>
-<td>Grinding rally. Complacency. Short vol works.</td>
-</tr>
-<tr>
-<td><strong>Normal</strong></td>
-<td>15-22</td>
-<td>12-18%</td>
-<td>Mild contango</td>
-<td>Moderate (25-40%)</td>
-<td>Healthy. Standard risk.</td>
-</tr>
-<tr>
-<td><strong>Elevated</strong></td>
-<td>22-35</td>
-<td>18-30%</td>
-<td>Flat/mild backwardation</td>
-<td>High (40-60%)</td>
-<td>Corrections. Hedging expensive.</td>
-</tr>
-<tr>
-<td><strong>Crisis</strong></td>
-<td>35-80+</td>
-<td>30-100%+</td>
-<td>Sharp backwardation</td>
-<td>Very high (60-80%+)</td>
-<td>Panic. Liquidity gone. Models break.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Asymmetry:</strong> Vol shifts UP in hours/days, shifts DOWN over weeks/months.</p>
-<p><strong>Vol clustering:</strong> Big moves follow big moves. After a 3σ day, expect more. Don't relax.</p>
-<hr />
-<h2 id="vix">VIX</h2>
-<p><strong>VIX = 30-day SPX expected vol from OTM option prices (model-free, not BS).</strong></p>
-<p>Daily move conversion: VIX / √252 → VIX 20 ≈ 1.26% daily move.</p>
-<table>
-<thead>
-<tr>
-<th>VIX</th>
-<th>Daily move</th>
-<th>Context</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10-14</td>
-<td>±0.6-0.9%</td>
-<td>Complacency. Protection cheap — BUY IT.</td>
-</tr>
-<tr>
-<td>15-20</td>
-<td>±0.9-1.3%</td>
-<td>Normal.</td>
-</tr>
-<tr>
-<td>20-30</td>
-<td>±1.3-1.9%</td>
-<td>Elevated. Tighten limits.</td>
-</tr>
-<tr>
-<td>30-40</td>
-<td>±1.9-2.5%</td>
-<td>Fear. Daily IC calls.</td>
-</tr>
-<tr>
-<td>40-60</td>
-<td>±2.5-3.8%</td>
-<td>Severe stress.</td>
-</tr>
-<tr>
-<td>60-80+</td>
-<td>±3.8-5.0%+</td>
-<td>Existential. 2020 record = 82.69.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Properties:</strong> Negatively correlated with SPX (ρ ≈ −0.80). Mean-reverting. Non-tradeable directly.</p>
-<hr />
-<h2 id="vix-futures-etps">VIX FUTURES &amp; ETPs</h2>
-<p><strong>VIX futures typically in contango.</strong> Front month = ~1-3 pts above spot VIX.<br />
-<strong>Beta to spot VIX:</strong> Front month ≈ 0.5. Back months ≈ 0.2-0.3.</p>
-<table>
-<thead>
-<tr>
-<th>Product</th>
-<th>Exposure</th>
-<th>Long-run fate</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>UVXY (2x long)</td>
-<td>2× daily front-month</td>
-<td>→ 0 (contango + rebalancing)</td>
-</tr>
-<tr>
-<td>SVXY (−0.5x)</td>
-<td>−0.5× daily front-month</td>
-<td>Positive (harvests contango)</td>
-</tr>
-<tr>
-<td>XIV (−1x)</td>
-<td>TERMINATED (Feb 5, 2018)</td>
-<td>Lost 96% in one day. Death spiral.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>XIV lesson:</strong> Short vol + auto-rebalancing = convexly short vol → death spiral in a spike.</p>
-<hr />
-<h2 id="vol-products">VOL PRODUCTS</h2>
-<table>
-<thead>
-<tr>
-<th>Product</th>
-<th>Payoff</th>
-<th>Short risk</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Straddle</strong></td>
-<td>~Linear in vol</td>
-<td>Capped-ish</td>
-</tr>
-<tr>
-<td><strong>Vol swap</strong></td>
-<td>Linear in vol</td>
-<td>Limited</td>
-</tr>
-<tr>
-<td><strong>Variance swap</strong></td>
-<td>Linear in variance (vol²) → <strong>CONVEX</strong> in vol</td>
-<td><strong>UNLIMITED</strong></td>
-</tr>
-</tbody>
-</table>
-<p>Variance swap: RV of 40 vs strike of 20 → payoff on 1600−400=1200 of variance, NOT 40−20=20 of vol.</p>
-<hr />
-<h2 id="dealer-dynamics">DEALER DYNAMICS</h2>
-<table>
-<thead>
-<tr>
-<th>Dealer position</th>
-<th>Market effect</th>
-<th>Realized vol</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Long gamma</strong> (normal)</td>
-<td>Buy dips + sell rallies → DAMPEN</td>
-<td>RV &lt; IV</td>
-</tr>
-<tr>
-<td><strong>Short gamma</strong> (danger)</td>
-<td>Sell dips + buy rallies → AMPLIFY</td>
-<td>RV &gt; IV</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Gamma flip level (GEX):</strong> SPX price where dealer gamma switches sign.<br />
-- Above = suppressed, mean-reverting. Below = amplified, trending.</p>
-<p><strong>Vanna flows:</strong> Vol change → delta change → forced dealer hedging → billions daily.<br />
-<strong>Charm flows:</strong> Time decay → delta drift → systematic morning selling near OpEx.</p>
-<p><strong>0DTE:</strong> ~50% of SPX options volume. Massive intraday gamma. Pin/de-pin around round strikes. Traditional VaR doesn't capture this.</p>
-<p><strong>OPEX:</strong> Week before = suppressed (gamma pin). Week after = potentially explosive (gamma removed).</p>
-<hr />
-<h2 id="implied-correlation">IMPLIED CORRELATION</h2>
-<p>$$\sigma_{\text{index}}^2 \approx \bar{\sigma}_{\text{stocks}}^2 \times \bar{\rho}$$</p>
-<table>
-<thead>
-<tr>
-<th>Correlation</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>20-35%</td>
-<td>Stocks independent. Stock-picking works. Diversification real.</td>
-</tr>
-<tr>
-<td>40-55%</td>
-<td>Macro dominating. Sectors correlating.</td>
-</tr>
-<tr>
-<td>60-80%+</td>
-<td>Crisis. "All correlations → 1." Diversification illusion broken.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Dispersion trade:</strong> Short index vol + long stock vol = short correlation. Collect premium. Lose in crisis.</p>
-<hr />
-<h2 id="vol-forecasting">VOL FORECASTING</h2>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Key idea</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>EWMA (λ=0.94)</strong></td>
-<td>Exponential weighting. Simple. No mean reversion.</td>
-</tr>
-<tr>
-<td><strong>GARCH(1,1)</strong></td>
-<td>Mean-reverting. α = shock sensitivity, β = persistence, α+β = persistence measure.</td>
-</tr>
-<tr>
-<td><strong>GJR-GARCH</strong></td>
-<td>GARCH + asymmetric term for negative returns (leverage effect).</td>
-</tr>
-<tr>
-<td><strong>HAR-RV</strong></td>
-<td>Multi-horizon realized vol inputs. Best out-of-sample performance.</td>
-</tr>
-<tr>
-<td><strong>Implied vol</strong></td>
-<td>More informationally efficient than time-series models (aggregates market info). Biased high (VRP).</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="rm-vol-dashboard">RM VOL DASHBOARD</h2>
+<h2 id="behavioral-dashboard-10-key-metrics">Behavioral Dashboard — 10 Key Metrics</h2>
 <table>
 <thead>
 <tr>
 <th>Metric</th>
+<th>Detects</th>
 <th>Red flag</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>VIX level</td>
-<td>&gt; 25 and rising</td>
+<td>Avg win $ / Avg loss $</td>
+<td>Disposition + loss aversion</td>
+<td>&lt; 0.5</td>
 </tr>
 <tr>
-<td>VIX term structure</td>
-<td>Backwardation (inverted)</td>
+<td>Hold period: wins vs losses</td>
+<td>Disposition effect</td>
+<td>Winners held &lt; ⅓ the time</td>
 </tr>
 <tr>
-<td>IV/RV ratio</td>
-<td>&lt; 0.90 (market underpricing risk)</td>
+<td>Realized − unrealized P&amp;L gap</td>
+<td>Loss aversion</td>
+<td>Large positive gap growing</td>
 </tr>
 <tr>
-<td>25Δ risk reversal</td>
-<td>More negative than −8</td>
+<td>Post-loss size change</td>
+<td>Revenge trading</td>
+<td>Size up &gt; 30% after loss day</td>
 </tr>
 <tr>
-<td>Implied correlation</td>
-<td>&gt; 60%</td>
+<td>Thesis change count</td>
+<td>Thesis refitting</td>
+<td>&gt; 2 changes</td>
 </tr>
 <tr>
-<td>Dealer GEX</td>
-<td>Negative (vol-amplifying)</td>
+<td>Conviction vs outcome</td>
+<td>Overconfidence</td>
+<td>No difference in hit rates</td>
 </tr>
 <tr>
-<td>VVIX</td>
-<td>&gt; 130</td>
+<td>Turnover vs P&amp;L</td>
+<td>Action bias</td>
+<td>High turnover, flat P&amp;L</td>
 </tr>
 <tr>
-<td>Cross-asset vol</td>
-<td>MOVE + EVZ + OVX all spiking = systemic</td>
+<td>Size vs trailing 5-day P&amp;L</td>
+<td>Recency / gambler's</td>
+<td>R² &gt; 0.3</td>
+</tr>
+<tr>
+<td>13F overlap</td>
+<td>Herding</td>
+<td>&gt; 40% shared with top HFs</td>
+</tr>
+<tr>
+<td>Drawdown recovery time</td>
+<td>Loss aversion hangover</td>
+<td>&gt; 2 weeks to restore gross</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="rm-action-by-regime">RM ACTION BY REGIME</h2>
+<h2 id="de-biasing-structural-countermeasures">De-Biasing — Structural Countermeasures</h2>
 <table>
 <thead>
 <tr>
-<th>Regime</th>
-<th>Priority</th>
-<th>Action</th>
+<th>Bias</th>
+<th>Fix</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Low vol</strong></td>
-<td>Buy hedges (they're cheap!)</td>
-<td>Flag short-vol concentration. Size tail risk.</td>
+<td>Anchoring</td>
+<td>Pre-trade thesis sheet with exit criteria</td>
 </tr>
 <tr>
-<td><strong>Rising vol</strong></td>
-<td>Review hedge effectiveness. Stress test.</td>
-<td>De-risk short gamma. Add near-dated hedges.</td>
+<td>Confirmation</td>
+<td>Mandatory devil's advocate on Tier 1 positions</td>
 </tr>
 <tr>
-<td><strong>High vol</strong></td>
-<td>Daily/intraday communication</td>
-<td>Tighten ALL limits. Hedge in back of curve (cheaper).</td>
+<td>Loss aversion</td>
+<td>Mechanical stops — remove human from exit</td>
 </tr>
 <tr>
-<td><strong>Declining from elevated</strong></td>
-<td>Don't rush back. Aftershocks common.</td>
-<td>Selectively sell vol. Roll hedges from near to far-dated.</td>
+<td>Disposition</td>
+<td>Quarterly "keep 5 of 15" portfolio clean-out</td>
+</tr>
+<tr>
+<td>Overconfidence</td>
+<td>Position limits requiring IC override</td>
+</tr>
+<tr>
+<td>Recency</td>
+<td>Regime-aware stress tests (2008, 2020, 2022)</td>
+</tr>
+<tr>
+<td>Thesis refitting</td>
+<td>Monthly thesis audit vs original</td>
+</tr>
+<tr>
+<td>Revenge trading</td>
+<td>Mandatory pause at 50% daily budget consumed</td>
+</tr>
+<tr>
+<td>Action bias</td>
+<td>Track turnover-to-P&amp;L ratio</td>
+</tr>
+<tr>
+<td>Herding</td>
+<td>13F overlap + short interest monitor</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="key-interview-lines">KEY INTERVIEW LINES</h2>
-<p><strong>IV vs RV:</strong> "Implied is the forecast + insurance premium. Realized is the actual weather. The gap is the VRP — why selling vol is profitable on average and catastrophic in the tail."</p>
-<p><strong>Vol surface:</strong> "Skew = fear of crashes priced in. Term structure = how long the market expects current conditions to last. Together they determine every option price and every Greek."</p>
-<p><strong>Dealer gamma:</strong> "Long gamma = dealers buy dips, sell rallies → suppress vol. Short gamma = opposite → amplify. Below the gamma flip level, the market loses its shock absorber."</p>
-<p><strong>VIX:</strong> "Below 15 = buy protection while it's cheap. Above 30 = tighten everything. Backwardation = 'crisis is now.' Always check VVIX — uncertainty about uncertainty."</p>
-<p><strong>Variance swaps:</strong> "Linear in variance, convex in vol. A realized vol of 40 vs strike of 20 doesn't pay 2x — it pays on 1600 vs 400 of variance. That's why short var swap blew up XIV."</p>
+<h2 id="communication-dos-and-donts">Communication — Do's and Don'ts</h2>
+<table>
+<thead>
+<tr>
+<th>Do say</th>
+<th>Don't say</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Would you buy this today at $88?"</td>
+<td>"You're being biased"</td>
+</tr>
+<tr>
+<td>"The thesis has evolved A→B→C. Would you put this on fresh?"</td>
+<td>"You're loss-averse"</td>
+</tr>
+<tr>
+<td>"Size is up 40% today — opportunity or morning P&amp;L?"</td>
+<td>"You should cut this"</td>
+</tr>
+<tr>
+<td>"What's the strongest bear case?"</td>
+<td>"I told you so"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="right-and-early-vs-wrong-and-stubborn">Right-and-Early vs Wrong-and-Stubborn</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Right-and-early</th>
+<th>Wrong-and-stubborn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Thesis</strong></td>
+<td>Same as inception</td>
+<td>Changed 2+ times</td>
+</tr>
+<tr>
+<td><strong>Catalyst</strong></td>
+<td>Specific, not yet invalidated</td>
+<td>Original catalyst passed or failed</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>Specific: "15% EPS beat on margin expansion"</td>
+<td>Vague: "it's just cheap"</td>
+</tr>
+<tr>
+<td><strong>Fresh-eyes test</strong></td>
+<td>"Yes, I'd buy this today"</td>
+<td>Hesitation or narrative shift</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quick-fire-interview-answers">Quick-Fire Interview Answers</h2>
+<ul>
+<li><strong>Detecting bias:</strong> "I look at DATA patterns: thesis changes, win/loss size ratios, post-loss sizing, hold-period asymmetry"</li>
+<li><strong>Right-and-early vs wrong:</strong> "Same thesis + specific catalyst not invalidated vs thesis changed 2+ times + vague language"</li>
+<li><strong>Own biases:</strong> "Outcome bias (evaluate process not P&amp;L), authority bias (document and hold ground), normalcy bias (proactive stress tests)"</li>
+<li><strong>Communication:</strong> "Surface the pattern without accusing — data-driven questions, not labels"</li>
+</ul>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>

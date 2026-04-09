@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Volatility — Cheat — Squarepoint Prep</title>
+<title>Counterparty Op Regulatory — Cheat — Squarepoint Prep</title>
 <style>
 :root {
   --bg: #0d1117;
@@ -369,7 +369,7 @@ body {
 <a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
 <a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
 <a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
-<a class="nav-link active" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
 <a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
 <a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
 <a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
@@ -378,7 +378,7 @@ body {
 <a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
 <a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
 <a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
-<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link active" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
 <a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
 <a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
 <a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
@@ -389,532 +389,430 @@ body {
 </nav>
 
 <main class="content">
-<h1 id="e-volatility-cheat-sheet">E — VOLATILITY CHEAT SHEET</h1>
-<hr />
-<h2 id="core-concepts">CORE CONCEPTS</h2>
+<h1 id="no-counterparty-operational-regulatory-risk-cheat-sheet">NO — COUNTERPARTY, OPERATIONAL &amp; REGULATORY RISK — CHEAT SHEET</h1>
+<h2 id="why-non-market-risks-kill-funds">Why Non-Market Risks Kill Funds</h2>
+<table>
+<thead>
+<tr>
+<th>Fund</th>
+<th>What killed it</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Barings (1995)</td>
+<td>No segregation of duties</td>
+<td>Operational</td>
+</tr>
+<tr>
+<td>LTCM (1998)</td>
+<td>PBs withdrew financing at 25× leverage</td>
+<td>Counterparty + structural</td>
+</tr>
+<tr>
+<td>Knight Capital (2012)</td>
+<td>Bad code deployment, no kill switch</td>
+<td>Technology</td>
+</tr>
+<tr>
+<td>Archegos (2021)</td>
+<td>TRS opacity across 5 PBs</td>
+<td>Counterparty opacity</td>
+</tr>
+</tbody>
+</table>
+<h2 id="counterparty-risk-key-concepts">Counterparty Risk — Key Concepts</h2>
 <table>
 <thead>
 <tr>
 <th>Concept</th>
 <th>Definition</th>
-<th>Key fact</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Realized vol</strong></td>
-<td>StdDev of actual returns × √252</td>
-<td>Backward-looking. Lookback window matters (5d vs 20d vs 252d).</td>
+<td><strong>CVA</strong></td>
+<td>Price of counterparty credit risk: EE × PD × LGD</td>
 </tr>
 <tr>
-<td><strong>Implied vol</strong></td>
-<td>Vol backed out of option prices (solve BS for σ)</td>
-<td>Forward-looking. Contains expected vol + VRP.</td>
+<td><strong>DVA</strong></td>
+<td>Price of YOUR credit risk to them (perverse: deterioration → accounting gain)</td>
 </tr>
 <tr>
-<td><strong>VRP (Vol Risk Premium)</strong></td>
-<td>IV − subsequent RV</td>
-<td>+2-4 pts SPX average. Positive ~85% of months. Makes selling vol profitable on average, catastrophic in tails.</td>
+<td><strong>FVA</strong></td>
+<td>Cost of funding collateral (funding spread − OIS × duration)</td>
+</tr>
+<tr>
+<td><strong>PFE</strong></td>
+<td>Max expected exposure at 95% confidence</td>
+</tr>
+<tr>
+<td><strong>Wrong-way risk</strong></td>
+<td>Exposure ↑ as counterparty creditworthiness ↓</td>
+</tr>
+<tr>
+<td><strong>Netting</strong></td>
+<td>ISDA — net across all trades with same CP → reduces exposure 50-90%</td>
+</tr>
+<tr>
+<td><strong>CSA</strong></td>
+<td>Collateral agreement: frequency, threshold, eligible collateral, haircuts</td>
 </tr>
 </tbody>
 </table>
-<p><strong>IV ≠ expected vol.</strong> IV = expected RV + insurance premium.</p>
-<hr />
-<h2 id="realized-vol-estimators">REALIZED VOL ESTIMATORS</h2>
+<h2 id="cva-quick-formula">CVA Quick Formula</h2>
+<p>$$\text{CVA} \approx \text{EE} \times \text{PD} \times \text{LGD}$$</p>
+<p>Example: $15M EE × 10% cumulative PD × 60% LGD = <strong>$900K</strong> CVA charge</p>
+<h2 id="wrong-way-risk-examples">Wrong-Way Risk Examples</h2>
 <table>
 <thead>
 <tr>
-<th>Estimator</th>
-<th>Inputs</th>
-<th>Advantage</th>
+<th>Trade</th>
+<th>Counterparty</th>
+<th>Scenario</th>
+<th>Why it's wrong-way</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Close-to-close</td>
-<td>Log returns</td>
-<td>Simple standard. Misses intraday.</td>
+<td>Buy CDS on Italy</td>
+<td>Italian bank</td>
+<td>Italy stress</td>
+<td>Bank weakens when payout owed</td>
 </tr>
 <tr>
-<td>Parkinson</td>
-<td>High, Low</td>
-<td>~5x more efficient.</td>
+<td>Long oil via TRS</td>
+<td>Energy bank</td>
+<td>Oil crash</td>
+<td>Bank's portfolio also bleeding</td>
 </tr>
 <tr>
-<td>Garman-Klass</td>
-<td>O, H, L, C</td>
-<td>Most efficient for continuous processes.</td>
-</tr>
-<tr>
-<td>Yang-Zhang</td>
-<td>O, H, L, C + overnight</td>
-<td>Best all-around. Handles gaps.</td>
+<td>Short USD/buy TRY</td>
+<td>Turkish bank</td>
+<td>TRY crisis</td>
+<td>Exposure grows as bank weakens</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="the-vol-surface">THE VOL SURFACE</h2>
-<p><strong>Two dimensions:</strong> Strike (skew) × Expiry (term structure)</p>
-<h3 id="skew-strike-dimension">Skew (Strike Dimension)</h3>
+<h2 id="isdacsa-key-parameters">ISDA/CSA Key Parameters</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Typical</th>
+<th>RM concern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Valuation frequency</td>
+<td>Daily</td>
+<td>Less frequent = gap risk</td>
+</tr>
+<tr>
+<td>Threshold</td>
+<td>$0–$10M</td>
+<td>Higher = more unsecured exposure</td>
+</tr>
+<tr>
+<td>MTA</td>
+<td>$250K–$1M</td>
+<td>Gap between calls</td>
+</tr>
+<tr>
+<td>Eligible collateral</td>
+<td>Cash, G7 bonds</td>
+<td>Non-cash → haircuts apply</td>
+</tr>
+<tr>
+<td>Rehypothecation</td>
+<td>Yes/No</td>
+<td>Yes → CP risk on YOUR collateral</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ccp-default-waterfall">CCP Default Waterfall</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Source</th>
+<th>Who bears it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Defaulter's initial margin</td>
+<td>Defaulter</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Defaulter's default fund</td>
+<td>Defaulter</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CCP's own capital</td>
+<td>CCP shareholders</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Non-defaulting members' default fund</td>
+<td>ALL members (mutualized)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>VM haircutting, assessments, tear-ups</td>
+<td>ALL (uncapped)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="operational-risk-taxonomy">Operational Risk Taxonomy</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Key examples</th>
+<th>Key control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>People</strong></td>
+<td>Rogue trading, fat finger, key-person</td>
+<td>Segregation of duties, 4-eye</td>
+</tr>
+<tr>
+<td><strong>Process</strong></td>
+<td>Failed recon, settlement fail, doc gaps</td>
+<td>Daily 3-way reconciliation</td>
+</tr>
+<tr>
+<td><strong>Technology</strong></td>
+<td>System outage, bad code, data feed failure</td>
+<td>Kill switch, staged deployment, redundancy</td>
+</tr>
+<tr>
+<td><strong>External</strong></td>
+<td>Natural disaster, pandemic, vendor failure</td>
+<td>BCP, geographic redundancy, vendor SLAs</td>
+</tr>
+</tbody>
+</table>
+<h2 id="knight-capital-45-minute-death">Knight Capital — 45-Minute Death</h2>
 <ul>
-<li>Equities: "smirk" — OTM puts have HIGHER IV than ATM. Pre-1987 this didn't exist.</li>
-<li>Why: demand for puts + fat tails + leverage effect</li>
-<li><strong>25Δ risk reversal</strong> = IV(25Δ put) − IV(25Δ call). SPX typical: −5 to −8. More negative = steeper.</li>
-<li><strong>25Δ butterfly</strong> = ½[IV(25Δ put) + IV(25Δ call)] − IV(ATM). Measures curvature/kurtosis.</li>
-<li>Steep skew = fear. Flat skew = complacency.</li>
+<li>Bad code deployed to 1 of 8 servers</li>
+<li>Old "Power Peg" function: buy at ask, sell at bid (opposite of normal)</li>
+<li>28 minutes before anyone noticed</li>
+<li>$440M loss in 45 min (firm had $365M capital)</li>
+<li><strong>Lessons:</strong> Kill switch, real-time P&amp;L alerts, automated deployment, remove dead code</li>
 </ul>
-<p><strong>Sticky-strike vs sticky-delta:</strong><br />
-- Sticky-strike: vol stays at the strike → ATM vol rises when spot drops. Empirically correct for equities.<br />
-- Sticky-delta: vol stays at the delta → ATM vol unchanged when spot moves. More FX.<br />
-- Affects delta-hedging: different assumptions → different deltas.</p>
-<h3 id="term-structure-time-dimension">Term Structure (Time Dimension)</h3>
+<h2 id="three-lines-of-defense">Three Lines of Defense</h2>
 <table>
 <thead>
 <tr>
-<th>Shape</th>
-<th>Name</th>
-<th>Meaning</th>
+<th>Line</th>
+<th>Who</th>
+<th>Role</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Upward</td>
-<td>Contango</td>
-<td>Normal — more uncertainty over longer horizons</td>
+<td>1st</td>
+<td>Front office</td>
+<td>Own the risk, follow procedures</td>
 </tr>
 <tr>
-<td>Flat</td>
-<td>Flat</td>
-<td>Transition</td>
+<td>2nd</td>
+<td>Risk + compliance</td>
+<td>Monitor, challenge, set policy</td>
 </tr>
 <tr>
-<td>Inverted</td>
-<td>Backwardation</td>
-<td>Near-term fear (event risk). Market expects resolution.</td>
-</tr>
-<tr>
-<td>Humped</td>
-<td>Humped</td>
-<td>Known event at specific future date</td>
+<td>3rd</td>
+<td>Internal/external audit</td>
+<td>Independent verification</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="vol-models">VOL MODELS</h2>
+<h2 id="key-operational-controls">Key Operational Controls</h2>
 <table>
 <thead>
 <tr>
-<th>Model</th>
-<th>Key idea</th>
-<th>Strength</th>
-<th>Weakness</th>
-<th>Used for</th>
+<th>Control</th>
+<th>Frequency</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>BS</strong></td>
-<td>Constant vol</td>
-<td>Simple, closed-form</td>
-<td>Wrong</td>
-<td>Reference</td>
+<td>3-way reconciliation (FO ↔ BO ↔ PB)</td>
+<td>Daily</td>
 </tr>
 <tr>
-<td><strong>Local vol (Dupire)</strong></td>
-<td>σ(S,t) deterministic</td>
-<td>Fits any surface</td>
-<td>Wrong dynamics (forward skew too flat)</td>
-<td>Exotics</td>
+<td>Independent pricing verification</td>
+<td>Daily</td>
 </tr>
 <tr>
-<td><strong>Heston</strong></td>
-<td>Stochastic vol, mean-reverting</td>
-<td>Better dynamics</td>
-<td>Hard to calibrate</td>
-<td>Exotics, research</td>
+<td>P&amp;L attribution</td>
+<td>Daily</td>
 </tr>
 <tr>
-<td><strong>SABR</strong></td>
-<td>Stochastic vol, analytical</td>
-<td>Fast, industry standard</td>
-<td>Single-expiry, wing issues</td>
-<td>Rates/FX vanillas</td>
+<td>Trade confirmation</td>
+<td>T+1</td>
 </tr>
 <tr>
-<td><strong>LSV</strong></td>
-<td>Local + stochastic</td>
-<td>Best of both</td>
-<td>Complex</td>
-<td>Front-office exotics</td>
+<td>4-eye principle</td>
+<td>Every material action</td>
 </tr>
 <tr>
-<td><strong>Rough vol</strong></td>
-<td>Fractional BM (H≈0.1)</td>
-<td>Matches empirical dynamics</td>
-<td>New, expensive</td>
-<td>Research frontier</td>
+<td>BCP testing</td>
+<td>Semi-annual</td>
+</tr>
+<tr>
+<td>DR drill</td>
+<td>Annual</td>
 </tr>
 </tbody>
 </table>
-<h3 id="sabr-parameters">SABR Parameters</h3>
+<h2 id="regulatory-landscape-what-affects-a-hedge-fund">Regulatory Landscape — What Affects a Hedge Fund</h2>
 <table>
 <thead>
 <tr>
-<th>Param</th>
-<th>Controls</th>
-<th>Calibration</th>
+<th>Regulation</th>
+<th>Key impact on HF</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>α</td>
-<td>ATM vol level</td>
-<td>From market ATM vol</td>
+<td><strong>Basel III/IV + SLR</strong></td>
+<td>PB capital constraints → less leverage, higher financing cost</td>
 </tr>
 <tr>
-<td>β</td>
-<td>Backbone (β=0 normal, β=1 lognormal)</td>
-<td>FIXED (not calibrated)</td>
+<td><strong>FRTB</strong></td>
+<td>PBs: ES replaces VaR, illiquid instruments cost more → flows to HF</td>
 </tr>
 <tr>
-<td>ρ</td>
-<td>Skew (spot-vol correlation)</td>
-<td>Negative ρ → downside skew</td>
+<td><strong>Dodd-Frank</strong></td>
+<td>Volcker Rule, CCP mandates, Form PF reporting</td>
 </tr>
 <tr>
-<td>ν</td>
-<td>Wings/curvature (vol of vol)</td>
-<td>Higher → steeper smile</td>
+<td><strong>EMIR</strong></td>
+<td>EU clearing mandate, trade reporting, bilateral margin rules</td>
+</tr>
+<tr>
+<td><strong>MiFID II</strong></td>
+<td>Best execution, research unbundling, transparency</td>
+</tr>
+<tr>
+<td><strong>AIFMD</strong></td>
+<td>EU authorization, leverage reporting, depositary requirement</td>
+</tr>
+<tr>
+<td><strong>13F</strong></td>
+<td>Long equity disclosure (but shorts + TRS = blind spot = Archegos)</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="vol-regimes">VOL REGIMES</h2>
+<h2 id="frtb-old-vs-new">FRTB: Old vs New</h2>
 <table>
 <thead>
 <tr>
-<th>Regime</th>
-<th>VIX</th>
-<th>Realized</th>
-<th>Term structure</th>
-<th>Correlation</th>
-<th>Character</th>
+<th>Feature</th>
+<th>Old (VaR)</th>
+<th>FRTB</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Low</strong></td>
-<td>10-15</td>
-<td>5-12%</td>
-<td>Steep contango</td>
-<td>Low (15-25%)</td>
-<td>Grinding rally. Complacency. Short vol works.</td>
+<td>Risk metric</td>
+<td>VaR (99%, 10d)</td>
+<td>ES (97.5%, variable horizon)</td>
 </tr>
 <tr>
-<td><strong>Normal</strong></td>
-<td>15-22</td>
-<td>12-18%</td>
-<td>Mild contango</td>
-<td>Moderate (25-40%)</td>
-<td>Healthy. Standard risk.</td>
+<td>Tail risk</td>
+<td>Ignored beyond VaR</td>
+<td>Captured (avg loss beyond)</td>
 </tr>
 <tr>
-<td><strong>Elevated</strong></td>
-<td>22-35</td>
-<td>18-30%</td>
-<td>Flat/mild backwardation</td>
-<td>High (40-60%)</td>
-<td>Corrections. Hedging expensive.</td>
+<td>Liquidity</td>
+<td>Single 10d horizon</td>
+<td>10d (liquid) to 120d (illiquid)</td>
 </tr>
 <tr>
-<td><strong>Crisis</strong></td>
-<td>35-80+</td>
-<td>30-100%+</td>
-<td>Sharp backwardation</td>
-<td>Very high (60-80%+)</td>
-<td>Panic. Liquidity gone. Models break.</td>
+<td>P&amp;L test</td>
+<td>None</td>
+<td>Must prove model ≈ actual P&amp;L</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Asymmetry:</strong> Vol shifts UP in hours/days, shifts DOWN over weeks/months.</p>
-<p><strong>Vol clustering:</strong> Big moves follow big moves. After a 3σ day, expect more. Don't relax.</p>
-<hr />
-<h2 id="vix">VIX</h2>
-<p><strong>VIX = 30-day SPX expected vol from OTM option prices (model-free, not BS).</strong></p>
-<p>Daily move conversion: VIX / √252 → VIX 20 ≈ 1.26% daily move.</p>
+<h2 id="13f-reporting-gap">13F Reporting Gap</h2>
 <table>
 <thead>
 <tr>
-<th>VIX</th>
-<th>Daily move</th>
-<th>Context</th>
+<th>Captures</th>
+<th>Misses</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>10-14</td>
-<td>±0.6-0.9%</td>
-<td>Complacency. Protection cheap — BUY IT.</td>
+<td>Long equity positions</td>
+<td>Short positions</td>
 </tr>
 <tr>
-<td>15-20</td>
-<td>±0.9-1.3%</td>
-<td>Normal.</td>
+<td>Options (calls)</td>
+<td>TRS / synthetic positions</td>
 </tr>
 <tr>
-<td>20-30</td>
-<td>±1.3-1.9%</td>
-<td>Elevated. Tighten limits.</td>
-</tr>
-<tr>
-<td>30-40</td>
-<td>±1.9-2.5%</td>
-<td>Fear. Daily IC calls.</td>
-</tr>
-<tr>
-<td>40-60</td>
-<td>±2.5-3.8%</td>
-<td>Severe stress.</td>
-</tr>
-<tr>
-<td>60-80+</td>
-<td>±3.8-5.0%+</td>
-<td>Existential. 2020 record = 82.69.</td>
+<td>Manager-level aggregate</td>
+<td>Cross-PB exposure</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Properties:</strong> Negatively correlated with SPX (ρ ≈ −0.80). Mean-reverting. Non-tradeable directly.</p>
-<hr />
-<h2 id="vix-futures-etps">VIX FUTURES &amp; ETPs</h2>
-<p><strong>VIX futures typically in contango.</strong> Front month = ~1-3 pts above spot VIX.<br />
-<strong>Beta to spot VIX:</strong> Front month ≈ 0.5. Back months ≈ 0.2-0.3.</p>
+<p>Archegos exploited ALL three gaps → $10B bank losses.</p>
+<h2 id="non-market-risk-dashboard">Non-Market Risk Dashboard</h2>
 <table>
 <thead>
 <tr>
-<th>Product</th>
-<th>Exposure</th>
-<th>Long-run fate</th>
+<th>Risk</th>
+<th>Key metric</th>
+<th>Escalation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>UVXY (2x long)</td>
-<td>2× daily front-month</td>
-<td>→ 0 (contango + rebalancing)</td>
+<td>Counterparty</td>
+<td>Net exposure / CVA / CDS</td>
+<td>Single CP &gt; 5% NAV</td>
 </tr>
 <tr>
-<td>SVXY (−0.5x)</td>
-<td>−0.5× daily front-month</td>
-<td>Positive (harvests contango)</td>
+<td>Collateral</td>
+<td>Coverage ratio, disputes</td>
+<td>Under-collateralized &gt; $5M</td>
 </tr>
 <tr>
-<td>XIV (−1x)</td>
-<td>TERMINATED (Feb 5, 2018)</td>
-<td>Lost 96% in one day. Death spiral.</td>
+<td>CCP</td>
+<td>IM requirements, default fund</td>
+<td>IM increase &gt; 20%</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Trade breaks, system uptime</td>
+<td>&gt;3 breaks/week; downtime &gt;30 min</td>
+</tr>
+<tr>
+<td>Regulatory</td>
+<td>Filing deadlines, pipeline changes</td>
+<td>&lt;5 days to deadline</td>
 </tr>
 </tbody>
 </table>
-<p><strong>XIV lesson:</strong> Short vol + auto-rebalancing = convexly short vol → death spiral in a spike.</p>
-<hr />
-<h2 id="vol-products">VOL PRODUCTS</h2>
-<table>
-<thead>
-<tr>
-<th>Product</th>
-<th>Payoff</th>
-<th>Short risk</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Straddle</strong></td>
-<td>~Linear in vol</td>
-<td>Capped-ish</td>
-</tr>
-<tr>
-<td><strong>Vol swap</strong></td>
-<td>Linear in vol</td>
-<td>Limited</td>
-</tr>
-<tr>
-<td><strong>Variance swap</strong></td>
-<td>Linear in variance (vol²) → <strong>CONVEX</strong> in vol</td>
-<td><strong>UNLIMITED</strong></td>
-</tr>
-</tbody>
-</table>
-<p>Variance swap: RV of 40 vs strike of 20 → payoff on 1600−400=1200 of variance, NOT 40−20=20 of vol.</p>
-<hr />
-<h2 id="dealer-dynamics">DEALER DYNAMICS</h2>
-<table>
-<thead>
-<tr>
-<th>Dealer position</th>
-<th>Market effect</th>
-<th>Realized vol</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Long gamma</strong> (normal)</td>
-<td>Buy dips + sell rallies → DAMPEN</td>
-<td>RV &lt; IV</td>
-</tr>
-<tr>
-<td><strong>Short gamma</strong> (danger)</td>
-<td>Sell dips + buy rallies → AMPLIFY</td>
-<td>RV &gt; IV</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Gamma flip level (GEX):</strong> SPX price where dealer gamma switches sign.<br />
-- Above = suppressed, mean-reverting. Below = amplified, trending.</p>
-<p><strong>Vanna flows:</strong> Vol change → delta change → forced dealer hedging → billions daily.<br />
-<strong>Charm flows:</strong> Time decay → delta drift → systematic morning selling near OpEx.</p>
-<p><strong>0DTE:</strong> ~50% of SPX options volume. Massive intraday gamma. Pin/de-pin around round strikes. Traditional VaR doesn't capture this.</p>
-<p><strong>OPEX:</strong> Week before = suppressed (gamma pin). Week after = potentially explosive (gamma removed).</p>
-<hr />
-<h2 id="implied-correlation">IMPLIED CORRELATION</h2>
-<p>$$\sigma_{\text{index}}^2 \approx \bar{\sigma}_{\text{stocks}}^2 \times \bar{\rho}$$</p>
-<table>
-<thead>
-<tr>
-<th>Correlation</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>20-35%</td>
-<td>Stocks independent. Stock-picking works. Diversification real.</td>
-</tr>
-<tr>
-<td>40-55%</td>
-<td>Macro dominating. Sectors correlating.</td>
-</tr>
-<tr>
-<td>60-80%+</td>
-<td>Crisis. "All correlations → 1." Diversification illusion broken.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Dispersion trade:</strong> Short index vol + long stock vol = short correlation. Collect premium. Lose in crisis.</p>
-<hr />
-<h2 id="vol-forecasting">VOL FORECASTING</h2>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Key idea</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>EWMA (λ=0.94)</strong></td>
-<td>Exponential weighting. Simple. No mean reversion.</td>
-</tr>
-<tr>
-<td><strong>GARCH(1,1)</strong></td>
-<td>Mean-reverting. α = shock sensitivity, β = persistence, α+β = persistence measure.</td>
-</tr>
-<tr>
-<td><strong>GJR-GARCH</strong></td>
-<td>GARCH + asymmetric term for negative returns (leverage effect).</td>
-</tr>
-<tr>
-<td><strong>HAR-RV</strong></td>
-<td>Multi-horizon realized vol inputs. Best out-of-sample performance.</td>
-</tr>
-<tr>
-<td><strong>Implied vol</strong></td>
-<td>More informationally efficient than time-series models (aggregates market info). Biased high (VRP).</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="rm-vol-dashboard">RM VOL DASHBOARD</h2>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Red flag</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>VIX level</td>
-<td>&gt; 25 and rising</td>
-</tr>
-<tr>
-<td>VIX term structure</td>
-<td>Backwardation (inverted)</td>
-</tr>
-<tr>
-<td>IV/RV ratio</td>
-<td>&lt; 0.90 (market underpricing risk)</td>
-</tr>
-<tr>
-<td>25Δ risk reversal</td>
-<td>More negative than −8</td>
-</tr>
-<tr>
-<td>Implied correlation</td>
-<td>&gt; 60%</td>
-</tr>
-<tr>
-<td>Dealer GEX</td>
-<td>Negative (vol-amplifying)</td>
-</tr>
-<tr>
-<td>VVIX</td>
-<td>&gt; 130</td>
-</tr>
-<tr>
-<td>Cross-asset vol</td>
-<td>MOVE + EVZ + OVX all spiking = systemic</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="rm-action-by-regime">RM ACTION BY REGIME</h2>
-<table>
-<thead>
-<tr>
-<th>Regime</th>
-<th>Priority</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Low vol</strong></td>
-<td>Buy hedges (they're cheap!)</td>
-<td>Flag short-vol concentration. Size tail risk.</td>
-</tr>
-<tr>
-<td><strong>Rising vol</strong></td>
-<td>Review hedge effectiveness. Stress test.</td>
-<td>De-risk short gamma. Add near-dated hedges.</td>
-</tr>
-<tr>
-<td><strong>High vol</strong></td>
-<td>Daily/intraday communication</td>
-<td>Tighten ALL limits. Hedge in back of curve (cheaper).</td>
-</tr>
-<tr>
-<td><strong>Declining from elevated</strong></td>
-<td>Don't rush back. Aftershocks common.</td>
-<td>Selectively sell vol. Roll hedges from near to far-dated.</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="key-interview-lines">KEY INTERVIEW LINES</h2>
-<p><strong>IV vs RV:</strong> "Implied is the forecast + insurance premium. Realized is the actual weather. The gap is the VRP — why selling vol is profitable on average and catastrophic in the tail."</p>
-<p><strong>Vol surface:</strong> "Skew = fear of crashes priced in. Term structure = how long the market expects current conditions to last. Together they determine every option price and every Greek."</p>
-<p><strong>Dealer gamma:</strong> "Long gamma = dealers buy dips, sell rallies → suppress vol. Short gamma = opposite → amplify. Below the gamma flip level, the market loses its shock absorber."</p>
-<p><strong>VIX:</strong> "Below 15 = buy protection while it's cheap. Above 30 = tighten everything. Backwardation = 'crisis is now.' Always check VVIX — uncertainty about uncertainty."</p>
-<p><strong>Variance swaps:</strong> "Linear in variance, convex in vol. A realized vol of 40 vs strike of 20 doesn't pay 2x — it pays on 1600 vs 400 of variance. That's why short var swap blew up XIV."</p>
+<h2 id="quick-fire-interview-answers">Quick-Fire Interview Answers</h2>
+<ul>
+<li><strong>Beyond market risk:</strong> "Counterparty (managed via ISDA/CSA/CCP, watch wrong-way risk), Operational (segregation of duties + 3-way recon + kill switch), Regulatory (Basel impacts PB capacity; 13F gap enabled Archegos)"</li>
+<li><strong>Monitor counterparty:</strong> "Daily: net exposure, collateral coverage, CDS spreads. Structural: ISDA netting, CSA margin, clearing. At inception: wrong-way risk screen"</li>
+<li><strong>Operational controls:</strong> "Segregation of duties, daily 3-way recon, independent pricing, 4-eye principle, real-time P&amp;L alerts with automatic circuit breakers"</li>
+</ul>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>

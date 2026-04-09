@@ -355,15 +355,14 @@ body {
 <a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
 <a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
 <a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
-<a class="nav-link" href="R_Current_Market_Context.html">Current Market Context</a>
-<a class="nav-link" href="S_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
-<a class="nav-link" href="T_Opinion_Formation.html">Opinion Formation</a>
-<a class="nav-link" href="U_Scenario_Analysis.html">Scenario Analysis</a>
-<a class="nav-link" href="V_Case_Studies.html">Case Studies</a>
-<a class="nav-link" href="W_Quant_Mindset.html">Quant Mindset</a>
-<a class="nav-link" href="X_Math_Stats_Probability.html">Math Stats Probability</a>
-<a class="nav-link" href="Y_Coding_Data.html">Coding Data</a>
-<a class="nav-link" href="Z_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
 <div class="nav-section">Cheat Sheets</div>
 <a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
 <a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
@@ -376,13 +375,34 @@ body {
 <a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
 <a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
 <a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
 
 </nav>
 
 <main class="content">
 <h1 id="l-fund-structure-mechanics">L — FUND STRUCTURE &amp; MECHANICS</h1>
-<h2 id="lpgp-fees-nav-redemptions-prime-brokerage-margin-and-how-the-plumbing-works">LP/GP, fees, NAV, redemptions, prime brokerage, margin, and how the plumbing works</h2>
+<h2 id="lpgp-fees-nav-redemptions-prime-brokerage-margin-leverage-repo-ccps-multi-strategy-pod-economics-and-the-structural-risks-that-live-inside-the-plumbing">LP/GP, fees, NAV, redemptions, prime brokerage, margin, leverage, repo, CCPs, multi-strategy pod economics, and the structural risks that live inside the plumbing</h2>
 <h3 id="depth-well">Depth: 🟡 WELL</h3>
+<hr />
+<h1 id="why-fund-structure-is-a-risk-discipline">WHY FUND STRUCTURE IS A RISK DISCIPLINE</h1>
+<p>Most people think "fund structure" is legal paperwork — LPs, GPs, offering memoranda. For a risk manager, fund structure IS risk. Every structural design choice creates a risk channel:</p>
+<ul>
+<li><strong>Fee structure</strong> creates behavioral incentives (HWM pressure → risk-seeking after drawdowns)</li>
+<li><strong>Liquidity terms</strong> create liquidity mismatch risk (quarterly redemptions vs daily-traded assets, or worse — illiquid assets)</li>
+<li><strong>Leverage</strong> amplifies market moves and creates fragility</li>
+<li><strong>Prime brokerage</strong> introduces counterparty risk AND pro-cyclical margin risk</li>
+<li><strong>Multi-strategy pod structure</strong> creates internal allocation and correlation risks</li>
+</ul>
+<p>The RM who understands the plumbing catches risks that pure market-risk analysis misses. The margin call that kills a fund isn't a market risk problem — it's a STRUCTURAL risk problem.</p>
 <hr />
 <h1 id="part-1-fund-legal-structure">PART 1: FUND LEGAL STRUCTURE</h1>
 <h2 id="the-lpgp-model">The LP/GP Model</h2>
@@ -394,155 +414,625 @@ body {
 <th>Who</th>
 <th>Rights</th>
 <th>Liability</th>
+<th>Economics</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>General Partner (GP)</strong></td>
-<td>Fund management company (e.g., Squarepoint Capital)</td>
-<td>Makes ALL investment decisions, manages the fund</td>
-<td>Unlimited liability</td>
+<td>Fund management company</td>
+<td>ALL investment decisions, fund governance, operational control</td>
+<td><strong>Unlimited liability</strong></td>
+<td>Management fee + performance fee</td>
 </tr>
 <tr>
 <td><strong>Limited Partners (LPs)</strong></td>
-<td>Investors — pensions, endowments, family offices, sovereign wealth funds</td>
-<td>Provide capital, receive returns</td>
-<td>Limited to their investment</td>
+<td>Pensions, endowments, family offices, SWFs, insurance cos, HNW individuals</td>
+<td>Capital providers; receive returns; NO say in investment decisions</td>
+<td><strong>Limited to investment</strong></td>
+<td>Net returns after fees</td>
 </tr>
 </tbody>
 </table>
-<p>Why this structure? LPs get limited liability (they can only lose what they invested) while the GP runs the fund with full discretion.</p>
+<p><strong>Why limited partnership?</strong> Two reasons:<br />
+1. <strong>Tax:</strong> Partnerships are pass-through entities — no entity-level taxation. Profits and losses flow directly to the partners' tax returns.<br />
+2. <strong>Liability:</strong> LPs risk only what they invest. The GP bears unlimited liability — which is why many GPs are themselves structured as LLCs or LLPs.</p>
+<p><strong>The Investment Manager vs the GP:</strong><br />
+- The GP is often a shell entity. It doesn't employ anyone.<br />
+- The <strong>Investment Manager</strong> (e.g., Squarepoint Capital LLP) is a separate entity that has the investment team, infrastructure, and licenses. The GP delegates investment authority to the IM via an Investment Management Agreement (IMA).<br />
+- This separation matters for RM: risk limits, mandate constraints, and compliance obligations are defined in the IMA.</p>
 <h2 id="fund-vehicles">Fund Vehicles</h2>
 <table>
 <thead>
 <tr>
 <th>Vehicle</th>
-<th>Description</th>
-<th>Typical investors</th>
+<th>Jurisdiction</th>
+<th>Tax treatment</th>
+<th>Typical LP base</th>
+<th>Key features</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Offshore fund</strong> (Cayman Islands)</td>
-<td>Tax-neutral jurisdiction. Most non-US investors invest here.</td>
-<td>Non-US institutions, tax-exempt US investors</td>
+<td><strong>Offshore fund</strong></td>
+<td>Cayman, BVI, Ireland</td>
+<td>Tax-neutral at entity level</td>
+<td>Non-US institutions, tax-exempt US (endowments, pensions)</td>
+<td>Most flexible; Cayman is ~70% of HF industry</td>
 </tr>
 <tr>
-<td><strong>Onshore fund</strong> (Delaware LP)</td>
-<td>US partnership. Pass-through tax treatment.</td>
+<td><strong>Onshore fund</strong></td>
+<td>Delaware LP or LLC</td>
+<td>Pass-through (K-1 reporting)</td>
 <td>US taxable investors</td>
+<td>More regulatory burden; ERISA considerations for pensions</td>
 </tr>
 <tr>
 <td><strong>Master-feeder</strong></td>
-<td>Offshore + onshore both feed into one master fund that does the actual trading</td>
-<td>Most large funds use this</td>
+<td>Offshore + onshore feed → single Cayman master</td>
+<td>Master is tax-neutral; feeders distribute based on investor type</td>
+<td>Both US and non-US investors</td>
+<td>Most large funds use this structure</td>
 </tr>
 <tr>
 <td><strong>Managed account</strong></td>
-<td>Separate account for a single large LP. Custom terms, full transparency.</td>
-<td>Sovereign wealth funds, very large allocators</td>
+<td>Investor's own custody</td>
+<td>Per investor</td>
+<td>Large SWFs, sovereign funds, $500M+ allocators</td>
+<td>Full transparency, custom terms, LP controls liquidation</td>
+</tr>
+<tr>
+<td><strong>Fund of funds</strong></td>
+<td>Varies</td>
+<td>Additional fee layer</td>
+<td>Smaller institutions accessing multiple HFs</td>
+<td>Diversification; but double layer of fees (fund-of-fund fee + underlying fund fee)</td>
+</tr>
+<tr>
+<td><strong>UCITS</strong></td>
+<td>Ireland, Luxembourg</td>
+<td>EU-regulated</td>
+<td>European retail and institutional</td>
+<td>Strict leverage, liquidity, concentration limits; daily NAV; limited to eligible assets</td>
 </tr>
 </tbody>
 </table>
-<h2 id="squarepoints-structure">Squarepoint's Structure</h2>
-<p>Squarepoint Capital LLP is a London-based global systematic and discretionary investment manager. Like most multi-strategy funds, they likely run a master-feeder with multiple trading pods/teams. The discretionary desk you'd join is one team within this larger structure.</p>
-<hr />
-<h1 id="part-2-fees">PART 2: FEES</h1>
-<h2 id="the-classic-2-and-20">The Classic "2 and 20"</h2>
+<h2 id="master-feeder-structure-how-it-works">Master-Feeder Structure — How It Works</h2>
+<div class="highlight"><pre><span></span><code>  [Offshore Feeder]     [Onshore Feeder]     [Managed Account]
+  (Cayman LP)           (Delaware LP)         (Separate custody)
+        \                     |                    /
+         \                    |                   /
+          --------→  [MASTER FUND]  ←-----------
+                     (Cayman LP)
+                          |
+                  [Prime Broker(s)]
+                          |
+                      [MARKETS]
+</code></pre></div>
+
 <ul>
-<li><strong>Management fee:</strong> 2% of AUM per year. Charged quarterly (0.5% per quarter). Covers operations, salaries, infrastructure.</li>
-<li><strong>Performance fee (incentive fee):</strong> 20% of net profits. Only charged if the fund makes money.</li>
+<li>ALL trading happens in the Master Fund. Feeders are just holding companies that invest into the master.</li>
+<li>Each feeder has its own NAV, fee schedule, and redemption terms — because different investor classes have different needs.</li>
+<li>The master fund aggregates all capital and trades as a single pool → better execution, simpler risk management, consolidated margin.</li>
 </ul>
-<h2 id="modern-reality">Modern Reality</h2>
-<p>The "2 and 20" model has compressed:<br />
-- Large allocators negotiate down. Typical now: 1.5% management / 15-20% performance.<br />
-- Some funds do "1 or 30" — lower management fee, higher performance fee. Aligns incentives better.<br />
-- Multi-strat pods: individual PMs often get a SHARE of performance fees (pass-through). Typical PM payout: 10-20% of profits.</p>
-<h2 id="high-water-mark-hwm">High-Water Mark (HWM)</h2>
-<p>The fund only charges performance fees on NEW profits above the previous peak.</p>
-<p><strong>Example:</strong><br />
-| Year | NAV | P&amp;L | HWM | Performance fee |<br />
-|---|---|---|---|---|<br />
-| Year 1 | $100 → $120 | +$20 | $120 | 20% × $20 = $4 |<br />
-| Year 2 | $120 → $105 | -$15 | $120 | $0 (below HWM) |<br />
-| Year 3 | $105 → $125 | +$20 | $125 | 20% × $5 = $1 (only on $120→$125, the NEW high) |</p>
-<p><strong>Why it matters for RM:</strong> After a drawdown, the PM must recover past the HWM before earning performance fees again. This creates pressure to take risk — "I need to make back $15M just to start earning again." The RM must be aware of this incentive and prevent reckless risk-taking to climb back.</p>
-<h2 id="clawback">Clawback</h2>
-<p>Some LP agreements include clawback provisions: if the GP earns performance fees and then loses money, the GP must return some of the previously paid fees. More common in PE than hedge funds, but increasingly seen in side pockets and illiquid strategies.</p>
-<h2 id="hurdle-rate">Hurdle Rate</h2>
-<p>Some funds have a hurdle: the fund must earn above a benchmark return (e.g., T-bill rate + 2%) before performance fees kick in. Becoming more common as LPs push for better alignment.</p>
+<p><strong>RM implication:</strong> Risk is managed at the MASTER fund level. But liquidity stress must be analyzed at the FEEDER level — because a wave of redemptions from the offshore feeder doesn't affect onshore LPs' capital, but it DOES force trades in the master fund that affect everyone's NAV.</p>
+<h2 id="squarepoints-structure">Squarepoint's Structure</h2>
+<p>Squarepoint Capital LLP is a London-headquartered global investment manager running both <strong>systematic</strong> and <strong>discretionary</strong> strategies. Key structural features:</p>
+<ul>
+<li><strong>LLP structure:</strong> Limited Liability Partnership under UK law. Partners have limited liability (unlike a traditional GP with unlimited liability).</li>
+<li><strong>Multi-strategy:</strong> Multiple trading teams (pods) under one umbrella, each with allocated capital and risk budgets.</li>
+<li><strong>The discretionary desk</strong> you'd join is one team within this larger structure — operating under centrally-set risk limits but with autonomy over investment decisions.</li>
+<li><strong>Global operations:</strong> Offices in London, New York, Singapore, Montreal — trading across time zones and asset classes.</li>
+</ul>
 <hr />
-<h1 id="part-3-net-asset-value-nav">PART 3: NET ASSET VALUE (NAV)</h1>
-<h2 id="what-nav-is">What NAV Is</h2>
-<p>NAV = Total fund assets - Total fund liabilities.</p>
-<p>Per-share NAV (or per-unit NAV) = NAV / shares outstanding.</p>
-<p>LPs buy and redeem at NAV. It's the "price" of the fund.</p>
-<h2 id="how-nav-is-calculated">How NAV Is Calculated</h2>
-<p>Daily NAV process:<br />
-1. Mark all positions to market (use closing prices).<br />
-2. Add cash, margin deposits, accrued interest.<br />
-3. Subtract liabilities: management fees accrued, expenses, borrowing costs.<br />
-4. = NAV.</p>
-<h2 id="nav-complications">NAV Complications</h2>
+<h1 id="part-2-fee-structures">PART 2: FEE STRUCTURES</h1>
+<h2 id="the-classic-2-and-20">The Classic "2 and 20"</h2>
 <table>
 <thead>
 <tr>
-<th>Issue</th>
-<th>Problem</th>
-<th>Solution</th>
+<th>Component</th>
+<th>Rate</th>
+<th>Basis</th>
+<th>Payment frequency</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Illiquid positions</td>
-<td>No market price — how do you mark them?</td>
-<td>Use models, broker quotes, or third-party valuations</td>
+<td><strong>Management fee</strong></td>
+<td>2% per annum (charged as ~0.167% monthly or 0.5% quarterly)</td>
+<td>AUM at start of period</td>
+<td>Monthly or quarterly</td>
 </tr>
 <tr>
-<td>Side pockets</td>
-<td>Illiquid positions separated into a side pocket with different redemption terms</td>
-<td>LPs can't redeem side pocket until positions are liquidated</td>
-</tr>
-<tr>
-<td>Multi-series NAV</td>
-<td>Different LP classes joined at different times (different HWMs)</td>
-<td>Equalization shares or series accounting</td>
+<td><strong>Performance fee</strong></td>
+<td>20% of net new profits</td>
+<td>Net P&amp;L above HWM</td>
+<td>Annually (crystallized at year-end)</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Management fee covers:</strong> Salaries, rent, technology, data feeds, compliance, legal, operations — the cost of keeping the lights on. It's charged REGARDLESS of performance.</p>
+<p><strong>Performance fee is conditional:</strong> Only charged on net new profits above the high-water mark.</p>
+<h2 id="modern-fee-compression">Modern Fee Compression</h2>
+<p>The "2 and 20" era is largely over for most strategies:</p>
+<table>
+<thead>
+<tr>
+<th>Fund type</th>
+<th>Typical 2025 fees</th>
+<th>Trend</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Large multi-strat (Citadel, Millennium, Squarepoint)</td>
+<td>0% mgmt / 20-30% perf + pass-through</td>
+<td>No management fee; high perf fee; costs passed to LPs</td>
+</tr>
+<tr>
+<td>L/S equity single-manager</td>
+<td>1.5% / 17.5%</td>
+<td>Compressed from 2/20</td>
+</tr>
+<tr>
+<td>Quant/systematic</td>
+<td>1-2% / 20%</td>
+<td>Less compression (capacity-constrained)</td>
+</tr>
+<tr>
+<td>Macro</td>
+<td>1.5-2% / 20%</td>
+<td>Relatively stable</td>
+</tr>
+<tr>
+<td>Fund of funds</td>
+<td>1% / 10% (on top of underlying fund fees)</td>
+<td>Heavy compression</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pass-through-fee-model-multi-strat-standard">Pass-Through Fee Model (Multi-Strat Standard)</h2>
+<p>The dominant model for multi-strategy funds like Citadel, Millennium, Balyasny, and likely Squarepoint:</p>
+<p><strong>How it works:</strong><br />
+1. <strong>No management fee</strong> (or minimal, e.g., 0.5%)<br />
+2. <strong>Performance fee:</strong> 25-30% of net profits<br />
+3. <strong>All operating costs passed through to LPs:</strong> Technology ($200M+ at large firms), data ($50M+), salaries for non-investment staff, office space, compliance<br />
+4. <strong>The fund charges these as expenses deducted from NAV</strong> rather than as a management fee</p>
+<p><strong>Why this exists:</strong> Large multi-strats argue that pass-through aligns incentives better. The management fee is a FIXED cost — the firm gets paid even if performance is flat. Pass-through makes ALL costs variable and transparent. LPs pushed for this.</p>
+<p><strong>The catch:</strong> Total cost to LPs can be HIGHER than 2/20. A firm with $20B AUM passing through $1B of expenses = 5% effective management fee. Plus 25% performance. LPs pay more — but they get transparency.</p>
+<h2 id="high-water-mark-hwm-worked-example">High-Water Mark (HWM) — Worked Example</h2>
+<p>The HWM prevents the GP from earning performance fees on the SAME dollar of profit twice.</p>
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Start NAV</th>
+<th>End NAV</th>
+<th>P&amp;L</th>
+<th>HWM</th>
+<th>New profit above HWM</th>
+<th>Perf fee (20%)</th>
+<th>NAV after fees</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$100.00</td>
+<td>$120.00</td>
+<td>+$20.00</td>
+<td>$120.00</td>
+<td>$20.00</td>
+<td>$4.00</td>
+<td>$116.00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$116.00</td>
+<td>$102.00</td>
+<td>−$14.00</td>
+<td>$120.00</td>
+<td>$0 (below HWM)</td>
+<td>$0</td>
+<td>$102.00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$102.00</td>
+<td>$115.00</td>
+<td>+$13.00</td>
+<td>$120.00</td>
+<td>$0 (still below HWM)</td>
+<td>$0</td>
+<td>$115.00</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$115.00</td>
+<td>$130.00</td>
+<td>+$15.00</td>
+<td>$130.00</td>
+<td>$10.00 (only $120→$130)</td>
+<td>$2.00</td>
+<td>$128.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Year 3 is the key insight:</strong> The fund gained +$13 (a 12.7% return!) but earned ZERO performance fee. The PM made a strong return but is still below the HWM set in Year 1. This is the "HWM treadmill."</p>
+<p><strong>RM implications of HWM:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Behavioral risk</th>
+<th>RM response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PM is 15% below HWM</td>
+<td>Desperate to recover → may increase risk, concentrate, or swing for the fences</td>
+<td>Monitor position size, concentration, gross exposure for any ramp-up</td>
+</tr>
+<tr>
+<td>PM just cleared HWM</td>
+<td>Temptation to "lock in" the year by reducing risk</td>
+<td>Less dangerous, but check for disposition effect (cutting winners to protect the fee)</td>
+</tr>
+<tr>
+<td>PM is well above HWM in November</td>
+<td>May "coast" in December to protect performance fee crystallization</td>
+<td>Monitor for sudden degrossing or risk reduction at year-end</td>
+</tr>
+</tbody>
+</table>
+<h2 id="crystallization-equalization">Crystallization &amp; Equalization</h2>
+<p><strong>Crystallization:</strong> The date when performance fees are actually CALCULATED and deducted from NAV. Usually annually (December 31 or fund anniversary). Some funds crystallize quarterly.</p>
+<p><strong>Equalization problem:</strong> LPs who invest at different times have different HWMs.</p>
+<table>
+<thead>
+<tr>
+<th>LP</th>
+<th>Entry date</th>
+<th>Entry NAV</th>
+<th>HWM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LP A</td>
+<td>Jan 2023</td>
+<td>$100</td>
+<td>$100</td>
+</tr>
+<tr>
+<td>LP B</td>
+<td>Jul 2024</td>
+<td>$115</td>
+<td>$115</td>
+</tr>
+</tbody>
+</table>
+<p>If fund goes from $115 → $130: LP A owes perf fees on all $15 of profit. LP B owes perf fees on the $15 above THEIR entry point. Different fees for the same period.</p>
+<p><strong>Solution:</strong> Equalization shares (or series accounting). The fund issues "equalization shares" that track each LP's individual HWM and ensure fair fee allocation. Operationally complex but mathematically necessary.</p>
+<h2 id="hurdle-rate">Hurdle Rate</h2>
+<p>Some funds must earn above a minimum return (the hurdle) before taking performance fees:</p>
+<table>
+<thead>
+<tr>
+<th>Hurdle type</th>
+<th>Definition</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hard hurdle</strong></td>
+<td>Performance fee only on returns ABOVE the hurdle</td>
+<td>Fund earns 12%, hurdle is 5%. Perf fee on 7% only.</td>
+</tr>
+<tr>
+<td><strong>Soft hurdle</strong></td>
+<td>If return exceeds hurdle → perf fee on ENTIRE return</td>
+<td>Fund earns 12%, hurdle is 5%. Perf fee on full 12%.</td>
+</tr>
+<tr>
+<td><strong>Catch-up</strong></td>
+<td>After hurdle, GP gets 100% of next tranche until "caught up" to full 20%</td>
+<td>Common in PE; rare in HFs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Modern trend:</strong> More LPs demanding hurdles, especially risk-free rate hurdles. "If T-bills pay 5%, you shouldn't earn 20% on the first 5% of return — that's beta, not alpha."</p>
 <hr />
-<h1 id="part-4-liquidity-terms-redemptions-gates-lock-ups">PART 4: LIQUIDITY TERMS — REDEMPTIONS, GATES, LOCK-UPS</h1>
-<h2 id="subscription-getting-in">Subscription (Getting In)</h2>
+<h1 id="part-3-net-asset-value-nav">PART 3: NET ASSET VALUE (NAV)</h1>
+<h2 id="what-nav-is">What NAV Is</h2>
+<p>$$\text{NAV} = \text{Total Assets} - \text{Total Liabilities}$$</p>
+<p>$$\text{NAV per share} = \frac{\text{NAV}}{\text{Shares outstanding}}$$</p>
+<p>NAV is the "share price" of the fund. LPs subscribe (buy in) and redeem (cash out) at NAV. Every P&amp;L number, every return, every fee — ALL flow through NAV.</p>
+<h2 id="daily-nav-calculation-process">Daily NAV Calculation Process</h2>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What happens</th>
+<th>Who does it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Position download</td>
+<td>All positions extracted from OMS/PMS</td>
+<td>Operations / middle office</td>
+</tr>
+<tr>
+<td>2. Mark to market</td>
+<td>Listed instruments: closing prices. OTC: marks from PBs, dealers, or models</td>
+<td>Fund administrator + pricing committee</td>
+</tr>
+<tr>
+<td>3. Cash &amp; collateral</td>
+<td>Add: cash balances, collateral posted, receivables, accrued interest</td>
+<td>Operations</td>
+</tr>
+<tr>
+<td>4. Subtract liabilities</td>
+<td>Management fees accrued, expenses, financing costs, payables</td>
+<td>Operations</td>
+</tr>
+<tr>
+<td>5. Side pocket adjustment</td>
+<td>Illiquid positions marked separately; may use independent valuation</td>
+<td>Valuation committee</td>
+</tr>
+<tr>
+<td>6. NAV published</td>
+<td>Final NAV per share published to LPs and administrators</td>
+<td>Fund administrator</td>
+</tr>
+</tbody>
+</table>
+<h2 id="valuation-hierarchy-asc-820-ifrs-13">Valuation Hierarchy (ASC 820 / IFRS 13)</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Input type</th>
+<th>Examples</th>
+<th>Reliability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Level 1</strong></td>
+<td>Quoted prices in active markets</td>
+<td>NYSE/NASDAQ stocks, listed futures, ETFs</td>
+<td>Highest — observable, verifiable</td>
+</tr>
+<tr>
+<td><strong>Level 2</strong></td>
+<td>Observable inputs other than Level 1</td>
+<td>OTC derivatives priced from yield curves, comparable bonds, dealer quotes</td>
+<td>Moderate — requires judgment</td>
+</tr>
+<tr>
+<td><strong>Level 3</strong></td>
+<td>Unobservable inputs</td>
+<td>Private equity, distressed debt, bespoke structures, illiquid CDO tranches</td>
+<td>Lowest — model-dependent, subject to manipulation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM concern:</strong> Level 3 assets are where "mark to model" becomes "mark to myth." If 20% of the fund's NAV is Level 3, the NAV itself is unreliable. A PM can show 10% returns when the underlying assets haven't actually been priced by a market — they've been priced by a MODEL that the PM influences.</p>
+<p><strong>Detection:</strong> Track Level 3 as a % of NAV over time. If it's growing → the fund is accumulating illiquid positions. Ask: "If we had to liquidate Level 3 assets in a stress scenario, what's the realistic haircut?"</p>
+<h2 id="side-pockets">Side Pockets</h2>
+<p>When a fund holds an asset that becomes illiquid (e.g., a corporate bond where the issuer enters restructuring), the fund moves it to a <strong>side pocket</strong>:</p>
 <ul>
-<li>Minimum investment: typically $1M-$10M for institutional.</li>
-<li>Subscription frequency: monthly or quarterly. Some funds accept daily.</li>
-<li>Notice period: usually 30-45 days before the subscription date.</li>
+<li>Side pocket has SEPARATE NAV from the main fund.</li>
+<li>LPs cannot redeem side pocket assets until they're liquidated or valued.</li>
+<li>New investors don't participate in the side pocket — they only invest in the main fund.</li>
+<li>Prevents new LPs from "buying into" unknown illiquid positions.</li>
 </ul>
-<h2 id="redemption-getting-out">Redemption (Getting Out)</h2>
-<ul>
-<li>Redemption frequency: quarterly is standard. Some monthly. Some annually.</li>
-<li>Notice period: 30-90 days. Must notify the fund in advance.</li>
-<li>Settlement: NAV is calculated as of redemption date, but PAYMENT may take 30-60 days after (to allow time to liquidate positions).</li>
-</ul>
-<h2 id="lock-up-period">Lock-Up Period</h2>
-<ul>
-<li>Initial lock-up: 1-2 years. LP cannot redeem during this period.</li>
-<li>Soft lock-up: LP CAN redeem but pays a penalty (e.g., 3-5% early redemption fee).</li>
-<li>Hard lock-up: LP CANNOT redeem. Period.</li>
-</ul>
-<h2 id="gates">Gates</h2>
-<p>When too many LPs try to redeem at once, the fund invokes a gate:<br />
-- Limits total redemptions to a percentage of NAV per period (e.g., 25% per quarter).<br />
-- Remaining redemptions are queued pro rata.<br />
-- Prevents forced liquidation of positions at fire-sale prices.</p>
-<h2 id="suspension">Suspension</h2>
-<p>In extreme cases (market crisis, liquidity freeze), the fund suspends ALL redemptions.<br />
-- 2008: Many funds froze redemptions.<br />
-- Controversial but may protect remaining LPs from fire-sale losses.</p>
-<p><strong>Why this matters for RM:</strong><br />
-- If the fund faces large redemptions, the PM may need to LIQUIDATE positions to raise cash.<br />
-- The RM must know which positions are LIQUID (can be sold quickly) and which are ILLIQUID (would take days/weeks to unwind).<br />
-- Forced liquidation in illiquid names → price impact → further losses → more redemptions. This is a death spiral.</p>
+<p><strong>Abuse risk:</strong> In 2008, some funds moved performing assets into side pockets to prevent redemptions. This is a governance failure. The RM / compliance function should ensure side pocket criteria are objective and pre-defined.</p>
+<hr />
+<h1 id="part-4-liquidity-terms-subscriptions-redemptions-gates-lock-ups">PART 4: LIQUIDITY TERMS — SUBSCRIPTIONS, REDEMPTIONS, GATES, LOCK-UPS</h1>
+<h2 id="the-fundamental-tension">The Fundamental Tension</h2>
+<p>A hedge fund is an <strong>open-ended vehicle</strong> that invests in <strong>sometimes-illiquid assets</strong>. This creates a structural mismatch:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Fund promises LPs</th>
+<th>Fund's actual portfolio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Liquidity</td>
+<td>Quarterly redemptions with 45-day notice</td>
+<td>Some positions trade 10% of ADV daily; some OTC with 3-month unwind</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Cash within 60 days of redemption date</td>
+<td>Forced selling of concentrated positions = market impact</td>
+</tr>
+</tbody>
+</table>
+<p><strong>This mismatch killed dozens of funds in 2008.</strong> LPs requested redemptions. Funds couldn't liquidate fast enough. Fire-sale prices. NAV collapsed. More redemptions. Death spiral.</p>
+<h2 id="subscription-terms">Subscription Terms</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Typical terms</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimum investment</td>
+<td>$1M–$25M</td>
+<td>Higher for managed accounts ($100M+)</td>
+</tr>
+<tr>
+<td>Subscription frequency</td>
+<td>Monthly or quarterly</td>
+<td>Some daily (UCITS)</td>
+</tr>
+<tr>
+<td>Notice period</td>
+<td>5–30 days before subscription date</td>
+<td></td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>Subscription agreement, AML/KYC, accredited investor verification</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="redemption-terms">Redemption Terms</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Typical L/S equity</th>
+<th>Typical multi-strat</th>
+<th>Typical credit/distressed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frequency</td>
+<td>Quarterly</td>
+<td>Quarterly or annual</td>
+<td>Semi-annual or annual</td>
+</tr>
+<tr>
+<td>Notice period</td>
+<td>45–90 days</td>
+<td>60–90 days</td>
+<td>90–180 days</td>
+</tr>
+<tr>
+<td>Settlement</td>
+<td>T+30 to T+60 after redemption date</td>
+<td>T+30 to T+90</td>
+<td>T+90 or longer</td>
+</tr>
+<tr>
+<td>Holdback</td>
+<td>5–10% held for audit completion</td>
+<td>5–10%</td>
+<td>10–20%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Holdback:</strong> The fund pays 90–95% of proceeds at settlement and withholds 5–10% until the annual audit confirms final NAV. This protects against overpayment if NAV was miscalculated.</p>
+<h2 id="lock-up-periods">Lock-Up Periods</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Duration</th>
+<th>Liquidity</th>
+<th>Penalty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hard lock-up</strong></td>
+<td>1–3 years</td>
+<td>ZERO — LP cannot redeem</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><strong>Soft lock-up</strong></td>
+<td>1–2 years</td>
+<td>LP CAN redeem but pays penalty</td>
+<td>2–5% early redemption fee</td>
+</tr>
+<tr>
+<td><strong>Rolling lock-up</strong></td>
+<td>Resets each time LP adds capital</td>
+<td>New capital is locked for the full period</td>
+<td>Varies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why lock-ups exist:</strong> They give the PM time to implement the strategy without worrying about forced liquidation. A credit fund buying distressed bonds at 50 cents needs 2–3 years for the recovery thesis to play out. If LPs can redeem quarterly, the PM can never hold the position.</p>
+<h2 id="gates-the-emergency-brake">Gates — The Emergency Brake</h2>
+<p>When aggregate redemption requests exceed a threshold (usually 15–25% of NAV per quarter), the fund invokes a <strong>gate</strong>:</p>
+<p><strong>Worked example:</strong><br />
+- Fund NAV: $2B<br />
+- Gate: 20% of NAV per quarter ($400M max)<br />
+- Redemption requests received: $700M from 15 LPs</p>
+<table>
+<thead>
+<tr>
+<th>Without gate</th>
+<th>With gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fund must liquidate $700M in positions in 60 days</td>
+<td>Fund processes $400M pro rata (each LP gets 57% of their request)</td>
+</tr>
+<tr>
+<td>Market impact on selling $700M → 5–10% price discount</td>
+<td>Remaining $300M queued for next quarter</td>
+</tr>
+<tr>
+<td>NAV drops below where redemptions were calculated</td>
+<td>NAV preserved better for remaining LPs</td>
+</tr>
+<tr>
+<td>Death spiral risk</td>
+<td>Orderly wind-down</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Controversy:</strong> Gates punish LPs who need their money. In 2008, many institutional LPs (who had their own cash needs — pensions paying retirees) were gated and couldn't access capital for 12+ months. This led to a permanent shift toward managed accounts for the largest allocators.</p>
+<h2 id="suspension-of-redemptions">Suspension of Redemptions</h2>
+<p>The nuclear option. The fund board suspends ALL redemptions.</p>
+<p><strong>When it happens:</strong><br />
+- 2008 GFC: 30%+ of hedge funds gated or suspended<br />
+- Market crisis makes fair NAV determination impossible<br />
+- Fire-sale liquidation would destroy remaining LP value</p>
+<p><strong>Legal basis:</strong> Typically requires board (or GP) determination that redemptions would be "materially detrimental to remaining LPs."</p>
+<h2 id="rm-responsibilities-in-a-redemption-scenario">RM Responsibilities in a Redemption Scenario</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>RM action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pre-notice</strong></td>
+<td>Maintain a position-level liquidity profile: how many days to unwind each position at 10%/20%/30% of ADV</td>
+</tr>
+<tr>
+<td><strong>Notice received</strong></td>
+<td>Calculate total cash needed vs liquid asset base. Stress test: what if 2× the expected redemptions come in?</td>
+</tr>
+<tr>
+<td><strong>Liquidation planning</strong></td>
+<td>Identify the LEAST impactful liquidation order. Sell liquid positions first. Avoid concentrated names where we're &gt;5% of ADV.</td>
+</tr>
+<tr>
+<td><strong>Execution</strong></td>
+<td>Monitor market impact during liquidation. Adjust if realized impact exceeds estimates.</td>
+</tr>
+<tr>
+<td><strong>Post-redemption</strong></td>
+<td>Re-assess remaining portfolio: has the redemption concentrated the book? Are risk limits still appropriate for the smaller NAV?</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h1 id="part-5-prime-brokerage">PART 5: PRIME BROKERAGE</h1>
 <h2 id="what-a-prime-broker-does">What a Prime Broker Does</h2>
@@ -550,163 +1040,1018 @@ body {
 <thead>
 <tr>
 <th>Service</th>
-<th>Description</th>
+<th>What it means</th>
+<th>Risk to fund</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Custody</strong></td>
 <td>Holds the fund's securities and cash</td>
+<td>Counterparty risk: PB insolvency (Lehman)</td>
 </tr>
 <tr>
-<td><strong>Financing</strong></td>
-<td>Lends money for leveraged positions (margin lending)</td>
+<td><strong>Financing (margin lending)</strong></td>
+<td>Lends cash for leveraged longs</td>
+<td>Financing can be withdrawn with 24hr notice</td>
 </tr>
 <tr>
 <td><strong>Securities lending</strong></td>
-<td>Provides shares to borrow for short selling</td>
+<td>Provides shares to borrow for shorts</td>
+<td>Recall risk: lender can demand shares back</td>
 </tr>
 <tr>
-<td><strong>Execution</strong></td>
-<td>May execute trades (though many funds use separate execution brokers)</td>
+<td><strong>Trade settlement</strong></td>
+<td>Settles trades between fund and exchanges/counterparties</td>
+<td>Operational risk if settlement fails</td>
 </tr>
 <tr>
 <td><strong>Reporting</strong></td>
-<td>Daily position and P&amp;L reports, risk reports</td>
+<td>Daily position, P&amp;L, margin reports</td>
+<td>Data accuracy risk</td>
 </tr>
 <tr>
 <td><strong>Capital introduction</strong></td>
-<td>Introduces the fund to potential LPs</td>
+<td>Introduces fund to potential LPs</td>
+<td>Conflict of interest (PB favors clients that generate revenue)</td>
+</tr>
+<tr>
+<td><strong>Synthetic access (TRS)</strong></td>
+<td>Provides exposure via total return swaps instead of physical ownership</td>
+<td>Counterparty risk + PB discretion on margin and termination</td>
 </tr>
 </tbody>
 </table>
-<h2 id="multi-prime-model">Multi-Prime Model</h2>
-<p>Large funds (like Squarepoint) use MULTIPLE prime brokers:<br />
-- Diversification: don't depend on one PB.<br />
-- Best execution: route flow to whichever PB offers best pricing.<br />
-- Risk management: if one PB fails (Lehman 2008), the fund isn't wiped out.<br />
-- Negotiating leverage: play PBs against each other for better terms.</p>
-<h2 id="how-pbs-make-money">How PBs Make Money</h2>
+<h2 id="the-lehman-lesson-2008">The Lehman Lesson (2008)</h2>
+<p>When Lehman Brothers filed for bankruptcy on September 15, 2008:</p>
 <ul>
-<li>Financing spread: they lend at a spread above the risk-free rate.</li>
-<li>Securities lending fees: charge the fund for borrowed shares.</li>
-<li>Execution commissions.</li>
-<li>Cross-selling: FX, OTC derivatives.</li>
+<li><strong>Lehman's Prime Brokerage clients</strong> had assets CUSTODIED at Lehman. Those assets were frozen in the bankruptcy estate.</li>
+<li>Some funds couldn't access their own securities for MONTHS.</li>
+<li>Rehypothecated assets (assets the fund had pledged as collateral, which Lehman then re-pledged to its own creditors) were lost in the waterfall.</li>
+<li>Funds that had 100% of their assets at Lehman PB faced existential risk.</li>
 </ul>
-<hr />
-<h1 id="part-6-margin-and-leverage">PART 6: MARGIN AND LEVERAGE</h1>
-<h2 id="types-of-margin">Types of Margin</h2>
-<h3 id="initial-margin">Initial Margin</h3>
-<p>The collateral required to OPEN a position. Set by the exchange (for listed instruments) or the prime broker (for OTC).</p>
-<h3 id="variation-margin">Variation Margin</h3>
-<p>Daily mark-to-market adjustment. If the position moves against you, you must post additional margin. If it moves in your favor, margin is returned.</p>
-<h3 id="maintenance-margin">Maintenance Margin</h3>
-<p>The minimum margin that must be maintained. If your margin drops below this, you get a <strong>margin call</strong> — must post more collateral or positions will be liquidated.</p>
-<h2 id="leverage">Leverage</h2>
-<p>$$\text{Leverage} = \frac{\text{Gross exposure}}{\text{NAV (equity)}}$$</p>
-<p><strong>Example:</strong> Fund has $500M NAV, $1.5B gross exposure. Leverage = 3x.</p>
+<p><strong>Result:</strong> The entire industry moved to multi-prime models.</p>
+<h2 id="multi-prime-model">Multi-Prime Model</h2>
 <table>
 <thead>
 <tr>
-<th>Leverage level</th>
-<th>Typical fund type</th>
+<th>Benefit</th>
+<th>How it works</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1-2x</td>
-<td>Long/short equity, event-driven</td>
+<td><strong>Counterparty diversification</strong></td>
+<td>No single PB has &gt;30–40% of the fund's assets</td>
 </tr>
 <tr>
-<td>3-5x</td>
-<td>Multi-strategy, relative value</td>
+<td><strong>Competitive pricing</strong></td>
+<td>PBs compete on financing rates, stock borrow availability, margin terms</td>
 </tr>
 <tr>
-<td>5-15x</td>
-<td>Fixed income arbitrage, stat arb</td>
+<td><strong>Business continuity</strong></td>
+<td>If PB A has operational issues, positions at PB B and C continue trading</td>
 </tr>
 <tr>
-<td>15-50x</td>
-<td>Pure fixed income relative value (e.g., LTCM)</td>
+<td><strong>Negotiating leverage</strong></td>
+<td>"PB A offered us 10bp better financing — can you match?"</td>
+</tr>
+<tr>
+<td><strong>Information leakage reduction</strong></td>
+<td>No single PB sees the entire portfolio (important for multi-strats that guard position information)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Squarepoint context:</strong> As a systematic fund with a discretionary desk, leverage across the firm varies by strategy. The discretionary equity desk likely runs 2-5x gross leverage, while systematic stat-arb strategies might run higher.</p>
-<h2 id="margin-call-mechanics">Margin Call Mechanics</h2>
-<ol>
-<li>Position moves against you → variation margin owed.</li>
-<li>If equity drops below maintenance margin → margin call.</li>
-<li>Must post additional cash/securities within 24 hours (sometimes same day).</li>
-<li>If you can't → prime broker liquidates positions to bring margin back in line.</li>
-<li>PB has discretion on WHICH positions to liquidate — and they'll choose the most liquid ones, which may be your best positions.</li>
-</ol>
-<p><strong>RM role:</strong> Monitor margin utilization daily. Buffer required — don't run at 95% of margin capacity because one bad day = margin call. Typical buffer: keep 15-25% margin headroom.</p>
+<p><strong>Typical setup for a large multi-strat ($10B+ AUM):</strong><br />
+- 3–5 prime brokers (Goldman, Morgan Stanley, JPMorgan, BofA, Barclays)<br />
+- Assets allocated roughly: 30% / 25% / 25% / 20%<br />
+- Separate execution brokers (electronic platforms, agency brokers)<br />
+- Fund administrator (independent NAV calculation — not the PB)</p>
+<h2 id="how-pbs-make-money-from-hedge-funds">How PBs Make Money from Hedge Funds</h2>
+<table>
+<thead>
+<tr>
+<th>Revenue source</th>
+<th>Typical magnitude</th>
+<th>Fund's cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Financing spread</strong></td>
+<td>Fed Funds + 30–80bp</td>
+<td>Annual cost on leveraged long book</td>
+</tr>
+<tr>
+<td><strong>Securities lending</strong></td>
+<td>25bp for general collateral; 5–30% for hard-to-borrow</td>
+<td>Annual cost on short book</td>
+</tr>
+<tr>
+<td><strong>Execution commissions</strong></td>
+<td>$0.003–0.01 per share (equities)</td>
+<td>Per-trade cost</td>
+</tr>
+<tr>
+<td><strong>Synthetic financing (TRS spread)</strong></td>
+<td>SOFR + 40–100bp</td>
+<td>Annual cost for swap-based access</td>
+</tr>
+<tr>
+<td><strong>Cross-selling</strong></td>
+<td>FX, rates, credit — profitable flow</td>
+<td>Spread/commission on OTC trades</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM relevance:</strong> Financing costs are a direct drag on P&amp;L. A fund running $3B gross at 50bp average financing cost = $15M/year in financing alone. The RM should monitor financing costs vs returns, and flag strategies where financing costs eat a large portion of the alpha.</p>
+<h2 id="pb-risk-monitoring-what-the-rm-tracks">PB Risk Monitoring — What the RM Tracks</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Why</th>
+<th>Red flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PB CDS spread</td>
+<td>Widening CDS = market pricing PB default risk higher</td>
+<td>CDS &gt; 200bp sustained</td>
+</tr>
+<tr>
+<td>Rehypothecation level</td>
+<td>How much of our collateral has the PB re-pledged?</td>
+<td>Approach to contractual limit</td>
+</tr>
+<tr>
+<td>Financing rate changes</td>
+<td>PB silently increasing rates = de-risking their HF exposure</td>
+<td>Rate pop of &gt;25bp without market justification</td>
+</tr>
+<tr>
+<td>Margin requirement changes</td>
+<td>PB increasing IM = they want less exposure to us</td>
+<td>Sudden IM increase &gt; 20%</td>
+</tr>
+<tr>
+<td>Stock borrow availability</td>
+<td>Recalls or decreased inventory = PB de-risking or funding pressure</td>
+<td>Multiple recall notices in a week</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-6-margin-and-leverage">PART 6: MARGIN AND LEVERAGE</h1>
+<h2 id="types-of-margin">Types of Margin</h2>
+<table>
+<thead>
+<tr>
+<th>Margin type</th>
+<th>Purpose</th>
+<th>Set by</th>
+<th>Timing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Initial Margin (IM)</strong></td>
+<td>Collateral to OPEN a position</td>
+<td>Exchange (listed) or PB/CCP (OTC)</td>
+<td>At trade inception</td>
+</tr>
+<tr>
+<td><strong>Variation Margin (VM)</strong></td>
+<td>Daily MTM adjustment — winner receives, loser pays</td>
+<td>Exchange or CCP</td>
+<td>Daily (sometimes intraday)</td>
+</tr>
+<tr>
+<td><strong>Maintenance Margin</strong></td>
+<td>Minimum equity to KEEP a position open</td>
+<td>Exchange or PB</td>
+<td>Continuous</td>
+</tr>
+<tr>
+<td><strong>Additional Margin</strong></td>
+<td>Extra margin demanded by PB for concentrated or illiquid positions</td>
+<td>PB (discretionary)</td>
+<td>Anytime — PB can call this at will</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The PB discretion problem:</strong> For listed instruments, exchange-set margins are transparent and rules-based. For OTC and PB-financed positions, the PB sets margin AT THEIR DISCRETION. They can INCREASE margin requirements unilaterally — and they tend to do so EXACTLY when the fund is already under stress.</p>
+<h2 id="leverage-metrics">Leverage Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>What it captures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gross leverage</strong></td>
+<td>(Long MV + |Short MV|) / NAV</td>
+<td>Total exposure relative to capital</td>
+</tr>
+<tr>
+<td><strong>Net leverage</strong></td>
+<td>(Long MV − |Short MV|) / NAV</td>
+<td>Directional exposure</td>
+</tr>
+<tr>
+<td><strong>Notional leverage</strong></td>
+<td>Total notional / NAV</td>
+<td>Used for derivatives (can be misleading)</td>
+</tr>
+<tr>
+<td><strong>Regulatory leverage</strong></td>
+<td>Various (Basel III, AIFMD)</td>
+<td>Standardized for reporting</td>
+</tr>
+<tr>
+<td><strong>Risk-adjusted leverage</strong></td>
+<td>Gross exposure × portfolio vol / NAV</td>
+<td>Accounts for how much RISK the leverage creates</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong> Fund with $500M NAV:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Long</th>
+<th>Short</th>
+<th>Gross</th>
+<th>Net</th>
+<th>Gross leverage</th>
+<th>Net leverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equities</td>
+<td>$600M</td>
+<td>$400M</td>
+<td>$1,000M</td>
+<td>$200M</td>
+<td>2.0×</td>
+<td>0.4×</td>
+</tr>
+<tr>
+<td>Rates</td>
+<td>$300M</td>
+<td>$200M</td>
+<td>$500M</td>
+<td>$100M</td>
+<td>1.0×</td>
+<td>0.2×</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>$900M</strong></td>
+<td><strong>$600M</strong></td>
+<td><strong>$1,500M</strong></td>
+<td><strong>$300M</strong></td>
+<td><strong>3.0×</strong></td>
+<td><strong>0.6×</strong></td>
+</tr>
+</tbody>
+</table>
+<p>This fund is 3.0× gross leveraged but only 0.6× net. The directional risk is modest, but the TOTAL exposure is significant — any sharp move in the long or short book separately (e.g., a short squeeze) can create large P&amp;L swings.</p>
+<h2 id="leverage-by-strategy-type">Leverage by Strategy Type</h2>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Typical gross leverage</th>
+<th>Why</th>
+<th>Key risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long/short equity</td>
+<td>1.5–3.0×</td>
+<td>Moderate notional; alpha from stock selection</td>
+<td>Factor crowding</td>
+</tr>
+<tr>
+<td>Multi-strategy</td>
+<td>3–6×</td>
+<td>Diversified strategies; higher Sharpe → more leverage</td>
+<td>Correlation across pods</td>
+</tr>
+<tr>
+<td>Stat arb</td>
+<td>5–15×</td>
+<td>Low per-trade edge → need leverage for returns</td>
+<td>Model breakdown</td>
+</tr>
+<tr>
+<td>Fixed income RV</td>
+<td>10–50×</td>
+<td>Tiny spread → massive notional needed</td>
+<td>Liquidity/basis blow-out</td>
+</tr>
+<tr>
+<td>Global macro</td>
+<td>3–10×</td>
+<td>Concentrated bets via futures and options</td>
+<td>Event risk</td>
+</tr>
+<tr>
+<td>Credit</td>
+<td>1–3×</td>
+<td>Illiquid assets → limited leverage deployed</td>
+<td>Mark-to-market + redemption mismatch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="margin-call-mechanics-worked-example">Margin Call Mechanics — Worked Example</h2>
+<p><strong>Setup:</strong> Fund has $500M equity, $1.5B gross exposure (3× leverage), maintenance margin = 25% ($375M equity required).</p>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Market move</th>
+<th>Equity impact</th>
+<th>Fund equity</th>
+<th>Margin status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td>—</td>
+<td>—</td>
+<td>$500M</td>
+<td>$125M buffer</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td>Tue</td>
+<td>−2% on longs</td>
+<td>−$12M</td>
+<td>$488M</td>
+<td>$113M buffer</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td>−3% on longs</td>
+<td>−$18M</td>
+<td>$470M</td>
+<td>$95M buffer</td>
+<td>Watch</td>
+</tr>
+<tr>
+<td>Thu</td>
+<td>−5% adverse (shorts rally, longs sell off)</td>
+<td>−$45M</td>
+<td>$425M</td>
+<td>$50M buffer</td>
+<td>Warning</td>
+</tr>
+<tr>
+<td>Fri</td>
+<td>−4% adverse + short squeeze</td>
+<td>−$40M</td>
+<td>$385M</td>
+<td><strong>$10M buffer — approaching margin call</strong></td>
+<td>PB calls demanding $50M additional margin by Monday AM</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The RM's margin buffer rule:</strong></p>
+<p>$$\text{Margin buffer} = \text{Current equity} - \text{Maintenance margin requirement}$$</p>
+<p>$$\text{Buffer ratio} = \frac{\text{Buffer}}{\text{Equity}} = \frac{\$500M - \$375M}{\$500M} = 25\%$$</p>
+<p><strong>Minimum recommended buffer:</strong> 15–25% of equity. If buffer drops below 15% → begin voluntary de-risking BEFORE the PB forces you to sell.</p>
+<p><strong>Why pro-active matters:</strong> If the fund waits for the PB's margin call, the PB chooses WHICH positions to liquidate. They'll sell your most liquid positions first — which are often your BEST positions (highest alpha, most liquid markets). The fund is left with the illiquid dregs.</p>
+<h2 id="pro-cyclicality-of-margin">Pro-Cyclicality of Margin</h2>
+<p>The most dangerous feature of the leverage system: <strong>margins increase when you can least afford it.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Market condition</th>
+<th>What happens to margin</th>
+<th>Fund impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low vol, markets calm</td>
+<td>PBs offer low margins, easy financing, generous leverage</td>
+<td>Fund levers up, adds positions</td>
+</tr>
+<tr>
+<td>Vol spike, stress begins</td>
+<td>PBs increase IM requirements, recall stock borrow, tighten terms</td>
+<td>Fund must POST more collateral or sell positions — exactly when selling is most costly</td>
+</tr>
+<tr>
+<td>Crisis</td>
+<td>PBs increase margins aggressively, cut financing lines, recall all flexible lending</td>
+<td>Forced liquidation at worst possible prices</td>
+</tr>
+</tbody>
+</table>
+<p>This is why LTCM failed. This is why Archegos failed. This is why Bear Stearns failed. The leverage was available in good times and withdrawn in bad times — the OPPOSITE of what funds need.</p>
+<p><strong>RM response:</strong> Always stress-test margin under STRESS conditions, not just current conditions. "We have $125M of margin buffer today. If PBs increase requirements by 50% (which they did in March 2020), how much buffer remains?" If the answer is zero → reduce leverage NOW.</p>
 <hr />
 <h1 id="part-7-central-counterparties-ccps-clearing">PART 7: CENTRAL COUNTERPARTIES (CCPs) &amp; CLEARING</h1>
-<h2 id="post-2008-reforms">Post-2008 Reforms</h2>
-<p>After 2008, regulators mandated that most standardized derivatives (interest rate swaps, CDS indices) clear through CCPs instead of bilateral OTC.</p>
-<h2 id="how-ccps-work">How CCPs Work</h2>
-<ul>
-<li>CCP sits between buyer and seller (novation).</li>
-<li>Both parties post initial margin to the CCP.</li>
-<li>Daily variation margin exchange.</li>
-<li>If one party defaults → CCP uses the defaulter's margin, then a default fund (waterfall).</li>
-</ul>
-<h2 id="why-ccps-matter-for-risk">Why CCPs Matter for Risk</h2>
-<ul>
-<li>Reduces bilateral counterparty risk.</li>
-<li>But CONCENTRATES risk at the CCP itself ("too big to fail").</li>
-<li>Margin requirements set by the CCP can change — may spike in volatile markets, forcing funds to raise cash.</li>
-</ul>
+<h2 id="post-2008-regulatory-framework">Post-2008 Regulatory Framework</h2>
+<p>Dodd-Frank (US) and EMIR (EU) mandated central clearing of standardized OTC derivatives:</p>
+<table>
+<thead>
+<tr>
+<th>Before 2008</th>
+<th>After 2010+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bilateral OTC — each fund faced its dealer directly</td>
+<td>CCP sits between buyer and seller (novation)</td>
+</tr>
+<tr>
+<td>Counterparty risk: if dealer defaults → fund loses</td>
+<td>CCP absorbs default risk via margin + default fund</td>
+</tr>
+<tr>
+<td>No standardized margin — negotiated bilaterally</td>
+<td>Standardized IM/VM set by CCP</td>
+</tr>
+<tr>
+<td>Opaque — no one knew total exposures</td>
+<td>CCP has full visibility into positions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-the-ccp-default-waterfall-works">How the CCP Default Waterfall Works</h2>
+<p>If a clearing member defaults:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Source</th>
+<th>Size (example)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Defaulter's initial margin</td>
+<td>$500M</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Defaulter's default fund contribution</td>
+<td>$50M</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CCP's own capital ("skin in the game")</td>
+<td>$100M</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Non-defaulting members' default fund contributions</td>
+<td>$5B</td>
+</tr>
+<tr>
+<td>5</td>
+<td>CCP recovery tools (VM haircutting, additional assessments)</td>
+<td>Uncapped</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM concern:</strong> Layer 4 means your fund (as a clearing member or through your clearing broker) could be assessed for SOMEONE ELSE'S default. This is mutualized loss — you pay for another firm's failure. The RM should know the fund's maximum exposure to CCP default fund assessments.</p>
+<h2 id="ccp-margin-pro-cyclicality">CCP Margin Pro-Cyclicality</h2>
+<p>CCPs use models (SPAN, PRISMA, VaR-based) that INCREASE margin when vol spikes:</p>
+<table>
+<thead>
+<tr>
+<th>VIX level</th>
+<th>Typical equity IM</th>
+<th>10% move impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12 (calm)</td>
+<td>5% of notional</td>
+<td>$50M IM on $1B</td>
+</tr>
+<tr>
+<td>25 (elevated)</td>
+<td>10% of notional</td>
+<td>$100M IM on $1B</td>
+</tr>
+<tr>
+<td>40 (stress)</td>
+<td>15–20% of notional</td>
+<td>$150–200M IM on $1B</td>
+</tr>
+</tbody>
+</table>
+<p>Going from VIX 12 to VIX 40: IM triples. The fund needs $150M MORE in cash — at the exact moment when every other fund also needs cash and liquidity is scarce.</p>
 <hr />
-<h1 id="part-8-repo-repurchase-agreements">PART 8: REPO (REPURCHASE AGREEMENTS)</h1>
-<h2 id="what-repo-is">What Repo Is</h2>
-<p>A repurchase agreement is a short-term collateralized loan:<br />
-1. Fund "sells" securities to a counterparty for cash.<br />
-2. Agrees to "repurchase" them the next day (or at term end) at a slightly higher price.<br />
-3. The price difference = the interest rate (repo rate).</p>
-<h2 id="why-funds-use-repo">Why Funds Use Repo</h2>
-<ul>
-<li><strong>Financing long positions:</strong> Instead of using your own cash, pledge your Treasuries as collateral and borrow cash at the repo rate. Use that cash for other investments.</li>
-<li><strong>Leverage:</strong> Repo allows you to hold more positions than your cash would naturally support.</li>
-<li><strong>Shorting:</strong> In reverse repo, you lend cash and receive securities — which you can then sell short.</li>
-</ul>
-<h2 id="repo-risks">Repo Risks</h2>
+<h1 id="part-8-repo-securities-financing">PART 8: REPO &amp; SECURITIES FINANCING</h1>
+<h2 id="repurchase-agreement-repo-mechanics">Repurchase Agreement (Repo) Mechanics</h2>
+<p>A repo is a short-term collateralized loan disguised as a sale-and-repurchase:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T+0</td>
+<td>Fund "sells" $100M of Treasuries to dealer. Receives $98M cash (2% haircut).</td>
+</tr>
+<tr>
+<td>T+1 (or term end)</td>
+<td>Fund "repurchases" Treasuries for $98M + interest ($98M × repo rate × days/360).</td>
+</tr>
+<tr>
+<td>Net effect</td>
+<td>Fund BORROWED $98M using Treasuries as collateral. Paid the repo rate.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="repo-rate-components">Repo Rate Components</h2>
+<p>$$\text{Repo rate} \approx \text{Risk-free rate} - \text{Collateral premium (if special)} + \text{Credit spread (of borrower)}$$</p>
+<table>
+<thead>
+<tr>
+<th>Collateral type</th>
+<th>Typical haircut</th>
+<th>Typical repo rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US Treasuries (on-the-run)</td>
+<td>1–2%</td>
+<td>SOFR flat to +5bp</td>
+</tr>
+<tr>
+<td>US Treasuries (off-the-run)</td>
+<td>2–5%</td>
+<td>SOFR +5 to +15bp</td>
+</tr>
+<tr>
+<td>Agency MBS</td>
+<td>3–5%</td>
+<td>SOFR +10 to +30bp</td>
+</tr>
+<tr>
+<td>Investment-grade credit</td>
+<td>5–8%</td>
+<td>SOFR +25 to +75bp</td>
+</tr>
+<tr>
+<td>Equities (margin loan equivalent)</td>
+<td>25–50%</td>
+<td>SOFR +40 to +150bp</td>
+</tr>
+<tr>
+<td>High-yield / distressed</td>
+<td>15–30%</td>
+<td>SOFR +100 to +300bp</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reverse-repo-the-other-side">Reverse Repo (the other side)</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Repo</th>
+<th>Reverse Repo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fund...</td>
+<td>Borrows cash, pledges securities</td>
+<td>Lends cash, receives securities</td>
+</tr>
+<tr>
+<td>Why</td>
+<td>Finance long positions</td>
+<td>Earn interest on cash; obtain specific securities for shorting</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Collateral locked up; rollover risk</td>
+<td>Cash is at risk if counterparty defaults and collateral declines</td>
+</tr>
+</tbody>
+</table>
+<h2 id="securities-lending">Securities Lending</h2>
+<p>Separate from repo. Used specifically for short selling:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Fund wants to short Stock X. Doesn't own it.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PB locates Stock X from a lender (pension fund, index fund, insurance co).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Fund borrows Stock X. Posts cash collateral (typically 102–105% of stock value).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Fund sells Stock X in the market (establishing the short).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Fund pays a borrow fee to the lender (25bp to 30%+ annualized depending on availability).</td>
+</tr>
+<tr>
+<td>6</td>
+<td>To close: fund buys Stock X in the market, returns it to lender, gets collateral back.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hard-to-borrow (HTB) stocks:</strong> When everyone wants to short the same stock, borrow fees spike. A stock with 25% short interest might cost 5–10% annualized to borrow. A stock on threshold list with 80% utilization → 20–50%+ annualized. This cost DIRECTLY reduces the short's profitability.</p>
+<p><strong>Recall risk:</strong> The lender can recall (demand return of) the borrowed shares at any time. If the fund can't find a replacement lender → forced buy-in. Forced buy-ins on HTB names in stressed markets can cause explosive short squeezes (GME, Jan 2021).</p>
+<h2 id="repo-risks-for-rm">Repo Risks for RM</h2>
 <table>
 <thead>
 <tr>
 <th>Risk</th>
 <th>Description</th>
+<th>Mitigation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Rollover risk</td>
-<td>Most repo is overnight. If your counterparty refuses to roll → must sell collateral or find new lender</td>
+<td><strong>Rollover risk</strong></td>
+<td>80%+ of repo is overnight. If counterparty refuses to roll → must raise cash immediately.</td>
+<td>Diversify repo counterparties. Maintain some term repo (7-day, 30-day) alongside overnight.</td>
 </tr>
 <tr>
-<td>Haircut changes</td>
-<td>Counterparty demands more collateral per dollar borrowed → effective margin call</td>
+<td><strong>Haircut risk</strong></td>
+<td>Counterparty increases haircut from 2% to 5% → must post $30M more collateral on $1B position.</td>
+<td>Monitor haircuts daily. Stress-test with 2× haircuts.</td>
 </tr>
 <tr>
-<td>Fire-sale risk</td>
-<td>If you can't roll and must sell → selling pressure → prices drop → more margin calls elsewhere</td>
+<td><strong>Collateral downgrade</strong></td>
+<td>Counterparty stops accepting certain collateral classes.</td>
+<td>Keep "free" unencumbered high-quality assets.</td>
+</tr>
+<tr>
+<td><strong>Fire-sale spiral</strong></td>
+<td>Can't roll → forced to sell repo'd securities → selling pressure → prices drop → haircuts increase elsewhere → cascade.</td>
+<td>Maintain liquidity buffer: 10–20% of assets in unencumbered cash or T-bills.</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-9-interview-application">PART 9: INTERVIEW APPLICATION</h1>
-<p>If asked "Explain how a fund's structure affects risk management":</p>
-<p>"The fund's structure creates several risk dimensions beyond market risk. Liquidity risk from redemptions — if 20% of LPs redeem in one quarter, we may need to liquidate $100M+ of positions, and the RM needs to ensure the book has enough liquid instruments to handle that without massive market impact.</p>
-<p>Fee structure matters too: after a drawdown, the PM is underwater on the high-water mark, which creates incentive to take excess risk to recover. The RM must be aware of that behavioral pressure.</p>
-<p>Leverage creates fragility — at 3x gross, a 5% adverse move costs 15% of NAV. Prime broker margin terms can change pro-cyclically: exactly when you need leverage most (to buy cheap assets after a sell-off), the PB is increasing margin requirements and reducing your capacity.</p>
-<p>At a firm like Squarepoint, with systematic and discretionary strategies under one roof, the RM also needs to understand how risk budgets are allocated across strategies and how correlation between the systematic and discretionary books affects firm-level risk."</p>
+<h1 id="part-9-multi-strategy-pod-economics">PART 9: MULTI-STRATEGY POD ECONOMICS</h1>
+<blockquote>
+<p><strong>One-liner:</strong> Understanding how multi-strats allocate capital, charge costs, and manage pods is critical because Squarepoint operates this model.</p>
+</blockquote>
+<h2 id="the-pod-model">The Pod Model</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Structure</strong></td>
+<td>Multiple independent trading teams ("pods") under one fund umbrella</td>
+</tr>
+<tr>
+<td><strong>Capital</strong></td>
+<td>Each pod gets an allocation from the central pool (e.g., $200M–$1B per pod)</td>
+</tr>
+<tr>
+<td><strong>P&amp;L</strong></td>
+<td>Each pod's P&amp;L tracked independently</td>
+</tr>
+<tr>
+<td><strong>Risk limits</strong></td>
+<td>Centrally set: VaR limit, max drawdown, gross/net exposure, concentration</td>
+</tr>
+<tr>
+<td><strong>Risk management</strong></td>
+<td>Central RM team monitors all pods + aggregates firm-wide risk</td>
+</tr>
+<tr>
+<td><strong>Infrastructure</strong></td>
+<td>Shared: execution, technology, operations, compliance, PB relationships</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pm-compensation-in-multi-strats">PM Compensation in Multi-Strats</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Typical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Base salary</strong></td>
+<td>$200K–$500K (relatively modest)</td>
+</tr>
+<tr>
+<td><strong>P&amp;L payout</strong></td>
+<td>10–20% of net PnL above costs</td>
+</tr>
+<tr>
+<td><strong>Cost offset</strong></td>
+<td>PM's allocated costs (technology, data, RM, operations) deducted from P&amp;L before payout</td>
+</tr>
+<tr>
+<td><strong>HWM</strong></td>
+<td>PM has individual HWM — must recover losses before earning payouts again</td>
+</tr>
+<tr>
+<td><strong>Clawback</strong></td>
+<td>Some firms claw back prior payouts if PM subsequently loses</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example — PM at a multi-strat:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allocated capital</td>
+<td>$500M</td>
+</tr>
+<tr>
+<td>Gross P&amp;L</td>
+<td>+$30M</td>
+</tr>
+<tr>
+<td>Less: financing costs (3× leverage at 50bp)</td>
+<td>−$7.5M</td>
+</tr>
+<tr>
+<td>Less: technology allocation</td>
+<td>−$2M</td>
+</tr>
+<tr>
+<td>Less: data/research</td>
+<td>−$1.5M</td>
+</tr>
+<tr>
+<td>Less: infrastructure (compliance, ops, RM)</td>
+<td>−$3M</td>
+</tr>
+<tr>
+<td><strong>Net P&amp;L</strong></td>
+<td><strong>+$16M</strong></td>
+</tr>
+<tr>
+<td>PM payout (15%)</td>
+<td><strong>$2.4M</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM insight:</strong> The PM needs to clear ~$14M of costs before earning a single dollar of payout. This creates pressure to run higher leverage (more gross = more potential P&amp;L, but also more costs and more risk). The RM must ensure position sizing is driven by OPPORTUNITY, not by the PM's need to clear their cost hurdle.</p>
+<h2 id="capital-allocation-across-pods">Capital Allocation Across Pods</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>How it works</th>
+<th>Pro</th>
+<th>Con</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Equal allocation</strong></td>
+<td>Each pod gets the same $</td>
+<td>Simple, fair</td>
+<td>Ignores pod quality differences</td>
+</tr>
+<tr>
+<td><strong>Performance-based</strong></td>
+<td>Allocate more to pods with higher Sharpe ratios</td>
+<td>Rewards skill</td>
+<td>Could concentrate capital in recently-lucky pods</td>
+</tr>
+<tr>
+<td><strong>Risk-budgeted</strong></td>
+<td>Allocate to achieve target Sharpe at firm level given correlations</td>
+<td>Optimal from portfolio theory</td>
+<td>Complex; requires accurate correlation estimates</td>
+</tr>
+<tr>
+<td><strong>Opportunistic</strong></td>
+<td>Increase allocation when PM sees more opportunities</td>
+<td>Responsive</td>
+<td>Subject to PM overconfidence; hard to validate "more opportunity"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="firm-level-risk-aggregation">Firm-Level Risk Aggregation</h2>
+<p>The CIO/CRO must answer: <strong>"What is the firm's TOTAL risk?"</strong></p>
+<p>This is NOT the sum of individual pod risks because of correlation:</p>
+<p>$$\sigma_{\text{firm}} = \sqrt{\sum_i \sigma_i^2 + 2\sum_{i&lt;j} \rho_{ij}\sigma_i\sigma_j}$$</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Pod A VaR</th>
+<th>Pod B VaR</th>
+<th>Correlation</th>
+<th>Firm VaR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Independent (ρ=0)</td>
+<td>$10M</td>
+<td>$10M</td>
+<td>0</td>
+<td>$14.1M (not $20M)</td>
+</tr>
+<tr>
+<td>Moderate correlation</td>
+<td>$10M</td>
+<td>$10M</td>
+<td>0.5</td>
+<td>$17.3M</td>
+</tr>
+<tr>
+<td>High correlation</td>
+<td>$10M</td>
+<td>$10M</td>
+<td>0.9</td>
+<td>$19.5M</td>
+</tr>
+<tr>
+<td>Perfect correlation</td>
+<td>$10M</td>
+<td>$10M</td>
+<td>1.0</td>
+<td>$20.0M</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The diversification benefit DISAPPEARS in stress.</strong> In normal markets, pod A (equity L/S) and pod B (credit) correlate at 0.3. In March 2020, correlation jumped to 0.85. The firm's "diversified" risk was suddenly concentrated.</p>
+<p><strong>RM responsibility:</strong> Run firm-level stress tests using STRESS correlations, not normal-market correlations. If diversification benefit accounts for 30% of your risk budget, you need to know what happens when it vanishes.</p>
+<h2 id="pod-termination-wind-down">Pod Termination / Wind-Down</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PM hits maximum drawdown limit (e.g., −5% on capital)</td>
+<td>Mandatory 50% de-risk. PM enters "warning" status.</td>
+</tr>
+<tr>
+<td>PM hits stop-out level (e.g., −10% on capital)</td>
+<td>Full liquidation. All positions unwound. PM terminated or reallocated.</td>
+</tr>
+<tr>
+<td>PM breaches risk limits repeatedly</td>
+<td>Reduced capital allocation + risk limit tightening</td>
+</tr>
+<tr>
+<td>Correlation between pods spikes</td>
+<td>Firm-level gross reduction — CRO may tell MULTIPLE pods to reduce simultaneously</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-structural-risks-the-rms-checklist">PART 10: STRUCTURAL RISKS — THE RM'S CHECKLIST</h1>
+<h2 id="the-six-structural-risks-that-arent-market-risk">The Six Structural Risks That Aren't Market Risk</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Risk</th>
+<th>How structure creates it</th>
+<th>RM response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Redemption liquidity risk</strong></td>
+<td>Fund offers quarterly redemptions but holds illiquid positions</td>
+<td>Maintain position-level liquidity profile. Stress test: "Can we liquidate 25% of NAV in 10 days?"</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Leverage fragility</strong></td>
+<td>3× gross means 10% adverse = 30% of NAV lost</td>
+<td>Monitor margin buffer daily. De-risk BEFORE margin call, not after.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>PB counterparty risk</strong></td>
+<td>Single PB concentration; rehypothecation; financing withdrawal</td>
+<td>Multi-prime. Know rehypothecation limits. Monitor PB CDS spreads.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Fee incentive risk</strong></td>
+<td>HWM creates pressure to gamble after drawdown</td>
+<td>Watch for risk increases when PM is below HWM. Flag to IC.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Pro-cyclical margin</strong></td>
+<td>PB/CCP margins increase in stress → forced liquidation</td>
+<td>Stress-test margins at 1.5× and 2× current requirements. Maintain free cash buffer.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Correlation convergence</strong></td>
+<td>Multi-strat pods appear diversified in normal times; converge in stress</td>
+<td>Run firm-level stress tests with crisis-period correlations. Don't budget for diversification benefit you can't count on.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-death-spiral-how-structural-risks-compound">The Death Spiral — How Structural Risks Compound</h2>
+<div class="highlight"><pre><span></span><code>Market stress (−5%)
+     ↓
+P&amp;L loss → leveraged impact (3× = −15% NAV)
+     ↓
+PB increases margin requirements (+50%)
+     ↓
+Must sell positions to raise margin collateral
+     ↓
+Selling creates market impact → further price declines
+     ↓
+LP panic → redemption requests
+     ↓
+Must sell MORE positions to fund redemptions
+     ↓
+Gate invoked → LPs lose confidence → MORE future redemptions
+     ↓
+Financing counterparties pull repo lines
+     ↓
+Fund CAN&#39;T finance positions → forced fire-sale
+     ↓
+NAV collapses → fund terminates
+</code></pre></div>
+
+<p><strong>Each link in this chain is a STRUCTURAL feature, not a market feature.</strong> The market moved 5%. The structure turned it into a 100% loss. The RM's job is to ensure the chain never gets past the second link.</p>
+<hr />
+<h1 id="part-11-interview-application">PART 11: INTERVIEW APPLICATION</h1>
+<p><strong>"Explain how a fund's structure affects risk management."</strong></p>
+<p>"Fund structure creates risk channels that pure market-risk analysis doesn't capture.</p>
+<p>First, liquidity mismatch. The fund offers quarterly redemptions, but some positions take weeks to unwind at reasonable market impact. If 20% of LPs redeem in one quarter, we need $100M+ in cash within 60 days. The RM must maintain a position-level liquidity profile — for every position, how many days to liquidate at 10%, 20%, and 30% of ADV — and ensure the aggregate is comfortably inside our redemption capacity.</p>
+<p>Second, leverage fragility via pro-cyclical margin. At 3× gross, a 5% adverse move costs 15% of NAV. But it's worse than that — because the PB increases margin requirements exactly when you're losing money. In March 2020, some PBs doubled margin requirements in a single week. The RM must stress-test margin not at current levels but at 1.5× to 2× current levels.</p>
+<p>Third, fee structure creates behavioral risk. A PM who's 15% below the high-water mark needs to recover that entire amount before earning performance fees. That creates incentive to increase risk — gamble to recover faster. The RM needs to monitor for risk increases that correlate with distance-below-HWM."</p>
+<p><strong>"Walk me through what happens during a margin call."</strong></p>
+<p>"A margin call means the fund's equity has dropped below the PB's maintenance margin requirement. There are three phases.</p>
+<p>First, the call itself. The PB notifies us — usually before market open — that we need to post additional collateral within 24 hours, sometimes same day. The amount is typically the shortfall plus a buffer.</p>
+<p>Second, the response. We have three options: post cash, post additional securities as collateral, or reduce positions to lower the margin requirement. The RM's job is to pre-plan this — know which positions to sell that minimally impact the portfolio's alpha-generating capability. You want to sell the liquid, low-conviction positions first. If you wait for the PB to liquidate, they choose — and they'll sell your most liquid positions regardless of your conviction.</p>
+<p>Third, the aftermath. After meeting the call, the RM must reassess: is the portfolio now appropriate for the reduced capital base? Have risk limits auto-adjusted? And critically — if the market continues to move against us, do we have buffer for ANOTHER margin call? Because margin calls often come in clusters."</p>
+<p><strong>"How does multi-strategy fund structure affect firm-level risk?"</strong></p>
+<p>"The main issue is correlation. In normal markets, pods running different strategies — equity L/S, credit, macro, stat arb — appear diversified. Their correlations might be 0.2–0.3, so firm-level VaR is significantly lower than the sum of pod VaRs. The CRO budgets for this diversification benefit.</p>
+<p>But in stress, correlations spike. In March 2020, equity and credit correlations jumped from 0.3 to 0.85. The diversification benefit that was reducing firm VaR by 30% effectively vanished. If the CRO was relying on that benefit to stay within leverage limits, the firm is suddenly over its risk budget.</p>
+<p>The RM's job is to run firm-level stress tests using CRISIS correlations, not normal-market correlations. And to ensure that capital allocation across pods accounts for the scenario where diversification breaks down. If firm-level VaR under crisis-correlation assumptions exceeds limits, the response is to reduce gross across ALL pods — not just the one that's losing."</p>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>14_Hedge_Fund_Mechanics</em> — detailed hedge fund mechanics reference<br />
-→ <a href="J_Position_Management.html">Position Management</a> — risk budgets and drawdown protocols<br />
-→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, leverage metrics<br />
-→ <a href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a> — counterparty and operational risk</p>
+→ <a href="J_Position_Management.html">Position Management</a> — risk budgets, drawdown protocols, sizing discipline<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, leverage, ES calculations<br />
+→ <a href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a> — counterparty, operational, and regulatory risk<br />
+→ <a href="K_Behavioral_Biases.html">Behavioral Biases</a> — fee structure creates behavioral incentives (HWM pressure)<br />
+→ <em>V_Case_Studies</em> — LTCM, Lehman, Archegos — structural risks in action</p>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
