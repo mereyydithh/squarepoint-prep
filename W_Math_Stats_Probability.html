@@ -385,282 +385,1210 @@ body {
 <a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
 <a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
 <a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+<a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
+<a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
+<a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
+<a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="x-math-stats-probability">X — MATH, STATS &amp; PROBABILITY</h1>
+<h1 id="w-math-stats-probability">W — MATH, STATS &amp; PROBABILITY</h1>
 <h2 id="distributions-bayes-hypothesis-testing-regression-monte-carlo-and-interview-puzzles">Distributions, Bayes, hypothesis testing, regression, Monte Carlo, and interview puzzles</h2>
-<h3 id="depth-well">Depth: 🟡 WELL</h3>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
-<h1 id="part-1-key-distributions">PART 1: KEY DISTRIBUTIONS</h1>
-<h2 id="normal-gaussian">Normal (Gaussian)</h2>
-<p>$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$</p>
+<h1 id="how-to-use-this-file">HOW TO USE THIS FILE</h1>
+<p>This file covers the mathematical toolkit you need for a quant-adjacent risk role. You won't be asked to prove theorems, but you WILL be expected to:<br />
+1. <strong>Apply</strong> these concepts to real risk problems (not just define them)<br />
+2. <strong>Interpret</strong> quantitative output correctly (what does a p-value of 0.03 MEAN for this PM?)<br />
+3. <strong>Spot errors</strong> when someone misuses a concept (using Sharpe without adjusting for skew, etc.)<br />
+4. <strong>Do mental math</strong> quickly and confidently under interview pressure</p>
+<p><strong>This file is the FOUNDATION. <a href="V_Quant_Mindset.html">Quant Mindset</a> is the APPLICATION to risk management.</strong></p>
+<hr />
+<h1 id="part-1-key-distributions-the-building-blocks">PART 1: KEY DISTRIBUTIONS — THE BUILDING BLOCKS</h1>
+<h2 id="normal-gaussian-distribution">Normal (Gaussian) Distribution</h2>
+<p>$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$</p>
+<p><strong>Properties:</strong> Symmetric, bell-shaped, fully described by mean (μ) and variance (σ²). Sum of independent normals is normal.</p>
+<p><strong>Critical quantiles to MEMORIZE:</strong></p>
+<table>
+<thead>
+<tr>
+<th>z-score</th>
+<th>Tail probability</th>
+<th>VaR use</th>
+<th>Finance meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.00</td>
+<td>15.87% one-tail</td>
+<td>—</td>
+<td>"1-sigma move"</td>
+</tr>
+<tr>
+<td>1.28</td>
+<td>10% one-tail</td>
+<td>90% VaR</td>
+<td>—</td>
+</tr>
+<tr>
+<td>1.645</td>
+<td>5% one-tail</td>
+<td>95% VaR</td>
+<td>"Within-day stress"</td>
+</tr>
+<tr>
+<td>1.96</td>
+<td>2.5% one-tail</td>
+<td>—</td>
+<td>95% CI boundary (two-tail)</td>
+</tr>
+<tr>
+<td>2.326</td>
+<td>1% one-tail</td>
+<td><strong>99% VaR</strong></td>
+<td>Standard regulatory VaR</td>
+</tr>
+<tr>
+<td>2.576</td>
+<td>0.5% one-tail</td>
+<td>99.5%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3.09</td>
+<td>0.1% one-tail</td>
+<td>99.9%</td>
+<td>"Catastrophic tail"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sigma ranges:</strong></p>
 <table>
 <thead>
 <tr>
 <th>Range</th>
-<th>% within</th>
-<th>Tail probability</th>
+<th>Probability within</th>
+<th>Practical meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>±1σ</td>
 <td>68.27%</td>
-<td>15.87% per tail</td>
-</tr>
-<tr>
-<td>±1.645σ</td>
-<td>90%</td>
-<td>5% per tail (95% VaR)</td>
+<td>"About two-thirds of trading days"</td>
 </tr>
 <tr>
 <td>±2σ</td>
 <td>95.45%</td>
-<td>2.28% per tail</td>
-</tr>
-<tr>
-<td>±2.326σ</td>
-<td>98%</td>
-<td>1% per tail (99% VaR)</td>
+<td>"Once a month event if breached"</td>
 </tr>
 <tr>
 <td>±3σ</td>
 <td>99.73%</td>
-<td>0.13% per tail</td>
+<td>"Should see ~1 per year in a daily context"</td>
+</tr>
+<tr>
+<td>±4σ</td>
+<td>99.994%</td>
+<td>"Normal says every 126 years; reality ≈ every 2-3 years"</td>
 </tr>
 </tbody>
 </table>
-<h2 id="log-normal">Log-Normal</h2>
-<ul>
-<li>Asset prices follow log-normal: prices can't go below zero, returns are multiplicative.</li>
-<li>If $\ln(P)$ is normal → $P$ is log-normal.</li>
-<li>Right-skewed: most outcomes clustered left, long right tail (big gains possible, max loss capped at -100%).</li>
-</ul>
+<p><strong>Where normal works:</strong> Portfolio returns (CLT), short-horizon log returns for liquid assets, Monte Carlo inputs (as a starting point).</p>
+<p><strong>Where normal FAILS:</strong> Individual equity returns (fat tails), crisis returns (regime shift), options P&amp;L (non-linear), credit losses (zero-one default events).</p>
+<h2 id="log-normal-distribution">Log-Normal Distribution</h2>
+<p>If $\ln(P_T / P_0) \sim N(\mu, \sigma^2)$, then $P_T$ is log-normally distributed.</p>
+<p><strong>Why prices are modeled as log-normal:</strong><br />
+- Prices can't go below zero (mostly — oil in April 2020 proved exceptions exist)<br />
+- Returns are multiplicative: $P_T = P_0 \cdot e^{r}$, where $r \sim N(\mu, \sigma^2)$<br />
+- Log-normal is right-skewed: large gains possible, losses bounded at -100%</p>
+<p><strong>Geometric Brownian Motion (GBM):</strong></p>
+<p>$$dS = \mu S \, dt + \sigma S \, dW$$</p>
+<p>This is the foundation of Black-Scholes. It says price changes are proportional to price level (percentage returns, not dollar returns, are the natural unit).</p>
+<p><strong>Key relationship (continuous compounding):</strong></p>
+<p>$$S_T = S_0 \cdot \exp\left[(\mu - \tfrac{1}{2}\sigma^2)T + \sigma\sqrt{T} \cdot Z\right]$$</p>
+<p>The $-\frac{1}{2}\sigma^2$ correction (the "convexity adjustment") is why the expected future price is NOT $S_0 \cdot e^{\mu T}$ — volatility drags returns down. This matters for long-horizon risk calculations.</p>
+<p><strong>Worked example — volatility drag:</strong></p>
+<blockquote>
+<p>Stock has μ = 10% annual return, σ = 30%.<br />
+- Arithmetic mean return: 10%<br />
+- Expected geometric return: 10% - ½ × (30%)² = 10% - 4.5% = <strong>5.5%</strong><br />
+- Over 10 years: $100 × e^(0.055 × 10) = <strong>$173</strong> (geometric)<br />
+- Naively: $100 × e^(0.10 × 10) = <strong>$272</strong> (arithmetic — WRONG for compounded returns)<br />
+- <strong>Volatility drag costs 37% over a decade at 30% vol</strong></p>
+</blockquote>
 <h2 id="students-t-distribution">Student's t-Distribution</h2>
-<ul>
-<li>Fatter tails than normal, controlled by degrees of freedom $\nu$.</li>
-<li>$\nu = 3$: very fat tails. $\nu \to \infty$: converges to normal.</li>
-<li>Used for small samples and when data exhibits fat tails.</li>
-</ul>
-<h2 id="fat-tails-the-most-important-concept">Fat Tails — The Most Important Concept</h2>
-<p>Financial returns have <strong>excess kurtosis</strong> (kurtosis &gt; 3). Events that should happen once every 10,000 years under normal assumptions occur every 10-20 years in reality.</p>
-<p><strong>Why this matters:</strong><br />
-- VaR under normal assumption UNDERSTATES true tail risk.<br />
-- This is WHY Expected Shortfall (average loss beyond VaR) is preferred.<br />
-- FRTB replaced VaR with ES for regulatory capital.</p>
-<hr />
-<h1 id="part-2-probability-foundations">PART 2: PROBABILITY FOUNDATIONS</h1>
-<h2 id="bayes-theorem">Bayes' Theorem</h2>
-<p>$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</p>
-<p><strong>Classic interview example:</strong> A disease affects 1 in 10,000 people. A test is 99% accurate (both sensitivity and specificity). You test positive. What's the probability you actually have the disease?</p>
-<ul>
-<li>$P(\text{disease}) = 0.0001$</li>
-<li>$P(\text{positive | disease}) = 0.99$</li>
-<li>$P(\text{positive | no disease}) = 0.01$</li>
-<li>$P(\text{positive}) = 0.99 \times 0.0001 + 0.01 \times 0.9999 = 0.010098$</li>
-</ul>
-<p>$$P(\text{disease | positive}) = \frac{0.99 \times 0.0001}{0.010098} = 0.0098 \approx 0.98\%$$</p>
-<p><strong>Answer: ~1%, NOT 99%.</strong> The base rate dominates. This is crucial for risk: a "99% accurate" model doesn't mean a 99% chance you're right — it depends on how rare the event is.</p>
-<h2 id="central-limit-theorem-clt">Central Limit Theorem (CLT)</h2>
-<p>The average of a large number of independent random variables is approximately normally distributed, <strong>regardless of the underlying distribution</strong>.</p>
-<p><strong>Why it matters:</strong> This is why portfolio returns tend toward normal (many positions averaging out) and why sample means are easier to work with than individual observations.</p>
-<h2 id="law-of-large-numbers">Law of Large Numbers</h2>
-<p>Sample mean converges to population mean as $n \to \infty$.</p>
-<p><strong>Application:</strong> Why PMs need long track records. A PM with 6 months of returns can't be distinguished from luck. Years of returns → skill signal emerges.</p>
-<hr />
-<h1 id="part-3-hypothesis-testing">PART 3: HYPOTHESIS TESTING</h1>
-<h2 id="framework">Framework</h2>
-<ol>
-<li>State $H_0$ (null: "no effect") vs $H_1$ (alternative: "there is an effect").</li>
-<li>Choose significance level $\alpha$ (0.05 or 0.01).</li>
-<li>Compute test statistic.</li>
-<li>If p-value &lt; $\alpha$ → reject $H_0$.</li>
-</ol>
-<h2 id="errors">Errors</h2>
+<p><strong>When to use it:</strong> Fat-tailed data or small samples where normal is inappropriate.</p>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>$H_0$ true</th>
-<th>$H_0$ false</th>
+<th>Degrees of freedom (ν)</th>
+<th>Tail behavior</th>
+<th>Finance application</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Reject $H_0$</td>
-<td><strong>Type I</strong> (false positive)</td>
-<td>Correct</td>
+<td>ν = 3</td>
+<td>Very heavy tails; no finite kurtosis</td>
+<td>Extreme asset classes (crypto, commodities)</td>
 </tr>
 <tr>
-<td>Fail to reject $H_0$</td>
-<td>Correct</td>
-<td><strong>Type II</strong> (false negative)</td>
+<td>ν = 5</td>
+<td>Heavy tails; finite kurtosis = 9</td>
+<td>Typical equity returns</td>
+</tr>
+<tr>
+<td>ν = 10</td>
+<td>Moderate tails; kurtosis = 4</td>
+<td>FX, bond returns</td>
+</tr>
+<tr>
+<td>ν = 30</td>
+<td>Approaching normal</td>
+<td>Diversified portfolio returns</td>
+</tr>
+<tr>
+<td>ν → ∞</td>
+<td>Converges to normal</td>
+<td>Textbook (unrealistic)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="pm-alpha-test-is-this-skill-or-luck">PM Alpha Test — Is This Skill or Luck?</h2>
-<p>$$t = \frac{\bar{r} - 0}{s / \sqrt{n}}$$</p>
-<p><strong>Example:</strong> PM averages +5bps/day over 252 trading days. Daily vol = 80bps.<br />
-$$t = \frac{0.05}{0.80 / \sqrt{252}} = \frac{0.05}{0.0504} = 0.99$$</p>
-<p>Need $t &gt; 2.0$ for significance at 5% level. <strong>Result: NOT statistically significant.</strong> 252 days of 5bps daily return with 80bps volatility is indistinguishable from luck.</p>
-<p><strong>Insight for interview:</strong> "When evaluating a PM's track record, I'd compute the t-statistic on their excess returns. A Sharpe of 0.5 needs ~16 years of data to be statistically significant at the 5% level. Most PM track records are too short to prove skill."</p>
-<hr />
-<h1 id="part-4-regression-factor-models">PART 4: REGRESSION &amp; FACTOR MODELS</h1>
-<h2 id="simple-ols">Simple OLS</h2>
-<p>$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$</p>
+<p><strong>Practical use:</strong> When fitting a VaR model, replace the normal with Student-t. The 99th percentile of a t(5) distribution is ~3.36σ vs. 2.33σ for normal — that's a 44% higher VaR estimate. This is often more realistic.</p>
+<h2 id="exponential-distribution">Exponential Distribution</h2>
+<p>$$f(x) = \lambda e^{-\lambda x}, \quad x \geq 0$$</p>
 <ul>
-<li>$\beta_1$: sensitivity of $y$ to $x$ (e.g., portfolio return to market return = beta)</li>
-<li>$R^2$: fraction of variance explained</li>
-<li>Adjusted $R^2$: penalizes for adding more variables (prevents overfitting)</li>
+<li><strong>Mean:</strong> $1/\lambda$</li>
+<li><strong>Memoryless property:</strong> $P(X &gt; s + t \mid X &gt; s) = P(X &gt; t)$</li>
 </ul>
-<h2 id="multi-factor-regression">Multi-Factor Regression</h2>
-<p>$$r_{\text{portfolio}} = \alpha + \beta_1 r_{\text{market}} + \beta_2 r_{\text{rates}} + \beta_3 r_{\text{oil}} + \epsilon$$</p>
-<p>Decomposes portfolio return into:<br />
-- $\alpha$: genuine skill (the residual after accounting for factor exposure)<br />
-- $\beta_i$: sensitivity to each factor (exposures the PM is taking)<br />
-- $\epsilon$: unexplained noise</p>
-<p><strong>RM use:</strong> "This PM has an alpha of 3%, but their beta to the market is 1.4 and their beta to oil is 0.8. In a rising market with strong oil, most of their return is factor exposure, not skill."</p>
-<h2 id="common-pitfalls">Common Pitfalls</h2>
+<p><strong>Finance application — inter-event times:</strong><br />
+If major market dislocations arrive at rate λ = 0.5 per year:<br />
+- Expected time between events: 1/0.5 = 2 years<br />
+- P(event in next 6 months): $1 - e^{-0.5 \times 0.5}$ = 1 - 0.779 = <strong>22.1%</strong><br />
+- P(no event for 3 years): $e^{-0.5 \times 3}$ = <strong>22.3%</strong></p>
+<h2 id="poisson-distribution">Poisson Distribution</h2>
+<p>$$P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}$$</p>
+<p>Models count of events in a fixed period. Mean = variance = λ.</p>
+<p><strong>Finance application — VaR breach counting:</strong></p>
+<blockquote>
+<p>If the VaR model is correct at 99%, expected breaches in 250 days: λ = 2.5.<br />
+- P(0 breaches) = e^(-2.5) = <strong>8.2%</strong> (model may be too conservative)<br />
+- P(exactly 3 breaches) = (2.5³ × e^(-2.5)) / 3! = <strong>21.4%</strong> (normal)<br />
+- P(≥8 breaches) = 1 - P(X ≤ 7) = <strong>0.9%</strong> (model probably broken)</p>
+</blockquote>
+<h2 id="bernoulli-and-binomial">Bernoulli and Binomial</h2>
+<p><strong>Bernoulli:</strong> Single trial with probability p. Mean = p, Variance = p(1-p).</p>
+<p><strong>Binomial:</strong> n independent Bernoulli trials. $P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$</p>
+<p><strong>Finance application — drawdown probability:</strong></p>
+<blockquote>
+<p>PM has 55% win rate on daily trades. In a 20-day month:<br />
+- P(15+ winning days) = $\sum_{k=15}^{20} \binom{20}{k} (0.55)^k (0.45)^{20-k}$ = <strong>6.7%</strong><br />
+- P(≤7 winning days) = $\sum_{k=0}^{7} \binom{20}{k} (0.55)^k (0.45)^{20-k}$ = <strong>5.2%</strong> (bad month)<br />
+- P(losing streak of 5+) requires geometric/Markov analysis — surprisingly common even at 55% win rate</p>
+</blockquote>
+<hr />
+<h1 id="part-2-probability-foundations">PART 2: PROBABILITY FOUNDATIONS</h1>
+<h2 id="bayes-theorem-the-most-important-formula-in-risk">Bayes' Theorem — The Most Important Formula in Risk</h2>
+<p>$$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}$$</p>
+<p><strong>In words:</strong> Posterior = (Likelihood × Prior) / Evidence</p>
+<h3 id="classic-interview-problem-the-disease-test">Classic Interview Problem — The Disease Test</h3>
+<p>A disease affects 1 in 10,000 people. A test is 99% accurate (sensitivity AND specificity). You test positive. Probability you have the disease?</p>
 <table>
 <thead>
 <tr>
-<th>Pitfall</th>
+<th>Term</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P(disease) = prior</td>
+<td>0.0001</td>
+<td>Base rate is very low</td>
+</tr>
+<tr>
+<td>P(+|disease) = sensitivity</td>
+<td>0.99</td>
+<td>Test catches 99% of true cases</td>
+</tr>
+<tr>
+<td>P(+|no disease) = 1 - specificity</td>
+<td>0.01</td>
+<td>Test has 1% false positive rate</td>
+</tr>
+<tr>
+<td>P(+) = evidence</td>
+<td>0.99 × 0.0001 + 0.01 × 0.9999 = 0.010098</td>
+<td>Total rate of positive tests</td>
+</tr>
+</tbody>
+</table>
+<p>$$P(\text{disease} \mid +) = \frac{0.99 \times 0.0001}{0.010098} = 0.0098 \approx \textbf{0.98\%}$$</p>
+<p><strong>Answer: ~1%, NOT 99%.</strong> The base rate dominates. A "99% accurate" test with a rare event mostly produces false positives.</p>
+<h3 id="bayesian-updating-in-risk">Bayesian Updating in Risk</h3>
+<p>This is DIRECTLY applicable to risk: when a PM has a bad month, how much should you update your belief about their skill?</p>
+<p><strong>Worked example — PM evaluation:</strong></p>
+<blockquote>
+<ul>
+<li>Prior: You believe there's a 70% chance this PM is skilled (positive alpha).</li>
+<li>A skilled PM has a bad month (≥2σ drawdown) 5% of the time.</li>
+<li>An unskilled PM has a bad month 15% of the time.</li>
+</ul>
+<p>After observing a bad month:<br />
+$$P(\text{skilled} \mid \text{bad month}) = \frac{0.05 \times 0.70}{0.05 \times 0.70 + 0.15 \times 0.30}$$<br />
+$$= \frac{0.035}{0.035 + 0.045} = \frac{0.035}{0.08} = \textbf{43.75\%}$$</p>
+<p><strong>One bad month drops your confidence from 70% to 44%.</strong> Two bad months:<br />
+$$P(\text{skilled} \mid 2\text{ bad months}) = \frac{0.05 \times 0.4375}{0.05 \times 0.4375 + 0.15 \times 0.5625} = \frac{0.0219}{0.0219 + 0.0844} = \textbf{20.6\%}$$</p>
+<p>After two 2σ drawdowns, you're 80% confident this PM is unskilled. Act accordingly.</p>
+</blockquote>
+<h3 id="bayesian-thinking-in-daily-rm">Bayesian Thinking in Daily RM</h3>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Prior</th>
+<th>Evidence</th>
+<th>Updated belief</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PM reports +$5M day</td>
+<td>"PM is average"</td>
+<td>Unusually large profit</td>
+<td>Slightly more confident PM is skilled</td>
+</tr>
+<tr>
+<td>VaR breached 3 times this month</td>
+<td>"Model is calibrated"</td>
+<td>3x the expected rate</td>
+<td>Model likely mis-specified; investigate</td>
+</tr>
+<tr>
+<td>Stress indicator flashes</td>
+<td>"Markets are calm"</td>
+<td>Yield curve inverted</td>
+<td>Update toward recession probability</td>
+</tr>
+<tr>
+<td>PM changes style (new names)</td>
+<td>"PM is staying within mandate"</td>
+<td>Portfolio turnover doubled</td>
+<td>Update toward style drift; investigate</td>
+</tr>
+</tbody>
+</table>
+<h2 id="central-limit-theorem-clt">Central Limit Theorem (CLT)</h2>
+<p><strong>Statement:</strong> The sample mean of n independent random variables approaches a normal distribution as n → ∞, regardless of the underlying distribution, with:</p>
+<p>$$\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$$</p>
+<p><strong>Standard error of the mean:</strong> $\text{SE} = \frac{\sigma}{\sqrt{n}}$</p>
+<p><strong>Why CLT matters for risk:</strong><br />
+1. <strong>Portfolio diversification:</strong> Even if individual stock returns aren't normal, a portfolio of 50+ stocks has returns that are approximately normal (sum of many independent-ish variables). This is why VaR works better for diversified portfolios than for single names.<br />
+2. <strong>Estimation precision:</strong> To halve the standard error of your volatility estimate, you need 4x the data (because SE scales with 1/√n). 1 year of data → SE/2 requires 4 years.<br />
+3. <strong>CLT failure mode:</strong> If returns have infinite variance (some fat-tailed distributions), CLT doesn't apply. This is why extreme events can persist even in large portfolios.</p>
+<h2 id="law-of-large-numbers-lln">Law of Large Numbers (LLN)</h2>
+<p>$$\bar{X}_n \xrightarrow{p} \mu \quad \text{as } n \to \infty$$</p>
+<p><strong>Finance application — PM track record evaluation:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Track record length</th>
+<th>What you can conclude</th>
+<th>Statistical power</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6 months</td>
+<td>Almost nothing; noise dominates</td>
+<td>Extremely low</td>
+</tr>
+<tr>
+<td>1 year</td>
+<td>Slight signal if Sharpe &gt; 2</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>3 years</td>
+<td>Meaningful if Sharpe &gt; 1</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>5+ years</td>
+<td>Genuine evaluation possible</td>
+<td>Good</td>
+</tr>
+<tr>
+<td>10+ years</td>
+<td>High confidence</td>
+<td>Strong</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The "how long to prove skill?" formula:</strong></p>
+<p>$$n \geq \left(\frac{z_\alpha}{\text{Sharpe}}\right)^2 \text{ (in years)}$$</p>
+<p>At 95% confidence ($z = 1.96$):<br />
+- Sharpe 0.5: needs $(1.96/0.5)^2$ = <strong>15.4 years</strong><br />
+- Sharpe 1.0: needs $(1.96/1.0)^2$ = <strong>3.8 years</strong><br />
+- Sharpe 2.0: needs $(1.96/2.0)^2$ = <strong>0.96 years</strong></p>
+<p><strong>Insight:</strong> Most hedge fund PMs have 2-3 year track records and Sharpe ratios around 1.0. That's NOT ENOUGH to statistically prove skill at 95% confidence. We allocate on faith, judgment, and qualitative assessment — not statistical significance.</p>
+<h2 id="conditional-probability-independence">Conditional Probability &amp; Independence</h2>
+<p><strong>Multiplication rule:</strong> $P(A \cap B) = P(A \mid B) \cdot P(B)$</p>
+<p><strong>Independence:</strong> $P(A \cap B) = P(A) \cdot P(B)$, which means $P(A \mid B) = P(A)$.</p>
+<p><strong>Critical risk insight — conditional vs. unconditional:</strong></p>
+<blockquote>
+<ul>
+<li>Unconditional P(SPX down &gt;3% tomorrow) ≈ 1%</li>
+<li>P(SPX down &gt;3% tomorrow | VIX &gt; 35 today) ≈ 8-12%</li>
+<li>P(SPX down &gt;3% tomorrow | VIX &gt; 35 AND dollar strengthening AND credit spreads widening) ≈ 15-20%</li>
+</ul>
+<p>Risk is ALWAYS conditional. The RM's job is to identify the RIGHT conditioning information.</p>
+</blockquote>
+<hr />
+<h1 id="part-3-hypothesis-testing-separating-signal-from-noise">PART 3: HYPOTHESIS TESTING — SEPARATING SIGNAL FROM NOISE</h1>
+<h2 id="the-framework">The Framework</h2>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What to do</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>State H₀ (null: no effect) and H₁ (alternative)</td>
+<td>H₀: PM alpha = 0. H₁: PM alpha &gt; 0.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Choose significance level α</td>
+<td>α = 0.05 (5% false positive rate)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Compute test statistic</td>
+<td>t = (observed - expected) / SE</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Compare to critical value or compute p-value</td>
+<td>p &lt; α → reject H₀</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Interpret IN CONTEXT</td>
+<td>"PM's alpha is statistically different from zero"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="type-i-and-type-ii-errors">Type I and Type II Errors</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>H₀ true (no alpha)</th>
+<th>H₀ false (real alpha)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reject H₀ ("PM has alpha")</td>
+<td><strong>Type I error</strong> (false positive): you think PM is skilled but they're not</td>
+<td><strong>Correct</strong> (true positive)</td>
+</tr>
+<tr>
+<td>Fail to reject H₀ ("no evidence of alpha")</td>
+<td><strong>Correct</strong> (true negative)</td>
+<td><strong>Type II error</strong> (false negative): you miss a skilled PM</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In risk management terms:</strong><br />
+- <strong>Type I</strong> = investing in a PM who's actually just lucky → you lose money slowly<br />
+- <strong>Type II</strong> = passing on a PM who's actually skilled → opportunity cost<br />
+- <strong>Type I in model validation</strong> = concluding VaR model is broken when it's fine → costly conservatism<br />
+- <strong>Type II in model validation</strong> = concluding VaR model is fine when it's broken → blow-up</p>
+<p><strong>Power = 1 - β = P(reject H₀ when H₁ is true).</strong> Power increases with:<br />
+- Larger sample size (more data)<br />
+- Larger effect size (bigger alpha)<br />
+- Higher significance level (more willing to accept Type I errors)</p>
+<h2 id="testing-pm-alpha-the-t-test">Testing PM Alpha — The t-Test</h2>
+<p>$$t = \frac{\hat{\alpha}}{\text{SE}(\hat{\alpha})} = \frac{\hat{\alpha}}{s / \sqrt{n}}$$</p>
+<p>where $\hat{\alpha}$ = estimated daily alpha, $s$ = daily return standard deviation, $n$ = number of trading days.</p>
+<p><strong>Worked example 1 — "Good" PM:</strong></p>
+<blockquote>
+<p>PM averages +8bps/day over 500 trading days (~2 years). Daily vol = 60bps.<br />
+$$t = \frac{0.08}{0.60 / \sqrt{500}} = \frac{0.08}{0.0268} = 2.98$$<br />
+p-value ≈ 0.001 (one-tailed). <strong>Reject H₀ at 1% level.</strong> Evidence of genuine skill.<br />
+Annualized alpha: 8bps × 252 ≈ 20%. Annualized Sharpe: $\frac{0.08}{0.60} \times \sqrt{252}$ ≈ 2.1.</p>
+</blockquote>
+<p><strong>Worked example 2 — "Lucky" PM:</strong></p>
+<blockquote>
+<p>PM averages +5bps/day over 252 trading days (1 year). Daily vol = 80bps.<br />
+$$t = \frac{0.05}{0.80 / \sqrt{252}} = \frac{0.05}{0.0504} = 0.99$$<br />
+p-value ≈ 0.16 (one-tailed). <strong>Cannot reject H₀.</strong> Not statistically significant. <br />
+Annualized alpha: 5bps × 252 ≈ 12.6%. Annualized Sharpe: $\frac{0.05}{0.80} \times \sqrt{252}$ ≈ 1.0.</p>
+<p><strong>Key insight:</strong> A PM with a Sharpe of 1.0 over 1 year CANNOT be distinguished from luck. You need ~4 years to prove it.</p>
+</blockquote>
+<h2 id="multiple-testing-problem-the-data-mining-trap">Multiple Testing Problem — The Data Mining Trap</h2>
+<p>If you test 100 strategies at α = 5%, you expect <strong>5 false positives</strong> by chance. The strategies that "pass" are mostly noise.</p>
+<p><strong>Corrections:</strong><br />
+| Method | Approach | When to use |<br />
+|---|---|---|<br />
+| Bonferroni | Divide α by number of tests: $α^<em> = α / m$ | Conservative; when tests are independent |<br />
+| Holm-Bonferroni | Step-down: order p-values, test sequentially | Less conservative than Bonferroni |<br />
+| Benjamini-Hochberg (FDR) | Controls false discovery rate, not family-wise error | When some false positives are acceptable |<br />
+| Haircut Sharpe | Deflate backtest Sharpe: $\text{SR}^</em> = \text{SR} - \sqrt{\frac{2 \ln(m)}{n}}$ | Quick adjustment for strategy screening |</p>
+<p><strong>Worked example — Haircut Sharpe:</strong></p>
+<blockquote>
+<p>Quant tested 500 strategies, found one with Sharpe = 2.5 over 5 years (n = 1260 days).<br />
+$$\text{Haircut} = \sqrt{\frac{2 \ln(500)}{1260}} = \sqrt{\frac{12.43}{1260}} = \sqrt{0.00987} = 0.099$$<br />
+$$\text{Adjusted Sharpe} = 2.5 - \sqrt{252} \times 0.099 = 2.5 - 1.57 = \textbf{0.93}$$</p>
+<p><strong>The 2.5 Sharpe becomes 0.93 after adjusting for data mining.</strong> Suddenly much less impressive.</p>
+</blockquote>
+<hr />
+<h1 id="part-4-regression-the-workhorse-of-factor-analysis">PART 4: REGRESSION — THE WORKHORSE OF FACTOR ANALYSIS</h1>
+<h2 id="simple-ols-ordinary-least-squares">Simple OLS (Ordinary Least Squares)</h2>
+<p>$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$</p>
+<p><strong>Minimizing:</strong> $\sum_{i=1}^n (y_i - \hat{y}_i)^2$</p>
+<p>$$\hat{\beta}<em>1 = \frac{\text{Cov}(X, Y)}{\text{Var}(X)} = \rho</em>{X,Y} \cdot \frac{\sigma_Y}{\sigma_X}$$</p>
+<p>$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$$</p>
+<p><strong>R² = fraction of variance explained:</strong></p>
+<p>$$R^2 = 1 - \frac{\text{SS}<em>\text{res}}{\text{SS}</em>\text{tot}} = 1 - \frac{\sum(y_i - \hat{y}_i)^2}{\sum(y_i - \bar{y})^2}$$</p>
+<p>$$R^2 = \rho^2 \quad \text{(for simple OLS)}$$</p>
+<p><strong>Adjusted R²:</strong> Penalizes for additional variables.</p>
+<p>$$R^2_\text{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$</p>
+<p>where $k$ = number of predictors. This prevents overfitting: adding a useless variable increases R² but decreases adjusted R².</p>
+<h2 id="multi-factor-regression">Multi-Factor Regression</h2>
+<p>$$r_p = \alpha + \beta_1 F_1 + \beta_2 F_2 + ... + \beta_k F_k + \epsilon$$</p>
+<p><strong>Full worked example — PM factor decomposition:</strong></p>
+<blockquote>
+<p>Regressing PM monthly returns on 4 factors over 36 months:</p>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>β estimate</th>
+<th>t-stat</th>
+<th>p-value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intercept (α)</td>
+<td>+0.25%/month</td>
+<td>1.85</td>
+<td>0.07</td>
+<td>Alpha marginally significant (not at 5%)</td>
+</tr>
+<tr>
+<td>Market (SPX)</td>
+<td>1.15</td>
+<td>8.23</td>
+<td>&lt;0.001</td>
+<td>Very significant; PM runs 1.15x market beta</td>
+</tr>
+<tr>
+<td>Size (SMB)</td>
+<td>-0.42</td>
+<td>-2.91</td>
+<td>0.006</td>
+<td>Significant; tilted to large cap</td>
+</tr>
+<tr>
+<td>Momentum (WML)</td>
+<td>0.38</td>
+<td>2.44</td>
+<td>0.02</td>
+<td>Significant; positive momentum exposure</td>
+</tr>
+<tr>
+<td>Value (HML)</td>
+<td>0.08</td>
+<td>0.52</td>
+<td>0.61</td>
+<td>NOT significant; no value tilt</td>
+</tr>
+</tbody>
+</table>
+<p>R² = 0.78. Adjusted R² = 0.75.</p>
+<p><strong>RM interpretation:</strong><br />
+- 78% of this PM's returns are explained by factors → only 22% is idiosyncratic<br />
+- Alpha of 0.25%/month ≈ 3%/year, but t = 1.85 → NOT statistically significant at 5%<br />
+- PM is essentially running a leveraged (β = 1.15), large-cap, momentum portfolio<br />
+- "You could replicate 78% of this PM's performance with 4 ETFs at 20bps cost vs. 2/20 fees"</p>
+</blockquote>
+<h2 id="regression-diagnostics-what-can-go-wrong">Regression Diagnostics — What Can Go Wrong</h2>
+<table>
+<thead>
+<tr>
 <th>Problem</th>
+<th>What happens</th>
+<th>Detection</th>
 <th>Fix</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Multicollinearity</td>
-<td>Correlated predictors → unstable $\beta$ estimates</td>
-<td>Check VIF, remove redundant variables</td>
+<td><strong>Multicollinearity</strong></td>
+<td>Predictors correlated → β estimates unstable, signs may flip</td>
+<td>VIF &gt; 5 is concerning; VIF &gt; 10 = problem</td>
+<td>Remove redundant variables; use PCA</td>
 </tr>
 <tr>
-<td>Heteroscedasticity</td>
-<td>Variance not constant → standard errors wrong</td>
-<td>Newey-West robust errors</td>
+<td><strong>Heteroscedasticity</strong></td>
+<td>Variance of errors not constant → wrong standard errors</td>
+<td>White's test; Breusch-Pagan test; plot residuals vs. fitted</td>
+<td>Use robust (White) standard errors</td>
 </tr>
 <tr>
-<td>Autocorrelation</td>
-<td>Serial correlation in residuals → overstated significance</td>
-<td>Durbin-Watson test, HAC errors</td>
+<td><strong>Autocorrelation</strong></td>
+<td>Serial correlation in errors → overstated significance</td>
+<td>Durbin-Watson stat; should be ≈ 2</td>
+<td>Newey-West HAC standard errors</td>
 </tr>
 <tr>
-<td>Spurious correlation</td>
-<td>Two unrelated series both trending → high $R^2$</td>
-<td>First-difference or de-trend the data</td>
+<td><strong>Omitted variable bias</strong></td>
+<td>Missing important factor → β estimates biased</td>
+<td>Theory says a factor matters but it's not in the model</td>
+<td>Add the factor</td>
+</tr>
+<tr>
+<td><strong>Endogeneity</strong></td>
+<td>X and ε correlated → β is biased</td>
+<td>Economic reasoning (reverse causality?)</td>
+<td>IV estimation (instrumental variables)</td>
+</tr>
+<tr>
+<td><strong>Structural breaks</strong></td>
+<td>Relationship changes over time → single model inappropriate</td>
+<td>Chow test; rolling regression with unstable β</td>
+<td>Rolling regression; regime-switching model</td>
 </tr>
 </tbody>
 </table>
-<h2 id="correlation-vs-causation">Correlation vs Causation</h2>
-<p>$$\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \cdot \sigma_Y}$$</p>
-<p>Correlation measures LINEAR co-movement. It does NOT imply causation. In finance:<br />
-- Ice cream sales and drowning deaths correlate (both driven by summer heat).<br />
-- Oil prices and airline losses correlate (one causes the other).<br />
-- In crisis, EVERYTHING correlates (common factor: risk appetite).</p>
+<p><strong>The most important regression pitfall in finance — spurious regression:</strong></p>
+<blockquote>
+<p>Two unrelated non-stationary series (e.g., GDP and SPX price level) will show high R² simply because both trend upward. The correlation is meaningless.</p>
+<p><strong>Fix:</strong> Regress on RETURNS (stationary), not levels. Or use cointegration tests.</p>
+</blockquote>
+<h2 id="correlation-and-its-traps">Correlation and Its Traps</h2>
+<p>$$\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \cdot \sigma_Y} = \frac{E[(X-\mu_X)(Y-\mu_Y)]}{\sigma_X \cdot \sigma_Y}$$</p>
+<p><strong>Properties:</strong> $-1 \leq \rho \leq 1$. Symmetric: $\rho_{X,Y} = \rho_{Y,X}$.</p>
+<p><strong>Correlation pitfalls in finance:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Example</th>
+<th>Why it's wrong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Correlation ≠ causation</td>
+<td>Oil up ↔ energy stocks up</td>
+<td>Causation here; but not all correlations are causal</td>
+</tr>
+<tr>
+<td>Correlation is LINEAR only</td>
+<td>Two assets with V-shaped P&amp;L relationship → ρ ≈ 0</td>
+<td>Use Spearman rank correlation or copulas for non-linear</td>
+</tr>
+<tr>
+<td>Regime-dependent</td>
+<td>Stock-bond ρ = -0.4 (normal) → +0.5 (inflation)</td>
+<td>Which ρ does your model use?</td>
+</tr>
+<tr>
+<td>Time-varying</td>
+<td>ρ(SPX, crude) was +0.3 in 2015, +0.7 in 2020, +0.1 in 2024</td>
+<td>Rolling correlation windows</td>
+</tr>
+<tr>
+<td>Outlier-sensitive</td>
+<td>One extreme co-move can distort ρ for the entire sample</td>
+<td>Use robust correlation; winsorize outliers</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Partial correlation — removing confounders:</strong></p>
+<p>$$\rho_{X,Y \cdot Z} = \frac{\rho_{X,Y} - \rho_{X,Z} \cdot \rho_{Y,Z}}{\sqrt{1 - \rho_{X,Z}^2} \cdot \sqrt{1 - \rho_{Y,Z}^2}}$$</p>
+<p>This controls for a third variable Z. Example: what's the correlation between oil and airline stocks AFTER removing the effect of overall market (SPX)? The partial correlation is the "pure" relationship.</p>
 <hr />
-<h1 id="part-5-monte-carlo-simulation">PART 5: MONTE CARLO SIMULATION</h1>
-<h2 id="how-it-works">How It Works</h2>
+<h1 id="part-5-time-series-the-language-of-financial-data">PART 5: TIME SERIES — THE LANGUAGE OF FINANCIAL DATA</h1>
+<h2 id="stationarity-deeper-treatment">Stationarity (Deeper Treatment)</h2>
+<p><strong>Strict stationarity:</strong> Joint distribution of $(X_t, X_{t+1}, ..., X_{t+k})$ is the same for all $t$.</p>
+<p><strong>Weak stationarity (covariance stationarity):</strong> Mean and autocovariance don't depend on time.</p>
+<p><strong>Testing for stationarity:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Null hypothesis</th>
+<th>Reject means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Augmented Dickey-Fuller (ADF)</td>
+<td>Series has unit root (NON-stationary)</td>
+<td>Series IS stationary</td>
+</tr>
+<tr>
+<td>Phillips-Perron (PP)</td>
+<td>Same as ADF (non-parametric correction)</td>
+<td>Series IS stationary</td>
+</tr>
+<tr>
+<td>KPSS</td>
+<td>Series IS stationary</td>
+<td>Series is NON-stationary</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Best practice:</strong> Use ADF AND KPSS together. If ADF rejects and KPSS fails to reject → strong evidence of stationarity.</p>
+<p><strong>Typical results in finance:</strong><br />
+| Series | ADF result | Stationary? |<br />
+|---|---|---|<br />
+| Stock prices | Fail to reject | ❌ Non-stationary |<br />
+| Stock returns | Reject | ✅ Stationary |<br />
+| VIX level | Reject (mean-reverting) | ✅ Stationary |<br />
+| Interest rates | Mixed — near unit root | ⚠️ Near-non-stationary |<br />
+| GDP | Fail to reject | ❌ Non-stationary (trending) |</p>
+<h2 id="autoregressive-ar-models">Autoregressive (AR) Models</h2>
+<p>$$X_t = c + \phi_1 X_{t-1} + \phi_2 X_{t-2} + ... + \phi_p X_{t-p} + \epsilon_t$$</p>
+<p><strong>AR(1):</strong> $X_t = c + \phi X_{t-1} + \epsilon_t$</p>
+<table>
+<thead>
+<tr>
+<th>φ value</th>
+<th>Behavior</th>
+<th>Market example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>|φ| &lt; 1</td>
+<td>Stationary, mean-reverting</td>
+<td>VIX, credit spreads</td>
+</tr>
+<tr>
+<td>φ = 1</td>
+<td>Random walk (unit root)</td>
+<td>Stock prices</td>
+</tr>
+<tr>
+<td>|φ| &gt; 1</td>
+<td>Explosive (unstable)</td>
+<td>Bubble dynamics (short-lived)</td>
+</tr>
+<tr>
+<td>φ &gt; 0</td>
+<td>Positive autocorrelation → momentum</td>
+<td>CTA signals</td>
+</tr>
+<tr>
+<td>φ &lt; 0</td>
+<td>Negative autocorrelation → mean reversion</td>
+<td>Stat arb signals</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Half-life of mean reversion:</strong></p>
+<p>$$t_{1/2} = \frac{-\ln(2)}{\ln(|\phi|)}$$</p>
+<p>If φ = 0.95: half-life = -ln(2) / ln(0.95) = 0.693 / 0.0513 = <strong>13.5 days</strong>. A deviation from the mean takes ~14 days to halve.</p>
+<h2 id="cointegration-beyond-correlation">Cointegration — Beyond Correlation</h2>
+<p>Two non-stationary series are <strong>cointegrated</strong> if a LINEAR COMBINATION of them is stationary.</p>
+<p><strong>Example:</strong> SPY and IVV both track S&amp;P 500. Each is non-stationary (prices trend), but:<br />
+$$\text{SPY}_t - \beta \cdot \text{IVV}_t \approx \text{stationary spread}$$</p>
+<p><strong>Why it matters for risk:</strong><br />
+- Two correlated assets can decorrelate temporarily (ρ can drop to 0 or flip sign).<br />
+- Two COINTEGRATED assets have a LONG-RUN equilibrium relationship — the spread mean-reverts. This is the foundation of pairs/stat arb trading.<br />
+- For hedging: cointegrated hedge ratios are more stable than correlation-based ratios.</p>
+<p><strong>Engle-Granger test:</strong> <br />
+1. Regress Y on X ($Y_t = \alpha + \beta X_t + e_t$)<br />
+2. Test residuals ($e_t$) for stationarity using ADF<br />
+3. If residuals are stationary → X and Y are cointegrated</p>
+<hr />
+<h1 id="part-6-monte-carlo-simulation-generating-the-future">PART 6: MONTE CARLO SIMULATION — GENERATING THE FUTURE</h1>
+<h2 id="the-method">The Method</h2>
 <ol>
-<li>Define the probability distribution of returns (or risk factors).</li>
-<li>Generate thousands of random scenarios from that distribution.</li>
-<li>Compute portfolio P&amp;L for each scenario.</li>
-<li>Extract risk metrics (VaR = percentile, ES = average beyond VaR).</li>
+<li><strong>Specify</strong> the probability distribution of each risk factor (returns, rates, vol)</li>
+<li><strong>Generate</strong> N random scenarios from those distributions</li>
+<li><strong>Compute</strong> portfolio P&amp;L for each scenario (including non-linear effects)</li>
+<li><strong>Extract</strong> risk metrics from the P&amp;L distribution</li>
 </ol>
 <h2 id="single-asset-monte-carlo-var">Single-Asset Monte Carlo VaR</h2>
-<div class="highlight"><pre><span></span><code><span class="n">mu</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">sigma</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-<span class="n">simulated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">)</span>
-<span class="n">simulated_pnl</span> <span class="o">=</span> <span class="n">portfolio_value</span> <span class="o">*</span> <span class="n">simulated</span>
-<span class="n">var_99</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">simulated_pnl</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</code></pre></div>
-
-<h2 id="multi-asset-with-correlation-cholesky">Multi-Asset with Correlation (Cholesky)</h2>
-<p>When assets are correlated, you can't simulate them independently. Use Cholesky decomposition:</p>
-<p>$$\text{correlated_returns} = L \cdot z$$</p>
-<p>Where $L$ = Cholesky factor of the covariance matrix, $z$ = vector of independent standard normals.</p>
-<p>This preserves the correlation structure across assets in simulation.</p>
-<h2 id="limitations">Limitations</h2>
-<ul>
-<li>Output is only as good as the input distribution (garbage in = garbage out).</li>
-<li>Normal assumptions understate tails.</li>
-<li>Correlations assumed constant (they're not — they spike in crisis).</li>
-<li>Computationally expensive for large portfolios.</li>
-</ul>
+<p><strong>Step by step:</strong><br />
+1. Estimate μ and σ from historical returns<br />
+2. Generate N ~ 10,000+ standard normal random draws: $Z_i$<br />
+3. Compute simulated returns: $r_i = \mu + \sigma \cdot Z_i$<br />
+4. Compute simulated P&amp;L: $\text{PnL}_i = \text{Position Value} \times r_i$<br />
+5. VaR (99%) = negative of the 1st percentile of P&amp;L distribution</p>
+<p><strong>Worked example:</strong></p>
+<blockquote>
+<p>Portfolio value: $100M. μ = 0.03% daily. σ = 1.2% daily.<br />
+10,000 simulations: r_i = 0.0003 + 0.012 × Z_i<br />
+PnL_i = $100M × r_i<br />
+1st percentile of PnL = <strong>-$2.75M</strong><br />
+→ 99% 1-day VaR = <strong>$2.75M</strong></p>
+<p><strong>Compare to analytical:</strong> VaR = $100M × 2.326 × 1.2% = <strong>$2.79M</strong> (close — as expected when distribution is normal and payoff is linear)</p>
+</blockquote>
+<h2 id="multi-asset-with-correlation-cholesky-decomposition">Multi-Asset with Correlation — Cholesky Decomposition</h2>
+<p>If asset returns are correlated, you can't simulate them independently.</p>
+<p><strong>Method:</strong><br />
+1. Build the correlation matrix $\Sigma$<br />
+2. Compute the Cholesky decomposition: $\Sigma = L L^T$<br />
+3. Generate independent standard normals: $Z$<br />
+4. Transform: $\text{Correlated returns} = L \cdot Z$</p>
+<p><strong>2-asset example:</strong></p>
+<blockquote>
+<p>Asset A: μₐ = 0.05%, σₐ = 1.0%. Asset B: μᵦ = 0.03%, σᵦ = 1.5%. ρ = 0.6.</p>
+<p>Correlation matrix: $\Sigma = \begin{pmatrix} 1 &amp; 0.6 \ 0.6 &amp; 1 \end{pmatrix}$</p>
+<p>Cholesky: $L = \begin{pmatrix} 1 &amp; 0 \ 0.6 &amp; 0.8 \end{pmatrix}$</p>
+<p>For independent draws $Z_1, Z_2$:<br />
+- $r_A = \mu_A + \sigma_A \cdot Z_1$<br />
+- $r_B = \mu_B + \sigma_B \cdot (0.6 \cdot Z_1 + 0.8 \cdot Z_2)$</p>
+<p>Now A and B are correlated with ρ = 0.6 in each simulation.</p>
+</blockquote>
+<h2 id="when-monte-carlo-analytical">When Monte Carlo &gt; Analytical</h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Why analytical fails</th>
+<th>Why MC works</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Options portfolios (non-linear)</td>
+<td>Delta-normal VaR ignores gamma</td>
+<td>MC simulates actual payoff including curvature</td>
+</tr>
+<tr>
+<td>Path-dependent risk</td>
+<td>Margin calls, stop-losses trigger during the path</td>
+<td>MC can simulate day-by-day paths</td>
+</tr>
+<tr>
+<td>Fat tails</td>
+<td>Normal assumption wrong</td>
+<td>MC can sample from t-distribution, GPD, etc.</td>
+</tr>
+<tr>
+<td>Complex correlations</td>
+<td>Covariance matrix too simple</td>
+<td>MC can use copulas for tail dependence</td>
+</tr>
+<tr>
+<td>Stress testing</td>
+<td>Need specific scenario combinations</td>
+<td>MC can condition on stress events</td>
+</tr>
+</tbody>
+</table>
+<h2 id="variance-reduction-techniques">Variance Reduction Techniques</h2>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>How it works</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Antithetic variates</td>
+<td>For each Z, also simulate -Z</td>
+<td>Reduces variance by ~30-50%</td>
+</tr>
+<tr>
+<td>Control variates</td>
+<td>Use a variable with known expected value to adjust</td>
+<td>Reduces variance proportional to correlation</td>
+</tr>
+<tr>
+<td>Importance sampling</td>
+<td>Oversample the tail region of interest</td>
+<td>Critical for rare event estimation</td>
+</tr>
+<tr>
+<td>Stratified sampling</td>
+<td>Divide distribution into strata, sample from each</td>
+<td>Ensures tail representation</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h1 id="part-6-annualization">PART 6: ANNUALIZATION</h1>
-<p><strong>The most common mental math in risk:</strong></p>
+<h1 id="part-7-moment-analysis-beyond-mean-and-variance">PART 7: MOMENT ANALYSIS — BEYOND MEAN AND VARIANCE</h1>
+<h2 id="the-four-moments">The Four Moments</h2>
+<table>
+<thead>
+<tr>
+<th>Moment</th>
+<th>What it measures</th>
+<th>Formula (excess)</th>
+<th>Normal value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1st: Mean (μ)</td>
+<td>Central tendency</td>
+<td>$E[X]$</td>
+<td>Any</td>
+</tr>
+<tr>
+<td>2nd: Variance (σ²)</td>
+<td>Dispersion / risk</td>
+<td>$E[(X-\mu)^2]$</td>
+<td>Any</td>
+</tr>
+<tr>
+<td>3rd: Skewness (γ₁)</td>
+<td>Asymmetry</td>
+<td>$E\left[\left(\frac{X-\mu}{\sigma}\right)^3\right]$</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4th: Kurtosis (κ)</td>
+<td>Tail thickness</td>
+<td>$E\left[\left(\frac{X-\mu}{\sigma}\right)^4\right] - 3$</td>
+<td>0 (excess)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="skewness-in-finance">Skewness in Finance</h2>
+<table>
+<thead>
+<tr>
+<th>Skew</th>
+<th>Distribution shape</th>
+<th>Typical strategy</th>
+<th>Risk character</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>γ₁ &lt; -1</td>
+<td>Heavy left tail</td>
+<td>Short vol, sell puts, carry</td>
+<td>Frequent small gains, rare large losses</td>
+</tr>
+<tr>
+<td>γ₁ ≈ 0</td>
+<td>Symmetric</td>
+<td>Market beta, balanced</td>
+<td>Symmetric risk</td>
+</tr>
+<tr>
+<td>γ₁ &gt; +1</td>
+<td>Heavy right tail</td>
+<td>Long vol, trend following</td>
+<td>Frequent small losses, rare large gains</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The Sharpe-Skew deception:</strong><br />
+A short-vol strategy with Sharpe = 1.5 and skew = -3.0 LOOKS great until the tail event arrives. The Sharpe ratio treats upside and downside volatility equally — it REWARDS negative skew because the denominator (total vol) is inflated by rare large losses that haven't happened yet in the sample.</p>
+<p><strong>Risk-adjusted metrics that account for skew:</strong></p>
+<p>$$\text{Sortino} = \frac{R_p - R_f}{\sigma_\text{downside}}$$</p>
+<p>$$\text{Omega}(\theta) = \frac{\int_\theta^\infty [1 - F(x)] \, dx}{\int_{-\infty}^\theta F(x) \, dx} = \frac{\text{Expected gains above threshold}}{\text{Expected losses below threshold}}$$</p>
+<p>$$\text{Adjusted Sharpe} = \text{SR} \times \left[1 + \frac{\gamma_1}{6} \text{SR} - \frac{(\kappa - 3)}{24} \text{SR}^2\right]$$</p>
+<h2 id="kurtosis-the-tail-risk-metric">Kurtosis — The Tail Risk Metric</h2>
+<table>
+<thead>
+<tr>
+<th>Excess kurtosis</th>
+<th>Tail behavior</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>κ = 0</td>
+<td>Normal tails</td>
+<td>Theoretical baseline</td>
+</tr>
+<tr>
+<td>κ = 1-3</td>
+<td>Moderately fat tails</td>
+<td>Large-cap equity indices</td>
+</tr>
+<tr>
+<td>κ = 3-10</td>
+<td>Significantly fat tails</td>
+<td>Individual equities, FX</td>
+</tr>
+<tr>
+<td>κ = 10-30</td>
+<td>Very fat tails</td>
+<td>Commodities (energy, ags)</td>
+</tr>
+<tr>
+<td>κ &gt; 30</td>
+<td>Extremely fat tails</td>
+<td>Crypto, emerging markets</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Practical test:</strong> If kurtosis is high (&gt;3), then:<br />
+- VaR at 99% is understated by roughly $(1 + \kappa/8) \times$ the normal estimate (rough approximation)<br />
+- Expected Shortfall diverges even more from the normal estimate<br />
+- The Jarque-Bera test will reject normality</p>
+<p>$$\text{JB} = \frac{n}{6}\left(\gamma_1^2 + \frac{(\kappa)^2}{4}\right) \sim \chi^2_2$$</p>
+<hr />
+<h1 id="part-8-annualization-time-scaling">PART 8: ANNUALIZATION &amp; TIME-SCALING</h1>
+<h2 id="the-fundamental-scaling-rules">The Fundamental Scaling Rules</h2>
+<table>
+<thead>
+<tr>
+<th>What scales HOW</th>
+<th>Formula</th>
+<th>Assumption</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Returns scale linearly</td>
+<td>$R_\text{annual} = R_\text{daily} \times 252$</td>
+<td>Additive returns (log returns)</td>
+</tr>
+<tr>
+<td>Variance scales linearly</td>
+<td>$\sigma^2_\text{annual} = \sigma^2_\text{daily} \times 252$</td>
+<td>Independent returns (i.i.d.)</td>
+</tr>
+<tr>
+<td>Volatility scales with √T</td>
+<td>$\sigma_\text{annual} = \sigma_\text{daily} \times \sqrt{252}$</td>
+<td>Independent returns (i.i.d.)</td>
+</tr>
+<tr>
+<td>Sharpe scales with √T</td>
+<td>$\text{SR}<em>\text{annual} = \text{SR}</em>\text{daily} \times \sqrt{252}$</td>
+<td>Independent returns</td>
+</tr>
+<tr>
+<td>VaR scales with √T</td>
+<td>$\text{VaR}_{T} = \text{VaR}_1 \times \sqrt{T}$</td>
+<td>Independent returns, same distribution</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-constants-to-memorize">Key Constants to Memorize</h2>
 <table>
 <thead>
 <tr>
 <th>Conversion</th>
-<th>Formula</th>
+<th>Multiplier</th>
+<th>Approximate</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Daily → annual return</td>
 <td>× 252</td>
+<td></td>
 </tr>
 <tr>
-<td>Daily → annual volatility</td>
-<td>× $\sqrt{252}$ ≈ × 15.87</td>
+<td>Daily → annual vol</td>
+<td>× √252</td>
+<td><strong>× 15.87</strong></td>
+</tr>
+<tr>
+<td>Weekly → annual vol</td>
+<td>× √52</td>
+<td><strong>× 7.21</strong></td>
 </tr>
 <tr>
 <td>Monthly → annual vol</td>
-<td>× $\sqrt{12}$ ≈ × 3.46</td>
+<td>× √12</td>
+<td><strong>× 3.46</strong></td>
+</tr>
+<tr>
+<td>Daily → 10-day VaR</td>
+<td>× √10</td>
+<td><strong>× 3.16</strong></td>
+</tr>
+<tr>
+<td>Daily → monthly VaR</td>
+<td>× √21</td>
+<td><strong>× 4.58</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Example:</strong> Daily vol = 1.2% → Annual vol = 1.2% × 15.87 ≈ 19%.</p>
-<p><strong>Why square root?</strong> Variance scales linearly with time (under independence). Standard deviation = square root of variance, so vol scales with $\sqrt{T}$.</p>
-<hr />
-<h1 id="part-7-probability-puzzles-interview-gold">PART 7: PROBABILITY PUZZLES (INTERVIEW GOLD)</h1>
+<h2 id="quick-mental-math-examples">Quick Mental Math Examples</h2>
+<blockquote>
+<p><strong>"PM has daily vol of 0.8%. What's annual vol?"</strong><br />
+0.8% × 16 ≈ <strong>12.8%</strong> (exact: 0.8% × 15.87 = 12.7%)</p>
+<p><strong>"40% annualized vol. What's daily?"</strong><br />
+40% / 16 ≈ <strong>2.5%</strong> per day (exact: 40% / 15.87 = 2.52%)</p>
+<p><strong>"Daily VaR at 99% for a $200M portfolio with 1.5% daily vol?"</strong><br />
+$200M × 2.33 × 1.5% = <strong>$6.99M ≈ $7M</strong></p>
+<p><strong>"Convert that to 10-day VaR?"</strong><br />
+$7M × √10 ≈ $7M × 3.16 = <strong>$22.1M</strong></p>
+</blockquote>
+<h2 id="when-t-scaling-breaks">When √T Scaling Breaks</h2>
 <table>
 <thead>
 <tr>
-<th>Problem</th>
-<th>Answer</th>
-<th>Logic</th>
+<th>Condition</th>
+<th>Effect on scaling</th>
+<th>Actual 10-day VaR vs. √10 estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Flip coin twice, given ≥1 heads, P(both heads)?</td>
-<td>1/3</td>
-<td>Sample space: {HH, HT, TH}. Only HH out of 3.</td>
+<td>Positive autocorrelation (momentum)</td>
+<td>VaR grows FASTER than √T</td>
+<td>HIGHER (up to 60%+)</td>
 </tr>
 <tr>
-<td>Sum of two dice = 7?</td>
-<td>1/6</td>
-<td>6 favorable out of 36: (1,6)(2,5)(3,4)(4,3)(5,2)(6,1).</td>
+<td>Negative autocorrelation (mean reversion)</td>
+<td>VaR grows SLOWER than √T</td>
+<td>LOWER (down to 40%)</td>
 </tr>
 <tr>
-<td>Pull socks in dark to guarantee a pair?</td>
-<td>3 socks</td>
-<td>2 colors → pigeonhole principle: 3rd guarantees a match.</td>
+<td>Volatility clustering (GARCH effects)</td>
+<td>Short-horizon vol may spike between t and t+10</td>
+<td>HIGHER (path-dependent)</td>
 </tr>
 <tr>
-<td>3 cards (red/red, blue/blue, red/blue). See red side. P(other side red)?</td>
-<td>2/3</td>
-<td>2 red faces on RR card vs 1 on RB card. 2 out of 3 red faces belong to RR.</td>
+<td>Liquidity risk (can't exit position)</td>
+<td>Forced to hold → 10-day VaR isn't optional</td>
+<td>HIGHER (locked in)</td>
 </tr>
 <tr>
-<td>Expected flips to get first heads?</td>
-<td>2</td>
-<td>Geometric: $E[X] = 1/p = 1/0.5 = 2$.</td>
-</tr>
-<tr>
-<td>Expected flips for two heads in a row?</td>
-<td>6</td>
-<td>Recursive: $E = 2 + 0.5 \times E_1 + 0.5 \times E$, where $E_1 = 1$. $E = 6$.</td>
+<td>Jump risk (discrete large moves)</td>
+<td>Returns not continuous → √T approximation poor</td>
+<td>HIGHER (jumps don't average out)</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h1 id="part-8-mental-math-shortcuts">PART 8: MENTAL MATH SHORTCUTS</h1>
+<h1 id="part-9-information-theory-entropy">PART 9: INFORMATION THEORY &amp; ENTROPY</h1>
+<h2 id="shannon-entropy">Shannon Entropy</h2>
+<p>$$H(X) = -\sum_{i} p_i \log_2(p_i)$$</p>
+<p><strong>Measures uncertainty.</strong> Higher entropy = more uncertainty = more disorder.</p>
+<table>
+<thead>
+<tr>
+<th>Distribution</th>
+<th>Entropy</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Certain outcome (p = 1)</td>
+<td>0 bits</td>
+<td>No uncertainty at all</td>
+</tr>
+<tr>
+<td>Fair coin (p = 0.5, 0.5)</td>
+<td>1 bit</td>
+<td>Maximum uncertainty for binary</td>
+</tr>
+<tr>
+<td>Biased coin (p = 0.9, 0.1)</td>
+<td>0.47 bits</td>
+<td>Less uncertain — you can predict heads</td>
+</tr>
+<tr>
+<td>Uniform over 8 outcomes</td>
+<td>3 bits</td>
+<td>Maximum uncertainty for 8 states</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Finance application — market concentration:</strong></p>
+<p>$$H_\text{portfolio} = -\sum_{i=1}^n w_i \log_2(w_i)$$</p>
+<p>A portfolio with equal weights (1/n each) has maximum entropy. As concentration increases (one position dominates), entropy decreases. Entropy is an alternative to HHI for measuring portfolio diversification.</p>
+<h2 id="kl-divergence-distance-between-distributions">KL Divergence — Distance Between Distributions</h2>
+<p>$$D_\text{KL}(P | Q) = \sum_i P(i) \log\frac{P(i)}{Q(i)}$$</p>
+<p>Measures how different distribution P is from distribution Q. NOT symmetric: $D_\text{KL}(P|Q) \neq D_\text{KL}(Q|P)$.</p>
+<p><strong>Risk application:</strong> How different is today's return distribution from the historical distribution the model was calibrated on? Large KL divergence → regime has shifted → model is stale.</p>
+<hr />
+<h1 id="part-10-stochastic-calculus-essentials-just-enough">PART 10: STOCHASTIC CALCULUS ESSENTIALS — JUST ENOUGH</h1>
+<h2 id="why-you-need-this-briefly">Why You Need This (Briefly)</h2>
+<p>Options pricing, GBM, and most continuous-time finance models require stochastic calculus. You need to know the CONCEPTS, not the proofs.</p>
+<h2 id="brownian-motion-wiener-process">Brownian Motion (Wiener Process)</h2>
+<p>$W_t$ is Brownian motion if:<br />
+1. $W_0 = 0$<br />
+2. Increments are independent: $W_t - W_s$ is independent of $W_u$ for $u \leq s$<br />
+3. Increments are normal: $W_t - W_s \sim N(0, t - s)$<br />
+4. Paths are continuous</p>
+<p><strong>Key properties:</strong><br />
+- $E[W_t] = 0$ (no drift)<br />
+- $\text{Var}(W_t) = t$ (variance grows linearly with time → vol grows with √t)<br />
+- $dW_t \sim N(0, dt)$<br />
+- $(dW_t)^2 = dt$ (this is the KEY identity for Itô's lemma)</p>
+<h2 id="itos-lemma-the-chain-rule-of-stochastic-calculus">Itô's Lemma — The Chain Rule of Stochastic Calculus</h2>
+<p>If $X_t$ follows $dX_t = \mu \, dt + \sigma \, dW_t$ and $f$ is a twice-differentiable function:</p>
+<p>$$df(X_t) = f'(X_t) \, dX_t + \frac{1}{2} f''(X_t) \, \sigma^2 \, dt$$</p>
+<p>$$= \left[f'(X_t) \mu + \frac{1}{2} f''(X_t) \sigma^2\right] dt + f'(X_t) \sigma \, dW_t$$</p>
+<p><strong>The extra term</strong> $\frac{1}{2} f''(X_t) \sigma^2 dt$ is the "Itô correction" — it's what makes stochastic calculus different from regular calculus. It comes from $(dW)^2 = dt$.</p>
+<p><strong>Why it matters for you:</strong> This extra term is WHY log returns differ from simple returns (the $-\frac{1}{2}\sigma^2$ convexity adjustment in GBM). It's also the mathematical foundation of gamma P&amp;L:</p>
+<p>$$d(\text{Option value}) \approx \Delta \, dS + \frac{1}{2} \Gamma \, (dS)^2 + \Theta \, dt$$</p>
+<p>The $\frac{1}{2} \Gamma (dS)^2$ term IS the Itô correction applied to options.</p>
+<h2 id="risk-neutral-pricing-one-paragraph">Risk-Neutral Pricing (One Paragraph)</h2>
+<p>Under the risk-neutral measure $\mathbb{Q}$, the expected return on ALL assets equals the risk-free rate $r$. This allows us to price derivatives by discounting expected payoffs at $r$. The stock follows $dS = rS \, dt + \sigma S \, dW^{\mathbb{Q}}_t$ under $\mathbb{Q}$ (not $dS = \mu S \, dt + ...$). Black-Scholes comes directly from this. You don't need to derive it — just know that <strong>the real-world drift μ doesn't appear in option prices; only σ and r matter.</strong></p>
+<hr />
+<h1 id="part-11-probability-puzzles-mental-math">PART 11: PROBABILITY PUZZLES &amp; MENTAL MATH</h1>
+<h2 id="classic-interview-puzzles">Classic Interview Puzzles</h2>
+<h3 id="puzzle-1-conditional-coin">Puzzle 1: Conditional Coin</h3>
+<p><strong>Flip a coin twice. Given that at least one flip was heads, what's P(both heads)?</strong></p>
+<p>Sample space of two flips: {HH, HT, TH, TT}. Conditioning on "at least one heads" removes TT → remaining: {HH, HT, TH}.<br />
+$$P(\text{both heads} \mid \text{at least one heads}) = \frac{1}{3}$$</p>
+<p><strong>Twist:</strong> If told "the FIRST flip was heads," then: {HH, HT} → P(both) = 1/2. The conditioning information matters.</p>
+<h3 id="puzzle-2-the-three-cards-monty-hall-variant">Puzzle 2: The Three Cards (Monty Hall Variant)</h3>
+<p><strong>3 cards: red/red, blue/blue, red/blue. You draw a card, see a red side. P(other side is also red)?</strong></p>
+<p>There are 3 red faces in total. 2 belong to the red/red card, 1 to the red/blue. Given you see a red face, each face is equally likely to be the one observed.<br />
+$$P(\text{other red}) = \frac{2}{3}$$</p>
+<h3 id="puzzle-3-dice-sum">Puzzle 3: Dice Sum</h3>
+<p><strong>Two dice thrown. P(sum = 7)?</strong></p>
+<p>Favorable: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6 outcomes.<br />
+Total: 36 outcomes. P = 6/36 = <strong>1/6</strong>.</p>
+<p><strong>Bonus:</strong> P(sum = 7) &gt; P(sum = any other number). Seven is the most likely sum.</p>
+<h3 id="puzzle-4-geometric-distribution-expected-flips">Puzzle 4: Geometric Distribution — Expected Flips</h3>
+<p><strong>Expected coin flips to get first heads?</strong></p>
+<p>$$E[X] = \frac{1}{p} = \frac{1}{0.5} = 2$$</p>
+<p><strong>Expected flips for two heads IN A ROW?</strong></p>
+<p>Let E = expected flips. After each flip:<br />
+- Tails (prob 0.5): wasted 1 flip, restart → contributed $0.5 \times (1 + E)$<br />
+- Heads then tails (prob 0.25): wasted 2 flips, restart → contributed $0.25 \times (2 + E)$<br />
+- Heads then heads (prob 0.25): done in 2 flips → contributed $0.25 \times 2$</p>
+<p>$$E = 0.5(1 + E) + 0.25(2 + E) + 0.25 \times 2$$<br />
+$$E = 0.5 + 0.5E + 0.5 + 0.25E + 0.5$$<br />
+$$E = 1.5 + 0.75E$$<br />
+$$0.25E = 1.5$$<br />
+$$E = 6$$</p>
+<h3 id="puzzle-5-the-birthday-problem">Puzzle 5: The Birthday Problem</h3>
+<p><strong>How many people needed in a room for a &gt;50% chance that two share a birthday?</strong></p>
+<p>$$P(\text{no shared birthday among } n) = \prod_{i=0}^{n-1} \frac{365-i}{365}$$</p>
+<p>For n = 23: P(at least one match) ≈ <strong>50.7%</strong>. Answer: <strong>23 people</strong>.</p>
+<p><strong>Finance analog:</strong> In a portfolio of 23+ positions, there's a &gt;50% chance two have highly correlated (&gt;0.8) drawdowns on the same day. Diversification is harder than it looks.</p>
+<h3 id="puzzle-6-the-sock-drawer-pigeonhole-principle">Puzzle 6: The Sock Drawer (Pigeonhole Principle)</h3>
+<p><strong>Drawer has red and blue socks. How many must you pull to guarantee a matching pair?</strong></p>
+<p><strong>3 socks.</strong> With 2 colors, by the pigeonhole principle, 3 draws guarantee at least 2 are the same color.</p>
+<p><strong>Generalization:</strong> With k colors, you need k + 1 draws to guarantee a match.</p>
+<h3 id="puzzle-7-expected-value-of-max-of-two-dice">Puzzle 7: Expected Value of Max of Two Dice</h3>
+<p>$$E[\max(D_1, D_2)] = \sum_{k=1}^{6} k \cdot P(\max = k)$$</p>
+<p>$P(\max = k) = P(\text{both} \leq k) - P(\text{both} \leq k-1) = (k/6)^2 - ((k-1)/6)^2$</p>
+<p>= $\frac{1}{36}(1 + 3 + 5 + 7 + 9 + 11) \times (1, 2, 3, 4, 5, 6)$ weighted</p>
+<p>$$E[\max] = \frac{1}{36}(1 \times 1 + 2 \times 3 + 3 \times 5 + 4 \times 7 + 5 \times 9 + 6 \times 11) = \frac{161}{36} = \textbf{4.47}$$</p>
+<p><strong>Finance analog:</strong> If two PMs independently generate returns, the expected max return is higher than either individual expected return. This is why multi-PM structures outperform single-PM structures (option value of selection).</p>
+<h2 id="mental-math-shortcuts">Mental Math Shortcuts</h2>
 <table>
 <thead>
 <tr>
@@ -672,40 +1600,136 @@ $$t = \frac{0.05}{0.80 / \sqrt{252}} = \frac{0.05}{0.0504} = 0.99$$</p>
 <tbody>
 <tr>
 <td>× 5</td>
-<td>÷ 2, × 10</td>
+<td>÷ 2, then × 10</td>
 <td>48 × 5 = 24 × 10 = 240</td>
 </tr>
 <tr>
 <td>× 25</td>
-<td>÷ 4, × 100</td>
+<td>÷ 4, then × 100</td>
 <td>48 × 25 = 12 × 100 = 1,200</td>
 </tr>
 <tr>
 <td>× 11</td>
-<td>Sum adjacent digits, place in middle</td>
+<td>Sum adjacent digits</td>
 <td>72 × 11 = 7_(7+2)_2 = 792</td>
 </tr>
 <tr>
-<td>% calc</td>
+<td>× 15</td>
+<td>× 10 + × 5</td>
+<td>48 × 15 = 480 + 240 = 720</td>
+</tr>
+<tr>
+<td>× 9</td>
+<td>× 10 - × 1</td>
+<td>48 × 9 = 480 - 48 = 432</td>
+</tr>
+<tr>
+<td>% swap</td>
 <td>x% of y = y% of x</td>
 <td>7% of 50 = 50% of 7 = 3.5</td>
 </tr>
 <tr>
-<td>Doubling time</td>
-<td>72 / rate</td>
-<td>6% growth → doubles in 12 years</td>
+<td>Rule of 72</td>
+<td>Doubling time = 72 / rate</td>
+<td>6% → doubles in 12 years</td>
+</tr>
+<tr>
+<td>Square near 50</td>
+<td>50² ± (difference × 100) + diff²</td>
+<td>48² = 2500 - 200 + 4 = 2304</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Constants to know:</strong><br />
-- $\sqrt{2} = 1.414$, $\sqrt{3} = 1.732$<br />
-- $\ln(2) = 0.693$, $e = 2.718$<br />
-- $\sqrt{252} \approx 15.87$</p>
+<h2 id="constants-to-memorize">Constants to Memorize</h2>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Number</th>
+<th>Where it appears</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>√2</td>
+<td>1.414</td>
+<td>2-day VaR scaling</td>
+</tr>
+<tr>
+<td>√3</td>
+<td>1.732</td>
+<td>3-day VaR scaling</td>
+</tr>
+<tr>
+<td>√10</td>
+<td>3.162</td>
+<td>10-day VaR scaling (Basel)</td>
+</tr>
+<tr>
+<td>√252</td>
+<td>15.87</td>
+<td>Daily → annual vol</td>
+</tr>
+<tr>
+<td>√52</td>
+<td>7.21</td>
+<td>Weekly → annual vol</td>
+</tr>
+<tr>
+<td>√12</td>
+<td>3.464</td>
+<td>Monthly → annual vol</td>
+</tr>
+<tr>
+<td>ln(2)</td>
+<td>0.693</td>
+<td>Half-life calculations</td>
+</tr>
+<tr>
+<td>e</td>
+<td>2.718</td>
+<td>Continuous compounding</td>
+</tr>
+<tr>
+<td>1/e</td>
+<td>0.368</td>
+<td>P(no event) at λ = 1</td>
+</tr>
+<tr>
+<td>π</td>
+<td>3.14159</td>
+<td>Rarely needed</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-12-interview-answers-math-stats">PART 12: INTERVIEW ANSWERS — MATH &amp; STATS</h1>
+<h3 id="q-walk-me-through-how-youd-determine-if-a-pms-performance-is-due-to-skill-or-luck">Q: "Walk me through how you'd determine if a PM's performance is due to skill or luck."</h3>
+<blockquote>
+<p>"I'd compute the t-statistic on their excess returns — daily alpha divided by its standard error. The formula is alpha-hat divided by daily vol over square root of N trading days.</p>
+<p>The key insight is how much data you need. A PM with a Sharpe of 1.0 — which is quite good — needs nearly 4 years of data to be statistically significant at the 5% level. At Sharpe 0.5, you need over 15 years. Most PM track records are 2-3 years, which means we almost never have ENOUGH data to definitively prove skill.</p>
+<p>In practice, I'd supplement the t-test with two other checks. First, factor decomposition: if 80% of the PM's return is explained by market, momentum, and size factors, the 'alpha' is mostly factor beta that could be replicated cheaply. Second, I'd look at the DISTRIBUTION of returns, not just the average. Negative skew with high kurtosis suggests the PM is harvesting carry or selling vol — the Sharpe looks good because the blow-up hasn't happened yet in-sample. The adjusted Sharpe ratio, which penalizes for negative skew and fat tails, often tells a very different story."</p>
+</blockquote>
+<h3 id="q-explain-bayes-theorem-and-give-a-risk-management-application">Q: "Explain Bayes' theorem and give a risk management application."</h3>
+<blockquote>
+<p>"Bayes says your updated belief equals your prior belief multiplied by the likelihood of the evidence, divided by the overall probability of that evidence. In plain English: how much should new information change your mind?</p>
+<p>In risk management, I'd use it for PM evaluation. Say I start with a 70% belief that a PM is skilled. A skilled PM has a 2-sigma drawdown month about 5% of the time; an unskilled PM has one about 15% of the time. After observing a bad month, Bayes updates my belief to about 44%. After two bad months, I'm down to about 21% confidence in their skill.</p>
+<p>The power of this is that it's CALIBRATED updating. Without Bayes, people either overreact — fire a PM after one bad month — or underreact — keep a PM for years because 'they'll come back.' Bayes tells you the mathematically correct amount to update, which depends on your prior and the relative probabilities of the evidence under each hypothesis."</p>
+</blockquote>
+<h3 id="q-why-cant-you-just-use-the-normal-distribution-for-risk-management">Q: "Why can't you just use the normal distribution for risk management?"</h3>
+<blockquote>
+<p>"Three reasons, all of which cause the normal distribution to UNDERSTATE tail risk.</p>
+<p>First, fat tails. Real return distributions have excess kurtosis of 3 to 10 for equities. A 4-sigma daily move should happen once every 126 years under normal assumptions — in reality, it happens every 2 to 3 years. So 99% VaR is consistently too low.</p>
+<p>Second, skewness. Most equity and credit strategies have negative skew — small frequent gains and rare large losses. The normal distribution is symmetric and doesn't capture this. A short-vol strategy with Sharpe 1.5 can look great for 3 years and then lose 50% in a week.</p>
+<p>Third, regime dependence. The normal distribution uses one mean and one variance, but markets switch between low-vol and high-vol regimes. A single normal calibrated to 'average' conditions understates risk in stress AND overstates risk in calm. Mixture distributions or regime-switching models are more appropriate.</p>
+<p>In practice, I'd use the normal as a baseline but supplement with Expected Shortfall — which captures the tail shape — and stress tests using historical crisis returns, which don't assume ANY distribution."</p>
+</blockquote>
 <hr />
 <p><strong>Related files:</strong><br />
-→ <em>W_Quant_Mindset</em> — quant model risk and statistical thinking<br />
-→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, Sharpe that USE these concepts<br />
-→ <a href="D_Greeks.html">Greeks</a> — calculus-based derivatives sensitivity</p>
+→ <a href="V_Quant_Mindset.html">Quant Mindset</a> — applying these concepts to model risk and quant challenge<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, ES, Sharpe that USE these foundations<br />
+→ <a href="D_Greeks.html">Greeks</a> — calculus-based derivatives sensitivity<br />
+→ <a href="X_Coding_Data.html">Coding Data</a> — implementing these concepts in Python</p>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>

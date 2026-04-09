@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Macro Fundamentals — Cheat — Squarepoint Prep</title>
+<title>Quant Mindset — Cheat — Squarepoint Prep</title>
 <style>
 :root {
   --bg: #0d1117;
@@ -379,13 +379,13 @@ body {
 <a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
 <a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
 <a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
-<a class="nav-link active" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
 <a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
 <a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
 <a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
 <a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
 <a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
-<a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
+<a class="nav-link active" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
 <a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
 <a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
 <a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
@@ -393,263 +393,340 @@ body {
 </nav>
 
 <main class="content">
-<h1 id="p-macro-fundamentals-cheat-sheet">P — MACRO FUNDAMENTALS — CHEAT SHEET</h1>
-<h2 id="gdp-output-gap">GDP &amp; Output Gap</h2>
+<h1 id="v-quant-mindset-cheat-sheet">V — QUANT MINDSET CHEAT SHEET</h1>
+<h2 id="statistical-foundations-one-liners">Statistical Foundations — One-Liners</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>When it breaks</th>
+<th>RM question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stationarity</td>
+<td>Stats (mean, var) don't change over time</td>
+<td>Regime changes (COVID, rate cycles)</td>
+<td>"How sensitive to lookback window?"</td>
+</tr>
+<tr>
+<td>Autocorrelation</td>
+<td>Returns correlated with own lags</td>
+<td>√T scaling only works if i.i.d.</td>
+<td>"What's the Hurst exponent?"</td>
+</tr>
+<tr>
+<td>Fat tails</td>
+<td>More extreme events than normal predicts</td>
+<td>Always present (kurtosis 3-10)</td>
+<td>"What distribution? How underestimated is VaR?"</td>
+</tr>
+<tr>
+<td>Skewness</td>
+<td>Asymmetric return distribution</td>
+<td>Sharpe ignores it; short-vol has -3 skew</td>
+<td>"What's the Sortino, not just Sharpe?"</td>
+</tr>
+<tr>
+<td>Correlation</td>
+<td>Co-movement; regime-dependent!</td>
+<td>ρ → 1 in crisis; flips in inflation</td>
+<td>"Crisis vs. calm correlation matrix?"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fat-tails-reality-check">Fat Tails Reality Check</h2>
+<table>
+<thead>
+<tr>
+<th>Event size</th>
+<th>Normal says</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3σ</td>
+<td>Every 1.5 years</td>
+<td>Every 6 months</td>
+</tr>
+<tr>
+<td>4σ</td>
+<td>Every 126 years</td>
+<td>Every 2-3 years</td>
+</tr>
+<tr>
+<td>5σ</td>
+<td>Every 14,000 years</td>
+<td>Every 10-20 years</td>
+</tr>
+</tbody>
+</table>
+<h2 id="volatility-models-hierarchy">Volatility Models — Hierarchy</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Key formula / feature</th>
+<th>Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Historical vol</td>
+<td>σ = stdev(returns, N)</td>
+<td>All obs weighted equally</td>
+</tr>
+<tr>
+<td>EWMA</td>
+<td>σ²ₜ = λσ²ₜ₋₁ + (1-λ)r²ₜ₋₁; λ=0.94</td>
+<td>No mean reversion</td>
+</tr>
+<tr>
+<td>GARCH(1,1)</td>
+<td>σ²ₜ = ω + αr²ₜ₋₁ + βσ²ₜ₋₁</td>
+<td>Symmetric — ignores leverage effect</td>
+</tr>
+<tr>
+<td>GJR-GARCH</td>
+<td>Adds γ for neg returns → asymmetric</td>
+<td>More params → calibration risk</td>
+</tr>
+</tbody>
+</table>
+<h2 id="garch-key-relationships">GARCH Key Relationships</h2>
 <ul>
-<li><strong>Y = C + I + G + (X − M)</strong> → C = 68%, I = 18%, G = 17%, NX = -3%</li>
-<li><strong>Output gap</strong> = (Y_actual − Y_potential) / Y_potential × 100 → positive = overheating, negative = slack</li>
-<li><strong>Okun's Law:</strong> ΔU ≈ −0.5 × (g − g*) → 1% above-trend growth → UE falls 0.5pp</li>
-<li><strong>Taylor Rule:</strong> r<em> = r_neutral + 0.5(π − π</em>) + 0.5(y − y*) → currently prescribes ~3.25% vs actual 3.75%</li>
+<li><strong>Persistence</strong> = α + β (typical: 0.95-0.99)</li>
+<li><strong>Long-run vol</strong> = √(ω / (1 - α - β) × 252)</li>
+<li><strong>Half-life</strong> = -ln(2) / ln(α + β)</li>
+<li>α + β ≥ 1.0 → IGARCH → vol shocks NEVER decay → suspicious</li>
 </ul>
-<h2 id="inflation-measurement">Inflation Measurement</h2>
+<h2 id="var-vs-expected-shortfall">VaR vs. Expected Shortfall</h2>
 <table>
 <thead>
 <tr>
-<th>Measure</th>
-<th>Who uses it</th>
-<th>Key threshold</th>
+<th></th>
+<th>VaR 99%</th>
+<th>ES 99%</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Core CPI MoM</td>
-<td>Traders</td>
-<td>&gt;0.3% too hot, &lt;0.2% progress</td>
+<td>Answers</td>
+<td>"Worst loss exceeded 1% of the time"</td>
+<td>"Average loss in the worst 1%"</td>
 </tr>
 <tr>
-<td>Core PCE YoY</td>
-<td>Fed target</td>
-<td>2.0% target, ~3.2% current</td>
+<td>Normal</td>
+<td>2.33σ</td>
+<td>2.67σ</td>
 </tr>
 <tr>
-<td>Supercore</td>
-<td>Powell specifically</td>
-<td>Wage-driven persistence signal</td>
+<td>Fat tails</td>
+<td>2.33σ (WRONG — same as normal)</td>
+<td>3.5-5σ (CAPTURES the tail)</td>
 </tr>
 <tr>
-<td>Trimmed mean</td>
-<td>Trend watchers</td>
-<td>Removes outlier noise</td>
-</tr>
-<tr>
-<td>Michigan 5-10Y</td>
-<td>De-anchoring monitor</td>
-<td>&gt;3.5% = de-anchoring</td>
-</tr>
-<tr>
-<td>TIPS 5Y breakeven</td>
-<td>Market expectations</td>
-<td>&gt;3.0% = concerning</td>
+<td>Regulatory</td>
+<td>Basel II.5 (old)</td>
+<td>Basel III FRTB (current)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="inflation-transmission-oil-shock">Inflation Transmission (Oil Shock)</h2>
-<ol>
-<li>Gasoline ↑ (immediate) → 2. Transport ↑ (1-2M) → 3. Food ↑ (2-4M) → 4. Input costs ↑ (2-4M)</li>
-<li>Consumer prices ↑ (3-6M) → 6. Wage demands (6-12M) → 7. Wage-price spiral (12-18M)</li>
-<li><strong>Stages 1-4 = cost-push (transitory) | Stages 5-7 = demand-pull (self-reinforcing)</strong></li>
-</ol>
-<h2 id="central-banks">Central Banks</h2>
+<p><strong>Quick test:</strong> ES/VaR ratio &gt; 1.5 → fat tail → VaR is dangerously low.</p>
+<h2 id="var-backtest-traffic-light-250d-99">VaR Backtest Traffic Light (250d, 99%)</h2>
 <table>
 <thead>
 <tr>
-<th>CB</th>
-<th>Mandate</th>
-<th>Rate</th>
-<th>Key difference</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Fed</td>
-<td>Dual (jobs + inflation)</td>
-<td>3.75%</td>
-<td>Dual mandate → more dovish toggle</td>
-</tr>
-<tr>
-<td>ECB</td>
-<td>Price stability</td>
-<td>3.25%</td>
-<td>Single mandate → hawkish on inflation</td>
-</tr>
-<tr>
-<td>BoE</td>
-<td>Price stability + growth</td>
-<td>4.50%</td>
-<td>Gilt market fragility, political pressure</td>
-</tr>
-<tr>
-<td>BoJ</td>
-<td>Price stability + YCC legacy</td>
-<td>0.50%</td>
-<td>Exiting deflation; carry trade anchor</td>
-</tr>
-</tbody>
-</table>
-<h2 id="yield-curve">Yield Curve</h2>
-<table>
-<thead>
-<tr>
-<th>Shape</th>
-<th>Signal</th>
+<th>Zone</th>
+<th>Breaches</th>
 <th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Normal (steep)</td>
-<td>Growth optimism</td>
-<td>Pro-risk</td>
+<td>🟢</td>
+<td>0-4</td>
+<td>Model OK</td>
 </tr>
 <tr>
-<td>Inverted</td>
-<td>Recession in 6-18M</td>
-<td>Defensive</td>
+<td>🟡</td>
+<td>5-9</td>
+<td>Model questionable; capital + up</td>
 </tr>
 <tr>
-<td>Bear steepening</td>
-<td>Term premium ↑, fiscal concern</td>
-<td>Risk-off for leverage</td>
-</tr>
-<tr>
-<td>Bull flattening</td>
-<td>Flight to quality</td>
-<td>Defensive, duration benefits</td>
-</tr>
-<tr>
-<td>- <strong>y_n = (1/n) Σ E[r_t] + Term Premium</strong></td>
-<td></td>
-<td></td>
+<td>🔴</td>
+<td>10+</td>
+<td>Model broken; mandatory revision</td>
 </tr>
 </tbody>
 </table>
-<h2 id="four-quadrant-macro-regime">Four-Quadrant Macro Regime</h2>
+<h2 id="pca-yield-curve-example">PCA — Yield Curve Example</h2>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>Growth ↑</th>
-<th>Growth ↓</th>
+<th>Component</th>
+<th>% Variance</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Inflation ↑</strong></td>
-<td>REFLATION (equities +, bonds −)</td>
-<td>STAGFLATION (nothing works except commodities)</td>
+<td>PC1</td>
+<td>~80%</td>
+<td>Level (parallel shift)</td>
 </tr>
 <tr>
-<td><strong>Inflation ↓</strong></td>
-<td>GOLDILOCKS (best: equities ++, bonds +)</td>
-<td>DEFLATION (equities −, bonds ++)</td>
+<td>PC2</td>
+<td>~10%</td>
+<td>Slope (steepener/flattener)</td>
+</tr>
+<tr>
+<td>PC3</td>
+<td>~5%</td>
+<td>Curvature (butterfly)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="stock-bond-correlation-critical">Stock-Bond Correlation (CRITICAL)</h2>
+<h2 id="factor-decomposition-alpha-test">Factor Decomposition — Alpha Test</h2>
+<p>$$R_p = \alpha + \beta_1 F_1 + \beta_2 F_2 + \ldots + \epsilon$$</p>
 <ul>
-<li><strong>Growth-driven risk</strong> → negative correlation → bonds hedge equities → 60/40 works</li>
-<li><strong>Inflation-driven risk</strong> → positive correlation → bonds AND equities sell off → 60/40 fails</li>
-<li>Monitor rolling 3M correlation; sign flip = reassess ALL hedge ratios</li>
+<li>R² &gt; 0.80 + insignificant α → PM is closet beta manager</li>
+<li>Idiosyncratic ratio &gt; 50% → genuine stock-picking</li>
 </ul>
-<h2 id="key-data-releases">Key Data Releases</h2>
+<h2 id="overfitting-detection">Overfitting Detection</h2>
 <table>
 <thead>
 <tr>
-<th>Release</th>
-<th>Key number</th>
-<th>Threshold</th>
+<th>Signal</th>
+<th>Safe</th>
+<th>Danger</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>NFP</td>
-<td>Headline + AHE</td>
-<td>&gt;250K strong, &lt;100K alarm, AHE &gt;0.4% = wage spiral</td>
+<td>Params/observations</td>
+<td>1:20+</td>
+<td>1:&lt;5</td>
 </tr>
 <tr>
-<td>CPI</td>
-<td>Core MoM</td>
-<td>&gt;0.3% hawkish, &lt;0.2% dovish</td>
+<td>In-sample R²</td>
+<td>0.3-0.6</td>
+<td>&gt;0.90</td>
 </tr>
 <tr>
-<td>FOMC</td>
-<td>Dot plot + presser tone</td>
-<td>Tone &gt; action when on hold</td>
+<td>Out-of-sample R²</td>
+<td>&gt;80% of in-sample</td>
+<td>&lt;50% of in-sample</td>
 </tr>
 <tr>
-<td>ISM Mfg</td>
-<td>PMI level</td>
-<td>&gt;50 expand, &lt;48 recession worry</td>
+<td>Sharpe (backtest)</td>
+<td>1.0-2.0</td>
+<td>&gt;2.5 (suspicious)</td>
+</tr>
+<tr>
+<td>Live vs. backtest Sharpe</td>
+<td>70%+</td>
+<td>&lt;50%</td>
 </tr>
 </tbody>
 </table>
-<h2 id="scenario-framework">Scenario Framework</h2>
+<h2 id="alpha-decay-ic-levels">Alpha Decay — IC Levels</h2>
 <table>
 <thead>
 <tr>
-<th>Scenario</th>
-<th>Fed</th>
-<th>SPX</th>
-<th>Oil</th>
-<th>USD</th>
+<th>IC</th>
+<th>Quality</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Soft landing</td>
-<td>Cut to 3.00%</td>
-<td>+12%</td>
-<td>$75</td>
-<td>Weaker</td>
+<td>&gt;0.05</td>
+<td>Strong</td>
+<td>Full allocation</td>
 </tr>
 <tr>
-<td>Recession</td>
-<td>Cut to 1.50%</td>
-<td>−25%</td>
-<td>$55</td>
-<td>Stronger</td>
+<td>0.02-0.05</td>
+<td>Moderate</td>
+<td>Monitor closely</td>
 </tr>
 <tr>
-<td>Stagflation</td>
-<td>Hike to 5.00%</td>
-<td>−20%</td>
-<td>$120</td>
-<td>Stronger</td>
+<td>0.01-0.02</td>
+<td>Weak</td>
+<td>Review sizing</td>
 </tr>
 <tr>
-<td>Hormuz escalation</td>
-<td>Hold (trapped)</td>
-<td>−30%</td>
-<td>$150</td>
-<td>Stronger</td>
+<td>&lt;0.01</td>
+<td>Dead</td>
+<td>Retire signal</td>
 </tr>
 </tbody>
 </table>
-<h2 id="crisis-pattern">Crisis Pattern</h2>
+<h2 id="4-question-framework-challenging-quants">4-Question Framework (Challenging Quants)</h2>
 <ol>
-<li>ACCUMULATION → leverage builds, risk premia compress</li>
-<li>TRIGGER → shock exposes fragility</li>
-<li>CONTAGION → forced selling, correlation → 1.0</li>
-<li>POLICY RESPONSE → central bank intervenes</li>
-<li>RESOLUTION → vol declines, new regime</li>
+<li><strong>ASSUMPTIONS</strong>: Distribution? Correlation structure? Liquidity? Lookback sensitivity?</li>
+<li><strong>DATA</strong>: Includes crises? Survivorship bias? Look-ahead bias? Outlier handling?</li>
+<li><strong>VALIDATION</strong>: Out-of-sample R²? VaR backtest breaches? Walk-forward test?</li>
+<li><strong>FAILURE MODES</strong>: <em>"What would make you lose confidence in this model?"</em></li>
 </ol>
-<h2 id="rm-quick-checks">RM Quick Checks</h2>
+<h2 id="8-deadly-sins-of-model-risk">8 Deadly Sins of Model Risk</h2>
+<ol>
+<li>Gaussian assumption (normal returns)</li>
+<li>Stable correlations (regime-blind)</li>
+<li>Infinite liquidity (instant exit)</li>
+<li>Stationary parameters (no regime adapt)</li>
+<li>Overfitting (noise as signal)</li>
+<li>Survivorship bias (winners-only data)</li>
+<li>Look-ahead bias (future info leak)</li>
+<li>Mark-to-model (favorable internal pricing)</li>
+</ol>
+<h2 id="regime-detection-quick-indicators">Regime Detection — Quick Indicators</h2>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Calm</th>
+<th>Stress</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VIX</td>
+<td>&lt;18</td>
+<td>&gt;25</td>
+</tr>
+<tr>
+<td>VIX term structure</td>
+<td>Contango</td>
+<td>Backwardation</td>
+</tr>
+<tr>
+<td>HY spread</td>
+<td>&lt;350bp</td>
+<td>&gt;500bp</td>
+</tr>
+<tr>
+<td>Realized/implied ratio</td>
+<td>&lt;0.8</td>
+<td>&gt;1.0</td>
+</tr>
+<tr>
+<td>Cross-asset ρ</td>
+<td>&lt;0.3</td>
+<td>&gt;0.6</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quick-interview-lines">Quick Interview Lines</h2>
 <ul>
-<li>Every position has embedded macro assumptions — surface them</li>
-<li>VaR understates risk during regime transitions (correlation instability)</li>
-<li>Regime determines whether your hedges work or amplify losses</li>
-<li>Daily: overnight moves → data release preview → release vs consensus → PM exposure map</li>
-</ul>
-<h2 id="fiscal">Fiscal</h2>
-<ul>
-<li><strong>r − g framework:</strong> If growth &gt; interest cost → debt ratio stabilizes. If r &gt; g → spirals.</li>
-<li>US: 6% deficit/GDP + Fed at 3.75% = fiscal-monetary conflict → sticky inflation + higher long-end</li>
-</ul>
-<h2 id="fx">FX</h2>
-<ul>
-<li><strong>Carry = r_invest − r_fund − E[ΔFX]</strong> → carry trades are short vol (steady until they explode)</li>
-<li><strong>Dollar smile:</strong> USD strong in US exceptionalism OR global crisis; weak in synchronized growth</li>
-<li>EM vulnerability: twin deficits + FX debt + low real rates = fragile</li>
+<li>"Models are maps, not territory — use them as info signals while knowing their failure modes"</li>
+<li>"VaR says $5M → I ask: under what assumptions? What's ES? What's gamma?"</li>
+<li>"GARCH captures vol clustering + mean reversion; α+β = persistence; prefer GJR for equities (leverage effect)"</li>
+<li>"Best single question to a quant: 'What would make you lose confidence in this model?'"</li>
+<li>"Sharpe 3.0 in backtest → expect 1.0-1.5 live. Always check out-of-sample."</li>
 </ul>
 </main>
 

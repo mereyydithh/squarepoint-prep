@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Macro Fundamentals — Cheat — Squarepoint Prep</title>
+<title>Math Stats Probability — Cheat — Squarepoint Prep</title>
 <style>
 :root {
   --bg: #0d1117;
@@ -379,277 +379,339 @@ body {
 <a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
 <a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
 <a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
-<a class="nav-link active" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
 <a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
 <a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
 <a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
 <a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
 <a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
 <a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
-<a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
+<a class="nav-link active" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
 <a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
 <a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="p-macro-fundamentals-cheat-sheet">P — MACRO FUNDAMENTALS — CHEAT SHEET</h1>
-<h2 id="gdp-output-gap">GDP &amp; Output Gap</h2>
-<ul>
-<li><strong>Y = C + I + G + (X − M)</strong> → C = 68%, I = 18%, G = 17%, NX = -3%</li>
-<li><strong>Output gap</strong> = (Y_actual − Y_potential) / Y_potential × 100 → positive = overheating, negative = slack</li>
-<li><strong>Okun's Law:</strong> ΔU ≈ −0.5 × (g − g*) → 1% above-trend growth → UE falls 0.5pp</li>
-<li><strong>Taylor Rule:</strong> r<em> = r_neutral + 0.5(π − π</em>) + 0.5(y − y*) → currently prescribes ~3.25% vs actual 3.75%</li>
-</ul>
-<h2 id="inflation-measurement">Inflation Measurement</h2>
+<h1 id="w-math-stats-probability-cheat-sheet">W — MATH, STATS &amp; PROBABILITY CHEAT SHEET</h1>
+<h2 id="critical-z-scores-memorize">Critical z-Scores (MEMORIZE)</h2>
 <table>
 <thead>
 <tr>
-<th>Measure</th>
-<th>Who uses it</th>
-<th>Key threshold</th>
+<th>z</th>
+<th>Tail prob</th>
+<th>Use</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Core CPI MoM</td>
-<td>Traders</td>
-<td>&gt;0.3% too hot, &lt;0.2% progress</td>
+<td>1.00</td>
+<td>15.87%</td>
+<td>1σ move</td>
 </tr>
 <tr>
-<td>Core PCE YoY</td>
-<td>Fed target</td>
-<td>2.0% target, ~3.2% current</td>
+<td>1.645</td>
+<td>5%</td>
+<td>95% VaR</td>
 </tr>
 <tr>
-<td>Supercore</td>
-<td>Powell specifically</td>
-<td>Wage-driven persistence signal</td>
+<td>1.96</td>
+<td>2.5%</td>
+<td>95% CI (two-tail)</td>
 </tr>
 <tr>
-<td>Trimmed mean</td>
-<td>Trend watchers</td>
-<td>Removes outlier noise</td>
+<td><strong>2.326</strong></td>
+<td><strong>1%</strong></td>
+<td><strong>99% VaR</strong></td>
 </tr>
 <tr>
-<td>Michigan 5-10Y</td>
-<td>De-anchoring monitor</td>
-<td>&gt;3.5% = de-anchoring</td>
-</tr>
-<tr>
-<td>TIPS 5Y breakeven</td>
-<td>Market expectations</td>
-<td>&gt;3.0% = concerning</td>
+<td>3.09</td>
+<td>0.1%</td>
+<td>99.9% VaR</td>
 </tr>
 </tbody>
 </table>
-<h2 id="inflation-transmission-oil-shock">Inflation Transmission (Oil Shock)</h2>
+<h2 id="annualization-constants-memorize">Annualization Constants (MEMORIZE)</h2>
+<table>
+<thead>
+<tr>
+<th>Conversion</th>
+<th>Multiplier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily vol → annual</td>
+<td><strong>× 15.87</strong> (√252)</td>
+</tr>
+<tr>
+<td>Weekly vol → annual</td>
+<td>× 7.21 (√52)</td>
+</tr>
+<tr>
+<td>Monthly vol → annual</td>
+<td>× 3.46 (√12)</td>
+</tr>
+<tr>
+<td>Daily VaR → 10-day</td>
+<td><strong>× 3.16</strong> (√10)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quick: daily vol × 16 ≈ annual vol. Annual vol / 16 ≈ daily vol.</strong></p>
+<h2 id="key-constants">Key Constants</h2>
+<p>√2 = 1.414, √3 = 1.732, √10 = 3.162, ln(2) = 0.693, e = 2.718</p>
+<h2 id="fat-tails-reality">Fat Tails Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Normal says</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3σ</td>
+<td>Every 1.5yr</td>
+<td>Every 6mo</td>
+</tr>
+<tr>
+<td>4σ</td>
+<td>Every 126yr</td>
+<td>Every 2-3yr</td>
+</tr>
+<tr>
+<td>5σ</td>
+<td>Every 14,000yr</td>
+<td>Every 10-20yr</td>
+</tr>
+</tbody>
+</table>
+<h2 id="distributions-when-to-use">Distributions — When to Use</h2>
+<table>
+<thead>
+<tr>
+<th>Distribution</th>
+<th>Use case</th>
+<th>Key parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal</td>
+<td>Portfolio returns, CLT applies</td>
+<td>μ, σ</td>
+</tr>
+<tr>
+<td>Log-normal</td>
+<td>Prices (can't go &lt;0)</td>
+<td>μ, σ of log returns</td>
+</tr>
+<tr>
+<td>Student-t</td>
+<td>Fat tails, small samples</td>
+<td>ν (df): lower = fatter tails</td>
+</tr>
+<tr>
+<td>Poisson</td>
+<td>Event counts (VaR breaches)</td>
+<td>λ = mean = variance</td>
+</tr>
+<tr>
+<td>Exponential</td>
+<td>Time between events</td>
+<td>λ = rate; memoryless</td>
+</tr>
+<tr>
+<td>GPD</td>
+<td>Tail modeling (EVT)</td>
+<td>ξ = shape (&gt;0 = heavy tail)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bayes-theorem">Bayes' Theorem</h2>
+<p>$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</p>
+<p><strong>PM evaluation:</strong> Prior 70% skilled → 1 bad month → 44% → 2 bad months → 21%</p>
+<h2 id="hypothesis-testing-pm-alpha">Hypothesis Testing — PM Alpha</h2>
+<p>$$t = \frac{\hat{\alpha}}{s / \sqrt{n}}$$</p>
+<p><strong>Need t &gt; 2 for significance at 5%.</strong></p>
+<p><strong>Years needed to prove skill:</strong> $n \geq (z_\alpha / \text{Sharpe})^2$<br />
+- Sharpe 0.5 → 15+ years. Sharpe 1.0 → 4 years. Sharpe 2.0 → 1 year.</p>
+<h2 id="var-backtest-traffic-light-99-250-days">VaR Backtest Traffic Light (99%, 250 days)</h2>
+<table>
+<thead>
+<tr>
+<th>Zone</th>
+<th>Breaches</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🟢</td>
+<td>0-4</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>🟡</td>
+<td>5-9</td>
+<td>Questionable</td>
+</tr>
+<tr>
+<td>🔴</td>
+<td>10+</td>
+<td>Broken</td>
+</tr>
+</tbody>
+</table>
+<h2 id="regression-quick-reference">Regression Quick Reference</h2>
+<p>$$r_p = \alpha + \beta_1 F_1 + ... + \beta_k F_k + \epsilon$$</p>
+<ul>
+<li>R² &gt; 0.80 + insignificant α → closet beta manager</li>
+<li>Check: VIF (&lt;5), Durbin-Watson (≈2), Adjusted R²</li>
+</ul>
+<h2 id="correlation-traps">Correlation Traps</h2>
 <ol>
-<li>Gasoline ↑ (immediate) → 2. Transport ↑ (1-2M) → 3. Food ↑ (2-4M) → 4. Input costs ↑ (2-4M)</li>
-<li>Consumer prices ↑ (3-6M) → 6. Wage demands (6-12M) → 7. Wage-price spiral (12-18M)</li>
-<li><strong>Stages 1-4 = cost-push (transitory) | Stages 5-7 = demand-pull (self-reinforcing)</strong></li>
+<li>≠ causation</li>
+<li>Linear only (use Spearman for non-linear)</li>
+<li>Regime-dependent (stock-bond: -0.4 normal → +0.5 inflation)</li>
+<li>Time-varying (use rolling windows)</li>
 </ol>
-<h2 id="central-banks">Central Banks</h2>
-<table>
-<thead>
-<tr>
-<th>CB</th>
-<th>Mandate</th>
-<th>Rate</th>
-<th>Key difference</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Fed</td>
-<td>Dual (jobs + inflation)</td>
-<td>3.75%</td>
-<td>Dual mandate → more dovish toggle</td>
-</tr>
-<tr>
-<td>ECB</td>
-<td>Price stability</td>
-<td>3.25%</td>
-<td>Single mandate → hawkish on inflation</td>
-</tr>
-<tr>
-<td>BoE</td>
-<td>Price stability + growth</td>
-<td>4.50%</td>
-<td>Gilt market fragility, political pressure</td>
-</tr>
-<tr>
-<td>BoJ</td>
-<td>Price stability + YCC legacy</td>
-<td>0.50%</td>
-<td>Exiting deflation; carry trade anchor</td>
-</tr>
-</tbody>
-</table>
-<h2 id="yield-curve">Yield Curve</h2>
-<table>
-<thead>
-<tr>
-<th>Shape</th>
-<th>Signal</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Normal (steep)</td>
-<td>Growth optimism</td>
-<td>Pro-risk</td>
-</tr>
-<tr>
-<td>Inverted</td>
-<td>Recession in 6-18M</td>
-<td>Defensive</td>
-</tr>
-<tr>
-<td>Bear steepening</td>
-<td>Term premium ↑, fiscal concern</td>
-<td>Risk-off for leverage</td>
-</tr>
-<tr>
-<td>Bull flattening</td>
-<td>Flight to quality</td>
-<td>Defensive, duration benefits</td>
-</tr>
-<tr>
-<td>- <strong>y_n = (1/n) Σ E[r_t] + Term Premium</strong></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="four-quadrant-macro-regime">Four-Quadrant Macro Regime</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Growth ↑</th>
-<th>Growth ↓</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Inflation ↑</strong></td>
-<td>REFLATION (equities +, bonds −)</td>
-<td>STAGFLATION (nothing works except commodities)</td>
-</tr>
-<tr>
-<td><strong>Inflation ↓</strong></td>
-<td>GOLDILOCKS (best: equities ++, bonds +)</td>
-<td>DEFLATION (equities −, bonds ++)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="stock-bond-correlation-critical">Stock-Bond Correlation (CRITICAL)</h2>
+<h2 id="monte-carlo-when-to-use-over-analytical">Monte Carlo — When to Use Over Analytical</h2>
 <ul>
-<li><strong>Growth-driven risk</strong> → negative correlation → bonds hedge equities → 60/40 works</li>
-<li><strong>Inflation-driven risk</strong> → positive correlation → bonds AND equities sell off → 60/40 fails</li>
-<li>Monitor rolling 3M correlation; sign flip = reassess ALL hedge ratios</li>
+<li>Non-linear portfolios (options/gamma)</li>
+<li>Path-dependent risk (margin calls, stops)</li>
+<li>Fat-tailed inputs (t-distribution, GPD)</li>
+<li>Complex correlations (copulas)</li>
 </ul>
-<h2 id="key-data-releases">Key Data Releases</h2>
+<p><strong>Cholesky:</strong> Correlated returns = L × Z (L = Cholesky factor of Σ)</p>
+<h2 id="time-series-quick-reference">Time Series Quick Reference</h2>
 <table>
 <thead>
 <tr>
-<th>Release</th>
-<th>Key number</th>
-<th>Threshold</th>
+<th>φ in AR(1)</th>
+<th>Behavior</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>NFP</td>
-<td>Headline + AHE</td>
-<td>&gt;250K strong, &lt;100K alarm, AHE &gt;0.4% = wage spiral</td>
+<td>|φ| &lt; 1</td>
+<td>Stationary, mean-reverting</td>
 </tr>
 <tr>
-<td>CPI</td>
-<td>Core MoM</td>
-<td>&gt;0.3% hawkish, &lt;0.2% dovish</td>
+<td>φ = 1</td>
+<td>Random walk</td>
 </tr>
 <tr>
-<td>FOMC</td>
-<td>Dot plot + presser tone</td>
-<td>Tone &gt; action when on hold</td>
+<td>φ &gt; 0</td>
+<td>Momentum</td>
 </tr>
 <tr>
-<td>ISM Mfg</td>
-<td>PMI level</td>
-<td>&gt;50 expand, &lt;48 recession worry</td>
+<td>φ &lt; 0</td>
+<td>Mean reversion</td>
 </tr>
 </tbody>
 </table>
-<h2 id="scenario-framework">Scenario Framework</h2>
+<p><strong>Half-life:</strong> $t_{1/2} = -\ln(2) / \ln(|\phi|)$</p>
+<h2 id="volatility-drag">Volatility Drag</h2>
+<p>$$\text{Geometric return} = \text{Arithmetic return} - \frac{1}{2}\sigma^2$$</p>
+<p>30% vol → 4.5% annual drag. Over 10yr: 37% less wealth than naive estimate.</p>
+<h2 id="t-scaling-breaks-when">√T Scaling Breaks When:</h2>
+<ul>
+<li>Positive autocorrelation (momentum) → VaR HIGHER than √T</li>
+<li>Volatility clustering → VaR HIGHER</li>
+<li>Illiquidity (can't exit) → locked in → HIGHER</li>
+<li>Mean reversion → VaR LOWER than √T</li>
+</ul>
+<h2 id="mental-math-shortcuts">Mental Math Shortcuts</h2>
 <table>
 <thead>
 <tr>
-<th>Scenario</th>
-<th>Fed</th>
-<th>SPX</th>
-<th>Oil</th>
-<th>USD</th>
+<th>Op</th>
+<th>Trick</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Soft landing</td>
-<td>Cut to 3.00%</td>
-<td>+12%</td>
-<td>$75</td>
-<td>Weaker</td>
+<td>×5</td>
+<td>÷2, ×10</td>
+<td>48×5 = 240</td>
 </tr>
 <tr>
-<td>Recession</td>
-<td>Cut to 1.50%</td>
-<td>−25%</td>
-<td>$55</td>
-<td>Stronger</td>
+<td>×25</td>
+<td>÷4, ×100</td>
+<td>48×25 = 1,200</td>
 </tr>
 <tr>
-<td>Stagflation</td>
-<td>Hike to 5.00%</td>
-<td>−20%</td>
-<td>$120</td>
-<td>Stronger</td>
+<td>×11</td>
+<td>Sum adjacent digits</td>
+<td>72×11 = 792</td>
 </tr>
 <tr>
-<td>Hormuz escalation</td>
-<td>Hold (trapped)</td>
-<td>−30%</td>
-<td>$150</td>
-<td>Stronger</td>
+<td>×9</td>
+<td>×10 - ×1</td>
+<td>48×9 = 432</td>
+</tr>
+<tr>
+<td>% swap</td>
+<td>x% of y = y% of x</td>
+<td>7% of 50 = 3.5</td>
+</tr>
+<tr>
+<td>Rule of 72</td>
+<td>Doubling time = 72/rate</td>
+<td>6% → 12yr</td>
 </tr>
 </tbody>
 </table>
-<h2 id="crisis-pattern">Crisis Pattern</h2>
-<ol>
-<li>ACCUMULATION → leverage builds, risk premia compress</li>
-<li>TRIGGER → shock exposes fragility</li>
-<li>CONTAGION → forced selling, correlation → 1.0</li>
-<li>POLICY RESPONSE → central bank intervenes</li>
-<li>RESOLUTION → vol declines, new regime</li>
-</ol>
-<h2 id="rm-quick-checks">RM Quick Checks</h2>
+<h2 id="probability-puzzle-answers">Probability Puzzle Answers</h2>
+<table>
+<thead>
+<tr>
+<th>Puzzle</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>≥1 heads in 2 flips → P(both heads)</td>
+<td>1/3</td>
+</tr>
+<tr>
+<td>See red side → P(other side red)</td>
+<td>2/3</td>
+</tr>
+<tr>
+<td>P(two dice sum = 7)</td>
+<td>1/6</td>
+</tr>
+<tr>
+<td>Expected flips for first heads</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Expected flips for 2 heads in a row</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Birthday problem (&gt;50%)</td>
+<td>23 people</td>
+</tr>
+<tr>
+<td>Socks for matching pair (2 colors)</td>
+<td>3 socks</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quick-interview-lines">Quick Interview Lines</h2>
 <ul>
-<li>Every position has embedded macro assumptions — surface them</li>
-<li>VaR understates risk during regime transitions (correlation instability)</li>
-<li>Regime determines whether your hedges work or amplify losses</li>
-<li>Daily: overnight moves → data release preview → release vs consensus → PM exposure map</li>
-</ul>
-<h2 id="fiscal">Fiscal</h2>
-<ul>
-<li><strong>r − g framework:</strong> If growth &gt; interest cost → debt ratio stabilizes. If r &gt; g → spirals.</li>
-<li>US: 6% deficit/GDP + Fed at 3.75% = fiscal-monetary conflict → sticky inflation + higher long-end</li>
-</ul>
-<h2 id="fx">FX</h2>
-<ul>
-<li><strong>Carry = r_invest − r_fund − E[ΔFX]</strong> → carry trades are short vol (steady until they explode)</li>
-<li><strong>Dollar smile:</strong> USD strong in US exceptionalism OR global crisis; weak in synchronized growth</li>
-<li>EM vulnerability: twin deficits + FX debt + low real rates = fragile</li>
+<li>"Sharpe 1.0 needs ~4 years to prove statistically — most PM records are too short"</li>
+<li>"Fat tails: 4σ events happen every 2-3yr, not every 126yr"</li>
+<li>"99% accurate test + rare event = mostly false positives (base rate dominance)"</li>
+<li>"R² &gt; 0.80 with insignificant α = closet index fund charging 2/20"</li>
+<li>"√T scaling only works under i.i.d. — autocorrelation, clustering, and illiquidity all break it"</li>
 </ul>
 </main>
 

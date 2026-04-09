@@ -385,12 +385,1408 @@ body {
 <a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
 <a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
 <a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+<a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
+<a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
+<a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
+<a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="w-quant-mindset-model-risk">W — QUANT MINDSET &amp; MODEL RISK</h1>
+<h1 id="v-quant-mindset-model-risk">V — QUANT MINDSET &amp; MODEL RISK</h1>
 <h2 id="think-like-a-quant-researcher-so-you-can-challenge-them-intelligently">Think like a quant researcher — so you can challenge them intelligently</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="how-to-use-this-file">HOW TO USE THIS FILE</h1>
+<p>Round 3 is with a quant researcher. They won't expect you to derive GARCH from scratch — but they WILL expect you to:<br />
+1. <strong>Define</strong> each concept in one sentence — no hand-waving<br />
+2. <strong>Explain</strong> why it matters for risk management with a concrete example<br />
+3. <strong>Know the limitations</strong> — when the model breaks and what to do about it<br />
+4. <strong>Ask intelligent questions</strong> — the kind that a good RM asks a quant team<br />
+5. <strong>Connect math to P&amp;L</strong> — translate statistical concepts into portfolio risk language</p>
+<p><strong>The RM's job isn't to build the models. It's to challenge them, interpret their output, and know when to override them.</strong></p>
+<hr />
+<h1 id="part-1-statistical-foundations-the-language-of-risk">PART 1: STATISTICAL FOUNDATIONS — THE LANGUAGE OF RISK</h1>
+<h2 id="stationarity">Stationarity</h2>
+<p><strong>Definition:</strong> A time series is stationary if its statistical properties (mean, variance, autocorrelation structure) don't change over time.</p>
+<p><strong>Why it matters for risk:</strong> Almost every risk model assumes stationarity — VaR uses a historical window and assumes the future distribution looks like the past. If the regime changes (low-vol → high-vol, deflation → inflation), the model is using the wrong distribution.</p>
+<p><strong>Types of non-stationarity:</strong><br />
+| Type | What changes | Market example | Risk impact |<br />
+|---|---|---|---|<br />
+| Mean shift | Average return level | Rates from 0% → 5% (2020-2023) | Carry assumptions wrong |<br />
+| Variance shift | Volatility level | VIX from 12 → 35 in a week | VaR immediately stale |<br />
+| Structural break | Entire distribution | COVID lockdown (Mar 2020) | All historical relationships invalid |<br />
+| Trending variance | Vol slowly increases/decreases | Post-GFC volatility compression | Lookback-dependent: short window = different answer than long window |</p>
+<p><strong>How to detect non-stationarity in practice:</strong><br />
+- <strong>Rolling statistics:</strong> Plot rolling 30d mean and 60d vol. If they're trending, you have non-stationarity.<br />
+- <strong>Chow test / breakpoint test:</strong> Formally test whether model parameters differ across sub-samples.<br />
+- <strong>The "gut check":</strong> If someone says "the model worked great until 6 months ago" — that IS the non-stationarity. The regime shifted and the model didn't adapt.</p>
+<p><strong>Augmented Dickey-Fuller (ADF) test:</strong> Tests whether a time series has a unit root (non-stationary). A p-value &lt; 0.05 means you can reject the null of non-stationarity → the series IS stationary. Most price series: non-stationary. Most return series: stationary.</p>
+<p><strong>The RM question to the quant:</strong> <em>"How sensitive is this model to the lookback window? Show me how the output changes if we use 1 year vs. 3 years vs. the full history."</em></p>
+<h2 id="autocorrelation">Autocorrelation</h2>
+<p><strong>Definition:</strong> Correlation of a time series with its own lagged values. If today's return tells you something about tomorrow's return, autocorrelation exists.</p>
+<table>
+<thead>
+<tr>
+<th>Autocorrelation</th>
+<th>What it means</th>
+<th>Market example</th>
+<th>Risk implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Positive (momentum)</td>
+<td>Trends persist</td>
+<td>CTA trend-following works</td>
+<td>Multi-day VaR UNDERESTIMATES risk (moves compound)</td>
+</tr>
+<tr>
+<td>Negative (mean reversion)</td>
+<td>Moves reverse</td>
+<td>Stat arb, pairs trading works</td>
+<td>Multi-day VaR OVERESTIMATES risk (moves cancel)</td>
+</tr>
+<tr>
+<td>Zero (i.i.d.)</td>
+<td>No serial dependence</td>
+<td>Textbook assumption</td>
+<td>√T scaling is valid</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The square-root-of-time scaling problem:</strong></p>
+<p>$$\text{VaR}<em>{T\text{-day}} = \text{VaR}</em>{1\text{-day}} \times \sqrt{T}$$</p>
+<p>This formula is ONLY valid if returns are independent and identically distributed (i.i.d.). When autocorrelation exists:</p>
+<p>$$\text{VaR}<em>{T\text{-day}} = \text{VaR}</em>{1\text{-day}} \times T^H$$</p>
+<p>where $H$ is the Hurst exponent:<br />
+- $H = 0.5$ → random walk (i.i.d.) → standard √T scaling<br />
+- $H &gt; 0.5$ → momentum (positive autocorrelation) → risk grows FASTER than √T<br />
+- $H &lt; 0.5$ → mean reversion → risk grows SLOWER than √T</p>
+<p><strong>Worked example:</strong></p>
+<blockquote>
+<p>1-day VaR = $1M. What's 10-day VaR?</p>
+<ul>
+<li>If H = 0.5 (i.i.d.): $1M × 10^0.5 = <strong>$3.16M</strong></li>
+<li>If H = 0.7 (momentum): $1M × 10^0.7 = <strong>$5.01M</strong> (58% higher!)</li>
+<li>If H = 0.3 (mean reversion): $1M × 10^0.3 = <strong>$2.00M</strong> (37% lower)</li>
+</ul>
+<p><strong>The same portfolio has 2.5x different 10-day risk depending on autocorrelation structure.</strong></p>
+</blockquote>
+<p><strong>RM implication:</strong> If the quant team uses √T scaling for regulatory capital or margin estimates and the portfolio trades momentum strategies, you're UNDERSTATING multi-day risk by up to 60%. Ask: <em>"What's the Hurst exponent of our strategy returns? Are we adjusting the scaling factor?"</em></p>
+<h2 id="fat-tails-leptokurtosis">Fat Tails (Leptokurtosis)</h2>
+<p><strong>Definition:</strong> Real market returns have more extreme events than a normal distribution predicts. The distribution has excess kurtosis — fatter tails and a sharper peak.</p>
+<p><strong>How fat are real tails?</strong></p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Normal distribution says</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3σ daily move (e.g., SPX -3%)</td>
+<td>Once every ~1.5 years</td>
+<td>Once every ~6 months</td>
+</tr>
+<tr>
+<td>4σ daily move (e.g., SPX -4%)</td>
+<td>Once every ~126 years</td>
+<td>Once every ~2-3 years</td>
+</tr>
+<tr>
+<td>5σ daily move (e.g., SPX -5%)</td>
+<td>Once every ~14,000 years</td>
+<td>Once every ~10-20 years</td>
+</tr>
+<tr>
+<td>6σ daily move (e.g., SPX -6%)</td>
+<td>Once every ~1.5 million years</td>
+<td>Has happened multiple times since 2000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Kurtosis:</strong><br />
+- Normal distribution: kurtosis = 3 (excess kurtosis = 0)<br />
+- Typical daily equity returns: excess kurtosis = 3-10<br />
+- FX returns: excess kurtosis = 2-8<br />
+- Commodity returns: excess kurtosis = 5-30 (especially energy)</p>
+<p><strong>Why fat tails break VaR:</strong></p>
+<p>A normal-distribution VaR at 99% uses $z = 2.33$. But if the true distribution has excess kurtosis of 6, the actual 99th percentile is more like $z = 3.0$ to $z = 3.5$, depending on skewness. </p>
+<p>$$\text{True 99% loss} \approx 1.3\text{x to }1.5\text{x the normal VaR}$$</p>
+<p><strong>Alternative distributions that capture fat tails:</strong><br />
+| Distribution | Key feature | When to use |<br />
+|---|---|---|<br />
+| Student-t | Fat tails controlled by degrees of freedom (ν) | General-purpose; ν = 3-5 for equities |<br />
+| Generalized Pareto (GPD) | Models only the tail beyond a threshold | Extreme value theory; tail risk quantification |<br />
+| Stable / Lévy | Infinite variance possible | Heavy-tailed assets (crypto, commodities) |<br />
+| Mixture of normals | Two regimes blended | Regime-switching (low-vol + high-vol) |</p>
+<p><strong>RM question:</strong> <em>"Does the VaR model assume normal returns? If yes, what's the kurtosis of our actual return distribution? How much is VaR understated?"</em></p>
+<h2 id="correlation-the-moving-target">Correlation — The Moving Target</h2>
+<p><strong>The three correlation traps:</strong></p>
+<h3 id="trap-1-correlation-causation">Trap 1: Correlation ≠ Causation</h3>
+<p>Two assets correlated at 0.7 might both be driven by a third factor (USD, risk appetite, rates). The RESIDUAL correlation after removing common factors is what matters for hedging.</p>
+<h3 id="trap-2-regime-dependent-correlation">Trap 2: Regime-Dependent Correlation</h3>
+<p>The most dangerous property in finance:</p>
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Stock-bond correlation</th>
+<th>Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal (pre-2020)</td>
+<td>-0.3 to -0.5</td>
+<td>Bonds hedge equities → 60/40 works</td>
+</tr>
+<tr>
+<td>Inflation shock (2022)</td>
+<td>+0.3 to +0.6</td>
+<td>Both fall together → 60/40 fails → portfolio VaR explodes</td>
+</tr>
+<tr>
+<td>Deflation scare</td>
+<td>-0.5 to -0.8</td>
+<td>Strong negative → bonds super-hedge</td>
+</tr>
+<tr>
+<td>Liquidity crisis</td>
+<td>+0.5 to +0.9</td>
+<td>Everything sells off → ρ → 1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The asymmetry:</strong> Correlations tend to INCREASE in sell-offs and DECREASE in rallies. This means diversification benefits disappear exactly when you need them most.</p>
+<h3 id="trap-3-non-linear-correlation">Trap 3: Non-Linear Correlation</h3>
+<p>Pearson correlation only captures LINEAR relationships. Two assets can have ρ = 0 but strong tail dependence (they move independently in normal markets but crash together in crises).</p>
+<p><strong>Measuring tail dependence:</strong><br />
+- <strong>Copulas:</strong> Model the joint distribution of extreme events independent of marginal distributions. The Clayton copula captures lower-tail dependence (crash-together risk). The Gaussian copula (used in CDOs pre-2008) famously understated tail dependence.<br />
+- <strong>Conditional correlation:</strong> ρ(X,Y | both &lt; 5th percentile) vs. ρ(X,Y | unconditional). If conditional correlation is much higher, you have tail dependence.</p>
+<p><strong>RM question:</strong> <em>"What's our correlation matrix using the last 3 months vs. the last 3 years? If they're very different, which one is the model using, and why?"</em></p>
+<h2 id="skewness-the-asymmetry-of-risk">Skewness — The Asymmetry of Risk</h2>
+<p><strong>Definition:</strong> Skewness measures the asymmetry of the return distribution.</p>
+<ul>
+<li><strong>Negative skew (left tail fatter):</strong> Typical for equities and credit — small frequent gains, large rare losses. "Picking up pennies in front of a steamroller."</li>
+<li><strong>Positive skew (right tail fatter):</strong> Typical for long options, trend-following, tail hedges — small frequent losses, large rare gains.</li>
+</ul>
+<p><strong>Why skew matters for the RM:</strong><br />
+A portfolio with negative skew LOOKS good on average metrics (high Sharpe) but has hidden blow-up risk. The Sharpe ratio doesn't distinguish between negatively and positively skewed strategies:</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Annual return</th>
+<th>Vol</th>
+<th>Sharpe</th>
+<th>Skew</th>
+<th>Max drawdown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Short vol</td>
+<td>12%</td>
+<td>8%</td>
+<td>1.5</td>
+<td>-3.0</td>
+<td>-50%</td>
+</tr>
+<tr>
+<td>Long vol / tail hedge</td>
+<td>3%</td>
+<td>15%</td>
+<td>0.2</td>
+<td>+2.5</td>
+<td>-20%</td>
+</tr>
+</tbody>
+</table>
+<p>Strategy A looks better on Sharpe. But it has a hidden -50% left tail. The RM must look at Sharpe AND skew together.</p>
+<p><strong>Sortino ratio</strong> adjusts for this by penalizing only downside deviation:</p>
+<p>$$\text{Sortino} = \frac{R_p - R_f}{\text{Downside deviation}}$$</p>
+<hr />
+<h1 id="part-2-volatility-models-whats-driving-the-risk-number">PART 2: VOLATILITY MODELS — WHAT'S DRIVING THE RISK NUMBER</h1>
+<h2 id="the-hierarchy-of-volatility-models">The Hierarchy of Volatility Models</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Complexity</th>
+<th>Key feature</th>
+<th>Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple historical vol</td>
+<td>Low</td>
+<td>σ = stdev(returns, N days)</td>
+<td>Treats all observations equally</td>
+</tr>
+<tr>
+<td>EWMA</td>
+<td>Low-Medium</td>
+<td>Recent obs weighted more (λ)</td>
+<td>Only one parameter; no mean reversion</td>
+</tr>
+<tr>
+<td>GARCH(1,1)</td>
+<td>Medium</td>
+<td>Vol clustering + mean reversion</td>
+<td>Symmetric — ignores leverage effect</td>
+</tr>
+<tr>
+<td>GJR-GARCH / EGARCH</td>
+<td>Medium-High</td>
+<td>Asymmetric: down moves increase vol more</td>
+<td>More parameters → calibration risk</td>
+</tr>
+<tr>
+<td>Stochastic vol (Heston)</td>
+<td>High</td>
+<td>Vol itself is random with mean reversion</td>
+<td>Harder to calibrate; used more in options pricing</td>
+</tr>
+<tr>
+<td>Realized vol (high-freq)</td>
+<td>High</td>
+<td>Uses intraday data (5-min returns)</td>
+<td>Microstructure noise; data-intensive</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ewma-exponentially-weighted-moving-average">EWMA (Exponentially Weighted Moving Average)</h2>
+<p>$$\sigma^2_t = \lambda \cdot \sigma^2_{t-1} + (1 - \lambda) \cdot r^2_{t-1}$$</p>
+<ul>
+<li><strong>λ = 0.94</strong> (RiskMetrics standard for daily data): yesterday's return gets 6% weight, two days ago gets 5.64%, etc.</li>
+<li><strong>Half-life:</strong> The point where cumulative weight reaches 50%. For λ = 0.94: half-life ≈ 11 days. For λ = 0.97: half-life ≈ 23 days.</li>
+</ul>
+<p>$$\text{Half-life} = \frac{-\ln(2)}{\ln(\lambda)}$$</p>
+<p><strong>Worked example:</strong></p>
+<blockquote>
+<p>SPX daily returns for last 5 days: +0.5%, -1.2%, +0.3%, -2.8%, +0.1%<br />
+Using λ = 0.94, the most recent return (-2.8%) gets much more weight than +0.5% from 5 days ago.<br />
+After the -2.8% day, EWMA vol jumps significantly — the model "reacts" to the shock quickly.</p>
+</blockquote>
+<p><strong>When EWMA fails:</strong><br />
+- It has no concept of "long-run average vol" — after a quiet period, vol just decays toward zero, which is unrealistic.<br />
+- It reacts to large moves but doesn't mean-revert to a sensible level after the shock fades.</p>
+<h2 id="garch11-the-workhorse">GARCH(1,1) — The Workhorse</h2>
+<p>$$\sigma^2_t = \omega + \alpha \cdot r^2_{t-1} + \beta \cdot \sigma^2_{t-1}$$</p>
+<p>Three parameters with specific meanings:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Role</th>
+<th>Typical value (equities)</th>
+<th>Intuition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ω (omega)</td>
+<td>Constant — anchors long-run variance</td>
+<td>0.000002 - 0.00001</td>
+<td>"Where vol settles in the long run"</td>
+</tr>
+<tr>
+<td>α (alpha)</td>
+<td>Shock reaction — how much yesterday's return matters</td>
+<td>0.05 - 0.15</td>
+<td>"How jumpy is the model?"</td>
+</tr>
+<tr>
+<td>β (beta)</td>
+<td>Persistence — how slowly vol decays</td>
+<td>0.80 - 0.95</td>
+<td>"How sticky is high vol?"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key relationships:</strong></p>
+<p>$$\text{Long-run variance} = \frac{\omega}{1 - \alpha - \beta}$$</p>
+<p>$$\text{Persistence} = \alpha + \beta$$</p>
+<ul>
+<li>If α + β = 0.99 → vol shocks are EXTREMELY persistent (half-life ≈ 69 days)</li>
+<li>If α + β = 0.95 → vol shocks still persistent but decay faster (half-life ≈ 14 days)</li>
+<li>If α + β ≥ 1.0 → IGARCH (integrated GARCH) — vol shocks NEVER decay. This means there's no long-run mean. Be very suspicious.</li>
+</ul>
+<p>$$\text{Half-life of vol shock} = \frac{-\ln(2)}{\ln(\alpha + \beta)}$$</p>
+<p><strong>Worked example — interpreting GARCH output:</strong></p>
+<blockquote>
+<p>Quant presents: ω = 0.000005, α = 0.08, β = 0.90</p>
+<ul>
+<li>Persistence = 0.08 + 0.90 = <strong>0.98</strong> (very persistent)</li>
+<li>Half-life = -ln(2) / ln(0.98) = <strong>34 days</strong> (vol shock takes 34 days to halve)</li>
+<li>Long-run annualized vol = √(0.000005 / (1 - 0.98) × 252) = √(0.000005 / 0.02 × 252) = √(0.063) = <strong>25.1%</strong></li>
+</ul>
+<p><strong>Your questions:</strong><br />
+1. "Persistence of 0.98 means a vol spike takes over a month to halve. Is that consistent with what we see in our asset class?"<br />
+2. "Long-run vol of 25% — is that used for anything? If our VaR lookback is shorter than 34 days, we're not capturing the mean-reversion effect."</p>
+</blockquote>
+<h2 id="gjr-garch-asymmetric-leverage-effect">GJR-GARCH (Asymmetric / Leverage Effect)</h2>
+<p>Standard GARCH treats positive and negative shocks equally. But in reality, negative returns increase vol MORE than positive returns of the same magnitude (the "leverage effect"):</p>
+<p>$$\sigma^2_t = \omega + (\alpha + \gamma \cdot \mathbb{1}<em>{r</em>{t-1}&lt;0}) \cdot r^2_{t-1} + \beta \cdot \sigma^2_{t-1}$$</p>
+<p>where $\gamma$ is the asymmetry parameter and $\mathbb{1}<em>{r</em>{t-1}&lt;0}$ is an indicator that equals 1 when the previous return was negative.</p>
+<ul>
+<li>If γ &gt; 0: negative returns increase vol more than positive returns → leverage effect captured</li>
+<li>Typical equity γ: 0.05-0.15 (down moves have 50-100% more vol impact than up moves)</li>
+</ul>
+<p><strong>Why the RM cares:</strong> If you use symmetric GARCH in an equity portfolio, you'll UNDERSTATE vol after sell-offs and OVERSTATE vol after rallies. Your post-crash VaR will be too low when it matters most.</p>
+<h2 id="implied-vs-realized-volatility">Implied vs. Realized Volatility</h2>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Source</th>
+<th>Time horizon</th>
+<th>Contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Realized vol</td>
+<td>Historical returns</td>
+<td>Backward-looking</td>
+<td>What DID happen</td>
+</tr>
+<tr>
+<td>Implied vol</td>
+<td>Option prices</td>
+<td>Forward-looking</td>
+<td>Market's EXPECTATION of what will happen</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The Variance Risk Premium (VRP):</strong></p>
+<p>$$\text{VRP} = \text{Implied Vol} - \text{Realized Vol}$$</p>
+<ul>
+<li>VRP is almost always positive: implied &gt; realized (options are "expensive" on average)</li>
+<li>Typical equity VRP: 2-5 vol points</li>
+<li>When VRP collapses or goes negative → the market is pricing in a vol INCREASE → warning sign</li>
+</ul>
+<p><strong>VRP as a risk indicator:</strong><br />
+| VRP level | Signal | Action |<br />
+|---|---|---|<br />
+| &gt; 5 vol pts | Market pricing in much more vol than is occurring | Short-vol strategies attractive but complacency possible |<br />
+| 2-5 vol pts | Normal range | Standard risk posture |<br />
+| 0-2 vol pts | Market barely pricing in premium | Elevated caution — market may be complacent |<br />
+| &lt; 0 (negative) | Realized &gt; implied → market in crisis and STILL pricing more to come | Maximum caution — vol selling is suicidal |</p>
+<hr />
+<h1 id="part-3-dimensionality-reduction-factor-models">PART 3: DIMENSIONALITY REDUCTION &amp; FACTOR MODELS</h1>
+<h2 id="pca-principal-component-analysis">PCA (Principal Component Analysis)</h2>
+<p><strong>What it does:</strong> Takes N correlated variables and finds a smaller set of uncorrelated factors (principal components) that explain most of the total variation.</p>
+<p><strong>The canonical example — US yield curve:</strong></p>
+<p>The yield curve has 10+ points (1Y, 2Y, 3Y, 5Y, 7Y, 10Y, 20Y, 30Y), but PCA reveals that ~95% of all yield curve movement is explained by just 3 factors:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>% Variance explained</th>
+<th>Interpretation</th>
+<th>Sensitivity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PC1</td>
+<td>~80%</td>
+<td><strong>Level</strong> — entire curve shifts up/down</td>
+<td>All maturities load positively, roughly equally</td>
+</tr>
+<tr>
+<td>PC2</td>
+<td>~10%</td>
+<td><strong>Slope</strong> — short end vs. long end</td>
+<td>Short maturities positive, long negative (or vice versa)</td>
+</tr>
+<tr>
+<td>PC3</td>
+<td>~5%</td>
+<td><strong>Curvature</strong> — belly vs. wings</td>
+<td>2Y and 30Y positive, 5-10Y negative</td>
+</tr>
+<tr>
+<td>PC4-10</td>
+<td>~5% combined</td>
+<td>Noise / idiosyncratic</td>
+<td>Unstable — changes with sample</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example — interpreting PCA for risk:</strong></p>
+<blockquote>
+<p>Your rates portfolio has the following exposures:<br />
+- PC1 (level) DV01: +$50K/bp → long duration, hurt by rising rates<br />
+- PC2 (slope) DV01: -$200K/bp → positioned for curve flattening<br />
+- PC3 (curvature) DV01: +$30K/bp → butterfly trade, long wings</p>
+<p><strong>Interpretation:</strong> This portfolio is 4x more sensitive to the slope than to the level. The dominant risk isn't "rates going up" — it's "curve steepening." Your stress test should focus on steepener scenarios, not parallel shifts.</p>
+<p><strong>The standard mistake:</strong> Running a +100bp parallel shift stress test and concluding the portfolio is fine. A +50bp steepener would do much more damage.</p>
+</blockquote>
+<p><strong>PCA stability warning:</strong> Factor loadings are estimated from historical data and can CHANGE over time. In particular:<br />
+- During QE, PC1 explained less variance (central bank suppressed level moves) and PC2 explained more<br />
+- During rate-hiking cycles, PC1 dominance increases<br />
+- If you calibrated PCA during QE and use it during hiking, your risk decomposition is wrong</p>
+<h2 id="factor-models-in-equities">Factor Models in Equities</h2>
+<p><strong>Standard factors (Fama-French + extensions):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>What it captures</th>
+<th>Typical premium</th>
+<th>When it fails</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Market (β)</td>
+<td>Exposure to broad equity market</td>
+<td>5-7% p.a.</td>
+<td>Always "on" but variable</td>
+</tr>
+<tr>
+<td>Size (SMB)</td>
+<td>Small vs. large cap</td>
+<td>1-3% p.a.</td>
+<td>Negative in risk-off (small cap underperforms)</td>
+</tr>
+<tr>
+<td>Value (HML)</td>
+<td>Cheap vs. expensive stocks</td>
+<td>2-4% p.a. historically</td>
+<td>Can underperform for YEARS (2017-2020)</td>
+</tr>
+<tr>
+<td>Momentum (WML)</td>
+<td>Past winners vs. past losers</td>
+<td>5-8% p.a.</td>
+<td>Violent reversals (momentum crashes)</td>
+</tr>
+<tr>
+<td>Quality (RMW)</td>
+<td>Profitable vs. unprofitable</td>
+<td>3-5% p.a.</td>
+<td>Most stable</td>
+</tr>
+<tr>
+<td>Low vol (BAB)</td>
+<td>Low-beta vs. high-beta</td>
+<td>3-6% p.a.</td>
+<td>Underperforms in aggressive rallies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why factor decomposition matters for the RM:</strong></p>
+<p>If a PM claims to generate alpha but their returns are 90% explained by factor exposures, they're not adding value — they're just loading on systematic factors. You could replicate that exposure more cheaply with factor ETFs.</p>
+<p>$$R_p = \alpha + \beta_1 F_1 + \beta_2 F_2 + ... + \beta_k F_k + \epsilon$$</p>
+<p><strong>The test:</strong> Run a multi-factor regression on PM returns. If the adjusted $R^2 &gt; 0.80$ and $\alpha$ is not statistically significant, the PM is a closet beta manager.</p>
+<p><strong>Cross-PM factor overlap — the portfolio-level risk:</strong></p>
+<blockquote>
+<p>PM A: long tech momentum, factor exposure = [Market +1.2, Momentum +0.8, Size -0.3]<br />
+PM B: long biotech momentum, factor exposure = [Market +1.0, Momentum +0.9, Size -0.5]</p>
+<p>These look like different strategies (tech vs. biotech) but have nearly identical factor exposures. A momentum crash would hit BOTH PMs simultaneously. The risk isn't visible at the name level — only at the factor level.</p>
+</blockquote>
+<p><strong>RM question:</strong> <em>"Show me the factor attribution of each PM's YTD P&amp;L. How much of the fund's total return is explained by the market factor alone?"</em></p>
+<h2 id="residual-risk-and-idiosyncratic-exposure">Residual Risk and Idiosyncratic Exposure</h2>
+<p>After removing factor exposures, the unexplained portion ($\epsilon$) is <strong>idiosyncratic risk</strong> — the risk that IS stock-specific alpha. This is what you WANT in a multi-PM structure.</p>
+<p>$$\text{Idiosyncratic risk ratio} = \frac{\text{Var}(\epsilon)}{\text{Var}(R_p)}$$</p>
+<ul>
+<li>Ratio &gt; 50% → PM is genuinely picking stocks, not loading on factors (good for alpha generation)</li>
+<li>Ratio &lt; 20% → PM is essentially a leveraged index fund with factor tilts (bad for alpha, can be replicated cheaply)</li>
+</ul>
+<hr />
+<h1 id="part-4-model-risk-when-models-kill">PART 4: MODEL RISK — WHEN MODELS KILL</h1>
+<h2 id="the-model-risk-framework">The Model Risk Framework</h2>
+<p><strong>Model risk</strong> is the risk that a model's output leads to poor decisions because the model is wrong, misused, or misinterpreted. SR 11-7 (Fed's model risk guidance) defines three sources:</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Model error</td>
+<td>Model is fundamentally wrong</td>
+<td>Gaussian copula for CDO tranches (mispriced tail dependence)</td>
+</tr>
+<tr>
+<td>2. Implementation error</td>
+<td>Model is right but coded wrong</td>
+<td>Excel error in London Whale VaR calculation (copy-paste using SUM instead of AVERAGE)</td>
+</tr>
+<tr>
+<td>3. Misuse</td>
+<td>Model output used for wrong purpose</td>
+<td>Using a pricing model for risk measurement (different objectives)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-eight-deadly-sins-of-model-risk">The Eight Deadly Sins of Model Risk</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sin</th>
+<th>Description</th>
+<th>Detection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Gaussian assumption</strong></td>
+<td>Assuming normal returns when reality has fat tails</td>
+<td>Kurtosis test; Q-Q plot</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Stable correlations</strong></td>
+<td>Using one correlation matrix for all regimes</td>
+<td>Compare crisis vs. calm correlations</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>∞ liquidity</strong></td>
+<td>Model assumes positions can be liquidated instantly</td>
+<td>Compare position to ADV; model liquidation cost</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Stationary parameters</strong></td>
+<td>Using fixed model params during regime changes</td>
+<td>Rolling calibration; breakpoint tests</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Overfitting</strong></td>
+<td>Too many parameters relative to observations</td>
+<td>In-sample vs. out-of-sample R² comparison</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Survivorship bias</strong></td>
+<td>Dataset only includes entities that survived</td>
+<td>Check: does data include delisted/defaulted entities?</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Look-ahead bias</strong></td>
+<td>Using information not available at decision time</td>
+<td>Ensure all inputs are lagged appropriately</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Mark-to-model</strong></td>
+<td>Pricing illiquid positions with favorable internal models</td>
+<td>Independent price verification (IPV) against external sources</td>
+</tr>
+</tbody>
+</table>
+<h2 id="var-model-limitations-the-comprehensive-list">VaR Model Limitations — The Comprehensive List</h2>
+<table>
+<thead>
+<tr>
+<th>Limitation</th>
+<th>Why it matters</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Assumes portfolio is static</td>
+<td>Position changes during the holding period</td>
+<td>Use "dynamic VaR" or impose trading restrictions during stressed periods</td>
+</tr>
+<tr>
+<td>Single confidence level (99%)</td>
+<td>Tells you nothing about the 1% tail</td>
+<td>Supplement with Expected Shortfall (CVaR) which averages the tail</td>
+</tr>
+<tr>
+<td>Distribution assumption</td>
+<td>Normal underestimates tails</td>
+<td>Use historical simulation or Student-t VaR</td>
+</tr>
+<tr>
+<td>Lookback period sensitivity</td>
+<td>Short window = reactive to recent regime; long window = includes stale data</td>
+<td>Use multiple lookback windows and compare</td>
+</tr>
+<tr>
+<td>Aggregation method</td>
+<td>Adding VaR across desks assumes correlation structure</td>
+<td>Report both diversified and undiversified VaR</td>
+</tr>
+<tr>
+<td>Intraday risk not captured</td>
+<td>VaR is end-of-day; intraday losses can exceed VaR</td>
+<td>Intraday limit checks; real-time risk monitoring</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Expected Shortfall (ES / CVaR) — the VaR improvement:</strong></p>
+<p>$$\text{ES}<em>\alpha = E[L \mid L &gt; \text{VaR}</em>\alpha]$$</p>
+<p>ES answers: "Given that we're in the worst 1% of outcomes, what's the AVERAGE loss?" This captures the shape of the tail, not just the boundary.</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>VaR (99%)</th>
+<th>ES (99%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Question answered</td>
+<td>"Worst loss exceeded 1% of the time"</td>
+<td>"Average loss in the worst 1%"</td>
+</tr>
+<tr>
+<td>Normal distribution</td>
+<td>2.33σ</td>
+<td>2.67σ</td>
+</tr>
+<tr>
+<td>Fat-tailed distribution</td>
+<td>2.33σ (same → WRONG)</td>
+<td>3.5-5σ+ (much higher → CAPTURES tail)</td>
+</tr>
+<tr>
+<td>Regulatory status</td>
+<td>Basel II.5 (historical)</td>
+<td><strong>Basel III FRTB</strong> (current standard)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM insight:</strong> If VaR and ES give similar numbers (ratio &lt; 1.2), the tail is thin (close to normal). If ES &gt;&gt; VaR (ratio &gt; 1.5), the tail is fat and VaR is dangerously understating extreme risk.</p>
+<h2 id="model-validation-the-rms-toolkit">Model Validation — The RM's Toolkit</h2>
+<h3 id="var-backtesting">VaR Backtesting</h3>
+<p><strong>The basic test:</strong> If you have a 99% 1-day VaR, you should breach it ~2.5 times per year (250 trading days × 1% = 2.5 expected breaches).</p>
+<p><strong>Basel traffic light system:</strong><br />
+| Zone | Breaches (250-day window) | Implication | Regulatory response |<br />
+|---|---|---|---|<br />
+| 🟢 Green | 0-4 | Model is acceptable | No action |<br />
+| 🟡 Yellow | 5-9 | Model questionable | Capital multiplier increases |<br />
+| 🔴 Red | 10+ | Model is broken | Mandatory model revision + penalty |</p>
+<p><strong>Kupiec test (unconditional coverage):</strong><br />
+Tests whether the breach rate matches the expected probability. Under H₀ (model is correct):</p>
+<p>$$\text{LR}_\text{uc} = -2 \ln!!\left[\frac{(1-p)^{T-N} \cdot p^N}{(1-\hat{p})^{T-N} \cdot \hat{p}^N}\right] \sim \chi^2_1$$</p>
+<p>where $p$ = expected breach rate (0.01 for 99% VaR), $\hat{p}$ = observed breach rate = $N/T$.</p>
+<p><strong>Christoffersen test (conditional coverage):</strong><br />
+Tests not just frequency but CLUSTERING. If all 4 breaches happen in one week, the model is failing to capture vol clustering. Independence of breaches matters as much as their number.</p>
+<p><strong>Practical interpretation:</strong><br />
+| Observation | What it means | RM action |<br />
+|---|---|---|<br />
+| 0-1 breaches in 250 days | Model may be too conservative | Investigate — are limits higher than they need to be? Capital cost? |<br />
+| 2-4 breaches | Model working as designed | Maintain |<br />
+| 5-9 breaches | Model underestimates risk | Increase capital charge; review model assumptions |<br />
+| 10+ breaches | Model is fundamentally wrong | Stop using it; revert to simpler model while rebuilding |<br />
+| Breaches all clustered in one period | Model doesn't capture regime changes | Add regime-switching or stressed VaR overlay |</p>
+<h3 id="sensitivity-analysis">Sensitivity Analysis</h3>
+<p><strong>Parameter perturbation:</strong> Change each model input by ±10%, ±25%. If the output changes by &gt;50% for a 10% input change, the model is FRAGILE — this parameter dominates and must be estimated precisely.</p>
+<p><strong>Boundary testing:</strong> Test at extreme values. What happens when:<br />
+- Correlation → +1 or -1?<br />
+- Vol → 3x current level?<br />
+- Time horizon → 10x?<br />
+- Liquidity → 0 (can't trade)?</p>
+<p>If the model gives nonsensical output at boundaries, it has structural problems.</p>
+<hr />
+<h1 id="part-5-overfitting-alpha-decay-strategy-lifecycle">PART 5: OVERFITTING, ALPHA DECAY &amp; STRATEGY LIFECYCLE</h1>
+<h2 id="overfitting-the-silent-pl-killer">Overfitting — The Silent P&amp;L Killer</h2>
+<p><strong>Definition:</strong> A model that fits the historical data perfectly but fails on new data. It learned the noise, not the signal.</p>
+<p><strong>The bias-variance tradeoff:</strong></p>
+<p>$$\text{Total Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Noise}$$</p>
+<ul>
+<li><strong>Underfitting</strong> (high bias): Model is too simple → misses real patterns</li>
+<li><strong>Overfitting</strong> (high variance): Model is too complex → captures noise → fails out-of-sample</li>
+<li><strong>Sweet spot</strong>: Enough complexity to capture real structure, not so much that it fits noise</li>
+</ul>
+<p><strong>How to detect overfitting:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Safe zone</th>
+<th>Danger zone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parameters vs. observations</td>
+<td>1 param per 20+ observations</td>
+<td>1 param per &lt; 5 observations</td>
+</tr>
+<tr>
+<td>In-sample R²</td>
+<td>0.3-0.6</td>
+<td>&gt; 0.90 (suspiciously good)</td>
+</tr>
+<tr>
+<td>Out-of-sample R²</td>
+<td>Within 80% of in-sample</td>
+<td>&lt; 50% of in-sample (or negative!)</td>
+</tr>
+<tr>
+<td>Performance on rolling walk-forward</td>
+<td>Stable</td>
+<td>Degrades over time</td>
+</tr>
+<tr>
+<td>Sensitivity to start date</td>
+<td>Robust to ±30 days</td>
+<td>Changes dramatically</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cross-validation for the RM:</strong><br />
+The quant should show <strong>walk-forward (out-of-sample) performance</strong>, not just backtested P&amp;L:<br />
+1. Train model on data up to 2020<br />
+2. Test on 2021 (out-of-sample)<br />
+3. Retrain on data up to 2021<br />
+4. Test on 2022 (out-of-sample)<br />
+5. Report the OUT-OF-SAMPLE performance across all test periods</p>
+<p>If they only show the full-sample backtest, they haven't proven the model works.</p>
+<h2 id="alpha-decay-strategies-have-a-shelf-life">Alpha Decay — Strategies Have a Shelf Life</h2>
+<p><strong>Definition:</strong> A trading signal that worked historically but gradually loses effectiveness over time.</p>
+<p><strong>Why alpha decays:</strong><br />
+1. <strong>Crowding:</strong> Other funds discover the same signal → arbitrage competes it away<br />
+2. <strong>Structural change:</strong> Market microstructure evolves (e.g., electronic trading killed floor-based signals)<br />
+3. <strong>Regime shift:</strong> The economic environment that generated the signal changes<br />
+4. <strong>Partially spurious:</strong> Part of the historical performance was luck, not skill</p>
+<p><strong>How to measure alpha decay:</strong></p>
+<p>$$\text{IC}(t) = \text{Correlation}(\text{signal}<em>t, \text{return}</em>{t+1})$$</p>
+<p>The Information Coefficient (IC) measures how well the signal predicts future returns. Plotting IC over rolling windows reveals decay:</p>
+<table>
+<thead>
+<tr>
+<th>IC level</th>
+<th>Signal quality</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt; 0.05</td>
+<td>Strong</td>
+<td>Allocate with conviction</td>
+</tr>
+<tr>
+<td>0.02-0.05</td>
+<td>Moderate</td>
+<td>Allocate but monitor closely</td>
+</tr>
+<tr>
+<td>0.01-0.02</td>
+<td>Weak</td>
+<td>Review sizing; signal may not justify trading costs</td>
+</tr>
+<tr>
+<td>&lt; 0.01</td>
+<td>Dead</td>
+<td>Signal has decayed below noise; consider retiring</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM implications of alpha decay:</strong><br />
+- Monitor rolling Sharpe ratio for each PM/strategy quarterly. If trending down, alpha may be decaying.<br />
+- A PM whose Sharpe has declined from 2.0 → 0.8 over 3 years hasn't just had "bad luck" — the strategy is losing edge.<br />
+- Backtested Sharpe is ALWAYS higher than live Sharpe. Rule of thumb: expect live Sharpe ≈ 50-70% of backtested Sharpe.</p>
+<h2 id="strategy-lifecycle">Strategy Lifecycle</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Characteristics</th>
+<th>RM posture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Discovery</td>
+<td>New signal found, untested, high IC</td>
+<td>Small allocation; strict risk limits</td>
+</tr>
+<tr>
+<td>2. Exploitation</td>
+<td>Signal generating returns, limited crowding</td>
+<td>Full allocation; standard risk limits</td>
+</tr>
+<tr>
+<td>3. Crowding</td>
+<td>Other funds trading same signal, returns compressed</td>
+<td>Reduce allocation; tighten stops</td>
+</tr>
+<tr>
+<td>4. Decay</td>
+<td>IC declining, costs rising relative to alpha</td>
+<td>Minimal allocation; sunset review</td>
+</tr>
+<tr>
+<td>5. Death</td>
+<td>IC ≈ 0, negative after costs</td>
+<td>Retire strategy entirely</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RM question:</strong> <em>"Where are each of our strategies in their lifecycle? What's the IC trend over the last 2 years? Are we allocating to any phase-4 strategies?"</em></p>
+<hr />
+<h1 id="part-6-monte-carlo-simulation">PART 6: MONTE CARLO SIMULATION</h1>
+<h2 id="what-it-does">What It Does</h2>
+<p>Monte Carlo generates thousands of possible future scenarios by:<br />
+1. Sampling random returns from a specified distribution<br />
+2. Simulating portfolio P&amp;L under each scenario<br />
+3. Building a distribution of outcomes</p>
+<p><strong>When Monte Carlo &gt; analytical VaR:</strong><br />
+- Non-linear portfolios (options): analytical VaR uses delta-normal approximation and misses gamma/convexity<br />
+- Path-dependent risk: margin calls, stop-losses, rebalancing triggers<br />
+- Complex correlations: copula-based dependencies that can't be captured in a covariance matrix<br />
+- Stress scenarios: custom-designed shocks beyond historical data</p>
+<h2 id="monte-carlo-for-options-portfolios">Monte Carlo for Options Portfolios</h2>
+<p>For a portfolio with significant gamma, the distribution of P&amp;L is NOT normal even if the underlying returns are:</p>
+<p>$$\text{P\&amp;L} \approx \Delta \cdot dS + \frac{1}{2} \Gamma \cdot (dS)^2 + \Theta \cdot dt + \mathcal{V} \cdot d\sigma$$</p>
+<p>The $\Gamma \cdot (dS)^2$ term creates ASYMMETRY:<br />
+- Long gamma: large moves (either direction) generate positive P&amp;L → positively skewed P&amp;L<br />
+- Short gamma: large moves generate losses → negatively skewed P&amp;L</p>
+<p>Analytical VaR misses this entirely. Monte Carlo captures it naturally by simulating the actual non-linear payoff.</p>
+<p><strong>Worked example:</strong></p>
+<blockquote>
+<p>Portfolio: short 1000 SPX put options, delta-hedged.<br />
+- Delta-normal VaR (99%, 1-day): $2.3M (only uses delta)<br />
+- Monte Carlo VaR (99%, 1-day, 10,000 paths): $4.8M (captures gamma acceleration on large down moves)<br />
+- <strong>VaR is understated by 2x when gamma is significant</strong></p>
+</blockquote>
+<h2 id="monte-carlo-pitfalls">Monte Carlo Pitfalls</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Why it happens</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Not enough simulations</td>
+<td>Convergence requires 10K-100K+ paths</td>
+<td>Run convergence test: does VaR change by &gt;1% when doubling paths?</td>
+</tr>
+<tr>
+<td>Wrong distribution inputs</td>
+<td>Garbage in → garbage out</td>
+<td>Validate input distribution against actual data (Q-Q plots, kurtosis)</td>
+</tr>
+<tr>
+<td>Ignoring correlation structure</td>
+<td>Simulating each asset independently</td>
+<td>Use correlated sampling (Cholesky decomposition of correlation matrix)</td>
+</tr>
+<tr>
+<td>False precision</td>
+<td>Reporting "$4,832,419 VaR" from MC with 10K paths</td>
+<td>Round to appropriate precision; report confidence intervals</td>
+</tr>
+<tr>
+<td>Seed dependence</td>
+<td>Different random seeds → different answers</td>
+<td>Use variance reduction (antithetic variates, control variates)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-7-extreme-value-theory-evt-modeling-the-tail">PART 7: EXTREME VALUE THEORY (EVT) — MODELING THE TAIL</h1>
+<h2 id="why-evt-matters">Why EVT Matters</h2>
+<p>VaR and GARCH model the BODY of the distribution. EVT models the TAIL — the 1% (or 0.1%) of extreme events that cause catastrophic losses. This is where risk management lives.</p>
+<h2 id="the-two-fundamental-theorems">The Two Fundamental Theorems</h2>
+<h3 id="1-block-maxima-generalized-extreme-value-gev-distribution">1. Block Maxima → Generalized Extreme Value (GEV) distribution</h3>
+<p>Divide your data into blocks (e.g., months). The maximum loss per block follows a GEV distribution:</p>
+<p>$$F_\text{GEV}(x) = \exp\left{-\left[1 + \xi \left(\frac{x - \mu}{\sigma}\right)\right]^{-1/\xi}\right}$$</p>
+<p>The <strong>shape parameter ξ</strong> (xi) controls the tail behavior:<br />
+- ξ &gt; 0: Fréchet → heavy tail (typical for financial returns — ξ ≈ 0.2-0.4)<br />
+- ξ = 0: Gumbel → exponential tail (lighter)<br />
+- ξ &lt; 0: Weibull → bounded tail (finite maximum loss — unrealistic for markets)</p>
+<h3 id="2-peaks-over-threshold-pot-generalized-pareto-distribution-gpd">2. Peaks Over Threshold (POT) → Generalized Pareto Distribution (GPD)</h3>
+<p>Instead of block maxima, model all observations exceeding a high threshold $u$:</p>
+<p>$$P(X - u \leq y \mid X &gt; u) = G_{\xi,\sigma}(y) = 1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1/\xi}$$</p>
+<p><strong>This is the more useful approach for risk management</strong> because:<br />
+- You use ALL extreme observations, not just one per block<br />
+- You can estimate the probability of events you've NEVER seen<br />
+- It directly gives you high-quantile VaR and ES</p>
+<p><strong>Practical application:</strong></p>
+<blockquote>
+<p>Using GPD fitted to daily losses beyond the 95th percentile:<br />
+- 99.0% VaR (normal model): $15M<br />
+- 99.0% VaR (GPD model): $22M (47% higher)<br />
+- 99.9% VaR (normal model): $22M<br />
+- 99.9% VaR (GPD model): $45M (105% higher!)</p>
+<p><strong>The further into the tail you go, the more the normal model underestimates.</strong></p>
+</blockquote>
+<p><strong>RM question:</strong> <em>"For our tail risk estimates, are we using normal quantiles or EVT quantiles? What's the estimated ξ for our portfolio's loss distribution?"</em></p>
+<hr />
+<h1 id="part-8-regime-detection-hidden-markov-models">PART 8: REGIME DETECTION &amp; HIDDEN MARKOV MODELS</h1>
+<h2 id="why-regimes-matter">Why Regimes Matter</h2>
+<p>Markets don't operate in one state — they switch between regimes with different return and vol characteristics:</p>
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Typical vol</th>
+<th>Typical return</th>
+<th>Correlation behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Risk-on (calm)</td>
+<td>Low (VIX 12-18)</td>
+<td>Positive drift</td>
+<td>Low to moderate cross-asset</td>
+</tr>
+<tr>
+<td>Risk-off (stress)</td>
+<td>High (VIX 20-35)</td>
+<td>Negative</td>
+<td>Correlations spike → diversification fails</td>
+</tr>
+<tr>
+<td>Crisis (panic)</td>
+<td>Very high (VIX 35+)</td>
+<td>Strongly negative</td>
+<td>ρ → 1 for all risky assets</td>
+</tr>
+<tr>
+<td>Recovery</td>
+<td>Declining from elevated</td>
+<td>Positive drift, high dispersion</td>
+<td>Correlations normalize but unevenly</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The problem:</strong> A model calibrated to regime 1 is dangerously wrong in regime 3. A model calibrated across all regimes is wrong in all of them (averaging conflicting regimes).</p>
+<h2 id="hidden-markov-model-hmm-two-state-example">Hidden Markov Model (HMM) — Two-State Example</h2>
+<p>An HMM assumes:<br />
+1. Markets are in one of K hidden "states" (e.g., calm or stressed)<br />
+2. Each state has its own mean (μ) and variance (σ²)<br />
+3. Transitions between states follow a probability matrix</p>
+<p><strong>Typical 2-state HMM for equities:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>State 1 (calm)</th>
+<th>State 2 (stressed)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily mean return (μ)</td>
+<td>+0.04%</td>
+<td>-0.10%</td>
+</tr>
+<tr>
+<td>Daily vol (σ)</td>
+<td>0.8%</td>
+<td>2.5%</td>
+</tr>
+<tr>
+<td>Probability of STAYING in state</td>
+<td>98%</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>Probability of SWITCHING</td>
+<td>2%</td>
+<td>10%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implications:</strong><br />
+- Average calm period duration = 1 / (1 - 0.98) = <strong>50 days</strong><br />
+- Average stress period duration = 1 / (1 - 0.90) = <strong>10 days</strong><br />
+- Stress vol is 3x calm vol — VaR should be 3x higher but most models use an AVERAGE</p>
+<p><strong>The "regime-conditional VaR" concept:</strong></p>
+<p>$$\text{VaR}<em>{\text{true}} = P(\text{calm}) \times \text{VaR}</em>{\text{calm}} + P(\text{stress}) \times \text{VaR}_{\text{stress}}$$</p>
+<p>If you're 80% likely to be in the calm regime:</p>
+<blockquote>
+<p>VaR (averaging) = 0.8 × $5M + 0.2 × $15M = $7M</p>
+<p>But if you're ACTUALLY in the stress regime (you just don't know it yet):<br />
+True VaR = $15M — more than double the blended estimate</p>
+</blockquote>
+<p><strong>RM question:</strong> <em>"What regime does the model think we're in right now? What's the probability we've transitioned to a stress regime? How different is VaR conditional on stress vs. calm?"</em></p>
+<h2 id="regime-switching-indicators-practical">Regime-Switching Indicators (Practical)</h2>
+<p>You don't need a full HMM to detect regimes. Practical indicators:</p>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Calm regime</th>
+<th>Transitioning</th>
+<th>Stress regime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VIX level</td>
+<td>&lt; 18</td>
+<td>18-25</td>
+<td>&gt; 25</td>
+</tr>
+<tr>
+<td>VIX term structure</td>
+<td>Contango (VIX &lt; VIX3M)</td>
+<td>Flat</td>
+<td>Backwardation (VIX &gt; VIX3M)</td>
+</tr>
+<tr>
+<td>HY credit spread</td>
+<td>&lt; 350bp</td>
+<td>350-500bp</td>
+<td>&gt; 500bp</td>
+</tr>
+<tr>
+<td>Realized/implied vol ratio</td>
+<td>&lt; 0.8</td>
+<td>0.8-1.0</td>
+<td>&gt; 1.0 (realized exceeding implied)</td>
+</tr>
+<tr>
+<td>Cross-asset correlation</td>
+<td>&lt; 0.3</td>
+<td>0.3-0.6</td>
+<td>&gt; 0.6</td>
+</tr>
+<tr>
+<td>Equity factor dispersion</td>
+<td>High</td>
+<td>Declining</td>
+<td>Low (everything moving together)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-9-machine-learning-in-risk-what-to-know">PART 9: MACHINE LEARNING IN RISK — WHAT TO KNOW</h1>
+<h2 id="where-ml-adds-value-in-risk-management">Where ML Adds Value in Risk Management</h2>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>ML method</th>
+<th>Why ML &gt; traditional</th>
+<th>Watch out for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anomaly detection</td>
+<td>Isolation Forest, Autoencoders</td>
+<td>Catches unusual trading patterns without rules</td>
+<td>False positives; needs human review</td>
+</tr>
+<tr>
+<td>Regime classification</td>
+<td>Random Forest, XGBoost on regime indicators</td>
+<td>Combines many indicators non-linearly</td>
+<td>Overfitting to historical regime transitions</td>
+</tr>
+<tr>
+<td>Default prediction</td>
+<td>Logistic regression → Gradient boosted trees</td>
+<td>Better rank-ordering of credit risk</td>
+<td>Black-box: regulators want explainability</td>
+</tr>
+<tr>
+<td>Fraud / rogue trading</td>
+<td>Neural networks on transaction patterns</td>
+<td>Detects subtle deviations from normal behavior</td>
+<td>Privacy; data requirements</td>
+</tr>
+<tr>
+<td>Stress test scenario generation</td>
+<td>GANs, VAE</td>
+<td>Generate plausible scenarios beyond historical</td>
+<td>Mode collapse; unrealistic scenarios</td>
+</tr>
+<tr>
+<td>NLP on news flow</td>
+<td>Transformer models</td>
+<td>Real-time sentiment from news/filings</td>
+<td>Hallucination; false signals from noise</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-rms-ml-checklist">The RM's ML Checklist</h2>
+<p>When a quant proposes using ML in a risk context, ask:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"What's the out-of-sample accuracy? Show me walk-forward performance."</td>
+<td>In-sample accuracy means nothing for ML; overfitting is the default failure mode</td>
+</tr>
+<tr>
+<td>"How do you prevent overfitting?"</td>
+<td>Must answer: regularization (L1/L2), dropout, cross-validation, early stopping</td>
+</tr>
+<tr>
+<td>"Can you explain individual predictions?"</td>
+<td>Regulators and management need explainability; SHAP values help</td>
+</tr>
+<tr>
+<td>"What happens in a regime we haven't seen?"</td>
+<td>ML has NO theory → it can't extrapolate to novel regimes</td>
+</tr>
+<tr>
+<td>"What's the training data lookback? Does it include crisis periods?"</td>
+<td>If trained on 2015-2019 (calm), it won't work in 2020 (crisis)</td>
+</tr>
+<tr>
+<td>"How often is the model retrained?"</td>
+<td>Stale ML models decay faster than parametric models</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ml-vs-traditional-when-to-use-what">ML vs. Traditional — When to Use What</h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Use traditional</th>
+<th>Use ML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linear risk factors</td>
+<td>✓</td>
+<td>Overkill</td>
+</tr>
+<tr>
+<td>Well-understood dynamics (rates, FX)</td>
+<td>✓</td>
+<td>Maybe supplements</td>
+</tr>
+<tr>
+<td>Explainability required</td>
+<td>✓</td>
+<td>Only with SHAP/LIME</td>
+</tr>
+<tr>
+<td>Non-linear payoffs (options)</td>
+<td>Monte Carlo + Greeks</td>
+<td>✓ (pricing approximation)</td>
+</tr>
+<tr>
+<td>Anomaly detection</td>
+<td>Rule-based (crude)</td>
+<td>✓ (far superior)</td>
+</tr>
+<tr>
+<td>Regime detection</td>
+<td>HMM (interpretable)</td>
+<td>✓ (more flexible but black-box)</td>
+</tr>
+<tr>
+<td>Many features, unknown interactions</td>
+<td>Hard to specify</td>
+<td>✓ (XGBoost, neural nets)</td>
+</tr>
+<tr>
+<td>Regulatory reporting</td>
+<td>✓ (required)</td>
+<td>Not yet accepted by most regulators</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-10-challenging-quant-output-the-rms-framework">PART 10: CHALLENGING QUANT OUTPUT — THE RM'S FRAMEWORK</h1>
+<h2 id="the-four-question-framework">The Four-Question Framework</h2>
+<p>When a quant presents ANY model, analysis, or backtested result, systematically probe:</p>
+<h3 id="1-assumptions-what-could-be-wrong-with-the-foundation">1. ASSUMPTIONS — "What could be wrong with the foundation?"</h3>
+<ul>
+<li><em>"What distribution does this assume?"</em> → If normal, challenge with kurtosis data</li>
+<li><em>"What correlation structure?"</em> → If constant, challenge with regime-dependent evidence</li>
+<li><em>"What about liquidity?"</em> → If infinite liquidity assumed, challenge with position-to-ADV ratio</li>
+<li><em>"How sensitive is this to the lookback window?"</em> → If very sensitive, model is fragile</li>
+</ul>
+<h3 id="2-data-is-the-input-trustworthy">2. DATA — "Is the input trustworthy?"</h3>
+<ul>
+<li><em>"Does the data include [crisis X]?"</em> → If not, the model hasn't been stress-tested naturally</li>
+<li><em>"Survivorship bias?"</em> → Data that only includes winners (e.g., current stocks but not delisted ones)</li>
+<li><em>"Look-ahead bias?"</em> → Using information that wasn't available in real-time</li>
+<li><em>"How are missing data and outliers handled?"</em> → Dropping outliers = removing the most important data for risk</li>
+</ul>
+<h3 id="3-validation-does-it-work-in-practice">3. VALIDATION — "Does it work in practice?"</h3>
+<ul>
+<li><em>"In-sample vs. out-of-sample performance?"</em> → If big gap, model is overfit</li>
+<li><em>"VaR backtest results? Breach count and clustering?"</em> → Traffic light status</li>
+<li><em>"Walk-forward test?"</em> → Retrain and test on unseen data iteratively</li>
+</ul>
+<h3 id="4-failure-modes-when-does-this-break">4. FAILURE MODES — "When does this break?"</h3>
+<ul>
+<li><em>"What scenario would make you lose confidence in this model?"</em> — This is the BEST single question</li>
+<li><em>"What regime change would invalidate this?"</em> → Every model has a regime where it fails</li>
+<li><em>"Has this been stress-tested against [tail scenario from case studies]?"</em></li>
+</ul>
+<h2 id="the-model-override-framework">The "Model Override" Framework</h2>
+<p>Sometimes the RM needs to OVERRIDE the model. This requires both skill and institutional authority:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Model says</th>
+<th>RM should say</th>
+<th>Authority needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VaR dropped 40% but positions unchanged</td>
+<td>"Risk decreased"</td>
+<td>"Model changed or broke; investigate before acting on lower VaR"</td>
+<td>CRO/IC sign-off on model changes</td>
+</tr>
+<tr>
+<td>Model trained on calm period, now in stress</td>
+<td>"Low risk"</td>
+<td>"Model is stale; use stressed VaR or add a buffer"</td>
+<td>Risk committee override</td>
+</tr>
+<tr>
+<td>Model shows no concentration risk</td>
+<td>"Diversified"</td>
+<td>"But 3 PMs have the same factor exposure"</td>
+<td>Factor-level overlay analysis</td>
+</tr>
+<tr>
+<td>Backtest looks perfect, Sharpe = 3.0</td>
+<td>"Great strategy"</td>
+<td>"Sharpe 3.0 in backtest → probably 1.0-1.5 live. Overfitting likely."</td>
+<td>Pushback in strategy approval</td>
+</tr>
+<tr>
+<td>Monte Carlo VaR = $2M, tail event = $20M</td>
+<td>"99% VaR is $2M"</td>
+<td>"The tail risk is 10x the VaR. We need ES or tail scenarios, not just VaR"</td>
+<td>Supplementary risk metrics reporting</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-11-quantitative-red-flags-the-pattern-library">PART 11: QUANTITATIVE RED FLAGS — THE PATTERN LIBRARY</h1>
+<h2 id="numbers-that-should-make-you-suspicious">Numbers That Should Make You Suspicious</h2>
+<table>
+<thead>
+<tr>
+<th>Red flag</th>
+<th>What it suggests</th>
+<th>Investigate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sharpe ratio &gt; 2.5 in backtest</td>
+<td>Overfitting or look-ahead bias</td>
+<td>Out-of-sample test; transaction cost sensitivity</td>
+</tr>
+<tr>
+<td>Max drawdown &lt; 5% for a strategy running 5+ years</td>
+<td>Survivorship bias or cherry-picked start date</td>
+<td>Full-period analysis; include all periods</td>
+</tr>
+<tr>
+<td>Correlation = 0 between "hedged" positions</td>
+<td>Model assumes hedge is perfect; it isn't</td>
+<td>Basis risk; what's the worst the hedge has slipped?</td>
+</tr>
+<tr>
+<td>VaR breaches exactly at the boundary</td>
+<td>Someone is adjusting marks to avoid breach</td>
+<td>Check: are marks consistently one tick inside the limit?</td>
+</tr>
+<tr>
+<td>Any metric that halves without position change</td>
+<td>Model change or calculation error</td>
+<td>Audit the model change; look for formula errors</td>
+</tr>
+<tr>
+<td>Risk that looks constant despite market vol changes</td>
+<td>Model not using market-implied inputs</td>
+<td>Check: does the risk system react to VIX spikes?</td>
+</tr>
+<tr>
+<td>Alpha that's exactly inversely correlated with fund AUM</td>
+<td>Strategy capacity issue being masked</td>
+<td>Segregate performance by AUM band</td>
+</tr>
+<tr>
+<td>Perfect PCA explaining 99%+ of variance</td>
+<td>Likely using too few PCs or circular regression</td>
+<td>Check: are the inputs and outputs the same data?</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-quant-smell-test">The "Quant Smell Test"</h2>
+<p>Before diving into formulas, apply common sense:</p>
+<ol>
+<li>
+<p><strong>"Does the return source make economic sense?"</strong> If a strategy profits from a pattern, WHY does that pattern exist? Who is on the other side? If no good answer → probably spurious.</p>
+</li>
+<li>
+<p><strong>"Is the trade too crowded?"</strong> If every quant at every conference is presenting the same signal, it's already arbitraged away. The alpha is in the DISCOVERY, not the execution.</p>
+</li>
+<li>
+<p><strong>"Would this survive transaction costs?"</strong> A signal with IC = 0.02 and annual turnover of 12x might be alpha-positive before costs and alpha-negative after costs. Always check net-of-cost performance.</p>
+</li>
+<li>
+<p><strong>"Is the data snooped?"</strong> If someone tested 500 signals and found 5 that "work" at 99% confidence, that's EXACTLY what you'd expect from random chance. Adjust for multiple testing (Bonferroni correction or similar).</p>
+</li>
+</ol>
+<hr />
+<h1 id="part-12-interview-answers-quant-mindset">PART 12: INTERVIEW ANSWERS — QUANT MINDSET</h1>
+<h3 id="q-whats-the-most-important-thing-you-understand-about-quantitative-models">Q: "What's the most important thing you understand about quantitative models?"</h3>
+<blockquote>
+<p>"That models are maps, not territory. A VaR model that says our 99% daily loss is $5M is making three assumptions that are almost certainly wrong to some degree: that returns are drawn from a specific distribution, that correlations are stable, and that positions can be liquidated at current market prices.</p>
+<p>But that doesn't make the model useless — it makes it a starting point. The number $5M tells me something about relative risk: if it was $3M last week and $5M today, risk has increased ~67%, and I need to understand why. If three PMs all show decreasing VaR but the house VaR is increasing, there's a correlation shift I need to investigate.</p>
+<p>I think the RM's skill is using the model output as an information signal while knowing its specific failure modes. For example, VaR systematically understates risk during regime transitions and for portfolios with negative gamma. So I'd supplement VaR with stressed scenarios and Expected Shortfall, and flag any delta-hedged options books where gamma risk is being hidden by a delta-normal VaR approximation."</p>
+</blockquote>
+<h3 id="q-how-would-you-evaluate-whether-a-quants-model-is-trustworthy">Q: "How would you evaluate whether a quant's model is trustworthy?"</h3>
+<blockquote>
+<p>"I'd use a four-part framework: assumptions, data, validation, and failure modes.</p>
+<p>On assumptions: I'd ask what distribution they're using and whether it captures the fat tails in our actual returns. If they're using normal, I'd want to know the excess kurtosis — for most equity portfolios it's 3 to 10, which means the normal model underestimates 99th percentile events by 30 to 50 percent.</p>
+<p>On data: does the training period include crisis episodes? If a model was calibrated on 2015-2019, it's never seen a COVID-style shock or a rate hiking cycle. That's survivorship bias at the macro level.</p>
+<p>On validation: show me the out-of-sample performance. If in-sample R-squared is 0.9 and out-of-sample is 0.3, the model is overfit. For VaR models specifically, I'd check the backtest: how many breaches in the last 250 days? Are they clustered?</p>
+<p>The single best question I'd ask is 'what scenario would make you lose confidence in this model?' If they can't answer that, they don't understand their own model's limitations."</p>
+</blockquote>
+<h3 id="q-explain-garch-to-me-and-how-youd-use-it-in-risk-management">Q: "Explain GARCH to me and how you'd use it in risk management."</h3>
+<blockquote>
+<p>"GARCH models how volatility evolves over time, capturing two empirical facts: first, volatility clusters — high-vol days tend to follow high-vol days — and second, volatility mean-reverts to a long-run level.</p>
+<p>The model has three parameters. Alpha controls how much yesterday's return shock affects today's vol estimate — a large alpha means the model reacts fast to new information. Beta controls persistence — how slowly the vol shock fades. And omega anchors the long-run variance level. The sum alpha plus beta tells you how persistent vol shocks are. If it's 0.98, a vol spike takes about 34 days to halve.</p>
+<p>In practice, I'd use GARCH output two ways. First, to set dynamic risk limits: when GARCH vol is 2x its long-run level, I'd want tighter position limits because the market is in a high-vol regime. Second, to improve VaR — instead of using a fixed volatility over the lookback window, I'd weight recent observations more heavily, which is exactly what GARCH does.</p>
+<p>The limitation I'd flag is that standard GARCH is symmetric — it treats a +3% day and a -3% day as having the same impact on vol. In reality, the leverage effect means down moves increase vol more than up moves. So for equity portfolios, I'd prefer GJR-GARCH or EGARCH, which capture this asymmetry."</p>
+</blockquote>
+<hr />
+<p><strong>Related files:</strong><br />
+→ <a href="W_Math_Stats_Probability.html">Math Stats Probability</a> — deeper mathematical foundations<br />
+→ <a href="F_Risk_Measures.html">Risk Measures</a> — VaR, stress testing, and risk metrics<br />
+→ <a href="H_PnL_Attribution.html">PnL Attribution</a> — using quantitative decomposition practically<br />
+→ <a href="U_Case_Studies.html">Case Studies</a> — where quant models failed spectacularly<br />
+→ <a href="X_Coding_Data.html">Coding Data</a> — implementing these concepts in Python</p>
+<h1 id="w-quant-mindset-model-risk">W — QUANT MINDSET &amp; MODEL RISK</h1>
+<h2 id="think-like-a-quant-researcher-so-you-can-challenge-them-intelligently_1">Think like a quant researcher — so you can challenge them intelligently</h2>
 <h3 id="depth-well">Depth: 🟡 WELL</h3>
 <hr />
 <h1 id="why-this-matters">WHY THIS MATTERS</h1>
@@ -402,7 +1798,7 @@ body {
 <p>The RM's job isn't to build the models. It's to challenge them.</p>
 <hr />
 <h1 id="part-1-statistical-foundations">PART 1: STATISTICAL FOUNDATIONS</h1>
-<h2 id="stationarity">Stationarity</h2>
+<h2 id="stationarity_1">Stationarity</h2>
 <p><strong>What it is:</strong> A time series is stationary if its statistical properties (mean, variance, autocorrelation) don't change over time.</p>
 <p><strong>Why it matters for risk:</strong> Almost every risk model assumes stationarity. VaR uses a historical window and assumes the future will look like the past. If the regime changes (inflation era → deflation) the model is wrong.</p>
 <p><strong>How to spot non-stationarity:</strong><br />
@@ -410,7 +1806,7 @@ body {
 - Rolling variance is expanding<br />
 - "This used to work but hasn't in 6 months"</p>
 <p><strong>Your question to the quant:</strong> "How sensitive is this model to the lookback window? What happens if we're in a regime change and the last 2 years aren't representative?"</p>
-<h2 id="autocorrelation">Autocorrelation</h2>
+<h2 id="autocorrelation_1">Autocorrelation</h2>
 <p><strong>What it is:</strong> Correlation of a time series with its own lagged values. If today's return predicts tomorrow's → autocorrelation exists.</p>
 <p><strong>Why it matters:</strong><br />
 - Positive autocorrelation (momentum) → trends persist → trending markets<br />
@@ -437,7 +1833,7 @@ body {
 <li>Simple: standard deviation of returns over N days.</li>
 <li>Problem: treats a -5% move 60 days ago the same as one yesterday. But yesterday's move tells you more about current risk.</li>
 </ul>
-<h2 id="ewma-exponentially-weighted-moving-average">EWMA (Exponentially Weighted Moving Average)</h2>
+<h2 id="ewma-exponentially-weighted-moving-average_1">EWMA (Exponentially Weighted Moving Average)</h2>
 <ul>
 <li>Puts more weight on recent observations, less on old ones.</li>
 <li>Controlled by lambda (λ): typical value ~0.94 for daily data.</li>
@@ -463,7 +1859,7 @@ body {
 </ul>
 <hr />
 <h1 id="part-3-dimensionality-factor-models">PART 3: DIMENSIONALITY &amp; FACTOR MODELS</h1>
-<h2 id="pca-principal-component-analysis">PCA (Principal Component Analysis)</h2>
+<h2 id="pca-principal-component-analysis_1">PCA (Principal Component Analysis)</h2>
 <p><strong>What it does:</strong> Takes N correlated variables and reduces them to a smaller number of uncorrelated factors that explain most of the variation.</p>
 <p><strong>Example in rates:</strong><br />
 - US yield curve has 10+ maturities (1Y, 2Y, 3Y, 5Y, 7Y, 10Y, 20Y, 30Y...).<br />
@@ -481,7 +1877,7 @@ body {
 </ul>
 <hr />
 <h1 id="part-4-backtesting-model-validation">PART 4: BACKTESTING &amp; MODEL VALIDATION</h1>
-<h2 id="var-backtesting">VaR Backtesting</h2>
+<h2 id="var-backtesting_1">VaR Backtesting</h2>
 <p><strong>The basic test:</strong> If you have a 99% 1-day VaR, you should breach it ~2.5 times per year (250 trading days × 1% = 2.5 expected breaches).</p>
 <p><strong>Kupiec Test (the one to know):</strong><br />
 - If you observe more breaches than expected → model UNDERSTATES risk (bad).<br />
