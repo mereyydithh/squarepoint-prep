@@ -397,7 +397,89 @@ body {
 <h2 id="quick-reference-python-sql-kdb-patterns">Quick-reference: Python, SQL, kdb+, patterns</h2>
 <h3 id="print-double-sided-2-pages">Print double-sided, 2 pages</h3>
 <hr />
-<h2 id="python-oop-4-pillars">PYTHON OOP — 4 PILLARS</h2>
+<h2 id="python-oop-one-liners">PYTHON OOP — ONE-LINERS</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>One-liner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Encapsulation</strong></td>
+<td>Bundle data and methods together and HIDE internal state — callers use the public interface, they can't touch the guts.</td>
+</tr>
+<tr>
+<td><strong>Inheritance</strong></td>
+<td>Child classes get parent behaviour for free and can override it — <code>Equity</code> IS-A <code>Instrument</code>, so it automatically has <code>ticker</code>, <code>quantity</code>, <code>price</code> and only needs to implement what's different.</td>
+</tr>
+<tr>
+<td><strong>Polymorphism</strong></td>
+<td>One function works on many types — <code>portfolio_risk_summary()</code> calls <code>.market_value()</code> on every item in the list and doesn't care whether it's an <code>Equity</code>, <code>Bond</code>, or <code>Option</code>.</td>
+</tr>
+<tr>
+<td><strong>Abstraction</strong></td>
+<td>Define WHAT a class must do (interface) without saying HOW — <code>Instrument</code> declares <code>market_value()</code> as <code>@abstractmethod</code>; you can't instantiate it until you've implemented the method.</td>
+</tr>
+<tr>
+<td><strong>Composition</strong></td>
+<td>Prefer "has-a" over "is-a" — <code>Portfolio</code> HAS a list of <code>Instrument</code> objects; it doesn't inherit from <code>Instrument</code>. Looser coupling, easier to change.</td>
+</tr>
+<tr>
+<td><strong><code>@property</code></strong></td>
+<td>A method that looks like an attribute — <code>limit.utilization</code> computes on the fly, always consistent, no risk of stale stored state.</td>
+</tr>
+<tr>
+<td><strong><code>@staticmethod</code></strong></td>
+<td>A utility function that lives on the class but needs no instance or class state — <code>Instrument.from_bloomberg_ticker("AAPL US")</code>.</td>
+</tr>
+<tr>
+<td><strong><code>@classmethod</code></strong></td>
+<td>An alternative constructor that receives the class as first arg — <code>Position.from_csv_row(row)</code> lets you build objects from different data sources.</td>
+</tr>
+<tr>
+<td><strong><code>__repr__</code></strong></td>
+<td>What you see in the debugger — implement it so positions print as <code>Equity(AAPL, qty=1000, px=185)</code> not <code>&lt;object at 0x...&gt;</code>.</td>
+</tr>
+<tr>
+<td><strong><code>__eq__</code> / <code>__hash__</code></strong></td>
+<td>Required to put objects in sets or use them as dict keys — define equality by ticker so two <code>Equity("AAPL", ...)</code> objects match.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="solid-one-line-each">SOLID — One Line Each</h3>
+<table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>One-liner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Single Responsibility</strong></td>
+<td>One class = one reason to change — <code>RiskCalculator</code> computes risk; it does NOT format reports.</td>
+</tr>
+<tr>
+<td><strong>Open/Closed</strong></td>
+<td>Open for extension, closed for modification — add <code>CDS(Instrument)</code> without touching <code>Equity</code>.</td>
+</tr>
+<tr>
+<td><strong>Liskov Substitution</strong></td>
+<td>A child must be usable wherever its parent is — if code takes <code>Instrument</code>, passing an <code>Option</code> must work correctly.</td>
+</tr>
+<tr>
+<td><strong>Interface Segregation</strong></td>
+<td>Don't force a class to implement methods it doesn't need — a thin <code>Priceable</code> interface beats one giant <code>FullInstrument</code> interface.</td>
+</tr>
+<tr>
+<td><strong>Dependency Inversion</strong></td>
+<td>Depend on abstractions, not concretions — <code>RiskEngine</code> depends on the <code>RiskModel</code> protocol, not <code>HistoricalVaRModel</code> directly.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-pillars-risk-examples">4 Pillars — Risk Examples</h3>
 <table>
 <thead>
 <tr>
@@ -429,7 +511,6 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>SOLID:</strong> Single Responsibility • Open/Closed • Liskov Substitution • Interface Segregation • Dependency Inversion</p>
 <hr />
 <h2 id="data-structures-pick-the-right-one">DATA STRUCTURES — PICK THE RIGHT ONE</h2>
 <table>
@@ -602,29 +683,40 @@ body {
 <thead>
 <tr>
 <th>Pattern</th>
+<th>One-liner definition</th>
 <th>Risk use case</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Strategy</strong></td>
-<td>Swap VaR method (hist/param/MC)</td>
+<td>Define a family of algorithms, encapsulate each one, and make them interchangeable at runtime without changing the calling code.</td>
+<td>Swap VaR method (hist/param/MC) at runtime — same <code>engine.compute()</code> call, different model injected.</td>
 </tr>
 <tr>
 <td><strong>Observer</strong></td>
-<td>Limit breach → notification</td>
+<td>When one object changes state, all registered dependents are automatically notified — publisher/subscriber without tight coupling.</td>
+<td>Limit breach → automatically triggers email alert + dashboard update + audit log.</td>
 </tr>
 <tr>
 <td><strong>Factory</strong></td>
-<td><code>InstrumentFactory.create(type, row)</code></td>
+<td>Centralise object creation logic so callers don't need to know which concrete class to instantiate.</td>
+<td><code>InstrumentFactory.create("equity", row)</code> returns the right class based on instrument type from the DB.</td>
 </tr>
 <tr>
 <td><strong>Decorator</strong></td>
-<td><code>@timer</code>, <code>@validate_returns</code></td>
+<td>Wrap a function or class to add behaviour (logging, caching, validation) without modifying its source code.</td>
+<td><code>@timer</code> measures execution, <code>@validate_returns</code> checks for NaNs — both stack on top of <code>compute_var()</code>.</td>
 </tr>
 <tr>
 <td><strong>Pipeline</strong></td>
-<td>Load → Clean → Calculate → Report</td>
+<td>Chain a sequence of processing steps where each step's output is the next step's input.</td>
+<td>Load → Clean → Calculate → Report — each stage is independent and testable.</td>
+</tr>
+<tr>
+<td><strong>Singleton</strong></td>
+<td>Ensure a class has only one instance and provide a global access point to it.</td>
+<td>Market data cache, config manager — you want one shared source of truth, not multiple copies.</td>
 </tr>
 </tbody>
 </table>
