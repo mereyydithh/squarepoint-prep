@@ -431,8 +431,13 @@ body {
 </ul>
 <h3 id="sabr-natixis">SABR (Natixis)</h3>
 <ul>
-<li><strong>4 params:</strong> α (vol level), β (CEV backbone, fixed ~0.5 rates), ρ (skew), ν (smile)</li>
-<li><strong>Result:</strong> 45bps → 30bps RMSE improvement</li>
+<li><strong>4 params:</strong> α (vol level), β (CEV backbone, FIXED at 0.5 for rates), ρ (skew, spot-vol correlation), ν (vol-of-vol, controls wings)</li>
+<li><strong>Calibration:</strong> Levenberg-Marquardt, minimize squared error vs market swaption vols. β fixed before calibration.</li>
+<li><strong>Result:</strong> 45bps → 30bps RMSE. Matters for: accurate Greeks + PLAT compliance</li>
+<li><strong>Limitations:</strong> (1) Per-expiry only — no joint surface fit. (2) Wings: Hagan approx breaks down for deep OTM → arbitrage violations. (3) Negative rates: need Free Boundary SABR for EUR swaptions post-2015.</li>
+<li><strong>Why SABR over Heston for rates:</strong> Analytical (closed-form) = millisecond repricing. Heston needs numerical integration (Fourier) = slower. Speed wins for rates desks pricing full swaption grids in real time.</li>
+<li><strong>PLAT thresholds:</strong> Spearman correlation test + ratio test. Green = pass both. Amber = fail one ≤20% of days over 12mo. Red = lose IMA status → Standardised Approach → 2-4× higher capital.</li>
+<li><strong>NMRFs:</strong> Risk factors with &lt;24 verifiable prices in 12 months → punitive stress scenario add-on instead of model-based ES. Fix: improve data sourcing to reclassify as modellable.</li>
 <li><strong>Bridge back:</strong> "...but the most impactful risk work was at BNP NYC"</li>
 </ul>
 <h3 id="gold-ust-decoupling">Gold-UST Decoupling</h3>
@@ -599,6 +604,74 @@ body {
 ❌ "Looking to learn" → ✅ "Apply experience AND grow the function"<br />
 ❌ "Work-life balance" → ✅ "Energized by high-intensity work"<br />
 ❌ Compensation first → ✅ Wait for them</p>
+<hr />
+<h2 id="technical-probes-quick-ref">TECHNICAL PROBES QUICK-REF</h2>
+<h3 id="asian-options">Asian Options</h3>
+<ul>
+<li><strong>Payoff:</strong> max(A − K, 0) where A = arithmetic average over option life</li>
+<li><strong>Why corporates love them:</strong> smooths price spikes (jet fuel hedging over a year, not one day)</li>
+<li><strong>Pricing:</strong> No closed-form (avg of log-normals ≠ log-normal). Use Turnbull-Wakeman or Monte Carlo.</li>
+<li><strong>Turnbull-Wakeman:</strong> Moment-matching. Fit log-normal with same mean + variance as true arithmetic average → plug into BS. Fast, accurate for vanilla structures.</li>
+<li><strong>Fixed vs floating strike:</strong> Fixed = max(A−K, 0). Floating = max(S_T−A, 0) — pays if final spot &gt; average (captures momentum).</li>
+</ul>
+<h3 id="greeks-extended">Greeks Extended</h3>
+<table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>Definition</th>
+<th>Key risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta</td>
+<td>∂V/∂S</td>
+<td>Directional exposure</td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>∂²V/∂S²</td>
+<td>Re-hedging cost, spikes near expiry ATM</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>∂V/∂σ</td>
+<td>Vol exposure</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>∂V/∂t</td>
+<td>Daily time decay, accelerates √T near expiry</td>
+</tr>
+<tr>
+<td>Vanna</td>
+<td>∂²V/∂S∂σ</td>
+<td>Delta changes as vol moves — crash risk</td>
+</tr>
+<tr>
+<td><strong>Volga</strong></td>
+<td><strong>∂²V/∂σ²</strong></td>
+<td><strong>Vega convexity. Deep OTM = high volga. Vol spike → vega shifts.</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Theta non-linear:</strong>  Near expiry, ATM theta ∝ 1/√T — accelerates sharply. Worst case: short ATM near expiry in quiet market.</p>
+<h3 id="derivatives-pricing">Derivatives Pricing</h3>
+<ul>
+<li><strong>BS intuition:</strong> Delta-hedge portfolio is riskless → earns risk-free rate → BS PDE. Closed-form = N(d1), N(d2).</li>
+<li><strong>Itô's lemma:</strong> Chain rule for stochastic processes. df = (∂f/∂t + μ∂f/∂X + <strong>½σ²∂²f/∂X²</strong>)dt + σ∂f/∂X dW. The bold term = Itô correction = <strong>gamma in options</strong>.</li>
+<li><strong>Risk-neutral pricing:</strong> Change of measure so every asset earns r. Drift disappears → no expected return input needed. Price = E^Q[payoff × discount].</li>
+<li><strong>Delta hedging = dynamic replication:</strong> Continuously rebalance (Δ shares + cash) to replicate option payoff. Cost of replication = option premium.</li>
+</ul>
+<h3 id="dv01-duration">DV01 &amp; Duration</h3>
+<ul>
+<li><strong>DV01:</strong> ModDur × Price × 0.0001. Example: ModDur=8, $1M face → DV01 = $800/bp. Additive across positions.</li>
+<li><strong>Macaulay duration:</strong> Weighted avg time to cash flows (years)</li>
+<li><strong>Modified duration:</strong> Macaulay / (1 + y/m) = % price change per unit yield change</li>
+<li><strong>Convexity correction:</strong> ΔP ≈ −ModDur×Δy + ½×Convexity×(Δy)². Always positive for plain bonds — good to own.</li>
+<li><strong>Negative convexity:</strong> Callable bonds + MBS. Issuer/borrower calls when rates fall → you're short a call → price capped on rally. VaR underestimates risk for MBS in falling rate environments.</li>
+</ul>
 <hr />
 <h2 id="first-30-days">FIRST 30 DAYS</h2>
 <p><strong>Week 1-2:</strong> Learn the book. Meet every PM. Map existing infra.<br />

@@ -471,6 +471,14 @@ body {
 <td>"Average-price option — payoff based on the arithmetic average of the underlying over the option's life, not the spot at expiry. Corporates love them for hedging because they smooth out price spikes. Harder to price than vanilla: no closed-form under GBM because the average of log-normals isn't log-normal. We used Turnbull-Wakeman approximation and Monte Carlo."</td>
 </tr>
 <tr>
+<td>"How does Turnbull-Wakeman work?"</td>
+<td>"Moment-matching approximation. The key insight: while the arithmetic average of log-normals isn't log-normal, you can fit a log-normal distribution that matches the first two moments of the true distribution. Compute the mean and variance of the arithmetic average analytically under GBM, then find the log-normal parameters (μ<em>, σ</em>) with the same mean and variance. Plug those into the standard Black-Scholes formula. Fast and reasonably accurate for typical corporate hedging structures. For exotic payoffs or when accuracy matters more than speed, you use Monte Carlo with antithetic variates for variance reduction."</td>
+</tr>
+<tr>
+<td>"What's the difference between Asian fixed strike and Asian floating strike?"</td>
+<td>"Fixed strike (average price): payoff = max(A − K, 0) where A is the average spot. This is what most corporates use — they want to lock in an average purchase price over a year. Floating strike (average strike): payoff = max(S_T − A, 0) where A is the average and S_T is the final spot. This pays if the final spot exceeds the average — useful for capturing momentum while partially hedging. Risk implication: floating strike options have different gamma and delta profiles because both the reference level (A) and the terminal value (S_T) are uncertain."</td>
+</tr>
+<tr>
 <td>"What commodities specifically?"</td>
 <td>"Full spectrum: crude oil (Brent, WTI), refined products (jet fuel, gasoil, naphtha), natural gas (TTF, Henry Hub), power (baseload, peak), emissions (EUAs, CERs), base metals (copper, aluminum), ags (wheat, corn). Each has unique pricing conventions, seasonality, and liquidity profiles."</td>
 </tr>
@@ -666,12 +674,28 @@ body {
 <td>"Fundamental Review of the Trading Book — Basel III.1 framework replacing the current market risk capital rules. Two approaches: Internal Models Approach (IMA) and Standardised Approach (SA). Key changes: P&amp;L attribution test (PLAT) determines if your desk can use IMA. Non-modellable risk factors (NMRFs) get punitive capital charges. Default risk charge replaces incremental risk charge. I worked on PLAT — ensuring the risk model P&amp;L matches hypothetical P&amp;L within thresholds. <strong>But honestly, the most impactful risk work I've done was at BNP NYC where it directly shaped trading decisions.</strong>"</td>
 </tr>
 <tr>
+<td>"What are the PLAT thresholds specifically?"</td>
+<td>"PLAT compares risk-theoretical P&amp;L (from the risk model) against hypothetical P&amp;L (full revaluation) daily. Two metrics: Spearman correlation and a ratio test. Green zone: pass both. Amber: fail one metric on no more than 20% of days over 12 months. Red: fail more — desk loses IMA status and must use the Standardised Approach, which typically means 2-4x higher capital requirements. The practical implication: if your vol surface RMSE is 45bps instead of 30bps, your Greeks are wrong, your risk-theoretical P&amp;L drifts from hypothetical, and you risk slipping into amber or red. That's why the calibration improvement mattered beyond just technical accuracy."</td>
+</tr>
+<tr>
+<td>"What are NMRFs?"</td>
+<td>"Non-modellable risk factors — risk factors that don't have enough observable market data to be included in the IMA model. FRTB requires at least 24 verifiable prices over a 12-month period (roughly 2 per month). If a risk factor fails this test — illiquid vol surfaces, exotic basis spreads, long-dated commodity curves — it's classified as NMRF and gets a stress scenario capital add-on rather than the model-based ES charge. NMRFs are often more punitive than the model charge because the stress scenario is floored at a conservative level. I identified several NMRFs in our exotic rates book and worked on improving data sourcing to reclassify them as modellable."</td>
+</tr>
+<tr>
 <td>"Explain SABR"</td>
-<td>"Stochastic Alpha Beta Rho — a stochastic vol model for interest rate options. Four parameters: α (initial vol), β (CEV backbone — typically fixed at 0.5 for rates), ρ (correlation between forward rate and vol — controls skew), ν (vol-of-vol — controls smile curvature). Calibrated by minimizing squared error between SABR-implied vols and market swaption vols using Levenberg-Marquardt. We achieved 15bps RMSE improvement over the legacy model. <strong>The calibration is interesting technically, but what I'm more passionate about is using models to inform risk decisions — which is what the Squarepoint role is about.</strong>"</td>
+<td>"Stochastic Alpha Beta Rho — a stochastic vol model for interest rate options. Four parameters: α (initial vol level), β (CEV backbone — fixed at 0.5 for rates, ~1.0 for equities), ρ (correlation between forward rate and vol — controls skew direction), ν (vol-of-vol — controls smile curvature/wings). Calibrated by minimizing squared error between SABR-implied vols and market swaption vols using Levenberg-Marquardt. β is fixed before calibration — it's a structural choice about how vol scales with the rate level. We achieved 15bps RMSE improvement over the legacy model. <strong>The calibration is interesting technically, but what I'm more passionate about is using models to inform risk decisions — which is what the Squarepoint role is about.</strong>"</td>
 </tr>
 <tr>
 <td>"What's the 15bps improvement mean?"</td>
 <td>"Legacy model had 45bps RMSE against market swaption vols. After SABR recalibration: 30bps. That matters for two reasons: (1) more accurate Greek calculations — delta and vega are derivatives of the vol surface, so a misfit propagates into hedging. (2) Better P&amp;L predict — the PLAT test requires model P&amp;L to match within tight bands, so surface quality directly impacts whether the desk keeps IMA status and avoids punitive SA capital charges."</td>
+</tr>
+<tr>
+<td>"What are SABR's limitations?"</td>
+<td>"Three. First: calibrated per expiry independently — you fit one set of parameters to the 1-month smile, a different set to the 3-month smile. There's no single model fitting the full surface simultaneously, which means the term structure of vol can be inconsistent. Second: the Hagan approximation formula breaks down for deep OTM strikes — it can produce arbitrage violations (smile turns down in the wings → negative probability density). Third: the original model allows negative rates only in limited ways — post-2015 when EUR rates went negative, you needed Free Boundary SABR which reparameterizes the forward to handle sub-zero levels. I worked on Free Boundary SABR adaptations at Natixis for EUR swaptions."</td>
+</tr>
+<tr>
+<td>"Why SABR over Heston for rates?"</td>
+<td>"Speed. SABR gives a closed-form analytical approximation for implied vol at any strike — you can reprice the entire swaption grid in milliseconds. Heston requires numerical integration (characteristic function + Fourier inversion) — more accurate dynamics but much slower. For a rates desk pricing hundreds of swaptions across a full strike-maturity grid in real time, SABR's analytical speed makes it the industry standard. Heston is better for equity exotics where you need better forward skew dynamics and speed is less critical."</td>
 </tr>
 <tr>
 <td>"What do you mean by Gold-UST decoupling?"</td>
@@ -908,6 +932,64 @@ body {
 <tr>
 <td>"How would you hedge a book that's short gamma and long vega?"</td>
 <td>"This is a real position — short near-term options (giving gamma risk) and long far-dated options (giving vega). The risk: a quiet market hurts (theta on longs, no gamma benefit) but a sudden vol spike helps (long vega outperforms). I'd hedge the gamma with shorter-dated at-the-money options or delta-hedge more frequently — accepting the cost. I'd consider: is the vega worth the gamma risk? If the term structure is steep enough, the carry is positive. If not, I'd reduce the vega position and manage gamma separately."</td>
+</tr>
+<tr>
+<td>"What is volga?"</td>
+<td>"Volga (also called vomma) is the second derivative of option price with respect to implied vol — or equivalently, the rate of change of vega as vol changes: ∂²V/∂σ². It measures convexity of the option price in vol space. High volga means your vega isn't stable — as vol moves, your vega exposure changes significantly. Deep OTM options have high volga because they're on the steep part of the vol smile. A long straddle is long volga (vol spike increases vega). Short gamma books that are also short OTM options can be surprise short volga — when vol spikes, their vega exposure increases in the wrong direction."</td>
+</tr>
+<tr>
+<td>"What about theta — is it constant?"</td>
+<td>"No — theta is highly non-linear. ATM options lose theta at roughly √T pace: an option with 4 days to expiry loses ~2x more theta per day than one with 16 days (1/√16 vs 1/√4). Near expiry, theta accelerates sharply for ATM options — this is the 'theta bleed' traders watch on Fridays for Monday expiry. For deep OTM options, theta is actually small near expiry because the option has little time value left to decay. The worst theta position: short an ATM option approaching expiry in a quiet market — you're paying theta from your short with no gamma gains to offset it."</td>
+</tr>
+</tbody>
+</table>
+<h2 id="derivatives-pricing-stochastic-calculus">Derivatives Pricing &amp; Stochastic Calculus</h2>
+<table>
+<thead>
+<tr>
+<th>Probe</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Derive Black-Scholes intuitively"</td>
+<td>"Three assumptions: (1) log-normal stock price — returns are normally distributed, prices can't go negative. (2) Continuous delta hedging — you can rebalance at any instant. (3) No arbitrage. The key insight: a perfectly delta-hedged portfolio (long option, short delta shares) is instantaneously riskless. A riskless portfolio must earn the risk-free rate. Write down the portfolio's P&amp;L using Itô's lemma (which gives the option's change in value for a stochastic process), set it equal to the risk-free return, and you get the Black-Scholes PDE. The closed-form solution is the N(d1), N(d2) formula."</td>
+</tr>
+<tr>
+<td>"What is Itô's lemma?"</td>
+<td>"The chain rule for stochastic processes. If X follows Brownian motion (dX = μdt + σdW), and f is a function of X and t, then df has an extra term compared to ordinary calculus: df = (∂f/∂t + μ∂f/∂X + ½σ²∂²f/∂X²)dt + σ∂f/∂X dW. The extra ½σ²∂²f/∂X² term is the Itô correction — it appears because Brownian motion has non-zero quadratic variation (dW² = dt). This term is exactly gamma in options pricing — it's why gamma matters. Without Itô's correction, Black-Scholes would be wrong."</td>
+</tr>
+<tr>
+<td>"What does risk-neutral pricing mean?"</td>
+<td>"Instead of using real-world probabilities (where stocks earn risk premiums), we price derivatives under the risk-neutral measure — a mathematical probability space where every asset earns the risk-free rate. This lets us discount expected payoffs at r instead of dealing with risk premiums we can't observe. The real-world drift disappears from the pricing formula — this is why Black-Scholes doesn't need expected return as an input. It seems magical but it's just a change of measure: any derivative price consistent with no-arbitrage can be computed as E^Q[payoff × discount factor] where Q is this artificial risk-neutral measure."</td>
+</tr>
+<tr>
+<td>"What's the difference between delta hedging and dynamic replication?"</td>
+<td>"Same thing, different framing. Delta hedging: you short Δ shares to offset the option's directional exposure. Dynamic replication: you build a portfolio of stock and bond that replicates the option's payoff at expiry. The replication portfolio at any point is (Δ shares) + (cash to make the values match). Rebalance continuously and you've replicated the option. Delta hedging IS the continuous rebalancing of this replication portfolio. The cost of replication is the option premium — which is why BS is both a pricing formula and a hedging instruction."</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dv01-duration">DV01 &amp; Duration</h2>
+<table>
+<thead>
+<tr>
+<th>Probe</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"What is DV01?"</td>
+<td>"Dollar Value of 1 basis point — the change in a bond's price for a 1bp move in yield. DV01 = Modified Duration × Price × 0.0001. Example: a 10Y bond with modified duration 8, price $100, face $1M has DV01 = 8 × $1M × 0.0001 = $800. So for every 1bp rates move, I gain or lose $800. DV01 is additive across positions — aggregate DV01 of a rates book tells you the total dollar sensitivity to parallel yield shifts."</td>
+</tr>
+<tr>
+<td>"Duration vs modified duration vs convexity?"</td>
+<td>"Macaulay duration: weighted average time to receive cash flows (in years). Modified duration: Macaulay / (1 + y/m) — the price sensitivity to yield (% change per unit yield change). Convexity: the curvature correction. For a 100bp move, price change ≈ −ModDur × Δy + ½ × Convexity × (Δy)². Duration alone overestimates losses and underestimates gains for large moves. High convexity is good — the price falls less and rises more than duration predicts."</td>
+</tr>
+<tr>
+<td>"What is negative convexity?"</td>
+<td>"Callable bonds and mortgage-backed securities exhibit negative convexity in certain yield environments. When yields fall, the issuer calls the bond (refinances) — you get par back just when you want to keep the high-coupon bond. So instead of price rising more than duration predicts (positive convexity), the price is capped by the call feature. MBS have the same problem: homeowners prepay when rates fall. You're effectively short a call option on the bond, and that short option position creates negative convexity. For an RM, this means VaR underestimates downside for MBS portfolios in falling rate environments."</td>
 </tr>
 </tbody>
 </table>
