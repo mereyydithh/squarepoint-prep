@@ -1342,6 +1342,31 @@ $$= \sqrt{0.01 + 0.01 + 0.01} = \sqrt{0.03} = \mathbf{17.3\%}$$</p>
 $$= \sqrt{0.04 + 0.04 + 0.076} = \sqrt{0.156} = \mathbf{39.5\%}$$</p>
 <p>From 17.3% → 39.5% — vol more than DOUBLED. This is why VaR computed from calm correlations and vols is useless in a crisis.</p>
 <hr />
+<h2 id="problem-37-the-average-speed-trap">Problem 37: The Average Speed Trap</h2>
+<blockquote>
+<p><strong>You drive one lap of a racetrack at 30 mph. How fast must you drive the second lap so that your AVERAGE speed over both laps is 60 mph?</strong></p>
+</blockquote>
+<p><strong>Instinctive (wrong) answer:</strong> 90 mph. "30 + 90 = 120, divide by 2 = 60." This confuses the arithmetic mean of two speeds with average speed.</p>
+<p><strong>Correct answer: IMPOSSIBLE.</strong></p>
+<p><strong>Why:</strong><br />
+1. Let the track length be D miles.<br />
+2. Average speed = Total distance / Total time = 2D / T_total<br />
+3. To achieve 60 mph average over 2 laps: T_total = 2D / 60 = D/30 hours.<br />
+4. But the first lap at 30 mph already took: T₁ = D / 30 hours.<br />
+5. Time remaining for the second lap: T₂ = D/30 − D/30 = <strong>0 hours.</strong><br />
+6. You would need to drive the second lap in zero time — i.e., <strong>infinite speed.</strong></p>
+<p><strong>The mathematical trap:</strong> Average speed is the <strong>harmonic mean</strong> of the two speeds, not the arithmetic mean:</p>
+<p>$$\text{Average speed} = \frac{2}{\frac{1}{v_1} + \frac{1}{v_2}} = \frac{2 v_1 v_2}{v_1 + v_2}$$</p>
+<p>Setting this equal to $2v_1$ (double the first speed):</p>
+<p>$$\frac{2 v_1 v_2}{v_1 + v_2} = 2v_1 \implies v_2 = \frac{v_1(2v_1)}{2v_1 - v_1} \to \infty \text{ as the target approaches } 2v_1$$</p>
+<p><strong>The constraint:</strong> The harmonic mean of two positive numbers can NEVER reach twice the smaller one. The maximum possible average speed over two laps where one lap was driven at speed $v$ is strictly less than $2v$, achieved only in the limit as the second lap speed → ∞.</p>
+<p><strong>Concrete example:</strong> If you drive the second lap at 90 mph:<br />
+- T₁ = D/30, T₂ = D/90<br />
+- T_total = D/30 + D/90 = 4D/90<br />
+- Average speed = 2D / (4D/90) = <strong>45 mph</strong> — not even close to 60.</p>
+<p>Even at 300 mph for the second lap: Average = 2/(1/30 + 1/300) = 2/(11/300) = <strong>54.5 mph.</strong> Still under 60.</p>
+<p><strong>Risk analog:</strong> This is the time-weighted vs. money-weighted return trap in portfolio management. A PM who loses 50% of a $100M book (down to $50M), then gains 50% ($50M → $75M) reports "average return = 0%" but actually lost $25M. The harmonic/geometric reality is always worse than the arithmetic illusion. In risk, always ask: "average of WHAT, weighted by WHAT?"</p>
+<hr />
 <h1 id="part-7-how-to-approach-any-brain-teaser-in-an-interview">PART 7: HOW TO APPROACH ANY BRAIN TEASER IN AN INTERVIEW</h1>
 <h2 id="the-60-second-framework">The 60-Second Framework</h2>
 <table>
