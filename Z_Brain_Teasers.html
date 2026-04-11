@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brain Teasers — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-hover: #1c2331;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #e6edf3;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --accent-subtle: rgba(88,166,255,0.1);
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --orange: #db6d28;
+  --sidebar-w: 290px;
+  --content-max: 980px;
+}
+html { scroll-behavior: smooth; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar-header {
+  padding: 14px 20px 18px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.nav-section {
+  padding: 16px 20px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
+.nav-link {
+  display: block;
+  padding: 5px 20px 5px 22px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 48px 64px 100px;
+  max-width: var(--content-max);
+}
+.content h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 48px;
+  margin-bottom: 14px;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 22px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 16px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+.content ul, .content ol {
+  margin: 0 0 18px 24px;
+}
+.content li {
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+}
+.content li strong {
+  color: var(--text);
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 14px 22px;
+  margin: 20px 0;
+  background: rgba(88,166,255,0.05);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.content blockquote strong {
+  color: var(--text-secondary);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.content th {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+.content td {
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
+  vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.content td strong {
+  color: var(--text);
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.015);
+}
+.content tr:hover td {
+  background: rgba(88,166,255,0.03);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MATH (KaTeX) */
+.katex-display {
+  margin: 20px 0;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+.katex { font-size: 1.05em; }
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 15px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 10px; }
+  .content { padding: 60px 16px 40px; }
+  .katex { font-size: 0.95em; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link active" href="Z_Brain_Teasers.html">Brain Teasers</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+<a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
+<a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
+<a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
+<a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
+<a class="nav-link" href="Z_Brain_Teasers_Cheat.html">Brain Teasers — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="z-brain-teasers-puzzles-estimation">Z — BRAIN TEASERS, PUZZLES &amp; ESTIMATION</h1>
+<h2 id="probability-combinatorics-expected-value-fermi-estimation-logic-and-mental-math-under-pressure">Probability, combinatorics, expected value, Fermi estimation, logic, and mental math under pressure</h2>
+<h3 id="depth-deep">Depth: 🔴 DEEP</h3>
+<hr />
+<h1 id="why-this-file-exists">WHY THIS FILE EXISTS</h1>
+<p>Quant and risk interviews at multi-strats like Squarepoint test your thinking process, not just your answer. Brain teasers assess:</p>
+<ol>
+<li><strong>Structured reasoning</strong> — can you break a hard problem into tractable steps?</li>
+<li><strong>Probability intuition</strong> — can you avoid the traps that fool most people?</li>
+<li><strong>Estimation skill</strong> — can you build a reasonable number from nothing?</li>
+<li><strong>Composure</strong> — can you think clearly while an interviewer watches you sweat?</li>
+</ol>
+<p><strong>The golden rule: SPEAK YOUR THINKING OUT LOUD.</strong> A wrong answer with a clear framework scores higher than a right answer pulled from memory with no explanation.</p>
+<hr />
+<h1 id="part-1-probability-core-problems">PART 1: PROBABILITY — CORE PROBLEMS</h1>
+<h2 id="problem-1-conditional-coin">Problem 1: Conditional Coin</h2>
+<blockquote>
+<p><strong>Flip a coin twice. Given that at least one flip was heads, what is P(both heads)?</strong></p>
+</blockquote>
+<p><strong>The trap:</strong> Most people say 1/2. This is wrong.</p>
+<p><strong>Solution:</strong><br />
+- Sample space: {HH, HT, TH, TT}<br />
+- Condition: "at least one heads" removes TT → remaining: {HH, HT, TH}<br />
+- P(both heads | at least one heads) = 1/3</p>
+<p><strong>Edge case:</strong> If told "the FIRST flip was heads" → remaining: {HH, HT} → P = 1/2. The conditioning information changes the answer completely.</p>
+<p><strong>Risk analog:</strong> "Given that at least one desk breached VaR today, what's the probability both desks breached?" — the conditioning information changes the base rate.</p>
+<hr />
+<h2 id="problem-2-three-cards-monty-hall-variant">Problem 2: Three Cards (Monty Hall Variant)</h2>
+<blockquote>
+<p><strong>3 cards: red/red, blue/blue, red/blue. Draw a card, see a red side. P(other side is also red)?</strong></p>
+</blockquote>
+<p><strong>The trap:</strong> People say 1/2 (two cards have red, one is red/red, one is red/blue → 50/50).</p>
+<p><strong>Solution:</strong><br />
+- There are 3 red faces in total across all cards<br />
+- 2 red faces belong to the red/red card<br />
+- 1 red face belongs to the red/blue card<br />
+- Each face is equally likely to be the one you see<br />
+- P(other side red) = 2/3</p>
+<p><strong>Key insight:</strong> Count FACES, not CARDS. The red/red card has twice the chance of showing you a red face.</p>
+<hr />
+<h2 id="problem-3-classic-monty-hall">Problem 3: Classic Monty Hall</h2>
+<blockquote>
+<p><strong>3 doors. 1 car, 2 goats. You pick door 1. Host opens door 3 (goat). Switch or stay?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong> Switch. P(win if switch) = 2/3. P(win if stay) = 1/3.</p>
+<p><strong>Why:</strong> When you picked door 1, you had 1/3 chance of being right. The other two doors collectively had 2/3. The host opening a goat door doesn't change your initial odds — it just concentrates all 2/3 probability onto the remaining unopened door.</p>
+<p><strong>Edge case — what if the host opens a door RANDOMLY and happens to show a goat?</strong> Then switching and staying are both 1/2. The host's knowledge matters — Monty Hall always knows where the car is and always opens a goat. If the host's choice was random, the information content is different.</p>
+<p><strong>Risk analog:</strong> When a PM tells you "I've checked three scenarios and this one doesn't apply," you need to know whether they checked ALL scenarios (Monty Hall — their elimination is informative) or just happened to check one that was fine (random — no information gain).</p>
+<hr />
+<h2 id="problem-4-birthday-problem">Problem 4: Birthday Problem</h2>
+<blockquote>
+<p><strong>How many people needed for &gt;50% chance two share a birthday?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong> 23 people.</p>
+<p>$$P(\text{no match among } n) = \prod_{i=0}^{n-1} \frac{365-i}{365}$$</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>P(at least one match)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>11.7%</td>
+</tr>
+<tr>
+<td>20</td>
+<td>41.1%</td>
+</tr>
+<tr>
+<td><strong>23</strong></td>
+<td><strong>50.7%</strong></td>
+</tr>
+<tr>
+<td>30</td>
+<td>70.6%</td>
+</tr>
+<tr>
+<td>50</td>
+<td>97.0%</td>
+</tr>
+<tr>
+<td>70</td>
+<td>99.9%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why it's surprising:</strong> You're not checking if someone shares YOUR birthday (that takes ~253 people for 50%). You're checking ALL possible pairs: $\binom{23}{2} = 253$ pairs.</p>
+<p><strong>Finance analog:</strong> In a portfolio of 23+ positions, there's a &gt;50% chance two have highly correlated (&gt;0.8) drawdowns on the same day. Diversification is harder than it looks — there are more pairwise interactions than you think.</p>
+<hr />
+<h2 id="problem-5-dice-sum-of-two">Problem 5: Dice — Sum of Two</h2>
+<blockquote>
+<p><strong>Two dice. P(sum = 7)?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong> 6/36 = 1/6.</p>
+<p>Favorable outcomes: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1).</p>
+<p><strong>Useful fact:</strong> 7 is the most likely sum. P(sum = k) increases linearly from k=2 to k=7, then decreases symmetrically.</p>
+<table>
+<thead>
+<tr>
+<th>Sum</th>
+<th>P</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 or 12</td>
+<td>1/36</td>
+<td>1 way each</td>
+</tr>
+<tr>
+<td>3 or 11</td>
+<td>2/36</td>
+<td>2 ways each</td>
+</tr>
+<tr>
+<td>4 or 10</td>
+<td>3/36</td>
+<td>3 ways each</td>
+</tr>
+<tr>
+<td>5 or 9</td>
+<td>4/36</td>
+<td>4 ways each</td>
+</tr>
+<tr>
+<td>6 or 8</td>
+<td>5/36</td>
+<td>5 ways each</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td><strong>6/36</strong></td>
+<td><strong>6 ways</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="problem-6-expected-max-of-two-dice">Problem 6: Expected Max of Two Dice</h2>
+<blockquote>
+<p><strong>Roll two dice. What's E[max(D₁, D₂)]?</strong></p>
+</blockquote>
+<p>$$P(\max = k) = P(\text{both} \leq k) - P(\text{both} \leq k-1) = \frac{k^2}{36} - \frac{(k-1)^2}{36} = \frac{2k-1}{36}$$</p>
+<p>$$E[\max] = \sum_{k=1}^{6} k \cdot \frac{2k-1}{36} = \frac{1+6+15+28+45+66}{36} = \frac{161}{36} = \mathbf{4.47}$$</p>
+<p>Compare: E[single die] = 3.5. Taking the max of two adds ~1 point.</p>
+<p><strong>Generalization — max of n dice:</strong> As n grows, E[max] approaches 6. For n=3, E[max] ≈ 4.96. For n=10, E[max] ≈ 5.69.</p>
+<p><strong>Finance analog:</strong> Multi-PM funds select the MAX performer across pods. Even with mediocre individual Sharpe ratios, the option value of selection (best of n) pushes the aggregate result higher. This is why multi-strats with 30+ pods consistently outperform single-manager funds.</p>
+<hr />
+<h2 id="problem-7-expected-flips-for-consecutive-heads">Problem 7: Expected Flips for Consecutive Heads</h2>
+<blockquote>
+<p><strong>Fair coin. Expected flips to get first heads?</strong></p>
+</blockquote>
+<p>$$E = \frac{1}{p} = 2$$</p>
+<blockquote>
+<p><strong>Expected flips for 2 consecutive heads?</strong></p>
+</blockquote>
+<p>Let E be the answer. After each flip:<br />
+- Tails (0.5): wasted 1 flip, restart → $0.5(1 + E)$<br />
+- Heads then tails (0.25): wasted 2 flips, restart → $0.25(2 + E)$<br />
+- Heads then heads (0.25): done in 2 → $0.25 \times 2$</p>
+<p>$$E = 0.5(1+E) + 0.25(2+E) + 0.25 \times 2 = 1.5 + 0.75E$$<br />
+$$E = 6$$</p>
+<blockquote>
+<p><strong>Expected flips for n consecutive heads?</strong></p>
+</blockquote>
+<p>$$E(n) = 2^{n+1} - 2$$</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>E(n)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>3</td>
+<td>14</td>
+</tr>
+<tr>
+<td>4</td>
+<td>30</td>
+</tr>
+<tr>
+<td>5</td>
+<td>62</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The pattern:</strong> Each additional required consecutive head roughly doubles the expected wait. Exponential growth.</p>
+<p><strong>Finance analog:</strong> A PM claiming "I've had 5 consecutive winning months" — if they were flipping coins (50/50 positive/negative months), this happens once every ~62 months attempt, roughly once every 5 years. Somewhat impressive, but not definitively skill.</p>
+<hr />
+<h2 id="problem-8-the-gamblers-ruin">Problem 8: The Gambler's Ruin</h2>
+<blockquote>
+<p><strong>You have $a. Opponent has $b. Each round, fair coin flip: win $1 or lose $1. P(you go broke)?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong></p>
+<p>$$P(\text{you go broke}) = \frac{b}{a+b}$$</p>
+<ul>
+<li>If a = b (equal stakes): P(ruin) = 50%</li>
+<li>If a = $10, b = $90 (casino): P(ruin) = 90%</li>
+<li>If a = $10, b = $990 (big casino): P(ruin) = 99%</li>
+</ul>
+<p><strong>With biased coin (p &lt; 0.5 — house edge):</strong></p>
+<p>$$P(\text{ruin}) = \frac{(q/p)^a - (q/p)^{a+b}}{1 - (q/p)^{a+b}}$$</p>
+<p>When p &lt; 0.5, ruin is nearly certain regardless of starting capital unless your edge is very large relative to the casino. With p = 0.49 (tiny house edge), a = $100, b = $10,000: P(ruin) ≈ 99.99%.</p>
+<p><strong>Risk analog:</strong> A PM with a small negative expected return will ALWAYS eventually hit their drawdown limit. Even with a POSITIVE edge, if position sizing is too large relative to their risk budget, ruin probability is high. This is why Kelly criterion uses fraction of edge, not maximum bet.</p>
+<hr />
+<h2 id="problem-9-the-coupon-collector">Problem 9: The Coupon Collector</h2>
+<blockquote>
+<p><strong>A cereal box contains one of n equally likely coupons. How many boxes to collect all n?</strong></p>
+</blockquote>
+<p>$$E[\text{boxes}] = n \cdot H_n = n \sum_{i=1}^{n} \frac{1}{i}$$</p>
+<p>where $H_n$ is the n-th harmonic number.</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>E[boxes]</th>
+<th>H_n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>11.4</td>
+<td>2.28</td>
+</tr>
+<tr>
+<td>10</td>
+<td>29.3</td>
+<td>2.93</td>
+</tr>
+<tr>
+<td>20</td>
+<td>72.0</td>
+<td>3.60</td>
+</tr>
+<tr>
+<td>50</td>
+<td>224.9</td>
+<td>4.50</td>
+</tr>
+<tr>
+<td>100</td>
+<td>518.7</td>
+<td>5.19</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Intuition:</strong> Getting the last few missing items takes exponentially longer. The last coupon alone takes E[n] = n boxes. The second-to-last takes n/(n-1) ≈ n additional boxes.</p>
+<p><strong>Finance analog:</strong> Backfilling a historical dataset with all trading days — missing the last few random dates takes disproportionately long. Also: testing a strategy across ALL scenarios is much harder than testing across MOST scenarios.</p>
+<hr />
+<h2 id="problem-10-derangement-hat-problem">Problem 10: Derangement (Hat Problem)</h2>
+<blockquote>
+<p><strong>n people throw hats in a pile and pick randomly. P(nobody gets their own hat)?</strong></p>
+</blockquote>
+<p>$$P(\text{derangement}) = \sum_{i=0}^{n} \frac{(-1)^i}{i!} \approx \frac{1}{e} \approx 0.368$$</p>
+<p>This converges to 1/e remarkably fast — even for n = 4, P ≈ 0.375 vs 1/e ≈ 0.368.</p>
+<p><strong>Complementary:</strong> P(at least one person gets their own hat) ≈ 1 − 1/e ≈ 63.2%.</p>
+<p><strong>Risk analog:</strong> If you randomly reassign n PMs to n different risk limits, there's a ~37% chance NONE get their original limit — and a ~63% chance at least one PM ends up with the same limit they had before. Apparently "random" reshuffling still produces familiar patterns more often than expected.</p>
+<hr />
+<h2 id="problem-11-the-drunk-walk-1d-random-walk">Problem 11: The Drunk Walk (1D Random Walk)</h2>
+<blockquote>
+<p><strong>Start at position 0 on the number line. Each step: +1 (prob 0.5) or −1 (prob 0.5). Expected number of steps to return to 0?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong> ∞. The expected return time is infinite, even though the walk returns to 0 with probability 1. This is because occasional VERY long excursions make the average infinite.</p>
+<p><strong>Expected distance from origin after n steps:</strong> $E[|X_n|] \approx \sqrt{2n/\pi}$</p>
+<p>After 100 steps: expected ~8 units from origin. After 252 steps (1 trading year): ~13 units.</p>
+<p><strong>Risk analog:</strong> A PM running a zero-edge strategy (fair random walk) WILL hit any drawdown limit eventually. The question is when, not if. Expected distance from origin grows as $\sqrt{n}$, so drawdown limits must scale with $\sqrt{\text{time}}$.</p>
+<hr />
+<h2 id="problem-12-the-secretary-problem-optimal-stopping">Problem 12: The Secretary Problem (Optimal Stopping)</h2>
+<blockquote>
+<p><strong>Interview n candidates sequentially. After each, you must accept or reject (no callbacks). Strategy to maximize P(hiring the best)?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong> Reject the first n/e ≈ 37% of candidates (use them as a benchmark), then hire the first candidate who beats ALL previous ones.</p>
+<ul>
+<li>P(hiring the best) → 1/e ≈ 36.8% regardless of n</li>
+<li>The threshold is surprisingly simple: reject first $\lfloor n/e \rfloor$, then take the next best</li>
+</ul>
+<p><strong>Finance analog:</strong> When is the right time to cut a losing position or take profit? The secretary problem framework says: observe for a while to calibrate your expectations, then act on the first opportunity that exceeds your calibration window. Applies to: entry timing, when to stop backtesting and go live, when to hire a new PM.</p>
+<hr />
+<h2 id="problem-13-st-petersburg-paradox">Problem 13: St. Petersburg Paradox</h2>
+<blockquote>
+<p><strong>Flip a coin repeatedly. If first heads appears on flip n, you win $2^n. How much would you pay to play?</strong></p>
+</blockquote>
+<p>$$E[\text{payout}] = \sum_{n=1}^{\infty} \frac{1}{2^n} \cdot 2^n = \sum_{n=1}^{\infty} 1 = \infty$$</p>
+<p>Expected value is infinite, but nobody would pay more than ~$20-30 to play.</p>
+<p><strong>Resolution:</strong> Expected utility (log of wealth) is finite. $E[\log(\text{wealth})] \approx \log(2) \cdot 2 = 1.39$, which implies a fair price of ~$4 for a person with $1M initial wealth.</p>
+<p><strong>Risk analog:</strong> Some trades have "infinite" expected value under fat tails but are terrible bets because one outcome destroys you. Selling deep OTM puts has positive expected value but convex downside — the St. Petersburg problem in reverse. Expected value without risk adjustment is meaningless.</p>
+<hr />
+<h2 id="problem-14-two-envelopes">Problem 14: Two Envelopes</h2>
+<blockquote>
+<p><strong>Two envelopes: one has double the amount of the other. You pick one, see $100. Should you switch?</strong></p>
+</blockquote>
+<p><strong>The "paradox":</strong> The other envelope has $50 or $200 with equal probability. E[switch] = 0.5 × $50 + 0.5 × $200 = $125 &gt; $100. Seems like switching always helps — but then you'd always switch, which is paradoxical.</p>
+<p><strong>Resolution:</strong> The flaw is assuming uniform probability over {$50, $200} given you see $100. The prior distribution on the amounts matters. With a proper prior, the expected gain from switching is exactly zero.</p>
+<p><strong>Risk analog:</strong> "Our current strategy has Sharpe 1.0. An alternative strategy has expected Sharpe of either 0.5 or 2.0 with equal probability — so E[Sharpe] = 1.25 — we should switch!" This reasoning ignores that you don't know the prior distribution of the alternative. Switching costs (transaction, basis risk, implementation) make the bar for switching higher.</p>
+<hr />
+<h2 id="problem-15-negative-hypergeometric-cards">Problem 15: Negative Hypergeometric — Cards</h2>
+<blockquote>
+<p><strong>Standard 52-card deck. You draw cards one at a time. Expected draws until you get the first ace?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong> The 4 aces divide the remaining 48 cards into 5 gaps (before ace 1, between ace 1 and 2, ..., after ace 4). Each gap has equal expected size = 48/5 = 9.6 cards.</p>
+<p>Expected draws until first ace = 9.6 + 1 = <strong>10.6</strong></p>
+<p><strong>Generalization:</strong> Expected draws to first "special" card out of k specials in N total = (N+1)/(k+1).</p>
+<p>For k=4, N=52: (52+1)/(4+1) = 53/5 = <strong>10.6</strong> ✓</p>
+<hr />
+<h1 id="part-2-expected-value-game-theory">PART 2: EXPECTED VALUE &amp; GAME THEORY</h1>
+<h2 id="problem-16-the-fair-coin-game">Problem 16: The Fair Coin Game</h2>
+<blockquote>
+<p><strong>You flip a fair coin. Heads: you win $1. Tails: you lose $1. After 100 flips, what's E[winnings]? What's the probability you're ahead?</strong></p>
+</blockquote>
+<p>E[winnings] = 0 (fair game).</p>
+<p>P(ahead after 100 flips) = P(sum &gt; 0). By CLT, sum ~ N(0, 10) approximately. P(sum &gt; 0) ≈ 50%.</p>
+<p><strong>But:</strong> P(you're ahead after EVERY flip from 1 to 100) is extremely small (~8%). Even in a fair game, lead changes are rare — the path spends long stretches entirely above or below zero (arc-sine law).</p>
+<p><strong>Risk analog:</strong> A PM can be underwater for months even with a genuine edge. Don't judge a process by whether it's currently winning — judge by whether the cumulative track makes sense given the strategy's expected variance.</p>
+<hr />
+<h2 id="problem-17-optimal-stopping-dice-game">Problem 17: Optimal Stopping — Dice Game</h2>
+<blockquote>
+<p><strong>Roll a die. You can keep the result or re-roll (and must keep the second). What's your threshold to keep the first roll?</strong></p>
+</blockquote>
+<p>E[second roll] = 3.5. So keep the first roll if it's ≥ 4.</p>
+<p>E[game] = P(keep first)(E[first | keep]) + P(reroll)(E[second])<br />
+= P(roll ≥ 4) × E[roll | ≥ 4] + P(roll ≤ 3) × 3.5<br />
+= (3/6)(5) + (3/6)(3.5) = 2.5 + 1.75 = <strong>4.25</strong></p>
+<p><strong>With 3 rolls:</strong> Keep first if ≥ 5. If rerolled, keep second if ≥ 4. E[game] ≈ 4.67.</p>
+<p><strong>General pattern:</strong> With more chances, your threshold for accepting early results rises. This is the explore-exploit tradeoff.</p>
+<p><strong>Risk analog:</strong> When to accept a hedge price vs. waiting for a better quote. More time = higher threshold, but time decay is eating your option value. The optimal stopping framework balances patience against cost of delay.</p>
+<hr />
+<h2 id="problem-18-the-100-prisoners-problem-locker-puzzle">Problem 18: The 100 Prisoners Problem (Locker Puzzle)</h2>
+<blockquote>
+<p><strong>100 prisoners, 100 lockers, each containing a random prisoner's number. Each prisoner can open 50 lockers. They all go free if EVERY prisoner finds their own number. No communication allowed. Strategy?</strong></p>
+</blockquote>
+<p><strong>Random strategy:</strong> Each prisoner opens 50 random lockers. P(individual succeeds) = 50/100 = 1/2. P(all succeed) = (1/2)^100 ≈ 10^{-30}. Essentially zero.</p>
+<p><strong>Optimal strategy:</strong> Follow the cycle. Each prisoner starts at the locker with their own number, opens it, then goes to the locker indicated by the number inside, and so on. This fails only if any cycle has length &gt; 50.</p>
+<p>$$P(\text{success}) = 1 - \ln(2) \approx \mathbf{31.2\%}$$</p>
+<p>From ~0% to ~31% — a dramatic improvement from exploiting the mathematical structure.</p>
+<p><strong>Risk analog:</strong> Structured systematic approaches to risk (following the data trail) massively outperform random checks. When auditing a PM's book, follow the chain (largest positions → their hedges → the hedges' hedges) rather than spot-checking randomly.</p>
+<hr />
+<h2 id="problem-19-coin-flip-game-when-to-stop">Problem 19: Coin Flip Game — When to Stop</h2>
+<blockquote>
+<p><strong>Fair coin. You start with $100. Each flip: heads → gain 50%, tails → lose 40%. Should you play?</strong></p>
+</blockquote>
+<p>E[single flip] = 0.5 × 1.5 + 0.5 × 0.6 = <strong>1.05</strong>. Positive expected value!</p>
+<p>But the <strong>median</strong> outcome after n flips is $100 × (1.5 × 0.6)^{n/2} = 100 × 0.9^{n/2}$, which → 0.</p>
+<p>After 100 flips: E[wealth] = $100 × 1.05^{100} = $13,150. But median wealth = $100 × 0.9^{50} = <strong>$0.52</strong>.</p>
+<p><strong>The lesson:</strong> Positive expected value ≠ ergodic. The geometric growth rate (what you actually experience) is log(1.5)/2 + log(0.6)/2 = −0.053 → you lose ~5% of your wealth per trial on average. You go broke with near certainty.</p>
+<p><strong>Risk analog:</strong> A strategy with positive arithmetic expected return but negative geometric expected return WILL destroy your capital. This is why position sizing matters more than edge magnitude — overleveraged bets with positive EV still go to zero. Kelly criterion accounts for this: optimal fraction = edge / odds = 0.05 / 0.5 = 10% of capital per bet.</p>
+<hr />
+<h1 id="part-3-fermi-estimation-guesstimation">PART 3: FERMI ESTIMATION — GUESSTIMATION</h1>
+<h2 id="framework-the-5-step-approach">Framework: The 5-Step Approach</h2>
+<ol>
+<li><strong>Clarify</strong> — what exactly am I estimating? Units? Timeframe?</li>
+<li><strong>Decompose</strong> — break into multiplicative factors you CAN estimate</li>
+<li><strong>Estimate each factor</strong> — use anchoring ("I know X is about Y")</li>
+<li><strong>Multiply</strong> — combine the factors</li>
+<li><strong>Sanity check</strong> — does the answer feel right? Off by 10x?</li>
+</ol>
+<p><strong>Key principle:</strong> Errors in multiplicative factors tend to CANCEL (some overestimates, some underestimates). Even if each factor is ±50% off, the product is often within 3x of the truth.</p>
+<hr />
+<h2 id="problem-20-piano-tuners-in-london">Problem 20: Piano Tuners in London</h2>
+<blockquote>
+<p><strong>How many piano tuners are there in London?</strong></p>
+</blockquote>
+<ol>
+<li>London population: ~9 million</li>
+<li>Average household size: ~2.5 → ~3.6M households</li>
+<li>Fraction owning a piano: ~5% → ~180,000 pianos</li>
+<li>Tuning frequency: ~1× per year → 180,000 tunings/year</li>
+<li>Tunings per tuner per day: ~4</li>
+<li>Working days per year: ~250 → 1,000 tunings per tuner per year</li>
+<li><strong>Piano tuners = 180,000 / 1,000 = ~180</strong></li>
+</ol>
+<p>Actual answer: ~200-300. Within 2x — excellent for a Fermi estimate.</p>
+<hr />
+<h2 id="problem-21-golf-balls-in-a-school-bus">Problem 21: Golf Balls in a School Bus</h2>
+<blockquote>
+<p><strong>How many golf balls can fit in a school bus?</strong></p>
+</blockquote>
+<ol>
+<li>School bus interior: ~2.5m wide × 1.8m tall × 8m long = ~36 m³</li>
+<li>Deduct seats/structure: ~60% usable → ~22 m³ = 22,000,000 cm³</li>
+<li>Golf ball diameter: 4.3 cm → volume ≈ (4/3)π(2.15)³ ≈ 41.6 cm³</li>
+<li>Random sphere packing efficiency: ~64%</li>
+<li>Effective balls: 22,000,000 × 0.64 / 41.6 ≈ <strong>338,000</strong></li>
+</ol>
+<p>Commonly cited answer: ~300,000-500,000. ✓</p>
+<hr />
+<h2 id="problem-22-revenue-of-a-gas-station">Problem 22: Revenue of a Gas Station</h2>
+<blockquote>
+<p><strong>Estimate the annual revenue of a single gas station.</strong></p>
+</blockquote>
+<ol>
+<li>Cars per day: ~800 (busy suburban station)</li>
+<li>Average gallons per fill: ~10 gallons</li>
+<li>Fill frequency: ~50% of visitors actually pump (some are just convenience store) → ~400 fill-ups</li>
+<li>Price per gallon: ~$3.50</li>
+<li>Daily fuel revenue: 400 × 10 × $3.50 = <strong>$14,000</strong></li>
+<li>Annual fuel: $14,000 × 365 = <strong>~$5.1M</strong></li>
+<li>Add convenience store (~30% of total revenue): Total ≈ <strong>~$6.6M</strong></li>
+</ol>
+<p>Industry average: $4-8M. ✓</p>
+<hr />
+<h2 id="problem-23-weight-of-the-atmosphere">Problem 23: Weight of the Atmosphere</h2>
+<blockquote>
+<p><strong>Estimate the total mass of Earth's atmosphere.</strong></p>
+</blockquote>
+<ol>
+<li>Atmospheric pressure at sea level: 101,325 Pa = 101,325 N/m²</li>
+<li>This means: 1 m² of Earth's surface supports 101,325 N of air above it</li>
+<li>Earth's surface area: 4π(6,371,000)² ≈ 5.1 × 10¹⁴ m²</li>
+<li>Total weight: 5.1 × 10¹⁴ × 101,325 ≈ 5.17 × 10¹⁹ N</li>
+<li>Mass = Weight / g = 5.17 × 10¹⁹ / 9.81 ≈ <strong>5.3 × 10¹⁸ kg</strong></li>
+</ol>
+<p>Actual: 5.15 × 10¹⁸ kg. Within 3%. This one is almost exact because the decomposition is physics-based.</p>
+<hr />
+<h2 id="problem-24-finance-fermi-trades-processed-daily">Problem 24: Finance Fermi — Trades Processed Daily</h2>
+<blockquote>
+<p><strong>How many equity trades does the NYSE process per day?</strong></p>
+</blockquote>
+<ol>
+<li>~2,400 listed companies on NYSE</li>
+<li>Average daily volume per stock: ~2M shares → ~4.8B shares/day total</li>
+<li>Average trade size: ~200 shares</li>
+<li>Trades per day: 4.8B / 200 = <strong>~24 million trades</strong></li>
+<li>But many are algorithmic/broken into smaller orders: adjust up ~2x → <strong>~50M</strong></li>
+</ol>
+<p>Actual (2024-2025): ~30-50M equity trades/day across NYSE. ✓</p>
+<hr />
+<h2 id="problem-25-finance-fermi-daily-var-for-squarepoint">Problem 25: Finance Fermi — Daily VaR for Squarepoint</h2>
+<blockquote>
+<p><strong>Estimate what Squarepoint's 99% 1-day VaR might be.</strong></p>
+</blockquote>
+<ol>
+<li>AUM: ~$10-15B (multi-strat)</li>
+<li>Gross leverage: ~5-8x → gross exposure ~$60-80B</li>
+<li>But multi-strat is diversified across many uncorrelated pods → net risk is much lower</li>
+<li>Typical annualized fund vol target: 4-6% → daily vol = 5% / √252 ≈ 0.32%</li>
+<li>99% VaR ≈ 2.326 × daily vol ≈ 0.74% of NAV</li>
+<li>VaR on $12B NAV ≈ <strong>~$90M</strong></li>
+<li>Sanity check: per-pod VaR is maybe $2-5M, 30+ pods, diversification benefit → total lines up</li>
+</ol>
+<p>This is a reasonable order-of-magnitude estimate. The actual number would depend on specific position data.</p>
+<hr />
+<h1 id="part-4-logic-combinatorics">PART 4: LOGIC &amp; COMBINATORICS</h1>
+<h2 id="problem-26-the-weighing-problem">Problem 26: The Weighing Problem</h2>
+<blockquote>
+<p><strong>8 identical-looking coins. One is slightly heavier. You have a balance scale. Minimum weighings to find the heavy coin?</strong></p>
+</blockquote>
+<p><strong>Answer: 2 weighings.</strong></p>
+<ol>
+<li>Split into groups of 3, 3, 2</li>
+<li>Weigh group A (3) vs group B (3):</li>
+<li>If equal → heavy coin is in group C (2). Weigh them against each other. 1 more weighing = 2 total.</li>
+<li>If unequal → heavy coin is in the heavier group (3 coins). Take 2 of those 3, weigh them. If equal → it's the third. If unequal → it's the heavier. 1 more weighing = 2 total.</li>
+</ol>
+<p><strong>Generalization:</strong> With k weighings, you can identify the odd coin among 3^k coins. So 3 weighings handles 27 coins, 4 handles 81, etc.</p>
+<hr />
+<h2 id="problem-27-the-light-switches">Problem 27: The Light Switches</h2>
+<blockquote>
+<p><strong>3 switches outside a room, 1 light bulb inside. You can flip switches as much as you want, then enter the room ONCE. Which switch controls the bulb?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong><br />
+1. Turn switch 1 ON for 5 minutes, then turn it OFF<br />
+2. Turn switch 2 ON<br />
+3. Enter the room:<br />
+   - <strong>Bulb ON</strong> → Switch 2<br />
+   - <strong>Bulb OFF but WARM</strong> → Switch 1<br />
+   - <strong>Bulb OFF and COLD</strong> → Switch 3</p>
+<p><strong>Key insight:</strong> You have 3 unknowns but seemingly 1 measurement. The trick is using a DIFFERENT dimension of information (temperature) to encode a second bit.</p>
+<p><strong>Risk analog:</strong> When you can only observe one metric (P&amp;L), you can extract more information by observing it across DIFFERENT conditions (calm market vs. volatile) — two conditions × one metric = two bits of information.</p>
+<hr />
+<h2 id="problem-28-the-bridge-crossing">Problem 28: The Bridge Crossing</h2>
+<blockquote>
+<p><strong>4 people must cross a bridge at night with one flashlight. Max 2 people at a time. The flashlight must go back. Crossing times: 1, 2, 5, 10 minutes. Bridge takes the SLOWER person's time. Minimum total time?</strong></p>
+</blockquote>
+<p><strong>Naive approach:</strong> Fastest person escorts everyone: 1+2 + 1+5 + 1+10 = 19 minutes.</p>
+<p><strong>Optimal: 17 minutes.</strong><br />
+1. A(1) + B(2) cross → 2 min. Total: 2.<br />
+2. A(1) returns → 1 min. Total: 3.<br />
+3. C(5) + D(10) cross → 10 min. Total: 13.<br />
+4. B(2) returns → 2 min. Total: 15.<br />
+5. A(1) + B(2) cross → 2 min. <strong>Total: 17.</strong></p>
+<p><strong>Key insight:</strong> Send the two slowest TOGETHER so their times overlap rather than being additive. The cost is one extra fast return trip.</p>
+<hr />
+<h2 id="problem-29-the-two-egg-problem">Problem 29: The Two Egg Problem</h2>
+<blockquote>
+<p><strong>100-story building. Egg breaks if dropped from floor F or above, survives below F. You have 2 eggs. Minimum worst-case drops to find F?</strong></p>
+</blockquote>
+<p><strong>Answer: 14 drops.</strong></p>
+<p>Strategy: Drop first egg from floors 14, 27, 39, 50, 60, 69, 77, 84, 90, 95, 99, 100...</p>
+<p>The trick is choosing intervals that DECREASE by 1 each time, because if the first egg breaks, you use the second egg to linearly search the gap — and each subsequent gap is 1 smaller to compensate for the additional first-egg drop already used.</p>
+<p>$$n + (n-1) + (n-2) + \cdots + 1 = \frac{n(n+1)}{2} \geq 100$$</p>
+<p>$$n = 14 \quad \text{(since } 14 \times 15/2 = 105 \geq 100\text{)}$$</p>
+<p><strong>Generalization:</strong> With k eggs and n floors: minimum worst-case drops ≈ $n^{1/k} \cdot k$. More eggs → binary search becomes possible (with ∞ eggs, just binary search: ceil(log₂(100)) = 7).</p>
+<hr />
+<h2 id="problem-30-burning-ropes">Problem 30: Burning Ropes</h2>
+<blockquote>
+<p><strong>Two ropes. Each takes exactly 60 minutes to burn completely, but they burn NON-UNIFORMLY (some parts faster, some slower). How do you measure exactly 45 minutes?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong><br />
+1. Light both ends of Rope 1 AND one end of Rope 2 simultaneously<br />
+2. Rope 1 burns out in 30 minutes (it's burning from both ends)<br />
+3. When Rope 1 is done, light the OTHER end of Rope 2<br />
+4. Rope 2 has 30 minutes of burn remaining, but now it's burning from both ends → finishes in 15 more minutes<br />
+5. Total: 30 + 15 = <strong>45 minutes</strong> ✓</p>
+<p><strong>Key insight:</strong> Burning from both ends halves the remaining time regardless of non-uniformity.</p>
+<hr />
+<h2 id="problem-31-the-prisoners-and-hats">Problem 31: The Prisoners and Hats</h2>
+<blockquote>
+<p><strong>100 prisoners in a line. Each gets a random red or blue hat. Each can see all hats IN FRONT but not their own or behind. Starting from back, each must guess their own hat color. They can strategize beforehand. Optimal strategy?</strong></p>
+</blockquote>
+<p><strong>Answer:</strong> Guarantee 99 correct, with the first person having 50/50 odds.</p>
+<p><strong>Strategy:</strong> The person at the back counts the number of red hats they see. If odd, they say "red"; if even, they say "blue". This gives a 50/50 chance for them. Every subsequent person can now deduce their own hat color by tracking the running parity of announced colors and visible hats.</p>
+<p><strong>Result:</strong> At least 99 out of 100 are guaranteed correct. The first person has P(correct) = 50%.</p>
+<hr />
+<h1 id="part-5-math-under-pressure-mental-computation">PART 5: MATH UNDER PRESSURE — MENTAL COMPUTATION</h1>
+<h2 id="quick-multiplication">Quick Multiplication</h2>
+<table>
+<thead>
+<tr>
+<th>Trick</th>
+<th>Method</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>× 5</td>
+<td>÷ 2, × 10</td>
+<td>48 × 5 = 24 × 10 = 240</td>
+</tr>
+<tr>
+<td>× 25</td>
+<td>÷ 4, × 100</td>
+<td>48 × 25 = 12 × 100 = 1,200</td>
+</tr>
+<tr>
+<td>× 11</td>
+<td>Sum adjacent digits</td>
+<td>72 × 11 = 7_(7+2)_2 = 792</td>
+</tr>
+<tr>
+<td>× 15</td>
+<td>× 10 + half</td>
+<td>48 × 15 = 480 + 240 = 720</td>
+</tr>
+<tr>
+<td>× 9</td>
+<td>× 10 − itself</td>
+<td>48 × 9 = 480 − 48 = 432</td>
+</tr>
+<tr>
+<td>× 99</td>
+<td>× 100 − itself</td>
+<td>48 × 99 = 4800 − 48 = 4,752</td>
+</tr>
+<tr>
+<td>× 12</td>
+<td>× 10 + × 2</td>
+<td>35 × 12 = 350 + 70 = 420</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quick-division-percentages">Quick Division / Percentages</h2>
+<table>
+<thead>
+<tr>
+<th>Trick</th>
+<th>Method</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>% swap</td>
+<td>x% of y = y% of x</td>
+<td>7% of 50 = 50% of 7 = 3.5</td>
+</tr>
+<tr>
+<td>÷ 5</td>
+<td>× 2, ÷ 10</td>
+<td>340 ÷ 5 = 680 ÷ 10 = 68</td>
+</tr>
+<tr>
+<td>÷ 8</td>
+<td>÷ 2, ÷ 2, ÷ 2</td>
+<td>480 ÷ 8 = 240 → 120 → 60</td>
+</tr>
+<tr>
+<td>1/7 cycle</td>
+<td>0.142857 repeating</td>
+<td>3/7 ≈ 0.429, 5/7 ≈ 0.714</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quick-powers-roots">Quick Powers &amp; Roots</h2>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Result</th>
+<th>Where it shows up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>√2</td>
+<td>1.414</td>
+<td>2-day VaR scaling</td>
+</tr>
+<tr>
+<td>√3</td>
+<td>1.732</td>
+<td>3-day VaR scaling</td>
+</tr>
+<tr>
+<td>√10</td>
+<td>3.162</td>
+<td>10-day VaR scaling (Basel)</td>
+</tr>
+<tr>
+<td>√252</td>
+<td>15.87</td>
+<td>Daily → annual vol</td>
+</tr>
+<tr>
+<td>√52</td>
+<td>7.21</td>
+<td>Weekly → annual vol</td>
+</tr>
+<tr>
+<td>√12</td>
+<td>3.464</td>
+<td>Monthly → annual vol</td>
+</tr>
+<tr>
+<td>ln(2)</td>
+<td>0.693</td>
+<td>Half-life, Rule of 72</td>
+</tr>
+<tr>
+<td>e</td>
+<td>2.718</td>
+<td>Continuous compounding</td>
+</tr>
+<tr>
+<td>1/e</td>
+<td>0.368</td>
+<td>Derangement probability, secretary problem</td>
+</tr>
+<tr>
+<td>e^0.1</td>
+<td>1.105</td>
+<td>Quick continuous compound</td>
+</tr>
+<tr>
+<td>ln(1.1)</td>
+<td>0.0953</td>
+<td>≈ 10% growth → ~9.5% continuous</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rule-of-72">Rule of 72</h2>
+<p><strong>Doubling time</strong> = 72 / annual rate</p>
+<table>
+<thead>
+<tr>
+<th>Rate</th>
+<th>Doubles in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2%</td>
+<td>36 years</td>
+</tr>
+<tr>
+<td>4%</td>
+<td>18 years</td>
+</tr>
+<tr>
+<td>6%</td>
+<td>12 years</td>
+</tr>
+<tr>
+<td>8%</td>
+<td>9 years</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>7.2 years</td>
+</tr>
+<tr>
+<td>12%</td>
+<td>6 years</td>
+</tr>
+<tr>
+<td>15%</td>
+<td>4.8 years</td>
+</tr>
+<tr>
+<td>20%</td>
+<td>3.6 years</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Halving time</strong> for decay also = 72 / rate. A strategy losing 10%/year halves in ~7 years.</p>
+<h2 id="squaring-near-known-values">Squaring Near Known Values</h2>
+<p>$$(a \pm b)^2 = a^2 \pm 2ab + b^2$$</p>
+<table>
+<thead>
+<tr>
+<th>Compute</th>
+<th>Method</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>48²</td>
+<td>(50-2)² = 2500 − 200 + 4</td>
+<td>2,304</td>
+</tr>
+<tr>
+<td>53²</td>
+<td>(50+3)² = 2500 + 300 + 9</td>
+<td>2,809</td>
+</tr>
+<tr>
+<td>97²</td>
+<td>(100-3)² = 10000 − 600 + 9</td>
+<td>9,409</td>
+</tr>
+<tr>
+<td>31²</td>
+<td>(30+1)² = 900 + 60 + 1</td>
+<td>961</td>
+</tr>
+</tbody>
+</table>
+<h2 id="combinatorics-quick-reference">Combinatorics Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Formula</th>
+<th>Value</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n!</td>
+<td>Permutations of n items</td>
+<td>Ordering, arrangements</td>
+</tr>
+<tr>
+<td>$\binom{n}{k} = \frac{n!}{k!(n-k)!}$</td>
+<td>Choosing k from n</td>
+<td>Combinations, portfolios</td>
+</tr>
+<tr>
+<td>$\binom{n}{2} = \frac{n(n-1)}{2}$</td>
+<td>Pairs from n items</td>
+<td>Pairwise correlations needed</td>
+</tr>
+<tr>
+<td>$2^n$</td>
+<td>Subsets of n items</td>
+<td>Possible hedge combinations</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quick binomial coefficients:</strong></p>
+<table>
+<thead>
+<tr>
+<th>$\binom{n}{k}$</th>
+<th>k=0</th>
+<th>k=1</th>
+<th>k=2</th>
+<th>k=3</th>
+<th>k=4</th>
+<th>k=5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n=5</td>
+<td>1</td>
+<td>5</td>
+<td>10</td>
+<td>10</td>
+<td>5</td>
+<td>1</td>
+</tr>
+<tr>
+<td>n=6</td>
+<td>1</td>
+<td>6</td>
+<td>15</td>
+<td>20</td>
+<td>15</td>
+<td>6</td>
+</tr>
+<tr>
+<td>n=10</td>
+<td>1</td>
+<td>10</td>
+<td>45</td>
+<td>120</td>
+<td>210</td>
+<td>252</td>
+</tr>
+<tr>
+<td>n=20</td>
+<td>1</td>
+<td>20</td>
+<td>190</td>
+<td>1140</td>
+<td>4845</td>
+<td>15504</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-6-finance-specific-brain-teasers">PART 6: FINANCE-SPECIFIC BRAIN TEASERS</h1>
+<h2 id="problem-32-the-biased-coin">Problem 32: The Biased Coin</h2>
+<blockquote>
+<p><strong>You have a biased coin (P(heads) unknown). How do you generate fair 50/50 outcomes?</strong></p>
+</blockquote>
+<p><strong>Von Neumann's trick:</strong><br />
+1. Flip twice<br />
+2. HT → call it "outcome A"<br />
+3. TH → call it "outcome B"<br />
+4. HH or TT → discard and repeat</p>
+<p>P(HT) = p(1−p) = P(TH) → equal probability regardless of p.</p>
+<p><strong>Expected flips per fair outcome:</strong> 1 / (2p(1−p)). For p = 0.7: need ~4.8 flips per outcome. For p = 0.9: ~11 flips.</p>
+<p><strong>Risk analog:</strong> Even with biased data (asymmetric return distributions), you can construct symmetric bets by taking the difference of two identically-distributed events. Pairs trading does exactly this.</p>
+<hr />
+<h2 id="problem-33-the-option-pricing-intuition">Problem 33: The Option Pricing Intuition</h2>
+<blockquote>
+<p><strong>A stock is at $100. In 1 year it will be $120 or $80 with equal probability. Risk-free rate = 5%. Price a call option with strike $100.</strong></p>
+</blockquote>
+<p><strong>Binomial model:</strong><br />
+- Up move: stock = $120, call pays $20<br />
+- Down move: stock = $80, call pays $0</p>
+<p><strong>Risk-neutral probability:</strong><br />
+$$p^* = \frac{e^{rT} - d}{u - d} = \frac{1.05 - 0.8}{1.2 - 0.8} = \frac{0.25}{0.40} = 0.625$$</p>
+<p><strong>Call price:</strong><br />
+$$C = e^{-rT}[p^<em> \times 20 + (1-p^</em>) \times 0] = \frac{0.625 \times 20}{1.05} = \frac{12.5}{1.05} = \$11.90$$</p>
+<p><strong>Key insight:</strong> We use risk-neutral probabilities (0.625/0.375), NOT real-world probabilities (0.5/0.5). The real-world drift doesn't matter for option pricing — only the risk-free rate and the volatility (encoded in the up/down magnitudes).</p>
+<hr />
+<h2 id="problem-34-the-paradox-of-volatility-drag">Problem 34: The Paradox of Volatility Drag</h2>
+<blockquote>
+<p><strong>Stock returns +20% one year, then −20% the next. What's the total return?</strong></p>
+</blockquote>
+<p>$100 × 1.20 × 0.80 = $96. You LOST 4%, not 0%.</p>
+<p><strong>The general formula:</strong> If vol = σ, geometric return ≈ arithmetic return − σ²/2.</p>
+<table>
+<thead>
+<tr>
+<th>Arithmetic return</th>
+<th>Vol</th>
+<th>Geometric return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0%</td>
+<td>10%</td>
+<td>−0.5%</td>
+</tr>
+<tr>
+<td>0%</td>
+<td>20%</td>
+<td>−2.0%</td>
+</tr>
+<tr>
+<td>0%</td>
+<td>30%</td>
+<td>−4.5%</td>
+</tr>
+<tr>
+<td>0%</td>
+<td>50%</td>
+<td>−12.5%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>20%</td>
+<td>8.0%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>40%</td>
+<td>2.0%</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>50%</td>
+<td>−2.5%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Risk analog:</strong> A zero-expected-return strategy with 50% vol loses ~12.5% per year in geometric terms. This is why vol control matters — even with no directional edge, reducing vol improves geometric returns. Leveraged ETFs suffer from this: 2× leveraged SPX in sideways markets bleeds capital from vol drag alone.</p>
+<hr />
+<h2 id="problem-35-expected-loss-from-a-var-breach">Problem 35: Expected Loss from a VaR Breach</h2>
+<blockquote>
+<p><strong>Your 99% 1-day VaR is $5M. Over 250 trading days, how many breaches do you expect? If the tail follows a Pareto distribution with shape α = 2, what's the expected loss GIVEN a breach?</strong></p>
+</blockquote>
+<p>Expected breaches: 250 × 0.01 = <strong>2.5 per year</strong></p>
+<p>For Pareto with α = 2:<br />
+$$E[\text{Loss} | \text{Loss} &gt; \text{VaR}] = \frac{\alpha}{\alpha - 1} \times \text{VaR} = \frac{2}{1} \times \$5M = \$10M$$</p>
+<p>So your ES = $10M, giving ES/VaR = 2.0 — a moderately fat tail.</p>
+<p>For α = 1.5 (fatter tail): ES = 3 × VaR = $15M<br />
+For α = 3 (thinner tail): ES = 1.5 × VaR = $7.5M</p>
+<hr />
+<h2 id="problem-36-the-correlation-trap">Problem 36: The Correlation Trap</h2>
+<blockquote>
+<p><strong>Two assets each have 20% annual vol and 0.5 correlation. Portfolio is 50/50. What's portfolio vol?</strong></p>
+</blockquote>
+<p>$$\sigma_p = \sqrt{0.5^2 \times 0.2^2 + 0.5^2 \times 0.2^2 + 2 \times 0.5 \times 0.5 \times 0.2 \times 0.2 \times 0.5}$$<br />
+$$= \sqrt{0.01 + 0.01 + 0.01} = \sqrt{0.03} = \mathbf{17.3\%}$$</p>
+<blockquote>
+<p><strong>Now in crisis, correlation jumps to 0.95. New portfolio vol?</strong></p>
+</blockquote>
+<p>$$\sigma_p = \sqrt{0.01 + 0.01 + 0.019} = \sqrt{0.039} = \mathbf{19.7\%}$$</p>
+<p>Vol increased from 17.3% → 19.7% — a 14% increase — purely from correlation change, with NO change in individual asset vol.</p>
+<blockquote>
+<p><strong>If individual vols ALSO double in crisis (common), new portfolio vol?</strong></p>
+</blockquote>
+<p>$$\sigma_p = \sqrt{0.5^2 \times 0.4^2 + 0.5^2 \times 0.4^2 + 2 \times 0.5 \times 0.5 \times 0.4 \times 0.4 \times 0.95}$$<br />
+$$= \sqrt{0.04 + 0.04 + 0.076} = \sqrt{0.156} = \mathbf{39.5\%}$$</p>
+<p>From 17.3% → 39.5% — vol more than DOUBLED. This is why VaR computed from calm correlations and vols is useless in a crisis.</p>
+<hr />
+<h1 id="part-7-how-to-approach-any-brain-teaser-in-an-interview">PART 7: HOW TO APPROACH ANY BRAIN TEASER IN AN INTERVIEW</h1>
+<h2 id="the-60-second-framework">The 60-Second Framework</h2>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Time</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Restate</strong></td>
+<td>5 sec</td>
+<td>"So I need to find..." — confirms understanding, buys time</td>
+</tr>
+<tr>
+<td><strong>2. Classify</strong></td>
+<td>5 sec</td>
+<td>Probability? Estimation? Logic? Optimization?</td>
+</tr>
+<tr>
+<td><strong>3. Simplify</strong></td>
+<td>10 sec</td>
+<td>"Let me try a smaller version first" (2 items instead of 100)</td>
+</tr>
+<tr>
+<td><strong>4. Identify the trick</strong></td>
+<td>10 sec</td>
+<td>Conditional probability? Counting faces not cards? Using extra information?</td>
+</tr>
+<tr>
+<td><strong>5. Solve</strong></td>
+<td>20 sec</td>
+<td>Clear steps, speak aloud</td>
+</tr>
+<tr>
+<td><strong>6. Sanity check</strong></td>
+<td>10 sec</td>
+<td>"Does this answer make sense? Is it between 0 and 1?"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="common-traps-how-to-avoid-them">Common Traps &amp; How to Avoid Them</h2>
+<table>
+<thead>
+<tr>
+<th>Trap</th>
+<th>Example</th>
+<th>Correct instinct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Forgetting conditional</strong></td>
+<td>P(both heads | at least one heads) ≠ 1/2</td>
+<td>Draw out the sample space explicitly</td>
+</tr>
+<tr>
+<td><strong>Counting objects not faces</strong></td>
+<td>Three cards problem → count faces, not cards</td>
+<td>Ask "what am I counting?"</td>
+</tr>
+<tr>
+<td><strong>Ignoring base rates</strong></td>
+<td>Disease test: 99% accurate but 1/10,000 prevalence → PPV is ~1%</td>
+<td>Always apply Bayes: prior × likelihood</td>
+</tr>
+<tr>
+<td><strong>Arithmetic vs geometric</strong></td>
+<td>+20% then −20% ≠ 0%</td>
+<td>Multiply: 1.2 × 0.8 = 0.96</td>
+</tr>
+<tr>
+<td><strong>Path dependence</strong></td>
+<td>Gambler's ruin — past flips don't affect future</td>
+<td>E[future] doesn't change, but P(ruin) does</td>
+</tr>
+<tr>
+<td><strong>Infinite expectation</strong></td>
+<td>St. Petersburg: E = ∞ but median → 0</td>
+<td>Check MEDIAN alongside mean</td>
+</tr>
+<tr>
+<td><strong>Symmetry assumption</strong></td>
+<td>"50/50" when priors aren't equal</td>
+<td>Challenge whether equal probability is justified</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-theyre-really-testing">What They're REALLY Testing</h2>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>How to demonstrate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Structured thinking</strong></td>
+<td>"I'll break this into three cases..."</td>
+</tr>
+<tr>
+<td><strong>Communication</strong></td>
+<td>Narrate your thought process. Don't go silent.</td>
+</tr>
+<tr>
+<td><strong>Edge case awareness</strong></td>
+<td>"If n = 1 this simplifies to..."</td>
+</tr>
+<tr>
+<td><strong>Intellectual honesty</strong></td>
+<td>"I'm not sure about the exact constant, but I know the structure is..."</td>
+</tr>
+<tr>
+<td><strong>Connection to finance</strong></td>
+<td>After solving: "This is like...[risk analog]"</td>
+</tr>
+<tr>
+<td><strong>Comfort with uncertainty</strong></td>
+<td>For estimation: "My confidence interval is 100-500, with best guess 250"</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-8-interview-answers">PART 8: INTERVIEW ANSWERS</h1>
+<h3 id="q-walk-me-through-how-youd-estimate-the-number-of-trades-our-risk-system-processes-daily">Q: "Walk me through how you'd estimate the number of trades our risk system processes daily."</h3>
+<blockquote>
+<p>"I'd decompose it. Squarepoint runs roughly 30-40 pods across equities, rates, FX, credit, and commodities. A systematic pod generating signals across, say, 500 instruments might execute 200-500 orders per day. A discretionary pod trades less — maybe 20-50 per day. Weighting roughly 60% systematic and 40% discretionary, I'd estimate: 25 systematic pods × 350 trades + 15 discretionary pods × 35 trades = 8,750 + 525 ≈ 9,000-10,000 orders per day. If each order generates multiple fills, the actual trade count hitting the risk system could be 3-5x that — so 30,000-50,000 trade records processed daily. The risk system then needs to reconcile, mark-to-market, and aggregate these into positions by 6:30 AM. That's the throughput constraint that drives the technology choices."</p>
+</blockquote>
+<h3 id="q-if-i-give-you-a-biased-coin-and-you-dont-know-the-bias-how-would-you-use-it-for-decision-making-in-a-risk-framework">Q: "If I give you a biased coin and you don't know the bias, how would you use it for decision-making in a risk framework?"</h3>
+<blockquote>
+<p>"I'd use Von Neumann's trick — flip twice. HT maps to one outcome, TH maps to another, and I discard HH or TT. Since P(HT) = p(1-p) = P(TH) regardless of the bias, this gives me perfectly fair binary decisions. The cost is efficiency — I need 1/(2p(1-p)) flips per decision, so the more biased the coin, the more flips I need.</p>
+<p>The analog in risk: even if the underlying data is skewed (which market returns always are), I can construct symmetric risk measures by using paired observations. Pairs trading exploits exactly this — two correlated stocks with individual biases, but the spread between them is approximately symmetric."</p>
+</blockquote>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+});
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

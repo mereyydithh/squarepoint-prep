@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Market Mechanics — Cheat — Squarepoint Prep</title>
+<title>Brain Teasers — Cheat — Squarepoint Prep</title>
 <style>
 :root {
   --bg: #0d1117;
@@ -368,7 +368,7 @@ body {
 <a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
 <a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
 <a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
-<a class="nav-link active" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
 <a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
 <a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
 <a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
@@ -390,12 +390,14 @@ body {
 <a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
 <a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
 <a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
-<a class="nav-link" href="Z_Brain_Teasers_Cheat.html">Brain Teasers — Cheat</a>
+<a class="nav-link active" href="Z_Brain_Teasers_Cheat.html">Brain Teasers — Cheat</a>
 
 </nav>
 
 <main class="content">
-<h1 id="c-market-mechanics-cheat-sheet">C — MARKET MECHANICS CHEAT SHEET</h1>
+<h1 id="z-brain-teasers-estimation-cheat-sheet">Z — BRAIN TEASERS &amp; ESTIMATION — CHEAT SHEET</h1>
+<h2 id="quick-reference-solutions-formulas-framework">Quick-reference: solutions, formulas, framework</h2>
+<h3 id="print-double-sided-2-pages">Print double-sided, 2 pages</h3>
 <hr />
 <h2 id="one-liners">ONE-LINERS</h2>
 <table>
@@ -407,622 +409,526 @@ body {
 </thead>
 <tbody>
 <tr>
-<td><strong>Trade lifecycle</strong></td>
-<td>Order → route → execute → clear (CCP novation) → settle (delivery vs payment)</td>
+<td><strong>Conditional probability</strong></td>
+<td>The answer changes based on WHAT you condition on — "at least one heads" ≠ "first flip heads." Always draw the sample space.</td>
 </tr>
 <tr>
-<td><strong>Market order</strong></td>
-<td>Guaranteed execution, NOT guaranteed price. Can cross multiple levels in a thin book.</td>
+<td><strong>Bayes' theorem</strong></td>
+<td>Prior × Likelihood / Evidence. A 99% accurate test with 0.01% prevalence has ~1% PPV. Base rates dominate.</td>
 </tr>
 <tr>
-<td><strong>Limit order</strong></td>
-<td>Guaranteed price, NOT execution. You may never get filled.</td>
+<td><strong>Expected value</strong></td>
+<td>Probability-weighted average outcome. Positive EV ≠ good bet if variance is extreme (St. Petersburg).</td>
 </tr>
 <tr>
-<td><strong>CCP</strong></td>
-<td>Steps between buyer and seller → eliminates bilateral risk but creates concentration risk</td>
+<td><strong>Geometric vs arithmetic</strong></td>
+<td>+20% then −20% = −4%, not 0%. Geometric return ≈ arithmetic − σ²/2. Vol destroys compounding.</td>
 </tr>
 <tr>
-<td><strong>Novation</strong></td>
-<td>CCP replaces original contract with two: A→CCP and CCP→B</td>
+<td><strong>Gambler's ruin</strong></td>
+<td>With a slightly negative edge, you go broke with near certainty. Even with positive edge, overleveraging kills.</td>
 </tr>
 <tr>
-<td><strong>Settlement</strong></td>
-<td>US equities T+1 (since May 2024). European equities T+2. FX spot T+2.</td>
+<td><strong>Fermi estimation</strong></td>
+<td>Decompose → estimate each factor → multiply → sanity check. Errors cancel across multiplicative factors. ±3x is a good Fermi estimate.</td>
 </tr>
 <tr>
-<td><strong>ISDA</strong></td>
-<td>Constitution of OTC derivatives — governs netting, close-out, events of default</td>
+<td><strong>Optimal stopping</strong></td>
+<td>Observe the first 37% (1/e), then pick the next one that beats all you've seen. Works for hiring, entry timing, and hedge shopping.</td>
 </tr>
 <tr>
-<td><strong>CSA</strong></td>
-<td>Collateral framework — thresholds, eligible collateral, haircuts, rehypothecation</td>
-</tr>
-<tr>
-<td><strong>Initial margin</strong></td>
-<td>Deposit to OPEN a position. Performance bond.</td>
-</tr>
-<tr>
-<td><strong>Variation margin</strong></td>
-<td>Daily mark-to-market settlement. Losing side pays.</td>
-</tr>
-<tr>
-<td><strong>Maintenance margin</strong></td>
-<td>Minimum level. Below → margin call (post to IM, not maintenance).</td>
-</tr>
-<tr>
-<td><strong>Pro-cyclical margin</strong></td>
-<td>Exchanges RAISE margin in vol spikes → demand cash when you can least afford it</td>
-</tr>
-<tr>
-<td><strong>Margin cascade</strong></td>
-<td>Margin call → forced selling → price drops → more margin calls → spiral</td>
-</tr>
-<tr>
-<td><strong>Repo</strong></td>
-<td>Collateralized short-term loan. Sell securities today, agree to buy back tomorrow.</td>
-</tr>
-<tr>
-<td><strong>Haircut</strong></td>
-<td>Discount on collateral: post $100M bonds, receive $98M cash (2% haircut).</td>
-</tr>
-<tr>
-<td><strong>Gross leverage</strong></td>
-<td>(Longs + Shorts) / NAV → total exposure</td>
-</tr>
-<tr>
-<td><strong>Net leverage</strong></td>
-<td>(Longs − Shorts) / NAV → directional exposure</td>
-</tr>
-<tr>
-<td><strong>Market liquidity</strong></td>
-<td>Can you sell at fair value in size? Bid-ask, depth, ADV, impact.</td>
-</tr>
-<tr>
-<td><strong>Funding liquidity</strong></td>
-<td>Can you access cash? Credit lines, repo, margin availability.</td>
-</tr>
-<tr>
-<td><strong>Liquidity spiral</strong></td>
-<td>Market illiquidity → funding pressure → forced selling → more illiquidity → doom loop</td>
-</tr>
-<tr>
-<td><strong>Short squeeze</strong></td>
-<td>Forced buying feedback loop — shorts cover → price rises → more shorts forced to cover</td>
-</tr>
-<tr>
-<td><strong>Days to cover</strong></td>
-<td>Short interest / ADV. Above 10 = crowded short, squeeze risk.</td>
-</tr>
-<tr>
-<td><strong>Gamma flip</strong></td>
-<td>Price where dealer gamma goes from positive (dampening) to negative (amplifying moves)</td>
+<td><strong>Ergodicity</strong></td>
+<td>Positive EV per trial but negative geometric growth → you still go broke. Kelly criterion fixes this.</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="order-types">ORDER TYPES</h2>
+<h2 id="probability-quick-solutions">PROBABILITY — QUICK SOLUTIONS</h2>
 <table>
 <thead>
 <tr>
-<th>Type</th>
-<th>Guarantees</th>
-<th>Risk</th>
-<th>Use case</th>
+<th>#</th>
+<th>Problem</th>
+<th>Answer</th>
+<th>Key insight</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Market</td>
-<td>Execution ✓</td>
-<td>Bad price in thin books</td>
-<td>Small/urgent, liquid names</td>
+<td>1</td>
+<td>P(both heads | at least one heads)</td>
+<td><strong>1/3</strong></td>
+<td>Condition removes TT; 3 remain, only 1 is HH</td>
 </tr>
 <tr>
-<td>Limit</td>
-<td>Price ✓</td>
-<td>No fill if moves away</td>
-<td>Have a target, can wait</td>
+<td>2</td>
+<td>3 cards (R/R, B/B, R/B), see red, P(other red)?</td>
+<td><strong>2/3</strong></td>
+<td>Count FACES (3 red), not cards. 2 of 3 red faces are R/R</td>
 </tr>
 <tr>
-<td>Stop</td>
-<td>Exit (once triggered)</td>
-<td>Gap through stop level</td>
-<td>Automatic risk management</td>
+<td>3</td>
+<td>Monty Hall: switch or stay?</td>
+<td><strong>Switch (2/3)</strong></td>
+<td>Your initial 1/3 doesn't change. The other 2/3 concentrates</td>
 </tr>
 <tr>
-<td>Stop-limit</td>
-<td>Price floor (once triggered)</td>
-<td>May not execute at all</td>
-<td>Want stop but refuse to sell below floor</td>
+<td>4</td>
+<td>Birthday problem: n for &gt;50%?</td>
+<td><strong>23</strong></td>
+<td>$\binom{23}{2}$ = 253 pairs. It's pairs, not individuals</td>
 </tr>
 <tr>
-<td>MOC</td>
-<td>Closing price</td>
-<td>Must submit before cutoff</td>
-<td>Benchmark to close, rebalancing</td>
+<td>5</td>
+<td>Two dice, P(sum = 7)?</td>
+<td><strong>1/6</strong></td>
+<td>6 favorable out of 36. Most likely sum.</td>
 </tr>
 <tr>
-<td>Iceberg</td>
-<td>Stealth</td>
-<td>Can be detected by algos</td>
-<td>Large orders, minimize info leakage</td>
+<td>6</td>
+<td>E[max of two dice]</td>
+<td><strong>4.47</strong></td>
+<td>P(max=k) = (2k−1)/36. Compare to E[single] = 3.5</td>
+</tr>
+<tr>
+<td>7</td>
+<td>E[flips for 2 consecutive heads]</td>
+<td><strong>6</strong></td>
+<td>Solve E = 1.5 + 0.75E. For n heads: E = 2^(n+1) − 2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Gambler's ruin: P(broke), you=$a, opponent=$b</td>
+<td><strong>b/(a+b)</strong></td>
+<td>You $10 vs casino $990 → 99% ruin</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Coupon collector: E[boxes] for all n</td>
+<td><strong>n·H_n</strong></td>
+<td>Last few take disproportionately long. H_10 ≈ 2.93</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Derangement: P(nobody gets own hat)</td>
+<td><strong>1/e ≈ 37%</strong></td>
+<td>Converges fast. Even n=4 gives 37.5%</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Drunk walk: E[steps to return to 0]</td>
+<td><strong>∞</strong></td>
+<td>Returns with P=1 but expected time = ∞</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Secretary problem: P(hiring best)</td>
+<td><strong>1/e ≈ 37%</strong></td>
+<td>Reject first n/e, then take next that beats all</td>
+</tr>
+<tr>
+<td>13</td>
+<td>St. Petersburg: E[payout]</td>
+<td><strong>∞</strong></td>
+<td>But median → 0. Expected utility is finite (~$4)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Two envelopes: switch?</td>
+<td><strong>No gain</strong></td>
+<td>The paradox assumes a uniform prior that doesn't exist</td>
+</tr>
+<tr>
+<td>15</td>
+<td>E[draws to first ace] from 52-card deck</td>
+<td><strong>10.6</strong></td>
+<td>(N+1)/(k+1) = 53/5</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="execution-algorithms">EXECUTION ALGORITHMS</h2>
+<h2 id="logic-quick-solutions">LOGIC — QUICK SOLUTIONS</h2>
 <table>
 <thead>
 <tr>
-<th>Algo</th>
-<th>How</th>
-<th>Best for</th>
+<th>#</th>
+<th>Problem</th>
+<th>Answer</th>
+<th>Key insight</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>VWAP</td>
-<td>Volume-profile weighted</td>
-<td>Benchmark to VWAP</td>
+<td>26</td>
+<td>8 coins, 1 heavy, balance scale</td>
+<td><strong>2 weighings</strong></td>
+<td>Split 3-3-2, compare groups. Generalizes: k weighings → 3^k coins</td>
 </tr>
 <tr>
-<td>TWAP</td>
-<td>Even time intervals</td>
-<td>Even execution</td>
+<td>27</td>
+<td>3 switches, 1 bulb, enter once</td>
+<td><strong>Heat trick</strong></td>
+<td>Use temperature as a second information dimension</td>
 </tr>
 <tr>
-<td>Implementation Shortfall</td>
-<td>Front-loaded</td>
-<td>Minimize slippage from decision price</td>
+<td>28</td>
+<td>Bridge: 1, 2, 5, 10 min crossing</td>
+<td><strong>17 min</strong></td>
+<td>Send the two slowest TOGETHER to overlap their times</td>
 </tr>
 <tr>
-<td>Liquidity-seeking</td>
-<td>Finds pockets of liquidity</td>
-<td>Minimize impact at all costs</td>
+<td>29</td>
+<td>2 eggs, 100 floors, find breaking floor</td>
+<td><strong>14 drops</strong></td>
+<td>Decreasing intervals: n(n+1)/2 ≥ 100 → n=14</td>
 </tr>
 <tr>
-<td>POV (% of Volume)</td>
-<td>Fixed % of real-time volume</td>
-<td>Adapt to live conditions</td>
+<td>30</td>
+<td>2 ropes (60 min each, non-uniform). Measure 45 min</td>
+<td><strong>Burn both ends of rope 1 + one end of rope 2</strong></td>
+<td>30 min + 15 min = 45</td>
+</tr>
+<tr>
+<td>31</td>
+<td>100 prisoners, red/blue hats</td>
+<td><strong>99 guaranteed</strong></td>
+<td>First person encodes parity of red hats. All others deduce.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Market impact ∝ √(order size / ADV).</strong> Double size → ~40% more impact.</p>
 <hr />
-<h2 id="key-ccps">KEY CCPs</h2>
+<h2 id="finance-brain-teasers-quick-reference">FINANCE BRAIN TEASERS — QUICK REFERENCE</h2>
 <table>
 <thead>
 <tr>
-<th>CCP</th>
-<th>Clears</th>
+<th>#</th>
+<th>Problem</th>
+<th>Answer</th>
+<th>Key insight</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>DTCC/NSCC</td>
-<td>US equities, corporates</td>
+<td>32</td>
+<td>Fair outcomes from biased coin</td>
+<td><strong>Von Neumann: HT vs TH</strong></td>
+<td>P(HT) = p(1-p) = P(TH) regardless of p</td>
 </tr>
 <tr>
-<td>CME Clearing</td>
-<td>Futures, cleared IRS</td>
+<td>33</td>
+<td>Binomial option pricing ($100 stock, $120/$80, K=$100, r=5%)</td>
+<td><strong>$11.90</strong></td>
+<td>Risk-neutral prob p* = (1.05−0.8)/(1.2−0.8) = 0.625</td>
 </tr>
 <tr>
-<td>LCH (SwapClear)</td>
-<td>~90% of global cleared IRS</td>
+<td>34</td>
+<td>+20% then −20% total return?</td>
+<td><strong>−4%</strong></td>
+<td>Vol drag: geometric ≈ arithmetic − σ²/2</td>
 </tr>
 <tr>
-<td>ICE Clear</td>
-<td>Energy futures, CDS</td>
+<td>35</td>
+<td>Pareto (α=2) tail: E[loss | loss &gt; VaR]</td>
+<td><strong>2 × VaR</strong></td>
+<td>ES = α/(α−1) × VaR. α=2 → ES/VaR = 2.0</td>
 </tr>
 <tr>
-<td>OCC</td>
-<td>US listed equity options</td>
-</tr>
-<tr>
-<td>Eurex Clearing</td>
-<td>Euro Stoxx, Euro rates</td>
+<td>36</td>
+<td>50/50 portfolio, ρ goes 0.5→0.95, vols double</td>
+<td><strong>Vol: 17.3% → 39.5%</strong></td>
+<td>Correlation + vol spike = VaR more than doubles</td>
 </tr>
 </tbody>
 </table>
-<p><strong>CCP waterfall:</strong> Defaulter's IM → Defaulter's default fund → CCP capital → Other members' default fund → Assessment.</p>
 <hr />
-<h2 id="settlement">SETTLEMENT</h2>
+<h2 id="fermi-estimation-framework">FERMI ESTIMATION — FRAMEWORK</h2>
+<div class="highlight"><pre><span></span><code>1. CLARIFY  → What exactly? Units? Timeframe?
+2. DECOMPOSE → Break into factors you CAN estimate
+3. ESTIMATE  → Each factor with anchor + adjustment
+4. MULTIPLY  → Combine factors
+5. SANITY    → Does it pass the smell test? ±3x OK.
+</code></pre></div>
+
+<h3 id="quick-fermi-reference">Quick Fermi Reference</h3>
 <table>
 <thead>
 <tr>
-<th>Market</th>
-<th>Cycle</th>
+<th>Problem</th>
+<th>Decomposition</th>
+<th>Answer</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>US equities</td>
-<td>T+1</td>
+<td>Piano tuners in London</td>
+<td>9M people → 3.6M households → 5% pianos → 180K → 1 tune/yr ÷ 1000/tuner</td>
+<td><strong>~180</strong> (actual ~200-300)</td>
 </tr>
 <tr>
-<td>US Treasuries</td>
-<td>T+1</td>
+<td>Golf balls in bus</td>
+<td>36m³ × 60% usable ÷ 42cm³ per ball × 64% packing</td>
+<td><strong>~340K</strong></td>
 </tr>
 <tr>
-<td>European equities</td>
-<td>T+2</td>
+<td>Gas station revenue</td>
+<td>400 fill-ups/day × 10 gal × $3.50 × 365 + 30% convenience</td>
+<td><strong>~$6.6M</strong></td>
 </tr>
 <tr>
-<td>FX spot</td>
-<td>T+2 (CLS Bank)</td>
+<td>NYSE trades/day</td>
+<td>2,400 stocks × 2M shares/stock ÷ 200 shares/trade × 2x algo fragmentation</td>
+<td><strong>~50M</strong></td>
 </tr>
 <tr>
-<td>Futures</td>
-<td>Daily MTM</td>
-</tr>
-<tr>
-<td>OTC derivatives</td>
-<td>Per ISDA/CSA</td>
+<td>Fund daily VaR (multi-strat $12B)</td>
+<td>5% annual vol → 0.32% daily → × 2.326 → 0.74% × $12B</td>
+<td><strong>~$90M</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Herstatt risk:</strong> Time zone mismatch in FX settlement → CLS Bank created to settle simultaneously.</p>
 <hr />
-<h2 id="isda-csa-key-terms">ISDA / CSA KEY TERMS</h2>
+<h2 id="expected-value-key-formulas">EXPECTED VALUE — KEY FORMULAS</h2>
 <table>
 <thead>
 <tr>
-<th>Term</th>
-<th>What it means</th>
+<th>Distribution</th>
+<th>E[X]</th>
+<th>Var[X]</th>
+<th>Use</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Netting</td>
-<td>Multiple trades → single net amount if default. Reduces exposure 80-90%.</td>
+<td>Bernoulli(p)</td>
+<td>p</td>
+<td>p(1−p)</td>
+<td>Single breached/not breached</td>
 </tr>
 <tr>
-<td>Close-out</td>
-<td>All trades terminated and netted on credit event. No cherry-picking.</td>
+<td>Binomial(n,p)</td>
+<td>np</td>
+<td>np(1−p)</td>
+<td>VaR breaches in 250 days</td>
 </tr>
 <tr>
-<td>Threshold</td>
-<td>Below this, no collateral required. Higher = more unsecured exposure.</td>
+<td>Geometric(p)</td>
+<td>1/p</td>
+<td>(1−p)/p²</td>
+<td>Flips to first success</td>
 </tr>
 <tr>
-<td>MTA</td>
-<td>Minimum transfer amount. Small moves ignored.</td>
+<td>Poisson(λ)</td>
+<td>λ</td>
+<td>λ</td>
+<td>Rare events per period</td>
 </tr>
 <tr>
-<td>Haircut</td>
-<td>Discount on non-cash collateral.</td>
+<td>Uniform(a,b)</td>
+<td>(a+b)/2</td>
+<td>(b−a)²/12</td>
+<td>Flat prior</td>
 </tr>
 <tr>
-<td>Rehypothecation</td>
-<td>Receiver re-uses your collateral. Efficient but risky (Lehman trapped $65B+).</td>
+<td>Exponential(λ)</td>
+<td>1/λ</td>
+<td>1/λ²</td>
+<td>Time between events</td>
 </tr>
 <tr>
-<td>SIMM</td>
-<td>ISDA's standard model for bilateral IM calculation. Sensitivity-based.</td>
+<td>Normal(μ,σ²)</td>
+<td>μ</td>
+<td>σ²</td>
+<td>Returns (approx)</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Linearity:</strong> E[aX + bY] = aE[X] + bE[Y] — ALWAYS, even if dependent.</p>
+<p><strong>Variance:</strong> Var[aX + bY] = a²Var[X] + b²Var[Y] + 2ab·Cov[X,Y]</p>
 <hr />
-<h2 id="margin-models">MARGIN MODELS</h2>
+<h2 id="mental-math-cheat-table">MENTAL MATH — CHEAT TABLE</h2>
+<h3 id="multiplication-tricks">Multiplication Tricks</h3>
 <table>
 <thead>
 <tr>
-<th>Model</th>
-<th>Used by</th>
+<th>×</th>
 <th>Method</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>SPAN</td>
-<td>CME, futures exchanges</td>
-<td>16 scenarios, worst-case loss</td>
+<td>5</td>
+<td>÷2, ×10</td>
+<td>48×5 = 240</td>
 </tr>
 <tr>
-<td>TIMS</td>
-<td>OCC (equity options)</td>
-<td>Scenario-based</td>
+<td>9</td>
+<td>×10 − itself</td>
+<td>48×9 = 432</td>
 </tr>
 <tr>
-<td>SIMM</td>
-<td>Bilateral OTC (ISDA)</td>
-<td>Sensitivity-based (delta, vega, curvature)</td>
+<td>11</td>
+<td>Sum adjacent digits</td>
+<td>72×11 = 792</td>
 </tr>
 <tr>
-<td>VaR-based</td>
-<td>Prime brokers</td>
-<td>Historical/MC VaR, 99%, 10-day</td>
+<td>15</td>
+<td>×10 + half</td>
+<td>48×15 = 720</td>
+</tr>
+<tr>
+<td>25</td>
+<td>÷4, ×100</td>
+<td>48×25 = 1,200</td>
+</tr>
+<tr>
+<td>99</td>
+<td>×100 − itself</td>
+<td>48×99 = 4,752</td>
+</tr>
+</tbody>
+</table>
+<h3 id="swap-x-of-y-y-of-x-7-of-50-50-of-7-35">% Swap: x% of y = y% of x → 7% of 50 = 50% of 7 = 3.5</h3>
+<h3 id="constants">Constants</h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Number</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>√2</td>
+<td>1.414</td>
+<td>2-day VaR</td>
+</tr>
+<tr>
+<td>√10</td>
+<td>3.162</td>
+<td>10-day VaR (Basel)</td>
+</tr>
+<tr>
+<td>√252</td>
+<td>15.87</td>
+<td>Daily→annual vol</td>
+</tr>
+<tr>
+<td>ln(2)</td>
+<td>0.693</td>
+<td>Half-life</td>
+</tr>
+<tr>
+<td>1/e</td>
+<td>0.368</td>
+<td>Derangement, secretary</td>
+</tr>
+<tr>
+<td>e</td>
+<td>2.718</td>
+<td>Continuous compounding</td>
+</tr>
+<tr>
+<td>Rule of 72</td>
+<td>72/r%</td>
+<td>Doubling time</td>
+</tr>
+</tbody>
+</table>
+<h3 id="squaring-near-known-values">Squaring Near Known Values</h3>
+<p>$(50-2)^2 = 2500 - 200 + 4 = 2304$<br />
+$(50+3)^2 = 2500 + 300 + 9 = 2809$</p>
+<hr />
+<h2 id="combinatorics-quick">COMBINATORICS QUICK</h2>
+<p>$\binom{n}{2} = \frac{n(n-1)}{2}$ → pairs from n items</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>$\binom{n}{2}$</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>45</td>
+<td>Correlations for 10 assets</td>
+</tr>
+<tr>
+<td>20</td>
+<td>190</td>
+<td>Correlation pairs</td>
+</tr>
+<tr>
+<td>50</td>
+<td>1,225</td>
+<td>Covariance matrix entries</td>
+</tr>
+<tr>
+<td>100</td>
+<td>4,950</td>
+<td>Gets unwieldy fast</td>
+</tr>
+<tr>
+<td>500</td>
+<td>124,750</td>
+<td>Why estimation error explodes</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="repo-mechanics">REPO MECHANICS</h2>
+<h2 id="the-60-second-interview-protocol">THE 60-SECOND INTERVIEW PROTOCOL</h2>
+<ol>
+<li><strong>Restate</strong> (5s): "So I need to find..."</li>
+<li><strong>Classify</strong> (5s): Probability? Estimation? Logic? Optimization?</li>
+<li><strong>Simplify</strong> (10s): Try n=2 or n=3 first</li>
+<li><strong>Identify the trick</strong> (10s): Conditional? Count faces? Extra dimension?</li>
+<li><strong>Solve</strong> (20s): Clear steps, speak aloud</li>
+<li><strong>Sanity check</strong> (10s): "Is this between 0 and 1? Does n=1 case work?"</li>
+</ol>
+<h3 id="common-traps">Common Traps</h3>
 <table>
 <thead>
 <tr>
-<th>Term</th>
-<th>Detail</th>
+<th>Trap</th>
+<th>Fix</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Repo rate</td>
-<td>≈ SOFR for UST repo</td>
+<td>Forgetting to condition properly</td>
+<td>Draw the full sample space</td>
 </tr>
 <tr>
-<td>Haircut</td>
-<td>UST: 1-2%. IG corp: 3-5%. HY: 10-25%. Equity: 15-25%.</td>
+<td>Counting objects not faces</td>
+<td>"What exactly am I counting?"</td>
 </tr>
 <tr>
-<td>Term</td>
-<td>Mostly overnight (70%+). Also 1W, 1M, 3M, open.</td>
+<td>Ignoring base rates (Bayes)</td>
+<td>Prior × Likelihood / Evidence</td>
 </tr>
 <tr>
-<td>GC</td>
-<td>General collateral — any acceptable security</td>
+<td>Arithmetic ≠ geometric returns</td>
+<td>Always multiply: 1.2 × 0.8 = 0.96</td>
 </tr>
 <tr>
-<td>Special</td>
-<td>Specific bond demanded — lower repo rate (scarce collateral)</td>
+<td>Infinite mean = good bet</td>
+<td>Check median and variance</td>
 </tr>
 <tr>
-<td>Reverse repo</td>
-<td>Mirror: LEND cash, receive securities</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Leverage via repo:</strong> Buy $100M bonds → repo for $99M → buy more → repo again → 50x leverage on $2M equity. A 2% move = total wipeout.</p>
-<hr />
-<h2 id="leverage-profiles">LEVERAGE PROFILES</h2>
-<table>
-<thead>
-<tr>
-<th>Profile</th>
-<th>Gross</th>
-<th>Net</th>
-<th>Interpretation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Market neutral</td>
-<td>6x</td>
-<td>0.2x</td>
-<td>Lots of positions, little directional risk</td>
-</tr>
-<tr>
-<td>Levered directional</td>
-<td>6x</td>
-<td>4x</td>
-<td>Maximum risk</td>
-</tr>
-<tr>
-<td>Conviction, low lev</td>
-<td>1.5x</td>
-<td>1.2x</td>
-<td>Concentrated longs, modest leverage</td>
-</tr>
-<tr>
-<td>Conservative hedged</td>
-<td>1.5x</td>
-<td>0.1x</td>
-<td>Low leverage, well hedged</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Better than notional:</strong> Risk-adjusted leverage, DV01/NAV, marginal VaR leverage, effective leverage (gross × beta).</p>
-<p><strong>Why leverage kills:</strong> -50% needs +100% to recover. -75% needs +300%. Margin calls force selling AT the bottom.</p>
-<hr />
-<h2 id="liquidity-tiering">LIQUIDITY TIERING</h2>
-<table>
-<thead>
-<tr>
-<th>Tier</th>
-<th>Exit time</th>
-<th>Examples</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tier 1</td>
-<td>&lt; 1 day</td>
-<td>G10 FX, SPY, index futures, on-the-run UST</td>
-</tr>
-<tr>
-<td>Tier 2</td>
-<td>1-5 days</td>
-<td>Large-cap stocks, IG bonds, liquid options</td>
-</tr>
-<tr>
-<td>Tier 3</td>
-<td>5-20 days</td>
-<td>Small-cap, HY bonds, EM credit, off-the-run UST</td>
-</tr>
-<tr>
-<td>Tier 4</td>
-<td>&gt; 20 days</td>
-<td>Distressed debt, exotic OTC, private placements</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Red flag:</strong> Tier 3+4 &gt; 15% NAV for open-ended fund = redemption mismatch.</p>
-<hr />
-<h2 id="dealer-gamma">DEALER GAMMA</h2>
-<table>
-<thead>
-<tr>
-<th>Dealer position</th>
-<th>They do</th>
-<th>Market effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Long gamma</td>
-<td>Buy dips, sell rallies</td>
-<td>DAMPENS moves, range-bound</td>
-</tr>
-<tr>
-<td>Short gamma</td>
-<td>Sell declines, buy rallies</td>
-<td>AMPLIFIES moves, vol spikes</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Gamma flip:</strong> Below this level → dealer short gamma → sell-offs accelerate.</p>
-<hr />
-<h2 id="intraday-patterns">INTRADAY PATTERNS</h2>
-<table>
-<thead>
-<tr>
-<th>Time</th>
-<th>Pattern</th>
-<th>RM implication</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>9:30-10:00</td>
-<td>Opening vol, gap fills</td>
-<td>Noise, not signal</td>
-</tr>
-<tr>
-<td>8:30/10:00</td>
-<td>Econ data (CPI, NFP, PMI)</td>
-<td>Genuine information events</td>
-</tr>
-<tr>
-<td>11:30-1:30</td>
-<td>Lunch lull, thin books</td>
-<td>Don't trust moves</td>
-</tr>
-<tr>
-<td>3:00-3:50</td>
-<td>Power hour, real flow</td>
-<td>High conviction moves</td>
-</tr>
-<tr>
-<td>3:50-4:00</td>
-<td>MOC imbalance, close</td>
-<td>Large rebalancing flows</td>
+<td>"It's 50/50"</td>
+<td>Challenge: are priors really equal?</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="circuit-breakers">CIRCUIT BREAKERS</h2>
-<table>
-<thead>
-<tr>
-<th>Level</th>
-<th>Trigger</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Level 1</td>
-<td>SPX -7%</td>
-<td>15-min halt (before 3:25 PM)</td>
-</tr>
-<tr>
-<td>Level 2</td>
-<td>SPX -13%</td>
-<td>15-min halt (before 3:25 PM)</td>
-</tr>
-<tr>
-<td>Level 3</td>
-<td>SPX -20%</td>
-<td>Market closes for the day</td>
-</tr>
-<tr>
-<td>LULD</td>
-<td>Single stock outside band</td>
-<td>Individual halt</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="short-selling">SHORT SELLING</h2>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Detail</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Process</td>
-<td>Locate → borrow → sell → wait → cover (buy back &amp; return)</td>
-</tr>
-<tr>
-<td>Borrow fee</td>
-<td>Easy: 0.25-0.50%. Hard-to-borrow: 5-50%+</td>
-</tr>
-<tr>
-<td>You pay</td>
-<td>Borrow fee + dividends to lender</td>
-</tr>
-<tr>
-<td>You earn</td>
-<td>Short rebate on restricted cash proceeds</td>
-</tr>
-<tr>
-<td>Max loss</td>
-<td>Unlimited (price can rise infinitely)</td>
-</tr>
-<tr>
-<td>Buy-in risk</td>
-<td>Lender recalls → forced cover at market</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Squeeze signals:</strong> SI &gt; 20% float, days-to-cover &gt; 10, borrow utilization &gt; 90%, rising borrow cost.</p>
-<hr />
-<h2 id="rm-red-flags">RM RED FLAGS</h2>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Red flag</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Margin utilization</td>
-<td>&gt; 70% in calm markets</td>
-</tr>
-<tr>
-<td>Stressed margin</td>
-<td>&gt; 90% at VIX +20</td>
-</tr>
-<tr>
-<td>Gross leverage</td>
-<td>&gt; 4x for discretionary</td>
-</tr>
-<tr>
-<td>Days-to-close (DTC)</td>
-<td>Any position &gt; 5 days</td>
-</tr>
-<tr>
-<td>Tier 3+4 % NAV</td>
-<td>&gt; 15% for open-ended fund</td>
-</tr>
-<tr>
-<td>Overnight repo funding</td>
-<td>&gt; 50% on long-dated assets</td>
-</tr>
-<tr>
-<td>Borrow utilization (shorts)</td>
-<td>&gt; 80% on any position</td>
-</tr>
-<tr>
-<td>Bid-ask vs 30d avg</td>
-<td>&gt; 2x normal = liquidity deteriorating</td>
-</tr>
-</tbody>
-</table>
+<h2 id="key-interview-lines">KEY INTERVIEW LINES</h2>
+<p><strong>On probability:</strong> "The trick is almost always about WHAT you're conditioning on. I restate the sample space explicitly — if the answer is 1/2, I'm probably wrong."</p>
+<p><strong>On estimation:</strong> "I don't need the exact answer. I decompose into factors I can anchor, multiply through, and sanity-check. If I'm within 3x, I've demonstrated the thinking they want."</p>
+<p><strong>On being stuck:</strong> "Let me try a smaller case — n=2 or n=3 — and see if the pattern generalizes."</p>
+<p><strong>Connecting to risk:</strong> "This is exactly like [risk analog] — the same mathematical structure shows up in portfolio correlation, VaR calibration, and position sizing."</p>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
