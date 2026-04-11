@@ -397,7 +397,7 @@ body {
 <hr />
 <h2 id="var-value-at-risk">VaR — VALUE AT RISK</h2>
 <blockquote>
-<p>"Max loss at a confidence level, over a horizon, under NORMAL conditions."</p>
+<p><strong>One-liner:</strong> VaR is the maximum loss at a given confidence level over a given horizon under NORMAL conditions — and it says absolutely nothing about what happens when conditions stop being normal.</p>
 </blockquote>
 <p>99% 1-day VaR = $5M → "On 99/100 days, loss ≤ $5M. On day 100, it's WORSE — and VaR says nothing about how much worse."</p>
 <h3 id="three-methods">Three Methods</h3>
@@ -472,7 +472,7 @@ body {
 <hr />
 <h2 id="es-expected-shortfall-cvar">ES — EXPECTED SHORTFALL (CVaR)</h2>
 <blockquote>
-<p>"Average loss WHEN losses exceed VaR." Answers the question VaR refuses.</p>
+<p><strong>One-liner:</strong> ES answers the question VaR refuses to ask — "When we breach VaR, how bad does it actually get?"</p>
 </blockquote>
 <p>$$\text{ES}<em>{99\%} = E[\text{Loss} | \text{Loss} &gt; \text{VaR}</em>{99\%}]$$</p>
 <table>
@@ -544,6 +544,9 @@ body {
 </blockquote>
 <hr />
 <h2 id="stress-testing">STRESS TESTING</h2>
+<blockquote>
+<p><strong>One-liner:</strong> VaR tells you what happens on a normal bad day. Stress tests tell you what happens on the WORST day — the one that actually threatens the fund's survival.</p>
+</blockquote>
 <h3 id="three-types">Three Types</h3>
 <table>
 <thead>
@@ -624,6 +627,9 @@ body {
 </blockquote>
 <hr />
 <h2 id="fixed-income-risk-measures">FIXED INCOME RISK MEASURES</h2>
+<blockquote>
+<p><strong>One-liner:</strong> How much money you make or lose for a 1bp move in yield. THE unit of rates risk.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
@@ -810,6 +816,9 @@ body {
 </table>
 <hr />
 <h2 id="liquidity-risk">LIQUIDITY RISK</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A position isn't just risky because it can lose value — it's risky because you might not be able to EXIT when you need to.</p>
+</blockquote>
 <p>$$\text{LVaR} = \text{VaR} + \text{Liquidation Cost}$$</p>
 <p>$$\text{Days to Liquidate} = \frac{\text{Position Size}}{\text{ADV} \times \text{Participation Rate (10\%)}}$$</p>
 <table>
@@ -850,6 +859,9 @@ body {
 </table>
 <hr />
 <h2 id="var-backtesting">VaR BACKTESTING</h2>
+<blockquote>
+<p><strong>One-liner:</strong> A VaR model that's never tested is just an expensive guess. Backtesting asks: "How many times did actual losses exceed VaR?" and if the answer is too many (or too few), the model is broken.</p>
+</blockquote>
 <p><strong>99% VaR, 250 days → expected exceptions: 2.5/year</strong></p>
 <table>
 <thead>
@@ -908,6 +920,9 @@ body {
 </table>
 <hr />
 <h2 id="model-risk">MODEL RISK</h2>
+<blockquote>
+<p><strong>One-liner:</strong> Every risk measure is the output of a model. If the model is wrong, the risk measure is worse than useless — it creates false confidence.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
