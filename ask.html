@@ -21,7 +21,6 @@
   --yellow: #d29922;
   --red: #f85149;
   --sidebar-w: 290px;
-  --content-max: 980px;
 }
 html { scroll-behavior: smooth; }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -32,6 +31,8 @@ body {
   line-height: 1.75;
   font-size: 16px;
 }
+
+/* SIDEBAR */
 .sidebar {
   position: fixed; top: 0; left: 0;
   width: var(--sidebar-w); height: 100vh;
@@ -71,112 +72,133 @@ body {
 .search-box input:focus { border-color: var(--accent); }
 .search-box input::placeholder { color: var(--text-muted); }
 
-/* CONTENT AREA */
+/* MAIN CONTENT */
 .content {
   margin-left: var(--sidebar-w);
-  padding: 48px 64px 100px;
-  max-width: var(--content-max);
-}
-.content h1 {
-  font-size: 30px; font-weight: 700; margin-bottom: 6px;
-  color: var(--text); border-bottom: 2px solid var(--border);
-  padding-bottom: 14px;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
 }
 
-/* ASK AI UI */
-.ai-container { margin-top: 24px; }
-
-.mode-toggle {
-  display: flex; gap: 0; margin-bottom: 20px;
-  border: 1px solid var(--border); border-radius: 8px;
-  overflow: hidden; width: fit-content;
+/* HERO HEADER */
+.hero {
+  background: linear-gradient(135deg, rgba(88,166,255,0.08) 0%, rgba(88,166,255,0.02) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 48px 32px;
 }
-.mode-btn {
-  padding: 10px 24px; background: var(--surface); border: none;
-  color: var(--text-muted); cursor: pointer; font-size: 14px;
-  font-weight: 500; transition: all 0.15s;
+.hero h1 {
+  font-size: 28px; font-weight: 700; color: var(--text);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 12px;
 }
-.mode-btn.active {
-  background: var(--accent-subtle); color: var(--accent); font-weight: 600;
-}
-.mode-btn:hover:not(.active) { background: var(--surface-hover); color: var(--text); }
-
-.input-row {
-  display: flex; gap: 10px; margin-bottom: 16px;
-}
-.input-row input {
-  flex: 1; padding: 12px 16px; background: var(--surface);
-  border: 1px solid var(--border); border-radius: 8px;
-  color: var(--text); font-size: 15px; outline: none;
-}
-.input-row input:focus { border-color: var(--accent); }
-.input-row input::placeholder { color: var(--text-muted); }
-.input-row button {
-  padding: 12px 24px; background: var(--accent); border: none;
-  border-radius: 8px; color: #0d1117; font-weight: 600;
-  font-size: 14px; cursor: pointer; white-space: nowrap;
-}
-.input-row button:hover { background: var(--accent-hover); }
-.input-row button:disabled {
-  background: var(--border); cursor: not-allowed; color: var(--text-muted);
+.hero h1 .icon { font-size: 32px; }
+.hero p {
+  color: var(--text-muted); font-size: 14px; max-width: 600px; line-height: 1.5;
 }
 
-.api-key-row {
+/* MAIN AREA */
+.main-area {
+  flex: 1; padding: 32px 48px 80px; max-width: 960px;
+}
+
+/* API KEY BAR */
+.api-key-bar {
   display: flex; gap: 10px; align-items: center;
-  margin-bottom: 20px; padding: 12px 16px;
+  margin-bottom: 24px; padding: 10px 16px;
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 8px; font-size: 13px;
 }
-.api-key-row label {
-  font-size: 13px; color: var(--text-muted); white-space: nowrap;
+.api-key-bar label {
+  color: var(--text-muted); white-space: nowrap; font-weight: 500;
 }
-.api-key-row input {
-  flex: 1; padding: 8px 12px; background: var(--bg);
+.api-key-bar input {
+  flex: 1; padding: 7px 12px; background: var(--bg);
   border: 1px solid var(--border); border-radius: 6px;
   color: var(--text); font-size: 13px; outline: none;
-  font-family: monospace;
+  font-family: monospace; min-width: 0;
 }
-.api-key-row input:focus { border-color: var(--accent); }
-.api-key-row .key-status {
-  font-size: 12px; padding: 4px 10px; border-radius: 4px;
-  font-weight: 600;
+.api-key-bar input:focus { border-color: var(--accent); }
+.key-status {
+  font-size: 11px; padding: 3px 10px; border-radius: 4px;
+  font-weight: 600; white-space: nowrap;
 }
 .key-ok { background: rgba(63,185,80,0.15); color: var(--green); }
 .key-missing { background: rgba(248,81,73,0.15); color: var(--red); }
 
-.results { margin-top: 20px; }
+/* CHAT INPUT */
+.chat-input-area {
+  display: flex; gap: 10px; margin-bottom: 20px;
+}
+.chat-input-area input {
+  flex: 1; padding: 14px 18px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 10px;
+  color: var(--text); font-size: 15px; outline: none;
+}
+.chat-input-area input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,166,255,0.1); }
+.chat-input-area input::placeholder { color: var(--text-muted); }
+.chat-input-area button {
+  padding: 14px 28px; background: var(--accent); border: none;
+  border-radius: 10px; color: #0d1117; font-weight: 700;
+  font-size: 14px; cursor: pointer; white-space: nowrap;
+  transition: background 0.15s;
+}
+.chat-input-area button:hover { background: var(--accent-hover); }
+.chat-input-area button:disabled {
+  background: var(--border); cursor: not-allowed; color: var(--text-muted);
+}
+
+/* MODE TABS */
+.mode-tabs {
+  display: flex; gap: 8px; margin-bottom: 24px;
+}
+.mode-tab {
+  padding: 8px 20px; background: transparent; border: 1px solid var(--border);
+  border-radius: 20px; color: var(--text-muted); cursor: pointer;
+  font-size: 13px; font-weight: 500; transition: all 0.15s;
+}
+.mode-tab.active {
+  background: var(--accent); color: #0d1117;
+  border-color: var(--accent); font-weight: 700;
+}
+.mode-tab:hover:not(.active) {
+  border-color: var(--accent); color: var(--text);
+}
+
+/* RESULTS */
+.results { margin-top: 8px; }
 
 .result-card {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: 8px; padding: 16px 20px; margin-bottom: 12px;
-  transition: border-color 0.15s;
+  border-radius: 10px; padding: 16px 20px; margin-bottom: 10px;
+  transition: border-color 0.15s; cursor: pointer;
+  text-decoration: none; display: block; color: inherit;
 }
-.result-card:hover { border-color: var(--accent); }
+.result-card:hover { border-color: var(--accent); background: var(--surface-hover); }
 .result-header {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px; gap: 12px;
 }
 .result-page {
-  font-size: 12px; font-weight: 600; color: var(--accent);
-  text-decoration: none; padding: 2px 8px;
-  background: var(--accent-subtle); border-radius: 4px;
+  font-size: 11px; font-weight: 600; color: var(--accent);
+  text-decoration: none; padding: 2px 10px;
+  background: var(--accent-subtle); border-radius: 12px;
+  white-space: nowrap;
 }
 .result-page:hover { background: rgba(88,166,255,0.2); }
 .result-section {
   font-size: 14px; font-weight: 600; color: var(--text);
 }
 .result-snippet {
-  font-size: 14px; color: var(--text-secondary); line-height: 1.6;
-  margin-top: 6px;
+  font-size: 13px; color: var(--text-muted); line-height: 1.5;
+  margin-top: 4px;
 }
 .result-snippet mark {
   background: rgba(88,166,255,0.25); color: var(--text);
   padding: 1px 3px; border-radius: 2px;
 }
 
+/* AI RESPONSE */
 .ai-response {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: 8px; padding: 20px 24px;
+  border-radius: 10px; padding: 24px 28px;
   font-size: 15px; line-height: 1.75; color: var(--text-secondary);
 }
 .ai-response strong { color: var(--text); }
@@ -186,32 +208,43 @@ body {
   color: var(--accent); font-family: monospace;
 }
 .ai-response ul, .ai-response ol { margin: 10px 0 10px 24px; }
-.ai-response li { margin-bottom: 4px; }
+.ai-response li { margin-bottom: 6px; }
 .ai-response p { margin-bottom: 12px; }
 .ai-sources {
-  margin-top: 16px; padding-top: 12px;
+  margin-top: 20px; padding-top: 14px;
   border-top: 1px solid var(--border);
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
 }
 .ai-sources-label {
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--text-muted); margin-right: 6px;
 }
 
 .loading {
-  display: flex; align-items: center; gap: 10px;
-  padding: 20px; color: var(--text-muted); font-style: italic;
+  display: flex; align-items: center; gap: 12px;
+  padding: 24px; color: var(--text-muted); font-style: italic;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px;
 }
 .spinner {
   width: 20px; height: 20px; border: 2px solid var(--border);
   border-top-color: var(--accent); border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin 0.8s linear infinite; flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .stats {
-  font-size: 12px; color: var(--text-muted); margin-bottom: 12px;
+  font-size: 12px; color: var(--text-muted); margin-bottom: 10px;
+  padding-left: 2px;
 }
 
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--text-muted);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; }
+
+/* MOBILE */
 .hamburger {
   display: none; position: fixed; top: 14px; left: 14px; z-index: 200;
   background: var(--surface); border: 1px solid var(--border);
@@ -225,11 +258,13 @@ body {
 @media (max-width: 768px) {
   .sidebar { transform: translateX(-100%); }
   .sidebar.open { transform: translateX(0); }
-  .content { margin-left: 0; padding: 60px 16px 40px; }
+  .content { margin-left: 0; }
+  .hero { padding: 24px 20px 20px; }
+  .main-area { padding: 20px 16px 60px; }
   .hamburger { display: block; }
   .overlay.show { display: block; }
-  .input-row { flex-direction: column; }
-  .api-key-row { flex-direction: column; gap: 8px; }
+  .chat-input-area { flex-direction: column; }
+  .api-key-bar { flex-direction: column; gap: 8px; }
 }
 </style>
 </head>
@@ -304,47 +339,49 @@ body {
 </nav>
 
 <main class="content">
-<h1>Ask AI</h1>
-<p style="color:var(--text-muted); margin-bottom: 24px;">
-  Search across all study guides or ask questions grounded in your prep material.
-  Keyword search works instantly. AI Q&amp;A requires a Gemini API key (stored locally in your browser, never sent anywhere except Google).
-</p>
-
-<div class="ai-container">
-  <div class="mode-toggle">
-    <button class="mode-btn active" onclick="setMode('search')" id="btn-search">Keyword Search</button>
-    <button class="mode-btn" onclick="setMode('ai')" id="btn-ai">Ask AI</button>
+  <div class="hero">
+    <h1><span class="icon">&#9889;</span> Ask AI</h1>
+    <p>Search your cheat sheets instantly by keyword, or ask Gemini a question grounded in your prep material.</p>
   </div>
 
-  <div id="ai-key-section" style="display:none;">
-    <div class="api-key-row">
-      <label>Gemini API Key:</label>
-      <input type="password" id="api-key" placeholder="AIza..." oninput="saveKey()">
-      <span class="key-status key-missing" id="key-status">Not set</span>
+  <div class="main-area">
+    <div class="mode-tabs">
+      <button class="mode-tab active" onclick="setMode('search')" id="btn-search">&#128269; Search</button>
+      <button class="mode-tab" onclick="setMode('ai')" id="btn-ai">&#9734; Ask AI</button>
+    </div>
+
+    <div id="ai-key-section" style="display:none;">
+      <div class="api-key-bar">
+        <label>Gemini Key</label>
+        <input type="password" id="api-key" placeholder="AIza..." oninput="saveKey()">
+        <span class="key-status key-missing" id="key-status">Not set</span>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="query" placeholder="e.g. SABR calibration, VaR backtesting, Greeks..."
+             onkeydown="if(event.key==='Enter') run()">
+      <button onclick="run()" id="run-btn">Search</button>
+    </div>
+
+    <div id="results" class="results">
+      <div class="empty-state">
+        <div class="icon">&#128218;</div>
+        <p>Type a keyword to search your cheat sheets, or switch to Ask AI to query Gemini.</p>
+      </div>
     </div>
   </div>
-
-  <div class="input-row">
-    <input type="text" id="query" placeholder="e.g. SABR calibration, VaR backtesting, fire drill..."
-           onkeydown="if(event.key==='Enter') run()">
-    <button onclick="run()" id="run-btn">Search</button>
-  </div>
-
-  <div id="results" class="results"></div>
-</div>
 </main>
 
 <script>
 let INDEX = [];
 let MODE = 'search';
 
-// Load search index
 fetch('search_index.json')
   .then(r => r.json())
   .then(data => { INDEX = data; })
   .catch(e => console.error('Failed to load search index:', e));
 
-// Restore API key from localStorage
 (function() {
   const key = localStorage.getItem('sqp_gemini_key') || '';
   document.getElementById('api-key').value = key;
@@ -358,8 +395,8 @@ function setMode(m) {
   document.getElementById('ai-key-section').style.display = m === 'ai' ? '' : 'none';
   document.getElementById('run-btn').textContent = m === 'search' ? 'Search' : 'Ask';
   document.getElementById('query').placeholder = m === 'search'
-    ? 'e.g. SABR calibration, VaR backtesting, fire drill...'
-    : 'e.g. How did you hedge the fire drill? What is an NMRF?';
+    ? 'e.g. SABR calibration, VaR backtesting, Greeks...'
+    : 'e.g. How does VaR backtesting work? Explain Greeks for options.';
 }
 
 function saveKey() {
@@ -387,44 +424,46 @@ function run() {
   else aiQuery(query);
 }
 
-// --- KEYWORD SEARCH ---
-function keywordSearch(query) {
+function scoreIndex(query) {
   const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
-  const scored = INDEX.map(item => {
+  return INDEX.map(item => {
     const text = (item.content + ' ' + item.section + ' ' + item.page).toLowerCase();
     let score = 0;
     for (const term of terms) {
-      // Count occurrences
       let idx = 0, count = 0;
       while ((idx = text.indexOf(term, idx)) !== -1) { count++; idx += term.length; }
       score += count;
-      // Bonus for section/page title match
       if (item.section.toLowerCase().includes(term)) score += 5;
       if (item.page.toLowerCase().includes(term)) score += 3;
     }
     return { ...item, score };
-  }).filter(r => r.score > 0).sort((a, b) => b.score - a.score).slice(0, 20);
+  }).sort((a, b) => b.score - a.score);
+}
+
+// --- KEYWORD SEARCH ---
+function keywordSearch(query) {
+  const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
+  const scored = scoreIndex(query).filter(r => r.score > 0).slice(0, 20);
 
   const el = document.getElementById('results');
   if (scored.length === 0) {
-    el.innerHTML = '<div class="stats">No results found.</div>';
+    el.innerHTML = '<div class="stats">No results found. Try different keywords.</div>';
     return;
   }
-  el.innerHTML = `<div class="stats">${scored.length} results</div>` +
+  el.innerHTML = `<div class="stats">${scored.length} result${scored.length > 1 ? 's' : ''}</div>` +
     scored.map(r => {
-      let snippet = r.content.substring(0, 400);
-      // Highlight matching terms
+      let snippet = r.content.substring(0, 350);
       for (const term of terms) {
         const re = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
         snippet = snippet.replace(re, '<mark>$1</mark>');
       }
-      return `<div class="result-card">
+      return `<a class="result-card" href="${r.url}" title="Open ${r.page}">
         <div class="result-header">
           <span class="result-section">${r.section}</span>
-          <a class="result-page" href="${r.url}">${r.page}</a>
+          <span class="result-page">${r.page}</span>
         </div>
-        <div class="result-snippet">${snippet}...</div>
-      </div>`;
+        <div class="result-snippet">${snippet}&#8230;</div>
+      </a>`;
     }).join('');
 }
 
@@ -433,39 +472,30 @@ async function aiQuery(query) {
   const key = localStorage.getItem('sqp_gemini_key') || '';
   if (!key || key.length < 10) {
     document.getElementById('results').innerHTML =
-      '<div class="result-card"><div class="result-snippet" style="color:var(--red)">Please enter your Gemini API key above.</div></div>';
+      '<div class="result-card" style="cursor:default"><div class="result-snippet" style="color:var(--red)">Please enter your Gemini API key above.</div></div>';
     return;
   }
 
-  // Find top relevant sections using keyword matching
-  const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
-  const scored = INDEX.map(item => {
-    const text = (item.content + ' ' + item.section + ' ' + item.page).toLowerCase();
-    let score = 0;
-    for (const term of terms) {
-      let idx = 0, count = 0;
-      while ((idx = text.indexOf(term, idx)) !== -1) { count++; idx += term.length; }
-      score += count;
-      if (item.section.toLowerCase().includes(term)) score += 5;
-      if (item.page.toLowerCase().includes(term)) score += 3;
-    }
-    return { ...item, score };
-  }).filter(r => r.score > 0).sort((a, b) => b.score - a.score).slice(0, 12);
+  // Find most relevant sections; fall back to first N chunks if no keywords match
+  const ranked = scoreIndex(query);
+  let topSections = ranked.filter(r => r.score > 0).slice(0, 15);
+  if (topSections.length < 3) {
+    // Broad query with few keyword hits — include a diverse sample
+    topSections = ranked.slice(0, 15);
+  }
 
-  // Build context from top matches
-  let context = scored.map(r =>
+  let context = topSections.map(r =>
     `[[${r.page} > ${r.section}]]\n${r.content}`
   ).join('\n\n---\n\n');
 
-  // Cap context to ~12K chars to stay within token limits
-  if (context.length > 12000) context = context.substring(0, 12000);
+  if (context.length > 14000) context = context.substring(0, 14000);
 
   const resultsEl = document.getElementById('results');
-  resultsEl.innerHTML = '<div class="loading"><div class="spinner"></div>Thinking...</div>';
+  resultsEl.innerHTML = '<div class="loading"><div class="spinner"></div>Thinking&#8230;</div>';
 
-  const systemPrompt = `You are a study assistant for a Squarepoint Capital risk manager interview. Answer questions using ONLY the study guide content provided below. If the content doesn't cover the question, say so. Be concise, precise, and interview-ready. Use bullet points for clarity. Reference which section/page the information comes from.
+  const systemPrompt = `You are a study assistant helping prepare for a Squarepoint Capital Junior Risk Manager interview. You have access to the candidate's cheat sheets below. Answer using ONLY this material. Be concise, use bullet points, and cite which cheat sheet and section the info comes from. If the material doesn't cover the topic, say so.
 
-STUDY GUIDE CONTENT:
+CHEAT SHEET CONTENT:
 ${context}`;
 
   try {
@@ -477,7 +507,7 @@ ${context}`;
         contents: [{ role: 'user', parts: [{ text: query }] }],
         generationConfig: {
           temperature: 0.3,
-          maxOutputTokens: 1500,
+          maxOutputTokens: 2000,
         }
       })
     });
@@ -490,7 +520,6 @@ ${context}`;
     const data = await resp.json();
     const answer = data.candidates[0].content.parts[0].text;
 
-    // Simple markdown-ish rendering
     let html = answer
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
@@ -501,21 +530,20 @@ ${context}`;
       .replace(/\n/g, '<br>');
     html = '<p>' + html + '</p>';
 
-    // Sources
-    const sourceLinks = scored.slice(0, 5).map(r =>
-      `<a class="result-page" href="${r.url}" style="margin-right:6px">${r.page} &gt; ${r.section}</a>`
+    const sourceLinks = topSections.filter(r => r.score > 0).slice(0, 5).map(r =>
+      `<a class="result-page" href="${r.url}" style="margin-right:4px">${r.page}</a>`
     ).join('');
 
     resultsEl.innerHTML = `
       <div class="ai-response">
         ${html}
         <div class="ai-sources">
-          <div class="ai-sources-label">Sources</div>
+          <span class="ai-sources-label">Sources</span>
           ${sourceLinks}
         </div>
       </div>`;
   } catch (e) {
-    resultsEl.innerHTML = `<div class="result-card"><div class="result-snippet" style="color:var(--red)">Error: ${e.message}</div></div>`;
+    resultsEl.innerHTML = `<div class="result-card" style="cursor:default"><div class="result-snippet" style="color:var(--red)">Error: ${e.message}</div></div>`;
   }
 }
 
