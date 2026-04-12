@@ -28,8 +28,9 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   background: var(--bg);
   color: var(--text-secondary);
-  line-height: 1.75;
-  font-size: 16px;
+  line-height: 1.6;
+  font-size: 15px;
+  height: 100vh; overflow: hidden;
 }
 
 /* SIDEBAR */
@@ -72,177 +73,220 @@ body {
 .search-box input:focus { border-color: var(--accent); }
 .search-box input::placeholder { color: var(--text-muted); }
 
-/* MAIN CONTENT */
-.content {
+/* CHAT LAYOUT */
+.chat-wrapper {
   margin-left: var(--sidebar-w);
-  min-height: 100vh;
+  height: 100vh;
   display: flex; flex-direction: column;
 }
 
-/* HERO HEADER */
-.hero {
-  background: linear-gradient(135deg, rgba(88,166,255,0.08) 0%, rgba(88,166,255,0.02) 100%);
+/* TOP BAR */
+.top-bar {
+  padding: 12px 24px;
   border-bottom: 1px solid var(--border);
-  padding: 40px 48px 32px;
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0; gap: 16px;
 }
-.hero h1 {
-  font-size: 28px; font-weight: 700; color: var(--text);
-  margin-bottom: 8px; display: flex; align-items: center; gap: 12px;
+.top-bar-title {
+  font-size: 16px; font-weight: 700; color: var(--text);
+  display: flex; align-items: center; gap: 8px;
 }
-.hero h1 .icon { font-size: 32px; }
-.hero p {
-  color: var(--text-muted); font-size: 14px; max-width: 600px; line-height: 1.5;
+.top-bar-actions {
+  display: flex; align-items: center; gap: 10px;
 }
+.key-toggle {
+  padding: 6px 14px; background: transparent;
+  border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-muted); cursor: pointer; font-size: 12px;
+  font-weight: 500; transition: all 0.15s;
+}
+.key-toggle:hover { border-color: var(--accent); color: var(--text); }
+.clear-btn {
+  padding: 6px 14px; background: transparent;
+  border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-muted); cursor: pointer; font-size: 12px;
+  font-weight: 500; transition: all 0.15s;
+}
+.clear-btn:hover { border-color: var(--red); color: var(--red); }
+.key-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  display: inline-block;
+}
+.key-status-dot.ok { background: var(--green); }
+.key-status-dot.missing { background: var(--red); }
 
-/* MAIN AREA */
-.main-area {
-  flex: 1; padding: 32px 48px 80px; max-width: 960px;
+/* KEY DRAWER */
+.key-drawer {
+  padding: 10px 24px; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: none; align-items: center; gap: 10px;
+  flex-shrink: 0;
 }
-
-/* API KEY BAR */
-.api-key-bar {
-  display: flex; gap: 10px; align-items: center;
-  margin-bottom: 24px; padding: 10px 16px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 8px; font-size: 13px;
+.key-drawer.open { display: flex; }
+.key-drawer label {
+  font-size: 12px; color: var(--text-muted); white-space: nowrap;
 }
-.api-key-bar label {
-  color: var(--text-muted); white-space: nowrap; font-weight: 500;
-}
-.api-key-bar input {
+.key-drawer input {
   flex: 1; padding: 7px 12px; background: var(--bg);
   border: 1px solid var(--border); border-radius: 6px;
   color: var(--text); font-size: 13px; outline: none;
   font-family: monospace; min-width: 0;
 }
-.api-key-bar input:focus { border-color: var(--accent); }
-.key-status {
-  font-size: 11px; padding: 3px 10px; border-radius: 4px;
-  font-weight: 600; white-space: nowrap;
-}
-.key-ok { background: rgba(63,185,80,0.15); color: var(--green); }
-.key-missing { background: rgba(248,81,73,0.15); color: var(--red); }
-
-/* CHAT INPUT */
-.chat-input-area {
-  display: flex; gap: 10px; margin-bottom: 20px;
-}
-.chat-input-area input {
-  flex: 1; padding: 14px 18px; background: var(--surface);
-  border: 1px solid var(--border); border-radius: 10px;
-  color: var(--text); font-size: 15px; outline: none;
-}
-.chat-input-area input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,166,255,0.1); }
-.chat-input-area input::placeholder { color: var(--text-muted); }
-.chat-input-area button {
-  padding: 14px 28px; background: var(--accent); border: none;
-  border-radius: 10px; color: #0d1117; font-weight: 700;
-  font-size: 14px; cursor: pointer; white-space: nowrap;
-  transition: background 0.15s;
-}
-.chat-input-area button:hover { background: var(--accent-hover); }
-.chat-input-area button:disabled {
-  background: var(--border); cursor: not-allowed; color: var(--text-muted);
+.key-drawer input:focus { border-color: var(--accent); }
+.key-info {
+  font-size: 11px; color: var(--text-muted); white-space: nowrap;
 }
 
-/* MODE TABS */
-.mode-tabs {
-  display: flex; gap: 8px; margin-bottom: 24px;
+/* MESSAGES AREA */
+.messages {
+  flex: 1; overflow-y: auto; padding: 24px 24px 16px;
+  display: flex; flex-direction: column; gap: 16px;
 }
-.mode-tab {
-  padding: 8px 20px; background: transparent; border: 1px solid var(--border);
-  border-radius: 20px; color: var(--text-muted); cursor: pointer;
-  font-size: 13px; font-weight: 500; transition: all 0.15s;
+.messages::-webkit-scrollbar { width: 6px; }
+.messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* WELCOME */
+.welcome {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: var(--text-muted); text-align: center; gap: 12px;
+  padding: 40px;
 }
-.mode-tab.active {
+.welcome .icon { font-size: 40px; opacity: 0.5; }
+.welcome h2 { font-size: 18px; font-weight: 600; color: var(--text-secondary); }
+.welcome p { font-size: 13px; max-width: 400px; line-height: 1.5; }
+.welcome-hints {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; justify-content: center;
+}
+.hint-chip {
+  padding: 6px 14px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 16px;
+  color: var(--text-muted); cursor: pointer; font-size: 12px;
+  transition: all 0.15s;
+}
+.hint-chip:hover {
+  border-color: var(--accent); color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+/* USER BUBBLE */
+.msg-user {
+  align-self: flex-end; max-width: 70%;
   background: var(--accent); color: #0d1117;
-  border-color: var(--accent); font-weight: 700;
-}
-.mode-tab:hover:not(.active) {
-  border-color: var(--accent); color: var(--text);
+  padding: 10px 16px; border-radius: 16px 16px 4px 16px;
+  font-size: 14px; font-weight: 500; line-height: 1.5;
+  word-wrap: break-word;
 }
 
-/* RESULTS */
-.results { margin-top: 8px; }
-
-.result-card {
+/* AI BUBBLE */
+.msg-ai {
+  align-self: flex-start; max-width: 85%;
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 16px 20px; margin-bottom: 10px;
-  transition: border-color 0.15s; cursor: pointer;
-  text-decoration: none; display: block; color: inherit;
+  padding: 16px 20px; border-radius: 4px 16px 16px 16px;
+  font-size: 14px; line-height: 1.7; color: var(--text-secondary);
+  word-wrap: break-word;
 }
-.result-card:hover { border-color: var(--accent); background: var(--surface-hover); }
-.result-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 6px; gap: 12px;
-}
-.result-page {
-  font-size: 11px; font-weight: 600; color: var(--accent);
-  text-decoration: none; padding: 2px 10px;
-  background: var(--accent-subtle); border-radius: 12px;
-  white-space: nowrap;
-}
-.result-page:hover { background: rgba(88,166,255,0.2); }
-.result-section {
-  font-size: 14px; font-weight: 600; color: var(--text);
-}
-.result-snippet {
-  font-size: 13px; color: var(--text-muted); line-height: 1.5;
-  margin-top: 4px;
-}
-.result-snippet mark {
-  background: rgba(88,166,255,0.25); color: var(--text);
-  padding: 1px 3px; border-radius: 2px;
-}
-
-/* AI RESPONSE */
-.ai-response {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 24px 28px;
-  font-size: 15px; line-height: 1.75; color: var(--text-secondary);
-}
-.ai-response strong { color: var(--text); }
-.ai-response code {
+.msg-ai strong { color: var(--text); }
+.msg-ai code {
   background: var(--bg); border: 1px solid var(--border);
-  border-radius: 4px; padding: 2px 6px; font-size: 13px;
+  border-radius: 3px; padding: 1px 5px; font-size: 12px;
   color: var(--accent); font-family: monospace;
 }
-.ai-response ul, .ai-response ol { margin: 10px 0 10px 24px; }
-.ai-response li { margin-bottom: 6px; }
-.ai-response p { margin-bottom: 12px; }
-.ai-sources {
-  margin-top: 20px; padding-top: 14px;
+.msg-ai ul, .msg-ai ol { margin: 8px 0 8px 20px; }
+.msg-ai li { margin-bottom: 4px; }
+.msg-ai p { margin-bottom: 10px; }
+.msg-ai p:last-child { margin-bottom: 0; }
+.msg-ai .sources {
+  margin-top: 12px; padding-top: 10px;
   border-top: 1px solid var(--border);
-  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
 }
-.ai-sources-label {
+.msg-ai .sources-label {
   font-size: 10px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 1px; color: var(--text-muted); margin-right: 6px;
+  letter-spacing: 1px; color: var(--text-muted); margin-right: 4px;
+}
+.source-chip {
+  font-size: 11px; font-weight: 600; color: var(--accent);
+  text-decoration: none; padding: 2px 8px;
+  background: var(--accent-subtle); border-radius: 10px;
+}
+.source-chip:hover { background: rgba(88,166,255,0.2); }
+
+/* SEARCH RESULTS IN CHAT */
+.msg-search {
+  align-self: flex-start; max-width: 85%; width: 100%;
+}
+.msg-search .search-count {
+  font-size: 12px; color: var(--text-muted); margin-bottom: 8px;
+}
+.search-result {
+  display: block; text-decoration: none; color: inherit;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 6px;
+  transition: border-color 0.15s;
+}
+.search-result:hover { border-color: var(--accent); background: var(--surface-hover); }
+.search-result-header {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; margin-bottom: 4px;
+}
+.search-result-section {
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+.search-result-page {
+  font-size: 10px; font-weight: 600; color: var(--accent);
+  padding: 1px 8px; background: var(--accent-subtle);
+  border-radius: 10px; white-space: nowrap;
+}
+.search-result-snippet {
+  font-size: 12px; color: var(--text-muted); line-height: 1.4;
+}
+.search-result-snippet mark {
+  background: rgba(88,166,255,0.25); color: var(--text);
+  padding: 0 2px; border-radius: 2px;
 }
 
-.loading {
-  display: flex; align-items: center; gap: 12px;
-  padding: 24px; color: var(--text-muted); font-style: italic;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px;
+/* LOADING */
+.msg-loading {
+  align-self: flex-start;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px 16px 16px 16px;
+  color: var(--text-muted); font-size: 13px; font-style: italic;
 }
 .spinner {
-  width: 20px; height: 20px; border: 2px solid var(--border);
+  width: 16px; height: 16px; border: 2px solid var(--border);
   border-top-color: var(--accent); border-radius: 50%;
   animation: spin 0.8s linear infinite; flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.stats {
-  font-size: 12px; color: var(--text-muted); margin-bottom: 10px;
-  padding-left: 2px;
+/* INPUT BAR */
+.input-bar {
+  flex-shrink: 0; padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
 }
-
-.empty-state {
-  text-align: center; padding: 60px 20px; color: var(--text-muted);
+.input-row {
+  display: flex; gap: 10px; max-width: 800px; margin: 0 auto;
 }
-.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
-.empty-state p { font-size: 14px; }
+.input-row input {
+  flex: 1; padding: 12px 18px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 12px;
+  color: var(--text); font-size: 14px; outline: none;
+}
+.input-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,166,255,0.08); }
+.input-row input::placeholder { color: var(--text-muted); }
+.send-btn {
+  padding: 12px 20px; background: var(--accent); border: none;
+  border-radius: 12px; color: #0d1117; font-weight: 700;
+  font-size: 14px; cursor: pointer; transition: background 0.15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.send-btn:hover { background: var(--accent-hover); }
+.send-btn:disabled { background: var(--border); cursor: not-allowed; color: var(--text-muted); }
 
 /* MOBILE */
 .hamburger {
@@ -258,13 +302,16 @@ body {
 @media (max-width: 768px) {
   .sidebar { transform: translateX(-100%); }
   .sidebar.open { transform: translateX(0); }
-  .content { margin-left: 0; }
-  .hero { padding: 24px 20px 20px; }
-  .main-area { padding: 20px 16px 60px; }
+  .chat-wrapper { margin-left: 0; }
   .hamburger { display: block; }
   .overlay.show { display: block; }
-  .chat-input-area { flex-direction: column; }
-  .api-key-bar { flex-direction: column; gap: 8px; }
+  .top-bar { padding: 12px 16px 12px 50px; }
+  .messages { padding: 16px 12px; }
+  .input-bar { padding: 12px; }
+  .input-row input { padding: 10px 14px; }
+  .msg-user { max-width: 85%; }
+  .msg-ai, .msg-search { max-width: 95%; }
+  .key-drawer { padding: 10px 12px; flex-wrap: wrap; }
 }
 </style>
 </head>
@@ -276,7 +323,7 @@ body {
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-header">Squarepoint Prep</div>
   <div class="search-box">
-    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+    <input type="text" id="nav-search" placeholder="Search pages..." oninput="filterNav(this.value)">
   </div>
   <div class="nav-section">Tools</div>
 <a class="nav-link active" href="ask.html">Ask AI</a>
@@ -338,44 +385,52 @@ body {
 
 </nav>
 
-<main class="content">
-  <div class="hero">
-    <h1><span class="icon">&#9889;</span> Ask AI</h1>
-    <p>Search your cheat sheets instantly by keyword, or ask Gemini a question grounded in your prep material.</p>
+<main class="chat-wrapper">
+  <div class="top-bar">
+    <div class="top-bar-title">
+      &#9889; Ask AI
+    </div>
+    <div class="top-bar-actions">
+      <span class="key-status-dot missing" id="key-dot" title="API key status"></span>
+      <button class="key-toggle" onclick="toggleKeyDrawer()">API Key</button>
+      <button class="clear-btn" onclick="clearChat()">Clear</button>
+    </div>
   </div>
 
-  <div class="main-area">
-    <div class="mode-tabs">
-      <button class="mode-tab active" onclick="setMode('search')" id="btn-search">&#128269; Search</button>
-      <button class="mode-tab" onclick="setMode('ai')" id="btn-ai">&#9734; Ask AI</button>
-    </div>
+  <div class="key-drawer" id="key-drawer">
+    <label>Gemini API Key</label>
+    <input type="password" id="api-key" placeholder="AIza..." oninput="saveKey()">
+    <span class="key-info" id="key-info">Stored in browser only</span>
+  </div>
 
-    <div id="ai-key-section" style="display:none;">
-      <div class="api-key-bar">
-        <label>Gemini Key</label>
-        <input type="password" id="api-key" placeholder="AIza..." oninput="saveKey()">
-        <span class="key-status key-missing" id="key-status">Not set</span>
+  <div class="messages" id="messages">
+    <div class="welcome" id="welcome">
+      <div class="icon">&#128218;</div>
+      <h2>Squarepoint Prep Assistant</h2>
+      <p>Ask questions about your prep material. Answers are grounded in your cheat sheets.</p>
+      <div class="welcome-hints">
+        <span class="hint-chip" onclick="useHint(this)">What is VaR?</span>
+        <span class="hint-chip" onclick="useHint(this)">Explain SABR</span>
+        <span class="hint-chip" onclick="useHint(this)">Greeks cheat sheet</span>
+        <span class="hint-chip" onclick="useHint(this)">Hedging strategies</span>
+        <span class="hint-chip" onclick="useHint(this)">PnL attribution</span>
       </div>
     </div>
+  </div>
 
-    <div class="chat-input-area">
-      <input type="text" id="query" placeholder="e.g. SABR calibration, VaR backtesting, Greeks..."
-             onkeydown="if(event.key==='Enter') run()">
-      <button onclick="run()" id="run-btn">Search</button>
-    </div>
-
-    <div id="results" class="results">
-      <div class="empty-state">
-        <div class="icon">&#128218;</div>
-        <p>Type a keyword to search your cheat sheets, or switch to Ask AI to query Gemini.</p>
-      </div>
+  <div class="input-bar">
+    <div class="input-row">
+      <input type="text" id="query"
+             placeholder="Ask a question or search keywords..."
+             onkeydown="if(event.key==='Enter' && !event.shiftKey) send()" autocomplete="off">
+      <button class="send-btn" onclick="send()" id="send-btn">Send</button>
     </div>
   </div>
 </main>
 
 <script>
 let INDEX = [];
-let MODE = 'search';
+let BUSY = false;
 
 fetch('search_index.json')
   .then(r => r.json())
@@ -385,43 +440,82 @@ fetch('search_index.json')
 (function() {
   const key = localStorage.getItem('sqp_gemini_key') || '';
   document.getElementById('api-key').value = key;
-  updateKeyStatus();
+  updateDot();
 })();
 
-function setMode(m) {
-  MODE = m;
-  document.getElementById('btn-search').classList.toggle('active', m === 'search');
-  document.getElementById('btn-ai').classList.toggle('active', m === 'ai');
-  document.getElementById('ai-key-section').style.display = m === 'ai' ? '' : 'none';
-  document.getElementById('run-btn').textContent = m === 'search' ? 'Search' : 'Ask';
-  document.getElementById('query').placeholder = m === 'search'
-    ? 'e.g. SABR calibration, VaR backtesting, Greeks...'
-    : 'e.g. How does VaR backtesting work? Explain Greeks for options.';
+function toggleKeyDrawer() {
+  document.getElementById('key-drawer').classList.toggle('open');
 }
 
 function saveKey() {
-  const key = document.getElementById('api-key').value.trim();
-  localStorage.setItem('sqp_gemini_key', key);
-  updateKeyStatus();
+  localStorage.setItem('sqp_gemini_key', document.getElementById('api-key').value.trim());
+  updateDot();
 }
 
-function updateKeyStatus() {
+function updateDot() {
   const key = localStorage.getItem('sqp_gemini_key') || '';
-  const el = document.getElementById('key-status');
+  const dot = document.getElementById('key-dot');
   if (key.length > 10) {
-    el.textContent = 'Saved';
-    el.className = 'key-status key-ok';
+    dot.className = 'key-status-dot ok';
+    dot.title = 'API key set';
   } else {
-    el.textContent = 'Not set';
-    el.className = 'key-status key-missing';
+    dot.className = 'key-status-dot missing';
+    dot.title = 'API key not set';
   }
 }
 
-function run() {
-  const query = document.getElementById('query').value.trim();
-  if (!query) return;
-  if (MODE === 'search') keywordSearch(query);
-  else aiQuery(query);
+function clearChat() {
+  const m = document.getElementById('messages');
+  m.innerHTML = `<div class="welcome" id="welcome">
+    <div class="icon">&#128218;</div>
+    <h2>Squarepoint Prep Assistant</h2>
+    <p>Ask questions about your prep material. Answers are grounded in your cheat sheets.</p>
+    <div class="welcome-hints">
+      <span class="hint-chip" onclick="useHint(this)">What is VaR?</span>
+      <span class="hint-chip" onclick="useHint(this)">Explain SABR</span>
+      <span class="hint-chip" onclick="useHint(this)">Greeks cheat sheet</span>
+      <span class="hint-chip" onclick="useHint(this)">Hedging strategies</span>
+      <span class="hint-chip" onclick="useHint(this)">PnL attribution</span>
+    </div>
+  </div>`;
+}
+
+function useHint(el) {
+  document.getElementById('query').value = el.textContent;
+  send();
+}
+
+function scrollBottom() {
+  const m = document.getElementById('messages');
+  m.scrollTop = m.scrollHeight;
+}
+
+function addUserMsg(text) {
+  // Remove welcome if present
+  const w = document.getElementById('welcome');
+  if (w) w.remove();
+  const m = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg-user';
+  div.textContent = text;
+  m.appendChild(div);
+  scrollBottom();
+}
+
+function addLoading() {
+  const m = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg-loading';
+  div.id = 'loading-msg';
+  div.innerHTML = '<div class="spinner"></div>Thinking...';
+  m.appendChild(div);
+  scrollBottom();
+  return div;
+}
+
+function removeLoading() {
+  const el = document.getElementById('loading-msg');
+  if (el) el.remove();
 }
 
 function scoreIndex(query) {
@@ -440,58 +534,52 @@ function scoreIndex(query) {
   }).sort((a, b) => b.score - a.score);
 }
 
-// --- KEYWORD SEARCH ---
-function keywordSearch(query) {
-  const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
-  const scored = scoreIndex(query).filter(r => r.score > 0).slice(0, 20);
-
-  const el = document.getElementById('results');
-  if (scored.length === 0) {
-    el.innerHTML = '<div class="stats">No results found. Try different keywords.</div>';
-    return;
-  }
-  el.innerHTML = `<div class="stats">${scored.length} result${scored.length > 1 ? 's' : ''}</div>` +
-    scored.map(r => {
-      let snippet = r.content.substring(0, 350);
-      for (const term of terms) {
-        const re = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-        snippet = snippet.replace(re, '<mark>$1</mark>');
-      }
-      return `<a class="result-card" href="${r.url}" title="Open ${r.page}">
-        <div class="result-header">
-          <span class="result-section">${r.section}</span>
-          <span class="result-page">${r.page}</span>
-        </div>
-        <div class="result-snippet">${snippet}&#8230;</div>
-      </a>`;
-    }).join('');
+function renderMarkdown(text) {
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/^[-*] (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>[\s\S]*?<\/li>)/g, function(match) {
+      if (!match.startsWith('<ul>')) return '<ul>' + match + '</ul>';
+      return match;
+    })
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
 }
 
-// --- AI Q&A ---
-async function aiQuery(query) {
+async function send() {
+  if (BUSY) return;
+  const input = document.getElementById('query');
+  const query = input.value.trim();
+  if (!query) return;
+  input.value = '';
+
+  addUserMsg(query);
+
   const key = localStorage.getItem('sqp_gemini_key') || '';
-  if (!key || key.length < 10) {
-    document.getElementById('results').innerHTML =
-      '<div class="result-card" style="cursor:default"><div class="result-snippet" style="color:var(--red)">Please enter your Gemini API key above.</div></div>';
+  const hasKey = key.length > 10;
+
+  if (!hasKey) {
+    // No API key — do keyword search only
+    doSearch(query);
     return;
   }
 
-  // Find most relevant sections; fall back to first N chunks if no keywords match
+  // AI mode
+  BUSY = true;
+  document.getElementById('send-btn').disabled = true;
+
   const ranked = scoreIndex(query);
   let topSections = ranked.filter(r => r.score > 0).slice(0, 15);
-  if (topSections.length < 3) {
-    // Broad query with few keyword hits — include a diverse sample
-    topSections = ranked.slice(0, 15);
-  }
+  if (topSections.length < 3) topSections = ranked.slice(0, 15);
 
   let context = topSections.map(r =>
     `[[${r.page} > ${r.section}]]\n${r.content}`
   ).join('\n\n---\n\n');
-
   if (context.length > 14000) context = context.substring(0, 14000);
 
-  const resultsEl = document.getElementById('results');
-  resultsEl.innerHTML = '<div class="loading"><div class="spinner"></div>Thinking&#8230;</div>';
+  const loader = addLoading();
 
   const systemPrompt = `You are a study assistant helping prepare for a Squarepoint Capital Junior Risk Manager interview. You have access to the candidate's cheat sheets below. Answer using ONLY this material. Be concise, use bullet points, and cite which cheat sheet and section the info comes from. If the material doesn't cover the topic, say so.
 
@@ -505,12 +593,11 @@ ${context}`;
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
         contents: [{ role: 'user', parts: [{ text: query }] }],
-        generationConfig: {
-          temperature: 0.3,
-          maxOutputTokens: 2000,
-        }
+        generationConfig: { temperature: 0.3, maxOutputTokens: 2000 }
       })
     });
+
+    removeLoading();
 
     if (!resp.ok) {
       const err = await resp.json().catch(() => ({}));
@@ -520,31 +607,70 @@ ${context}`;
     const data = await resp.json();
     const answer = data.candidates[0].content.parts[0].text;
 
-    let html = answer
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/`(.+?)`/g, '<code>$1</code>')
-      .replace(/^[-*] (.+)$/gm, '<li>$1</li>')
-      .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-      .replace(/\n\n/g, '</p><p>')
-      .replace(/\n/g, '<br>');
-    html = '<p>' + html + '</p>';
+    const m = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'msg-ai';
 
-    const sourceLinks = topSections.filter(r => r.score > 0).slice(0, 5).map(r =>
-      `<a class="result-page" href="${r.url}" style="margin-right:4px">${r.page}</a>`
-    ).join('');
+    let html = '<p>' + renderMarkdown(answer) + '</p>';
 
-    resultsEl.innerHTML = `
-      <div class="ai-response">
-        ${html}
-        <div class="ai-sources">
-          <span class="ai-sources-label">Sources</span>
-          ${sourceLinks}
-        </div>
-      </div>`;
+    const sources = topSections.filter(r => r.score > 0).slice(0, 5);
+    if (sources.length > 0) {
+      html += '<div class="sources"><span class="sources-label">Sources</span>';
+      sources.forEach(r => {
+        html += `<a class="source-chip" href="${r.url}">${r.page}</a>`;
+      });
+      html += '</div>';
+    }
+
+    div.innerHTML = html;
+    m.appendChild(div);
+    scrollBottom();
   } catch (e) {
-    resultsEl.innerHTML = `<div class="result-card" style="cursor:default"><div class="result-snippet" style="color:var(--red)">Error: ${e.message}</div></div>`;
+    removeLoading();
+    const m = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'msg-ai';
+    div.innerHTML = `<p style="color:var(--red)">Error: ${e.message}</p>`;
+    m.appendChild(div);
+    scrollBottom();
+  } finally {
+    BUSY = false;
+    document.getElementById('send-btn').disabled = false;
+    document.getElementById('query').focus();
   }
+}
+
+function doSearch(query) {
+  const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
+  const scored = scoreIndex(query).filter(r => r.score > 0).slice(0, 10);
+
+  const m = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg-search';
+
+  if (scored.length === 0) {
+    div.innerHTML = '<div class="msg-ai" style="max-width:100%"><p>No results found. Try different keywords, or add your Gemini API key to get AI answers.</p></div>';
+  } else {
+    let html = `<div class="search-count">${scored.length} result${scored.length > 1 ? 's' : ''} from cheat sheets</div>`;
+    scored.forEach(r => {
+      let snippet = r.content.substring(0, 250);
+      for (const term of terms) {
+        const re = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+        snippet = snippet.replace(re, '<mark>$1</mark>');
+      }
+      html += `<a class="search-result" href="${r.url}">
+        <div class="search-result-header">
+          <span class="search-result-section">${r.section}</span>
+          <span class="search-result-page">${r.page}</span>
+        </div>
+        <div class="search-result-snippet">${snippet}&#8230;</div>
+      </a>`;
+    });
+    div.innerHTML = html;
+  }
+
+  m.appendChild(div);
+  scrollBottom();
 }
 
 function toggleSidebar() {
