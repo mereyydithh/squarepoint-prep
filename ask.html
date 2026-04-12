@@ -432,6 +432,7 @@ body {
 <script>
 let INDEX = [];
 let BUSY = false;
+let chatHistory = JSON.parse(localStorage.getItem('sqp_chat_turns') || '[]');
 
 fetch('search_index.json')
   .then(r => r.json())
@@ -500,6 +501,8 @@ function clearChat() {
     </div>
   </div>`;
   localStorage.removeItem('sqp_chat_history');
+  chatHistory = [];
+  localStorage.removeItem('sqp_chat_turns');
 }
 
 function useHint(el) {
@@ -629,7 +632,7 @@ ${context}`;
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
-        contents: [{ role: 'user', parts: [{ text: query }] }],
+        contents: [...chatHistory, { role: 'user', parts: [{ text: query }] }],
         generationConfig: { temperature: 0.3, maxOutputTokens: 2000 }
       })
     });
@@ -676,6 +679,13 @@ ${context}`;
         } catch(pe) { /* skip parse errors on partial chunks */ }
       }
     }
+
+    // Save turn to conversation history
+    chatHistory.push({ role: 'user', parts: [{ text: query }] });
+    chatHistory.push({ role: 'model', parts: [{ text: fullText }] });
+    // Keep last 20 turns (10 exchanges) to avoid token overflow
+    if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+    localStorage.setItem('sqp_chat_turns', JSON.stringify(chatHistory));
 
     // Append sources after streaming completes
     const sources = topSections.filter(r => r.score > 0).slice(0, 5);
