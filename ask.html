@@ -441,6 +441,7 @@ fetch('search_index.json')
   const key = localStorage.getItem('sqp_gemini_key') || '';
   document.getElementById('api-key').value = key;
   updateDot();
+  loadHistory();
 })();
 
 function toggleKeyDrawer() {
@@ -464,6 +465,25 @@ function updateDot() {
   }
 }
 
+function saveHistory() {
+  const m = document.getElementById('messages');
+  localStorage.setItem('sqp_chat_history', m.innerHTML);
+}
+
+function loadHistory() {
+  const saved = localStorage.getItem('sqp_chat_history');
+  if (saved && saved.trim()) {
+    const m = document.getElementById('messages');
+    m.innerHTML = saved;
+    // Only keep if there are actual messages (not just the welcome screen)
+    if (m.querySelector('.msg-user, .msg-ai, .msg-search')) {
+      scrollBottom();
+      return;
+    }
+  }
+  clearChat();
+}
+
 function clearChat() {
   const m = document.getElementById('messages');
   m.innerHTML = `<div class="welcome" id="welcome">
@@ -478,6 +498,7 @@ function clearChat() {
       <span class="hint-chip" onclick="useHint(this)">PnL attribution</span>
     </div>
   </div>`;
+  localStorage.removeItem('sqp_chat_history');
 }
 
 function useHint(el) {
@@ -663,6 +684,7 @@ ${context}`;
     BUSY = false;
     document.getElementById('send-btn').disabled = false;
     document.getElementById('query').focus();
+    saveHistory();
   }
 }
 
@@ -697,6 +719,7 @@ function doSearch(query) {
 
   m.appendChild(div);
   scrollBottom();
+  saveHistory();
 }
 
 function toggleSidebar() {
