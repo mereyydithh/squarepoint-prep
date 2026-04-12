@@ -897,6 +897,195 @@ body {
 <span class="n">pnl_array</span> <span class="o">=</span> <span class="n">prices</span> <span class="o">*</span> <span class="n">quantities</span>  <span class="c1"># Element-wise, vectorized, 100x faster</span>
 </code></pre></div>
 
+<h2 id="polars-when-pandas-is-too-slow">Polars — When Pandas Is Too Slow</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+
+<span class="c1"># --- Read Parquet (the preferred file format for large datasets) ---</span>
+<span class="n">positions</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;positions.parquet&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Lazy evaluation: build a query plan, execute once ---</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">scan_parquet</span><span class="p">(</span><span class="s2">&quot;trades.parquet&quot;</span><span class="p">)</span>         <span class="c1"># Lazy: doesn&#39;t load yet</span>
+    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;2026-04-10&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="s2">&quot;pm_name&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">([</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;pnl&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;total_pnl&quot;</span><span class="p">),</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;market_value&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;avg_position&quot;</span><span class="p">),</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;ticker&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">n_unique</span><span class="p">()</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;n_names&quot;</span><span class="p">),</span>
+    <span class="p">])</span>
+    <span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;total_pnl&quot;</span><span class="p">,</span> <span class="n">descending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">collect</span><span class="p">()</span>                                 <span class="c1"># Execute the full plan now</span>
+<span class="p">)</span>
+
+<span class="c1"># --- Expressions: Polars&#39; core advantage over pandas ---</span>
+<span class="n">daily</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;daily_returns.parquet&quot;</span><span class="p">)</span>
+<span class="n">enriched</span> <span class="o">=</span> <span class="n">daily</span><span class="o">.</span><span class="n">with_columns</span><span class="p">([</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;return&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rolling_std</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="mi">252</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;rolling_vol&quot;</span><span class="p">),</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;return&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rolling_mean</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;momentum_20d&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;return&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">rolling_sum</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;down_days_20&quot;</span><span class="p">),</span>
+<span class="p">])</span>
+
+<span class="c1"># --- Polars vs pandas: when to use which ---</span>
+<span class="c1"># Polars: &gt;1M rows, lazy eval, multi-threaded, no GIL, Arrow-native</span>
+<span class="c1"># Pandas: &lt;1M rows, richer ecosystem, sklearn/statsmodels integration</span>
+<span class="c1"># At Natixis I used Polars for the correlation monitor because the</span>
+<span class="c1"># tick-level cross-asset data was 10M+ rows/day — pandas was too slow.</span>
+</code></pre></div>
+
+<p><strong>Why Polars matters:</strong> Rust backend, zero-copy Arrow memory, multi-threaded by default. The lazy API lets you write a full query plan and the engine optimizes it (predicate pushdown, projection pushdown) before touching data. For the cross-asset correlation monitor at Natixis, Polars processed 10M+ rows/day where pandas would choke.</p>
+<h2 id="parquet-the-file-format">Parquet — The File Format</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow.parquet</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pq</span>
+
+<span class="c1"># --- Write ---</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s2">&quot;positions.parquet&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;pyarrow&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;snappy&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Read (full) ---</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;positions.parquet&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Read (column subset — Parquet is columnar, so this is fast) ---</span>
+<span class="n">prices_only</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;positions.parquet&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ticker&quot;</span><span class="p">,</span> <span class="s2">&quot;price&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">])</span>
+
+<span class="c1"># --- Read with filter (pushdown — never loads filtered rows into memory) ---</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow.parquet</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pq</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;trades.parquet&quot;</span><span class="p">,</span> 
+                       <span class="n">filters</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;2026-01-01&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;asset_class&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="s2">&quot;equity&quot;</span><span class="p">)])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>One-liner:</strong> Parquet is a columnar, compressed binary format — 10x smaller than CSV, 100x faster to read, and supports predicate pushdown so you only load the rows and columns you need. It's the standard for any dataset over ~100K rows.</p>
+<h2 id="quantlib-derivatives-pricing-engine">QuantLib — Derivatives Pricing Engine</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">QuantLib</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ql</span>
+
+<span class="c1"># --- Black-Scholes European option pricing ---</span>
+<span class="n">today</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2026</span><span class="p">)</span>
+<span class="n">ql</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">evaluationDate</span> <span class="o">=</span> <span class="n">today</span>
+
+<span class="c1"># Market data</span>
+<span class="n">spot</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">QuoteHandle</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">SimpleQuote</span><span class="p">(</span><span class="mf">5200.0</span><span class="p">))</span>           <span class="c1"># SPX spot</span>
+<span class="n">rate</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">YieldTermStructureHandle</span><span class="p">(</span>
+    <span class="n">ql</span><span class="o">.</span><span class="n">FlatForward</span><span class="p">(</span><span class="n">today</span><span class="p">,</span> <span class="mf">0.045</span><span class="p">,</span> <span class="n">ql</span><span class="o">.</span><span class="n">Actual365Fixed</span><span class="p">()))</span>   <span class="c1"># Risk-free rate</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">BlackVolTermStructureHandle</span><span class="p">(</span>
+    <span class="n">ql</span><span class="o">.</span><span class="n">BlackConstantVol</span><span class="p">(</span><span class="n">today</span><span class="p">,</span> <span class="n">ql</span><span class="o">.</span><span class="n">NullCalendar</span><span class="p">(),</span> <span class="mf">0.18</span><span class="p">,</span> <span class="n">ql</span><span class="o">.</span><span class="n">Actual365Fixed</span><span class="p">()))</span>  <span class="c1"># 18% vol</span>
+
+<span class="c1"># Process + engine</span>
+<span class="n">process</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">BlackScholesMertonProcess</span><span class="p">(</span><span class="n">spot</span><span class="p">,</span> 
+    <span class="n">ql</span><span class="o">.</span><span class="n">YieldTermStructureHandle</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">FlatForward</span><span class="p">(</span><span class="n">today</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">,</span> <span class="n">ql</span><span class="o">.</span><span class="n">Actual365Fixed</span><span class="p">())),</span>  <span class="c1"># Div yield</span>
+    <span class="n">rate</span><span class="p">,</span> <span class="n">vol</span><span class="p">)</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">AnalyticEuropeanEngine</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
+
+<span class="c1"># Option</span>
+<span class="n">payoff</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">PlainVanillaPayoff</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">Option</span><span class="o">.</span><span class="n">Call</span><span class="p">,</span> <span class="mf">5300.0</span><span class="p">)</span>   <span class="c1"># Strike 5300</span>
+<span class="n">exercise</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">EuropeanExercise</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2026</span><span class="p">))</span>     <span class="c1"># 3-month expiry</span>
+<span class="n">option</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">VanillaOption</span><span class="p">(</span><span class="n">payoff</span><span class="p">,</span> <span class="n">exercise</span><span class="p">)</span>
+<span class="n">option</span><span class="o">.</span><span class="n">setPricingEngine</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Price: </span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">NPV</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Delta: </span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">delta</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gamma: </span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">gamma</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vega:  </span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">vega</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theta: </span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">theta</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- SABR calibration (what I built at Natixis — C++ core, Python API) ---</span>
+<span class="c1"># QuantLib has SABR built in</span>
+<span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">nu</span> <span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.4</span>
+<span class="n">forward</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># 3% forward swap rate</span>
+<span class="n">expiry</span> <span class="o">=</span> <span class="mf">5.0</span>     <span class="c1"># 5Y option</span>
+
+<span class="c1"># Implied vol at a given strike using Hagan formula</span>
+<span class="n">strike</span> <span class="o">=</span> <span class="mf">0.035</span>
+<span class="n">sabr_vol</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">sabrVolatility</span><span class="p">(</span><span class="n">strike</span><span class="p">,</span> <span class="n">forward</span><span class="p">,</span> <span class="n">expiry</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">nu</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SABR implied vol at K=</span><span class="si">{</span><span class="n">strike</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">sabr_vol</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Yield curve bootstrapping ---</span>
+<span class="n">helpers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ql</span><span class="o">.</span><span class="n">DepositRateHelper</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">QuoteHandle</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">SimpleQuote</span><span class="p">(</span><span class="mf">0.045</span><span class="p">)),</span> <span class="n">ql</span><span class="o">.</span><span class="n">Period</span><span class="p">(</span><span class="s2">&quot;3M&quot;</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span>
+                          <span class="n">ql</span><span class="o">.</span><span class="n">UnitedStates</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">UnitedStates</span><span class="o">.</span><span class="n">GovernmentBond</span><span class="p">),</span> 
+                          <span class="n">ql</span><span class="o">.</span><span class="n">ModifiedFollowing</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ql</span><span class="o">.</span><span class="n">Actual360</span><span class="p">()),</span>
+    <span class="n">ql</span><span class="o">.</span><span class="n">SwapRateHelper</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">QuoteHandle</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">SimpleQuote</span><span class="p">(</span><span class="mf">0.042</span><span class="p">)),</span> <span class="n">ql</span><span class="o">.</span><span class="n">Period</span><span class="p">(</span><span class="s2">&quot;2Y&quot;</span><span class="p">),</span>
+                       <span class="n">ql</span><span class="o">.</span><span class="n">UnitedStates</span><span class="p">(</span><span class="n">ql</span><span class="o">.</span><span class="n">UnitedStates</span><span class="o">.</span><span class="n">GovernmentBond</span><span class="p">),</span>
+                       <span class="n">ql</span><span class="o">.</span><span class="n">Annual</span><span class="p">,</span> <span class="n">ql</span><span class="o">.</span><span class="n">ModifiedFollowing</span><span class="p">,</span> <span class="n">ql</span><span class="o">.</span><span class="n">Actual360</span><span class="p">(),</span>
+                       <span class="n">ql</span><span class="o">.</span><span class="n">Euribor6M</span><span class="p">()),</span>
+<span class="p">]</span>
+<span class="n">curve</span> <span class="o">=</span> <span class="n">ql</span><span class="o">.</span><span class="n">PiecewiseLogCubicDiscount</span><span class="p">(</span><span class="n">today</span><span class="p">,</span> <span class="n">helpers</span><span class="p">,</span> <span class="n">ql</span><span class="o">.</span><span class="n">Actual365Fixed</span><span class="p">())</span>
+</code></pre></div>
+
+<p><strong>One-liner:</strong> QuantLib is the open-source C++ derivatives pricing library with Python bindings — it's production-grade for curve bootstrapping, option pricing (Black-Scholes, SABR, Heston), schedule generation, and Greeks computation across every asset class.</p>
+<h2 id="scikit-learn-factor-analysis-ml-for-risk">Scikit-learn — Factor Analysis &amp; ML for Risk</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span><span class="p">,</span> <span class="n">Lasso</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeSeriesSplit</span>
+
+<span class="c1"># --- PCA: extract principal risk factors from return data ---</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">returns_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">)</span>  <span class="c1"># Standardize first</span>
+
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">returns_scaled</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PC1 explains </span><span class="si">{</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2"> of variance&quot;</span><span class="p">)</span>
+<span class="c1"># In equity markets, PC1 ≈ market factor (~40-60%), PC2 ≈ sector rotation, PC3 ≈ size/value</span>
+
+<span class="c1"># Factor loadings: which assets load on which PC</span>
+<span class="n">loadings</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">daily_returns</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;PC</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+
+<span class="c1"># --- Linear regression: factor attribution ---</span>
+<span class="c1"># Regress PM returns on Fama-French-like factors</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">factor_returns</span><span class="p">,</span> <span class="n">pm_returns</span><span class="p">)</span>  <span class="c1"># X = factors, y = PM returns</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span> <span class="o">*</span> <span class="mi">252</span>  <span class="c1"># Annualized alpha</span>
+<span class="n">betas</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">factor_returns</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">))</span>
+<span class="n">r_sq</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">factor_returns</span><span class="p">,</span> <span class="n">pm_returns</span><span class="p">)</span>
+<span class="c1"># R² &gt; 0.7 means PM returns are mostly factor-driven (not true alpha)</span>
+
+<span class="c1"># --- Time-series cross-validation (NEVER use random split for time data) ---</span>
+<span class="n">tscv</span> <span class="o">=</span> <span class="n">TimeSeriesSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">tscv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">test_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])</span>
+</code></pre></div>
+
+<p><strong>One-liner:</strong> Scikit-learn provides PCA for risk factor decomposition, linear regression for factor attribution, StandardScaler for normalization before any ML, and TimeSeriesSplit because you never randomly shuffle financial data.</p>
+<h2 id="xgboost-gradient-boosting-for-risk-classification">XGBoost — Gradient Boosting for Risk Classification</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xgb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeSeriesSplit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span>
+
+<span class="c1"># --- Example: predict VaR breaches (classification) ---</span>
+<span class="c1"># Features: lagged vol, lagged returns, VIX level, skew, correlation regime</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;vol_20d&quot;</span><span class="p">,</span> <span class="s2">&quot;ret_5d&quot;</span><span class="p">,</span> <span class="s2">&quot;vix&quot;</span><span class="p">,</span> <span class="s2">&quot;skew_25d&quot;</span><span class="p">,</span> <span class="s2">&quot;corr_regime&quot;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">risk_data</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">risk_data</span><span class="p">[</span><span class="s2">&quot;actual_loss&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">risk_data</span><span class="p">[</span><span class="s2">&quot;var_99&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># 1 = breach</span>
+
+<span class="c1"># Time-aware split</span>
+<span class="n">tscv</span> <span class="o">=</span> <span class="n">TimeSeriesSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tscv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Last fold for evaluation</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBClassifier</span><span class="p">(</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>           <span class="c1"># Shallow trees to avoid overfitting</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">colsample_bytree</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">scale_pos_weight</span><span class="o">=</span><span class="mi">99</span><span class="p">,</span>   <span class="c1"># VaR breaches are rare (~1% by definition)</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span>
+          <span class="n">eval_set</span><span class="o">=</span><span class="p">[(</span><span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])],</span>
+          <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Feature importance: which inputs drive breach prediction?</span>
+<span class="n">importance</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">))</span>
+<span class="c1"># Typically: lagged vol and VIX dominate — vol clustering is real</span>
+
+<span class="c1"># --- Regression: predict next-day portfolio vol ---</span>
+<span class="n">reg_model</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">reg_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">vol_next_day_train</span><span class="p">)</span>
+<span class="n">vol_forecast</span> <span class="o">=</span> <span class="n">reg_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>One-liner:</strong> XGBoost is gradient-boosted decision trees — fast, handles non-linear relationships, and feature importance tells you which risk factors actually drive the outcome. Use it for VaR breach prediction, vol forecasting, or anomaly detection, but always with time-series cross-validation (never random split).</p>
 <hr />
 <h1 id="part-4-risk-specific-python-code">PART 4: RISK-SPECIFIC PYTHON CODE</h1>
 <h2 id="var-three-methods">VaR — Three Methods</h2>
@@ -1465,6 +1654,268 @@ body {
 <h2 id="what-to-say-if-asked-about-kdb">What to Say If Asked About kdb+</h2>
 <blockquote>
 <p>"I used kdb+ at BNP Paribas for tick-level market data analysis — FX forwards, swaps, and corporate hedging flows. The key advantage is speed: aggregations over millions of rows that would take minutes in SQL return in milliseconds. As-of joins were essential for aligning trade timestamps to market data snapshots for accurate P&amp;L attribution and slippage analysis. I'm comfortable reading q code and writing basic queries, though I wouldn't claim to be a production-level q developer."</p>
+</blockquote>
+<hr />
+<h1 id="part-6b-c-calibration-performance-critical-code">PART 6B: C++ — CALIBRATION &amp; PERFORMANCE-CRITICAL CODE</h1>
+<h2 id="why-c-at-squarepoint-and-why-you-used-it">Why C++ at Squarepoint (and Why You Used It)</h2>
+<p>At Natixis, I built the SABR calibration core in C++ and wrapped it with a Python API via pybind11. Why? Calibration requires minimizing a non-linear objective function over thousands of swaption vols — each evaluation calls the Hagan formula, and the optimizer (Levenberg-Marquardt) needs hundreds of iterations. In pure Python, calibrating one expiry takes ~2 seconds. In C++, it takes ~5 milliseconds. When you need to recalibrate the full surface (20+ expiries) every time the market moves, 400x speedup is the difference between real-time and useless.</p>
+<p>Squarepoint's systematic infrastructure runs C++ for anything latency-sensitive: pricing engines, risk calculations, market data processing. As an RM for the discretionary team, you won't write production C++ daily, but you need to READ it, UNDERSTAND performance tradeoffs, and DISCUSS architecture with quants.</p>
+<h2 id="core-c-what-you-need-to-know">Core C++ — What You Need to Know</h2>
+<h3 id="stl-containers">STL Containers</h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;map&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unordered_map&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;set&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;array&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+
+<span class="c1">// vector: dynamic array, contiguous memory → cache-friendly, fast iteration</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">prices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">100.5</span><span class="p">,</span><span class="w"> </span><span class="mf">101.2</span><span class="p">,</span><span class="w"> </span><span class="mf">99.8</span><span class="p">,</span><span class="w"> </span><span class="mf">102.3</span><span class="p">};</span>
+<span class="n">prices</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mf">103.0</span><span class="p">);</span><span class="w">           </span><span class="c1">// O(1) amortized</span>
+<span class="n">prices</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span><span class="w">             </span><span class="c1">// Pre-allocate to avoid reallocation</span>
+
+<span class="c1">// map: ordered key-value (red-black tree), O(log n) lookup</span>
+<span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">greeks</span><span class="p">;</span>
+<span class="n">greeks</span><span class="p">[</span><span class="s">&quot;delta&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.55</span><span class="p">;</span>
+<span class="n">greeks</span><span class="p">[</span><span class="s">&quot;gamma&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02</span><span class="p">;</span>
+<span class="c1">// Iterates in sorted key order — useful for tenor-ordered risk factors</span>
+
+<span class="c1">// unordered_map: hash table, O(1) average lookup — when order doesn&#39;t matter</span>
+<span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">positions</span><span class="p">;</span>
+<span class="n">positions</span><span class="p">[</span><span class="s">&quot;AAPL&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1&#39;000&#39;000.0</span><span class="p">;</span><span class="w">   </span><span class="c1">// C++14 digit separator</span>
+<span class="n">positions</span><span class="p">[</span><span class="s">&quot;MSFT&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">750&#39;000.0</span><span class="p">;</span>
+
+<span class="c1">// array: fixed-size, stack-allocated, zero overhead vs C array</span>
+<span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tenor_buckets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.25</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">};</span>
+
+<span class="c1">// set: unique sorted elements, O(log n) insert/find</span>
+<span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">active_tickers</span><span class="p">;</span>
+<span class="n">active_tickers</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;SPX&quot;</span><span class="p">);</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">exists</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">active_tickers</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;SPX&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 1 = found</span>
+</code></pre></div>
+
+<h3 id="memory-management-smart-pointers">Memory Management — Smart Pointers</h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PricingEngine</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">price</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">spot</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">strike</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">vol</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                         </span><span class="kt">double</span><span class="w"> </span><span class="n">rate</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">PricingEngine</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BlackScholesEngine</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">PricingEngine</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">price</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">S</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">sigma</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                 </span><span class="kt">double</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">d1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">log</span><span class="p">(</span><span class="n">S</span><span class="o">/</span><span class="n">K</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="o">*</span><span class="n">sigma</span><span class="o">*</span><span class="n">sigma</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">sigma</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">));</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sigma</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">norm_cdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">norm_cdf</span><span class="p">(</span><span class="n">d2</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">norm_cdf</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w">  </span><span class="c1">// Standard normal CDF</span>
+<span class="p">};</span>
+
+<span class="c1">// unique_ptr: single owner, no overhead, RAII</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">BlackScholesEngine</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">px</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">engine</span><span class="o">-&gt;</span><span class="n">price</span><span class="p">(</span><span class="mi">5200</span><span class="p">,</span><span class="w"> </span><span class="mi">5300</span><span class="p">,</span><span class="w"> </span><span class="mf">0.18</span><span class="p">,</span><span class="w"> </span><span class="mf">0.045</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25</span><span class="p">);</span>
+
+<span class="c1">// shared_ptr: reference-counted, multiple owners (use when genuinely shared)</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">shared_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">BlackScholesEngine</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="c1">// Reference count = 1</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">another_ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shared_engine</span><span class="p">;</span>
+<span class="c1">// Reference count = 2, both point to same object</span>
+
+<span class="c1">// NEVER use raw new/delete in modern C++</span>
+<span class="c1">// Bad:  PricingEngine* engine = new BlackScholesEngine(); ... delete engine;</span>
+<span class="c1">// Good: auto engine = std::make_unique&lt;BlackScholesEngine&gt;();</span>
+</code></pre></div>
+
+<p><strong>One-liner:</strong> <code>unique_ptr</code> = sole ownership, zero overhead, use by default. <code>shared_ptr</code> = shared ownership via reference counting, use only when truly shared. Raw <code>new</code>/<code>delete</code> = never in modern C++.</p>
+<h3 id="oop-in-c-virtual-functions-and-inheritance">OOP in C++ — Virtual Functions and Inheritance</h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Instrument</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">Instrument</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">notional</span><span class="p">)</span>
+<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">ticker_</span><span class="p">(</span><span class="n">ticker</span><span class="p">),</span><span class="w"> </span><span class="n">notional_</span><span class="p">(</span><span class="n">notional</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">Instrument</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span><span class="w">              </span><span class="c1">// Virtual destructor — essential for polymorphism</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">market_value</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">       </span><span class="c1">// Pure virtual → abstract class</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">delta_exposure</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="nf">ticker</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">ticker_</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="nf">notional</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">notional_</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="k">protected</span><span class="o">:</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">ticker_</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">notional_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">EquityPosition</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Instrument</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">EquityPosition</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">qty</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">price</span><span class="p">)</span>
+<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">Instrument</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="n">qty</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">price</span><span class="p">),</span><span class="w"> </span><span class="n">qty_</span><span class="p">(</span><span class="n">qty</span><span class="p">),</span><span class="w"> </span><span class="n">price_</span><span class="p">(</span><span class="n">price</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">market_value</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">qty_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">price_</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">delta_exposure</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">market_value</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">qty_</span><span class="p">,</span><span class="w"> </span><span class="n">price_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BondPosition</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Instrument</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">BondPosition</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">face</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">clean_price</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                 </span><span class="kt">double</span><span class="w"> </span><span class="n">mod_duration</span><span class="p">)</span>
+<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">Instrument</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="p">),</span><span class="w"> </span><span class="n">face_</span><span class="p">(</span><span class="n">face</span><span class="p">),</span><span class="w"> </span>
+<span class="w">          </span><span class="n">clean_price_</span><span class="p">(</span><span class="n">clean_price</span><span class="p">),</span><span class="w"> </span><span class="n">mod_dur_</span><span class="p">(</span><span class="n">mod_duration</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">market_value</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">face_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">clean_price_</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">delta_exposure</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">market_value</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mod_dur_</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">dv01</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">market_value</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mod_dur_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.0001</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">face_</span><span class="p">,</span><span class="w"> </span><span class="n">clean_price_</span><span class="p">,</span><span class="w"> </span><span class="n">mod_dur_</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// Polymorphism: one function handles any instrument type</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">total_delta</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">Instrument</span><span class="o">&gt;&gt;&amp;</span><span class="w"> </span><span class="n">portfolio</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">inst</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">portfolio</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">inst</span><span class="o">-&gt;</span><span class="n">delta_exposure</span><span class="p">();</span><span class="w">  </span><span class="c1">// Virtual dispatch — correct method called</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">total</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="templates-generic-programming">Templates — Generic Programming</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Function template: works for any numeric type</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="n">T</span><span class="w"> </span><span class="n">portfolio_variance</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">weights</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;&amp;</span><span class="w"> </span><span class="n">cov_matrix</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">T</span><span class="w"> </span><span class="n">var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">weights</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">weights</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span>
+<span class="w">            </span><span class="n">var</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">weights</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cov_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">var</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Works with double, float, or any numeric type</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">var_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">portfolio_variance</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">weights_d</span><span class="p">,</span><span class="w"> </span><span class="n">cov_d</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="sabr-calibration-what-i-built">SABR Calibration — What I Built</h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="c1">// Hagan SABR implied vol formula (simplified ATM case)</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">sabr_implied_vol</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">forward</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">strike</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">expiry</span><span class="p">,</span>
+<span class="w">                        </span><span class="kt">double</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">nu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">forward</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">strike</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// ATM approximation</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">fmid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="n">forward</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">beta</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">term1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fmid</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">term2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span>
+<span class="w">                        </span><span class="p">(</span><span class="mf">24.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fmid</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fmid</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">term3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">rho</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mf">4.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fmid</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">term4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">2.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rho</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">24.0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">term1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">term2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">term3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">term4</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">expiry</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// Full Hagan formula for non-ATM strikes (omitted for brevity)</span>
+<span class="w">    </span><span class="c1">// In production, this is ~50 lines handling log(F/K), z/x(z), etc.</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Objective function for Levenberg-Marquardt optimizer</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">calibration_objective</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">params</span><span class="p">,</span>
+<span class="w">                             </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">market_vols</span><span class="p">,</span>
+<span class="w">                             </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">strikes</span><span class="p">,</span>
+<span class="w">                             </span><span class="kt">double</span><span class="w"> </span><span class="n">forward</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">expiry</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">sse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">strikes</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">model_vol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sabr_implied_vol</span><span class="p">(</span><span class="n">forward</span><span class="p">,</span><span class="w"> </span><span class="n">strikes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">expiry</span><span class="p">,</span>
+<span class="w">                                             </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">nu</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model_vol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">market_vols</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="n">sse</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">diff</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sse</span><span class="p">;</span><span class="w">  </span><span class="c1">// Minimize this — Levenberg-Marquardt adjusts params</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Why C++ for calibration:</strong> Each <code>sabr_implied_vol</code> call involves ~20 floating-point operations. The optimizer calls it hundreds of times per expiry, across 20+ expiries. In Python, function call overhead + interpreter overhead makes this ~400x slower. C++ compiles to native machine code with zero overhead per call. The pybind11 wrapper exposes the calibrated surface back to Python for downstream risk analytics.</p>
+<h3 id="performance-why-c-beats-python">Performance — Why C++ Beats Python</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Python</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Execution</strong></td>
+<td>Interpreted, GIL limits threading</td>
+<td>Compiled to native code, true multi-threading</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>Objects have ~100 bytes overhead each</td>
+<td>Structs pack tightly, cache-friendly</td>
+</tr>
+<tr>
+<td><strong>Function calls</strong></td>
+<td>~100ns per call (interpreter overhead)</td>
+<td>~1ns per call (inlined by compiler)</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>Data analysis, prototyping, glue code</td>
+<td>Pricing engines, calibration, real-time risk</td>
+</tr>
+<tr>
+<td><strong>At Squarepoint</strong></td>
+<td>Risk analytics, dashboards, ad-hoc analysis</td>
+<td>Production pricing, execution, market data</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-python-how-they-work-together">C++ ↔ Python — How They Work Together</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// pybind11: expose C++ SABR calibrator to Python</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pybind11/pybind11.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pybind11/stl.h&gt;</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">py</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">pybind11</span><span class="p">;</span>
+
+<span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="n">sabr_engine</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;calibrate&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">calibrate_sabr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Calibrate SABR parameters&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="n">py</span><span class="o">::</span><span class="n">arg</span><span class="p">(</span><span class="s">&quot;market_vols&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">arg</span><span class="p">(</span><span class="s">&quot;strikes&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">          </span><span class="n">py</span><span class="o">::</span><span class="n">arg</span><span class="p">(</span><span class="s">&quot;forward&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">arg</span><span class="p">(</span><span class="s">&quot;expiry&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">arg</span><span class="p">(</span><span class="s">&quot;beta&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">);</span>
+<span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;implied_vol&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sabr_implied_vol</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SABR implied vol at a strike&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Python side: import the compiled C++ module</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sabr_engine</span>
+
+<span class="c1"># Calibrate — runs in C++ (5ms instead of 2s)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">sabr_engine</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span>
+    <span class="n">market_vols</span><span class="o">=</span><span class="p">[</span><span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.19</span><span class="p">,</span> <span class="mf">0.21</span><span class="p">,</span> <span class="mf">0.24</span><span class="p">,</span> <span class="mf">0.28</span><span class="p">],</span>
+    <span class="n">strikes</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.035</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">],</span>
+    <span class="n">forward</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">expiry</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="p">)</span>
+<span class="n">alpha</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">nu</span> <span class="o">=</span> <span class="n">params</span>
+
+<span class="c1"># Use calibrated params in Python for downstream risk</span>
+<span class="n">vol_at_strike</span> <span class="o">=</span> <span class="n">sabr_engine</span><span class="o">.</span><span class="n">implied_vol</span><span class="p">(</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.035</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">nu</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="what-to-say-if-asked-about-c">What to Say If Asked About C++</h3>
+<blockquote>
+<p>"I built the SABR calibration core in C++ at Natixis — the optimizer calls the Hagan vol formula hundreds of times per expiry, and across 20+ expiries the Python version was 400x too slow for real-time recalibration. C++ gave us 5ms per surface vs 2 seconds. I wrapped it with pybind11 so the risk team consumed it as a Python module. I'm comfortable with modern C++: STL containers, smart pointers, templates, virtual functions. I wouldn't claim to be a systems-level C++ developer, but I can read production code, profile performance bottlenecks, and build compute-intensive modules that integrate with a Python analytics stack."</p>
 </blockquote>
 <hr />
 <h1 id="part-7-design-patterns-for-risk-systems">PART 7: DESIGN PATTERNS FOR RISK SYSTEMS</h1>

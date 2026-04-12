@@ -680,6 +680,207 @@ body {
 <p>"Used kdb+ at BNP for FX tick data. As-of joins for P&amp;L attribution. Comfortable reading q, not a production developer."</p>
 </blockquote>
 <hr />
+<h2 id="python-libraries-one-liners">PYTHON LIBRARIES — ONE-LINERS</h2>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>One-liner</th>
+<th>When I used it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Polars</strong></td>
+<td>Rust-backend DataFrame; lazy eval with query plan optimization, multi-threaded, Arrow-native. 10-100x faster than pandas for &gt;1M rows.</td>
+<td>Natixis: cross-asset correlation monitor on 10M+ rows/day</td>
+</tr>
+<tr>
+<td><strong>Parquet</strong></td>
+<td>Columnar compressed binary format. 10x smaller than CSV, 100x faster reads, predicate pushdown = only load rows/columns you need.</td>
+<td>Standard I/O format for any large dataset at BNP and Natixis</td>
+</tr>
+<tr>
+<td><strong>QuantLib</strong></td>
+<td>Open-source C++ derivatives pricing library (Python bindings). Curve bootstrapping, BS/SABR/Heston pricing, Greeks, schedule generation.</td>
+<td>Natixis: SABR calibration validation against QuantLib reference</td>
+</tr>
+<tr>
+<td><strong>Scikit-learn</strong></td>
+<td>PCA for factor decomposition, LinearRegression for factor attribution, StandardScaler for normalization, TimeSeriesSplit (never random-split time data).</td>
+<td>BNP NYC: PCA factor decomposition in correlation monitor</td>
+</tr>
+<tr>
+<td><strong>XGBoost</strong></td>
+<td>Gradient-boosted trees. Non-linear relationships, feature importance, fast. Use for VaR breach prediction, vol forecasting. Always TimeSeriesSplit.</td>
+<td>Risk analytics: vol regime classification</td>
+</tr>
+<tr>
+<td><strong>pandas</strong></td>
+<td>DataFrame engine: groupby, merge, pivot_table, rolling, resample. The default for &lt;1M rows.</td>
+<td>Every role: daily risk analysis, P&amp;L attribution</td>
+</tr>
+<tr>
+<td><strong>numpy</strong></td>
+<td>Vectorized math, linear algebra (Cholesky, eigendecomposition), random sampling. Never loop — vectorize.</td>
+<td>Monte Carlo VaR, portfolio variance, PCA</td>
+</tr>
+<tr>
+<td><strong>scipy</strong></td>
+<td><code>stats.norm.ppf</code> for parametric VaR, <code>optimize.minimize</code> for calibration, <code>stats.jarque_bera</code> for normality tests.</td>
+<td>VaR calculations, implied vol solving</td>
+</tr>
+</tbody>
+</table>
+<h3 id="polars-vs-pandas-quick-decision">Polars vs Pandas — Quick Decision</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Pandas</th>
+<th>Polars</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rows</td>
+<td>&lt;1M</td>
+<td>&gt;1M</td>
+</tr>
+<tr>
+<td>Threading</td>
+<td>Single (GIL)</td>
+<td>Multi-threaded</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>Eager</td>
+<td>Lazy (optimized plan)</td>
+</tr>
+<tr>
+<td>Ecosystem</td>
+<td>sklearn, statsmodels</td>
+<td>Arrow-native, growing</td>
+</tr>
+<tr>
+<td>Use when</td>
+<td>Prototyping, integration</td>
+<td>Production data pipelines</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="c-key-concepts">C++ — KEY CONCEPTS</h2>
+<h3 id="stl-containers">STL Containers</h3>
+<table>
+<thead>
+<tr>
+<th>Container</th>
+<th>Lookup</th>
+<th>Insert</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vector</code></td>
+<td>O(1)</td>
+<td>O(1) append</td>
+<td>Prices, returns — contiguous, cache-friendly</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>Ordered key-value: tenor → rate</td>
+</tr>
+<tr>
+<td><code>unordered_map</code></td>
+<td>O(1) avg</td>
+<td>O(1) avg</td>
+<td>Hash lookup: ticker → position</td>
+</tr>
+<tr>
+<td><code>set</code></td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>Unique sorted elements</td>
+</tr>
+<tr>
+<td><code>array&lt;T,N&gt;</code></td>
+<td>O(1)</td>
+<td>Fixed</td>
+<td>Stack-allocated, zero overhead</td>
+</tr>
+</tbody>
+</table>
+<h3 id="smart-pointers-one-liners">Smart Pointers — One-Liners</h3>
+<table>
+<thead>
+<tr>
+<th>Pointer</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unique_ptr</code></td>
+<td>Sole ownership, zero overhead. <strong>Use by default.</strong></td>
+</tr>
+<tr>
+<td><code>shared_ptr</code></td>
+<td>Reference-counted shared ownership. Only when truly shared.</td>
+</tr>
+<tr>
+<td>Raw <code>new/delete</code></td>
+<td><strong>Never</strong> in modern C++.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="oop-in-c">OOP in C++</h3>
+<ul>
+<li><code>virtual</code> = runtime polymorphism (vtable dispatch). Required for <code>Instrument → Equity/Bond/Option</code> pattern.</li>
+<li><code>override</code> = compiler checks you're actually overriding a base method.</li>
+<li>Virtual destructor = <strong>essential</strong> when deleting through base pointer.</li>
+<li>Pure virtual (<code>= 0</code>) = abstract class, can't instantiate.</li>
+<li><code>const</code> member functions = promise not to modify object state.</li>
+</ul>
+<h3 id="why-c-for-calibration">Why C++ for Calibration</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Python</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SABR surface calibration</td>
+<td>~2 seconds</td>
+<td>~5 milliseconds</td>
+</tr>
+<tr>
+<td>Function call overhead</td>
+<td>~100ns</td>
+<td>~1ns (inlined)</td>
+</tr>
+<tr>
+<td>Threading</td>
+<td>GIL blocks</td>
+<td>True multi-thread</td>
+</tr>
+<tr>
+<td>At Squarepoint</td>
+<td>Analytics, dashboards</td>
+<td>Pricing engines, calibration</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>"Built SABR calibration core in C++ at Natixis — 400x faster than Python. Wrapped with pybind11 for Python consumption. Comfortable reading production C++, not a systems developer."</p>
+</blockquote>
+<hr />
 <h2 id="design-patterns">DESIGN PATTERNS</h2>
 <table>
 <thead>
