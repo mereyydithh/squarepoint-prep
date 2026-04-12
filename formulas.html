@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formula Reference — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-hover: #1c2331;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #e6edf3;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --accent-subtle: rgba(88,166,255,0.1);
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --orange: #db6d28;
+  --sidebar-w: 290px;
+  --content-max: 980px;
+}
+html { scroll-behavior: smooth; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar-header {
+  padding: 14px 20px 18px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.nav-section {
+  padding: 16px 20px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
+.nav-link {
+  display: block;
+  padding: 5px 20px 5px 22px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 48px 64px 100px;
+  max-width: var(--content-max);
+}
+.content h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 48px;
+  margin-bottom: 14px;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 22px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 16px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+.content ul, .content ol {
+  margin: 0 0 18px 24px;
+}
+.content li {
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+}
+.content li strong {
+  color: var(--text);
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 14px 22px;
+  margin: 20px 0;
+  background: rgba(88,166,255,0.05);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.content blockquote strong {
+  color: var(--text-secondary);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.content th {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+.content td {
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
+  vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.content td strong {
+  color: var(--text);
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.015);
+}
+.content tr:hover td {
+  background: rgba(88,166,255,0.03);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MATH (KaTeX) */
+.katex-display {
+  margin: 20px 0;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+.katex { font-size: 1.05em; }
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 15px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 10px; }
+  .content { padding: 60px 16px 40px; }
+  .katex { font-size: 0.95em; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Tools</div>
+<a class="nav-link" href="ask.html">Ask AI</a>
+<a class="nav-link active" href="formulas.html">Formula Reference</a>
+<div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link" href="Z_Brain_Teasers.html">Brain Teasers</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+<a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
+<a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
+<a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
+<a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
+<a class="nav-link" href="Z_Brain_Teasers_Cheat.html">Brain Teasers — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="formula-quick-reference">Formula Quick-Reference</h1>
+<blockquote>
+<p>Every key formula, equation, and quantitative threshold from your cheat sheets — in one place.</p>
+</blockquote>
+<hr />
+<h2 id="greeks-options">Greeks &amp; Options</h2>
+<h3 id="delta">Delta</h3>
+<ul>
+<li><strong>Definition</strong>: ∂V/∂S — change in option value per $1 move in underlying</li>
+<li><strong>Range</strong>: Long Call 0→+1 | Long Put −1→0 | Short = opposite</li>
+<li><strong>Dollar delta</strong> = Δ × contracts × multiplier × spot</li>
+</ul>
+<h3 id="gamma">Gamma</h3>
+<ul>
+<li><strong>Definition</strong>: ∂²V/∂S² = ∂Δ/∂S — rate of change of delta</li>
+<li><strong>Dollar gamma P&amp;L</strong>: ½ × Γ$ × (%ΔS)²</li>
+<li><strong>Theta acceleration</strong>: Θ ∝ 1/√T</li>
+</ul>
+<h3 id="theta">Theta</h3>
+<ul>
+<li><strong>Definition</strong>: ∂V/∂t — daily rent for holding optionality ($/day)</li>
+<li>Long options = −Θ (pay rent) | Short options = +Θ (earn rent)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Days to Expiry</th>
+<th>Decay Rate (vs 90d baseline)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30</td>
+<td>1.7×</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3.6×</td>
+</tr>
+<tr>
+<td>1</td>
+<td>9.5×</td>
+</tr>
+</tbody>
+</table>
+<h3 id="vega">Vega</h3>
+<ul>
+<li><strong>Definition</strong>: ∂V/∂σ — change in option value per 1 vol point</li>
+<li>Long options = +ν | Short options = −ν</li>
+</ul>
+<h3 id="second-order-greeks">Second-Order Greeks</h3>
+<table>
+<thead>
+<tr>
+<th>Greek</th>
+<th>Formula</th>
+<th>What It Measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vanna</td>
+<td>∂Δ/∂σ</td>
+<td>Delta shift when vol moves</td>
+</tr>
+<tr>
+<td>Volga</td>
+<td>∂ν/∂σ</td>
+<td>Convexity of vol bet</td>
+</tr>
+<tr>
+<td>Charm</td>
+<td>∂Δ/∂t</td>
+<td>Delta drift from time decay</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>∂Γ/∂S</td>
+<td>Gamma of gamma</td>
+</tr>
+<tr>
+<td>Color</td>
+<td>∂Γ/∂t</td>
+<td>Gamma evolution into expiry</td>
+</tr>
+</tbody>
+</table>
+<h3 id="greeks-by-position">Greeks by Position</h3>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Delta</th>
+<th>Gamma</th>
+<th>Theta</th>
+<th>Vega</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Long Call</td>
+<td>+ (0→+1)</td>
+<td>+</td>
+<td>−</td>
+<td>+</td>
+</tr>
+<tr>
+<td>Short Call</td>
+<td>− (0→−1)</td>
+<td>−</td>
+<td>+</td>
+<td>−</td>
+</tr>
+<tr>
+<td>Long Put</td>
+<td>− (−1→0)</td>
+<td>+</td>
+<td>−</td>
+<td>+</td>
+</tr>
+<tr>
+<td>Short Put</td>
+<td>+ (0→+1)</td>
+<td>−</td>
+<td>+</td>
+<td>−</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gammatheta-breakeven">Gamma–Theta Breakeven</h3>
+<p>$$\Delta S_{BE} = \sqrt{\frac{2|\theta|}{\gamma}}$$</p>
+<p>Market move needed for gamma gains to offset theta decay.</p>
+<h3 id="put-call-parity">Put-Call Parity</h3>
+<p>$$C - P = S \cdot e^{-qT} - K \cdot e^{-rT} = \text{Forward}$$</p>
+<hr />
+<h2 id="volatility-sabr">Volatility &amp; SABR</h2>
+<h3 id="realized-vol">Realized Vol</h3>
+<p>$$\sigma_{realized} = \text{StdDev(log returns)} \times \sqrt{252}$$</p>
+<h3 id="vol-risk-premium-vrp">Vol Risk Premium (VRP)</h3>
+<p>$$VRP = IV - \text{subsequent RV}$$<br />
+Positive ~85% of months | Average: +2–4 bps SPX</p>
+<h3 id="realized-vol-estimators-ranked-by-efficiency">Realized Vol Estimators (Ranked by Efficiency)</h3>
+<table>
+<thead>
+<tr>
+<th>Estimator</th>
+<th>Inputs</th>
+<th>Efficiency vs Close-to-Close</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yang-Zhang</td>
+<td>O, H, L, C + overnight gaps</td>
+<td>Best</td>
+</tr>
+<tr>
+<td>Garman-Klass</td>
+<td>O, H, L, C (no gaps)</td>
+<td>~5×</td>
+</tr>
+<tr>
+<td>Parkinson</td>
+<td>H, L only</td>
+<td>~5×</td>
+</tr>
+<tr>
+<td>Close-to-close</td>
+<td>log returns</td>
+<td>Baseline</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sabr-model">SABR Model</h3>
+<p>$$\frac{dF}{F} = \alpha\,\sigma_t\,dW_1, \quad d\sigma_t = \nu\,\sigma_t\,dW_2, \quad dW_1\,dW_2 = \rho\,dt$$</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Controls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>α</td>
+<td>ATM vol level (calibrated)</td>
+</tr>
+<tr>
+<td>β</td>
+<td>Backbone: 0=normal, 1=lognormal (<strong>fixed</strong>)</td>
+</tr>
+<tr>
+<td>ρ</td>
+<td>Skew — negative ρ → downside skew</td>
+</tr>
+<tr>
+<td>ν</td>
+<td>Wings/curvature (vol of vol)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="vix-to-daily-move">VIX to Daily Move</h3>
+<p>$$\text{Daily move} \approx \frac{VIX}{\sqrt{252}} \approx \frac{VIX}{16}$$</p>
+<table>
+<thead>
+<tr>
+<th>VIX</th>
+<th>Daily Move</th>
+<th>Regime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10–14</td>
+<td>±0.6–0.9%</td>
+<td>Complacency</td>
+</tr>
+<tr>
+<td>15–20</td>
+<td>±0.9–1.3%</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td>20–30</td>
+<td>±1.3–1.9%</td>
+<td>Elevated</td>
+</tr>
+<tr>
+<td>30–40</td>
+<td>±1.9–2.5%</td>
+<td>Fear</td>
+</tr>
+<tr>
+<td>40–60</td>
+<td>±2.5–3.8%</td>
+<td>Severe</td>
+</tr>
+<tr>
+<td>60–80+</td>
+<td>±3.8–5.0%+</td>
+<td>Existential</td>
+</tr>
+</tbody>
+</table>
+<h3 id="implied-correlation">Implied Correlation</h3>
+<p>$$\sigma_{\text{index}}^2 \approx \bar{\sigma}_{\text{stocks}}^2 \times \bar{\rho}$$</p>
+<hr />
+<h2 id="risk-measures">Risk Measures</h2>
+<h3 id="z-scores-memorize">Z-Scores (Memorize)</h3>
+<table>
+<thead>
+<tr>
+<th>Confidence</th>
+<th>Z-score</th>
+<th>Tail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>90% VaR</td>
+<td>1.282</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>95% VaR</td>
+<td>1.645</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>95% CI (2-tail)</td>
+<td>1.960</td>
+<td>2.5% each</td>
+</tr>
+<tr>
+<td><strong>99% VaR</strong></td>
+<td><strong>2.326</strong></td>
+<td><strong>1%</strong></td>
+</tr>
+<tr>
+<td>99.9% VaR</td>
+<td>3.090</td>
+<td>0.1%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="parametric-var">Parametric VaR</h3>
+<p>$$\text{VaR}<em>\alpha = \mu + z</em>\alpha \times \sigma$$</p>
+<p><strong>Time scaling</strong>: VaR₁₀d ≈ VaR₁d × √10</p>
+<h3 id="var-decomposition">VaR Decomposition</h3>
+<ul>
+<li><strong>Component VaR</strong>: Position i's contribution (sums to total)</li>
+<li><strong>Marginal VaR</strong>: ∂VaR/∂wᵢ</li>
+<li><strong>Incremental VaR</strong>: VaR(with) − VaR(without)</li>
+</ul>
+<h3 id="expected-shortfall-cvar">Expected Shortfall (CVaR)</h3>
+<p>$$ES_\alpha = E[\text{Loss} \mid \text{Loss} &gt; \text{VaR}_\alpha]$$</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>VaR</th>
+<th>ES</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tail severity</td>
+<td>Blind</td>
+<td>Measures it</td>
+</tr>
+<tr>
+<td>Subadditive</td>
+<td>No</td>
+<td>Yes (coherent)</td>
+</tr>
+<tr>
+<td>Regulatory</td>
+<td>Old (Basel III)</td>
+<td><strong>New (FRTB)</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="esvar-ratio-tail-diagnostic">ES/VaR Ratio — Tail Diagnostic</h3>
+<table>
+<thead>
+<tr>
+<th>Ratio</th>
+<th>Tail Type</th>
+<th>Typical Position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0–1.5</td>
+<td>Thin/normal</td>
+<td>Diversified equity</td>
+</tr>
+<tr>
+<td>1.5–2.5</td>
+<td>Moderate</td>
+<td>Mixed books</td>
+</tr>
+<tr>
+<td>2.5–4.0</td>
+<td>Fat — investigate</td>
+<td>Short gamma, concentrated</td>
+</tr>
+<tr>
+<td>4.0+</td>
+<td>Cliff — danger</td>
+<td>Short OTM opts, short var swap</td>
+</tr>
+</tbody>
+</table>
+<h3 id="liquidity-adjusted-var">Liquidity-Adjusted VaR</h3>
+<p>$$LVaR = VaR + \text{Liquidation Cost}$$</p>
+<p>$$\text{Days to Liquidate} = \frac{\text{Position size}}{\text{ADV} \times 10\%}$$</p>
+<h3 id="var-backtesting-basel-traffic-light-99-250-days">VaR Backtesting (Basel Traffic Light, 99%, 250 days)</h3>
+<table>
+<thead>
+<tr>
+<th>Exceptions</th>
+<th>Zone</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–4</td>
+<td>🟢 Green</td>
+<td>Model OK</td>
+</tr>
+<tr>
+<td>5–9</td>
+<td>🟡 Yellow</td>
+<td>Higher multiplier</td>
+</tr>
+<tr>
+<td>10+</td>
+<td>🔴 Red</td>
+<td>Model rejected</td>
+</tr>
+</tbody>
+</table>
+<h3 id="drawdown-recovery">Drawdown Recovery</h3>
+<table>
+<thead>
+<tr>
+<th>Drawdown</th>
+<th>Recovery Needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>−5%</td>
+<td>+5.3%</td>
+</tr>
+<tr>
+<td>−10%</td>
+<td>+11.1%</td>
+</tr>
+<tr>
+<td>−20%</td>
+<td>+25.0%</td>
+</tr>
+<tr>
+<td>−50%</td>
+<td>+100%</td>
+</tr>
+<tr>
+<td>−75%</td>
+<td>+300%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="pl-attribution">P&amp;L Attribution</h2>
+<h3 id="master-pl-equation">Master P&amp;L Equation</h3>
+<p>$$\text{Total P\&amp;L} = \Delta + \Gamma + \Theta + \mathcal{V} + \rho + \text{Cross} + \text{Unexplained}$$</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta</td>
+<td>Σ δᵢ × ΔSᵢ</td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>½ Σ γᵢ × (ΔSᵢ)²</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>Σ θᵢ × Δt</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>Σ νᵢ × ΔIVᵢ</td>
+</tr>
+<tr>
+<td>Rho</td>
+<td>Σ ρᵢ × Δr</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pl-explain-ratio">P&amp;L Explain Ratio</h3>
+<p>$$\text{Ratio} = \frac{\text{Predicted (Greeks)}}{\text{Actual P\&amp;L}}$$</p>
+<table>
+<thead>
+<tr>
+<th>Ratio</th>
+<th>Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.95–1.05</td>
+<td>Excellent</td>
+</tr>
+<tr>
+<td>0.80–0.95</td>
+<td>Acceptable</td>
+</tr>
+<tr>
+<td>0.60–0.80</td>
+<td>Poor — review</td>
+</tr>
+<tr>
+<td>&lt;0.60</td>
+<td>Failed — escalate</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="fixed-income-rates">Fixed Income &amp; Rates</h2>
+<h3 id="duration">Duration</h3>
+<p>$$\text{Modified Duration} = \frac{\text{Macaulay Duration}}{1 + y/n}$$</p>
+<p>$$\frac{\Delta P}{P} \approx -D_{mod} \times \Delta y$$</p>
+<h3 id="dv01">DV01</h3>
+<p>$$DV01 = D_{mod} \times \text{Market Value} \times 0.0001$$</p>
+<h3 id="key-risk-measures">Key Risk Measures</h3>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Formula</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DV01</td>
+<td>ModDur × Price × Notional / 10,000</td>
+<td>P&amp;L per 1bp yield move</td>
+</tr>
+<tr>
+<td>CS01</td>
+<td>SpreadDur × MV / 10,000</td>
+<td>P&amp;L per 1bp spread widening</td>
+</tr>
+<tr>
+<td>JTD</td>
+<td>(1 − Recovery) × Notional</td>
+<td>Jump-to-default loss</td>
+</tr>
+</tbody>
+</table>
+<h3 id="credit-ratings-spreads">Credit Ratings &amp; Spreads</h3>
+<table>
+<thead>
+<tr>
+<th>Rating</th>
+<th>Spread (bps)</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AAA/AA</td>
+<td>20–60</td>
+<td>Negligible</td>
+</tr>
+<tr>
+<td>A</td>
+<td>60–120</td>
+<td>Very low</td>
+</tr>
+<tr>
+<td>BBB</td>
+<td>120–200</td>
+<td><strong>Cliff edge</strong></td>
+</tr>
+<tr>
+<td>BB</td>
+<td>200–400</td>
+<td>Junk</td>
+</tr>
+<tr>
+<td>B</td>
+<td>400–700</td>
+<td>Significant</td>
+</tr>
+<tr>
+<td>CCC+</td>
+<td>700+</td>
+<td>Distressed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="yield-curve">Yield Curve</h3>
+<p>$$y_n = \frac{1}{n} \sum E[r_t] + \text{Term Premium}$$</p>
+<hr />
+<h2 id="statistics-probability">Statistics &amp; Probability</h2>
+<h3 id="annualization-constants">Annualization Constants</h3>
+<table>
+<thead>
+<tr>
+<th>Conversion</th>
+<th>Multiplier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily → annual vol</td>
+<td>× √252 ≈ <strong>15.87</strong></td>
+</tr>
+<tr>
+<td>Weekly → annual</td>
+<td>× √52 ≈ 7.21</td>
+</tr>
+<tr>
+<td>Monthly → annual</td>
+<td>× √12 ≈ 3.46</td>
+</tr>
+<tr>
+<td>Daily VaR → 10-day</td>
+<td>× √10 ≈ <strong>3.16</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quick rule</strong>: Daily vol × 16 ≈ annual vol</p>
+<h3 id="bayes-theorem">Bayes' Theorem</h3>
+<p>$$P(A|B) = \frac{P(B|A) \times P(A)}{P(B)}$$</p>
+<h3 id="years-needed-to-prove-skill">Years Needed to Prove Skill</h3>
+<p>$$n \geq \left(\frac{z_\alpha}{\text{Sharpe}}\right)^2$$</p>
+<table>
+<thead>
+<tr>
+<th>Sharpe</th>
+<th>Years Needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.5</td>
+<td>15+</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="volatility-drag">Volatility Drag</h3>
+<p>$$\text{Geometric return} = \text{Arithmetic return} - \frac{\sigma^2}{2}$$</p>
+<p>30% vol → 4.5% annual drag</p>
+<h3 id="ar1-half-life">AR(1) Half-Life</h3>
+<p>$$t_{1/2} = \frac{-\ln(2)}{\ln(|\varphi|)}$$</p>
+<h3 id="garch11">GARCH(1,1)</h3>
+<p>$$\sigma_t^2 = \omega + \alpha\,r_{t-1}^2 + \beta\,\sigma_{t-1}^2$$</p>
+<ul>
+<li><strong>Persistence</strong> = α + β (typical: 0.95–0.99)</li>
+<li><strong>Long-run vol</strong> = √(ω/(1−α−β)) × √252</li>
+<li><strong>Half-life</strong> = −ln(2)/ln(α+β)</li>
+</ul>
+<h3 id="gjr-garch-leverage-effect">GJR-GARCH (Leverage Effect)</h3>
+<p>$$\sigma_t^2 = \omega + \alpha\,r_{t-1}^2 + \gamma\,r_{t-1}^2\,\mathbb{I}<em>{r&lt;0} + \beta\,\sigma</em>{t-1}^2$$</p>
+<h3 id="fat-tails-reality">Fat Tails Reality</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Normal Says</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3σ</td>
+<td>Every 1.5 years</td>
+<td>Every 6 months</td>
+</tr>
+<tr>
+<td>4σ</td>
+<td>Every 126 years</td>
+<td>Every 2–3 years</td>
+</tr>
+<tr>
+<td>5σ</td>
+<td>Every 3.5M days</td>
+<td>Every 10–20 years</td>
+</tr>
+</tbody>
+</table>
+<h3 id="t-scaling-breaks-when">√T Scaling Breaks When</h3>
+<ul>
+<li>Momentum (positive autocorrelation) → VaR <strong>higher</strong></li>
+<li>Vol clustering → VaR <strong>higher</strong></li>
+<li>Illiquidity → VaR <strong>higher</strong></li>
+<li>Mean reversion → VaR <strong>lower</strong></li>
+</ul>
+<hr />
+<h2 id="portfolio-hedging">Portfolio &amp; Hedging</h2>
+<h3 id="correlation">Correlation</h3>
+<p>$$\rho = \frac{\text{Cov}(X,Y)}{\sigma_X \times \sigma_Y}$$</p>
+<h3 id="portfolio-vol">Portfolio Vol</h3>
+<p>$$\sigma_p = \sigma\sqrt{\frac{1}{N} + \frac{N-1}{N} \times \bar{\rho}}$$</p>
+<p><strong>Floor</strong> = σ√ρ̄ (can never diversify below this)</p>
+<h3 id="diversification-ratio">Diversification Ratio</h3>
+<p>$$DR = \frac{\Sigma(w_i \times \sigma_i)}{\sigma_p}$$</p>
+<p>DR → 1.0 = no diversification | DR &gt; 1.5 = good</p>
+<h3 id="concentration-hhi">Concentration (HHI)</h3>
+<p>$$HHI = \sum w_i^2 \qquad \text{Effective N} = 1/HHI$$</p>
+<h3 id="hedge-effectiveness">Hedge Effectiveness</h3>
+<p>$$R^2 = 1 - \frac{\text{Var(hedged)}}{\text{Var(unhedged)}}$$</p>
+<p>R² &gt; 0.95 = excellent | &lt;0.50 = not a hedge</p>
+<h3 id="optimal-hedge-ratio">Optimal Hedge Ratio</h3>
+<p>$$h^* = \rho \times \frac{\sigma_{\text{position}}}{\sigma_{\text{hedge}}}$$</p>
+<h3 id="beta-hedge-sizing">Beta Hedge Sizing</h3>
+<p>$$N = \frac{V_p \times (\beta_{current} - \beta_{target})}{V_f}$$</p>
+<h3 id="kelly-criterion">Kelly Criterion</h3>
+<p>$$f^* = \frac{p \cdot b - q}{b}$$</p>
+<p>In practice: use ¼ or ½ Kelly</p>
+<h3 id="factor-model">Factor Model</h3>
+<p>$$r_i = \alpha + \sum \beta_{ik}\,f_k + \epsilon_i$$</p>
+<p>$$\text{Factor}<em>k\,\% = \frac{\beta</em>{pk}^2 \times \sigma_k^2}{\sigma_p^2}$$</p>
+<h3 id="component-var">Component VaR</h3>
+<p>$$\text{CVaR}<em>i = w_i \times \beta</em>{i,p} \times \text{VaR}_p$$</p>
+<h3 id="market-impact-almgren-chriss">Market Impact (Almgren-Chriss)</h3>
+<p>$$\text{Cost} = \tfrac{1}{2}\,\text{spread} + \eta \times \text{speed} + \gamma \times \frac{Q}{\text{ADV}}$$</p>
+<p>Non-linear: 5× size costs 10–15× more</p>
+<hr />
+<h2 id="commodities">Commodities</h2>
+<h3 id="crack-spread-3-2-1">Crack Spread (3-2-1)</h3>
+<p>$$\text{Crack}_{3-2-1} = \frac{2 \times \text{RBOB} + 1 \times \text{ULSD} - 3 \times \text{Crude}}{3}$$</p>
+<h3 id="spark-spread">Spark Spread</h3>
+<p>$$\text{Spark} = \text{Power price} - (\text{Gas price} \times \text{Heat rate})$$</p>
+<h3 id="crush-spread-soy">Crush Spread (Soy)</h3>
+<p>$$\text{Crush} = (\text{Meal} + \text{Oil}) - \text{Beans}$$</p>
+<h3 id="futures-pricing">Futures Pricing</h3>
+<p>$$F = S \times e^{(r-q)T}$$</p>
+<hr />
+<h2 id="pricing-models">Pricing Models</h2>
+<h3 id="black-scholes">Black-Scholes</h3>
+<p>Inputs: S (spot), K (strike), T (time), r (rate), q (div yield), σ (vol)</p>
+<p><strong>Where it breaks</strong>: fat tails, non-constant vol, gaps, early exercise</p>
+<h3 id="swap-par-rate">Swap Par Rate</h3>
+<p>$$c = \frac{DF(t_0) - DF(t_n)}{\sum_{i=1}^n DF(t_i) \times \tau_i}$$</p>
+<hr />
+<h2 id="macro-scenarios">Macro &amp; Scenarios</h2>
+<h3 id="gdp">GDP</h3>
+<p>$$Y = C + I + G + (X - M)$$</p>
+<h3 id="output-gap">Output Gap</h3>
+<p>$$\text{Gap} = \frac{Y_{actual} - Y_{potential}}{Y_{potential}} \times 100\%$$</p>
+<h3 id="okuns-law">Okun's Law</h3>
+<p>$$\Delta U \approx -0.5 \times (g - g^*)$$</p>
+<h3 id="taylor-rule">Taylor Rule</h3>
+<p>$$r^<em> = r_{neutral} + 0.5(\pi - \pi^</em>) + 0.5(y - y^*)$$</p>
+<h3 id="sigma-calibration">Sigma Calibration</h3>
+<p>$$\sigma_{daily} = \frac{\text{Annualized RV}}{\sqrt{252}}$$</p>
+<hr />
+<h2 id="regulatory">Regulatory</h2>
+<h3 id="cva">CVA</h3>
+<p>$$CVA \approx EE \times PD \times LGD$$</p>
+<h3 id="margin-buffer">Margin Buffer</h3>
+<p>$$\text{Buffer ratio} = \frac{\text{Equity} - \text{Maintenance req.}}{\text{Equity}}$$</p>
+<p>Target: 15–25%</p>
+<hr />
+<h2 id="position-sizing">Position Sizing</h2>
+<h3 id="liquidity-adjusted-max-notional">Liquidity-Adjusted Max Notional</h3>
+<p>$$\text{Max notional} = ADV(\$) \times 15\% \times \text{Max exit days}$$</p>
+<h3 id="market-impact-estimate">Market Impact Estimate</h3>
+<p>$$\text{Impact} \approx \sigma \times \sqrt{\frac{Q}{V}} \times k$$</p>
+<p>where k ≈ 0.01–0.05</p>
+<h3 id="conviction-scoring">Conviction Scoring</h3>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variant perception</td>
+<td>What does PM see market doesn't?</td>
+</tr>
+<tr>
+<td>Catalyst</td>
+<td>What event + when?</td>
+</tr>
+<tr>
+<td>Downside</td>
+<td>How much can it lose?</td>
+</tr>
+<tr>
+<td>Edge durability</td>
+<td>Why won't it get arbed?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Score: 4/4 → Tier 1 | 3/4 → Tier 2 | 2/4 → Tier 3 | ≤1 → Reject</strong></p>
+<hr />
+<h2 id="key-correlation-regimes">Key Correlation Regimes</h2>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Calm ρ</th>
+<th>Stress ρ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPX vs single stocks</td>
+<td>0.30</td>
+<td>0.70+</td>
+</tr>
+<tr>
+<td>SPX vs HY credit</td>
+<td>0.50</td>
+<td>0.85+</td>
+</tr>
+<tr>
+<td>SPX vs 10Y UST</td>
+<td>−0.30</td>
+<td>−0.50 (but +0.40 in 2022)</td>
+</tr>
+<tr>
+<td>Cross-PM</td>
+<td>0.10–0.20</td>
+<td>0.50–0.80</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Crisis VaR</strong> = 1.5–2.5× normal VaR due to ρ spike</p>
+<hr />
+<h2 id="macro-shock-response-matrix">Macro Shock Response Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Shock</th>
+<th>SPX</th>
+<th>10Y Price</th>
+<th>DXY</th>
+<th>HY OAS</th>
+<th>Gold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rate hike</td>
+<td>↓↓</td>
+<td>↓↓</td>
+<td>↑↑</td>
+<td>+30bp</td>
+<td>↓</td>
+</tr>
+<tr>
+<td>Hot CPI</td>
+<td>↓</td>
+<td>↓↓</td>
+<td>↑</td>
+<td>+15bp</td>
+<td>Complex</td>
+</tr>
+<tr>
+<td>Recession</td>
+<td>↓↓↓</td>
+<td>↑↑↑</td>
+<td>↑↑</td>
+<td>+200bp</td>
+<td>↑↑</td>
+</tr>
+<tr>
+<td>Oil shock</td>
+<td>↓</td>
+<td>↓</td>
+<td>↑</td>
+<td>+25bp</td>
+<td>↑</td>
+</tr>
+<tr>
+<td>Credit event</td>
+<td>↓↓</td>
+<td>↑</td>
+<td>↑</td>
+<td>+100bp</td>
+<td>↑</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="hedging-cost-benefit">Hedging Cost-Benefit</h2>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Annual Cost</th>
+<th>Crisis Payoff</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OTM puts (5% OTM, 3M)</td>
+<td>1.5–3.0%</td>
+<td>5–20×</td>
+<td>Event protection</td>
+</tr>
+<tr>
+<td>Put spreads</td>
+<td>0.5–1.5%</td>
+<td>2–5× (capped)</td>
+<td>Budget hedging</td>
+</tr>
+<tr>
+<td>VIX calls (K=30–40)</td>
+<td>1.0–2.5%</td>
+<td>3–10×</td>
+<td>Vol spike</td>
+</tr>
+<tr>
+<td>Zero-cost collar</td>
+<td>0%</td>
+<td>Capped &amp; floored</td>
+<td>Premium constraint</td>
+</tr>
+</tbody>
+</table>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+});
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
