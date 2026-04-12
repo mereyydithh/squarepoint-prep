@@ -428,7 +428,7 @@ body {
 <h3 id="sofr-skew-scanner">SOFR Skew Scanner</h3>
 <ul>
 <li><strong>Output:</strong> OI by strike/maturity, day-over-day change, net dealer gamma heatmap, skew metrics</li>
-<li><strong>Gamma pin:</strong> Strike where dealer gamma = 0. Below = short gamma (amplifies). Above = long gamma (dampens)</li>
+<li><strong>Gamma pin:</strong> Strike where dealer gamma = 0. Below = short gamma (amplifies vol — dealers sell into declines, buy into rallies). Above = long gamma (dampens vol). Danger = crossing from long-gamma into short-gamma territory.</li>
 <li><strong>Net dealer gamma calc:</strong> Assume dealers short options → gamma × OI × multiplier, aggregate by strike</li>
 </ul>
 <h3 id="sabr-natixis">SABR (Natixis)</h3>
@@ -462,7 +462,7 @@ body {
 <li><strong>Problem:</strong> 5 desks (Rates, Equities, FX, Commodities, Credit) each had own spreadsheets/scripts. Greeks incomparable — different bump sizes, curve methods, day-count conventions.</li>
 <li><strong>Solution:</strong> Common risk factor taxonomy + standardized sensitivity methodology (1bp rates, 1% equities/FX/commo) + unified aggregation with cross-desk netting.</li>
 <li><strong>Value:</strong> CRO gets single aggregated Greek report across all desks. Cross-desk offsets captured (e.g., EUR duration in rates desk + EUR rate exposure embedded in FX positions).</li>
-<li><strong>Status:</strong> Live on Rates + Equities. Building Commodities + FX. Credit last (complex exotics). Full production expected Q1 2026.</li>
+<li><strong>Status:</strong> Live on Rates, Equities, Commodities, FX. Credit last (complex exotics) — initially targeted Q1 2026 but slipped; expected end of Q2 2026.</li>
 <li><strong>Why still in implementation:</strong> Data normalization (different booking systems) + change management (running parallel with old reports until reconciled).</li>
 </ul>
 <h3 id="aws-back-test-engine-1m-tradesday-50-faster">AWS Back-Test Engine (1M Trades/Day, 50% Faster)</h3>
@@ -483,11 +483,11 @@ body {
 </ul>
 <h3 id="suez-canal-crisis-pricing">Suez Canal Crisis Pricing</h3>
 <ul>
-<li><strong>Context:</strong> Nov 2023 Houthi attacks → 12% global trade disrupted. Freight spiked 300%+, tanker rates doubled (Cape of Good Hope reroute = +10-15 days).</li>
+<li><strong>Context:</strong> Ever Given grounding (Mar 2021) reshaped supply-chain hedging demand for years. By 2023, corporates actively requesting freight-contingent structures. Red Sea/Hormuz tensions still elevated mid-2023.</li>
 <li><strong>Client risk:</strong> European refiner hedged on Brent CIF Rotterdam → delivery delay + freight surge not covered by Brent hedge = basis risk.</li>
 <li><strong>Solution:</strong> Asian options on freight indices (BCTI) layered with crude swaps = integrated supply-chain hedges.</li>
 <li><strong>Freight indices:</strong> Baltic Exchange (BDI, BDTI, BCTI). Assessment-based (broker panel). Extreme seasonality, strong mean reversion, thin liquidity.</li>
-<li><strong>Hard part:</strong> Crisis vol was 3× calibrated surface. Used scenario-weighted pricing: 60% disruption 3mo / 40% disruption 6mo+.</li>
+<li><strong>Hard part:</strong> Geopolitical vol not captured in historical surface. Used scenario-weighted pricing incorporating disruption duration probabilities.</li>
 </ul>
 <hr />
 <h2 id="why-questions-three-levels">"WHY" QUESTIONS — THREE LEVELS</h2>
