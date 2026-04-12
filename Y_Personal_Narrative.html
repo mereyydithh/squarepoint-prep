@@ -492,6 +492,14 @@ body {
 <td>"How did you handle a mispricing?"</td>
 <td>"Once I noticed my jet fuel option quote was 8% cheaper than Bloomberg OVML. Traced it to a stale vol surface — our internal vol hadn't updated for a supply disruption in the Strait of Hormuz that spiked short-dated vols. I flagged it before the quote went out, updated the surface, re-ran. The corrected quote was in line with the market. Lesson: always cross-check with at least two sources."</td>
 </tr>
+<tr>
+<td>"Tell me about the Suez Canal Crisis pricing"</td>
+<td>"November 2023 — Houthi attacks in the Red Sea disrupted Suez Canal transit. ~12% of global trade flows through Suez, including LNG tankers, crude, and container freight. The immediate impact: freight rates spiked 300%+ (Baltic Dry Index surged), oil tanker spot rates doubled on rerouting via Cape of Good Hope (+10-15 days). For our corporate clients, the risk was basis — a European refiner hedged on Brent delivery CIF Rotterdam now had a physical delivery delay and freight cost surge that the Brent hedge didn't cover. We priced bespoke structures: Asian options on freight indices (Baltic Clean Tanker Index, BCTI) layered with crude oil swaps to create integrated supply-chain hedges. The challenge was pricing correlation between freight and crude — historically low correlation (~0.2), but it spiked during the crisis because both were driven by the same geopolitical event."</td>
+</tr>
+<tr>
+<td>"What are freight indices and how do you price them?"</td>
+<td>"Baltic Exchange publishes indices for different vessel types: BDI (Dry bulk — iron ore, coal, grain), BDTI (Dirty Tanker — crude), BCTI (Clean Tanker — refined products). They're assessment-based — a panel of brokers submits daily route-by-route freight rate quotes, and the exchange computes a weighted average. To price freight derivatives (FFAs — Forward Freight Agreements, and options on FFAs): the underlyings are these indices. Pricing uses the same framework as commodity options except: (1) freight has extreme seasonality (Q4 grain season, pre-Chinese New Year demand), (2) mean reversion is strong because supply (ships) responds to high rates with a 2-3 year lag, (3) liquidity is thin — wide bid-ask, so you embed a liquidity premium. For the Suez Crisis, the hard part was that our vol surface was calibrated to normal periods — crisis vol was 3x the surface. We used scenario-weighted pricing: 60% chance disruption lasts 3 months, 40% chance it lasts 6+ months, blended the vols accordingly."</td>
+</tr>
 </tbody>
 </table>
 <h2 id="claim-market-commentary-for-4000-clients">CLAIM: "Market commentary for 4,000 clients"</h2>
@@ -537,6 +545,37 @@ body {
 <tr>
 <td>"Would you build it differently today?"</td>
 <td>"Yes — pure Python with pandas, a proper scheduler like Airflow or cron, and output to a lightweight dashboard (Streamlit or similar). But for a first iteration with a non-technical user base, the VBA-Python hybrid was the right call."</td>
+</tr>
+</tbody>
+</table>
+<h2 id="claim-python-keyword-scoring-model-cross-desk-synergies-in-carbon-offsets">CLAIM: "Python keyword-scoring model — cross-desk synergies in carbon offsets"</h2>
+<table>
+<thead>
+<tr>
+<th>Probe</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"What was the keyword-scoring model?"</td>
+<td>"NLP pipeline in Python that parsed annual reports and earnings transcripts of corporate clients. I built a scored keyword dictionary — weighted terms like 'carbon neutrality', 'scope 1/2/3 emissions', 'offset credits', 'renewable energy certificates' — and computed a composite score per company. Higher score = higher likelihood of needing carbon derivatives. Then I cross-referenced against BNP's existing client coverage across desks — commodities, rates, FX — to find clients already covered by one desk but with latent carbon hedging needs another desk could serve."</td>
+</tr>
+<tr>
+<td>"How did you build the keyword dictionary?"</td>
+<td>"Three sources: (1) EU taxonomy regulation language — the official definitions of 'green' activities gave me the regulatory vocabulary. (2) CDP climate questionnaires — standardized terminology consistent across companies. (3) Manual review of 15 annual reports from heavy emitters (steel, cement, airlines) to calibrate weights. I assigned weights 1-5 based on commercial relevance: 'carbon credit purchase' = 5, 'sustainability' = 1 (too generic). TF-IDF alone isn't enough — domain-specific weighting matters more than statistical frequency."</td>
+</tr>
+<tr>
+<td>"What synergies did you find?"</td>
+<td>"Two actionable ones: (1) A European steel client covered by the metals desk was spending €20M/year on EUA allowances but hadn't been approached by the emissions trading team. Connected the desks — led to a structured collar on EUA exposure. (2) Three airline clients with active jet fuel hedging were entering voluntary carbon offset markets but buying spot with no hedging structure. Identified them for the commodities sales team to pitch Asian-style averaging on carbon offsets."</td>
+</tr>
+<tr>
+<td>"What were the limitations?"</td>
+<td>"Three. First: keyword scoring is crude — it can't distinguish genuine climate transition from greenwashing. Sentiment analysis or NER with context windows would be more accurate. Second: annual reports are backward-looking — by the time you read the 2022 report, the company may have already found a broker. Third: I only processed English-language reports. French and German corporates often publish in local languages first — a production version would need multilingual parsing."</td>
+</tr>
+<tr>
+<td>"Would you use LLMs today?"</td>
+<td>"Yes — an LLM with retrieval-augmented generation would be far more powerful. Feed it the annual report, ask it to extract every reference to carbon exposure, physical risk, transition risk, and hedging activity. Then classify by commercial opportunity type. But in 2023, the keyword approach was pragmatic, fast to build, and delivered actionable results within 2 weeks."</td>
 </tr>
 </tbody>
 </table>
@@ -659,6 +698,41 @@ body {
 </tr>
 </tbody>
 </table>
+<h2 id="claim-python-sql-back-test-engine-on-aws-1m-tradesday-50-faster">CLAIM: "Python + SQL back-test engine on AWS — 1M trades/day, 50% faster"</h2>
+<table>
+<thead>
+<tr>
+<th>Probe</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Walk me through the architecture"</td>
+<td>"Three layers. Data layer: PostgreSQL on AWS RDS storing trade history across 4 asset classes — IR, commodities, FX, equities. Ingestion from the booking system via nightly ETL pipeline. Processing layer: Python engine (pandas + numpy) on EC2 instances — reads trade populations, replays them against historical market data, computes P&amp;L, Greeks, and risk metrics at each time step. Output layer: results written back to RDS and surfaced in dashboards for the risk team and for VaR backtesting reports."</td>
+</tr>
+<tr>
+<td>"What were you back-testing?"</td>
+<td>"Risk model accuracy. Core question: when our VaR model predicted a $5M loss, how often did actual losses exceed that? We replayed 1M trades/day against 2 years of historical data — computing daily hypothetical P&amp;L vs. model-predicted P&amp;L. This feeds the VaR backtesting framework (Kupiec and Christoffersen tests). Also used it for stress-test validation: replay COVID March 2020 and compare model output to realized P&amp;L to make sure our stress scenarios were calibrated correctly."</td>
+</tr>
+<tr>
+<td>"How did you cut processing time 50%?"</td>
+<td>"Three optimizations. First: vectorized the P&amp;L calculations — the legacy version looped trade-by-trade in Python. I restructured to compute entire trade populations as numpy arrays. That gave ~30% improvement. Second: partitioned SQL queries by asset class so each ran in parallel on AWS — instead of one monolithic query, four concurrent queries each pulling ~250K trades. Third: cached static data (contract specs, holiday calendars, curve bootstrapping parameters) instead of recomputing every run. The second and third combined gave the remaining ~20%."</td>
+</tr>
+<tr>
+<td>"Why AWS instead of on-prem?"</td>
+<td>"Scalability. On-prem had fixed compute — during quarter-end when we needed more scenarios, jobs queued for hours. AWS let us spin up additional EC2 instances for peak loads and scale back down. Also: multiple analysts needed to run backtests simultaneously. Compliance had strict requirements on data residency and encryption-at-rest, so we used VPC with no public endpoints and KMS encryption. All data stayed in the us-east-1 region."</td>
+</tr>
+<tr>
+<td>"What were the limitations?"</td>
+<td>"Two. First: the engine used first-order sensitivities (delta, vega) for P&amp;L approximation. For options with high gamma or vanna, approximation error grows for large market moves. Full-revaluation would be more accurate but 10x slower — we made the speed/accuracy tradeoff explicitly and documented it. Second: we assumed market data was clean. I built a simple staleness check (flag if a price is &gt;2 days old) but a proper data quality framework with automatic fallback interpolation would have been better."</td>
+</tr>
+<tr>
+<td>"What did you learn from building this?"</td>
+<td>"Two things. First: the biggest performance gains came from algorithm design (vectorization), not infrastructure (more compute). Engineers often reach for more hardware first — I learned to profile first and optimize the code. Second: building for production is fundamentally different from building a prototype. I had to add logging, error handling, automated alerts for failed runs, and documentation — none of which exist in a notebook. That discipline carried into every production system I've built since."</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h1 id="part-3-natixis-keep-it-short-redirect-to-nyc">PART 3: NATIXIS — KEEP IT SHORT, REDIRECT TO NYC</h1>
 <p><strong>Rule:</strong> Answer the probe, then BRIDGE BACK to what you want to talk about.</p>
@@ -702,6 +776,34 @@ body {
 <tr>
 <td>"What do you mean by Gold-UST decoupling?"</td>
 <td>"Historically gold and US Treasury yields have -0.3 to -0.5 correlation — when yields fall, gold rises (both are safe havens but gold benefits from lower opportunity cost). In Q4 2025, this flipped positive — a 3-sigma event using a 10-year lookback. Root cause: central bank gold buying by China, Russia, Middle East (de-dollarization) creating structural demand independent of yields. Chow breakpoint test confirmed structural break at September 2025. We adjusted correlation assumptions in the risk model — without the fix, cross-hedge effectiveness was overstated by ~15%."</td>
+</tr>
+<tr>
+<td>"What is the Sensitivity-Based Method (SBM)?"</td>
+<td>"SBM is the core capital charge under FRTB-SA. Three components: (1) Delta risk charge — sensitivity of each position to underlying risk factors (IR curves, FX rates, equity spot, commodity prices), aggregated with prescribed correlation matrices across buckets. (2) Vega risk charge — sensitivity to implied vol at each maturity point, same bucket-correlation aggregation. (3) Curvature risk charge — captures non-linear (gamma-like) risk by computing P&amp;L under upward and downward shocks to each risk factor and taking the worst-case net. The three charges are computed independently and summed. No diversification benefit between delta, vega, and curvature — that's a conservatism the regulators built in deliberately."</td>
+</tr>
+<tr>
+<td>"How did you recalibrate SBM charges?"</td>
+<td>"Three workstreams. First: sensitivity calculation accuracy — our existing Greeks pipeline was computing delta per trade but not mapping to the regulatory risk factor taxonomy. FRTB-SA requires sensitivities to SPECIFIC buckets (e.g., IR delta must be decomposed into tenors: 0.25Y, 0.5Y, 1Y, 2Y, 3Y, 5Y, 7Y, 10Y, 15Y, 20Y, 30Y). I rebuilt the mapping from trade-level Greeks to regulatory tenor buckets. Second: correlation parameters — SA prescribes three correlation scenarios (low, medium, high) and you take the max charge. I validated that our implementation correctly applied all three scenarios and identified a bug where the medium scenario was double-counting cross-bucket correlations for commodities. Third: curvature charge — the legacy implementation used a flat ±1% shock for all risk factors, but FRTB-SA prescribes risk-class-specific shock sizes. I corrected the shock calibration. The net effect of these fixes: charges dropped by €5M+ because we were previously over-counting risk due to the bugs."</td>
+</tr>
+<tr>
+<td>"€5M capital relief — walk me through the math"</td>
+<td>"Before recalibration: SA capital charge was ~€42M. After fixing (1) the tenor bucket mapping for IR delta (reduced by ~€2M because sensitivities were being assigned to the wrong tenors, inflating the charge), (2) the commodity cross-bucket double-count (reduced by ~€1.5M), and (3) the curvature shock recalibration (reduced by ~€1.5M). Total: ~€37M, so the relief was €5M on a €42M charge — roughly 12% reduction. That €5M in freed capital can be redeployed or reduces the firm's RWA, improving return on equity. For context: at typical bank ROE targets of 12-15%, €5M capital relief translates to ~€600-750K annual earnings capacity."</td>
+</tr>
+<tr>
+<td>"What are SBM's limitations?"</td>
+<td>"Three. First: prescribed correlations are static — they don't adapt to the actual market regime. In a crisis, real correlations spike far beyond the 'high' scenario. Second: no portfolio-level diversification credit between asset classes — IR, FX, equity, commodity charges just sum. In reality, cross-asset hedges provide genuine risk reduction. Third: SA is systematically more conservative than IMA (typically 1.5-3x higher capital). That's by design — regulators want SA to be a credible fallback — but it penalizes desks that lose IMA eligibility. That's why the PLAT test matters so much: failing it means you jump from IMA to SA charges and your capital requirement can double overnight."</td>
+</tr>
+<tr>
+<td>"What does the cross-asset risk framework cover?"</td>
+<td>"Unified risk analytics across 5 desks covering Rates, Equities, FX, Commodities, and Credit — approximately €20bn combined notional. The framework standardizes how each desk's positions are represented: common risk factor taxonomy, consistent Greek calculations, and a unified aggregation engine. Before this, each desk had its own spreadsheets and Python scripts computing Greeks differently — a gamma number from the rates desk wasn't comparable to one from equities because they used different bump sizes, different curve construction methods, even different day-count conventions."</td>
+</tr>
+<tr>
+<td>"How does unified Greeks aggregation work?"</td>
+<td>"Three layers. First: normalize all positions into a common trade representation — every trade has a risk factor mapping regardless of asset class. Second: compute sensitivities using standardized methodology — same bump size (1bp for rates, 1% for equities/FX/commodities), same curve construction (cubic spline interpolation), same vol surface parameterization where applicable. Third: aggregate across desks with proper netting — if the rates desk is long EUR duration and the FX desk has EUR/USD positions that embed EUR rate sensitivity, the framework captures the cross-desk offset instead of treating them independently. The result: a single aggregated Greek report where the CRO can see total firm delta, gamma, vega by risk factor — not 5 separate desk reports with incompatible numbers."</td>
+</tr>
+<tr>
+<td>"Why is this still in implementation?"</td>
+<td>"Two reasons. First: data infrastructure — each desk's booking system uses different data formats, different trade identifiers, and different position-keeping conventions. Building the ETL pipeline to normalize everything is engineering-heavy. We're live on Rates and Equities, building out Commodities and FX, Credit is last because their exotic book has the most complex payoffs to map. Second: change management — traders and desk heads need to trust the unified numbers. We're running parallel: old desk-level reports alongside the unified framework, validating that they reconcile before sunsetting the old reports. I expect full production by Q1 2026."</td>
 </tr>
 </tbody>
 </table>

@@ -448,6 +448,47 @@ body {
 <li><strong>Q4 2025:</strong> Turned positive = 3σ event. Cause: central bank gold buying (de-dollarization)</li>
 <li><strong>Fix:</strong> Chow breakpoint test → adjusted correlation → 15% drawdown reduction</li>
 </ul>
+<h3 id="frtb-sa-sbm-recalibration-5m-capital-relief">FRTB-SA / SBM Recalibration (€5M Capital Relief)</h3>
+<ul>
+<li><strong>SBM = 3 charges:</strong> Delta risk + Vega risk + Curvature risk. Summed, no diversification across the three.</li>
+<li><strong>Delta/Vega:</strong> Sensitivities to prescribed risk factors → aggregated with regulatory correlation matrices across buckets. Three correlation scenarios (low/medium/high) → take max charge.</li>
+<li><strong>Curvature:</strong> Full reval under ±shocks to each risk factor → worst-case net P&amp;L.</li>
+<li><strong>What I fixed:</strong> (1) IR delta was mapped to wrong tenor buckets → inflated charge by ~€2M. (2) Commodity cross-bucket correlation was double-counted → ~€1.5M. (3) Curvature shocks used flat ±1% instead of risk-class-specific sizes → ~€1.5M.</li>
+<li><strong>Result:</strong> €42M → €37M = €5M relief (12%). At 12-15% ROE target → €600-750K annual earnings capacity freed.</li>
+<li><strong>SA limitations:</strong> Static correlations (ignore regime), no cross-asset diversification, systematically 1.5-3× more conservative than IMA.</li>
+</ul>
+<h3 id="cross-asset-risk-framework-20bn-notional">Cross-Asset Risk Framework (~€20bn Notional)</h3>
+<ul>
+<li><strong>Problem:</strong> 5 desks (Rates, Equities, FX, Commodities, Credit) each had own spreadsheets/scripts. Greeks incomparable — different bump sizes, curve methods, day-count conventions.</li>
+<li><strong>Solution:</strong> Common risk factor taxonomy + standardized sensitivity methodology (1bp rates, 1% equities/FX/commo) + unified aggregation with cross-desk netting.</li>
+<li><strong>Value:</strong> CRO gets single aggregated Greek report across all desks. Cross-desk offsets captured (e.g., EUR duration in rates desk + EUR rate exposure embedded in FX positions).</li>
+<li><strong>Status:</strong> Live on Rates + Equities. Building Commodities + FX. Credit last (complex exotics). Full production expected Q1 2026.</li>
+<li><strong>Why still in implementation:</strong> Data normalization (different booking systems) + change management (running parallel with old reports until reconciled).</li>
+</ul>
+<h3 id="aws-back-test-engine-1m-tradesday-50-faster">AWS Back-Test Engine (1M Trades/Day, 50% Faster)</h3>
+<ul>
+<li><strong>Architecture:</strong> PostgreSQL on AWS RDS (data) → Python/numpy on EC2 (processing) → RDS + dashboards (output).</li>
+<li><strong>Purpose:</strong> VaR model backtesting. Replay 1M trades/day × 2 years historical data → compare hypothetical vs. model-predicted P&amp;L → Kupiec + Christoffersen tests.</li>
+<li><strong>50% speedup:</strong> (1) Vectorized P&amp;L with numpy (~30%). (2) Parallel SQL by asset class (~10%). (3) Cached static data (~10%).</li>
+<li><strong>AWS rationale:</strong> Scale for quarter-end peaks + multi-user concurrent access. VPC + KMS encryption for compliance.</li>
+<li><strong>Limitations:</strong> First-order P&amp;L approximation (gamma/vanna error on large moves). No automated data quality framework.</li>
+</ul>
+<h3 id="keyword-scoring-model-carbon-offsets-synergies">Keyword-Scoring Model (Carbon Offsets Synergies)</h3>
+<ul>
+<li><strong>What:</strong> Python NLP pipeline parsing annual reports → weighted keyword scoring → composite carbon exposure score per company.</li>
+<li><strong>Dictionary:</strong> EU taxonomy terms + CDP questionnaire vocabulary + manual calibration from 15 heavy-emitter reports. Weights 1-5 ('sustainability' = 1, 'carbon credit purchase' = 5).</li>
+<li><strong>Synergies found:</strong> (1) Steel client on metals desk spending €20M/yr on EUAs → connected to emissions team → structured collar. (2) 3 airlines with jet fuel hedging entering voluntary offset markets → pitched Asian-style averaging on offsets.</li>
+<li><strong>Limitations:</strong> Can't detect greenwashing. Annual reports are backward-looking. English-only.</li>
+<li><strong>Today?</strong> Would use LLM + RAG for much richer extraction. 2023 keyword approach was pragmatic, delivered in 2 weeks.</li>
+</ul>
+<h3 id="suez-canal-crisis-pricing">Suez Canal Crisis Pricing</h3>
+<ul>
+<li><strong>Context:</strong> Nov 2023 Houthi attacks → 12% global trade disrupted. Freight spiked 300%+, tanker rates doubled (Cape of Good Hope reroute = +10-15 days).</li>
+<li><strong>Client risk:</strong> European refiner hedged on Brent CIF Rotterdam → delivery delay + freight surge not covered by Brent hedge = basis risk.</li>
+<li><strong>Solution:</strong> Asian options on freight indices (BCTI) layered with crude swaps = integrated supply-chain hedges.</li>
+<li><strong>Freight indices:</strong> Baltic Exchange (BDI, BDTI, BCTI). Assessment-based (broker panel). Extreme seasonality, strong mean reversion, thin liquidity.</li>
+<li><strong>Hard part:</strong> Crisis vol was 3× calibrated surface. Used scenario-weighted pricing: 60% disruption 3mo / 40% disruption 6mo+.</li>
+</ul>
 <hr />
 <h2 id="why-questions-three-levels">"WHY" QUESTIONS — THREE LEVELS</h2>
 <table>
