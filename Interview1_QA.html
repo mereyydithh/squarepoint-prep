@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview1 QA — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-hover: #1c2331;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #e6edf3;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --accent-subtle: rgba(88,166,255,0.1);
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --orange: #db6d28;
+  --sidebar-w: 290px;
+  --content-max: 980px;
+}
+html { scroll-behavior: smooth; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar-header {
+  padding: 14px 20px 18px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.nav-section {
+  padding: 16px 20px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
+.nav-link {
+  display: block;
+  padding: 5px 20px 5px 22px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 48px 64px 100px;
+  max-width: var(--content-max);
+}
+.content h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 48px;
+  margin-bottom: 14px;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 22px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 16px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+.content ul, .content ol {
+  margin: 0 0 18px 24px;
+}
+.content li {
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+}
+.content li strong {
+  color: var(--text);
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 14px 22px;
+  margin: 20px 0;
+  background: rgba(88,166,255,0.05);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.content blockquote strong {
+  color: var(--text-secondary);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.content th {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+.content td {
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
+  vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.content td strong {
+  color: var(--text);
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.015);
+}
+.content tr:hover td {
+  background: rgba(88,166,255,0.03);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MATH (KaTeX) */
+.katex-display {
+  margin: 20px 0;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+.katex { font-size: 1.05em; }
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 15px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 10px; }
+  .content { padding: 60px 16px 40px; }
+  .katex { font-size: 0.95em; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Tools</div>
+<a class="nav-link" href="ask.html">Ask AI</a>
+<a class="nav-link" href="formulas.html">Formula Reference</a>
+<a class="nav-link" href="quiz.html">Quiz</a>
+<div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link" href="Z_Brain_Teasers.html">Brain Teasers</a>
+<a class="nav-link active" href="Interview1_QA.html">Interview1 QA</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+<a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
+<a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
+<a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
+<a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
+<a class="nav-link" href="Z_Brain_Teasers_Cheat.html">Brain Teasers — Cheat</a>
+
+</nav>
+
+<main class="content">
+<h1 id="round-1-interview-qa">Round 1 — Interview Q&amp;A</h1>
+<p>Junior Risk Manager · Squarepoint Capital · Interviewer: Suhas Vennam</p>
+<hr />
+<h2 id="background-fit">Background &amp; Fit</h2>
+<p><strong>Q1. Walk me through your CV.</strong></p>
+<p>French national judo athlete — trained discipline, pressure, performing under stress. Double masters in quantitative engineering and finance. Started in investment banking, then BNP Paribas sales trading as an assistant, moved into quant risk management on the sell side at BNP for nearly two years — that's the core of my experience. Currently at Natixis as a cross-asset quant analyst. Sell-side risk background gives me a rigorous process-driven foundation; I'm now looking to apply that in a buy-side environment where risk is directly tied to P&amp;L.</p>
+<hr />
+<p><strong>Q2. Why risk management?</strong></p>
+<p>Risk management sits at the crossroads of technical knowledge, market intuition, and P&amp;L creation. Traders look for opportunities — I look for vulnerabilities and make sure they're patched for maximum risk-adjusted return. It requires depth in all three dimensions simultaneously, which is what draws me to it.</p>
+<hr />
+<p><strong>Q3. Why Squarepoint?</strong></p>
+<p>Squarepoint is building out its discretionary arm and applying quantitative rigor to it — that combination is unusual and genuinely interesting from a risk perspective. The infrastructure, the research platform, the calibre of the traders and quants — it's the environment where I can grow the fastest. And frankly, I've been watching Squarepoint since I lived across the street from the NYC office. It's been a goal.</p>
+<hr />
+<p><strong>Q4. What do you know about Squarepoint's discretionary business?</strong></p>
+<p>Squarepoint spun out of Barclays in 2016 and has grown to approximately $80bn AUM, predominantly systematic. The discretionary arm is more recent — cross-asset, expanding globally. What makes it interesting from a risk standpoint is that you're applying quantitative risk frameworks to strategies that are driven by human judgment, which creates a more complex monitoring challenge than purely systematic books.</p>
+<hr />
+<p><strong>Q5. Where do you see yourself in 3 years?</strong></p>
+<p>Senior risk manager, owning a book of discretionary strategies end-to-end — limits, monitoring, escalation — and actively contributing to building out the risk framework for the discretionary business. I want to be the person traders come to when they need a risk perspective, not just the person who sends breach alerts.</p>
+<hr />
+<h2 id="risk-concepts">Risk Concepts</h2>
+<p><strong>Q6. What is VaR? How do you compute it?</strong></p>
+<p>VaR is the maximum loss not exceeded at a given confidence level over a given horizon. 95% 1-day VaR of $1M means: on 95% of days, losses won't exceed $1M — but on the remaining 5% they will, and VaR says nothing about how bad those days are.</p>
+<p>Three methods:<br />
+- <strong>Historical</strong>: sort past returns, take the 5th percentile directly. No distributional assumption.<br />
+- <strong>Parametric</strong>: assume normality, compute mean and std, apply z-score (1.645 for 95%).<br />
+- <strong>Monte Carlo</strong>: simulate thousands of paths, take the percentile of simulated outcomes.</p>
+<hr />
+<p><strong>Q7. What are the limitations of VaR?</strong></p>
+<ul>
+<li>Ignores everything beyond the threshold — tells you nothing about the size of tail losses</li>
+<li>Historical VaR assumes the past represents the future — misses new risk regimes</li>
+<li>Parametric VaR assumes normality — real returns are fat-tailed and skewed</li>
+<li>Not sub-additive: portfolio VaR can exceed the sum of individual VaRs (not coherent)</li>
+<li>Easily gamed: a strategy can show low VaR while taking on large tail risk</li>
+<li>Lookback period matters enormously — a calm 2-year window gives false comfort</li>
+</ul>
+<hr />
+<p><strong>Q8. What is CVaR / Expected Shortfall? Why is it better?</strong></p>
+<p>CVaR is the average loss in the cases where VaR is breached — the expected value of the tail. If 95% VaR is -$1M, CVaR tells you: on the 5% of bad days, you lose on average $X. It's more informative because it characterises the shape of the tail, not just the threshold. It's also sub-additive (coherent). Limitation: still model-dependent and harder to backtest than VaR.</p>
+<hr />
+<p><strong>Q9. What is the difference between market risk and operational risk?</strong></p>
+<ul>
+<li><strong>Market risk</strong>: losses from market price moves — equities down, rates up, vol spike, FX move. Driven by external market forces.</li>
+<li><strong>Operational risk</strong>: losses from failures in processes, systems, or people — wrong order entered, settlement failure, system outage, rogue trader. Driven by internal mechanics and human error.</li>
+</ul>
+<p>Both are real and material — operational losses can be as large as market losses (e.g. Barings, Société Générale).</p>
+<hr />
+<p><strong>Q10. What is stress testing? How does it differ from VaR?</strong></p>
+<p>Stress testing applies predefined extreme shocks to a portfolio and measures the P&amp;L impact. Unlike VaR, it's not probabilistic — it asks "what happens if X occurs" not "what's the 95th percentile loss."</p>
+<p>Two types:<br />
+- <strong>Historical scenarios</strong>: GFC 2008, COVID March 2020, 1987 crash — replay observed market moves<br />
+- <strong>Hypothetical scenarios</strong>: US-China trade war escalation, Middle East escalation, mass QE unwind</p>
+<p>VaR gives a daily probabilistic estimate under normal conditions. Stress testing prepares you for the extremes VaR can't capture, and informs liquidity planning, collateral requirements, and portfolio construction decisions.</p>
+<hr />
+<p><strong>Q11. What is a risk limit? How would you set one?</strong></p>
+<p>A risk limit is the maximum exposure a trader or desk is authorised to take. Limits cascade: firm-level → desk-level → individual trader. Types: notional (gross/net), VaR budget, delta limit, concentration limit (single-name or sector).</p>
+<p>Setting a limit: start with the desk's capital allocation, determine the acceptable loss given the firm's risk appetite, back into the VaR or notional equivalent. For a new trader, start conservative — limits can be increased as the track record develops. Always set both a daily limit and a drawdown stop-loss level.</p>
+<hr />
+<p><strong>Q12. What is drawdown? How do you use it to monitor a strategy?</strong></p>
+<p>Drawdown is the percentage decline from a peak to a subsequent trough. Max drawdown is the largest such decline over a period. It captures sustained losses that VaR misses — a strategy can have low daily VaR but a catastrophic drawdown if losses accumulate over weeks.</p>
+<p>In monitoring: track rolling drawdown on a daily basis. If a strategy is approaching its drawdown limit, investigate whether the strategy is behaving as designed or whether market regime has changed and the model is stale.</p>
+<hr />
+<p><strong>Q13. What is the Sharpe ratio? What's a good Sharpe?</strong></p>
+<p>Sharpe = annualised excess return / annualised volatility. It measures return per unit of risk. A Sharpe of 0.5–1.0 is acceptable, 1.0–2.0 is strong, above 2.0 is exceptional (or suspicious). Always assess Sharpe alongside max drawdown — a high Sharpe strategy that has large drawdowns is riskier than it appears.</p>
+<hr />
+<p><strong>Q14 &amp; 15. What is correlation? Why does it matter in a portfolio?</strong></p>
+<p>Correlation measures how much two assets move together (-1 to +1). In a portfolio context, holding five assets doesn't mean five independent exposures — if three are highly correlated, the effective exposure is much smaller than it appears. This overstates diversification and understates concentration risk.</p>
+<p>Critical point: in a crisis, correlations converge toward 1. Assets that appeared uncorrelated begin moving together — exactly when you need diversification most, it disappears. This is why stress tests must assume correlation breakdown.</p>
+<hr />
+<h2 id="options-greeks">Options &amp; Greeks</h2>
+<p><strong>Q16. What is delta? What does a delta of 0.6 mean?</strong></p>
+<p>Delta has two interpretations:<br />
+- <strong>Hedge ratio</strong>: for every $1 move in the underlying, the option value moves $0.60. To delta-hedge, you take an offsetting position of 0.60 shares per option.<br />
+- <strong>Moneyness proxy</strong>: roughly a 60% probability the option expires in-the-money (from the N(d1) term in Black-Scholes).</p>
+<p>Net portfolio delta = total dollar move of the portfolio per $1 move in spot. A risk manager monitors net delta to ensure the book is within its directional exposure limit.</p>
+<hr />
+<p><strong>Q17. What is gamma? Why does a risk manager care?</strong></p>
+<p>Gamma is the rate of change of delta — how much delta shifts when spot moves. It determines how quickly your hedge goes stale.</p>
+<ul>
+<li><strong>Long gamma</strong>: delta adjusts automatically as spot moves — you're naturally rehedged, but you pay for it via theta (time decay). Large moves benefit you.</li>
+<li><strong>Short gamma</strong>: you collect theta but are exposed to large sudden moves. If spot gaps, your delta hedge is wrong and you lose on both legs.</li>
+</ul>
+<p>Risk managers care because short gamma positions can generate large losses in volatile markets — exactly when you least want it.</p>
+<hr />
+<p><strong>Q18. What is vega? How does a vol spike affect a long options book?</strong></p>
+<p>Vega is the dollar change in option value per 1 percentage point move in implied volatility. A long options book has positive vega — when vol spikes, option values increase, generating a profit. The risk manager monitors aggregate vega to understand the book's sensitivity to volatility regime changes. In the current environment (VIX ~30), vega exposure is a primary risk driver.</p>
+<hr />
+<p><strong>Q19. What is theta? Who benefits?</strong></p>
+<p>Theta is daily time decay — the amount an option loses in value per day, all else equal. Theta is highest (fastest decay) in the final 30 days before expiry, lowest for long-dated options. Option sellers (short premium) collect theta — it's the "rent" they earn for taking on gamma risk. Option buyers pay theta. A risk manager tracks net theta to understand the daily carry cost or gain of the book.</p>
+<hr />
+<p><strong>Q20. If a trader is long gamma, is that good or bad to monitor?</strong></p>
+<p>Long gamma is a cleaner risk profile to monitor — the position self-adjusts as spot moves, reducing the risk of runaway losses. The main risk is theta bleed (daily cost) and vega exposure. Short gamma is harder to monitor and more dangerous in crisis conditions — losses can accelerate non-linearly as spot moves. For a risk manager, short gamma positions require more frequent rehedge monitoring and tighter limits.</p>
+<hr />
+<h2 id="scenarios-judgment">Scenarios &amp; Judgment</h2>
+<p><strong>Q21. A trader is at 90% of their daily VaR limit — what do you do?</strong></p>
+<p>Proactively reach out — don't wait for a breach. Understand what's driving the exposure: is it a single concentrated position or broad market move? Check what upcoming events (data, Fed, earnings) could push them through the limit. Flag to senior risk manager. Monitor intraday, don't wait for EOD reports. If they're adding risk, that's a conversation; if it's mark-to-market movement, assess whether it's transient.</p>
+<hr />
+<p><strong>Q22. A trader breaches their limit at market open — walk me through your response.</strong></p>
+<p>Market open breaches are often driven by overnight fills and early volatility — the mark may recover within minutes. Don't immediately force a position unwind. Steps:<br />
+1. Verify the breach is real, not a stale price or system error<br />
+2. Flag immediately to senior risk manager with full context<br />
+3. Speak to the trader — understand their view and intended action<br />
+4. Analyse what caused it: new position or market move?<br />
+5. Document everything — paper trail is non-negotiable<br />
+6. Monitor closely through the first hour; if still in breach by mid-morning, escalation required</p>
+<hr />
+<p><strong>Q23. Two strategies are highly correlated — why is that a problem?</strong></p>
+<p>One effective exposure, not two — the firm is taking more concentration risk than the limit structure implies. More critically, if one strategy is discretionary and the other systematic, an algo may react to a market move automatically, selling exactly when the discretionary trader wants to buy — compounding the loss. Crowded positioning across correlated strategies can create violent unwinds. At the portfolio level, you must adjust notional limits to reflect the true net exposure.</p>
+<hr />
+<p><strong>Q24. A model shows low VaR but the trader is taking large directional bets — what's happening?</strong></p>
+<p>Several possibilities:<br />
+- The VaR lookback window captures a calm period — the model is underestimating the current volatility regime<br />
+- The directional bets are in instruments or tenors not well captured by the model (illiquid, model blind spot)<br />
+- The trader has structured positions to appear hedged on the model's risk factors while retaining the actual directional exposure</p>
+<p>Action: don't trust the model number. Go to the raw positions, stress test them manually against realistic scenarios, and present the discrepancy to senior risk management. The worst thing a risk manager can do is defer to a model showing green when the book looks obviously risky.</p>
+<hr />
+<p><strong>Q25. Markets gap down 5% at open — what's your first call?</strong></p>
+<ol>
+<li>Pull live P&amp;L across all discretionary books immediately</li>
+<li>Identify who has the largest net long delta exposure — they're most impacted</li>
+<li>Call those traders: do they have hedges in place? Are they intending to add or reduce?</li>
+<li>Calculate estimated P&amp;L impact at current spot vs limit thresholds</li>
+<li>Escalate to senior risk management with a one-page summary: net delta, estimated loss, limit status, trader actions</li>
+<li>Monitor continuously — a 5% gap can reverse or extend; the first 30 minutes of trading is critical</li>
+</ol>
+<hr />
+<h2 id="markets">Markets</h2>
+<p><strong>Q26. What's your view on current market conditions?</strong></p>
+<p>VIX is elevated around 30, SPX is down approximately 10% YTD driven by tariff uncertainty and policy risk. The volatility regime has shifted — what was a low-vol environment in 2024 is now structurally higher. For a discretionary book, this means delta exposure is more expensive to hold, vega exposure is more valuable, and risk limits that were calibrated for a calm environment may need revisiting.</p>
+<hr />
+<p><strong>Q27. VIX at 30 — what does that mean for a discretionary options book?</strong></p>
+<p>Implied vol at 30 prices in approximately 1.9% daily moves in SPX. Options are expensive — buying protection costs more, selling premium collects more but with higher risk. A long options book is profitable on the vega position. The key risk manager question is whether the book's gamma and vega positions are sized for a sustained high-vol regime or were calibrated for a calmer environment.</p>
+<hr />
+<p><strong>Q28. How does a tariff shock affect equity vol?</strong></p>
+<p>Tariffs introduce earnings uncertainty — margins compress, supply chains reprice, and the growth outlook becomes less predictable. This raises the equity risk premium and pushes implied vol up even before actual earnings impact. Sector dispersion also increases (domestic vs. international earners behave differently), making correlation assumptions less reliable. For a discretionary book with cross-asset exposure, tariff risk can manifest through equities, FX, and commodity prices simultaneously.</p>
+<hr />
+<h2 id="questions-to-ask-suhas">Questions to Ask Suhas</h2>
+<ol>
+<li>How does the risk team interact day-to-day with the discretionary traders — is it reactive (breach alerts) or proactive (regular risk reviews)?</li>
+<li>What does the first 90 days look like for someone in this role?</li>
+<li>How are risk limits currently structured for the discretionary book — VaR-based, notional, or a combination?</li>
+</ol>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+});
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
