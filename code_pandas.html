@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Risk Functions (numpy / pandas) — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-hover: #1c2331;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #e6edf3;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --accent-subtle: rgba(88,166,255,0.1);
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --orange: #db6d28;
+  --sidebar-w: 290px;
+  --content-max: 980px;
+}
+html { scroll-behavior: smooth; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar-header {
+  padding: 14px 20px 18px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.nav-section {
+  padding: 16px 20px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
+.nav-link {
+  display: block;
+  padding: 5px 20px 5px 22px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 48px 64px 100px;
+  max-width: var(--content-max);
+}
+.content h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 48px;
+  margin-bottom: 14px;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 22px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 16px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+.content ul, .content ol {
+  margin: 0 0 18px 24px;
+}
+.content li {
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+}
+.content li strong {
+  color: var(--text);
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 14px 22px;
+  margin: 20px 0;
+  background: rgba(88,166,255,0.05);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.content blockquote strong {
+  color: var(--text-secondary);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.content th {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+.content td {
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
+  vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.content td strong {
+  color: var(--text);
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.015);
+}
+.content tr:hover td {
+  background: rgba(88,166,255,0.03);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MATH (KaTeX) */
+.katex-display {
+  margin: 20px 0;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+.katex { font-size: 1.05em; }
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 15px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 10px; }
+  .content { padding: 60px 16px 40px; }
+  .katex { font-size: 0.95em; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Tools</div>
+<a class="nav-link" href="ask.html">Ask AI</a>
+<a class="nav-link" href="formulas.html">Formula Reference</a>
+<a class="nav-link" href="quiz.html">Quiz</a>
+<div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link" href="Z_Brain_Teasers.html">Brain Teasers</a>
+<a class="nav-link" href="Interview1_QA.html">Interview1 QA</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+<a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
+<a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
+<a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
+<a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
+<a class="nav-link" href="Z_Brain_Teasers_Cheat.html">Brain Teasers — Cheat</a>
+<div class="nav-section">Coding Drills</div>
+<a class="nav-link" href="code_risk.html">Risk Functions (pure Python)</a>
+<a class="nav-link active" href="code_pandas.html">Risk Functions (numpy / pandas)</a>
+<a class="nav-link" href="code_bs-greeks-pnl.html">Black-Scholes, Greeks, Hedge P&L</a>
+<a class="nav-link" href="code_delta-portfolio-messy-return-series.html">Delta Portfolio, Messy Returns</a>
+<a class="nav-link" href="code_american_call.html">American Call (Binomial Tree)</a>
+
+</nav>
+
+<main class="content">
+<h1 id="risk-functions-numpy-pandas">Risk Functions (numpy / pandas)</h1>
+<p><em>Source: <code>_pandas.py</code></em></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># HISTORICAL VaR — pandas version</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># np.percentile does the sorting for you — cleaner and handles edge cases</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">historical_var_np</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.95</span><span class="p">):</span>
+    <span class="c1"># percentile at (1-confidence)*100 = the loss threshold</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">confidence</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">returns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% Historical VaR (numpy): </span><span class="si">{</span><span class="n">historical_var_np</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># PARAMETRIC VaR — scipy version (no hardcoded z-scores needed)</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># scipy.stats.norm.ppf gives the inverse CDF (percent point function)</span>
+<span class="c1"># ppf(0.05) = -1.645 automatically — no lookup table needed</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parametric_var_scipy</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.95</span><span class="p">):</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
+    <span class="n">std</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                  <span class="c1"># ddof=1 = sample std (n-1)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">confidence</span><span class="p">)</span>              <span class="c1"># e.g. ppf(0.05) = -1.645</span>
+    <span class="k">return</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">std</span>                           <span class="c1"># negative = loss</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% Parametric VaR (scipy): </span><span class="si">{</span><span class="n">parametric_var_scipy</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;99% Parametric VaR (scipy): </span><span class="si">{</span><span class="n">parametric_var_scipy</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span><span class="w"> </span><span class="mf">0.99</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># MAX DRAWDOWN — pandas version</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">max_drawdown_pd</span><span class="p">(</span><span class="n">prices</span><span class="p">):</span>
+    <span class="n">prices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
+    <span class="n">rolling_peak</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">cummax</span><span class="p">()</span>                  <span class="c1"># running peak at each point</span>
+    <span class="n">drawdown</span> <span class="o">=</span> <span class="p">(</span><span class="n">prices</span> <span class="o">-</span> <span class="n">rolling_peak</span><span class="p">)</span> <span class="o">/</span> <span class="n">rolling_peak</span>
+    <span class="k">return</span> <span class="n">drawdown</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>                           <span class="c1"># most negative value</span>
+
+<span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">115</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max Drawdown (pandas): </span><span class="si">{</span><span class="n">max_drawdown_pd</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># ROLLING VOLATILITY — pandas version</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rolling_vol_pd</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">prices</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
+    <span class="n">returns</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>          <span class="c1"># daily returns</span>
+    <span class="n">rolling_std</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>     <span class="c1"># sample std by default (ddof=1)</span>
+    <span class="n">annualized</span>  <span class="o">=</span> <span class="n">rolling_std</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">annualized</span>
+
+<span class="c1"># generate fake price series for demo</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">fake_prices</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">rolling_vol_pd</span><span class="p">(</span><span class="n">fake_prices</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Rolling Vol (last 5 values):</span><span class="se">\n</span><span class="si">{</span><span class="n">vol</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># ROLLING SHARPE — pandas version</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rolling_sharpe_pd</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">risk_free</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">prices</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
+    <span class="n">returns</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">excess</span>  <span class="o">=</span> <span class="n">returns</span> <span class="o">-</span> <span class="n">risk_free</span> <span class="o">/</span> <span class="mi">252</span>             <span class="c1"># daily excess return</span>
+    <span class="n">roll_mean</span> <span class="o">=</span> <span class="n">excess</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">roll_std</span>  <span class="o">=</span> <span class="n">excess</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>        <span class="c1"># ddof=1 by default</span>
+    <span class="n">sharpe</span>    <span class="o">=</span> <span class="p">(</span><span class="n">roll_mean</span> <span class="o">/</span> <span class="n">roll_std</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sharpe</span>
+
+<span class="n">sharpe</span> <span class="o">=</span> <span class="n">rolling_sharpe_pd</span><span class="p">(</span><span class="n">fake_prices</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Rolling Sharpe (last 5 values):</span><span class="se">\n</span><span class="si">{</span><span class="n">sharpe</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># BREACH DETECTION — pandas version</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">detect_breaches_pd</span><span class="p">(</span><span class="n">pnl</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
+    <span class="n">pnl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">pnl</span><span class="p">)</span>
+    <span class="n">breaches</span> <span class="o">=</span> <span class="n">pnl</span><span class="p">[</span><span class="n">pnl</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">breaches</span>                                 <span class="c1"># Series with original indices</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rolling_breach_pd</span><span class="p">(</span><span class="n">pnl</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">pnl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">pnl</span><span class="p">)</span>
+    <span class="n">cumulative</span> <span class="o">=</span> <span class="n">pnl</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cumulative</span><span class="p">[</span><span class="n">cumulative</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">]</span>
+
+<span class="n">pnl</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10000</span><span class="p">,</span> <span class="o">-</span><span class="mi">20000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="o">-</span><span class="mi">60000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="o">-</span><span class="mi">55000</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="o">-</span><span class="mi">51000</span><span class="p">,</span> <span class="o">-</span><span class="mi">66000</span><span class="p">,</span> <span class="mi">156000</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Breaches:</span><span class="se">\n</span><span class="si">{</span><span class="n">detect_breaches_pd</span><span class="p">(</span><span class="n">pnl</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50000</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Rolling 3-day breaches:</span><span class="se">\n</span><span class="si">{</span><span class="n">rolling_breach_pd</span><span class="p">(</span><span class="n">pnl</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50000</span><span class="p">,</span><span class="w"> </span><span class="n">window</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># OHLC ANALYSIS — if given a price DataFrame</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># Most likely format: columns = [Open, High, Low, Close, Volume]</span>
+
+<span class="n">ohlc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Open&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">103</span><span class="p">],</span>
+    <span class="s1">&#39;High&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="mi">104</span><span class="p">,</span> <span class="mi">106</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">108</span><span class="p">,</span> <span class="mi">107</span><span class="p">],</span>
+    <span class="s1">&#39;Low&#39;</span><span class="p">:</span>    <span class="p">[</span><span class="mi">99</span><span class="p">,</span>  <span class="mi">101</span><span class="p">,</span> <span class="mi">99</span><span class="p">,</span>  <span class="mi">104</span><span class="p">,</span> <span class="mi">101</span><span class="p">],</span>
+    <span class="s1">&#39;Close&#39;</span><span class="p">:</span>  <span class="p">[</span><span class="mi">102</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">106</span><span class="p">],</span>
+    <span class="s1">&#39;Volume&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1e6</span><span class="p">,</span> <span class="mf">1.2e6</span><span class="p">,</span> <span class="mf">0.9e6</span><span class="p">,</span> <span class="mf">1.5e6</span><span class="p">,</span> <span class="mf">1.1e6</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;return&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span>
+<span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;intraday_rng&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;High&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Open&#39;</span><span class="p">]</span>  <span class="c1"># intraday range %</span>
+<span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;true_range&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
+                            <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;High&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">],</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
+                                <span class="nb">abs</span><span class="p">(</span><span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;High&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span>
+                                <span class="nb">abs</span><span class="p">(</span><span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">]</span>  <span class="o">-</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+<span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;vwap&#39;</span><span class="p">]</span>         <span class="o">=</span> <span class="p">(</span><span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Volume&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Volume&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+<span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;drawdown&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="p">(</span><span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">ohlc</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cummax</span><span class="p">())</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">OHLC with risk metrics:</span><span class="se">\n</span><span class="si">{</span><span class="n">ohlc</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># CORRELATION MATRIX — numpy version</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># Risk managers use correlation to assess portfolio diversification</span>
+<span class="c1"># Correlation breakdown in crises: assets that were uncorrelated suddenly move together</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">asset_returns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;SPX&#39;</span><span class="p">:</span>   <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0003</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="s1">&#39;Bonds&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="s1">&#39;Gold&#39;</span><span class="p">:</span>  <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0002</span><span class="p">,</span> <span class="mf">0.008</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+<span class="p">})</span>
+
+<span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">asset_returns</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Correlation Matrix:</span><span class="se">\n</span><span class="si">{</span><span class="n">corr_matrix</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># PORTFOLIO VaR — with weights and covariance matrix</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># Parametric portfolio VaR: sigma_p = sqrt(w^T * Cov * w)</span>
+<span class="c1"># Then VaR = portfolio_value * z * sigma_p</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">portfolio_var</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">returns_df</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">portfolio_value</span><span class="o">=</span><span class="mf">1e6</span><span class="p">):</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">cov</span>     <span class="o">=</span> <span class="n">returns_df</span><span class="o">.</span><span class="n">cov</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="mi">252</span>         <span class="c1"># annualized covariance</span>
+    <span class="n">sigma_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weights</span> <span class="o">@</span> <span class="n">cov</span> <span class="o">@</span> <span class="n">weights</span><span class="p">)</span>      <span class="c1"># portfolio vol (annualized)</span>
+    <span class="n">z</span>       <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">confidence</span><span class="p">)</span>
+    <span class="n">daily_sigma</span> <span class="o">=</span> <span class="n">sigma_p</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span>            <span class="c1"># back to daily</span>
+    <span class="k">return</span> <span class="n">portfolio_value</span> <span class="o">*</span> <span class="n">z</span> <span class="o">*</span> <span class="n">daily_sigma</span>        <span class="c1"># negative = loss in $</span>
+
+<span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>
+<span class="n">var_dollar</span> <span class="o">=</span> <span class="n">portfolio_var</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">asset_returns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">1-day 95% Portfolio VaR: $</span><span class="si">{</span><span class="n">var_dollar</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    ignoredClasses: ['nokatex'],
+    throwOnError: false
+  });
+});
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

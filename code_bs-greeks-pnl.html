@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black-Scholes, Greeks, Hedge P&L — Squarepoint Prep</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-hover: #1c2331;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #e6edf3;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --accent-subtle: rgba(88,166,255,0.1);
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --orange: #db6d28;
+  --sidebar-w: 290px;
+  --content-max: 980px;
+}
+html { scroll-behavior: smooth; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar-header {
+  padding: 14px 20px 18px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.nav-section {
+  padding: 16px 20px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
+.nav-link {
+  display: block;
+  padding: 5px 20px 5px 22px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.nav-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: 48px 64px 100px;
+  max-width: var(--content-max);
+}
+.content h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 8px;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 48px;
+  margin-bottom: 14px;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.content h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 22px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.content p {
+  margin-bottom: 16px;
+}
+.content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.content a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+.content ul, .content ol {
+  margin: 0 0 18px 24px;
+}
+.content li {
+  margin-bottom: 5px;
+  color: var(--text-secondary);
+}
+.content li strong {
+  color: var(--text);
+}
+.content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.content em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 14px 22px;
+  margin: 20px 0;
+  background: rgba(88,166,255,0.05);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.content blockquote strong {
+  color: var(--text-secondary);
+}
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* TABLES */
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.content th {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid var(--border);
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+.content td {
+  border: 1px solid var(--border-light);
+  padding: 9px 16px;
+  vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.content td strong {
+  color: var(--text);
+}
+.content tr:nth-child(even) td {
+  background: rgba(255,255,255,0.015);
+}
+.content tr:hover td {
+  background: rgba(88,166,255,0.03);
+}
+
+/* CODE */
+.content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* MATH (KaTeX) */
+.katex-display {
+  margin: 20px 0;
+  padding: 12px 0;
+  overflow-x: auto;
+}
+.katex { font-size: 1.05em; }
+
+/* MOBILE */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+}
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+    padding: 60px 20px 40px;
+  }
+  .hamburger {
+    display: block;
+  }
+  .overlay.show {
+    display: block;
+  }
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 15px; }
+  .content table { font-size: 12px; }
+  .content th, .content td { padding: 6px 10px; }
+  .content { padding: 60px 16px 40px; }
+  .katex { font-size: 0.95em; }
+}
+
+/* SEARCH */
+.search-box {
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">Squarepoint Prep</div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search pages..." oninput="filterNav(this.value)">
+  </div>
+  <div class="nav-section">Tools</div>
+<a class="nav-link" href="ask.html">Ask AI</a>
+<a class="nav-link" href="formulas.html">Formula Reference</a>
+<a class="nav-link" href="quiz.html">Quiz</a>
+<div class="nav-section">Study Guide</div>
+<a class="nav-link" href="00_Home.html">Home</a>
+<a class="nav-link" href="A_Cash_Instruments.html">Cash Instruments</a>
+<a class="nav-link" href="A2_Commodities_Deep_Dive.html">Commodities Deep Dive</a>
+<a class="nav-link" href="B_Derivatives.html">Derivatives</a>
+<a class="nav-link" href="C_Market_Mechanics.html">Market Mechanics</a>
+<a class="nav-link" href="D_Greeks.html">Greeks</a>
+<a class="nav-link" href="E_Volatility.html">Volatility</a>
+<a class="nav-link" href="F_Risk_Measures.html">Risk Measures</a>
+<a class="nav-link" href="G_Portfolio_Risk.html">Portfolio Risk</a>
+<a class="nav-link" href="H_PnL_Attribution.html">PnL Attribution</a>
+<a class="nav-link" href="I_Hedging_Strategies.html">Hedging Strategies</a>
+<a class="nav-link" href="J_Position_Management.html">Position Management</a>
+<a class="nav-link" href="K_Behavioral_Biases.html">Behavioral Biases</a>
+<a class="nav-link" href="L_Fund_Structure.html">Fund Structure</a>
+<a class="nav-link" href="M_Disc_vs_Systematic.html">Disc vs Systematic</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory.html">Counterparty Op Regulatory</a>
+<a class="nav-link" href="P_Macro_Fundamentals.html">Macro Fundamentals</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships.html">Cross Asset Relationships</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment.html">Practical Risk Judgment</a>
+<a class="nav-link" href="S_Opinion_Formation.html">Opinion Formation</a>
+<a class="nav-link" href="T_Scenario_Analysis.html">Scenario Analysis</a>
+<a class="nav-link" href="U_Case_Studies.html">Case Studies</a>
+<a class="nav-link" href="V_Quant_Mindset.html">Quant Mindset</a>
+<a class="nav-link" href="W_Math_Stats_Probability.html">Math Stats Probability</a>
+<a class="nav-link" href="X_Coding_Data.html">Coding Data</a>
+<a class="nav-link" href="Y_Personal_Narrative.html">Personal Narrative</a>
+<a class="nav-link" href="Z_Brain_Teasers.html">Brain Teasers</a>
+<a class="nav-link" href="Interview1_QA.html">Interview1 QA</a>
+<div class="nav-section">Cheat Sheets</div>
+<a class="nav-link" href="A_Cash_Instruments_Cheat.html">Cash Instruments — Cheat</a>
+<a class="nav-link" href="A2_Commodities_Cheat.html">Commodities — Cheat</a>
+<a class="nav-link" href="B_Derivatives_Cheat.html">Derivatives — Cheat</a>
+<a class="nav-link" href="C_Market_Mechanics_Cheat.html">Market Mechanics — Cheat</a>
+<a class="nav-link" href="D_Greeks_Cheat.html">Greeks — Cheat</a>
+<a class="nav-link" href="E_Volatility_Cheat.html">Volatility — Cheat</a>
+<a class="nav-link" href="F_Risk_Measures_Cheat.html">Risk Measures — Cheat</a>
+<a class="nav-link" href="G_Portfolio_Risk_Cheat.html">Portfolio Risk — Cheat</a>
+<a class="nav-link" href="H_PnL_Attribution_Cheat.html">PnL Attribution — Cheat</a>
+<a class="nav-link" href="I_Hedging_Strategies_Cheat.html">Hedging Strategies — Cheat</a>
+<a class="nav-link" href="J_Position_Management_Cheat.html">Position Management — Cheat</a>
+<a class="nav-link" href="K_Behavioral_Biases_Cheat.html">Behavioral Biases — Cheat</a>
+<a class="nav-link" href="L_Fund_Structure_Cheat.html">Fund Structure — Cheat</a>
+<a class="nav-link" href="M_Disc_vs_Systematic_Cheat.html">Disc vs Systematic — Cheat</a>
+<a class="nav-link" href="NO_Counterparty_Op_Regulatory_Cheat.html">Counterparty Op Regulatory — Cheat</a>
+<a class="nav-link" href="P_Macro_Fundamentals_Cheat.html">Macro Fundamentals — Cheat</a>
+<a class="nav-link" href="Q_Cross_Asset_Relationships_Cheat.html">Cross Asset Relationships — Cheat</a>
+<a class="nav-link" href="R_Practical_Risk_Judgment_Cheat.html">Practical Risk Judgment — Cheat</a>
+<a class="nav-link" href="S_Opinion_Formation_Cheat.html">Opinion Formation — Cheat</a>
+<a class="nav-link" href="T_Scenario_Analysis_Cheat.html">Scenario Analysis — Cheat</a>
+<a class="nav-link" href="U_Case_Studies_Cheat.html">Case Studies — Cheat</a>
+<a class="nav-link" href="V_Quant_Mindset_Cheat.html">Quant Mindset — Cheat</a>
+<a class="nav-link" href="W_Math_Stats_Probability_Cheat.html">Math Stats Probability — Cheat</a>
+<a class="nav-link" href="X_Coding_Data_Cheat.html">Coding Data — Cheat</a>
+<a class="nav-link" href="Y_Personal_Narrative_Cheat.html">Personal Narrative — Cheat</a>
+<a class="nav-link" href="Z_Brain_Teasers_Cheat.html">Brain Teasers — Cheat</a>
+<div class="nav-section">Coding Drills</div>
+<a class="nav-link" href="code_risk.html">Risk Functions (pure Python)</a>
+<a class="nav-link" href="code_pandas.html">Risk Functions (numpy / pandas)</a>
+<a class="nav-link active" href="code_bs-greeks-pnl.html">Black-Scholes, Greeks, Hedge P&L</a>
+<a class="nav-link" href="code_delta-portfolio-messy-return-series.html">Delta Portfolio, Messy Returns</a>
+<a class="nav-link" href="code_american_call.html">American Call (Binomial Tree)</a>
+
+</nav>
+
+<main class="content">
+<h1 id="black-scholes-greeks-hedge-pl">Black-Scholes, Greeks, Hedge P&amp;L</h1>
+<p><em>Source: <code>_bs-greeks-pnl.py</code></em></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># BLACK-SCHOLES CALL &amp; PUT PRICER</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># Assumptions: European option, no dividends, constant vol, log-normal returns</span>
+<span class="c1"># S = spot price, K = strike, T = time to expiry (years), r = risk-free rate, sigma = vol</span>
+<span class="c1">#</span>
+<span class="c1"># d1 = [ln(S/K) + (r + 0.5*sigma^2)*T] / (sigma * sqrt(T))</span>
+<span class="c1"># d2 = d1 - sigma * sqrt(T)</span>
+<span class="c1"># Call = S * N(d1) - K * e^(-rT) * N(d2)</span>
+<span class="c1"># Put  = K * e^(-rT) * N(-d2) - S * N(-d1)   [put-call parity]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normal_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Phi(x): cumulative normal distribution using math.erf (no scipy needed)</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">black_scholes</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">option_type</span><span class="o">=</span><span class="s1">&#39;call&#39;</span><span class="p">):</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">S</span> <span class="o">/</span> <span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">d1</span> <span class="o">-</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">S</span> <span class="o">*</span> <span class="n">normal_cdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal_cdf</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s1">&#39;put&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">K</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal_cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d2</span><span class="p">)</span> <span class="o">-</span> <span class="n">S</span> <span class="o">*</span> <span class="n">normal_cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d1</span><span class="p">)</span>
+
+<span class="c1"># Example: ATM call, 1 year, 20% vol, 5% risk-free</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;BS Call: </span><span class="si">{</span><span class="n">black_scholes</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">K</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="o">=</span><span class="mf">0.20</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;BS Put:  </span><span class="si">{</span><span class="n">black_scholes</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">K</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span><span class="w"> </span><span class="n">option_type</span><span class="o">=</span><span class="s1">&#39;put&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Call &gt; Put for same strike when r &gt; 0 (carry effect)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># GREEKS (from Black-Scholes)</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># Delta: sensitivity of option price to &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;1 move in spot</span>
+<span class="c1"># Gamma: sensitivity of delta to &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;1 move in spot (risk manager cares: hedge slippage)</span>
+<span class="c1"># Vega:  sensitivity to 1 point (1%) move in vol — reported per 1% vol move</span>
+<span class="c1"># Theta: daily time decay (negative for long options)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normal_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># standard normal density — needed for gamma and vega</span>
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">greeks</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">option_type</span><span class="o">=</span><span class="s1">&#39;call&#39;</span><span class="p">):</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">S</span> <span class="o">/</span> <span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">d1</span> <span class="o">-</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">normal_cdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">normal_cdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>          <span class="c1"># put delta is negative</span>
+
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">normal_pdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>  <span class="c1"># same for call and put</span>
+    <span class="n">vega</span>  <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">normal_pdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>      <span class="c1"># per 1% vol move</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span> <span class="n">S</span> <span class="o">*</span> <span class="n">normal_pdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
+                 <span class="o">-</span> <span class="n">r</span> <span class="o">*</span> <span class="n">K</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal_cdf</span><span class="p">(</span><span class="n">d2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">365</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span> <span class="n">S</span> <span class="o">*</span> <span class="n">normal_pdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
+                 <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">K</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal_cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">365</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;delta&#39;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span> <span class="s1">&#39;vega&#39;</span><span class="p">:</span> <span class="n">vega</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="n">theta</span><span class="p">}</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">greeks</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.20</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># DELTA HEDGE P&amp;L</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># You sold a call, delta-hedged by buying delta shares.</span>
+<span class="c1"># If spot moves, your hedge P&amp;L offsets option P&amp;L — but gamma causes slippage.</span>
+<span class="c1"># Risk manager monitors: hedge ratio drift, gamma exposure, rehedge frequency.</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">delta_hedge_pnl</span><span class="p">(</span><span class="n">S0</span><span class="p">,</span> <span class="n">S1</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="c1"># position: short 1 call, long delta shares at S0</span>
+    <span class="n">call0</span>  <span class="o">=</span> <span class="n">black_scholes</span><span class="p">(</span><span class="n">S0</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span>       <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="s1">&#39;call&#39;</span><span class="p">)</span>
+    <span class="n">call1</span>  <span class="o">=</span> <span class="n">black_scholes</span><span class="p">(</span><span class="n">S1</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">252</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="s1">&#39;call&#39;</span><span class="p">)</span>  <span class="c1"># 1 day later</span>
+    <span class="n">delta0</span> <span class="o">=</span> <span class="n">greeks</span><span class="p">(</span><span class="n">S0</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)[</span><span class="s1">&#39;delta&#39;</span><span class="p">]</span>
+
+    <span class="n">option_pnl</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">call1</span> <span class="o">-</span> <span class="n">call0</span><span class="p">)</span>   <span class="c1"># short call: profit if price falls</span>
+    <span class="n">hedge_pnl</span>  <span class="o">=</span> <span class="n">delta0</span> <span class="o">*</span> <span class="p">(</span><span class="n">S1</span> <span class="o">-</span> <span class="n">S0</span><span class="p">)</span> <span class="c1"># long delta shares</span>
+    <span class="k">return</span> <span class="n">option_pnl</span> <span class="o">+</span> <span class="n">hedge_pnl</span>   <span class="c1"># residual = gamma P&amp;L</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Delta hedge P&amp;L (spot +5): </span><span class="si">{</span><span class="n">delta_hedge_pnl</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">105</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="mf">0.20</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Delta hedge P&amp;L (spot -5): </span><span class="si">{</span><span class="n">delta_hedge_pnl</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">95</span><span class="p">,</span><span class="w">  </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="mf">0.20</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Both negative because short gamma: you lose when spot moves either way</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># PUT-CALL PARITY CHECK</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># C - P = S - K * e^(-rT)   (for European options, no dividends)</span>
+<span class="c1"># If this doesn&#39;t hold -&gt; arbitrage opportunity exists</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_put_call_parity</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">black_scholes</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="s1">&#39;call&#39;</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">black_scholes</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="s1">&#39;put&#39;</span><span class="p">)</span>
+    <span class="n">lhs</span> <span class="o">=</span> <span class="n">C</span> <span class="o">-</span> <span class="n">P</span>
+    <span class="n">rhs</span> <span class="o">=</span> <span class="n">S</span> <span class="o">-</span> <span class="n">K</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C - P = </span><span class="si">{</span><span class="n">lhs</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | S - PV(K) = </span><span class="si">{</span><span class="n">rhs</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | diff = </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">lhs</span><span class="o">-</span><span class="n">rhs</span><span class="p">)</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">check_put_call_parity</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># OPTION PAYOFF AT EXPIRY (no model needed)</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># Net P&amp;L = intrinsic value at expiry - premium paid</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">option_payoff</span><span class="p">(</span><span class="n">spot_at_expiry</span><span class="p">,</span> <span class="n">strike</span><span class="p">,</span> <span class="n">premium</span><span class="p">,</span> <span class="n">option_type</span><span class="o">=</span><span class="s1">&#39;call&#39;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s1">&#39;long&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+        <span class="n">intrinsic</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">spot_at_expiry</span> <span class="o">-</span> <span class="n">strike</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">intrinsic</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">strike</span> <span class="o">-</span> <span class="n">spot_at_expiry</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">pnl</span> <span class="o">=</span> <span class="n">intrinsic</span> <span class="o">-</span> <span class="n">premium</span>
+    <span class="k">return</span> <span class="n">pnl</span> <span class="k">if</span> <span class="n">position</span> <span class="o">==</span> <span class="s1">&#39;long&#39;</span> <span class="k">else</span> <span class="o">-</span><span class="n">pnl</span>
+
+<span class="c1"># Long call: paid &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;5 premium, strike 100</span>
+<span class="k">for</span> <span class="n">spot</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">85</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">115</span><span class="p">]:</span>
+    <span class="n">pnl</span> <span class="o">=</span> <span class="n">option_payoff</span><span class="p">(</span><span class="n">spot</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">premium</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">option_type</span><span class="o">=</span><span class="s1">&#39;call&#39;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s1">&#39;long&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spot=</span><span class="si">{</span><span class="n">spot</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> | Long Call P&amp;L: </span><span class="si">{</span><span class="n">pnl</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># EXPECTED VALUE — PROBABILITY SIMULATION</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># Classic Akuna/trading interview: &quot;simulate this game and find the EV&quot;</span>
+<span class="c1"># Example: roll a die, get paid the face value. What&#39;s the EV?</span>
+<span class="c1"># Analytical: (1+2+3+4+5+6)/6 = 3.5</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_ev</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">n</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Simulated die EV: </span><span class="si">{</span><span class="n">simulate_ev</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># should be ~3.5</span>
+
+<span class="c1"># Variant: roll twice, take the max. What&#39;s the EV?</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_max_of_two</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">n</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EV of max(d1, d2): </span><span class="si">{</span><span class="n">simulate_max_of_two</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># analytical: 161/36 ≈ 4.472</span>
+
+
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># EXPECTED TOSSES UNTIL 2 HEADS IN A ROW</span>
+<span class="c1"># ══════════════════════════════════════════════════════════════════════════════</span>
+<span class="c1"># Classic brain teaser — analytical answer is 6. Simulate to verify.</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_two_heads</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="n">total_tosses</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">tosses</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">consecutive</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">consecutive</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">tosses</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>   <span class="c1"># heads</span>
+                <span class="n">consecutive</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">consecutive</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total_tosses</span> <span class="o">+=</span> <span class="n">tosses</span>
+    <span class="k">return</span> <span class="n">total_tosses</span> <span class="o">/</span> <span class="n">n</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected tosses for 2 heads in a row: </span><span class="si">{</span><span class="n">simulate_two_heads</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># ~6.0</span>
+</code></pre></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    ignoredClasses: ['nokatex'],
+    throwOnError: false
+  });
+});
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(function(el) {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
