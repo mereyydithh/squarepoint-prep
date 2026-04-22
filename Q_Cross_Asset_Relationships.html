@@ -492,7 +492,7 @@ body {
 </tbody>
 </table>
 <p><strong>2022 case study (full chain):</strong><br />
-1. Russia invades Ukraine (Feb 24) → Brent $90 → $130 in 2 weeks<br />
+1. Russia invades Ukraine (Feb 24) → Brent <span class="nokatex">$</span>90 → <span class="nokatex">$</span>130 in 2 weeks<br />
 2. CPI prints: 7.9%, 8.5%, 8.3%, 8.6%, 9.1% (June peak)<br />
 3. Fed: 25bp → 50bp → 75bp × 4 consecutive<br />
 4. 10Y UST: 1.5% → 4.2% in 9 months (+270bp)<br />
@@ -584,7 +584,7 @@ body {
 </tr>
 <tr>
 <td>Mar 15</td>
-<td>Fed emergency cut to 0% + $700B QE</td>
+<td>Fed emergency cut to 0% + <span class="nokatex">$</span>700B QE</td>
 <td>Not enough — futures hit limit down</td>
 </tr>
 <tr>
@@ -1094,7 +1094,7 @@ Cascade:
 <td><strong>Gold</strong></td>
 <td>Flat or softening</td>
 <td>Rising (usually)</td>
-<td>&gt; $50/day moves</td>
+<td>&gt; <span class="nokatex">$</span>50/day moves</td>
 </tr>
 <tr>
 <td><strong>Treasuries</strong></td>
@@ -1441,10 +1441,10 @@ Cascade:
 </table>
 <p><strong>RM application:</strong> When a macro variable moves, instantly estimate sector-level P&amp;L impact:</p>
 <p>$$\Delta P\&amp;L_{\text{sector}} \approx \text{sector exposure} \times \beta_{\text{factor}} \times \Delta\text{factor}$$</p>
-<p>Example: If oil moves +10% and the portfolio has $50M XLE long and $30M XLY long:<br />
-- XLE impact: $50M × 0.7 × 10% = +$3.5M<br />
-- XLY impact: $30M × (-0.2) × 10% = -$0.6M<br />
-- Net oil impact: +$2.9M</p>
+<p>Example: If oil moves +10% and the portfolio has <span class="nokatex">$</span>50M XLE long and <span class="nokatex">$</span>30M XLY long:<br />
+- XLE impact: <span class="nokatex">$</span>50M × 0.7 × 10% = +<span class="nokatex">$</span>3.5M<br />
+- XLY impact: <span class="nokatex">$</span>30M × (-0.2) × 10% = -<span class="nokatex">$</span>0.6M<br />
+- Net oil impact: +<span class="nokatex">$</span>2.9M</p>
 <p>But this is just the first-order effect. Oil also moves rates, USD, and VIX — calculate the second-order effects through other betas.</p>
 <hr />
 <h1 id="part-6-narrative-regime-why-the-same-data-causes-opposite-reactions">PART 6: NARRATIVE REGIME — WHY THE SAME DATA CAUSES OPPOSITE REACTIONS</h1>
@@ -1723,7 +1723,7 @@ $$\frac{\partial\text{SPX}}{\partial\text{NFP}} &gt; 0 \quad \text{in "growth sc
 <hr />
 <h1 id="part-9-quantitative-cross-asset-tools">PART 9: QUANTITATIVE CROSS-ASSET TOOLS</h1>
 <h2 id="factor-decomposition-of-portfolio-returns">Factor Decomposition of Portfolio Returns</h2>
-<p>$$R_p = \alpha + \beta_{\text{equity}} \cdot R_{\text{SPX}} + \beta_{\text{rates}} \cdot \Delta y_{10} + \beta_{\text{credit}} \cdot \Delta \text{OAS} + \beta_{\text{oil}} \cdot R_{\text{oil}} + \beta_{\text{FX}} \cdot \Delta \text{DXY} + \epsilon$$</p>
+<p>$<span class="nokatex">$</span>R_p = \alpha + \beta_{\text{equity}} \cdot R_{\text{SPX}} + \beta_{\text{rates}} \cdot \Delta y_{10} + \beta_{\text{credit}} \cdot \Delta \text{OAS} + \beta_{\text{oil}} \cdot R_{\text{oil}} + \beta_{\text{FX}} \cdot \Delta \text{DXY} + \epsilon$$</p>
 <p><strong>Why this matters:</strong> A PM claims they're generating alpha. Run the factor regression. If their returns are explained by $\beta_{\text{oil}} = 0.6$, they're not generating alpha — they're long oil through equity proxy positions. Different risk compensation, different drawdown profile, different hedge requirement.</p>
 <p><strong>Method:</strong><br />
 1. Run rolling 60-day regression of PM returns against cross-asset factors<br />
@@ -1758,8 +1758,8 @@ $$\frac{\partial\text{SPX}}{\partial\text{NFP}} &gt; 0 \quad \text{in "growth sc
 </tr>
 <tr>
 <td><strong>Oil</strong></td>
-<td>$ P&amp;L per $1 oil move</td>
-<td>Oil beta × notional ÷ price × $1</td>
+<td>$ P&amp;L per <span class="nokatex">$</span>1 oil move</td>
+<td>Oil beta × notional ÷ price × <span class="nokatex">$</span>1</td>
 </tr>
 <tr>
 <td><strong>FX</strong></td>
@@ -1773,7 +1773,7 @@ $$\frac{\partial\text{SPX}}{\partial\text{NFP}} &gt; 0 \quad \text{in "growth sc
 </tr>
 </tbody>
 </table>
-<p><strong>Aggregation:</strong> With a common $ unit, you can sum sensitivities to answer: "What's our total portfolio P&amp;L if oil rises $10, 10Y yields rise 25bp, and DXY strengthens 2%?" — applying the conditional correlation structure.</p>
+<p><strong>Aggregation:</strong> With a common $ unit, you can sum sensitivities to answer: "What's our total portfolio P&amp;L if oil rises <span class="nokatex">$</span>10, 10Y yields rise 25bp, and DXY strengthens 2%?" — applying the conditional correlation structure.</p>
 <h2 id="copula-based-tail-dependence">Copula-Based Tail Dependence</h2>
 <p>Standard correlation measures LINEAR co-movement. In tails, the relationship is non-linear:</p>
 <p>$$\lambda_U = \lim_{u \to 1} P(X &gt; F_X^{-1}(u) | Y &gt; F_Y^{-1}(u))$$</p>
@@ -1931,7 +1931,7 @@ $$\frac{\partial\text{SPX}}{\partial\text{NFP}} &gt; 0 \quad \text{in "growth sc
 <td>Carry unwind — check EM, HY, yield-seeking exposure</td>
 </tr>
 <tr>
-<td><strong>Oil &gt; $120 AND breakevens rising</strong></td>
+<td><strong>Oil &gt; <span class="nokatex">$</span>120 AND breakevens rising</strong></td>
 <td>🟡 ALERT</td>
 <td>Stagflation setup — run regime scenarios</td>
 </tr>
@@ -2050,16 +2050,16 @@ Oct 24:  Sunak becomes PM, reverses fiscal plans
 <h1 id="part-12-interview-answers">PART 12: INTERVIEW ANSWERS</h1>
 <h3 id="q1-oil-spiked-8-this-morning-walk-me-through-what-youd-check-and-how-youd-communicate-the-risk">Q1: "Oil spiked 8% this morning. Walk me through what you'd check and how you'd communicate the risk"</h3>
 <p><strong>Answer:</strong> "I'd structure this as three concentric rings: direct, secondary transmission, and tail.</p>
-<p><strong>Direct (first 30 minutes):</strong> Which PMs have energy positions — long or short? What's our portfolio's aggregate oil beta? I'd compute this quickly: multiply each position's oil sensitivity by its weight. If we have sell-side research with energy basket betas, I can estimate net P&amp;L impact within 15 minutes. For example, if we're net +$500K per dollar of oil through energy longs but -$200K through airlines and transport shorts, our net direct impact from an $8 oil move is about +$2.4M. That's the easy part.</p>
+<p><strong>Direct (first 30 minutes):</strong> Which PMs have energy positions — long or short? What's our portfolio's aggregate oil beta? I'd compute this quickly: multiply each position's oil sensitivity by its weight. If we have sell-side research with energy basket betas, I can estimate net P&amp;L impact within 15 minutes. For example, if we're net +<span class="nokatex">$</span>500K per dollar of oil through energy longs but -<span class="nokatex">$</span>200K through airlines and transport shorts, our net direct impact from an <span class="nokatex">$</span>8 oil move is about +<span class="nokatex">$</span>2.4M. That's the easy part.</p>
 <p><strong>Secondary transmission (first 2 hours):</strong> Check TIPS breakevens — have they repriced? If 5Y breakevens widened 10bp, that changes the market's rate path expectations. I'd check fed funds futures — are rate cut expectations being pulled forward or pushed back? That affects our duration positions and growth/tech exposure. Check DXY — oil shocks typically strengthen the dollar, which hurts our EM and non-USD exposure. At this point I'm building a cross-asset sensitivity table: oil impact + rates impact + FX impact + credit spread impact.</p>
-<p><strong>Tail scenario (communicate by end of day):</strong> If oil stays at this level or rises further, what's the macro regime implication? I'd run two scenarios: 'Hormuz resolved in 2 weeks' where the spike reverses, and 'sustained $120+ oil' where we enter stagflation. Under the stagflation scenario, I'd recalculate portfolio VaR using positive stock-bond correlation assumptions, because our current VaR assumes recent negative correlation. My guess is effective portfolio risk would be 1.5-2x what VaR reports.</p>
-<p>I'd communicate this to the PM as: 'Our direct oil P&amp;L is +$2.4M, but our cross-asset exposure through rates, credit, and FX is -$3.8M. Net, we're down roughly $1.4M on the day assuming current marker. More importantly, if oil sustains at this level, our effective portfolio risk under a stagflation correlation regime is approximately 70% higher than current VaR. I'd recommend reviewing our duration hedges, because they may not work if stock-bond correlation flips positive.'"</p>
+<p><strong>Tail scenario (communicate by end of day):</strong> If oil stays at this level or rises further, what's the macro regime implication? I'd run two scenarios: 'Hormuz resolved in 2 weeks' where the spike reverses, and 'sustained <span class="nokatex">$</span>120+ oil' where we enter stagflation. Under the stagflation scenario, I'd recalculate portfolio VaR using positive stock-bond correlation assumptions, because our current VaR assumes recent negative correlation. My guess is effective portfolio risk would be 1.5-2x what VaR reports.</p>
+<p>I'd communicate this to the PM as: 'Our direct oil P&amp;L is +<span class="nokatex">$</span>2.4M, but our cross-asset exposure through rates, credit, and FX is -<span class="nokatex">$</span>3.8M. Net, we're down roughly <span class="nokatex">$</span>1.4M on the day assuming current marker. More importantly, if oil sustains at this level, our effective portfolio risk under a stagflation correlation regime is approximately 70% higher than current VaR. I'd recommend reviewing our duration hedges, because they may not work if stock-bond correlation flips positive.'"</p>
 <h3 id="q2-the-10-year-yield-dropped-15bp-and-equities-also-dropped-2-whats-happening-and-what-does-it-mean-for-the-portfolio">Q2: "The 10-year yield dropped 15bp and equities also dropped 2%. What's happening and what does it mean for the portfolio?"</h3>
 <p><strong>Answer:</strong> "That combination — yields down AND equities down — tells me the market is pricing a GROWTH shock, not an inflation shock. In an inflation shock, you'd see yields up and equities down. Here, the market is saying: recession risk just increased.</p>
 <p>I'd decompose the 15bp move. First, check if it's real rates or breakevens: look at 10Y TIPS. If TIPS yield fell 12bp and breakevens fell 3bp, the move is overwhelmingly about lower growth expectations compressing real rates, with a slight disinflationary signal.</p>
 <p>Second, check the trigger. Was there a data release? ISM miss? Earnings warning from a bellwether? The trigger determines whether this is a one-day adjustment or the start of a trend. If ISM services broke below 50, that's a regime change signal.</p>
 <p>Third, check cross-asset confirmation. Is HY widening? That confirms growth scare. Is JPY strengthening? That confirms risk-off. Is copper falling? That confirms the industrial-demand story. If ALL of these confirm, we're in a genuine risk-off regime, not just noise.</p>
-<p>For the portfolio: Our equity positions are losing on the sell-off, and our bond positions are gaining from the rally. The QUESTION is whether these offset. If our duration is properly calibrated as a hedge, we should be roughly flat on the day. If our equity P&amp;L is -$3M and our bond P&amp;L is only +$1M, our hedge ratio is too low for a growth-shock regime. I'd recalculate the optimal hedge ratio using the current SPX/UST regression beta: if SPX is moving 2% per 15bp in bonds, we need roughly [2% × equity notional] / [DV01 × 15] in duration to be hedged. If we're underexposed, I'd recommend increasing."</p>
+<p>For the portfolio: Our equity positions are losing on the sell-off, and our bond positions are gaining from the rally. The QUESTION is whether these offset. If our duration is properly calibrated as a hedge, we should be roughly flat on the day. If our equity P&amp;L is -<span class="nokatex">$</span>3M and our bond P&amp;L is only +<span class="nokatex">$</span>1M, our hedge ratio is too low for a growth-shock regime. I'd recalculate the optimal hedge ratio using the current SPX/UST regression beta: if SPX is moving 2% per 15bp in bonds, we need roughly [2% × equity notional] / [DV01 × 15] in duration to be hedged. If we're underexposed, I'd recommend increasing."</p>
 <h3 id="q3-how-do-you-think-about-correlation-in-a-multi-asset-portfolio-when-does-diversification-fail">Q3: "How do you think about correlation in a multi-asset portfolio? When does diversification fail?"</h3>
 <p><strong>Answer:</strong> "Correlation is regime-dependent, and that's the whole ballgame for portfolio risk.</p>
 <p>The unconditional correlation between, say, equities and bonds over the last 20 years is about -0.20. But that number is an average of two very different regimes. In growth-shock periods, it's -0.40 to -0.50 — bonds are a great hedge. In inflation-shock periods, it's +0.30 to +0.50 — bonds are an additional source of risk. A VaR model that uses a single correlation number is averaging over these regimes and is WRONG in both of them.</p>
@@ -2085,6 +2085,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

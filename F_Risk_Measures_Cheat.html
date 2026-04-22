@@ -406,7 +406,7 @@ body {
 <blockquote>
 <p><strong>One-liner:</strong> VaR is the maximum loss at a given confidence level over a given horizon under NORMAL conditions — and it says absolutely nothing about what happens when conditions stop being normal.</p>
 </blockquote>
-<p>99% 1-day VaR = $5M → "On 99/100 days, loss ≤ $5M. On day 100, it's WORSE — and VaR says nothing about how much worse."</p>
+<p>99% 1-day VaR = <span class="nokatex">$</span>5M → "On 99/100 days, loss ≤ <span class="nokatex">$</span>5M. On day 100, it's WORSE — and VaR says nothing about how much worse."</p>
 <h3 id="three-methods">Three Methods</h3>
 <table>
 <thead>
@@ -455,7 +455,7 @@ body {
 </tr>
 <tr>
 <td><strong>Marginal VaR</strong></td>
-<td>∂VaR/∂wᵢ — how VaR changes if you add $1 to position i</td>
+<td>∂VaR/∂wᵢ — how VaR changes if you add <span class="nokatex">$</span>1 to position i</td>
 </tr>
 <tr>
 <td><strong>Incremental VaR</strong></td>
@@ -668,7 +668,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>DV01 ladder matters more than total DV01.</strong> A portfolio with DV01 = 0 can still have +$50K/bp at 2Y and −$50K/bp at 30Y = massive steepener bet.</p>
+<p><strong>DV01 ladder matters more than total DV01.</strong> A portfolio with DV01 = 0 can still have +<span class="nokatex">$</span>50K/bp at 2Y and −<span class="nokatex">$</span>50K/bp at 30Y = massive steepener bet.</p>
 <hr />
 <h2 id="performance-metrics">PERFORMANCE METRICS</h2>
 <p><strong>Key:</strong> Rp = annualized portfolio return. Rf = risk-free rate (T-bill/OIS). σp = annualized portfolio vol. σ_down = downside deviation (only below-target returns).</p>
@@ -725,7 +725,7 @@ body {
 <p><strong>Quick diagnostic:</strong> Sortino &lt;&lt; Sharpe → negative skew hidden → investigate.</p>
 </blockquote>
 <h3 id="alpha-beta-decomposition">Alpha-Beta Decomposition</h3>
-<p>$$R_p = \alpha + \beta R_m + \epsilon$$</p>
+<p>$<span class="nokatex">$</span>R_p = \alpha + \beta R_m + \epsilon$$</p>
 <ul>
 <li>β &gt; 0.3 → significant market exposure (not pure alpha)</li>
 <li>Multi-factor: remove market + size + value + momentum → residual = real alpha</li>
@@ -840,19 +840,19 @@ body {
 <tbody>
 <tr>
 <td>1 (Liquid)</td>
-<td>ADV &gt; $50M</td>
+<td>ADV &gt; <span class="nokatex">$</span>50M</td>
 <td>&lt; 3d</td>
 <td>Standard 1-day VaR</td>
 </tr>
 <tr>
 <td>2 (Semi)</td>
-<td>ADV $5-50M</td>
+<td>ADV <span class="nokatex">$</span>5-50M</td>
 <td>3-10d</td>
 <td>√DTL scaling</td>
 </tr>
 <tr>
 <td>3 (Illiquid)</td>
-<td>ADV &lt; $5M</td>
+<td>ADV &lt; <span class="nokatex">$</span>5M</td>
 <td>10-30d</td>
 <td>√DTL + stress spread</td>
 </tr>
@@ -964,7 +964,7 @@ body {
 <hr />
 <h2 id="key-interview-lines">KEY INTERVIEW LINES</h2>
 <p><strong>VaR limitations:</strong> "Speedometer, not crash detector. Five flaws: tail-blind, assumes normality, backward-looking, not subadditive, gameable. Supplement with ES, stress tests, and judgment."</p>
-<p><strong>ES vs VaR:</strong> "Both have same VaR = $5M. Portfolio A's ES = $34M (short OTM puts — concave). Portfolio B's ES = $6.5M (diversified equity — linear). Only ES reveals Portfolio A is 5× more dangerous."</p>
+<p><strong>ES vs VaR:</strong> "Both have same VaR = <span class="nokatex">$</span>5M. Portfolio A's ES = <span class="nokatex">$</span>34M (short OTM puts — concave). Portfolio B's ES = <span class="nokatex">$</span>6.5M (diversified equity — linear). Only ES reveals Portfolio A is 5× more dangerous."</p>
 <p><strong>Stress testing:</strong> "Three layers: historical (did we survive 2008?), hypothetical (what if Taiwan?), sensitivity grids (where does P&amp;L break?). Fourth: reverse stress test — start from the loss, find the scenario. If it's plausible, hedge now."</p>
 <p><strong>Sharpe:</strong> "Standard metric but three fatal flaws: symmetric vol penalty, short-vol gaming, small-sample noise. Always check Sortino — if Sortino &lt;&lt; Sharpe, there's negative skew hiding."</p>
 <p><strong>Drawdown:</strong> "−20% needs +25% to recover. −50% needs +100%. That's why hard limits exist — past −20%, recovery becomes a multi-year project. Past −50%, the fund is done."</p>
@@ -979,6 +979,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

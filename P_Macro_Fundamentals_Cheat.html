@@ -606,28 +606,28 @@ body {
 <td>Soft landing</td>
 <td>Cut to 3.00%</td>
 <td>+12%</td>
-<td>$75</td>
+<td><span class="nokatex">$</span>75</td>
 <td>Weaker</td>
 </tr>
 <tr>
 <td>Recession</td>
 <td>Cut to 1.50%</td>
 <td>−25%</td>
-<td>$55</td>
+<td><span class="nokatex">$</span>55</td>
 <td>Stronger</td>
 </tr>
 <tr>
 <td>Stagflation</td>
 <td>Hike to 5.00%</td>
 <td>−20%</td>
-<td>$120</td>
+<td><span class="nokatex">$</span>120</td>
 <td>Stronger</td>
 </tr>
 <tr>
 <td>Hormuz escalation</td>
 <td>Hold (trapped)</td>
 <td>−30%</td>
-<td>$150</td>
+<td><span class="nokatex">$</span>150</td>
 <td>Stronger</td>
 </tr>
 </tbody>
@@ -669,6 +669,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

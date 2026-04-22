@@ -546,7 +546,7 @@ body {
 <p><strong>Roll two dice. What's E[max(D₁, D₂)]?</strong></p>
 </blockquote>
 <p>$$P(\max = k) = P(\text{both} \leq k) - P(\text{both} \leq k-1) = \frac{k^2}{36} - \frac{(k-1)^2}{36} = \frac{2k-1}{36}$$</p>
-<p>$$E[\max] = \sum_{k=1}^{6} k \cdot \frac{2k-1}{36} = \frac{1+6+15+28+45+66}{36} = \frac{161}{36} = \mathbf{4.47}$$</p>
+<p>$<span class="nokatex">$</span>E[\max] = \sum_{k=1}^{6} k \cdot \frac{2k-1}{36} = \frac{1+6+15+28+45+66}{36} = \frac{161}{36} = \mathbf{4.47}$$</p>
 <p>Compare: E[single die] = 3.5. Taking the max of two adds ~1 point.</p>
 <p><strong>Generalization — max of n dice:</strong> As n grows, E[max] approaches 6. For n=3, E[max] ≈ 4.96. For n=10, E[max] ≈ 5.69.</p>
 <p><strong>Finance analog:</strong> Multi-PM funds select the MAX performer across pods. Even with mediocre individual Sharpe ratios, the option value of selection (best of n) pushes the aggregate result higher. This is why multi-strats with 30+ pods consistently outperform single-manager funds.</p>
@@ -555,16 +555,16 @@ body {
 <blockquote>
 <p><strong>Fair coin. Expected flips to get first heads?</strong></p>
 </blockquote>
-<p>$$E = \frac{1}{p} = 2$$</p>
+<p>$<span class="nokatex">$</span>E = \frac{1}{p} = 2$$</p>
 <blockquote>
 <p><strong>Expected flips for 2 consecutive heads?</strong></p>
 </blockquote>
 <p>Let E be the answer. After each flip:<br />
-- Tails (0.5): wasted 1 flip, restart → $0.5(1 + E)$<br />
-- Heads then tails (0.25): wasted 2 flips, restart → $0.25(2 + E)$<br />
-- Heads then heads (0.25): done in 2 → $0.25 \times 2$</p>
-<p>$$E = 0.5(1+E) + 0.25(2+E) + 0.25 \times 2 = 1.5 + 0.75E$$<br />
-$$E = 6$$</p>
+- Tails (0.5): wasted 1 flip, restart → <span class="nokatex">$</span>0.5(1 + E)$<br />
+- Heads then tails (0.25): wasted 2 flips, restart → <span class="nokatex">$</span>0.25(2 + E)$<br />
+- Heads then heads (0.25): done in 2 → <span class="nokatex">$</span>0.25 \times 2$</p>
+<p>$<span class="nokatex">$</span>E = 0.5(1+E) + 0.25(2+E) + 0.25 \times 2 = 1.5 + 0.75E$$<br />
+$<span class="nokatex">$</span>E = 6$$</p>
 <blockquote>
 <p><strong>Expected flips for n consecutive heads?</strong></p>
 </blockquote>
@@ -604,26 +604,26 @@ $$E = 6$$</p>
 <hr />
 <h2 id="problem-8-the-gamblers-ruin">Problem 8: The Gambler's Ruin</h2>
 <blockquote>
-<p><strong>You have $a. Opponent has $b. Each round, fair coin flip: win $1 or lose $1. P(you go broke)?</strong></p>
+<p><strong>You have $a. Opponent has $b. Each round, fair coin flip: win <span class="nokatex">$</span>1 or lose <span class="nokatex">$</span>1. P(you go broke)?</strong></p>
 </blockquote>
 <p><strong>Answer:</strong></p>
 <p>$$P(\text{you go broke}) = \frac{b}{a+b}$$</p>
 <ul>
 <li>If a = b (equal stakes): P(ruin) = 50%</li>
-<li>If a = $10, b = $90 (casino): P(ruin) = 90%</li>
-<li>If a = $10, b = $990 (big casino): P(ruin) = 99%</li>
+<li>If a = <span class="nokatex">$</span>10, b = <span class="nokatex">$</span>90 (casino): P(ruin) = 90%</li>
+<li>If a = <span class="nokatex">$</span>10, b = <span class="nokatex">$</span>990 (big casino): P(ruin) = 99%</li>
 </ul>
 <p><strong>With biased coin (p &lt; 0.5 — house edge):</strong></p>
 <p>$$P(\text{ruin}) = \frac{(q/p)^a - (q/p)^{a+b}}{1 - (q/p)^{a+b}}$$</p>
-<p>When p &lt; 0.5, ruin is nearly certain regardless of starting capital unless your edge is very large relative to the casino. With p = 0.49 (tiny house edge), a = $100, b = $10,000: P(ruin) ≈ 99.99%.</p>
+<p>When p &lt; 0.5, ruin is nearly certain regardless of starting capital unless your edge is very large relative to the casino. With p = 0.49 (tiny house edge), a = <span class="nokatex">$</span>100, b = <span class="nokatex">$</span>10,000: P(ruin) ≈ 99.99%.</p>
 <p><strong>Risk analog:</strong> A PM with a small negative expected return will ALWAYS eventually hit their drawdown limit. Even with a POSITIVE edge, if position sizing is too large relative to their risk budget, ruin probability is high. This is why Kelly criterion uses fraction of edge, not maximum bet.</p>
 <hr />
 <h2 id="problem-9-the-coupon-collector">Problem 9: The Coupon Collector</h2>
 <blockquote>
 <p><strong>A cereal box contains one of n equally likely coupons. How many boxes to collect all n?</strong></p>
 </blockquote>
-<p>$$E[\text{boxes}] = n \cdot H_n = n \sum_{i=1}^{n} \frac{1}{i}$$</p>
-<p>where $H_n$ is the n-th harmonic number.</p>
+<p>$<span class="nokatex">$</span>E[\text{boxes}] = n \cdot H_n = n \sum_{i=1}^{n} \frac{1}{i}$$</p>
+<p>where <span class="nokatex">$</span>H_n$ is the n-th harmonic number.</p>
 <table>
 <thead>
 <tr>
@@ -677,7 +677,7 @@ $$E = 6$$</p>
 <p><strong>Start at position 0 on the number line. Each step: +1 (prob 0.5) or −1 (prob 0.5). Expected number of steps to return to 0?</strong></p>
 </blockquote>
 <p><strong>Answer:</strong> ∞. The expected return time is infinite, even though the walk returns to 0 with probability 1. This is because occasional VERY long excursions make the average infinite.</p>
-<p><strong>Expected distance from origin after n steps:</strong> $E[|X_n|] \approx \sqrt{2n/\pi}$</p>
+<p><strong>Expected distance from origin after n steps:</strong> <span class="nokatex">$</span>E[|X_n|] \approx \sqrt{2n/\pi}$</p>
 <p>After 100 steps: expected ~8 units from origin. After 252 steps (1 trading year): ~13 units.</p>
 <p><strong>Risk analog:</strong> A PM running a zero-edge strategy (fair random walk) WILL hit any drawdown limit eventually. The question is when, not if. Expected distance from origin grows as $\sqrt{n}$, so drawdown limits must scale with $\sqrt{\text{time}}$.</p>
 <hr />
@@ -694,19 +694,19 @@ $$E = 6$$</p>
 <hr />
 <h2 id="problem-13-st-petersburg-paradox">Problem 13: St. Petersburg Paradox</h2>
 <blockquote>
-<p><strong>Flip a coin repeatedly. If first heads appears on flip n, you win $2^n. How much would you pay to play?</strong></p>
+<p><strong>Flip a coin repeatedly. If first heads appears on flip n, you win <span class="nokatex">$</span>2^n. How much would you pay to play?</strong></p>
 </blockquote>
-<p>$$E[\text{payout}] = \sum_{n=1}^{\infty} \frac{1}{2^n} \cdot 2^n = \sum_{n=1}^{\infty} 1 = \infty$$</p>
-<p>Expected value is infinite, but nobody would pay more than ~$20-30 to play.</p>
-<p><strong>Resolution:</strong> Expected utility (log of wealth) is finite. $E[\log(\text{wealth})] \approx \log(2) \cdot 2 = 1.39$, which implies a fair price of ~$4 for a person with $1M initial wealth.</p>
+<p>$<span class="nokatex">$</span>E[\text{payout}] = \sum_{n=1}^{\infty} \frac{1}{2^n} \cdot 2^n = \sum_{n=1}^{\infty} 1 = \infty$$</p>
+<p>Expected value is infinite, but nobody would pay more than ~<span class="nokatex">$</span>20-30 to play.</p>
+<p><strong>Resolution:</strong> Expected utility (log of wealth) is finite. <span class="nokatex">$</span>E[\log(\text{wealth})] \approx \log(2) \cdot 2 = 1.39$, which implies a fair price of ~<span class="nokatex">$</span>4 for a person with <span class="nokatex">$</span>1M initial wealth.</p>
 <p><strong>Risk analog:</strong> Some trades have "infinite" expected value under fat tails but are terrible bets because one outcome destroys you. Selling deep OTM puts has positive expected value but convex downside — the St. Petersburg problem in reverse. Expected value without risk adjustment is meaningless.</p>
 <hr />
 <h2 id="problem-14-two-envelopes">Problem 14: Two Envelopes</h2>
 <blockquote>
-<p><strong>Two envelopes: one has double the amount of the other. You pick one, see $100. Should you switch?</strong></p>
+<p><strong>Two envelopes: one has double the amount of the other. You pick one, see <span class="nokatex">$</span>100. Should you switch?</strong></p>
 </blockquote>
-<p><strong>The "paradox":</strong> The other envelope has $50 or $200 with equal probability. E[switch] = 0.5 × $50 + 0.5 × $200 = $125 &gt; $100. Seems like switching always helps — but then you'd always switch, which is paradoxical.</p>
-<p><strong>Resolution:</strong> The flaw is assuming uniform probability over {$50, $200} given you see $100. The prior distribution on the amounts matters. With a proper prior, the expected gain from switching is exactly zero.</p>
+<p><strong>The "paradox":</strong> The other envelope has <span class="nokatex">$</span>50 or <span class="nokatex">$</span>200 with equal probability. E[switch] = 0.5 × <span class="nokatex">$</span>50 + 0.5 × <span class="nokatex">$</span>200 = <span class="nokatex">$</span>125 &gt; <span class="nokatex">$</span>100. Seems like switching always helps — but then you'd always switch, which is paradoxical.</p>
+<p><strong>Resolution:</strong> The flaw is assuming uniform probability over {<span class="nokatex">$</span>50, <span class="nokatex">$</span>200} given you see <span class="nokatex">$</span>100. The prior distribution on the amounts matters. With a proper prior, the expected gain from switching is exactly zero.</p>
 <p><strong>Risk analog:</strong> "Our current strategy has Sharpe 1.0. An alternative strategy has expected Sharpe of either 0.5 or 2.0 with equal probability — so E[Sharpe] = 1.25 — we should switch!" This reasoning ignores that you don't know the prior distribution of the alternative. Switching costs (transaction, basis risk, implementation) make the bar for switching higher.</p>
 <hr />
 <h2 id="problem-15-negative-hypergeometric-cards">Problem 15: Negative Hypergeometric — Cards</h2>
@@ -721,7 +721,7 @@ $$E = 6$$</p>
 <h1 id="part-2-expected-value-game-theory">PART 2: EXPECTED VALUE &amp; GAME THEORY</h1>
 <h2 id="problem-16-the-fair-coin-game">Problem 16: The Fair Coin Game</h2>
 <blockquote>
-<p><strong>You flip a fair coin. Heads: you win $1. Tails: you lose $1. After 100 flips, what's E[winnings]? What's the probability you're ahead?</strong></p>
+<p><strong>You flip a fair coin. Heads: you win <span class="nokatex">$</span>1. Tails: you lose <span class="nokatex">$</span>1. After 100 flips, what's E[winnings]? What's the probability you're ahead?</strong></p>
 </blockquote>
 <p>E[winnings] = 0 (fair game).</p>
 <p>P(ahead after 100 flips) = P(sum &gt; 0). By CLT, sum ~ N(0, 10) approximately. P(sum &gt; 0) ≈ 50%.</p>
@@ -752,11 +752,11 @@ $$E = 6$$</p>
 <hr />
 <h2 id="problem-19-coin-flip-game-when-to-stop">Problem 19: Coin Flip Game — When to Stop</h2>
 <blockquote>
-<p><strong>Fair coin. You start with $100. Each flip: heads → gain 50%, tails → lose 40%. Should you play?</strong></p>
+<p><strong>Fair coin. You start with <span class="nokatex">$</span>100. Each flip: heads → gain 50%, tails → lose 40%. Should you play?</strong></p>
 </blockquote>
 <p>E[single flip] = 0.5 × 1.5 + 0.5 × 0.6 = <strong>1.05</strong>. Positive expected value!</p>
-<p>But the <strong>median</strong> outcome after n flips is $100 × (1.5 × 0.6)^{n/2} = 100 × 0.9^{n/2}$, which → 0.</p>
-<p>After 100 flips: E[wealth] = $100 × 1.05^{100} = $13,150. But median wealth = $100 × 0.9^{50} = <strong>$0.52</strong>.</p>
+<p>But the <strong>median</strong> outcome after n flips is <span class="nokatex">$</span>100 × (1.5 × 0.6)^{n/2} = 100 × 0.9^{n/2}$, which → 0.</p>
+<p>After 100 flips: E[wealth] = <span class="nokatex">$</span>100 × 1.05^{100} = <span class="nokatex">$</span>13,150. But median wealth = <span class="nokatex">$</span>100 × 0.9^{50} = <strong><span class="nokatex">$</span>0.52</strong>.</p>
 <p><strong>The lesson:</strong> Positive expected value ≠ ergodic. The geometric growth rate (what you actually experience) is log(1.5)/2 + log(0.6)/2 = −0.053 → you lose ~5% of your wealth per trial on average. You go broke with near certainty.</p>
 <p><strong>Risk analog:</strong> A strategy with positive arithmetic expected return but negative geometric expected return WILL destroy your capital. This is why position sizing matters more than edge magnitude — overleveraged bets with positive EV still go to zero. Kelly criterion accounts for this: optimal fraction = edge / odds = 0.05 / 0.5 = 10% of capital per bet.</p>
 <hr />
@@ -807,12 +807,12 @@ $$E = 6$$</p>
 <li>Cars per day: ~800 (busy suburban station)</li>
 <li>Average gallons per fill: ~10 gallons</li>
 <li>Fill frequency: ~50% of visitors actually pump (some are just convenience store) → ~400 fill-ups</li>
-<li>Price per gallon: ~$3.50</li>
-<li>Daily fuel revenue: 400 × 10 × $3.50 = <strong>$14,000</strong></li>
-<li>Annual fuel: $14,000 × 365 = <strong>~$5.1M</strong></li>
-<li>Add convenience store (~30% of total revenue): Total ≈ <strong>~$6.6M</strong></li>
+<li>Price per gallon: ~<span class="nokatex">$</span>3.50</li>
+<li>Daily fuel revenue: 400 × 10 × <span class="nokatex">$</span>3.50 = <strong><span class="nokatex">$</span>14,000</strong></li>
+<li>Annual fuel: <span class="nokatex">$</span>14,000 × 365 = <strong>~<span class="nokatex">$</span>5.1M</strong></li>
+<li>Add convenience store (~30% of total revenue): Total ≈ <strong>~<span class="nokatex">$</span>6.6M</strong></li>
 </ol>
-<p>Industry average: $4-8M. ✓</p>
+<p>Industry average: <span class="nokatex">$</span>4-8M. ✓</p>
 <hr />
 <h2 id="problem-23-weight-of-the-atmosphere">Problem 23: Weight of the Atmosphere</h2>
 <blockquote>
@@ -845,13 +845,13 @@ $$E = 6$$</p>
 <p><strong>Estimate what Squarepoint's 99% 1-day VaR might be.</strong></p>
 </blockquote>
 <ol>
-<li>AUM: ~$10-15B (multi-strat)</li>
-<li>Gross leverage: ~5-8x → gross exposure ~$60-80B</li>
+<li>AUM: ~<span class="nokatex">$</span>10-15B (multi-strat)</li>
+<li>Gross leverage: ~5-8x → gross exposure ~<span class="nokatex">$</span>60-80B</li>
 <li>But multi-strat is diversified across many uncorrelated pods → net risk is much lower</li>
 <li>Typical annualized fund vol target: 4-6% → daily vol = 5% / √252 ≈ 0.32%</li>
 <li>99% VaR ≈ 2.326 × daily vol ≈ 0.74% of NAV</li>
-<li>VaR on $12B NAV ≈ <strong>~$90M</strong></li>
-<li>Sanity check: per-pod VaR is maybe $2-5M, 30+ pods, diversification benefit → total lines up</li>
+<li>VaR on <span class="nokatex">$</span>12B NAV ≈ <strong>~<span class="nokatex">$</span>90M</strong></li>
+<li>Sanity check: per-pod VaR is maybe <span class="nokatex">$</span>2-5M, 30+ pods, diversification benefit → total lines up</li>
 </ol>
 <p>This is a reasonable order-of-magnitude estimate. The actual number would depend on specific position data.</p>
 <hr />
@@ -1178,7 +1178,7 @@ $$E = 6$$</p>
 <td>Pairwise correlations needed</td>
 </tr>
 <tr>
-<td>$2^n$</td>
+<td><span class="nokatex">$</span>2^n$</td>
 <td>Subsets of n items</td>
 <td>Possible hedge combinations</td>
 </tr>
@@ -1253,22 +1253,22 @@ $$E = 6$$</p>
 <hr />
 <h2 id="problem-33-the-option-pricing-intuition">Problem 33: The Option Pricing Intuition</h2>
 <blockquote>
-<p><strong>A stock is at $100. In 1 year it will be $120 or $80 with equal probability. Risk-free rate = 5%. Price a call option with strike $100.</strong></p>
+<p><strong>A stock is at <span class="nokatex">$</span>100. In 1 year it will be <span class="nokatex">$</span>120 or <span class="nokatex">$</span>80 with equal probability. Risk-free rate = 5%. Price a call option with strike <span class="nokatex">$</span>100.</strong></p>
 </blockquote>
 <p><strong>Binomial model:</strong><br />
-- Up move: stock = $120, call pays $20<br />
-- Down move: stock = $80, call pays $0</p>
+- Up move: stock = <span class="nokatex">$</span>120, call pays <span class="nokatex">$</span>20<br />
+- Down move: stock = <span class="nokatex">$</span>80, call pays <span class="nokatex">$</span>0</p>
 <p><strong>Risk-neutral probability:</strong><br />
 $$p^* = \frac{e^{rT} - d}{u - d} = \frac{1.05 - 0.8}{1.2 - 0.8} = \frac{0.25}{0.40} = 0.625$$</p>
 <p><strong>Call price:</strong><br />
-$$C = e^{-rT}[p^<em> \times 20 + (1-p^</em>) \times 0] = \frac{0.625 \times 20}{1.05} = \frac{12.5}{1.05} = \$11.90$$</p>
+$<span class="nokatex">$</span>C = e^{-rT}[p^<em> \times 20 + (1-p^</em>) \times 0] = \frac{0.625 \times 20}{1.05} = \frac{12.5}{1.05} = \<span class="nokatex">$</span>11.90$$</p>
 <p><strong>Key insight:</strong> We use risk-neutral probabilities (0.625/0.375), NOT real-world probabilities (0.5/0.5). The real-world drift doesn't matter for option pricing — only the risk-free rate and the volatility (encoded in the up/down magnitudes).</p>
 <hr />
 <h2 id="problem-34-the-paradox-of-volatility-drag">Problem 34: The Paradox of Volatility Drag</h2>
 <blockquote>
 <p><strong>Stock returns +20% one year, then −20% the next. What's the total return?</strong></p>
 </blockquote>
-<p>$100 × 1.20 × 0.80 = $96. You LOST 4%, not 0%.</p>
+<p><span class="nokatex">$</span>100 × 1.20 × 0.80 = <span class="nokatex">$</span>96. You LOST 4%, not 0%.</p>
 <p><strong>The general formula:</strong> If vol = σ, geometric return ≈ arithmetic return − σ²/2.</p>
 <table>
 <thead>
@@ -1320,14 +1320,14 @@ $$C = e^{-rT}[p^<em> \times 20 + (1-p^</em>) \times 0] = \frac{0.625 \times 20}{
 <hr />
 <h2 id="problem-35-expected-loss-from-a-var-breach">Problem 35: Expected Loss from a VaR Breach</h2>
 <blockquote>
-<p><strong>Your 99% 1-day VaR is $5M. Over 250 trading days, how many breaches do you expect? If the tail follows a Pareto distribution with shape α = 2, what's the expected loss GIVEN a breach?</strong></p>
+<p><strong>Your 99% 1-day VaR is <span class="nokatex">$</span>5M. Over 250 trading days, how many breaches do you expect? If the tail follows a Pareto distribution with shape α = 2, what's the expected loss GIVEN a breach?</strong></p>
 </blockquote>
 <p>Expected breaches: 250 × 0.01 = <strong>2.5 per year</strong></p>
 <p>For Pareto with α = 2:<br />
-$$E[\text{Loss} | \text{Loss} &gt; \text{VaR}] = \frac{\alpha}{\alpha - 1} \times \text{VaR} = \frac{2}{1} \times \$5M = \$10M$$</p>
-<p>So your ES = $10M, giving ES/VaR = 2.0 — a moderately fat tail.</p>
-<p>For α = 1.5 (fatter tail): ES = 3 × VaR = $15M<br />
-For α = 3 (thinner tail): ES = 1.5 × VaR = $7.5M</p>
+$<span class="nokatex">$</span>E[\text{Loss} | \text{Loss} &gt; \text{VaR}] = \frac{\alpha}{\alpha - 1} \times \text{VaR} = \frac{2}{1} \times \<span class="nokatex">$</span>5M = \<span class="nokatex">$</span>10M$$</p>
+<p>So your ES = <span class="nokatex">$</span>10M, giving ES/VaR = 2.0 — a moderately fat tail.</p>
+<p>For α = 1.5 (fatter tail): ES = 3 × VaR = <span class="nokatex">$</span>15M<br />
+For α = 3 (thinner tail): ES = 1.5 × VaR = <span class="nokatex">$</span>7.5M</p>
 <hr />
 <h2 id="problem-36-the-correlation-trap">Problem 36: The Correlation Trap</h2>
 <blockquote>
@@ -1362,15 +1362,15 @@ $$= \sqrt{0.04 + 0.04 + 0.076} = \sqrt{0.156} = \mathbf{39.5\%}$$</p>
 6. You would need to drive the second lap in zero time — i.e., <strong>infinite speed.</strong></p>
 <p><strong>The mathematical trap:</strong> Average speed is the <strong>harmonic mean</strong> of the two speeds, not the arithmetic mean:</p>
 <p>$$\text{Average speed} = \frac{2}{\frac{1}{v_1} + \frac{1}{v_2}} = \frac{2 v_1 v_2}{v_1 + v_2}$$</p>
-<p>Setting this equal to $2v_1$ (double the first speed):</p>
+<p>Setting this equal to <span class="nokatex">$</span>2v_1$ (double the first speed):</p>
 <p>$$\frac{2 v_1 v_2}{v_1 + v_2} = 2v_1 \implies v_2 = \frac{v_1(2v_1)}{2v_1 - v_1} \to \infty \text{ as the target approaches } 2v_1$$</p>
-<p><strong>The constraint:</strong> The harmonic mean of two positive numbers can NEVER reach twice the smaller one. The maximum possible average speed over two laps where one lap was driven at speed $v$ is strictly less than $2v$, achieved only in the limit as the second lap speed → ∞.</p>
+<p><strong>The constraint:</strong> The harmonic mean of two positive numbers can NEVER reach twice the smaller one. The maximum possible average speed over two laps where one lap was driven at speed $v$ is strictly less than <span class="nokatex">$</span>2v$, achieved only in the limit as the second lap speed → ∞.</p>
 <p><strong>Concrete example:</strong> If you drive the second lap at 90 mph:<br />
 - T₁ = D/30, T₂ = D/90<br />
 - T_total = D/30 + D/90 = 4D/90<br />
 - Average speed = 2D / (4D/90) = <strong>45 mph</strong> — not even close to 60.</p>
 <p>Even at 300 mph for the second lap: Average = 2/(1/30 + 1/300) = 2/(11/300) = <strong>54.5 mph.</strong> Still under 60.</p>
-<p><strong>Risk analog:</strong> This is the time-weighted vs. money-weighted return trap in portfolio management. A PM who loses 50% of a $100M book (down to $50M), then gains 50% ($50M → $75M) reports "average return = 0%" but actually lost $25M. The harmonic/geometric reality is always worse than the arithmetic illusion. In risk, always ask: "average of WHAT, weighted by WHAT?"</p>
+<p><strong>Risk analog:</strong> This is the time-weighted vs. money-weighted return trap in portfolio management. A PM who loses 50% of a <span class="nokatex">$</span>100M book (down to <span class="nokatex">$</span>50M), then gains 50% (<span class="nokatex">$</span>50M → <span class="nokatex">$</span>75M) reports "average return = 0%" but actually lost <span class="nokatex">$</span>25M. The harmonic/geometric reality is always worse than the arithmetic illusion. In risk, always ask: "average of WHAT, weighted by WHAT?"</p>
 <hr />
 <h1 id="part-7-how-to-approach-any-brain-teaser-in-an-interview">PART 7: HOW TO APPROACH ANY BRAIN TEASER IN AN INTERVIEW</h1>
 <h2 id="the-60-second-framework">The 60-Second Framework</h2>
@@ -1519,6 +1519,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

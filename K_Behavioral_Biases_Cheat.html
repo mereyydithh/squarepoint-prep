@@ -529,7 +529,7 @@ body {
 </tr>
 <tr>
 <td><strong>Sunk cost</strong></td>
-<td>"I've spent $350K rolling — can't close now"</td>
+<td>"I've spent <span class="nokatex">$</span>350K rolling — can't close now"</td>
 <td>Escalating committed capital</td>
 </tr>
 </tbody>
@@ -566,7 +566,7 @@ body {
 </tr>
 <tr>
 <td>Anchoring to models</td>
-<td>"VaR says $4M so $4M is risk"</td>
+<td>"VaR says <span class="nokatex">$</span>4M so <span class="nokatex">$</span>4M is risk"</td>
 <td>Triangulate: VaR + ES + stress + concentration</td>
 </tr>
 </tbody>
@@ -694,7 +694,7 @@ body {
 </thead>
 <tbody>
 <tr>
-<td>"Would you buy this today at $88?"</td>
+<td>"Would you buy this today at <span class="nokatex">$</span>88?"</td>
 <td>"You're being biased"</td>
 </tr>
 <tr>
@@ -761,6 +761,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

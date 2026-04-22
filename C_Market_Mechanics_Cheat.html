@@ -469,7 +469,7 @@ body {
 </tr>
 <tr>
 <td><strong>Haircut</strong></td>
-<td>Discount on collateral: post $100M bonds, receive $98M cash (2% haircut).</td>
+<td>Discount on collateral: post <span class="nokatex">$</span>100M bonds, receive <span class="nokatex">$</span>98M cash (2% haircut).</td>
 </tr>
 <tr>
 <td><strong>Gross leverage</strong></td>
@@ -700,7 +700,7 @@ body {
 </tr>
 <tr>
 <td>Rehypothecation</td>
-<td>Receiver re-uses your collateral. Efficient but risky (Lehman trapped $65B+).</td>
+<td>Receiver re-uses your collateral. Efficient but risky (Lehman trapped <span class="nokatex">$</span>65B+).</td>
 </tr>
 <tr>
 <td>SIMM</td>
@@ -777,7 +777,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>Leverage via repo:</strong> Buy $100M bonds → repo for $99M → buy more → repo again → 50x leverage on $2M equity. A 2% move = total wipeout.</p>
+<p><strong>Leverage via repo:</strong> Buy <span class="nokatex">$</span>100M bonds → repo for <span class="nokatex">$</span>99M → buy more → repo again → 50x leverage on <span class="nokatex">$</span>2M equity. A 2% move = total wipeout.</p>
 <hr />
 <h2 id="leverage-profiles">LEVERAGE PROFILES</h2>
 <table>
@@ -1039,6 +1039,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

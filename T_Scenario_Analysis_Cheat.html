@@ -418,7 +418,7 @@ Oil RV 35% → σ = 2.2% → 8% move = <strong>3.6σ</strong> (once per 6,000 da
 <p>Trigger → Macro path → Cross-asset prices → Time horizon → Magnitude (specific $) → Correlation assumption</p>
 <h2 id="one-pager-template">One-Pager Template</h2>
 <div class="highlight"><pre><span></span><code>SITUATION: [2 sentences]
-CURRENT P&amp;L: [$X, Y% NAV]
+CURRENT P&amp;L: [&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;X, Y% NAV]
 SCENARIOS: Base ($), Adverse (-$), Extreme (-$$)
 KEY RISK: [1 sentence]
 BREAKPOINT: [price that breaches 50% DD limit]
@@ -568,7 +568,7 @@ KILL CONDITION: [when I change my mind]
 </table>
 <h2 id="pm-verbal-60-sec">PM Verbal (60 sec)</h2>
 <blockquote>
-<p>"Three things: (1) Direct P&amp;L = ±$X, you're at Y% of limit. (2) Bigger risk = adverse scenario → -$W = V% of hard limit. (3) I recommend [action], costs $K, reduces tail by N%."</p>
+<p>"Three things: (1) Direct P&amp;L = ±<span class="nokatex">$</span>X, you're at Y% of limit. (2) Bigger risk = adverse scenario → -<span class="nokatex">$</span>W = V% of hard limit. (3) I recommend [action], costs <span class="nokatex">$</span>K, reduces tail by N%."</p>
 </blockquote>
 <h2 id="stress-test-types">Stress Test Types</h2>
 <p>Historical | Hypothetical | Reverse | Sensitivity | Joint | Path-dependent</p>
@@ -603,6 +603,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

@@ -487,7 +487,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>Vol-weighted quick example:</strong> $200K risk budget per position → JNJ (15% vol) gets $1.33M, TSLA (50% vol) gets $400K.</p>
+<p><strong>Vol-weighted quick example:</strong> <span class="nokatex">$</span>200K risk budget per position → JNJ (15% vol) gets <span class="nokatex">$</span>1.33M, TSLA (50% vol) gets <span class="nokatex">$</span>400K.</p>
 <hr />
 <h2 id="conviction-scoring-4-pillars">CONVICTION SCORING — 4 PILLARS</h2>
 <table>
@@ -614,28 +614,28 @@ body {
 <tbody>
 <tr>
 <td>Daily P&amp;L loss</td>
-<td>−$500K</td>
-<td>−$1M</td>
+<td>−<span class="nokatex">$</span>500K</td>
+<td>−<span class="nokatex">$</span>1M</td>
 </tr>
 <tr>
 <td>Monthly P&amp;L loss</td>
-<td>−$2M</td>
-<td>−$4M</td>
+<td>−<span class="nokatex">$</span>2M</td>
+<td>−<span class="nokatex">$</span>4M</td>
 </tr>
 <tr>
 <td>VaR (1d 99%)</td>
-<td>$3M</td>
-<td>$5M</td>
+<td><span class="nokatex">$</span>3M</td>
+<td><span class="nokatex">$</span>5M</td>
 </tr>
 <tr>
 <td>Gross</td>
-<td>$80M</td>
-<td>$100M</td>
+<td><span class="nokatex">$</span>80M</td>
+<td><span class="nokatex">$</span>100M</td>
 </tr>
 <tr>
 <td>Net</td>
-<td>±$30M</td>
-<td>±$50M</td>
+<td>±<span class="nokatex">$</span>30M</td>
+<td>±<span class="nokatex">$</span>50M</td>
 </tr>
 <tr>
 <td>Single name</td>
@@ -682,7 +682,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>Trap:</strong> PM says "I'm modestly net long at $30M" but β-adjusted net = $43M because longs have higher beta than shorts.</p>
+<p><strong>Trap:</strong> PM says "I'm modestly net long at <span class="nokatex">$</span>30M" but β-adjusted net = <span class="nokatex">$</span>43M because longs have higher beta than shorts.</p>
 <hr />
 <h2 id="concentration-dashboard">CONCENTRATION DASHBOARD</h2>
 <table>
@@ -789,6 +789,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

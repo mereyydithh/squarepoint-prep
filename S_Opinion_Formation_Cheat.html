@@ -580,7 +580,7 @@ Asym = (0.30 × 5) / (0.70 × 2) = 1.07 → risk-weighted NEGATIVE → hedge the
 <blockquote>
 <p>"I don't have a strong view on X. What I do know:<br />
 Range of outcomes is [wide/narrow]. Market prices [Y].<br />
-Our exposure to the tails is [$Z].<br />
+Our exposure to the tails is [<span class="nokatex">$</span>Z].<br />
 Regardless of direction, the RM action is [specific]."</p>
 </blockquote>
 </main>
@@ -594,6 +594,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

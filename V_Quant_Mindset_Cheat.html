@@ -598,7 +598,7 @@ body {
 </tbody>
 </table>
 <h2 id="factor-decomposition-alpha-test">Factor Decomposition — Alpha Test</h2>
-<p>$$R_p = \alpha + \beta_1 F_1 + \beta_2 F_2 + \ldots + \epsilon$$</p>
+<p>$<span class="nokatex">$</span>R_p = \alpha + \beta_1 F_1 + \beta_2 F_2 + \ldots + \epsilon$$</p>
 <ul>
 <li>R² &gt; 0.80 + insignificant α → PM is closet beta manager</li>
 <li>Idiosyncratic ratio &gt; 50% → genuine stock-picking</li>
@@ -730,7 +730,7 @@ body {
 <h2 id="quick-interview-lines">Quick Interview Lines</h2>
 <ul>
 <li>"Models are maps, not territory — use them as info signals while knowing their failure modes"</li>
-<li>"VaR says $5M → I ask: under what assumptions? What's ES? What's gamma?"</li>
+<li>"VaR says <span class="nokatex">$</span>5M → I ask: under what assumptions? What's ES? What's gamma?"</li>
 <li>"GARCH captures vol clustering + mean reversion; α+β = persistence; prefer GJR for equities (leverage effect)"</li>
 <li>"Best single question to a quant: 'What would make you lose confidence in this model?'"</li>
 <li>"Sharpe 3.0 in backtest → expect 1.0-1.5 live. Always check out-of-sample."</li>
@@ -746,6 +746,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

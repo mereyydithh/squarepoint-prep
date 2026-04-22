@@ -407,7 +407,7 @@ body {
 <h1 id="why-this-is-your-operating-system">WHY THIS IS YOUR OPERATING SYSTEM</h1>
 <p>At Squarepoint, everything is measured. Every PM has a VaR budget, a drawdown limit, a set of stress scenarios they must survive, and a decomposition of their P&amp;L into risk factors. As a Junior Risk Manager, your daily job involves:</p>
 <ol>
-<li><strong>Reading risk reports</strong> — "Desk A has 95% VaR of $3.2M, ES/VaR ratio of 1.8, 65% utilization of risk budget"</li>
+<li><strong>Reading risk reports</strong> — "Desk A has 95% VaR of <span class="nokatex">$</span>3.2M, ES/VaR ratio of 1.8, 65% utilization of risk budget"</li>
 <li><strong>Flagging anomalies</strong> — "Desk B's parametric VaR dropped 20% but their gamma exposure doubled — VaR is misleading because of nonlinearity"</li>
 <li><strong>Running stress tests</strong> — "What happens to the fund under SPX −15%, VIX +30, UST 10Y +100bp?"</li>
 <li><strong>Challenging PMs</strong> — "Your Sharpe is 1.8 but your Sortino is 0.6 — your return is coming from selling tail risk, not alpha"</li>
@@ -420,7 +420,7 @@ body {
 </blockquote>
 <h2 id="the-definition">The Definition</h2>
 <p>$$\text{VaR}_\alpha = \inf { x : P(\text{Loss} &gt; x) \leq 1 - \alpha }$$</p>
-<p><strong>In English:</strong> "99% 1-day VaR = $5M" means: "On 99 out of 100 days, the loss will NOT exceed $5M." Equivalently: "On 1 in 100 days, losses WILL exceed $5M — and VaR is completely silent on HOW FAR beyond $5M."</p>
+<p><strong>In English:</strong> "99% 1-day VaR = <span class="nokatex">$</span>5M" means: "On 99 out of 100 days, the loss will NOT exceed <span class="nokatex">$</span>5M." Equivalently: "On 1 in 100 days, losses WILL exceed <span class="nokatex">$</span>5M — and VaR is completely silent on HOW FAR beyond <span class="nokatex">$</span>5M."</p>
 <p><strong>Key parameters:</strong><br />
 | Parameter | Common choices | Impact |<br />
 |---|---|---|<br />
@@ -441,12 +441,12 @@ body {
 <p>$$\sigma_p^2 = \mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w}$$</p>
 <p>Where <strong>w</strong> = weight vector, <strong>Σ</strong> = covariance matrix.</p>
 <p><strong>Worked example — Two-asset portfolio:</strong><br />
-- $60M in SPX (σ = 18%), $40M in UST 10Y (σ = 8%), correlation ρ = −0.30<br />
+- <span class="nokatex">$</span>60M in SPX (σ = 18%), <span class="nokatex">$</span>40M in UST 10Y (σ = 8%), correlation ρ = −0.30<br />
 - Portfolio variance = (0.6)²(0.18)² + (0.4)²(0.08)² + 2(0.6)(0.4)(0.18)(0.08)(−0.30)<br />
   = 0.011664 + 0.001024 − 0.003456 = <strong>0.009232</strong><br />
 - Portfolio σ = √0.009232 = <strong>9.61%</strong><br />
-- 99% 1-day VaR = 2.326 × 9.61%/√252 × $100M = 2.326 × 0.605% × $100M = <strong>$1.41M</strong><br />
-- Note: without correlation benefit (ρ=0), VaR would be $1.53M. The −0.30 correlation saves $120K of daily VaR.</p>
+- 99% 1-day VaR = 2.326 × 9.61%/√252 × <span class="nokatex">$</span>100M = 2.326 × 0.605% × <span class="nokatex">$</span>100M = <strong><span class="nokatex">$</span>1.41M</strong><br />
+- Note: without correlation benefit (ρ=0), VaR would be <span class="nokatex">$</span>1.53M. The −0.30 correlation saves <span class="nokatex">$</span>120K of daily VaR.</p>
 <table>
 <thead>
 <tr>
@@ -482,10 +482,10 @@ body {
 4. Sort them. The loss at the (1−α)×N-th percentile = VaR.</p>
 <p><strong>Worked example:</strong><br />
 - 500 trading days of history<br />
-- Apply each day's returns to current $100M portfolio<br />
+- Apply each day's returns to current <span class="nokatex">$</span>100M portfolio<br />
 - Sort the 500 simulated P&amp;Ls<br />
-- 99% VaR: the 5th worst day (500 × 1% = 5) → say that's −$4.8M<br />
-- 95% VaR: the 25th worst day → say that's −$2.1M</p>
+- 99% VaR: the 5th worst day (500 × 1% = 5) → say that's −<span class="nokatex">$</span>4.8M<br />
+- 95% VaR: the 25th worst day → say that's −<span class="nokatex">$</span>2.1M</p>
 <table>
 <thead>
 <tr>
@@ -554,13 +554,13 @@ body {
 <h3 id="component-var">Component VaR</h3>
 <p>$$\text{Component VaR}<em>i = \rho</em>{i,p} \times \sigma_i \times w_i \times z \times V$$</p>
 <p>The contribution of position i to total portfolio VaR. Component VaRs SUM to total VaR (they account for diversification).</p>
-<p><strong>The power:</strong> "Your total VaR is $5M. Desk A contributes $3.2M. Desk B contributes $2.8M. Desk C contributes −$1.0M." Desk C is a diversifier — its risk REDUCES total VaR because it's negatively correlated with the rest.</p>
+<p><strong>The power:</strong> "Your total VaR is <span class="nokatex">$</span>5M. Desk A contributes <span class="nokatex">$</span>3.2M. Desk B contributes <span class="nokatex">$</span>2.8M. Desk C contributes −<span class="nokatex">$</span>1.0M." Desk C is a diversifier — its risk REDUCES total VaR because it's negatively correlated with the rest.</p>
 <h3 id="marginal-var">Marginal VaR</h3>
 <p>$$\text{Marginal VaR}_i = \frac{\partial \text{VaR}}{\partial w_i}$$</p>
-<p>How much does VaR change if you add $1 more to position i? Tells you which positions are most efficient to add or trim from a risk perspective.</p>
+<p>How much does VaR change if you add <span class="nokatex">$</span>1 more to position i? Tells you which positions are most efficient to add or trim from a risk perspective.</p>
 <h3 id="incremental-var">Incremental VaR</h3>
 <p>$$\text{Incremental VaR}<em>i = \text{VaR}</em>{\text{with position}} - \text{VaR}_{\text{without position}}$$</p>
-<p>Unlike marginal (infinitesimal change), incremental measures the FULL effect of adding/removing a position. Critical for new trade approval: "This new position adds $400K of incremental VaR. Do we have risk budget?"</p>
+<p>Unlike marginal (infinitesimal change), incremental measures the FULL effect of adding/removing a position. Critical for new trade approval: "This new position adds <span class="nokatex">$</span>400K of incremental VaR. Do we have risk budget?"</p>
 <h2 id="var-limitations-the-critical-section">VaR Limitations — THE Critical Section</h2>
 <blockquote>
 <p>Every interviewer at Squarepoint will test whether you blindly trust VaR or understand its failures.</p>
@@ -576,7 +576,7 @@ body {
 <tbody>
 <tr>
 <td><strong>Not a worst case</strong></td>
-<td>VaR = threshold, not a range beyond it. The 1% tail could be $5M or $500M.</td>
+<td>VaR = threshold, not a range beyond it. The 1% tail could be <span class="nokatex">$</span>5M or <span class="nokatex">$</span>500M.</td>
 <td>LTCM, Bear Stearns — losses far beyond VaR</td>
 </tr>
 <tr>
@@ -619,7 +619,7 @@ body {
 </blockquote>
 <h2 id="the-definition_1">The Definition</h2>
 <p>$$\text{ES}<em>\alpha = E[\text{Loss} \mid \text{Loss} &gt; \text{VaR}</em>\alpha] = \frac{1}{1-\alpha} \int_\alpha^1 \text{VaR}_u \, du$$</p>
-<p><strong>In English:</strong> The average of ALL losses in the tail beyond VaR. If 99% VaR = $5M, ES averages the losses on the 1% worst days.</p>
+<p><strong>In English:</strong> The average of ALL losses in the tail beyond VaR. If 99% VaR = <span class="nokatex">$</span>5M, ES averages the losses on the 1% worst days.</p>
 <h2 id="why-es-var">Why ES &gt; VaR</h2>
 <table>
 <thead>
@@ -659,14 +659,14 @@ body {
 </table>
 <h2 id="worked-example-why-es-matters">Worked Example — Why ES Matters</h2>
 <p><strong>Portfolio A (selling OTM puts):</strong><br />
-- 99% VaR = $5M<br />
-- On the 1% worst days: losses are $10M, $15M, $25M, $40M, $80M<br />
-- ES = average($10M, $15M, $25M, $40M, $80M) = <strong>$34M</strong><br />
+- 99% VaR = <span class="nokatex">$</span>5M<br />
+- On the 1% worst days: losses are <span class="nokatex">$</span>10M, <span class="nokatex">$</span>15M, <span class="nokatex">$</span>25M, <span class="nokatex">$</span>40M, <span class="nokatex">$</span>80M<br />
+- ES = average(<span class="nokatex">$</span>10M, <span class="nokatex">$</span>15M, <span class="nokatex">$</span>25M, <span class="nokatex">$</span>40M, <span class="nokatex">$</span>80M) = <strong><span class="nokatex">$</span>34M</strong><br />
 - ES/VaR ratio = 34/5 = <strong>6.8</strong> ← FAT tail. Concave payoff. Hidden risk.</p>
 <p><strong>Portfolio B (diversified long equity):</strong><br />
-- 99% VaR = $5M<br />
-- On the 1% worst days: losses are $5.5M, $6M, $6.5M, $7M, $7.5M<br />
-- ES = average = <strong>$6.5M</strong><br />
+- 99% VaR = <span class="nokatex">$</span>5M<br />
+- On the 1% worst days: losses are <span class="nokatex">$</span>5.5M, <span class="nokatex">$</span>6M, <span class="nokatex">$</span>6.5M, <span class="nokatex">$</span>7M, <span class="nokatex">$</span>7.5M<br />
+- ES = average = <strong><span class="nokatex">$</span>6.5M</strong><br />
 - ES/VaR ratio = 6.5/5 = <strong>1.3</strong> ← thin tail. Linear payoff. What you see is what you get.</p>
 <p><strong>Both have IDENTICAL VaR. Only ES reveals that Portfolio A has 5× worse tail risk.</strong></p>
 <h2 id="esvar-ratio-the-tail-shape-indicator">ES/VaR Ratio — The Tail Shape Indicator</h2>
@@ -724,7 +724,7 @@ body {
 <ul>
 <li><strong>Not backward-looking</strong> — you can test events that haven't happened yet</li>
 <li><strong>Not model-dependent</strong> — you specify the shocks directly</li>
-<li><strong>Intuitive</strong> — "If SPX drops 20% and VIX hits 60, we lose $X" is understood by everyone</li>
+<li><strong>Intuitive</strong> — "If SPX drops 20% and VIX hits 60, we lose <span class="nokatex">$</span>X" is understood by everyone</li>
 </ul>
 <h2 id="three-types-of-stress-tests">Three Types of Stress Tests</h2>
 <h3 id="1-historical-stress-tests">1. Historical Stress Tests</h3>
@@ -827,7 +827,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>How to use:</strong> Take each event's factor moves, apply to current portfolio positions, aggregate P&amp;L. "If 2008 replayed today, we'd lose $X on equities, $Y on credit, gain $Z on rates = net −$W."</p>
+<p><strong>How to use:</strong> Take each event's factor moves, apply to current portfolio positions, aggregate P&amp;L. "If 2008 replayed today, we'd lose <span class="nokatex">$</span>X on equities, <span class="nokatex">$</span>Y on credit, gain <span class="nokatex">$</span>Z on rates = net −<span class="nokatex">$</span>W."</p>
 <h3 id="2-hypothetical-stress-tests">2. Hypothetical Stress Tests</h3>
 <blockquote>
 <p>Plausible scenarios that haven't occurred — often MORE valuable because the next crisis is never identical to the last.</p>
@@ -921,35 +921,35 @@ body {
 <tbody>
 <tr>
 <td><strong>Vol unch</strong></td>
-<td>−$0.6M</td>
-<td>−$1.5M</td>
-<td>−$3M</td>
-<td>−$4.5M</td>
-<td>−$6M</td>
+<td>−<span class="nokatex">$</span>0.6M</td>
+<td>−<span class="nokatex">$</span>1.5M</td>
+<td>−<span class="nokatex">$</span>3M</td>
+<td>−<span class="nokatex">$</span>4.5M</td>
+<td>−<span class="nokatex">$</span>6M</td>
 </tr>
 <tr>
 <td><strong>Vol +5</strong></td>
-<td>−$0.4M</td>
-<td>−$1.8M</td>
-<td>−$5M</td>
-<td>−$8M</td>
-<td>−$12M</td>
+<td>−<span class="nokatex">$</span>0.4M</td>
+<td>−<span class="nokatex">$</span>1.8M</td>
+<td>−<span class="nokatex">$</span>5M</td>
+<td>−<span class="nokatex">$</span>8M</td>
+<td>−<span class="nokatex">$</span>12M</td>
 </tr>
 <tr>
 <td><strong>Vol +15</strong></td>
-<td>+$0.2M</td>
-<td>−$3M</td>
-<td>−$9M</td>
-<td><strong>−$16M</strong></td>
-<td><strong>−$25M</strong></td>
+<td>+<span class="nokatex">$</span>0.2M</td>
+<td>−<span class="nokatex">$</span>3M</td>
+<td>−<span class="nokatex">$</span>9M</td>
+<td><strong>−<span class="nokatex">$</span>16M</strong></td>
+<td><strong>−<span class="nokatex">$</span>25M</strong></td>
 </tr>
 <tr>
 <td><strong>Vol +30</strong></td>
-<td>+$1M</td>
-<td>−$5M</td>
-<td><strong>−$15M</strong></td>
-<td><strong>−$28M</strong></td>
-<td><strong>−$42M</strong></td>
+<td>+<span class="nokatex">$</span>1M</td>
+<td>−<span class="nokatex">$</span>5M</td>
+<td><strong>−<span class="nokatex">$</span>15M</strong></td>
+<td><strong>−<span class="nokatex">$</span>28M</strong></td>
+<td><strong>−<span class="nokatex">$</span>42M</strong></td>
 </tr>
 </tbody>
 </table>
@@ -970,7 +970,7 @@ body {
 <tr>
 <td>DV01 P&amp;L</td>
 <td>−$XM</td>
-<td>−$2XM</td>
+<td>−<span class="nokatex">$</span>2XM</td>
 <td>Depends on KRD</td>
 <td>Depends on KRD</td>
 <td>Depends on KRD</td>
@@ -981,7 +981,7 @@ body {
 <blockquote>
 <p><strong>Start from the loss. Work backward to find the scenario that causes it.</strong></p>
 </blockquote>
-<p>"What scenario causes a $30M loss (our drawdown limit)?" → solve for the combination of factor moves. This is arguably the most important stress test because it directly answers: "What kills us?"</p>
+<p>"What scenario causes a <span class="nokatex">$</span>30M loss (our drawdown limit)?" → solve for the combination of factor moves. This is arguably the most important stress test because it directly answers: "What kills us?"</p>
 <p><strong>Process:</strong><br />
 1. Define the loss threshold (e.g., max drawdown limit, fund-breaking loss)<br />
 2. Optimize over scenarios: find the minimum-severity scenario that hits the threshold<br />
@@ -995,10 +995,10 @@ body {
 </blockquote>
 <p>$$\text{DV01} \approx \frac{\text{ModDur} \times \text{Price} \times \text{Notional}}{10{,}000}$$</p>
 <p><strong>Worked example:</strong><br />
-- $50M par of 10Y UST, modified duration = 8.5, price = 95<br />
-- DV01 = 8.5 × 95/100 × $50M / 10,000 = <strong>$40,375 per bp</strong><br />
-- If yields rise 25bp: loss = 25 × $40,375 = <strong>−$1,009,375</strong><br />
-- If yields fall 50bp: gain = 50 × $40,375 = <strong>+$2,018,750</strong></p>
+- <span class="nokatex">$</span>50M par of 10Y UST, modified duration = 8.5, price = 95<br />
+- DV01 = 8.5 × 95/100 × <span class="nokatex">$</span>50M / 10,000 = <strong><span class="nokatex">$</span>40,375 per bp</strong><br />
+- If yields rise 25bp: loss = 25 × <span class="nokatex">$</span>40,375 = <strong>−<span class="nokatex">$</span>1,009,375</strong><br />
+- If yields fall 50bp: gain = 50 × <span class="nokatex">$</span>40,375 = <strong>+<span class="nokatex">$</span>2,018,750</strong></p>
 <p><strong>DV01 ladder — decomposition by maturity:</strong></p>
 <table>
 <thead>
@@ -1011,32 +1011,32 @@ body {
 <tbody>
 <tr>
 <td>2Y bucket</td>
-<td>+$15K/bp</td>
+<td>+<span class="nokatex">$</span>15K/bp</td>
 <td>Long duration at the short end (benefits from rate cuts)</td>
 </tr>
 <tr>
 <td>5Y bucket</td>
-<td>−$8K/bp</td>
+<td>−<span class="nokatex">$</span>8K/bp</td>
 <td>Short duration at 5Y (hedging?)</td>
 </tr>
 <tr>
 <td>10Y bucket</td>
-<td>+$40K/bp</td>
+<td>+<span class="nokatex">$</span>40K/bp</td>
 <td>Main risk — long 10Y</td>
 </tr>
 <tr>
 <td>30Y bucket</td>
-<td>+$5K/bp</td>
+<td>+<span class="nokatex">$</span>5K/bp</td>
 <td>Small long-end exposure</td>
 </tr>
 <tr>
 <td><strong>Net</strong></td>
-<td><strong>+$52K/bp</strong></td>
+<td><strong>+<span class="nokatex">$</span>52K/bp</strong></td>
 <td>Net long duration — loses if yields rise</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Why the ladder matters more than total DV01:</strong> A portfolio can have DV01 = $0 (duration-neutral) but have +$50K/bp at 2Y and −$50K/bp at 30Y — that's a massive curve steepener bet that nets to zero DV01. The RM must see the LADDER, not just the total.</p>
+<p><strong>Why the ladder matters more than total DV01:</strong> A portfolio can have DV01 = <span class="nokatex">$</span>0 (duration-neutral) but have +<span class="nokatex">$</span>50K/bp at 2Y and −<span class="nokatex">$</span>50K/bp at 30Y — that's a massive curve steepener bet that nets to zero DV01. The RM must see the LADDER, not just the total.</p>
 <h2 id="key-rate-duration-krd">Key Rate Duration (KRD)</h2>
 <p>Duration decomposed by tenor point. Instead of one number, you get a vector:</p>
 <p>$$\text{KRD}_i = -\frac{1}{P} \frac{\partial P}{\partial y_i}$$</p>
@@ -1047,9 +1047,9 @@ body {
 </blockquote>
 <p>$$\text{CS01} \approx \text{Spread Duration} \times \text{MV} / 10{,}000$$</p>
 <p><strong>Worked example:</strong><br />
-- $20M corporate bond, spread duration = 4.5<br />
-- CS01 = 4.5 × $20M / 10,000 = <strong>$9,000 per bp of spread widening</strong><br />
-- If credit spreads widen 100bp (stress): loss = 100 × $9,000 = <strong>−$900,000</strong></p>
+- <span class="nokatex">$</span>20M corporate bond, spread duration = 4.5<br />
+- CS01 = 4.5 × <span class="nokatex">$</span>20M / 10,000 = <strong><span class="nokatex">$</span>9,000 per bp of spread widening</strong><br />
+- If credit spreads widen 100bp (stress): loss = 100 × <span class="nokatex">$</span>9,000 = <strong>−<span class="nokatex">$</span>900,000</strong></p>
 <p><strong>Portfolio CS01 by rating bucket:</strong></p>
 <table>
 <thead>
@@ -1062,17 +1062,17 @@ body {
 <tbody>
 <tr>
 <td>IG (A/BBB)</td>
-<td>$25K/bp</td>
+<td><span class="nokatex">$</span>25K/bp</td>
 <td>Main exposure — investment-grade credit</td>
 </tr>
 <tr>
 <td>HY (BB)</td>
-<td>$8K/bp</td>
+<td><span class="nokatex">$</span>8K/bp</td>
 <td>Higher-yielding, more volatile</td>
 </tr>
 <tr>
 <td>HY (B/CCC)</td>
-<td>$3K/bp</td>
+<td><span class="nokatex">$</span>3K/bp</td>
 <td>Small but spreads can widen 500bp+ in crisis</td>
 </tr>
 </tbody>
@@ -1099,7 +1099,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>JTD worked example:</strong> $10M notional in Company X CDS (protection buyer). If X defaults: you receive (1 − Recovery) × Notional = 0.60 × $10M = $6M gain. If you're the protection SELLER: you PAY $6M. JTD monitors this single-name concentration.</p>
+<p><strong>JTD worked example:</strong> <span class="nokatex">$</span>10M notional in Company X CDS (protection buyer). If X defaults: you receive (1 − Recovery) × Notional = 0.60 × <span class="nokatex">$</span>10M = <span class="nokatex">$</span>6M gain. If you're the protection SELLER: you PAY <span class="nokatex">$</span>6M. JTD monitors this single-name concentration.</p>
 <hr />
 <h1 id="part-5-performance-risk-adjusted-metrics">PART 5: PERFORMANCE &amp; RISK-ADJUSTED METRICS</h1>
 <blockquote>
@@ -1108,10 +1108,10 @@ body {
 <h2 id="sharpe-ratio">Sharpe Ratio</h2>
 <p>$$\text{Sharpe} = \frac{R_p - R_f}{\sigma_p}$$</p>
 <p>Where:<br />
-- $R_p$ = annualized portfolio return<br />
-- $R_f$ = risk-free rate (typically the T-bill or OIS rate)<br />
+- <span class="nokatex">$</span>R_p$ = annualized portfolio return<br />
+- <span class="nokatex">$</span>R_f$ = risk-free rate (typically the T-bill or OIS rate)<br />
 - $\sigma_p$ = annualized portfolio volatility (standard deviation of returns)</p>
-<p>The numerator ($R_p - R_f$) is the <strong>excess return</strong> — what you earned above the risk-free alternative. The denominator is how much risk you took to get it.</p>
+<p>The numerator (<span class="nokatex">$</span>R_p - R_f$) is the <strong>excess return</strong> — what you earned above the risk-free alternative. The denominator is how much risk you took to get it.</p>
 <table>
 <thead>
 <tr>
@@ -1195,7 +1195,7 @@ body {
 <p>Two years of good performance is NOT enough to conclude skill.</p>
 <h2 id="sortino-ratio">Sortino Ratio</h2>
 <p>$$\text{Sortino} = \frac{R_p - R_f}{\sigma_{\text{downside}}}$$</p>
-<p>Same $R_p$ and $R_f$ as Sharpe, but the denominator is <strong>downside deviation</strong> — standard deviation computed only from returns BELOW a target (usually 0 or $R_f$). Upside volatility is ignored entirely.</p>
+<p>Same <span class="nokatex">$</span>R_p$ and <span class="nokatex">$</span>R_f$ as Sharpe, but the denominator is <strong>downside deviation</strong> — standard deviation computed only from returns BELOW a target (usually 0 or <span class="nokatex">$</span>R_f$). Upside volatility is ignored entirely.</p>
 <p><strong>Why Sortino &gt; Sharpe for hedge funds:</strong> A fund that generates its return through positively skewed bets (long gamma, event-driven, distressed credit) has LOW downside vol and HIGH upside vol. Sharpe penalizes both. Sortino correctly rewards the upside skew.</p>
 <p><strong>RM insight:</strong> Compare Sharpe to Sortino. If Sortino &gt;&gt; Sharpe → positive skew (good). If Sortino &lt;&lt; Sharpe → NEGATIVE skew (P&amp;L distribution has a fat left tail — investigate).</p>
 <h2 id="maximum-drawdown-mdd">Maximum Drawdown (MDD)</h2>
@@ -1311,7 +1311,7 @@ body {
 </tbody>
 </table>
 <h2 id="alpha-beta-decomposition">Alpha &amp; Beta Decomposition</h2>
-<p>$$R_p = \alpha + \beta \times R_m + \epsilon$$</p>
+<p>$<span class="nokatex">$</span>R_p = \alpha + \beta \times R_m + \epsilon$$</p>
 <table>
 <thead>
 <tr>
@@ -1339,7 +1339,7 @@ body {
 </tbody>
 </table>
 <p><strong>Multi-factor decomposition (Fama-French, Barra):</strong></p>
-<p>$$R_p = \alpha + \beta_1 R_{\text{market}} + \beta_2 R_{\text{size}} + \beta_3 R_{\text{value}} + \beta_4 R_{\text{momentum}} + \epsilon$$</p>
+<p>$<span class="nokatex">$</span>R_p = \alpha + \beta_1 R_{\text{market}} + \beta_2 R_{\text{size}} + \beta_3 R_{\text{value}} + \beta_4 R_{\text{momentum}} + \epsilon$$</p>
 <p>A PM who claims alpha but has β_momentum = 0.8 is just running momentum — the "alpha" is factor exposure, not skill. Real alpha should be the residual after ALL known factor exposures are removed.</p>
 <h2 id="omega-ratio">Omega Ratio</h2>
 <p>$$\Omega = \frac{\int_r^\infty (1-F(x)) \, dx}{\int_{-\infty}^r F(x) \, dx}$$</p>
@@ -1440,19 +1440,19 @@ body {
 <td><strong>Fund level</strong></td>
 <td>Total fund VaR, gross/net exposure, drawdown</td>
 <td>CRO / Board</td>
-<td>Fund VaR &lt; $15M (99% 1d). Max DD = −15%.</td>
+<td>Fund VaR &lt; <span class="nokatex">$</span>15M (99% 1d). Max DD = −15%.</td>
 </tr>
 <tr>
 <td><strong>Desk / PM level</strong></td>
 <td>VaR budget, Greeks limits, concentration</td>
 <td>Risk team</td>
-<td>Desk A: VaR ≤ $3M, short gamma &lt; $1M/1%, max single-name = 5% of NAV</td>
+<td>Desk A: VaR ≤ <span class="nokatex">$</span>3M, short gamma &lt; <span class="nokatex">$</span>1M/1%, max single-name = 5% of NAV</td>
 </tr>
 <tr>
 <td><strong>Position level</strong></td>
 <td>Size limits, liquidity thresholds</td>
 <td>Risk team + compliance</td>
-<td>No single equity &gt; 3% of ADV. No illiquid bond &gt; $5M notional.</td>
+<td>No single equity &gt; 3% of ADV. No illiquid bond &gt; <span class="nokatex">$</span>5M notional.</td>
 </tr>
 <tr>
 <td><strong>Factor level</strong></td>
@@ -1465,14 +1465,14 @@ body {
 <h2 id="risk-budget-allocation">Risk Budget Allocation</h2>
 <p>$$\text{Fund VaR budget} = \sum_i \text{Desk}_i \text{ VaR allocation} + \text{Reserve}$$</p>
 <p><strong>Example:</strong><br />
-- Fund 99% 1-day VaR budget: $10M<br />
-- Desk A (equity vol): $4M (40%)<br />
-- Desk B (macro rates): $3M (30%)<br />
-- Desk C (credit): $2M (20%)<br />
-- <strong>Reserve / unallocated: $1M (10%)</strong></p>
+- Fund 99% 1-day VaR budget: <span class="nokatex">$</span>10M<br />
+- Desk A (equity vol): <span class="nokatex">$</span>4M (40%)<br />
+- Desk B (macro rates): <span class="nokatex">$</span>3M (30%)<br />
+- Desk C (credit): <span class="nokatex">$</span>2M (20%)<br />
+- <strong>Reserve / unallocated: <span class="nokatex">$</span>1M (10%)</strong></p>
 <p><strong>Key concepts:</strong><br />
-- <strong>Utilization:</strong> Desk A running $3.2M actual VaR on $4M budget = 80% utilization. Normal.<br />
-- <strong>Over-utilization:</strong> Running $4.5M on $4M budget = 112%. Requires risk approval or position reduction.<br />
+- <strong>Utilization:</strong> Desk A running <span class="nokatex">$</span>3.2M actual VaR on <span class="nokatex">$</span>4M budget = 80% utilization. Normal.<br />
+- <strong>Over-utilization:</strong> Running <span class="nokatex">$</span>4.5M on <span class="nokatex">$</span>4M budget = 112%. Requires risk approval or position reduction.<br />
 - <strong>Correlation benefit:</strong> If desks are uncorrelated, total fund VaR &lt; sum of desk VaRs. This is the diversification benefit — the reserve accounts for the possibility that correlations spike.</p>
 <h2 id="drawdown-limits-hard-and-soft">Drawdown Limits — Hard and Soft</h2>
 <table>
@@ -1504,7 +1504,7 @@ body {
 <p><strong>Drawdown measurement:</strong> Typically measured from high-water mark on a rolling 12-month basis. Intraday marks may apply for systematic strategies.</p>
 <h2 id="marginal-contribution-to-risk-capital-allocation">Marginal Contribution to Risk — Capital Allocation</h2>
 <p>$$\text{MCR}<em>i = \frac{\partial \text{VaR}</em>{\text{fund}}}{\partial w_i}$$</p>
-<p>Tells you: "If Desk A gets $1M more capital, how much does fund VaR increase?" Used for:<br />
+<p>Tells you: "If Desk A gets <span class="nokatex">$</span>1M more capital, how much does fund VaR increase?" Used for:<br />
 - <strong>Capital allocation decisions</strong> — allocate more to desks with low MCR (they add return efficiently relative to risk)<br />
 - <strong>Performance evaluation</strong> — RAROC (Risk-Adjusted Return On Capital) = Return / Economic Capital consumed</p>
 <p>$$\text{RAROC}_i = \frac{\text{Desk}_i \text{ P\&amp;L}}{\text{Desk}_i \text{ VaR allocation}}$$</p>
@@ -1519,11 +1519,11 @@ body {
 <p>Where:<br />
 $$\text{Liquidation Cost} = \frac{1}{2} \sum_i \text{Spread}_i \times \text{Position Size}_i \times \text{Stress Multiplier}_i$$</p>
 <p><strong>Worked example:</strong><br />
-- Standard VaR = $5M<br />
-- Portfolio has $200M notional with average normal spread of 5bp, stress spread 25bp<br />
-- Normal liquidation cost = ½ × 0.0005 × $200M = $50K (negligible)<br />
-- Stress liquidation cost = ½ × 0.0025 × $200M = $250K<br />
-- LVaR = $5M + $250K = $5.25M</p>
+- Standard VaR = <span class="nokatex">$</span>5M<br />
+- Portfolio has <span class="nokatex">$</span>200M notional with average normal spread of 5bp, stress spread 25bp<br />
+- Normal liquidation cost = ½ × 0.0005 × <span class="nokatex">$</span>200M = <span class="nokatex">$</span>50K (negligible)<br />
+- Stress liquidation cost = ½ × 0.0025 × <span class="nokatex">$</span>200M = <span class="nokatex">$</span>250K<br />
+- LVaR = <span class="nokatex">$</span>5M + <span class="nokatex">$</span>250K = <span class="nokatex">$</span>5.25M</p>
 <p>For ILLIQUID positions (HY bonds, small-cap, EM): stress spreads can be 200bp+ → liquidation cost dominates.</p>
 <h2 id="days-to-liquidate">Days to Liquidate</h2>
 <p>$$\text{DTL} = \frac{\text{Position Size}}{\text{ADV} \times \text{Participation Rate}}$$</p>
@@ -1554,8 +1554,8 @@ $$\text{Liquidation Cost} = \frac{1}{2} \sum_i \text{Spread}_i \times \text{Posi
 </tbody>
 </table>
 <p><strong>Worked example:</strong><br />
-- Hold $20M of stock X, ADV = $5M, 10% participation<br />
-- DTL = $20M / ($5M × 0.10) = <strong>40 days</strong><br />
+- Hold <span class="nokatex">$</span>20M of stock X, ADV = <span class="nokatex">$</span>5M, 10% participation<br />
+- DTL = <span class="nokatex">$</span>20M / (<span class="nokatex">$</span>5M × 0.10) = <strong>40 days</strong><br />
 - Your 1-day VaR assumes you can exit in 1 day. You can't. Liquidity-adjusted horizon should be 40 days. VaR should be scaled: VaR_40d ≈ VaR_1d × √40 = <strong>6.3× larger</strong>.</p>
 <h2 id="liquidity-tiering">Liquidity Tiering</h2>
 <table>
@@ -1570,19 +1570,19 @@ $$\text{Liquidation Cost} = \frac{1}{2} \sum_i \text{Spread}_i \times \text{Posi
 <tbody>
 <tr>
 <td><strong>1 (Liquid)</strong></td>
-<td>ADV &gt; $50M, tight spreads, deep book</td>
+<td>ADV &gt; <span class="nokatex">$</span>50M, tight spreads, deep book</td>
 <td>&lt; 3 days</td>
 <td>Standard 1-day VaR</td>
 </tr>
 <tr>
 <td><strong>2 (Semi-liquid)</strong></td>
-<td>ADV $5-50M, moderate spreads</td>
+<td>ADV <span class="nokatex">$</span>5-50M, moderate spreads</td>
 <td>3-10 days</td>
 <td>Apply √DTL scaling</td>
 </tr>
 <tr>
 <td><strong>3 (Illiquid)</strong></td>
-<td>ADV &lt; $5M, wide spreads, thin book</td>
+<td>ADV &lt; <span class="nokatex">$</span>5M, wide spreads, thin book</td>
 <td>10-30 days</td>
 <td>Apply √DTL + stress spread + redemption gate consideration</td>
 </tr>
@@ -1683,20 +1683,20 @@ $$\text{Liquidation Cost} = \frac{1}{2} \sum_i \text{Spread}_i \times \text{Posi
 </tr>
 </tbody>
 </table>
-<p><strong>P&amp;L explain as model validation:</strong> If your model predicts today's P&amp;L should be −$2.3M (from delta + gamma + vega + theta) but actual is −$4.1M, the −$1.8M "unexplained" is model error. Persistent unexplained P&amp;L = model is wrong. Investigate.</p>
+<p><strong>P&amp;L explain as model validation:</strong> If your model predicts today's P&amp;L should be −<span class="nokatex">$</span>2.3M (from delta + gamma + vega + theta) but actual is −<span class="nokatex">$</span>4.1M, the −<span class="nokatex">$</span>1.8M "unexplained" is model error. Persistent unexplained P&amp;L = model is wrong. Investigate.</p>
 <hr />
 <h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
 <p><strong>"What are the limitations of VaR?"</strong></p>
-<p>"VaR is a useful speedometer but a terrible crash detector. Five key limitations: First, it tells you nothing about losses BEYOND the threshold — a $5M VaR could be hiding $50M of tail risk, and you'd only know from Expected Shortfall or stress testing. Second, it's computed from historical data under normal conditions — but the distribution changes in a crisis: correlations spike, liquidity vanishes, and your calm-period covariance matrix is wrong. Third, it's not subadditive — combining portfolios can produce higher VaR than the sum, which violates basic intuition and makes it unreliable for capital allocation. Fourth, it's gameable — selling deep OTM options generates premium income with low measured VaR while embedding massive tail risk. Finally, it's a point-in-time snapshot at market close that misses intraday risk.</p>
+<p>"VaR is a useful speedometer but a terrible crash detector. Five key limitations: First, it tells you nothing about losses BEYOND the threshold — a <span class="nokatex">$</span>5M VaR could be hiding <span class="nokatex">$</span>50M of tail risk, and you'd only know from Expected Shortfall or stress testing. Second, it's computed from historical data under normal conditions — but the distribution changes in a crisis: correlations spike, liquidity vanishes, and your calm-period covariance matrix is wrong. Third, it's not subadditive — combining portfolios can produce higher VaR than the sum, which violates basic intuition and makes it unreliable for capital allocation. Fourth, it's gameable — selling deep OTM options generates premium income with low measured VaR while embedding massive tail risk. Finally, it's a point-in-time snapshot at market close that misses intraday risk.</p>
 <p>That's why I'd always supplement VaR with ES for tail severity, stress tests for extreme scenarios, and the ES/VaR ratio as a quick diagnostic — if that ratio exceeds 3, there's a concave payoff hiding in the book."</p>
 <p><strong>"How would you set up a stress testing framework?"</strong></p>
 <p>"Three layers. Historical stress tests — replay 2008, COVID, Volmageddon with current positions — because you need to know if the portfolio survives past crises. Hypothetical scenarios — events that haven't happened, like a Taiwan conflict or US Treasury auction failure — because the next crisis won't look like the last one. And sensitivity grids — systematic factor bumps across equity × vol × rates dimensions — to map out the P&amp;L heat map and find exactly where the portfolio breaks.</p>
-<p>I'd add a fourth: reverse stress testing. Start from the loss threshold — say our drawdown limit is $30M — and work backward to find the minimum-severity scenario that causes it. If that scenario is plausible, we have an actionable problem to address TODAY, not during the crisis."</p>
+<p>I'd add a fourth: reverse stress testing. Start from the loss threshold — say our drawdown limit is <span class="nokatex">$</span>30M — and work backward to find the minimum-severity scenario that causes it. If that scenario is plausible, we have an actionable problem to address TODAY, not during the crisis."</p>
 <p><strong>"Walk me through the Sharpe ratio and its problems":</strong></p>
 <p>"Sharpe is excess return over risk-free divided by vol. It's the standard risk-adjusted performance metric — most successful hedge funds are in the 0.7-2.0 range. But it has three fatal flaws for evaluating hedge fund strategies.</p>
 <p>First, it treats upside and downside vol equally, so a positively skewed fund is penalized for its best feature. The Sortino ratio fixes this by only measuring downside deviation. Second, it can be gamed — any strategy that sells tail risk generates steady premium with low measured vol, producing Sharpe 2.0+ until the tail event arrives and it goes to zero. I'd check Sortino/Sharpe ratio: if Sortino is much lower than Sharpe, the fund has hidden negative skew. Third, short-period Sharpe is statistically noisy — you need ~4 years of monthly data to distinguish Sharpe 1.0 from zero at 95% confidence. Two quarters of good performance proves nothing."</p>
 <p><strong>"Explain the difference between VaR, ES, and stress testing":</strong></p>
-<p>"These three form a risk measurement pyramid. VaR tells you the boundary of normal losses — 'on 99 out of 100 days, you won't lose more than $5M.' It's the daily speedometer. ES tells you what happens when you crash — 'when you DO breach VaR, the average loss is $12M.' It captures tail severity and is what FRTB is moving toward for banks. Stress testing asks 'what if the road disappears entirely?' — you define specific extreme scenarios and measure the impact directly, without relying on historical distributions.</p>
+<p>"These three form a risk measurement pyramid. VaR tells you the boundary of normal losses — 'on 99 out of 100 days, you won't lose more than <span class="nokatex">$</span>5M.' It's the daily speedometer. ES tells you what happens when you crash — 'when you DO breach VaR, the average loss is <span class="nokatex">$</span>12M.' It captures tail severity and is what FRTB is moving toward for banks. Stress testing asks 'what if the road disappears entirely?' — you define specific extreme scenarios and measure the impact directly, without relying on historical distributions.</p>
 <p>A complete risk framework uses all three: VaR for daily monitoring and limit-setting, ES for tail adequacy and identifying concave payoffs, and stress tests for the extreme scenarios that the statistical models can't capture. If I had to choose one, I'd choose stress testing — it's the only one that works in a true crisis, because it doesn't depend on the past looking like the future."</p>
 <hr />
 <p><strong>Related files:</strong><br />
@@ -1717,6 +1717,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

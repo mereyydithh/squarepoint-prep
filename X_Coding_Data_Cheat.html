@@ -1024,7 +1024,7 @@ body {
 </tr>
 <tr>
 <td>ES</td>
-<td>$E[L \mid L &gt; \text{VaR}]$</td>
+<td><span class="nokatex">$</span>E[L \mid L &gt; \text{VaR}]$</td>
 </tr>
 </tbody>
 </table>
@@ -1039,6 +1039,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

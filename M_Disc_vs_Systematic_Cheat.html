@@ -602,11 +602,11 @@ body {
 <tbody>
 <tr>
 <td>PM → CRO</td>
-<td>"Long NVDA" → "+$3.5M VaR, 25% tech, beta 0.35"</td>
+<td>"Long NVDA" → "+<span class="nokatex">$</span>3.5M VaR, 25% tech, beta 0.35"</td>
 </tr>
 <tr>
 <td>CRO → PM</td>
-<td>"VaR limit $5M" → "Hedge beta or cut 3 correlated names"</td>
+<td>"VaR limit <span class="nokatex">$</span>5M" → "Hedge beta or cut 3 correlated names"</td>
 </tr>
 <tr>
 <td>Systematic → PM</td>
@@ -750,6 +750,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

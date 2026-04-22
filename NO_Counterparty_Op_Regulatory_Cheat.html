@@ -474,7 +474,7 @@ body {
 </table>
 <h2 id="cva-quick-formula">CVA Quick Formula</h2>
 <p>$$\text{CVA} \approx \text{EE} \times \text{PD} \times \text{LGD}$$</p>
-<p>Example: $15M EE × 10% cumulative PD × 60% LGD = <strong>$900K</strong> CVA charge</p>
+<p>Example: <span class="nokatex">$</span>15M EE × 10% cumulative PD × 60% LGD = <strong><span class="nokatex">$</span>900K</strong> CVA charge</p>
 <h2 id="wrong-way-risk-examples">Wrong-Way Risk Examples</h2>
 <table>
 <thead>
@@ -523,12 +523,12 @@ body {
 </tr>
 <tr>
 <td>Threshold</td>
-<td>$0–$10M</td>
+<td><span class="nokatex">$</span>0–<span class="nokatex">$</span>10M</td>
 <td>Higher = more unsecured exposure</td>
 </tr>
 <tr>
 <td>MTA</td>
-<td>$250K–$1M</td>
+<td><span class="nokatex">$</span>250K–<span class="nokatex">$</span>1M</td>
 <td>Gap between calls</td>
 </tr>
 <tr>
@@ -617,7 +617,7 @@ body {
 <li>Bad code deployed to 1 of 8 servers</li>
 <li>Old "Power Peg" function: buy at ask, sell at bid (opposite of normal)</li>
 <li>28 minutes before anyone noticed</li>
-<li>$440M loss in 45 min (firm had $365M capital)</li>
+<li><span class="nokatex">$</span>440M loss in 45 min (firm had <span class="nokatex">$</span>365M capital)</li>
 <li><strong>Lessons:</strong> Kill switch, real-time P&amp;L alerts, automated deployment, remove dead code</li>
 </ul>
 <h2 id="three-lines-of-defense">Three Lines of Defense</h2>
@@ -780,7 +780,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p>Archegos exploited ALL three gaps → $10B bank losses.</p>
+<p>Archegos exploited ALL three gaps → <span class="nokatex">$</span>10B bank losses.</p>
 <h2 id="non-market-risk-dashboard">Non-Market Risk Dashboard</h2>
 <table>
 <thead>
@@ -799,7 +799,7 @@ body {
 <tr>
 <td>Collateral</td>
 <td>Coverage ratio, disputes</td>
-<td>Under-collateralized &gt; $5M</td>
+<td>Under-collateralized &gt; <span class="nokatex">$</span>5M</td>
 </tr>
 <tr>
 <td>CCP</td>
@@ -835,6 +835,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

@@ -811,7 +811,7 @@ body {
 </tbody>
 </table>
 <p><strong>Liquidity spiral (Brunnermeier-Pedersen):</strong> Losses → margin calls → forced selling → prices drop → more margin calls → FEEDBACK LOOP.</p>
-<p><strong>Tiering:</strong> Tier 1 (ADV &gt;$100M, DTL &lt;1d) → Tier 4 (bespoke OTC, DTL 20+d, full notional at risk).</p>
+<p><strong>Tiering:</strong> Tier 1 (ADV &gt;<span class="nokatex">$</span>100M, DTL &lt;1d) → Tier 4 (bespoke OTC, DTL 20+d, full notional at risk).</p>
 <hr />
 <h2 id="portfolio-construction-for-risk">PORTFOLIO CONSTRUCTION FOR RISK</h2>
 <table>
@@ -841,10 +841,10 @@ body {
 </tbody>
 </table>
 <h3 id="risk-budget-hierarchy">Risk Budget Hierarchy</h3>
-<div class="highlight"><pre><span></span><code>FUND: VaR ≤ $15M, DD ≤ −15%, Gross ≤ 5×
-  ├── Desk A: VaR ≤ $5M, DD ≤ −8%
-  ├── Desk B: VaR ≤ $4M, DD ≤ −6%
-  └── Desk C: VaR ≤ $3M, DD ≤ −5%
+<div class="highlight"><pre><span></span><code>FUND: VaR ≤ &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;15M, DD ≤ −15%, Gross ≤ 5×
+  ├── Desk A: VaR ≤ &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;5M, DD ≤ −8%
+  ├── Desk B: VaR ≤ &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;4M, DD ≤ −6%
+  └── Desk C: VaR ≤ &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;3M, DD ≤ −5%
       + Reserve: 10-15% for correlation spikes
 </code></pre></div>
 
@@ -983,6 +983,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

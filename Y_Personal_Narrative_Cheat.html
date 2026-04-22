@@ -416,7 +416,7 @@ body {
 </ol>
 <hr />
 <h2 id="top-5-probes-depth-3-answers">TOP 5 PROBES — DEPTH 3 ANSWERS</h2>
-<h3 id="fire-drill-26b-9-counterparties-02-drag">Fire Drill ($2.6B, 9 counterparties, &lt;0.2% drag)</h3>
+<h3 id="fire-drill-26b-9-counterparties-02-drag">Fire Drill (<span class="nokatex">$</span>2.6B, 9 counterparties, &lt;0.2% drag)</h3>
 <ul>
 <li><strong>Sequence:</strong> Inventory → Liquidity rank → Counterparty coordination → Execution sim</li>
 <li><strong>2 gaps found:</strong> ISDA netting clause ambiguity + CCP margin timing (1hr vs 4hr)</li>
@@ -428,7 +428,7 @@ body {
 <li><strong>How:</strong> Shocks to flat price, curve shape, vol, basis → recalc P&amp;L using delta/gamma/vega/DV01</li>
 <li><strong>Why position-level:</strong> Aggregate hides basis risk (long crude / short gas looks flat)</li>
 <li><strong>Validation:</strong> Replay COVID March 2020 (within 5%), cross-check Bloomberg MARS, sensitivity analysis</li>
-<li><strong>Best catch:</strong> Liberation Day (Apr 2 2025) — tariffs blew out US vs. international commodity basis. Position-level flagged clients with cross-border aluminum/steel hedges exposed to new tariff-driven basis. Flagged morning of Apr 3, restructured before Apr 9 escalation. Avoided ~$3M MTM losses</li>
+<li><strong>Best catch:</strong> Liberation Day (Apr 2 2025) — tariffs blew out US vs. international commodity basis. Position-level flagged clients with cross-border aluminum/steel hedges exposed to new tariff-driven basis. Flagged morning of Apr 3, restructured before Apr 9 escalation. Avoided ~<span class="nokatex">$</span>3M MTM losses</li>
 </ul>
 <h3 id="sofr-skew-scanner">SOFR Skew Scanner</h3>
 <ul>
@@ -549,7 +549,7 @@ body {
 </tr>
 <tr>
 <td><strong>Pressure</strong></td>
-<td>Fire drill — $2.6B, C-suite, 9 counterparties</td>
+<td>Fire drill — <span class="nokatex">$</span>2.6B, C-suite, 9 counterparties</td>
 <td>Energized, not stressed. 8 years judo = trained for pressure</td>
 </tr>
 <tr>
@@ -580,7 +580,7 @@ body {
 </tr>
 <tr>
 <td>Salary</td>
-<td>"$125K base minimum. More focused on opportunity. Happy to discuss"</td>
+<td>"<span class="nokatex">$</span>125K base minimum. More focused on opportunity. Happy to discuss"</td>
 </tr>
 <tr>
 <td>5 years</td>
@@ -610,7 +610,7 @@ body {
 <li><strong>Founded:</strong> Dec 2014 (Barclays spinoff, Volcker Rule)</li>
 <li><strong>Origins:</strong> nQuant → Lehman Tokyo (2000) → survived Lehman → Barclays → Squarepoint</li>
 <li><strong>Founders:</strong> Durantel, Schneider, Fillet, Fortin (French Polytechnique)</li>
-<li><strong>Size:</strong> 700+ people, 13 offices, ~$182B regulatory AUM</li>
+<li><strong>Size:</strong> 700+ people, 13 offices, ~<span class="nokatex">$</span>182B regulatory AUM</li>
 <li><strong>Core:</strong> Systematic quant. Growing: discretionary (YOUR team)</li>
 <li><strong>Your advantage:</strong> "Systematic infrastructure + human judgment"</li>
 <li><strong>Don't mention:</strong> Sesum lawsuit, Footnoted.com, specific performance</li>
@@ -714,7 +714,7 @@ body {
 </ul>
 <h3 id="dv01-duration">DV01 &amp; Duration</h3>
 <ul>
-<li><strong>DV01:</strong> ModDur × Price × 0.0001. Example: ModDur=8, $1M face → DV01 = $800/bp. Additive across positions.</li>
+<li><strong>DV01:</strong> ModDur × Price × 0.0001. Example: ModDur=8, <span class="nokatex">$</span>1M face → DV01 = <span class="nokatex">$</span>800/bp. Additive across positions.</li>
 <li><strong>Macaulay duration:</strong> Weighted avg time to cash flows (years)</li>
 <li><strong>Modified duration:</strong> Macaulay / (1 + y/m) = % price change per unit yield change</li>
 <li><strong>Convexity correction:</strong> ΔP ≈ −ModDur×Δy + ½×Convexity×(Δy)². Always positive for plain bonds — good to own.</li>
@@ -736,6 +736,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

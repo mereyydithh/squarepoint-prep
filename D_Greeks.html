@@ -405,7 +405,7 @@ body {
 <h3 id="depth-deep">Depth: 🔴 DEEP</h3>
 <hr />
 <h1 id="why-you-need-this-cold">WHY YOU NEED THIS COLD</h1>
-<p>At a systematic-at-its-core fund like Squarepoint, Greeks aren't abstract theory — they're the operating system. Every risk report, every morning call, every P&amp;L decomposition, every limit breach speaks in Greeks. When a PM says "I'm long 500 gamma at the 6400 strike with $150K vega and bleeding $40K theta/day," you need to IMMEDIATELY understand:<br />
+<p>At a systematic-at-its-core fund like Squarepoint, Greeks aren't abstract theory — they're the operating system. Every risk report, every morning call, every P&amp;L decomposition, every limit breach speaks in Greeks. When a PM says "I'm long 500 gamma at the 6400 strike with <span class="nokatex">$</span>150K vega and bleeding <span class="nokatex">$</span>40K theta/day," you need to IMMEDIATELY understand:<br />
 - The dollar P&amp;L for a 2% move in either direction<br />
 - How the profile changes if vol spikes 5 points<br />
 - Whether the gamma-theta ratio is efficient or they're overpaying<br />
@@ -414,7 +414,7 @@ body {
 <hr />
 <h1 id="part-1-delta-directional-exposure">PART 1: DELTA (Δ) — DIRECTIONAL EXPOSURE</h1>
 <blockquote>
-<p><strong>One-liner:</strong> Delta is how many dollars you make or lose for each $1 the underlying moves — it's your effective stock-equivalent position.</p>
+<p><strong>One-liner:</strong> Delta is how many dollars you make or lose for each <span class="nokatex">$</span>1 the underlying moves — it's your effective stock-equivalent position.</p>
 <p><strong>Analogy:</strong> Delta is a <strong>volume knob</strong>. It controls how loud the stock's moves play through to your P&amp;L. Deep ITM (Δ=0.95) = cranked to 10, you hear everything — the option moves nearly dollar-for-dollar. ATM (Δ=0.50) = halfway, you catch half the signal. Deep OTM (Δ=0.05) = turned almost off, the stock is screaming but your option barely whispers. And the knob isn't fixed — gamma is the hand that keeps turning it.</p>
 </blockquote>
 <h2 id="what-delta-measures">What Delta Measures</h2>
@@ -453,16 +453,16 @@ body {
 </blockquote>
 <p>$$\text{Dollar delta} = \Delta \times \text{contracts} \times \text{multiplier} \times S$$</p>
 <p><strong>Worked example:</strong> You own 200 SPX calls, delta = 0.45, multiplier = 100, SPX = 5,400<br />
-- Dollar delta = 0.45 × 200 × 100 × $5,400 = <strong>$48.6M</strong><br />
-- That's your effective equity exposure — you're behaving as if you own $48.6M of SPX</p>
-<p><strong>Portfolio delta</strong> = Σ of all position dollar deltas. A book with +$60M call delta and −$35M put delta = <strong>+$25M net delta</strong> (net long, gains if market rises).</p>
+- Dollar delta = 0.45 × 200 × 100 × <span class="nokatex">$</span>5,400 = <strong><span class="nokatex">$</span>48.6M</strong><br />
+- That's your effective equity exposure — you're behaving as if you own <span class="nokatex">$</span>48.6M of SPX</p>
+<p><strong>Portfolio delta</strong> = Σ of all position dollar deltas. A book with +<span class="nokatex">$</span>60M call delta and −<span class="nokatex">$</span>35M put delta = <strong>+<span class="nokatex">$</span>25M net delta</strong> (net long, gains if market rises).</p>
 <h2 id="delta-as-probability-rough-approximation">Delta as Probability (Rough Approximation)</h2>
 <p>Delta ≈ risk-neutral probability the option expires ITM. A 0.25 delta call ≈ 25% chance of finishing ITM. NOT a real-world probability (it's risk-neutral), but useful intuition for sizing and discussion.</p>
 <h2 id="delta-hedging">Delta Hedging</h2>
 <blockquote>
 <p><strong>One-liner:</strong> Delta hedging removes directional risk, leaving your P&amp;L driven by gamma, vega, and theta — the "pure Greeks" that options traders actually trade.</p>
 </blockquote>
-<p><strong>Process:</strong> If you're long $25M dollar delta → short $25M of the underlying (sell stock or sell futures). Now you're "delta-neutral" — a small move up or down has near-zero P&amp;L. But:<br />
+<p><strong>Process:</strong> If you're long <span class="nokatex">$</span>25M dollar delta → short <span class="nokatex">$</span>25M of the underlying (sell stock or sell futures). Now you're "delta-neutral" — a small move up or down has near-zero P&amp;L. But:<br />
 - Your delta changes after the move (because of gamma)<br />
 - You need to re-hedge → "dynamic hedging"<br />
 - How often you re-hedge determines your realized gamma P&amp;L vs theta cost</p>
@@ -527,9 +527,9 @@ body {
 $$\Gamma_\$ = \Gamma \times S^2 \times \text{contracts} \times \text{multiplier} / 100$$</p>
 <p><strong>Worked example:</strong> You own 100 ATM SPX calls.<br />
 - Γ (per option) = 0.0004, S = 5,400, multiplier = 100<br />
-- Dollar gamma = 0.0004 × 5,400² × 100 × 100 / 100 = <strong>$1,166,400 per 1% move</strong><br />
-- If SPX drops 3%: Gamma P&amp;L = ½ × $1.17M × 3² = <strong>+$5.25M</strong> (long gamma → you gain from big moves, either direction)<br />
-- If SPX drops 3% and you were SHORT those same options: <strong>−$5.25M</strong> (loss ACCELERATES)</p>
+- Dollar gamma = 0.0004 × 5,400² × 100 × 100 / 100 = <strong><span class="nokatex">$</span>1,166,400 per 1% move</strong><br />
+- If SPX drops 3%: Gamma P&amp;L = ½ × <span class="nokatex">$</span>1.17M × 3² = <strong>+<span class="nokatex">$</span>5.25M</strong> (long gamma → you gain from big moves, either direction)<br />
+- If SPX drops 3% and you were SHORT those same options: <strong>−<span class="nokatex">$</span>5.25M</strong> (loss ACCELERATES)</p>
 <p><strong>The asymmetry that kills:</strong><br />
 - Long gamma: P&amp;L ∝ move² → ALWAYS positive for big moves regardless of direction. Small moves → small gains. Big moves → big gains. Convex.<br />
 - Short gamma: P&amp;L ∝ −move² → ALWAYS negative for big moves. Small moves → small losses (offset by theta). Big moves → catastrophic. Concave.</p>
@@ -591,10 +591,10 @@ But: paying theta every day for this privilege
 <blockquote>
 <p><strong>One-liner:</strong> Pin risk is the nightmare scenario where the underlying closes RIGHT at the strike on expiry day — you don't know if your options will be exercised or not.</p>
 </blockquote>
-<p>At expiry, an ATM option's gamma goes to infinity theoretically. Delta oscillates between 0 and 1 with tiny price moves. If you're short 10,000 ATM calls expiring today and the stock is at $100.01:<br />
+<p>At expiry, an ATM option's gamma goes to infinity theoretically. Delta oscillates between 0 and 1 with tiny price moves. If you're short 10,000 ATM calls expiring today and the stock is at <span class="nokatex">$</span>100.01:<br />
 - Are they exercised? → You're short 1M shares at the close<br />
-- Stock drops to $99.99 → NOT exercised → You have zero position<br />
-- The difference between $100.01 and $99.99 is $0.02 on the stock, but the difference in your position is $100M of risk</p>
+- Stock drops to <span class="nokatex">$</span>99.99 → NOT exercised → You have zero position<br />
+- The difference between <span class="nokatex">$</span>100.01 and <span class="nokatex">$</span>99.99 is <span class="nokatex">$</span>0.02 on the stock, but the difference in your position is <span class="nokatex">$</span>100M of risk</p>
 <p>This is why risk managers watch OpEx dates closely and require reduced positions into expiry.</p>
 <hr />
 <h1 id="part-3-theta-the-cost-of-optionality">PART 3: THETA (Θ) — THE COST OF OPTIONALITY</h1>
@@ -611,10 +611,10 @@ But: paying theta every day for this privilege
 </ul>
 <h2 id="theta-in-dollars">Theta in Dollars</h2>
 <p>$$\text{Daily theta} = \Theta \times \text{contracts} \times \text{multiplier}$$</p>
-<p><strong>Worked example:</strong> You own 150 SPX puts with θ = −$3.20/day per option, multiplier = 100.<br />
-- Daily theta cost = −$3.20 × 150 × 100 = <strong>−$48,000/day</strong><br />
-- Monthly cost = <strong>−$1.04M</strong> (22 trading days)<br />
-- Your puts need to gain $1M+ from delta/gamma/vega just to break even each month</p>
+<p><strong>Worked example:</strong> You own 150 SPX puts with θ = −<span class="nokatex">$</span>3.20/day per option, multiplier = 100.<br />
+- Daily theta cost = −<span class="nokatex">$</span>3.20 × 150 × 100 = <strong>−<span class="nokatex">$</span>48,000/day</strong><br />
+- Monthly cost = <strong>−<span class="nokatex">$</span>1.04M</strong> (22 trading days)<br />
+- Your puts need to gain <span class="nokatex">$</span>1M+ from delta/gamma/vega just to break even each month</p>
 <h2 id="theta-decay-is-not-linear">Theta Decay Is NOT Linear</h2>
 <p>$$\Theta \propto \frac{1}{\sqrt{T}}$$</p>
 <table>
@@ -709,10 +709,10 @@ But: paying theta every day for this privilege
 </ul>
 <h2 id="dollar-vega">Dollar Vega</h2>
 <p>$$\text{Dollar vega} = \nu \times \text{contracts} \times \text{multiplier}$$</p>
-<p><strong>Worked example:</strong> Portfolio has $300K vega (sum of all positions).<br />
-- Vol rises 3 points: P&amp;L = +$300K × 3 = <strong>+$900K</strong><br />
-- Vol drops 2 points: P&amp;L = −$300K × 2 = <strong>−$600K</strong><br />
-- VIX spike from 15 to 40 (25 pts): P&amp;L = +$300K × 25 = <strong>+$7.5M</strong> (if you're long vega, this is your payday)</p>
+<p><strong>Worked example:</strong> Portfolio has <span class="nokatex">$</span>300K vega (sum of all positions).<br />
+- Vol rises 3 points: P&amp;L = +<span class="nokatex">$</span>300K × 3 = <strong>+<span class="nokatex">$</span>900K</strong><br />
+- Vol drops 2 points: P&amp;L = −<span class="nokatex">$</span>300K × 2 = <strong>−<span class="nokatex">$</span>600K</strong><br />
+- VIX spike from 15 to 40 (25 pts): P&amp;L = +<span class="nokatex">$</span>300K × 25 = <strong>+<span class="nokatex">$</span>7.5M</strong> (if you're long vega, this is your payday)</p>
 <h2 id="where-vega-lives">Where Vega Lives</h2>
 <table>
 <thead>
@@ -793,7 +793,7 @@ But: paying theta every day for this privilege
 - SPX drops 1% → VIX rises ~2-4 points (on average)<br />
 - SPX drops 5% → VIX rises ~15-25 points<br />
 - This is NOT symmetric: SPX rallies 5% → VIX drops ~5-8 points</p>
-<p><strong>Consequence:</strong> Short vega is correlated with long delta. Both hurt in a sell-off. A portfolio that's "+$20M delta, −$300K vega" has compounding downside: the 5% drop costs you $1M on delta, and the associated 20-point vol spike costs you $6M on vega. Total loss = $7M, not $1M.</p>
+<p><strong>Consequence:</strong> Short vega is correlated with long delta. Both hurt in a sell-off. A portfolio that's "+<span class="nokatex">$</span>20M delta, −<span class="nokatex">$</span>300K vega" has compounding downside: the 5% drop costs you <span class="nokatex">$</span>1M on delta, and the associated 20-point vol spike costs you <span class="nokatex">$</span>6M on vega. Total loss = <span class="nokatex">$</span>7M, not <span class="nokatex">$</span>1M.</p>
 <hr />
 <h1 id="part-5-rho-interest-rate-sensitivity">PART 5: RHO (ρ) — INTEREST RATE SENSITIVITY</h1>
 <blockquote>
@@ -831,7 +831,7 @@ But: paying theta every day for this privilege
 </tr>
 </tbody>
 </table>
-<p><strong>Current environment (2026):</strong> With rates at 4%+, rho is more material than during the zero-rate era. A 1-year LEAPS call with $10K rho loses $10K if rates fall 1% — not negligible for large positions.</p>
+<p><strong>Current environment (2026):</strong> With rates at 4%+, rho is more material than during the zero-rate era. A 1-year LEAPS call with <span class="nokatex">$</span>10K rho loses <span class="nokatex">$</span>10K if rates fall 1% — not negligible for large positions.</p>
 <hr />
 <h1 id="part-6-greeks-by-position-type-the-reference-table">PART 6: GREEKS BY POSITION TYPE — THE REFERENCE TABLE</h1>
 <p>Know this cold. For EVERY option position, know every Greek sign and behavior:</p>
@@ -1087,13 +1087,13 @@ But: paying theta every day for this privilege
 <tr>
 <td><strong>Net delta ($)</strong></td>
 <td>Directional exposure</td>
-<td>$M equivalent</td>
-<td>Exceeds mandate/risk budget (e.g., ±$30M limit)</td>
+<td><span class="nokatex">$</span>M equivalent</td>
+<td>Exceeds mandate/risk budget (e.g., ±<span class="nokatex">$</span>30M limit)</td>
 </tr>
 <tr>
 <td><strong>Dollar gamma (1%)</strong></td>
 <td>P&amp;L for a 1% move (from gamma alone)</td>
-<td>$K or $M per 1%</td>
+<td><span class="nokatex">$</span>K or <span class="nokatex">$</span>M per 1%</td>
 <td>Large short gamma near current spot → danger zone</td>
 </tr>
 <tr>
@@ -1105,13 +1105,13 @@ But: paying theta every day for this privilege
 <tr>
 <td><strong>Vega ($/vol pt)</strong></td>
 <td>Exposure to IV change</td>
-<td>$K per 1 vol point</td>
+<td><span class="nokatex">$</span>K per 1 vol point</td>
 <td>Large short vega in low-vol environment (complacency trap)</td>
 </tr>
 <tr>
 <td><strong>Vega by tenor</strong></td>
 <td>Bucketed: 0-30d, 30-90d, 90d+</td>
-<td>$K per bucket</td>
+<td><span class="nokatex">$</span>K per bucket</td>
 <td>Mismatches between tenor buckets (long front, short back = vol curve bet)</td>
 </tr>
 <tr>
@@ -1123,7 +1123,7 @@ But: paying theta every day for this privilege
 <tr>
 <td><strong>Vanna exposure</strong></td>
 <td>Delta sensitivity to vol</td>
-<td>$M delta shift per vol pt</td>
+<td><span class="nokatex">$</span>M delta shift per vol pt</td>
 <td>Large vanna → delta will shift violently in a vol spike. Need to anticipate.</td>
 </tr>
 </tbody>
@@ -1141,22 +1141,22 @@ But: paying theta every day for this privilege
 <tbody>
 <tr>
 <td><strong>Delta limit</strong></td>
-<td>±$50M per desk</td>
+<td>±<span class="nokatex">$</span>50M per desk</td>
 <td>Caps directional exposure. Prevents a single PM from betting the fund.</td>
 </tr>
 <tr>
 <td><strong>Gamma limit</strong></td>
-<td>Short gamma &lt; $X per 1%</td>
+<td>Short gamma &lt; <span class="nokatex">$</span>X per 1%</td>
 <td>Caps convexity risk. Limits how much losses can accelerate.</td>
 </tr>
 <tr>
 <td><strong>Vega limit</strong></td>
-<td>±$Y per vol point</td>
+<td>±<span class="nokatex">$</span>Y per vol point</td>
 <td>Caps vol exposure. Prevents one vol spike from wiping a desk.</td>
 </tr>
 <tr>
 <td><strong>Theta limit</strong></td>
-<td>−$Z/day max spend</td>
+<td>−<span class="nokatex">$</span>Z/day max spend</td>
 <td>Prevents excessive bleed from buying overpriced optionality.</td>
 </tr>
 <tr>
@@ -1218,10 +1218,10 @@ But: paying theta every day for this privilege
 <h1 id="part-9-greeks-in-action-scenario-analysis">PART 9: GREEKS IN ACTION — SCENARIO ANALYSIS</h1>
 <h2 id="scenario-1-market-drops-5-vol-spikes-12-points">Scenario 1: Market Drops 5%, Vol Spikes 12 Points</h2>
 <p><strong>Portfolio:</strong><br />
-- Net delta: +$30M (long equities)<br />
-- Dollar gamma: −$800K per 1% (short gamma — sold puts for income)<br />
-- Vega: −$250K per vol point (short vega from the same sold puts)<br />
-- Theta: +$45K/day (earning from the short premium)</p>
+- Net delta: +<span class="nokatex">$</span>30M (long equities)<br />
+- Dollar gamma: −<span class="nokatex">$</span>800K per 1% (short gamma — sold puts for income)<br />
+- Vega: −<span class="nokatex">$</span>250K per vol point (short vega from the same sold puts)<br />
+- Theta: +<span class="nokatex">$</span>45K/day (earning from the short premium)</p>
 <p><strong>Decomposition:</strong></p>
 <table>
 <thead>
@@ -1234,38 +1234,38 @@ But: paying theta every day for this privilege
 <tbody>
 <tr>
 <td>Delta</td>
-<td>+$30M × −5%</td>
-<td><strong>−$1,500,000</strong></td>
+<td>+<span class="nokatex">$</span>30M × −5%</td>
+<td><strong>−<span class="nokatex">$</span>1,500,000</strong></td>
 </tr>
 <tr>
 <td>Gamma</td>
-<td>½ × (−$800K) × 5²</td>
-<td><strong>−$10,000,000</strong></td>
+<td>½ × (−<span class="nokatex">$</span>800K) × 5²</td>
+<td><strong>−<span class="nokatex">$</span>10,000,000</strong></td>
 </tr>
 <tr>
 <td>Vega</td>
-<td>−$250K × 12 pts</td>
-<td><strong>−$3,000,000</strong></td>
+<td>−<span class="nokatex">$</span>250K × 12 pts</td>
+<td><strong>−<span class="nokatex">$</span>3,000,000</strong></td>
 </tr>
 <tr>
 <td>Theta</td>
-<td>+$45K × 1 day</td>
-<td><strong>+$45,000</strong></td>
+<td>+<span class="nokatex">$</span>45K × 1 day</td>
+<td><strong>+<span class="nokatex">$</span>45,000</strong></td>
 </tr>
 <tr>
 <td><strong>TOTAL</strong></td>
 <td></td>
-<td><strong>−$14,455,000</strong></td>
+<td><strong>−<span class="nokatex">$</span>14,455,000</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>The PM thought:</strong> "I'm only $30M long delta. A 5% drop costs me $1.5M. Manageable."<br />
-<strong>Reality:</strong> Short gamma turned a $1.5M delta loss into $11.5M. Short vega added another $3M. Total: $14.5M — nearly <strong>10x</strong> the naïve delta-only estimate.</p>
+<p><strong>The PM thought:</strong> "I'm only <span class="nokatex">$</span>30M long delta. A 5% drop costs me <span class="nokatex">$</span>1.5M. Manageable."<br />
+<strong>Reality:</strong> Short gamma turned a <span class="nokatex">$</span>1.5M delta loss into <span class="nokatex">$</span>11.5M. Short vega added another <span class="nokatex">$</span>3M. Total: <span class="nokatex">$</span>14.5M — nearly <strong>10x</strong> the naïve delta-only estimate.</p>
 <p><strong>What the RM should have flagged BEFORE:</strong><br />
-- "Your gamma profile means a 5% move costs $10M+ beyond your delta loss"<br />
+- "Your gamma profile means a 5% move costs <span class="nokatex">$</span>10M+ beyond your delta loss"<br />
 - "Your vega is correlated with your delta — a sell-off creates compounding losses"<br />
 - "Your P&amp;L profile is CONCAVE — you lose more than linearly in tail events"<br />
-- "Stress scenario: SPX −5%, VIX +12 → $14.5M loss. Is that within your book's risk budget?"</p>
+- "Stress scenario: SPX −5%, VIX +12 → <span class="nokatex">$</span>14.5M loss. Is that within your book's risk budget?"</p>
 <h2 id="scenario-2-market-grinds-sideways-for-30-days">Scenario 2: Market Grinds Sideways for 30 Days</h2>
 <p><strong>Same portfolio as above:</strong></p>
 <table>
@@ -1280,36 +1280,36 @@ But: paying theta every day for this privilege
 <tr>
 <td>Delta</td>
 <td>SPX ±0%</td>
-<td><strong>$0</strong></td>
+<td><strong><span class="nokatex">$</span>0</strong></td>
 </tr>
 <tr>
 <td>Gamma</td>
 <td>No moves → no gamma P&amp;L</td>
-<td><strong>$0</strong></td>
+<td><strong><span class="nokatex">$</span>0</strong></td>
 </tr>
 <tr>
 <td>Vega</td>
 <td>Vol drops 2 pts (complacency)</td>
-<td><strong>+$500,000</strong></td>
+<td><strong>+<span class="nokatex">$</span>500,000</strong></td>
 </tr>
 <tr>
 <td>Theta</td>
-<td>+$45K × 22 trading days</td>
-<td><strong>+$990,000</strong></td>
+<td>+<span class="nokatex">$</span>45K × 22 trading days</td>
+<td><strong>+<span class="nokatex">$</span>990,000</strong></td>
 </tr>
 <tr>
 <td><strong>TOTAL</strong></td>
 <td></td>
-<td><strong>+$1,490,000</strong></td>
+<td><strong>+<span class="nokatex">$</span>1,490,000</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>This is the seduction of short gamma.</strong> In calm months, you earn $1.5M for "doing nothing." It FEELS like free money. But one bad month (Scenario 1) takes away 10 months of income. This is the classic premium-seller distribution — steady, steady, steady, CRASH.</p>
+<p><strong>This is the seduction of short gamma.</strong> In calm months, you earn <span class="nokatex">$</span>1.5M for "doing nothing." It FEELS like free money. But one bad month (Scenario 1) takes away 10 months of income. This is the classic premium-seller distribution — steady, steady, steady, CRASH.</p>
 <h2 id="scenario-3-the-vol-crush-after-an-event">Scenario 3: The Vol Crush After an Event</h2>
 <p><strong>PM bought straddles ahead of CPI:</strong><br />
-- Gamma: +$500K per 1%<br />
-- Vega: +$400K per vol point<br />
-- Theta: −$80K/day</p>
+- Gamma: +<span class="nokatex">$</span>500K per 1%<br />
+- Vega: +<span class="nokatex">$</span>400K per vol point<br />
+- Theta: −<span class="nokatex">$</span>80K/day</p>
 <p><strong>CPI comes in line with expectations. Market moves 0.3%. Vol drops 4 points.</strong></p>
 <table>
 <thead>
@@ -1322,28 +1322,28 @@ But: paying theta every day for this privilege
 <tbody>
 <tr>
 <td>Delta</td>
-<td>Straddle is delta-neutral → $0</td>
-<td><strong>$0</strong></td>
+<td>Straddle is delta-neutral → <span class="nokatex">$</span>0</td>
+<td><strong><span class="nokatex">$</span>0</strong></td>
 </tr>
 <tr>
 <td>Gamma</td>
-<td>½ × $500K × 0.3² = tiny</td>
-<td><strong>+$225</strong></td>
+<td>½ × <span class="nokatex">$</span>500K × 0.3² = tiny</td>
+<td><strong>+<span class="nokatex">$</span>225</strong></td>
 </tr>
 <tr>
 <td>Vega</td>
-<td>+$400K × (−4)</td>
-<td><strong>−$1,600,000</strong></td>
+<td>+<span class="nokatex">$</span>400K × (−4)</td>
+<td><strong>−<span class="nokatex">$</span>1,600,000</strong></td>
 </tr>
 <tr>
 <td>Theta</td>
-<td>−$80K × 1 day</td>
-<td><strong>−$80,000</strong></td>
+<td>−<span class="nokatex">$</span>80K × 1 day</td>
+<td><strong>−<span class="nokatex">$</span>80,000</strong></td>
 </tr>
 <tr>
 <td><strong>TOTAL</strong></td>
 <td></td>
-<td><strong>−$1,679,775</strong></td>
+<td><strong>−<span class="nokatex">$</span>1,679,775</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1388,10 +1388,10 @@ But: paying theta every day for this privilege
 <h1 id="part-11-interview-application">PART 11: INTERVIEW APPLICATION</h1>
 <p><strong>If asked "Explain gamma and why it matters for risk management":</strong></p>
 <p>"Gamma measures the rate of change of delta — it's the acceleration of P&amp;L. If you're long gamma, big moves help you: your delta automatically adjusts in your favor, and you profit proportionally to the SQUARE of the move. Short gamma is the opposite: losses accelerate as markets move against you.</p>
-<p>For risk management at a systematic-leaning fund, gamma is more important than delta because delta tells you where you are NOW but gamma tells you where you'll be AFTER a move. A desk that's earning $45K/day in theta from sold premium looks great on a calm day — but if they have $800K of short gamma per 1% and the market drops 5%, that theta income is wiped out by a $10M gamma loss in a single session. My job is to quantify that BEFORE it happens — stress the portfolio under 3σ and 5σ moves and make sure the tail loss is within the desk's risk budget."</p>
+<p>For risk management at a systematic-leaning fund, gamma is more important than delta because delta tells you where you are NOW but gamma tells you where you'll be AFTER a move. A desk that's earning <span class="nokatex">$</span>45K/day in theta from sold premium looks great on a calm day — but if they have <span class="nokatex">$</span>800K of short gamma per 1% and the market drops 5%, that theta income is wiped out by a <span class="nokatex">$</span>10M gamma loss in a single session. My job is to quantify that BEFORE it happens — stress the portfolio under 3σ and 5σ moves and make sure the tail loss is within the desk's risk budget."</p>
 <p><strong>If asked "Walk me through the gamma-theta tradeoff":</strong></p>
 <p>"There's no free lunch. Long gamma means you profit from realized volatility — your position naturally buys low and sells high through dynamic hedging — but you pay theta every day for that privilege. The break-even point is when realized vol equals implied vol. If you buy options at 20% IV and the market only realizes 15%, you bleed. Short gamma is the mirror: you earn theta daily, but you're writing insurance against tail events and your losses go as the square of the move.</p>
-<p>At the portfolio level, I'd track gamma/theta ratio as an efficiency metric. If a PM is paying $80K/day in theta but only has $300K/1% gamma, their break-even daily move is large — they need big, frequent moves to justify the cost. Conversely, a PM earning $45K/day in theta with $800K/1% short gamma has a Sharpe-killer hiding in the tail. I'd run the historical distribution of daily moves and show them: 'On 95% of days, you earn. On the other 5%, you lose everything from the past 3 months.'"</p>
+<p>At the portfolio level, I'd track gamma/theta ratio as an efficiency metric. If a PM is paying <span class="nokatex">$</span>80K/day in theta but only has <span class="nokatex">$</span>300K/1% gamma, their break-even daily move is large — they need big, frequent moves to justify the cost. Conversely, a PM earning <span class="nokatex">$</span>45K/day in theta with <span class="nokatex">$</span>800K/1% short gamma has a Sharpe-killer hiding in the tail. I'd run the historical distribution of daily moves and show them: 'On 95% of days, you earn. On the other 5%, you lose everything from the past 3 months.'"</p>
 <p><strong>If asked "What are second-order Greeks and why should I care?":</strong></p>
 <p>"Second-order Greeks measure how first-order Greeks change — and in a crisis, that's what determines whether your hedges hold. Vanna tells you how delta shifts when vol moves. In a sell-off, vol spikes and vanna causes your put hedge deltas to become MORE negative — so your hedges automatically become more effective. That's a feature. Volga tells you how vega changes with vol — if you're short OTM puts and vol spikes, volga makes your vega loss ACCELERATE, compounding the damage.</p>
 <p>At the portfolio level, these second-order effects also drive systematic flows. Dealers who are short OTM puts have negative vanna exposure — when vol drops, their delta shifts and they sell, adding to downward pressure. When vol spikes, they buy, adding support. These 'vanna flows' move billions of dollars daily and are one reason markets behave differently around option-heavy environments like monthly expiry or around the gamma flip level."</p>
@@ -1413,6 +1413,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

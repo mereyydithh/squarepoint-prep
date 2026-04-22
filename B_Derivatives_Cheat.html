@@ -860,21 +860,21 @@ body {
 <td>S&amp;P 500 E-mini</td>
 <td>CME</td>
 <td>ES</td>
-<td>$50 × Index</td>
+<td><span class="nokatex">$</span>50 × Index</td>
 <td>Cash</td>
 </tr>
 <tr>
 <td>Nasdaq E-mini</td>
 <td>CME</td>
 <td>NQ</td>
-<td>$20 × Index</td>
+<td><span class="nokatex">$</span>20 × Index</td>
 <td>Cash</td>
 </tr>
 <tr>
 <td>10Y Treasury</td>
 <td>CBOT</td>
 <td>ZN</td>
-<td>$100K face</td>
+<td><span class="nokatex">$</span>100K face</td>
 <td>Physical</td>
 </tr>
 <tr>
@@ -1003,7 +1003,7 @@ body {
 <tbody>
 <tr>
 <td><strong>Leverage</strong></td>
-<td>$500K premium controls $20M notional. Losses scale to notional.</td>
+<td><span class="nokatex">$</span>500K premium controls <span class="nokatex">$</span>20M notional. Losses scale to notional.</td>
 <td>Barings (Leeson), futures leverage</td>
 </tr>
 <tr>
@@ -1029,7 +1029,7 @@ body {
 <tr>
 <td><strong>Counterparty risk</strong></td>
 <td>Counterparty defaults → you lose unrealized gains</td>
-<td>AIG 2008 ($182B bailout)</td>
+<td>AIG 2008 (<span class="nokatex">$</span>182B bailout)</td>
 </tr>
 </tbody>
 </table>
@@ -1044,6 +1044,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

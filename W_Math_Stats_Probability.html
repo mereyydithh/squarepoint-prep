@@ -506,24 +506,24 @@ body {
 <p><strong>Where normal works:</strong> Portfolio returns (CLT), short-horizon log returns for liquid assets, Monte Carlo inputs (as a starting point).</p>
 <p><strong>Where normal FAILS:</strong> Individual equity returns (fat tails), crisis returns (regime shift), options P&amp;L (non-linear), credit losses (zero-one default events).</p>
 <h2 id="log-normal-distribution">Log-Normal Distribution</h2>
-<p>If $\ln(P_T / P_0) \sim N(\mu, \sigma^2)$, then $P_T$ is log-normally distributed.</p>
+<p>If $\ln(P_T / P_0) \sim N(\mu, \sigma^2)$, then <span class="nokatex">$</span>P_T$ is log-normally distributed.</p>
 <p><strong>Why prices are modeled as log-normal:</strong><br />
 - Prices can't go below zero (mostly — oil in April 2020 proved exceptions exist)<br />
-- Returns are multiplicative: $P_T = P_0 \cdot e^{r}$, where $r \sim N(\mu, \sigma^2)$<br />
+- Returns are multiplicative: <span class="nokatex">$</span>P_T = P_0 \cdot e^{r}$, where $r \sim N(\mu, \sigma^2)$<br />
 - Log-normal is right-skewed: large gains possible, losses bounded at -100%</p>
 <p><strong>Geometric Brownian Motion (GBM):</strong></p>
 <p>$$dS = \mu S \, dt + \sigma S \, dW$$</p>
 <p>This is the foundation of Black-Scholes. It says price changes are proportional to price level (percentage returns, not dollar returns, are the natural unit).</p>
 <p><strong>Key relationship (continuous compounding):</strong></p>
-<p>$$S_T = S_0 \cdot \exp\left[(\mu - \tfrac{1}{2}\sigma^2)T + \sigma\sqrt{T} \cdot Z\right]$$</p>
-<p>The $-\frac{1}{2}\sigma^2$ correction (the "convexity adjustment") is why the expected future price is NOT $S_0 \cdot e^{\mu T}$ — volatility drags returns down. This matters for long-horizon risk calculations.</p>
+<p>$<span class="nokatex">$</span>S_T = S_0 \cdot \exp\left[(\mu - \tfrac{1}{2}\sigma^2)T + \sigma\sqrt{T} \cdot Z\right]$$</p>
+<p>The $-\frac{1}{2}\sigma^2$ correction (the "convexity adjustment") is why the expected future price is NOT <span class="nokatex">$</span>S_0 \cdot e^{\mu T}$ — volatility drags returns down. This matters for long-horizon risk calculations.</p>
 <p><strong>Worked example — volatility drag:</strong></p>
 <blockquote>
 <p>Stock has μ = 10% annual return, σ = 30%.<br />
 - Arithmetic mean return: 10%<br />
 - Expected geometric return: 10% - ½ × (30%)² = 10% - 4.5% = <strong>5.5%</strong><br />
-- Over 10 years: $100 × e^(0.055 × 10) = <strong>$173</strong> (geometric)<br />
-- Naively: $100 × e^(0.10 × 10) = <strong>$272</strong> (arithmetic — WRONG for compounded returns)<br />
+- Over 10 years: <span class="nokatex">$</span>100 × e^(0.055 × 10) = <strong><span class="nokatex">$</span>173</strong> (geometric)<br />
+- Naively: <span class="nokatex">$</span>100 × e^(0.10 × 10) = <strong><span class="nokatex">$</span>272</strong> (arithmetic — WRONG for compounded returns)<br />
 - <strong>Volatility drag costs 37% over a decade at 30% vol</strong></p>
 </blockquote>
 <h2 id="students-t-distribution">Student's t-Distribution</h2>
@@ -568,13 +568,13 @@ body {
 <h2 id="exponential-distribution">Exponential Distribution</h2>
 <p>$$f(x) = \lambda e^{-\lambda x}, \quad x \geq 0$$</p>
 <ul>
-<li><strong>Mean:</strong> $1/\lambda$</li>
+<li><strong>Mean:</strong> <span class="nokatex">$</span>1/\lambda$</li>
 <li><strong>Memoryless property:</strong> $P(X &gt; s + t \mid X &gt; s) = P(X &gt; t)$</li>
 </ul>
 <p><strong>Finance application — inter-event times:</strong><br />
 If major market dislocations arrive at rate λ = 0.5 per year:<br />
 - Expected time between events: 1/0.5 = 2 years<br />
-- P(event in next 6 months): $1 - e^{-0.5 \times 0.5}$ = 1 - 0.779 = <strong>22.1%</strong><br />
+- P(event in next 6 months): <span class="nokatex">$</span>1 - e^{-0.5 \times 0.5}$ = 1 - 0.779 = <strong>22.1%</strong><br />
 - P(no event for 3 years): $e^{-0.5 \times 3}$ = <strong>22.3%</strong></p>
 <h2 id="poisson-distribution">Poisson Distribution</h2>
 <p>$$P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}$$</p>
@@ -664,7 +664,7 @@ $$P(\text{skilled} \mid 2\text{ bad months}) = \frac{0.05 \times 0.4375}{0.05 \t
 </thead>
 <tbody>
 <tr>
-<td>PM reports +$5M day</td>
+<td>PM reports +<span class="nokatex">$</span>5M day</td>
 <td>"PM is average"</td>
 <td>Unusually large profit</td>
 <td>Slightly more confident PM is skilled</td>
@@ -867,10 +867,10 @@ $$\text{Adjusted Sharpe} = 2.5 - \sqrt{252} \times 0.099 = 2.5 - 1.57 = \textbf{
 <p>$$\hat{\beta}<em>1 = \frac{\text{Cov}(X, Y)}{\text{Var}(X)} = \rho</em>{X,Y} \cdot \frac{\sigma_Y}{\sigma_X}$$</p>
 <p>$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$$</p>
 <p><strong>R² = fraction of variance explained:</strong></p>
-<p>$$R^2 = 1 - \frac{\text{SS}<em>\text{res}}{\text{SS}</em>\text{tot}} = 1 - \frac{\sum(y_i - \hat{y}_i)^2}{\sum(y_i - \bar{y})^2}$$</p>
-<p>$$R^2 = \rho^2 \quad \text{(for simple OLS)}$$</p>
+<p>$<span class="nokatex">$</span>R^2 = 1 - \frac{\text{SS}<em>\text{res}}{\text{SS}</em>\text{tot}} = 1 - \frac{\sum(y_i - \hat{y}_i)^2}{\sum(y_i - \bar{y})^2}$$</p>
+<p>$<span class="nokatex">$</span>R^2 = \rho^2 \quad \text{(for simple OLS)}$$</p>
 <p><strong>Adjusted R²:</strong> Penalizes for additional variables.</p>
-<p>$$R^2_\text{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$</p>
+<p>$<span class="nokatex">$</span>R^2_\text{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$</p>
 <p>where $k$ = number of predictors. This prevents overfitting: adding a useless variable increases R² but decreases adjusted R².</p>
 <h2 id="multi-factor-regression">Multi-Factor Regression</h2>
 <p>$$r_p = \alpha + \beta_1 F_1 + \beta_2 F_2 + ... + \beta_k F_k + \epsilon$$</p>
@@ -1071,8 +1071,8 @@ $$\text{Adjusted Sharpe} = 2.5 - \sqrt{252} \times 0.099 = 2.5 - 1.57 = \textbf{
 | Interest rates | Mixed — near unit root | ⚠️ Near-non-stationary |<br />
 | GDP | Fail to reject | ❌ Non-stationary (trending) |</p>
 <h2 id="autoregressive-ar-models">Autoregressive (AR) Models</h2>
-<p>$$X_t = c + \phi_1 X_{t-1} + \phi_2 X_{t-2} + ... + \phi_p X_{t-p} + \epsilon_t$$</p>
-<p><strong>AR(1):</strong> $X_t = c + \phi X_{t-1} + \epsilon_t$</p>
+<p>$<span class="nokatex">$</span>X_t = c + \phi_1 X_{t-1} + \phi_2 X_{t-2} + ... + \phi_p X_{t-p} + \epsilon_t$$</p>
+<p><strong>AR(1):</strong> <span class="nokatex">$</span>X_t = c + \phi X_{t-1} + \epsilon_t$</p>
 <table>
 <thead>
 <tr>
@@ -1121,7 +1121,7 @@ $$\text{SPY}_t - \beta \cdot \text{IVV}_t \approx \text{stationary spread}$$</p>
 - Two COINTEGRATED assets have a LONG-RUN equilibrium relationship — the spread mean-reverts. This is the foundation of pairs/stat arb trading.<br />
 - For hedging: cointegrated hedge ratios are more stable than correlation-based ratios.</p>
 <p><strong>Engle-Granger test:</strong> <br />
-1. Regress Y on X ($Y_t = \alpha + \beta X_t + e_t$)<br />
+1. Regress Y on X (<span class="nokatex">$</span>Y_t = \alpha + \beta X_t + e_t$)<br />
 2. Test residuals ($e_t$) for stationarity using ADF<br />
 3. If residuals are stationary → X and Y are cointegrated</p>
 <hr />
@@ -1136,18 +1136,18 @@ $$\text{SPY}_t - \beta \cdot \text{IVV}_t \approx \text{stationary spread}$$</p>
 <h2 id="single-asset-monte-carlo-var">Single-Asset Monte Carlo VaR</h2>
 <p><strong>Step by step:</strong><br />
 1. Estimate μ and σ from historical returns<br />
-2. Generate N ~ 10,000+ standard normal random draws: $Z_i$<br />
+2. Generate N ~ 10,000+ standard normal random draws: <span class="nokatex">$</span>Z_i$<br />
 3. Compute simulated returns: $r_i = \mu + \sigma \cdot Z_i$<br />
 4. Compute simulated P&amp;L: $\text{PnL}_i = \text{Position Value} \times r_i$<br />
 5. VaR (99%) = negative of the 1st percentile of P&amp;L distribution</p>
 <p><strong>Worked example:</strong></p>
 <blockquote>
-<p>Portfolio value: $100M. μ = 0.03% daily. σ = 1.2% daily.<br />
+<p>Portfolio value: <span class="nokatex">$</span>100M. μ = 0.03% daily. σ = 1.2% daily.<br />
 10,000 simulations: r_i = 0.0003 + 0.012 × Z_i<br />
-PnL_i = $100M × r_i<br />
-1st percentile of PnL = <strong>-$2.75M</strong><br />
-→ 99% 1-day VaR = <strong>$2.75M</strong></p>
-<p><strong>Compare to analytical:</strong> VaR = $100M × 2.326 × 1.2% = <strong>$2.79M</strong> (close — as expected when distribution is normal and payoff is linear)</p>
+PnL_i = <span class="nokatex">$</span>100M × r_i<br />
+1st percentile of PnL = <strong>-<span class="nokatex">$</span>2.75M</strong><br />
+→ 99% 1-day VaR = <strong><span class="nokatex">$</span>2.75M</strong></p>
+<p><strong>Compare to analytical:</strong> VaR = <span class="nokatex">$</span>100M × 2.326 × 1.2% = <strong><span class="nokatex">$</span>2.79M</strong> (close — as expected when distribution is normal and payoff is linear)</p>
 </blockquote>
 <h2 id="multi-asset-with-correlation-cholesky-decomposition">Multi-Asset with Correlation — Cholesky Decomposition</h2>
 <p>If asset returns are correlated, you can't simulate them independently.</p>
@@ -1160,8 +1160,8 @@ PnL_i = $100M × r_i<br />
 <blockquote>
 <p>Asset A: μₐ = 0.05%, σₐ = 1.0%. Asset B: μᵦ = 0.03%, σᵦ = 1.5%. ρ = 0.6.</p>
 <p>Correlation matrix: $\Sigma = \begin{pmatrix} 1 &amp; 0.6 \ 0.6 &amp; 1 \end{pmatrix}$</p>
-<p>Cholesky: $L = \begin{pmatrix} 1 &amp; 0 \ 0.6 &amp; 0.8 \end{pmatrix}$</p>
-<p>For independent draws $Z_1, Z_2$:<br />
+<p>Cholesky: <span class="nokatex">$</span>L = \begin{pmatrix} 1 &amp; 0 \ 0.6 &amp; 0.8 \end{pmatrix}$</p>
+<p>For independent draws <span class="nokatex">$</span>Z_1, Z_2$:<br />
 - $r_A = \mu_A + \sigma_A \cdot Z_1$<br />
 - $r_B = \mu_B + \sigma_B \cdot (0.6 \cdot Z_1 + 0.8 \cdot Z_2)$</p>
 <p>Now A and B are correlated with ρ = 0.6 in each simulation.</p>
@@ -1251,25 +1251,25 @@ PnL_i = $100M × r_i<br />
 <tr>
 <td>1st: Mean (μ)</td>
 <td>Central tendency</td>
-<td>$E[X]$</td>
+<td><span class="nokatex">$</span>E[X]$</td>
 <td>Any</td>
 </tr>
 <tr>
 <td>2nd: Variance (σ²)</td>
 <td>Dispersion / risk</td>
-<td>$E[(X-\mu)^2]$</td>
+<td><span class="nokatex">$</span>E[(X-\mu)^2]$</td>
 <td>Any</td>
 </tr>
 <tr>
 <td>3rd: Skewness (γ₁)</td>
 <td>Asymmetry</td>
-<td>$E\left[\left(\frac{X-\mu}{\sigma}\right)^3\right]$</td>
+<td><span class="nokatex">$</span>E\left[\left(\frac{X-\mu}{\sigma}\right)^3\right]$</td>
 <td>0</td>
 </tr>
 <tr>
 <td>4th: Kurtosis (κ)</td>
 <td>Tail thickness</td>
-<td>$E\left[\left(\frac{X-\mu}{\sigma}\right)^4\right] - 3$</td>
+<td><span class="nokatex">$</span>E\left[\left(\frac{X-\mu}{\sigma}\right)^4\right] - 3$</td>
 <td>0 (excess)</td>
 </tr>
 </tbody>
@@ -1367,7 +1367,7 @@ A short-vol strategy with Sharpe = 1.5 and skew = -3.0 LOOKS great until the tai
 <tbody>
 <tr>
 <td>Returns scale linearly</td>
-<td>$R_\text{annual} = R_\text{daily} \times 252$</td>
+<td><span class="nokatex">$</span>R_\text{annual} = R_\text{daily} \times 252$</td>
 <td>Additive returns (log returns)</td>
 </tr>
 <tr>
@@ -1440,10 +1440,10 @@ A short-vol strategy with Sharpe = 1.5 and skew = -3.0 LOOKS great until the tai
 0.8% × 16 ≈ <strong>12.8%</strong> (exact: 0.8% × 15.87 = 12.7%)</p>
 <p><strong>"40% annualized vol. What's daily?"</strong><br />
 40% / 16 ≈ <strong>2.5%</strong> per day (exact: 40% / 15.87 = 2.52%)</p>
-<p><strong>"Daily VaR at 99% for a $200M portfolio with 1.5% daily vol?"</strong><br />
-$200M × 2.33 × 1.5% = <strong>$6.99M ≈ $7M</strong></p>
+<p><strong>"Daily VaR at 99% for a <span class="nokatex">$</span>200M portfolio with 1.5% daily vol?"</strong><br />
+<span class="nokatex">$</span>200M × 2.33 × 1.5% = <strong><span class="nokatex">$</span>6.99M ≈ <span class="nokatex">$</span>7M</strong></p>
 <p><strong>"Convert that to 10-day VaR?"</strong><br />
-$7M × √10 ≈ $7M × 3.16 = <strong>$22.1M</strong></p>
+<span class="nokatex">$</span>7M × √10 ≈ <span class="nokatex">$</span>7M × 3.16 = <strong><span class="nokatex">$</span>22.1M</strong></p>
 </blockquote>
 <h2 id="when-t-scaling-breaks">When √T Scaling Breaks</h2>
 <table>
@@ -1519,29 +1519,29 @@ $7M × √10 ≈ $7M × 3.16 = <strong>$22.1M</strong></p>
 </tbody>
 </table>
 <p><strong>Finance application — market concentration:</strong></p>
-<p>$$H_\text{portfolio} = -\sum_{i=1}^n w_i \log_2(w_i)$$</p>
+<p>$<span class="nokatex">$</span>H_\text{portfolio} = -\sum_{i=1}^n w_i \log_2(w_i)$$</p>
 <p>A portfolio with equal weights (1/n each) has maximum entropy. As concentration increases (one position dominates), entropy decreases. Entropy is an alternative to HHI for measuring portfolio diversification.</p>
 <h2 id="kl-divergence-distance-between-distributions">KL Divergence — Distance Between Distributions</h2>
-<p>$$D_\text{KL}(P | Q) = \sum_i P(i) \log\frac{P(i)}{Q(i)}$$</p>
-<p>Measures how different distribution P is from distribution Q. NOT symmetric: $D_\text{KL}(P|Q) \neq D_\text{KL}(Q|P)$.</p>
+<p>$<span class="nokatex">$</span>D_\text{KL}(P | Q) = \sum_i P(i) \log\frac{P(i)}{Q(i)}$$</p>
+<p>Measures how different distribution P is from distribution Q. NOT symmetric: <span class="nokatex">$</span>D_\text{KL}(P|Q) \neq D_\text{KL}(Q|P)$.</p>
 <p><strong>Risk application:</strong> How different is today's return distribution from the historical distribution the model was calibrated on? Large KL divergence → regime has shifted → model is stale.</p>
 <hr />
 <h1 id="part-10-stochastic-calculus-essentials-just-enough">PART 10: STOCHASTIC CALCULUS ESSENTIALS — JUST ENOUGH</h1>
 <h2 id="why-you-need-this-briefly">Why You Need This (Briefly)</h2>
 <p>Options pricing, GBM, and most continuous-time finance models require stochastic calculus. You need to know the CONCEPTS, not the proofs.</p>
 <h2 id="brownian-motion-wiener-process">Brownian Motion (Wiener Process)</h2>
-<p>$W_t$ is Brownian motion if:<br />
-1. $W_0 = 0$<br />
-2. Increments are independent: $W_t - W_s$ is independent of $W_u$ for $u \leq s$<br />
-3. Increments are normal: $W_t - W_s \sim N(0, t - s)$<br />
+<p><span class="nokatex">$</span>W_t$ is Brownian motion if:<br />
+1. <span class="nokatex">$</span>W_0 = 0$<br />
+2. Increments are independent: <span class="nokatex">$</span>W_t - W_s$ is independent of <span class="nokatex">$</span>W_u$ for $u \leq s$<br />
+3. Increments are normal: <span class="nokatex">$</span>W_t - W_s \sim N(0, t - s)$<br />
 4. Paths are continuous</p>
 <p><strong>Key properties:</strong><br />
-- $E[W_t] = 0$ (no drift)<br />
+- <span class="nokatex">$</span>E[W_t] = 0$ (no drift)<br />
 - $\text{Var}(W_t) = t$ (variance grows linearly with time → vol grows with √t)<br />
 - $dW_t \sim N(0, dt)$<br />
 - $(dW_t)^2 = dt$ (this is the KEY identity for Itô's lemma)</p>
 <h2 id="itos-lemma-the-chain-rule-of-stochastic-calculus">Itô's Lemma — The Chain Rule of Stochastic Calculus</h2>
-<p>If $X_t$ follows $dX_t = \mu \, dt + \sigma \, dW_t$ and $f$ is a twice-differentiable function:</p>
+<p>If <span class="nokatex">$</span>X_t$ follows $dX_t = \mu \, dt + \sigma \, dW_t$ and $f$ is a twice-differentiable function:</p>
 <p>$$df(X_t) = f'(X_t) \, dX_t + \frac{1}{2} f''(X_t) \, \sigma^2 \, dt$$</p>
 <p>$$= \left[f'(X_t) \mu + \frac{1}{2} f''(X_t) \sigma^2\right] dt + f'(X_t) \sigma \, dW_t$$</p>
 <p><strong>The extra term</strong> $\frac{1}{2} f''(X_t) \sigma^2 dt$ is the "Itô correction" — it's what makes stochastic calculus different from regular calculus. It comes from $(dW)^2 = dt$.</p>
@@ -1569,17 +1569,17 @@ Total: 36 outcomes. P = 6/36 = <strong>1/6</strong>.</p>
 <p><strong>Bonus:</strong> P(sum = 7) &gt; P(sum = any other number). Seven is the most likely sum.</p>
 <h3 id="puzzle-4-geometric-distribution-expected-flips">Puzzle 4: Geometric Distribution — Expected Flips</h3>
 <p><strong>Expected coin flips to get first heads?</strong></p>
-<p>$$E[X] = \frac{1}{p} = \frac{1}{0.5} = 2$$</p>
+<p>$<span class="nokatex">$</span>E[X] = \frac{1}{p} = \frac{1}{0.5} = 2$$</p>
 <p><strong>Expected flips for two heads IN A ROW?</strong></p>
 <p>Let E = expected flips. After each flip:<br />
-- Tails (prob 0.5): wasted 1 flip, restart → contributed $0.5 \times (1 + E)$<br />
-- Heads then tails (prob 0.25): wasted 2 flips, restart → contributed $0.25 \times (2 + E)$<br />
-- Heads then heads (prob 0.25): done in 2 flips → contributed $0.25 \times 2$</p>
-<p>$$E = 0.5(1 + E) + 0.25(2 + E) + 0.25 \times 2$$<br />
-$$E = 0.5 + 0.5E + 0.5 + 0.25E + 0.5$$<br />
-$$E = 1.5 + 0.75E$$<br />
-$$0.25E = 1.5$$<br />
-$$E = 6$$</p>
+- Tails (prob 0.5): wasted 1 flip, restart → contributed <span class="nokatex">$</span>0.5 \times (1 + E)$<br />
+- Heads then tails (prob 0.25): wasted 2 flips, restart → contributed <span class="nokatex">$</span>0.25 \times (2 + E)$<br />
+- Heads then heads (prob 0.25): done in 2 flips → contributed <span class="nokatex">$</span>0.25 \times 2$</p>
+<p>$<span class="nokatex">$</span>E = 0.5(1 + E) + 0.25(2 + E) + 0.25 \times 2$$<br />
+$<span class="nokatex">$</span>E = 0.5 + 0.5E + 0.5 + 0.25E + 0.5$$<br />
+$<span class="nokatex">$</span>E = 1.5 + 0.75E$$<br />
+$<span class="nokatex">$</span>0.25E = 1.5$$<br />
+$<span class="nokatex">$</span>E = 6$$</p>
 <h3 id="puzzle-5-the-birthday-problem">Puzzle 5: The Birthday Problem</h3>
 <p><strong>How many people needed in a room for a &gt;50% chance that two share a birthday?</strong></p>
 <p>$$P(\text{no shared birthday among } n) = \prod_{i=0}^{n-1} \frac{365-i}{365}$$</p>
@@ -1590,10 +1590,10 @@ $$E = 6$$</p>
 <p><strong>3 socks.</strong> With 2 colors, by the pigeonhole principle, 3 draws guarantee at least 2 are the same color.</p>
 <p><strong>Generalization:</strong> With k colors, you need k + 1 draws to guarantee a match.</p>
 <h3 id="puzzle-7-expected-value-of-max-of-two-dice">Puzzle 7: Expected Value of Max of Two Dice</h3>
-<p>$$E[\max(D_1, D_2)] = \sum_{k=1}^{6} k \cdot P(\max = k)$$</p>
+<p>$<span class="nokatex">$</span>E[\max(D_1, D_2)] = \sum_{k=1}^{6} k \cdot P(\max = k)$$</p>
 <p>$P(\max = k) = P(\text{both} \leq k) - P(\text{both} \leq k-1) = (k/6)^2 - ((k-1)/6)^2$</p>
 <p>= $\frac{1}{36}(1 + 3 + 5 + 7 + 9 + 11) \times (1, 2, 3, 4, 5, 6)$ weighted</p>
-<p>$$E[\max] = \frac{1}{36}(1 \times 1 + 2 \times 3 + 3 \times 5 + 4 \times 7 + 5 \times 9 + 6 \times 11) = \frac{161}{36} = \textbf{4.47}$$</p>
+<p>$<span class="nokatex">$</span>E[\max] = \frac{1}{36}(1 \times 1 + 2 \times 3 + 3 \times 5 + 4 \times 7 + 5 \times 9 + 6 \times 11) = \frac{161}{36} = \textbf{4.47}$$</p>
 <p><strong>Finance analog:</strong> If two PMs independently generate returns, the expected max return is higher than either individual expected return. This is why multi-PM structures outperform single-PM structures (option value of selection).</p>
 <h2 id="mental-math-shortcuts">Mental Math Shortcuts</h2>
 <table>
@@ -1748,6 +1748,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

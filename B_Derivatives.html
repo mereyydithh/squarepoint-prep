@@ -453,14 +453,14 @@ body {
 </tbody>
 </table>
 <p><strong>Margin and leverage — a worked example:</strong><br />
-- You buy 1 E-mini S&amp;P 500 futures contract. Notional = index level × $50 = 5,400 × $50 = $270,000.<br />
-- Initial margin ≈ $13,000 (~5% of notional). That's the cash you post.<br />
-- Leverage = $270,000 / $13,000 = ~21x.<br />
-- If SPX moves +2%: your gain = $270,000 × 2% = $5,400. That's a 42% return on your $13,000 margin.<br />
-- If SPX moves -5%: your loss = $270,000 × 5% = $13,500. You just lost MORE than your entire margin. You owe the exchange money beyond what you posted. Margin call.</p>
+- You buy 1 E-mini S&amp;P 500 futures contract. Notional = index level × <span class="nokatex">$</span>50 = 5,400 × <span class="nokatex">$</span>50 = <span class="nokatex">$</span>270,000.<br />
+- Initial margin ≈ <span class="nokatex">$</span>13,000 (~5% of notional). That's the cash you post.<br />
+- Leverage = <span class="nokatex">$</span>270,000 / <span class="nokatex">$</span>13,000 = ~21x.<br />
+- If SPX moves +2%: your gain = <span class="nokatex">$</span>270,000 × 2% = <span class="nokatex">$</span>5,400. That's a 42% return on your <span class="nokatex">$</span>13,000 margin.<br />
+- If SPX moves -5%: your loss = <span class="nokatex">$</span>270,000 × 5% = <span class="nokatex">$</span>13,500. You just lost MORE than your entire margin. You owe the exchange money beyond what you posted. Margin call.</p>
 <p><strong>This is why leverage kills.</strong> The upside looks great. The downside can exceed your entire investment. And the margin call comes at the worst possible time — when the market is moving against you the fastest.</p>
 <h2 id="futures-pricing-cost-of-carry">Futures Pricing: Cost of Carry</h2>
-<p>$$F = S \times e^{(r - q) \times T}$$</p>
+<p>$<span class="nokatex">$</span>F = S \times e^{(r - q) \times T}$$</p>
 <table>
 <thead>
 <tr>
@@ -526,8 +526,8 @@ body {
 </table>
 <p><strong>Roll mechanics:</strong><br />
 - Futures expire. To maintain exposure, you "roll" — close the expiring contract, open the next month.<br />
-- <strong>In contango:</strong> You sell the near-month at $75, buy the next month at $77. You lost $2/barrel on the roll. Over a year, this can add up to 10-20% return drag.<br />
-- <strong>In backwardation:</strong> You sell near-month at $77, buy next month at $75. You earned $2/barrel. Roll yield adds to your return.<br />
+- <strong>In contango:</strong> You sell the near-month at <span class="nokatex">$</span>75, buy the next month at <span class="nokatex">$</span>77. You lost <span class="nokatex">$</span>2/barrel on the roll. Over a year, this can add up to 10-20% return drag.<br />
+- <strong>In backwardation:</strong> You sell near-month at <span class="nokatex">$</span>77, buy next month at <span class="nokatex">$</span>75. You earned <span class="nokatex">$</span>2/barrel. Roll yield adds to your return.<br />
 - <strong>Real-world impact:</strong> The USO ETF (oil) lost approximately 40% of its value over several years purely from roll costs in contango — even as oil prices were relatively stable. This is the "stealth tax" of commodity investing.</p>
 <h2 id="key-futures-contracts">Key Futures Contracts</h2>
 <table>
@@ -546,17 +546,17 @@ body {
 <td>S&amp;P 500 E-mini</td>
 <td>CME</td>
 <td>ES</td>
-<td>$50 × Index</td>
+<td><span class="nokatex">$</span>50 × Index</td>
 <td>Cash</td>
-<td>~$13,000</td>
+<td>~<span class="nokatex">$</span>13,000</td>
 </tr>
 <tr>
 <td>Nasdaq 100 E-mini</td>
 <td>CME</td>
 <td>NQ</td>
-<td>$20 × Index</td>
+<td><span class="nokatex">$</span>20 × Index</td>
 <td>Cash</td>
-<td>~$17,000</td>
+<td>~<span class="nokatex">$</span>17,000</td>
 </tr>
 <tr>
 <td>Euro Stoxx 50</td>
@@ -570,25 +570,25 @@ body {
 <td>10-Year Treasury</td>
 <td>CBOT</td>
 <td>ZN</td>
-<td>$100,000 face value</td>
+<td><span class="nokatex">$</span>100,000 face value</td>
 <td>Physical (eligible bonds)</td>
-<td>~$2,000</td>
+<td>~<span class="nokatex">$</span>2,000</td>
 </tr>
 <tr>
 <td>2-Year Treasury</td>
 <td>CBOT</td>
 <td>ZT</td>
-<td>$200,000 face value</td>
+<td><span class="nokatex">$</span>200,000 face value</td>
 <td>Physical</td>
-<td>~$1,000</td>
+<td>~<span class="nokatex">$</span>1,000</td>
 </tr>
 <tr>
 <td>Eurodollar/SOFR</td>
 <td>CME</td>
 <td>SR3</td>
-<td>$2,500 per bp on $1M notional</td>
+<td><span class="nokatex">$</span>2,500 per bp on <span class="nokatex">$</span>1M notional</td>
 <td>Cash</td>
-<td>~$1,000</td>
+<td>~<span class="nokatex">$</span>1,000</td>
 </tr>
 <tr>
 <td>WTI Crude</td>
@@ -596,7 +596,7 @@ body {
 <td>CL</td>
 <td>1,000 barrels</td>
 <td>Physical (Cushing)</td>
-<td>~$7,000</td>
+<td>~<span class="nokatex">$</span>7,000</td>
 </tr>
 <tr>
 <td>Brent Crude</td>
@@ -604,7 +604,7 @@ body {
 <td>B</td>
 <td>1,000 barrels</td>
 <td>Cash</td>
-<td>~$7,000</td>
+<td>~<span class="nokatex">$</span>7,000</td>
 </tr>
 <tr>
 <td>Gold</td>
@@ -612,7 +612,7 @@ body {
 <td>GC</td>
 <td>100 troy oz</td>
 <td>Physical</td>
-<td>~$10,000</td>
+<td>~<span class="nokatex">$</span>10,000</td>
 </tr>
 <tr>
 <td>EUR/USD</td>
@@ -620,7 +620,7 @@ body {
 <td>6E</td>
 <td>€125,000</td>
 <td>Physical / Cash</td>
-<td>~$2,500</td>
+<td>~<span class="nokatex">$</span>2,500</td>
 </tr>
 </tbody>
 </table>
@@ -630,7 +630,7 @@ body {
 <li><strong>Margin calls:</strong> Arrive at the worst time. In fast markets, you may be liquidated at a loss before you can post additional margin.</li>
 <li><strong>Basis risk:</strong> Futures ≠ spot. The gap (basis = spot − futures) changes unpredictably. Hedging with the "wrong" contract (e.g., Brent hedging jet fuel) means basis risk can blow out.</li>
 <li><strong>Liquidity at expiry:</strong> Volume concentrates in front months. Back-month liquidity can evaporate, leaving you unable to exit.</li>
-<li><strong>Physical delivery:</strong> Holding a physically-settled contract to expiry without delivery capability = catastrophe (WTI, April 2020, -$37/bbl).</li>
+<li><strong>Physical delivery:</strong> Holding a physically-settled contract to expiry without delivery capability = catastrophe (WTI, April 2020, -<span class="nokatex">$</span>37/bbl).</li>
 </ul>
 <hr />
 <h1 id="part-3-options">PART 3: OPTIONS</h1>
@@ -697,7 +697,7 @@ body {
 <td>At expiry — fixed payout if ITM</td>
 <td><strong>Modified Black-Scholes with discontinuous payoff</strong></td>
 <td>Structured products, betting markets</td>
-<td>Pays fixed amount (e.g., $100) if ITM, regardless of how far ITM. Sharp payoff discontinuity at the strike.</td>
+<td>Pays fixed amount (e.g., <span class="nokatex">$</span>100) if ITM, regardless of how far ITM. Sharp payoff discontinuity at the strike.</td>
 </tr>
 </tbody>
 </table>
@@ -715,19 +715,19 @@ body {
 <tr>
 <th>Component</th>
 <th>What it is</th>
-<th>Example (Call with K=100, S=105, premium=$8)</th>
+<th>Example (Call with K=100, S=105, premium=<span class="nokatex">$</span>8)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Intrinsic value</strong></td>
 <td>The value if exercised RIGHT NOW. Call: max(0, S−K). Put: max(0, K−S).</td>
-<td>$5 (stock is $5 above strike)</td>
+<td><span class="nokatex">$</span>5 (stock is <span class="nokatex">$</span>5 above strike)</td>
 </tr>
 <tr>
 <td><strong>Time value</strong></td>
 <td>The premium for the POSSIBILITY that the option becomes more valuable before expiry. Reflects uncertainty.</td>
-<td>$3 ($8 premium minus $5 intrinsic)</td>
+<td><span class="nokatex">$</span>3 (<span class="nokatex">$</span>8 premium minus <span class="nokatex">$</span>5 intrinsic)</td>
 </tr>
 </tbody>
 </table>
@@ -839,7 +839,7 @@ body {
 </blockquote>
 <h2 id="black-scholes-what-it-does-what-it-assumes-where-it-breaks">Black-Scholes — What It Does, What It Assumes, Where It Breaks</h2>
 <p><strong>The formula</strong> (for a European call):<br />
-$$C = S \cdot e^{-qT} \cdot N(d_1) - K \cdot e^{-rT} \cdot N(d_2)$$</p>
+$<span class="nokatex">$</span>C = S \cdot e^{-qT} \cdot N(d_1) - K \cdot e^{-rT} \cdot N(d_2)$$</p>
 <p>Where:<br />
 $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1 - \sigma\sqrt{T}$$</p>
 <p><strong>You don't need to derive this.</strong> But you need to understand:<br />
@@ -847,7 +847,7 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 - $N(d_2)$ ≈ probability the option expires ITM (risk-neutral probability)<br />
 - The formula takes 6 inputs and produces 1 output (option price)<br />
 - All inputs are observable EXCEPT implied volatility — which is backed out from the market price</p>
-<p><strong>Implied volatility (IV):</strong> The market price tells you what vol traders are pricing in. If the BS formula gives $5 for a call at 20% vol, but the call trades at $7, the "implied vol" is higher than 20% — the market expects more volatility than the formula's 20% assumption. IV is the market's consensus estimate of future realized volatility.</p>
+<p><strong>Implied volatility (IV):</strong> The market price tells you what vol traders are pricing in. If the BS formula gives <span class="nokatex">$</span>5 for a call at 20% vol, but the call trades at <span class="nokatex">$</span>7, the "implied vol" is higher than 20% — the market expects more volatility than the formula's 20% assumption. IV is the market's consensus estimate of future realized volatility.</p>
 <p><strong>Where Black-Scholes breaks:</strong></p>
 <table>
 <thead>
@@ -896,7 +896,7 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 - Different maturities have different IV levels (the "term structure")<br />
 - The full picture is a 3D surface: IV as a function of both strike and maturity → covered in depth in <a href="E_Volatility.html">Volatility</a></p>
 <h2 id="put-call-parity">Put-Call Parity</h2>
-<p>$$C - P = S \cdot e^{-qT} - K \cdot e^{-rT}$$</p>
+<p>$<span class="nokatex">$</span>C - P = S \cdot e^{-qT} - K \cdot e^{-rT}$$</p>
 <blockquote>
 <p><strong>In plain English:</strong> A call minus a put (same strike and expiry) equals a forward position. If this relationship breaks beyond transaction costs, there's an arbitrage opportunity — buy the cheap side, sell the expensive side, and lock in risk-free profit. This is one of the few true "no arbitrage" relationships in finance.</p>
 </blockquote>
@@ -1287,8 +1287,8 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 <td>Collect premium, give up tail upside</td>
 </tr>
 <tr>
-<td>"I think stock pins at exactly $150 by expiry"</td>
-<td>Butterfly centered at $150</td>
+<td>"I think stock pins at exactly <span class="nokatex">$</span>150 by expiry"</td>
+<td>Butterfly centered at <span class="nokatex">$</span>150</td>
 <td>Cheap, defined risk, max payout at the pin</td>
 </tr>
 </tbody>
@@ -1299,7 +1299,7 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 <blockquote>
 <p><strong>One-liner:</strong> A swap is an OTC agreement between two parties to exchange cash flows over time — typically one side pays a fixed amount and the other pays a floating amount, based on an underlying reference.</p>
 </blockquote>
-<p><strong>Analogy:</strong> A swap is like two neighbors agreeing to swap their electricity bills. One pays a flat $200/month (fixed), the other pays whatever the actual bill is (floating). If electricity prices rise, the fixed payer wins. If they fall, the floating payer wins. Neither neighbor buys electricity for the other — they just settle the difference.</p>
+<p><strong>Analogy:</strong> A swap is like two neighbors agreeing to swap their electricity bills. One pays a flat <span class="nokatex">$</span>200/month (fixed), the other pays whatever the actual bill is (floating). If electricity prices rise, the fixed payer wins. If they fall, the floating payer wins. Neither neighbor buys electricity for the other — they just settle the difference.</p>
 <h2 id="interest-rate-swap-irs">Interest Rate Swap (IRS)</h2>
 <blockquote>
 <p><strong>One-liner:</strong> An IRS is an agreement to exchange fixed-rate payments for floating-rate payments on a notional amount — the most traded derivative in the world.</p>
@@ -1329,15 +1329,15 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 </tbody>
 </table>
 <p><strong>Key features:</strong><br />
-- <strong>Notional amount</strong> is never exchanged — it's just a reference for calculating payments. A $100M notional swap doesn't mean $100M changes hands — just the net interest differential.<br />
+- <strong>Notional amount</strong> is never exchanged — it's just a reference for calculating payments. A <span class="nokatex">$</span>100M notional swap doesn't mean <span class="nokatex">$</span>100M changes hands — just the net interest differential.<br />
 - <strong>Tenor:</strong> Common: 2Y, 5Y, 10Y, 30Y. Longer tenor = more rate sensitivity (higher DV01).<br />
-- <strong>DV01 of a swap:</strong> A 5Y IRS with $100M notional has DV01 ≈ $50,000. Meaning: a 1bp move in the swap rate changes the swap's value by $50K.<br />
+- <strong>DV01 of a swap:</strong> A 5Y IRS with <span class="nokatex">$</span>100M notional has DV01 ≈ <span class="nokatex">$</span>50,000. Meaning: a 1bp move in the swap rate changes the swap's value by <span class="nokatex">$</span>50K.<br />
 - <strong>Swap rate</strong> = the fixed rate that makes the swap fair (PV of fixed leg = PV of floating leg at inception).<br />
 - <strong>Swap curve</strong> = swap rates plotted by tenor. It's the market's expectation of future short-term rates, incorporating credit and liquidity premiums.</p>
 <p><strong>Who uses IRS:</strong><br />
 - <strong>Banks:</strong> Convert floating-rate assets to fixed income streams (or vice versa)<br />
 - <strong>Corporates:</strong> Issue floating-rate debt but want fixed → enter swap as fixed payer<br />
-- <strong>Hedge funds:</strong> Express rate views with leverage. A $100M swap requires much less capital than buying $100M in bonds.<br />
+- <strong>Hedge funds:</strong> Express rate views with leverage. A <span class="nokatex">$</span>100M swap requires much less capital than buying <span class="nokatex">$</span>100M in bonds.<br />
 - <strong>Pension funds:</strong> Match long-dated liabilities (pension payments) with long-dated fixed-rate swap receipts</p>
 <h2 id="total-return-swap-trs">Total Return Swap (TRS)</h2>
 <blockquote>
@@ -1366,7 +1366,7 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 </table>
 <p><strong>Why TRS matters — the Archegos lesson:</strong><br />
 - <strong>No ownership:</strong> You never buy the stock, so no 13F disclosure (for equity TRS). No voting rights. But you have full economic exposure.<br />
-- <strong>Leverage:</strong> Initial margin on a TRS might be 10-15%, giving you 7-10x leverage. Archegos used TRS to build $30B+ in notional equity exposure on ~$3B of capital.<br />
+- <strong>Leverage:</strong> Initial margin on a TRS might be 10-15%, giving you 7-10x leverage. Archegos used TRS to build <span class="nokatex">$</span>30B+ in notional equity exposure on ~<span class="nokatex">$</span>3B of capital.<br />
 - <strong>Opacity:</strong> Each prime broker only sees their own TRS positions with you. No single PB saw Archegos' total exposure until it was too late.<br />
 - <strong>Risk:</strong> Counterparty risk (PB can demand margin or terminate), leverage (amplifies both ways), concentration (TRS on a single name is a leveraged single-stock bet).<br />
 - <strong>Post-Archegos regulations:</strong> The SEC now requires TRS reporting on large positions. Prime brokers improved cross-margining visibility. But the fundamental risk of synthetic leverage remains.</p>
@@ -1434,7 +1434,7 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 <td><strong>Barrier option</strong></td>
 <td>Knock-in (activates at barrier) or knock-out (dies at barrier)</td>
 <td>Analytical (simple) or Monte Carlo</td>
-<td>Pin risk near barrier — delta jumps violently. A knock-out at $100 means at $99.90 you have an option and at $100.10 you don't.</td>
+<td>Pin risk near barrier — delta jumps violently. A knock-out at <span class="nokatex">$</span>100 means at <span class="nokatex">$</span>99.90 you have an option and at <span class="nokatex">$</span>100.10 you don't.</td>
 </tr>
 <tr>
 <td><strong>Asian option</strong></td>
@@ -1484,7 +1484,7 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 <h1 id="part-7-derivative-risk-what-kills-funds">PART 7: DERIVATIVE RISK — WHAT KILLS FUNDS</h1>
 <h3 id="1-leverage">1. Leverage</h3>
 <blockquote>
-<p>Every derivative has implicit leverage. A $500K premium on SPX options can give you $20M notional exposure. If SPX moves 10%, your option P&amp;L scales to the $20M notional, not the $500K premium. This is by design.</p>
+<p>Every derivative has implicit leverage. A <span class="nokatex">$</span>500K premium on SPX options can give you <span class="nokatex">$</span>20M notional exposure. If SPX moves 10%, your option P&amp;L scales to the <span class="nokatex">$</span>20M notional, not the <span class="nokatex">$</span>500K premium. This is by design.</p>
 </blockquote>
 <h3 id="2-non-linear-payoffs-gamma-risk">2. Non-Linear Payoffs (Gamma Risk)</h3>
 <p>Options don't move 1:1 with the underlying — gamma accelerates or decelerates P&amp;L. A short gamma position can go from "manageable" to "catastrophic" in a single session because losses ACCELERATE as the market moves against you. The sell-off doesn't just cost you delta × move — it costs you delta × move PLUS gamma × move² / 2. That squared term is what kills.</p>
@@ -1506,7 +1506,7 @@ $$d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1
 4. They sell → prices drop further → more margin calls → spiral</p>
 <p>This is how Nick Leeson (Barings), Amaranth (NG), and MF Global (European sovereign bonds) all died.</p>
 <h3 id="6-counterparty-risk">6. Counterparty Risk</h3>
-<p>OTC derivatives (swaps, forwards, exotic options) expose you to the counterparty's ability to pay. If your counterparty defaults while you have a large unrealized gain, you lose that gain. AIG in 2008 sold massive CDS protection and couldn't pay when defaults spiked — required a $182B government bailout. Post-2008 reforms (central clearing, margin requirements, CSA agreements) reduced but didn't eliminate this risk.</p>
+<p>OTC derivatives (swaps, forwards, exotic options) expose you to the counterparty's ability to pay. If your counterparty defaults while you have a large unrealized gain, you lose that gain. AIG in 2008 sold massive CDS protection and couldn't pay when defaults spiked — required a <span class="nokatex">$</span>182B government bailout. Post-2008 reforms (central clearing, margin requirements, CSA agreements) reduced but didn't eliminate this risk.</p>
 <hr />
 <h1 id="part-8-interview-application">PART 8: INTERVIEW APPLICATION</h1>
 <p>If asked "Explain the difference between a future and an option":</p>
@@ -1537,6 +1537,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

@@ -529,7 +529,7 @@ body {
 </table>
 <p><strong>Worked example — reading the dashboard:</strong></p>
 <blockquote>
-<p>VIX at 24, skew at 8 vol points, HY spreads 450bp, 2s10s at -40bp, oil in backwardation, gold at $2,300.<br />
+<p>VIX at 24, skew at 8 vol points, HY spreads 450bp, 2s10s at -40bp, oil in backwardation, gold at <span class="nokatex">$</span>2,300.<br />
 <strong>Translation:</strong> Market expects elevated but not crisis-level volatility. Skew says downside hedging demand is firm. Credit is stressed but not distressed. Yield curve inverted = recession priced. Oil tight now but not pricing prolonged disruption. Gold elevated = some tail fear.<br />
 <strong>Gap:</strong> VIX at 24 implies ±1.5% daily. Recent realized has been ±2.5%. <strong>Realized &gt; implied → vol is underpriced.</strong></p>
 </blockquote>
@@ -565,7 +565,7 @@ body {
 <td>"Oil spike is temporary"</td>
 <td>Geopolitical resolution in weeks</td>
 <td>Hormuz blocked through summer</td>
-<td>Brent $130-150, gasoline $6+</td>
+<td>Brent <span class="nokatex">$</span>130-150, gasoline <span class="nokatex">$</span>6+</td>
 </tr>
 <tr>
 <td>"Credit is fine"</td>
@@ -600,7 +600,7 @@ Asymmetry = (0.30 × 5%) / (0.70 × 2%) = 1.5 / 1.4 = <strong>1.07</strong><br /
 </blockquote>
 <p><strong>Another way to express this to a PM:</strong></p>
 <blockquote>
-<p>"We make $2M if the base case plays out, but lose $5M in the tail. Spending $200K on protection gives us 25:1 payoff in the tail while only reducing the base case by 10%."</p>
+<p>"We make <span class="nokatex">$</span>2M if the base case plays out, but lose <span class="nokatex">$</span>5M in the tail. Spending <span class="nokatex">$</span>200K on protection gives us 25:1 payoff in the tail while only reducing the base case by 10%."</p>
 </blockquote>
 <h3 id="step-4-map-to-portfolio-exposure">Step 4: Map To Portfolio Exposure</h3>
 <p>Your view must connect to <strong>this book, today</strong>. Generic macro commentary is useless. </p>
@@ -612,7 +612,7 @@ Asymmetry = (0.30 × 5%) / (0.70 × 2%) = 1.5 / 1.4 = <strong>1.07</strong><br /
 <p><strong>Template:</strong></p>
 <div class="highlight"><pre><span></span><code>RISK: [description]
 EXPOSED POSITIONS: [name, notional, channel]
-SCENARIO P&amp;L: [base case → $X, tail case → -$Y]
+SCENARIO P&amp;L: [base case → &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;X, tail case → -&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;Y]
 ASYMMETRY: [ratio]
 RECOMMENDATION: [specific action + cost]
 </code></pre></div>
@@ -645,7 +645,7 @@ RECOMMENDATION: [specific action + cost]
 <tr>
 <td>Option C</td>
 <td>Accept risk, tighten stops</td>
-<td>$0 direct cost</td>
+<td><span class="nokatex">$</span>0 direct cost</td>
 <td>-0% (but bounded losses)</td>
 </tr>
 </tbody>
@@ -683,7 +683,7 @@ RECOMMENDATION: [specific action + cost]
 </blockquote>
 <h3 id="level-5-strategic-risk-partner-outstanding">Level 5 — Strategic Risk Partner (OUTSTANDING)</h3>
 <blockquote>
-<p>"We're in a positive stock-bond correlation regime with realized vol exceeding implied. This combination means our portfolio's Sharpe ratio math is broken — diversification assumptions overstate our risk-adjusted returns by ~20%. Before CPI, I'd recommend: (1) shrink gross by 10% to match the true diversification benefit, (2) move from correlation-based hedges to explicit puts, and (3) widen the house stress scenarios to include 'hot CPI + bond sell-off' coincidence. Cost: $400K in premium + opportunity cost. Benefit: eliminates the uncompensated tail that's sitting in four PM books."<br />
+<p>"We're in a positive stock-bond correlation regime with realized vol exceeding implied. This combination means our portfolio's Sharpe ratio math is broken — diversification assumptions overstate our risk-adjusted returns by ~20%. Before CPI, I'd recommend: (1) shrink gross by 10% to match the true diversification benefit, (2) move from correlation-based hedges to explicit puts, and (3) widen the house stress scenarios to include 'hot CPI + bond sell-off' coincidence. Cost: <span class="nokatex">$</span>400K in premium + opportunity cost. Benefit: eliminates the uncompensated tail that's sitting in four PM books."<br />
 - Regime-aware, quantified, specific, cost-benefit framed, actionable. This is the standard.</p>
 </blockquote>
 <hr />
@@ -855,7 +855,7 @@ Oil up → input cost inflation → margin compression (airlines, transport, che
 <p>Prior: 70% probability inflation is cooling (based on 3 months of declining core CPI)<br />
 New data: Core CPI MoM prints 0.5% (consensus was 0.3%)<br />
 Update: This is a 2σ miss. One month doesn't prove a trend, but it breaks the declining pattern. New estimate: 50% inflation cooling, 50% re-acceleration.<br />
-<strong>Portfolio action:</strong> "My cooling view was 70/30. After this print, it's closer to 50/50. The asymmetry has shifted — I'd recommend adding rate protection for the re-acceleration scenario. Cost: $150K in swaption premium."</p>
+<strong>Portfolio action:</strong> "My cooling view was 70/30. After this print, it's closer to 50/50. The asymmetry has shifted — I'd recommend adding rate protection for the re-acceleration scenario. Cost: <span class="nokatex">$</span>150K in swaption premium."</p>
 </blockquote>
 <hr />
 <h1 id="part-6-expressing-views-in-different-contexts">PART 6: EXPRESSING VIEWS IN DIFFERENT CONTEXTS</h1>
@@ -878,14 +878,14 @@ Update: This is a 2σ miss. One month doesn't prove a trend, but it breaks the d
 <h3 id="context-2-pm-one-on-one-5-minutes">Context 2: PM One-on-One (5 minutes)</h3>
 <p><strong>Structure:</strong> Lead with THEIR book, not your macro view.</p>
 <p>"Your two biggest risks today are [A] and [B]. Here's why:<br />
-[A] connects to your XOM/CVX positions through [mechanism]. If [scenario], P&amp;L impact is -$X.<br />
-[B] is your gamma profile — you're short $Y in gamma, and with CPI tomorrow, a 3σ print gives you a realized vol problem.<br />
+[A] connects to your XOM/CVX positions through [mechanism]. If [scenario], P&amp;L impact is -<span class="nokatex">$</span>X.<br />
+[B] is your gamma profile — you're short <span class="nokatex">$</span>Y in gamma, and with CPI tomorrow, a 3σ print gives you a realized vol problem.<br />
 My recommendation: [specific hedge or position adjustment + cost]."</p>
 <h3 id="context-3-risk-committee-10-minutes">Context 3: Risk Committee (10 minutes)</h3>
 <p><strong>Structure:</strong> Regime → House exposure → Recommendation → Cost/benefit</p>
 <p>"We're in a [regime description] — characterized by [3 data points].<br />
 The firm's aggregate exposure has [X] vulnerability via [channels].<br />
-I'm recommending [specific firm-level action] at a cost of [$Y], which reduces tail VaR by [Z%].<br />
+I'm recommending [specific firm-level action] at a cost of [<span class="nokatex">$</span>Y], which reduces tail VaR by [Z%].<br />
 Kill condition: I'd unwind this if [specific data point or price level]."</p>
 <h3 id="context-4-interview-1-2-minutes">Context 4: Interview (1-2 minutes)</h3>
 <p><strong>Structure:</strong> Framework → Example → Portfolio connection</p>
@@ -1004,7 +1004,7 @@ Kill condition: I'd unwind this if [specific data point or price level]."</p>
 <li>
 <p><strong>What would I recommend IF it materializes?</strong></p>
 </li>
-<li>Must be specific: "Reduce duration by $10M DV01, buy 1-month 25Δ SPX puts"</li>
+<li>Must be specific: "Reduce duration by <span class="nokatex">$</span>10M DV01, buy 1-month 25Δ SPX puts"</li>
 <li>Not vague: "we should de-risk"</li>
 </ol>
 <h3 id="the-view-journal">The View Journal</h3>
@@ -1075,9 +1075,9 @@ Kill condition: I'd unwind this if [specific data point or price level]."</p>
 <p><strong>Example:</strong></p>
 <blockquote>
 <p>"I don't know if the Fed cuts or holds. The market is pricing 55/45. What I do know:<br />
-- If they hold, our duration position loses $3M. If they cut, it gains $1M.<br />
+- If they hold, our duration position loses <span class="nokatex">$</span>3M. If they cut, it gains <span class="nokatex">$</span>1M.<br />
 - The asymmetry says we should have less duration going in, regardless of view.<br />
-- Cost of reducing duration exposure: ~$50K in transaction costs.<br />
+- Cost of reducing duration exposure: ~<span class="nokatex">$</span>50K in transaction costs.<br />
 - The risk-adjusted case for protection is clear even without a directional opinion."</p>
 </blockquote>
 <h3 id="scenario-based-thinking-as-an-alternative-to-conviction">Scenario-Based Thinking as an Alternative to Conviction</h3>
@@ -1115,7 +1115,7 @@ Expected = 0.30(+3) + 0.25(+1) + 0.25(-5) + 0.20(-2)
 <h3 id="q-give-me-an-example-of-when-youd-push-back-on-a-pm-vs-when-youd-stay-silent">Q: "Give me an example of when you'd push back on a PM vs. when you'd stay silent?"</h3>
 <blockquote>
 <p>"I'd push back when I see something the PM can't see from their individual book — specifically, cross-PM correlation risk.</p>
-<p>If three PMs all independently added energy exposure this week, each position might look fine in isolation. But in aggregate, the house is now 2x our sector concentration limit in energy, and all three positions lose in the same scenario: oil reversal. That's invisible to any individual PM and it's my job to surface it. I'd go to each PM with the data: 'Your position alone is fine. But the house is concentrated. We need one of you to hedge or reduce by $X to stay within aggregate limits.'</p>
+<p>If three PMs all independently added energy exposure this week, each position might look fine in isolation. But in aggregate, the house is now 2x our sector concentration limit in energy, and all three positions lose in the same scenario: oil reversal. That's invisible to any individual PM and it's my job to surface it. I'd go to each PM with the data: 'Your position alone is fine. But the house is concentrated. We need one of you to hedge or reduce by <span class="nokatex">$</span>X to stay within aggregate limits.'</p>
 <p>I'd stay silent when a PM has a position I personally disagree with directionally — say they're long a stock I think is overvalued — but the position is within risk limits, properly sized, and they clearly have a thesis. That's not my call. My job is risk geometry, not stock-picking. I'd document that I reviewed it, note the key risk factors, and move on."</p>
 </blockquote>
 <hr />
@@ -1134,6 +1134,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

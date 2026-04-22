@@ -414,7 +414,7 @@ body {
 <tbody>
 <tr>
 <td><strong>Delta (Δ)</strong></td>
-<td>Dollars gained/lost per $1 move in underlying. Your effective stock-equivalent position.</td>
+<td>Dollars gained/lost per <span class="nokatex">$</span>1 move in underlying. Your effective stock-equivalent position.</td>
 <td>Volume knob — controls how loud the stock plays through to your P&amp;L. ITM=cranked to 10. ATM=halfway. OTM=barely a whisper. Gamma turns the knob.</td>
 </tr>
 <tr>
@@ -493,12 +493,12 @@ body {
 <tr>
 <td>Delta</td>
 <td>∂V/∂S</td>
-<td>$/$ (per $1 move)</td>
+<td>$/$ (per <span class="nokatex">$</span>1 move)</td>
 </tr>
 <tr>
 <td>Gamma</td>
 <td>∂²V/∂S² = ∂Δ/∂S</td>
-<td>Δ per $1 move</td>
+<td>Δ per <span class="nokatex">$</span>1 move</td>
 </tr>
 <tr>
 <td>Theta</td>
@@ -794,15 +794,15 @@ SPX ↑ 5% → VIX ↓ ~5-8 pts (asymmetric!)</p>
 <td>Cap directional exposure</td>
 </tr>
 <tr>
-<td>Short gamma &lt; $Y/1%</td>
+<td>Short gamma &lt; <span class="nokatex">$</span>Y/1%</td>
 <td>Cap convexity risk</td>
 </tr>
 <tr>
-<td>Vega ±$Z/vol pt</td>
+<td>Vega ±<span class="nokatex">$</span>Z/vol pt</td>
 <td>Cap vol exposure</td>
 </tr>
 <tr>
-<td>Theta −$W/day max</td>
+<td>Theta −<span class="nokatex">$</span>W/day max</td>
 <td>Cap optionality bleed</td>
 </tr>
 <tr>
@@ -827,33 +827,33 @@ SPX ↑ 5% → VIX ↓ ~5-8 pts (asymmetric!)</p>
 </thead>
 <tbody>
 <tr>
-<td>Delta (+$30M)</td>
-<td>+$30M × −5%</td>
-<td>−$1,500,000</td>
+<td>Delta (+<span class="nokatex">$</span>30M)</td>
+<td>+<span class="nokatex">$</span>30M × −5%</td>
+<td>−<span class="nokatex">$</span>1,500,000</td>
 </tr>
 <tr>
-<td>Gamma (−$800K/1%)</td>
-<td>½ × −$800K × 25</td>
-<td>−$10,000,000</td>
+<td>Gamma (−<span class="nokatex">$</span>800K/1%)</td>
+<td>½ × −<span class="nokatex">$</span>800K × 25</td>
+<td>−<span class="nokatex">$</span>10,000,000</td>
 </tr>
 <tr>
-<td>Vega (−$250K/pt)</td>
-<td>−$250K × 12</td>
-<td>−$3,000,000</td>
+<td>Vega (−<span class="nokatex">$</span>250K/pt)</td>
+<td>−<span class="nokatex">$</span>250K × 12</td>
+<td>−<span class="nokatex">$</span>3,000,000</td>
 </tr>
 <tr>
-<td>Theta (+$45K/d)</td>
-<td>+$45K</td>
-<td>+$45,000</td>
+<td>Theta (+<span class="nokatex">$</span>45K/d)</td>
+<td>+<span class="nokatex">$</span>45K</td>
+<td>+<span class="nokatex">$</span>45,000</td>
 </tr>
 <tr>
 <td><strong>TOTAL</strong></td>
 <td></td>
-<td><strong>−$14,455,000</strong></td>
+<td><strong>−<span class="nokatex">$</span>14,455,000</strong></td>
 </tr>
 </tbody>
 </table>
-<p>PM thought: "$30M delta, 5% drop = $1.5M." Reality: 10x worse. <strong>Short gamma + short vega = compounding tail losses.</strong></p>
+<p>PM thought: "<span class="nokatex">$</span>30M delta, 5% drop = <span class="nokatex">$</span>1.5M." Reality: 10x worse. <strong>Short gamma + short vega = compounding tail losses.</strong></p>
 <hr />
 <h2 id="key-interview-lines">KEY INTERVIEW LINES</h2>
 <p><strong>Gamma:</strong> "Gamma tells you WHERE YOU'LL BE after a move. Delta tells you where you are NOW. For risk, gamma matters more."</p>
@@ -871,6 +871,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

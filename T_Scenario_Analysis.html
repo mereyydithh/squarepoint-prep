@@ -446,11 +446,11 @@ $$\sigma_{\text{daily}} = \frac{\text{Annualized RV}}{\sqrt{252}}$$</p>
 <div class="highlight"><pre><span></span><code>DIRECT:
   [Position] [Notional] [Delta P&amp;L from move] [Greeks impact]
 INDIRECT:
-  [Equity beta channel]  → est. P&amp;L: -$X
-  [Duration channel]     → est. P&amp;L: -$Y
-  [Volatility channel]   → est. P&amp;L: -$Z
+  [Equity beta channel]  → est. P&amp;L: -&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;X
+  [Duration channel]     → est. P&amp;L: -&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;Y
+  [Volatility channel]   → est. P&amp;L: -&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;Z
   [Margin impact]        → utilization goes from A% to B%
-TOTAL ESTIMATED P&amp;L: -$W
+TOTAL ESTIMATED P&amp;L: -&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;W
 LIMIT PROXIMITY: [X% of drawdown limit consumed]
 </code></pre></div>
 
@@ -528,7 +528,7 @@ LIMIT PROXIMITY: [X% of drawdown limit consumed]
 </tr>
 </tbody>
 </table>
-<p><strong>Worked example — Oil +$15 scenario on a $500M multi-PM book:</strong></p>
+<p><strong>Worked example — Oil +<span class="nokatex">$</span>15 scenario on a <span class="nokatex">$</span>500M multi-PM book:</strong></p>
 <table>
 <thead>
 <tr>
@@ -539,38 +539,38 @@ LIMIT PROXIMITY: [X% of drawdown limit consumed]
 </thead>
 <tbody>
 <tr>
-<td>Energy longs ($30M notional)</td>
-<td>+$15 × delta sensitivity</td>
-<td>+$4.5M</td>
+<td>Energy longs (<span class="nokatex">$</span>30M notional)</td>
+<td>+<span class="nokatex">$</span>15 × delta sensitivity</td>
+<td>+<span class="nokatex">$</span>4.5M</td>
 </tr>
 <tr>
-<td>Equity beta drag ($200M net long)</td>
-<td>-3% × $200M</td>
-<td>-$6.0M</td>
+<td>Equity beta drag (<span class="nokatex">$</span>200M net long)</td>
+<td>-3% × <span class="nokatex">$</span>200M</td>
+<td>-<span class="nokatex">$</span>6.0M</td>
 </tr>
 <tr>
-<td>Duration (DV01 = $50K/bp, +20bp)</td>
-<td>-$50K × 20</td>
-<td>-$1.0M</td>
+<td>Duration (DV01 = <span class="nokatex">$</span>50K/bp, +20bp)</td>
+<td>-<span class="nokatex">$</span>50K × 20</td>
+<td>-<span class="nokatex">$</span>1.0M</td>
 </tr>
 <tr>
 <td>Short gamma on SPX puts</td>
 <td>½ × Γ × S² × (3%)²</td>
-<td>-$0.8M</td>
+<td>-<span class="nokatex">$</span>0.8M</td>
 </tr>
 <tr>
 <td>Vega loss (long vol book, but wrong spot)</td>
 <td>Mixed</td>
-<td>-$0.3M</td>
+<td>-<span class="nokatex">$</span>0.3M</td>
 </tr>
 <tr>
 <td><strong>NET</strong></td>
 <td></td>
-<td><strong>-$3.6M</strong></td>
+<td><strong>-<span class="nokatex">$</span>3.6M</strong></td>
 </tr>
 <tr>
 <td><strong>As % of NAV</strong></td>
-<td>$3.6M / $500M</td>
+<td><span class="nokatex">$</span>3.6M / <span class="nokatex">$</span>500M</td>
 <td><strong>-0.72%</strong></td>
 </tr>
 <tr>
@@ -585,13 +585,13 @@ LIMIT PROXIMITY: [X% of drawdown limit consumed]
 <p><strong>Oil shock sensitivity matrix:</strong><br />
 | Oil move | Equity reaction | Rate reaction | Portfolio P&amp;L | Limit % consumed |<br />
 |---|---|---|---|---|<br />
-| +$5 (4%) | -1.0% | +5bp | -$0.9M | 6% |<br />
-| +$10 (8%) | -2.5% | +12bp | -$2.1M | 14% |<br />
-| +$15 (13%) | -3.5% | +20bp | -$3.6M | 24% |<br />
-| +$20 (17%) | -5.0% | +30bp | -$5.8M | 39% |<br />
-| +$30 (26%) | -8.0% | +40bp | -$9.2M | 61% |<br />
-| +$40 (35%) | -12.0% | +50bp, curve inverts | -$14.1M | <strong>94%</strong> ⚠️ |</p>
-<p><strong>Breakpoints:</strong> The oil move that breaches 50% of the drawdown limit ($7.5M loss) is approximately +$22, or ~Brent $133. That's the <strong>action trigger</strong> — the price level where you MUST have a response plan ready.</p>
+| +<span class="nokatex">$</span>5 (4%) | -1.0% | +5bp | -<span class="nokatex">$</span>0.9M | 6% |<br />
+| +<span class="nokatex">$</span>10 (8%) | -2.5% | +12bp | -<span class="nokatex">$</span>2.1M | 14% |<br />
+| +<span class="nokatex">$</span>15 (13%) | -3.5% | +20bp | -<span class="nokatex">$</span>3.6M | 24% |<br />
+| +<span class="nokatex">$</span>20 (17%) | -5.0% | +30bp | -<span class="nokatex">$</span>5.8M | 39% |<br />
+| +<span class="nokatex">$</span>30 (26%) | -8.0% | +40bp | -<span class="nokatex">$</span>9.2M | 61% |<br />
+| +<span class="nokatex">$</span>40 (35%) | -12.0% | +50bp, curve inverts | -<span class="nokatex">$</span>14.1M | <strong>94%</strong> ⚠️ |</p>
+<p><strong>Breakpoints:</strong> The oil move that breaches 50% of the drawdown limit (<span class="nokatex">$</span>7.5M loss) is approximately +<span class="nokatex">$</span>22, or ~Brent <span class="nokatex">$</span>133. That's the <strong>action trigger</strong> — the price level where you MUST have a response plan ready.</p>
 <h3 id="step-6-communication-the-one-pager-3-minutes">Step 6: COMMUNICATION — The One-Pager (3 minutes)</h3>
 <p><strong>Format — never deviate:</strong></p>
 <div class="highlight"><pre><span></span><code>═══════════════════════════════════════════
@@ -603,17 +603,17 @@ SITUATION: [2 sentences max. What happened. Magnitude + percentile.]
 CURRENT P&amp;L IMPACT: [$ and % of NAV]
 
 SCENARIOS:
-  BASE (55%):  [1 sentence. Expected P&amp;L: $X]
-  ADVERSE (30%): [1 sentence. Expected P&amp;L: -$Y]
-  EXTREME (15%): [1 sentence. Expected P&amp;L: -$Z]
+  BASE (55%):  [1 sentence. Expected P&amp;L: &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;X]
+  ADVERSE (30%): [1 sentence. Expected P&amp;L: -&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;Y]
+  EXTREME (15%): [1 sentence. Expected P&amp;L: -&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;Z]
 
 KEY RISK: [1 sentence. The single biggest vulnerability.]
 
 BREAKPOINT: [The price level that breaches 50% drawdown limit]
 
 RECOMMENDATION:
-  Option A: [action] — VaR impact: -X%, cost: $K
-  Option B: [action] — VaR impact: -Y%, cost: $K
+  Option A: [action] — VaR impact: -X%, cost: &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;K
+  Option B: [action] — VaR impact: -Y%, cost: &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;K
   → I recommend [A/B] because [1 sentence justification]
 
 KILL CONDITION: [Specific data/price that would make me change this]
@@ -623,17 +623,17 @@ KILL CONDITION: [Specific data/price that would make me change this]
 <h3 id="step-7-follow-up-monitor-and-update">Step 7: FOLLOW-UP — Monitor and Update</h3>
 <p>Scenarios aren't static. Set specific review triggers:<br />
 - <strong>Time-based:</strong> "Refreshing this analysis in 24 hours regardless"<br />
-- <strong>Price-based:</strong> "If Brent crosses $125, I escalate from base to adverse"<br />
+- <strong>Price-based:</strong> "If Brent crosses <span class="nokatex">$</span>125, I escalate from base to adverse"<br />
 - <strong>Data-based:</strong> "After CPI print, I'll update the rate channel estimate"</p>
 <hr />
 <h1 id="part-2-10-scenario-playbooks">PART 2: 10 SCENARIO PLAYBOOKS</h1>
 <h2 id="playbook-1-commodity-supply-shock-oil-8-overnight">Playbook 1: Commodity Supply Shock (Oil +8% Overnight)</h2>
-<p><strong>Facts:</strong> Brent $111 → $120. 3.6σ move. Gold +2%, SPX futures -2.1%, 10Y +8bp. Volume 3x normal.</p>
+<p><strong>Facts:</strong> Brent <span class="nokatex">$</span>111 → <span class="nokatex">$</span>120. 3.6σ move. Gold +2%, SPX futures -2.1%, 10Y +8bp. Volume 3x normal.</p>
 <p><strong>Exposure map:</strong><br />
-- Direct oil longs: +$X (mark-to-market gain, but DON'T celebrate — correlations will hurt)<br />
-- Equity book: -$Y via beta (SPX beta of 0.8 × -2.1% × equity notional)<br />
-- Duration: -$Z (DV01 × 8bp)<br />
-- Short puts: -$W (gamma acceleration as SPX falls)<br />
+- Direct oil longs: +<span class="nokatex">$</span>X (mark-to-market gain, but DON'T celebrate — correlations will hurt)<br />
+- Equity book: -<span class="nokatex">$</span>Y via beta (SPX beta of 0.8 × -2.1% × equity notional)<br />
+- Duration: -<span class="nokatex">$</span>Z (DV01 × 8bp)<br />
+- Short puts: -<span class="nokatex">$</span>W (gamma acceleration as SPX falls)<br />
 - FX: EM importers (INR, TRY) weaken — any EM exposure adds to loss</p>
 <p><strong>Three scenarios:</strong></p>
 <table>
@@ -651,34 +651,34 @@ KILL CONDITION: [Specific data/price that would make me change this]
 <tbody>
 <tr>
 <td><strong>Base (50%)</strong>: Diplomatic de-escalation</td>
-<td>$112-115</td>
+<td><span class="nokatex">$</span>112-115</td>
 <td>Recovers flat</td>
 <td>-3bp</td>
 <td>Unchanged</td>
-<td>-$0.5M</td>
+<td>-<span class="nokatex">$</span>0.5M</td>
 <td>Monitor</td>
 </tr>
 <tr>
 <td><strong>Adverse (35%)</strong>: Further restriction, OPEC can't offset</td>
-<td>$125-135</td>
+<td><span class="nokatex">$</span>125-135</td>
 <td>-4%</td>
 <td>+20bp</td>
 <td>IG +15bp</td>
-<td>-$5.2M</td>
+<td>-<span class="nokatex">$</span>5.2M</td>
 <td>Trim equity, add put protection</td>
 </tr>
 <tr>
 <td><strong>Extreme (15%)</strong>: Full blockade, 20% global supply at risk</td>
-<td>$140-160</td>
+<td><span class="nokatex">$</span>140-160</td>
 <td>-10%+</td>
 <td>+40bp then reversal (deflation fear)</td>
 <td>IG +50bp, HY +200bp</td>
-<td>-$14M+</td>
+<td>-<span class="nokatex">$</span>14M+</td>
 <td>Emergency: de-risk, IC call, margin plan</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Recommendation:</strong> "Lock in partial profit on energy longs. Buy 1-month SPX 95% put spreads. Cost: $250K. Reduces adverse P&amp;L from -$5.2M to -$3.1M."</p>
+<p><strong>Recommendation:</strong> "Lock in partial profit on energy longs. Buy 1-month SPX 95% put spreads. Cost: <span class="nokatex">$</span>250K. Reduces adverse P&amp;L from -<span class="nokatex">$</span>5.2M to -<span class="nokatex">$</span>3.1M."</p>
 <h2 id="playbook-2-pm-down-15-in-a-week">Playbook 2: PM Down 15% in a Week</h2>
 <p><strong>Facts:</strong> PM Alpha's book: -15% WTD. MTD now -12% (was +3%). Attribution: 70% from single-name event (TSLA position), 30% from delta acceleration.</p>
 <p><strong>Diagnostic questions (Socratic, not accusatory):</strong><br />
@@ -721,7 +721,7 @@ KILL CONDITION: [Specific data/price that would make me change this]
 <td><strong>Stagnation (45%)</strong></td>
 <td>No catalyst, position drifts</td>
 <td>-15% → -18% (theta + opportunity cost)</td>
-<td>"Dead capital. Opportunity cost = $X/week in theta. Recommend trim 50%."</td>
+<td>"Dead capital. Opportunity cost = <span class="nokatex">$</span>X/week in theta. Recommend trim 50%."</td>
 </tr>
 <tr>
 <td><strong>Deterioration (25%)</strong></td>
@@ -731,7 +731,7 @@ KILL CONDITION: [Specific data/price that would make me change this]
 </tr>
 </tbody>
 </table>
-<p><strong>Communication:</strong> "PM Alpha is -15% WTD, -12% MTD. 70% attributable to TSLA. We're at 75% of the soft drawdown limit with $1.5M of cushion. Three scenarios show expected value of -$800K from here. I recommend reducing TSLA by 40% and the remainder should have a stop at [level]. Meeting request: tomorrow 8AM."</p>
+<p><strong>Communication:</strong> "PM Alpha is -15% WTD, -12% MTD. 70% attributable to TSLA. We're at 75% of the soft drawdown limit with <span class="nokatex">$</span>1.5M of cushion. Three scenarios show expected value of -<span class="nokatex">$</span>800K from here. I recommend reducing TSLA by 40% and the remainder should have a stop at [level]. Meeting request: tomorrow 8AM."</p>
 <h2 id="playbook-3-portfolio-vol-30-above-target">Playbook 3: Portfolio Vol 30% Above Target</h2>
 <p><strong>Facts:</strong> Target portfolio vol 12%. Realized trailing 10-day: 15.6%. Delta: +30% above target.</p>
 <p><strong>Decomposition framework (this is the skill):</strong></p>
@@ -767,8 +767,8 @@ KILL CONDITION: [Specific data/price that would make me change this]
 </tbody>
 </table>
 <p><strong>Specific response by source:</strong></p>
-<p>If 50% market-driven: "Half is market vol — can't hedge the market being volatile. Options: reduce beta to 0.7 (costs $X in expected return) or accept and tighten stops."</p>
-<p>If 25% concentration: "XOM is contributing 25% of excess vol. Trimming by 20% reduces portfolio vol from 15.6% to 14.2%. Cost: $50K in transaction costs."</p>
+<p>If 50% market-driven: "Half is market vol — can't hedge the market being volatile. Options: reduce beta to 0.7 (costs <span class="nokatex">$</span>X in expected return) or accept and tighten stops."</p>
+<p>If 25% concentration: "XOM is contributing 25% of excess vol. Trimming by 20% reduces portfolio vol from 15.6% to 14.2%. Cost: <span class="nokatex">$</span>50K in transaction costs."</p>
 <p>If 20% correlation: "Your equity and credit books are now ρ = 0.6, up from 0.3 last month. Diversification benefit has collapsed. Either reduce one leg or find a genuinely uncorrelated hedge."</p>
 <p><strong>Recommendation format:</strong> "Vol is 30% above target. Decomposition: 50% market, 25% concentration, 20% correlation, 5% leverage. To return to target: (A) trim XOM 20% + reduce credit to half → vol drops to 12.8%, or (B) accept elevated vol with IC sign-off and tighter stops. I recommend (A)."</p>
 <h2 id="playbook-4-hawkish-fed-surprise">Playbook 4: Hawkish Fed Surprise</h2>
@@ -795,36 +795,36 @@ KILL CONDITION: [Specific data/price that would make me change this]
 <td><strong>Base (45%)</strong>: Orderly repricing</td>
 <td>1-2 weeks</td>
 <td>SPX -3%, 10Y +15bp total</td>
-<td>-$2.5M</td>
+<td>-<span class="nokatex">$</span>2.5M</td>
 <td>Monitor, no panic</td>
 </tr>
 <tr>
 <td><strong>Adverse (35%)</strong>: Hawkish repricing cascade</td>
 <td>2-4 weeks</td>
 <td>SPX -6%, 10Y +30bp, credit widens</td>
-<td>-$5.5M</td>
+<td>-<span class="nokatex">$</span>5.5M</td>
 <td>Reduce duration + equity, add tail hedge</td>
 </tr>
 <tr>
 <td><strong>Extreme (20%)</strong>: Stagflation narrative</td>
 <td>1-3 months</td>
 <td>SPX -12%, 10Y +50bp, HY +150bp</td>
-<td>-$12M</td>
+<td>-<span class="nokatex">$</span>12M</td>
 <td>Full de-risk. Emergency IC. Review all PM allocations.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="playbook-5-correlation-spike-all-pms-down-simultaneously">Playbook 5: Correlation Spike — All PMs Down Simultaneously</h2>
-<p><strong>Facts:</strong> 4 out of 5 PMs down on same day. "Diversified" books all bleeding. Aggregate loss: -$8M (-1.6% NAV).</p>
+<p><strong>Facts:</strong> 4 out of 5 PMs down on same day. "Diversified" books all bleeding. Aggregate loss: -<span class="nokatex">$</span>8M (-1.6% NAV).</p>
 <p><strong>THIS IS THE MOST DANGEROUS SCENARIO.</strong> Each PM thinks they have an idiosyncratic loss. The aggregate is a systemic exposure nobody authorized.</p>
 <p><strong>Diagnostic:</strong><br />
 1. Factor decomposition: regress each PM's daily P&amp;L against {SPX, Oil, 10Y, DXY, HY CDX}<br />
 2. Find the common loading: "All 4 PMs have effective oil beta between 0.3 and 0.8"<br />
-3. Aggregate: "Collectively, we have $400M effective oil exposure across PMs who each think they have $80M of 'independent' risk"<br />
+3. Aggregate: "Collectively, we have <span class="nokatex">$</span>400M effective oil exposure across PMs who each think they have <span class="nokatex">$</span>80M of 'independent' risk"<br />
 4. The REAL portfolio VaR is 2-3x what the sum-of-parts suggests</p>
-<p><strong>Communication:</strong> "Four PMs down today totaling -$8M. Factor decomposition shows the common driver is effective oil exposure: aggregate $400M vs the $150M that shows up in position-level reports. Diversification assumptions are overstating risk-adjusted capacity by 2.5x. I recommend an emergency aggregation review with the CRO. Short-term fix: reduce the book with the highest marginal oil sensitivity by 30%."</p>
+<p><strong>Communication:</strong> "Four PMs down today totaling -<span class="nokatex">$</span>8M. Factor decomposition shows the common driver is effective oil exposure: aggregate <span class="nokatex">$</span>400M vs the <span class="nokatex">$</span>150M that shows up in position-level reports. Diversification assumptions are overstating risk-adjusted capacity by 2.5x. I recommend an emergency aggregation review with the CRO. Short-term fix: reduce the book with the highest marginal oil sensitivity by 30%."</p>
 <h2 id="playbook-6-margin-call">Playbook 6: Margin Call</h2>
-<p><strong>Facts:</strong> Overnight margin recalculation. Broker requires additional $15M by 2PM. Current excess margin: $5M. Shortfall: $10M.</p>
+<p><strong>Facts:</strong> Overnight margin recalculation. Broker requires additional <span class="nokatex">$</span>15M by 2PM. Current excess margin: <span class="nokatex">$</span>5M. Shortfall: <span class="nokatex">$</span>10M.</p>
 <p><strong>Triage framework (90 minutes to execute):</strong></p>
 <table>
 <thead>
@@ -848,7 +848,7 @@ KILL CONDITION: [Specific data/price that would make me change this]
 <tr>
 <td>3. Triage</td>
 <td>T+20 to T+40min</td>
-<td>Identify cheapest $10M to liquidate: low-conviction positions, liquid names, pairs where only one leg has margin efficiency</td>
+<td>Identify cheapest <span class="nokatex">$</span>10M to liquidate: low-conviction positions, liquid names, pairs where only one leg has margin efficiency</td>
 </tr>
 <tr>
 <td>4. Simulate</td>
@@ -905,7 +905,7 @@ KILL CONDITION: [Specific data/price that would make me change this]
 </tbody>
 </table>
 <h2 id="playbook-7-credit-event-major-issuer-downgrade">Playbook 7: Credit Event (Major Issuer Downgrade)</h2>
-<p><strong>Facts:</strong> XYZ Corp downgraded from BBB- to BB+ (fallen angel). $20B of bonds must be sold by IG mandates. Stock -15%. CDS widens 200bp.</p>
+<p><strong>Facts:</strong> XYZ Corp downgraded from BBB- to BB+ (fallen angel). <span class="nokatex">$</span>20B of bonds must be sold by IG mandates. Stock -15%. CDS widens 200bp.</p>
 <p><strong>Transmission:</strong><br />
 - Direct: any XYZ exposure in bond or equity books<br />
 - Forced selling: IG-only funds must liquidate → price overshoots fundamentals<br />
@@ -988,13 +988,13 @@ KILL CONDITION: [Specific data/price that would make me change this]
 <h3 id="reverse-stress-testing">Reverse Stress Testing</h3>
 <p>Instead of "what happens if oil moves X" → ask "<strong>what scenario causes us to lose Y%?</strong>"</p>
 <p><strong>Process:</strong><br />
-1. Set the loss threshold (e.g., 5% NAV = $25M)<br />
+1. Set the loss threshold (e.g., 5% NAV = <span class="nokatex">$</span>25M)<br />
 2. Identify the portfolio's factor sensitivities<br />
-3. Work backwards: what combination of moves produces -$25M?<br />
+3. Work backwards: what combination of moves produces -<span class="nokatex">$</span>25M?<br />
 4. Ask: how plausible is that combination? Has it happened historically?</p>
 <p><strong>Example:</strong></p>
 <blockquote>
-<p>$25M loss requires: SPX -7% AND oil +20% AND credit widening 50bp simultaneously.<br />
+<p><span class="nokatex">$</span>25M loss requires: SPX -7% AND oil +20% AND credit widening 50bp simultaneously.<br />
 Historical precedent: October 2018 (SPX -7%, oil -11%, credit +40bp) — partial match.<br />
 Assessment: The exact combination is rare but the individual components have hit these levels 3x in 5 years. Under stress, they're CORRELATED, making the joint probability higher than independence suggests.</p>
 </blockquote>
@@ -1015,7 +1015,7 @@ Assessment: The exact combination is rare but the individual components have hit
 <td>85% → diversification fails</td>
 </tr>
 <tr>
-<td>Oil &gt; $130</td>
+<td>Oil &gt; <span class="nokatex">$</span>130</td>
 <td>Core CPI MoM &gt; 0.4% within 3 months</td>
 <td>65% → Fed can't cut</td>
 </tr>
@@ -1041,11 +1041,11 @@ Assessment: The exact combination is rare but the individual components have hit
 <p><strong>Path-dependent scenario template:</strong><br />
 | Day | Event | Market | Portfolio P&amp;L | Cumulative | Margin |<br />
 |---|---|---|---|---|---|<br />
-| 1 | Oil +4% | SPX -1.5% | -$1.2M | -$1.2M | 72% |<br />
-| 2 | Further escalation | SPX -2.0% | -$1.8M | -$3.0M | 79% |<br />
-| 3 | Margin call triggered | Forced selling at bad levels | -$2.5M | -$5.5M | 85% |<br />
-| 4 | Contagion to credit | HY widens 50bp, IG +20bp | -$1.5M | -$7.0M | 88% |<br />
-| 5 | Capitulation selling | SPX -3% on volume | -$3.0M | -$10.0M | 94% ⚠️ |</p>
+| 1 | Oil +4% | SPX -1.5% | -<span class="nokatex">$</span>1.2M | -<span class="nokatex">$</span>1.2M | 72% |<br />
+| 2 | Further escalation | SPX -2.0% | -<span class="nokatex">$</span>1.8M | -<span class="nokatex">$</span>3.0M | 79% |<br />
+| 3 | Margin call triggered | Forced selling at bad levels | -<span class="nokatex">$</span>2.5M | -<span class="nokatex">$</span>5.5M | 85% |<br />
+| 4 | Contagion to credit | HY widens 50bp, IG +20bp | -<span class="nokatex">$</span>1.5M | -<span class="nokatex">$</span>7.0M | 88% |<br />
+| 5 | Capitulation selling | SPX -3% on volume | -<span class="nokatex">$</span>3.0M | -<span class="nokatex">$</span>10.0M | 94% ⚠️ |</p>
 <p><strong>Key insight:</strong> The cumulative loss from a 5-day grind can be WORSE than a single 8% crash, because margin calls force liquidation at exactly the wrong time, locking in losses and removing the possibility of recovery. Path-dependent scenarios reveal this — point-in-time scenarios miss it.</p>
 <hr />
 <h1 id="part-4-cross-scenario-correlation-the-joint-risk-map">PART 4: CROSS-SCENARIO CORRELATION — THE JOINT RISK MAP</h1>
@@ -1098,7 +1098,7 @@ Assessment: The exact combination is rare but the individual components have hit
 <td>-3%</td>
 </tr>
 <tr>
-<td><strong>Oil +$20</strong></td>
+<td><strong>Oil +<span class="nokatex">$</span>20</strong></td>
 <td>-4% (inflation fear)</td>
 <td>+15bp (inflation)</td>
 <td>+10bp HY</td>
@@ -1107,7 +1107,7 @@ Assessment: The exact combination is rare but the individual components have hit
 </tr>
 </tbody>
 </table>
-<p><strong>How to use:</strong> When oil shocks, don't just model the oil impact. Use the row to estimate the JOINT scenario: oil +$20 → equity -4% → rates +15bp → credit +10bp → VIX +4. THEN compute portfolio P&amp;L across ALL channels simultaneously.</p>
+<p><strong>How to use:</strong> When oil shocks, don't just model the oil impact. Use the row to estimate the JOINT scenario: oil +<span class="nokatex">$</span>20 → equity -4% → rates +15bp → credit +10bp → VIX +4. THEN compute portfolio P&amp;L across ALL channels simultaneously.</p>
 <h3 id="regime-conditional-scenarios">Regime-Conditional Scenarios</h3>
 <p>The same shock has different impacts depending on the regime:</p>
 <table>
@@ -1135,7 +1135,7 @@ Assessment: The exact combination is rare but the individual components have hit
 <td>Systematic widening, fallen angel fears</td>
 </tr>
 <tr>
-<td>Oil +$10</td>
+<td>Oil +<span class="nokatex">$</span>10</td>
 <td>"Growth strong enough to absorb," equity resilient</td>
 <td>Stagflation narrative → equity -5% additional</td>
 </tr>
@@ -1304,7 +1304,7 @@ Assessment: The exact combination is rare but the individual components have hit
 </tr>
 </tbody>
 </table>
-<p><strong>How to reference in interviews:</strong> "When I design the extreme scenario for an oil supply shock, I calibrate against the 2014-16 experience where Brent fell 75% over 18 months and HY energy defaults exceeded 10%. Applied conversely to an upside oil shock, the magnitude and duration suggest our extreme scenario should include sustained $140+ oil and credit contagion to the broader market over months, not days."</p>
+<p><strong>How to reference in interviews:</strong> "When I design the extreme scenario for an oil supply shock, I calibrate against the 2014-16 experience where Brent fell 75% over 18 months and HY energy defaults exceeded 10%. Applied conversely to an upside oil shock, the magnitude and duration suggest our extreme scenario should include sustained <span class="nokatex">$</span>140+ oil and credit contagion to the broader market over months, not days."</p>
 <hr />
 <h1 id="part-7-scenario-communication-masterclass">PART 7: SCENARIO COMMUNICATION MASTERCLASS</h1>
 <h3 id="the-3-audiences-3-formats">The 3 Audiences, 3 Formats</h3>
@@ -1342,9 +1342,9 @@ Assessment: The exact combination is rare but the individual components have hit
 <p>Memorize this structure:</p>
 <blockquote>
 <p>"Three things you need to know about [event]:<br />
-One — your direct P&amp;L from this move is [±$X]. That puts you at [Y%] of your drawdown limit.<br />
-Two — the bigger risk isn't today, it's the adverse scenario where [Z happens]. That takes you to [-$W], which is [V%] of your hard limit.<br />
-Three — I recommend [specific action]. It costs [$K] and reduces your tail exposure by [N%]. Alternative: [brief option B]. Your call."</p>
+One — your direct P&amp;L from this move is [±<span class="nokatex">$</span>X]. That puts you at [Y%] of your drawdown limit.<br />
+Two — the bigger risk isn't today, it's the adverse scenario where [Z happens]. That takes you to [-<span class="nokatex">$</span>W], which is [V%] of your hard limit.<br />
+Three — I recommend [specific action]. It costs [<span class="nokatex">$</span>K] and reduces your tail exposure by [N%]. Alternative: [brief option B]. Your call."</p>
 </blockquote>
 <h3 id="written-scenario-brief-common-mistakes">Written Scenario Brief: Common Mistakes</h3>
 <table>
@@ -1369,12 +1369,12 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <tr>
 <td>"We should consider hedging"</td>
 <td>Vague, unactionable</td>
-<td>"Buy 1-month SPX 5800 puts. Cost: $180K. Payoff in extreme: $2.1M."</td>
+<td>"Buy 1-month SPX 5800 puts. Cost: <span class="nokatex">$</span>180K. Payoff in extreme: <span class="nokatex">$</span>2.1M."</td>
 </tr>
 <tr>
 <td>Not including the cost of inaction</td>
 <td>PM thinks doing nothing is free</td>
-<td>"If we don't hedge and the adverse scenario plays out, P&amp;L impact is -$5.2M. The hedge costs $200K. That's 26:1 risk-reward."</td>
+<td>"If we don't hedge and the adverse scenario plays out, P&amp;L impact is -<span class="nokatex">$</span>5.2M. The hedge costs <span class="nokatex">$</span>200K. That's 26:1 risk-reward."</td>
 </tr>
 <tr>
 <td>Missing the cross-asset impact</td>
@@ -1387,7 +1387,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <p>After writing any scenario analysis, ask: <strong>"So what?"</strong> If the answer isn't obvious, rewrite.</p>
 <ul>
 <li>❌ "VIX rose 5 points" → So what?</li>
-<li>✅ "VIX rose 5 points, which means your short-gamma position lost $800K in hedging slippage, and if VIX holds here for 3 more days, the monthly theta gain doesn't cover it. I recommend closing the short gamma."</li>
+<li>✅ "VIX rose 5 points, which means your short-gamma position lost <span class="nokatex">$</span>800K in hedging slippage, and if VIX holds here for 3 more days, the monthly theta gain doesn't cover it. I recommend closing the short gamma."</li>
 </ul>
 <hr />
 <h1 id="part-8-stress-testing-methodology">PART 8: STRESS TESTING METHODOLOGY</h1>
@@ -1460,7 +1460,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>0</td>
 <td>0bp</td>
 <td>0%</td>
-<td>$0</td>
+<td><span class="nokatex">$</span>0</td>
 <td>0.00%</td>
 </tr>
 <tr>
@@ -1472,7 +1472,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>+8</td>
 <td>+30bp</td>
 <td>+1%</td>
-<td>-$X</td>
+<td>-<span class="nokatex">$</span>X</td>
 <td></td>
 </tr>
 <tr>
@@ -1484,7 +1484,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>+4</td>
 <td>+15bp</td>
 <td>+1.5%</td>
-<td>-$Y</td>
+<td>-<span class="nokatex">$</span>Y</td>
 <td></td>
 </tr>
 <tr>
@@ -1496,7 +1496,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>+5</td>
 <td>+10bp</td>
 <td>-0.5%</td>
-<td>-$Z</td>
+<td>-<span class="nokatex">$</span>Z</td>
 <td></td>
 </tr>
 <tr>
@@ -1508,7 +1508,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>+6</td>
 <td>+100bp</td>
 <td>+1%</td>
-<td>-$W</td>
+<td>-<span class="nokatex">$</span>W</td>
 <td></td>
 </tr>
 <tr>
@@ -1520,7 +1520,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>-1</td>
 <td>-5bp</td>
 <td>-5%</td>
-<td>±$V</td>
+<td>±<span class="nokatex">$</span>V</td>
 <td></td>
 </tr>
 <tr>
@@ -1532,7 +1532,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>+15</td>
 <td>+40bp</td>
 <td>+1%</td>
-<td>-$U</td>
+<td>-<span class="nokatex">$</span>U</td>
 <td></td>
 </tr>
 <tr>
@@ -1544,7 +1544,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>+7</td>
 <td>+25bp</td>
 <td>+0.5%</td>
-<td>-$T</td>
+<td>-<span class="nokatex">$</span>T</td>
 <td></td>
 </tr>
 <tr>
@@ -1556,7 +1556,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>+20</td>
 <td>+80bp</td>
 <td>+2%</td>
-<td>-$S</td>
+<td>-<span class="nokatex">$</span>S</td>
 <td></td>
 </tr>
 <tr>
@@ -1568,12 +1568,12 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <td>-5</td>
 <td>-20bp</td>
 <td>-1%</td>
-<td>+$R</td>
+<td>+<span class="nokatex">$</span>R</td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Presentation insight:</strong> "Scenarios 2-9 all show losses between [$A] and [$B]. The worst is scenario 9 (liquidity freeze) at -$S, which consumes [X%] of our drawdown limit. The key vulnerability across all scenarios is our short-gamma position, which amplifies losses in 7 out of 8 stress scenarios."</p>
+<p><strong>Presentation insight:</strong> "Scenarios 2-9 all show losses between [<span class="nokatex">$</span>A] and [<span class="nokatex">$</span>B]. The worst is scenario 9 (liquidity freeze) at -<span class="nokatex">$</span>S, which consumes [X%] of our drawdown limit. The key vulnerability across all scenarios is our short-gamma position, which amplifies losses in 7 out of 8 stress scenarios."</p>
 <hr />
 <h1 id="part-9-scenario-analysis-in-the-interview">PART 9: SCENARIO ANALYSIS IN THE INTERVIEW</h1>
 <h3 id="what-theyre-testing">What They're Testing</h3>
@@ -1589,7 +1589,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <blockquote>
 <p>"First, I'd establish the facts: magnitude, percentile, co-movements. A 10% oil move on Brent is approximately a 4σ event — this is extreme. I'd check gold, rates, FX, and equity futures to understand whether the market is treating this as a temporary shock or a sustained supply disruption.</p>
 <p>Second, I'd map our exposure. Direct oil positions give me the P&amp;L immediately. But the bigger question is indirect exposure: our equity book has a negative beta to oil through airlines and consumer discretionary. I'd estimate the cross-asset drag as roughly -1.5% on our equity exposure per 5% oil move, based on historical sensitivity.</p>
-<p>Third, I'd build three scenarios. Base case — diplomatic resolution, oil retraces 50% of the move within a week. Adverse — further escalation, oil reaches $135, equity markets down 5%, correlation spike breaks our diversification. Extreme — full supply disruption, oil $150+, margin calls across the house, liquidity evaporates.</p>
+<p>Third, I'd build three scenarios. Base case — diplomatic resolution, oil retraces 50% of the move within a week. Adverse — further escalation, oil reaches <span class="nokatex">$</span>135, equity markets down 5%, correlation spike breaks our diversification. Extreme — full supply disruption, oil <span class="nokatex">$</span>150+, margin calls across the house, liquidity evaporates.</p>
 <p>For each, I'd compute the portfolio P&amp;L including second-order effects and present a one-page brief to the PM within 30 minutes. My recommendation would depend on the numbers, but generally I'd suggest locking in gains on any energy longs and buying put protection on the equity book for the adverse scenario. The cost-benefit ratio on puts after a vol spike isn't great, so I might look at put spreads or collars instead.</p>
 <p>I'd also set a kill condition: if oil retraces below the pre-spike level within 48 hours, I'd downgrade from adverse back to base and unwind the hedge."</p>
 </blockquote>
@@ -1660,37 +1660,37 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <tr>
 <td>Equity -2%</td>
 <td>SPX sensitivity → delta × -2% + gamma adj</td>
-<td>-$X</td>
+<td>-<span class="nokatex">$</span>X</td>
 <td>🟡 if &gt; 25% of DD limit</td>
 </tr>
 <tr>
 <td>Equity -5%</td>
 <td>Same + correlation stress</td>
-<td>-$Y</td>
+<td>-<span class="nokatex">$</span>Y</td>
 <td>🔴 if &gt; 50% of DD limit</td>
 </tr>
 <tr>
 <td>Rates +25bp</td>
 <td>DV01 × 25 + FX cross</td>
-<td>-$Z</td>
+<td>-<span class="nokatex">$</span>Z</td>
 <td>🟡/🔴</td>
 </tr>
 <tr>
 <td>Oil ±15%</td>
 <td>Oil sensitivity + equity beta</td>
-<td>-$W / +$V</td>
+<td>-<span class="nokatex">$</span>W / +<span class="nokatex">$</span>V</td>
 <td>🟡/🔴</td>
 </tr>
 <tr>
 <td>Vol spike (+10 VIX)</td>
 <td>Vega × 10 + gamma hedging cost</td>
-<td>-$U</td>
+<td>-<span class="nokatex">$</span>U</td>
 <td>🟡/🔴</td>
 </tr>
 <tr>
 <td>Correlation → 1</td>
 <td>Re-run portfolio VaR with ρ = 0.8 for all pairs</td>
-<td>-$T</td>
+<td>-<span class="nokatex">$</span>T</td>
 <td>🔴 if materially different from base VaR</td>
 </tr>
 </tbody>
@@ -1705,7 +1705,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <h3 id="q-walk-me-through-how-youd-run-a-stress-test-on-a-portfolio">Q: "Walk me through how you'd run a stress test on a portfolio."</h3>
 <blockquote>
 <p>"I follow a 7-step process. First, I'd establish the facts — what happened, magnitude, percentile rank, and co-movements across asset classes. Second, I map exposure — not just direct but indirect through beta, correlation, FX, volatility, and margin channels. Third, I build three scenarios — base, adverse, and extreme — each with specific price levels, not just 'bad' or 'worse.'</p>
-<p>Fourth, I quantify: for each scenario, I compute delta P&amp;L, gamma adjustment for any options, vega impact if vol changes, and the margin consequence. Fifth, I run a sensitivity grid — not just one point estimate, but the full surface. This reveals breakpoints: for instance, 'the oil level that breaches 50% of our drawdown limit is $133.'</p>
+<p>Fourth, I quantify: for each scenario, I compute delta P&amp;L, gamma adjustment for any options, vega impact if vol changes, and the margin consequence. Fifth, I run a sensitivity grid — not just one point estimate, but the full surface. This reveals breakpoints: for instance, 'the oil level that breaches 50% of our drawdown limit is <span class="nokatex">$</span>133.'</p>
 <p>Sixth, communication — a one-page brief: situation, P&amp;L impact, three scenarios, key risk, and a specific recommendation with cost. Finally, I set review triggers so the analysis stays current. The whole process takes about 30 minutes from event to deliverable."</p>
 </blockquote>
 <h3 id="q-how-do-you-decide-which-scenarios-to-present">Q: "How do you decide which scenarios to present?"</h3>
@@ -1717,7 +1717,7 @@ Three — I recommend [specific action]. It costs [$K] and reduces your tail exp
 <h3 id="q-whats-the-difference-between-a-good-and-a-bad-scenario-analysis">Q: "What's the difference between a good and a bad scenario analysis?"</h3>
 <blockquote>
 <p>"A bad scenario analysis tells you what happened. A good one tells you what to DO.</p>
-<p>Specifically, a bad analysis says: 'If oil rises 15%, we lose $3M.' That's a calculator output. A good analysis says: 'If oil rises 15%, we lose $3M, which consumes 40% of our drawdown limit. The breakpoint is oil $133 — at that level we're at 50%. The loss is concentrated in 3 positions through the equity beta channel. I recommend buying 2-week SPX 5800/5600 put spreads at a cost of $200K, which caps the adverse P&amp;L at $1.8M. If oil retraces below $118 within 48 hours, I'd unwind the protection.'</p>
+<p>Specifically, a bad analysis says: 'If oil rises 15%, we lose <span class="nokatex">$</span>3M.' That's a calculator output. A good analysis says: 'If oil rises 15%, we lose <span class="nokatex">$</span>3M, which consumes 40% of our drawdown limit. The breakpoint is oil <span class="nokatex">$</span>133 — at that level we're at 50%. The loss is concentrated in 3 positions through the equity beta channel. I recommend buying 2-week SPX 5800/5600 put spreads at a cost of <span class="nokatex">$</span>200K, which caps the adverse P&amp;L at <span class="nokatex">$</span>1.8M. If oil retraces below <span class="nokatex">$</span>118 within 48 hours, I'd unwind the protection.'</p>
 <p>The difference: quantified impact, breakpoint, concentration analysis, specific hedge structure with cost-benefit, and a kill condition. That's what separates a risk manager from a spreadsheet."</p>
 </blockquote>
 <hr />
@@ -1736,6 +1736,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

@@ -467,16 +467,16 @@ body {
 <p>This formula is ONLY valid if returns are independent and identically distributed (i.i.d.). When autocorrelation exists:</p>
 <p>$$\text{VaR}<em>{T\text{-day}} = \text{VaR}</em>{1\text{-day}} \times T^H$$</p>
 <p>where $H$ is the Hurst exponent:<br />
-- $H = 0.5$ → random walk (i.i.d.) → standard √T scaling<br />
-- $H &gt; 0.5$ → momentum (positive autocorrelation) → risk grows FASTER than √T<br />
-- $H &lt; 0.5$ → mean reversion → risk grows SLOWER than √T</p>
+- <span class="nokatex">$</span>H = 0.5$ → random walk (i.i.d.) → standard √T scaling<br />
+- <span class="nokatex">$</span>H &gt; 0.5$ → momentum (positive autocorrelation) → risk grows FASTER than √T<br />
+- <span class="nokatex">$</span>H &lt; 0.5$ → mean reversion → risk grows SLOWER than √T</p>
 <p><strong>Worked example:</strong></p>
 <blockquote>
-<p>1-day VaR = $1M. What's 10-day VaR?</p>
+<p>1-day VaR = <span class="nokatex">$</span>1M. What's 10-day VaR?</p>
 <ul>
-<li>If H = 0.5 (i.i.d.): $1M × 10^0.5 = <strong>$3.16M</strong></li>
-<li>If H = 0.7 (momentum): $1M × 10^0.7 = <strong>$5.01M</strong> (58% higher!)</li>
-<li>If H = 0.3 (mean reversion): $1M × 10^0.3 = <strong>$2.00M</strong> (37% lower)</li>
+<li>If H = 0.5 (i.i.d.): <span class="nokatex">$</span>1M × 10^0.5 = <strong><span class="nokatex">$</span>3.16M</strong></li>
+<li>If H = 0.7 (momentum): <span class="nokatex">$</span>1M × 10^0.7 = <strong><span class="nokatex">$</span>5.01M</strong> (58% higher!)</li>
+<li>If H = 0.3 (mean reversion): <span class="nokatex">$</span>1M × 10^0.3 = <strong><span class="nokatex">$</span>2.00M</strong> (37% lower)</li>
 </ul>
 <p><strong>The same portfolio has 2.5x different 10-day risk depending on autocorrelation structure.</strong></p>
 </blockquote>
@@ -830,9 +830,9 @@ After the -2.8% day, EWMA vol jumps significantly — the model "reacts" to the 
 <p><strong>Worked example — interpreting PCA for risk:</strong></p>
 <blockquote>
 <p>Your rates portfolio has the following exposures:<br />
-- PC1 (level) DV01: +$50K/bp → long duration, hurt by rising rates<br />
-- PC2 (slope) DV01: -$200K/bp → positioned for curve flattening<br />
-- PC3 (curvature) DV01: +$30K/bp → butterfly trade, long wings</p>
+- PC1 (level) DV01: +<span class="nokatex">$</span>50K/bp → long duration, hurt by rising rates<br />
+- PC2 (slope) DV01: -<span class="nokatex">$</span>200K/bp → positioned for curve flattening<br />
+- PC3 (curvature) DV01: +<span class="nokatex">$</span>30K/bp → butterfly trade, long wings</p>
 <p><strong>Interpretation:</strong> This portfolio is 4x more sensitive to the slope than to the level. The dominant risk isn't "rates going up" — it's "curve steepening." Your stress test should focus on steepener scenarios, not parallel shifts.</p>
 <p><strong>The standard mistake:</strong> Running a +100bp parallel shift stress test and concluding the portfolio is fine. A +50bp steepener would do much more damage.</p>
 </blockquote>
@@ -892,8 +892,8 @@ After the -2.8% day, EWMA vol jumps significantly — the model "reacts" to the 
 </table>
 <p><strong>Why factor decomposition matters for the RM:</strong></p>
 <p>If a PM claims to generate alpha but their returns are 90% explained by factor exposures, they're not adding value — they're just loading on systematic factors. You could replicate that exposure more cheaply with factor ETFs.</p>
-<p>$$R_p = \alpha + \beta_1 F_1 + \beta_2 F_2 + ... + \beta_k F_k + \epsilon$$</p>
-<p><strong>The test:</strong> Run a multi-factor regression on PM returns. If the adjusted $R^2 &gt; 0.80$ and $\alpha$ is not statistically significant, the PM is a closet beta manager.</p>
+<p>$<span class="nokatex">$</span>R_p = \alpha + \beta_1 F_1 + \beta_2 F_2 + ... + \beta_k F_k + \epsilon$$</p>
+<p><strong>The test:</strong> Run a multi-factor regression on PM returns. If the adjusted <span class="nokatex">$</span>R^2 &gt; 0.80$ and $\alpha$ is not statistically significant, the PM is a closet beta manager.</p>
 <p><strong>Cross-PM factor overlap — the portfolio-level risk:</strong></p>
 <blockquote>
 <p>PM A: long tech momentum, factor exposure = [Market +1.2, Momentum +0.8, Size -0.3]<br />
@@ -1088,7 +1088,7 @@ PM B: long biotech momentum, factor exposure = [Market +1.0, Momentum +0.9, Size
 <p><strong>Kupiec test (unconditional coverage):</strong><br />
 Tests whether the breach rate matches the expected probability. Under H₀ (model is correct):</p>
 <p>$$\text{LR}_\text{uc} = -2 \ln!!\left[\frac{(1-p)^{T-N} \cdot p^N}{(1-\hat{p})^{T-N} \cdot \hat{p}^N}\right] \sim \chi^2_1$$</p>
-<p>where $p$ = expected breach rate (0.01 for 99% VaR), $\hat{p}$ = observed breach rate = $N/T$.</p>
+<p>where $p$ = expected breach rate (0.01 for 99% VaR), $\hat{p}$ = observed breach rate = <span class="nokatex">$</span>N/T$.</p>
 <p><strong>Christoffersen test (conditional coverage):</strong><br />
 Tests not just frequency but CLUSTERING. If all 4 breaches happen in one week, the model is failing to capture vol clustering. Independence of breaches matters as much as their number.</p>
 <p><strong>Practical interpretation:</strong><br />
@@ -1268,8 +1268,8 @@ The quant should show <strong>walk-forward (out-of-sample) performance</strong>,
 <p><strong>Worked example:</strong></p>
 <blockquote>
 <p>Portfolio: short 1000 SPX put options, delta-hedged.<br />
-- Delta-normal VaR (99%, 1-day): $2.3M (only uses delta)<br />
-- Monte Carlo VaR (99%, 1-day, 10,000 paths): $4.8M (captures gamma acceleration on large down moves)<br />
+- Delta-normal VaR (99%, 1-day): <span class="nokatex">$</span>2.3M (only uses delta)<br />
+- Monte Carlo VaR (99%, 1-day, 10,000 paths): <span class="nokatex">$</span>4.8M (captures gamma acceleration on large down moves)<br />
 - <strong>VaR is understated by 2x when gamma is significant</strong></p>
 </blockquote>
 <h2 id="monte-carlo-pitfalls">Monte Carlo Pitfalls</h2>
@@ -1299,7 +1299,7 @@ The quant should show <strong>walk-forward (out-of-sample) performance</strong>,
 </tr>
 <tr>
 <td>False precision</td>
-<td>Reporting "$4,832,419 VaR" from MC with 10K paths</td>
+<td>Reporting "<span class="nokatex">$</span>4,832,419 VaR" from MC with 10K paths</td>
 <td>Round to appropriate precision; report confidence intervals</td>
 </tr>
 <tr>
@@ -1316,7 +1316,7 @@ The quant should show <strong>walk-forward (out-of-sample) performance</strong>,
 <h2 id="the-two-fundamental-theorems">The Two Fundamental Theorems</h2>
 <h3 id="1-block-maxima-generalized-extreme-value-gev-distribution">1. Block Maxima → Generalized Extreme Value (GEV) distribution</h3>
 <p>Divide your data into blocks (e.g., months). The maximum loss per block follows a GEV distribution:</p>
-<p>$$F_\text{GEV}(x) = \exp\left{-\left[1 + \xi \left(\frac{x - \mu}{\sigma}\right)\right]^{-1/\xi}\right}$$</p>
+<p>$<span class="nokatex">$</span>F_\text{GEV}(x) = \exp\left{-\left[1 + \xi \left(\frac{x - \mu}{\sigma}\right)\right]^{-1/\xi}\right}$$</p>
 <p>The <strong>shape parameter ξ</strong> (xi) controls the tail behavior:<br />
 - ξ &gt; 0: Fréchet → heavy tail (typical for financial returns — ξ ≈ 0.2-0.4)<br />
 - ξ = 0: Gumbel → exponential tail (lighter)<br />
@@ -1331,10 +1331,10 @@ The quant should show <strong>walk-forward (out-of-sample) performance</strong>,
 <p><strong>Practical application:</strong></p>
 <blockquote>
 <p>Using GPD fitted to daily losses beyond the 95th percentile:<br />
-- 99.0% VaR (normal model): $15M<br />
-- 99.0% VaR (GPD model): $22M (47% higher)<br />
-- 99.9% VaR (normal model): $22M<br />
-- 99.9% VaR (GPD model): $45M (105% higher!)</p>
+- 99.0% VaR (normal model): <span class="nokatex">$</span>15M<br />
+- 99.0% VaR (GPD model): <span class="nokatex">$</span>22M (47% higher)<br />
+- 99.9% VaR (normal model): <span class="nokatex">$</span>22M<br />
+- 99.9% VaR (GPD model): <span class="nokatex">$</span>45M (105% higher!)</p>
 <p><strong>The further into the tail you go, the more the normal model underestimates.</strong></p>
 </blockquote>
 <p><strong>RM question:</strong> <em>"For our tail risk estimates, are we using normal quantiles or EVT quantiles? What's the estimated ξ for our portfolio's loss distribution?"</em></p>
@@ -1424,9 +1424,9 @@ The quant should show <strong>walk-forward (out-of-sample) performance</strong>,
 <p>$$\text{VaR}<em>{\text{true}} = P(\text{calm}) \times \text{VaR}</em>{\text{calm}} + P(\text{stress}) \times \text{VaR}_{\text{stress}}$$</p>
 <p>If you're 80% likely to be in the calm regime:</p>
 <blockquote>
-<p>VaR (averaging) = 0.8 × $5M + 0.2 × $15M = $7M</p>
+<p>VaR (averaging) = 0.8 × <span class="nokatex">$</span>5M + 0.2 × <span class="nokatex">$</span>15M = <span class="nokatex">$</span>7M</p>
 <p>But if you're ACTUALLY in the stress regime (you just don't know it yet):<br />
-True VaR = $15M — more than double the blended estimate</p>
+True VaR = <span class="nokatex">$</span>15M — more than double the blended estimate</p>
 </blockquote>
 <p><strong>RM question:</strong> <em>"What regime does the model think we're in right now? What's the probability we've transitioned to a stress regime? How different is VaR conditional on stress vs. calm?"</em></p>
 <h2 id="regime-switching-indicators-practical">Regime-Switching Indicators (Practical)</h2>
@@ -1685,8 +1685,8 @@ True VaR = $15M — more than double the blended estimate</p>
 <td>Pushback in strategy approval</td>
 </tr>
 <tr>
-<td>Monte Carlo VaR = $2M, tail event = $20M</td>
-<td>"99% VaR is $2M"</td>
+<td>Monte Carlo VaR = <span class="nokatex">$</span>2M, tail event = <span class="nokatex">$</span>20M</td>
+<td>"99% VaR is <span class="nokatex">$</span>2M"</td>
 <td>"The tail risk is 10x the VaR. We need ES or tail scenarios, not just VaR"</td>
 <td>Supplementary risk metrics reporting</td>
 </tr>
@@ -1766,8 +1766,8 @@ True VaR = $15M — more than double the blended estimate</p>
 <h1 id="part-12-interview-answers-quant-mindset">PART 12: INTERVIEW ANSWERS — QUANT MINDSET</h1>
 <h3 id="q-whats-the-most-important-thing-you-understand-about-quantitative-models">Q: "What's the most important thing you understand about quantitative models?"</h3>
 <blockquote>
-<p>"That models are maps, not territory. A VaR model that says our 99% daily loss is $5M is making three assumptions that are almost certainly wrong to some degree: that returns are drawn from a specific distribution, that correlations are stable, and that positions can be liquidated at current market prices.</p>
-<p>But that doesn't make the model useless — it makes it a starting point. The number $5M tells me something about relative risk: if it was $3M last week and $5M today, risk has increased ~67%, and I need to understand why. If three PMs all show decreasing VaR but the house VaR is increasing, there's a correlation shift I need to investigate.</p>
+<p>"That models are maps, not territory. A VaR model that says our 99% daily loss is <span class="nokatex">$</span>5M is making three assumptions that are almost certainly wrong to some degree: that returns are drawn from a specific distribution, that correlations are stable, and that positions can be liquidated at current market prices.</p>
+<p>But that doesn't make the model useless — it makes it a starting point. The number <span class="nokatex">$</span>5M tells me something about relative risk: if it was <span class="nokatex">$</span>3M last week and <span class="nokatex">$</span>5M today, risk has increased ~67%, and I need to understand why. If three PMs all show decreasing VaR but the house VaR is increasing, there's a correlation shift I need to investigate.</p>
 <p>I think the RM's skill is using the model output as an information signal while knowing its specific failure modes. For example, VaR systematically understates risk during regime transitions and for portfolios with negative gamma. So I'd supplement VaR with stressed scenarios and Expected Shortfall, and flag any delta-hedged options books where gamma risk is being hidden by a delta-normal VaR approximation."</p>
 </blockquote>
 <h3 id="q-how-would-you-evaluate-whether-a-quants-model-is-trustworthy">Q: "How would you evaluate whether a quant's model is trustworthy?"</h3>
@@ -2008,6 +2008,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

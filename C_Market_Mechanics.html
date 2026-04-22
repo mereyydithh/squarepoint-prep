@@ -414,7 +414,7 @@ body {
 </code></pre></div>
 
 <h3 id="step-1-order-decision">Step 1 — Order Decision</h3>
-<p>The PM decides to buy 50,000 shares of XOM at ~$115. The execution desk assesses: current ADV ≈ 20M shares/day, so 50K is 0.25% of ADV — no market impact concern. But if the order were 5M shares (25% ADV), the approach changes completely.</p>
+<p>The PM decides to buy 50,000 shares of XOM at ~<span class="nokatex">$</span>115. The execution desk assesses: current ADV ≈ 20M shares/day, so 50K is 0.25% of ADV — no market impact concern. But if the order were 5M shares (25% ADV), the approach changes completely.</p>
 <h3 id="step-2-order-placement-order-types">Step 2 — Order Placement &amp; Order Types</h3>
 <blockquote>
 <p><strong>One-liner:</strong> The order type you choose determines whether you prioritize speed or price — and the wrong choice in the wrong market can cost you millions.</p>
@@ -527,10 +527,10 @@ body {
 </table>
 <p><strong>Market impact cost — the hidden tax:</strong><br />
 If you're buying 500K shares of a mid-cap stock (ADV = 2M), your buying pressure itself pushes the price up. Suppose you buy all day at 25% POV:<br />
-- Shares 1–100K: filled at $50.00–$50.05 (barely noticed)<br />
-- Shares 100K–300K: filled at $50.05–$50.20 (market starts sensing the buyer)<br />
-- Shares 300K–500K: filled at $50.20–$50.40 (aggressive sellers pull back, market adjusts)<br />
-- Your VWAP: ~$50.18 vs arrival price of $50.00 → market impact cost = 36bps ($90K on $25M notional)</p>
+- Shares 1–100K: filled at <span class="nokatex">$</span>50.00–<span class="nokatex">$</span>50.05 (barely noticed)<br />
+- Shares 100K–300K: filled at <span class="nokatex">$</span>50.05–<span class="nokatex">$</span>50.20 (market starts sensing the buyer)<br />
+- Shares 300K–500K: filled at <span class="nokatex">$</span>50.20–<span class="nokatex">$</span>50.40 (aggressive sellers pull back, market adjusts)<br />
+- Your VWAP: ~<span class="nokatex">$</span>50.18 vs arrival price of <span class="nokatex">$</span>50.00 → market impact cost = 36bps (<span class="nokatex">$</span>90K on <span class="nokatex">$</span>25M notional)</p>
 <p>This is called <strong>slippage</strong> and it can eat into returns more than commissions for any fund of meaningful size.</p>
 <h3 id="step-4-clearing">Step 4 — Clearing</h3>
 <blockquote>
@@ -622,7 +622,7 @@ If a clearing member defaults, the CCP uses this sequence to absorb losses:<br /
 <tr>
 <td>FX spot</td>
 <td><strong>T+2</strong></td>
-<td>CLS Bank settles ~$6T/day, eliminating "Herstatt risk" (time zone mismatch).</td>
+<td>CLS Bank settles ~<span class="nokatex">$</span>6T/day, eliminating "Herstatt risk" (time zone mismatch).</td>
 </tr>
 <tr>
 <td>Futures</td>
@@ -741,7 +741,7 @@ If a clearing member defaults, the CCP uses this sequence to absorb losses:<br /
 </tr>
 <tr>
 <td><strong>Minimum transfer amount (MTA)</strong></td>
-<td>Don't bother exchanging collateral for tiny moves. Typical: $500K–$1M</td>
+<td>Don't bother exchanging collateral for tiny moves. Typical: <span class="nokatex">$</span>500K–<span class="nokatex">$</span>1M</td>
 <td>Reduces operational burden but creates small uncollateralized gaps</td>
 </tr>
 <tr>
@@ -762,7 +762,7 @@ If a clearing member defaults, the CCP uses this sequence to absorb losses:<br /
 <tr>
 <td><strong>Rehypothecation</strong></td>
 <td>Can the collateral receiver RE-USE posted collateral (lend it, pledge it)?</td>
-<td>If yes: more capital efficient. If the receiver defaults: your collateral may be gone. Lehman's collapse trapped $65B+ of rehypothecated client collateral.</td>
+<td>If yes: more capital efficient. If the receiver defaults: your collateral may be gone. Lehman's collapse trapped <span class="nokatex">$</span>65B+ of rehypothecated client collateral.</td>
 </tr>
 </tbody>
 </table>
@@ -791,19 +791,19 @@ If a clearing member defaults, the CCP uses this sequence to absorb losses:<br /
 <td><strong>Initial margin (IM)</strong></td>
 <td>Deposit required to OPEN a position. Performance bond against future losses.</td>
 <td>At trade inception</td>
-<td>Futures: 5-15% of notional. E-mini S&amp;P: ~$13K on $270K notional.</td>
+<td>Futures: 5-15% of notional. E-mini S&amp;P: ~<span class="nokatex">$</span>13K on <span class="nokatex">$</span>270K notional.</td>
 </tr>
 <tr>
 <td><strong>Variation margin (VM)</strong></td>
 <td>Daily mark-to-market settlement. Losing side pays, winning side receives.</td>
 <td>Daily (or intraday in extreme moves)</td>
-<td>You're short oil at $75. Oil goes to $77. You owe $2 × 1,000 barrels = $2,000 per contract.</td>
+<td>You're short oil at <span class="nokatex">$</span>75. Oil goes to <span class="nokatex">$</span>77. You owe <span class="nokatex">$</span>2 × 1,000 barrels = <span class="nokatex">$</span>2,000 per contract.</td>
 </tr>
 <tr>
 <td><strong>Maintenance margin</strong></td>
 <td>The MINIMUM margin level you must maintain. Below this → margin call.</td>
 <td>Ongoing monitoring</td>
-<td>IM = $13,000, maintenance = $10,500. Account drops to $9,000 → margin call for $4,000 (back to IM).</td>
+<td>IM = <span class="nokatex">$</span>13,000, maintenance = <span class="nokatex">$</span>10,500. Account drops to <span class="nokatex">$</span>9,000 → margin call for <span class="nokatex">$</span>4,000 (back to IM).</td>
 </tr>
 </tbody>
 </table>
@@ -853,16 +853,16 @@ If a clearing member defaults, the CCP uses this sequence to absorb losses:<br /
 </code></pre></div>
 
 <p><strong>Real examples:</strong><br />
-- <strong>March 2020 Treasury basis trade:</strong> Hedge funds leveraged 50-100x (via repo), long cash Treasuries, short Treasury futures. Margin calls spiked → forced selling of "safe" assets into an illiquid market → Treasury prices dropped (yields spiked) → more margin calls. The Fed bought $1T+ of Treasuries to stop the spiral.<br />
+- <strong>March 2020 Treasury basis trade:</strong> Hedge funds leveraged 50-100x (via repo), long cash Treasuries, short Treasury futures. Margin calls spiked → forced selling of "safe" assets into an illiquid market → Treasury prices dropped (yields spiked) → more margin calls. The Fed bought <span class="nokatex">$</span>1T+ of Treasuries to stop the spiral.<br />
 - <strong>LME Nickel, March 2022:</strong> Tsingshan's short position faced margin calls as nickel doubled. LME cancelled trades, suspended the market for a week — breaking market integrity to prevent a clearing member default.<br />
-- <strong>Archegos, March 2021:</strong> TRS positions concentrated in a few stocks. One stock dropped → margin call → couldn't pay → prime brokers liquidated → fire-sale of $30B+ in positions crashed other names → contagion to Credit Suisse ($5.5B loss), Nomura ($3B loss).</p>
+- <strong>Archegos, March 2021:</strong> TRS positions concentrated in a few stocks. One stock dropped → margin call → couldn't pay → prime brokers liquidated → fire-sale of <span class="nokatex">$</span>30B+ in positions crashed other names → contagion to Credit Suisse (<span class="nokatex">$</span>5.5B loss), Nomura (<span class="nokatex">$</span>3B loss).</p>
 <h2 id="pro-cyclical-margin-the-design-flaw">Pro-Cyclical Margin — The Design Flaw</h2>
 <blockquote>
 <p><strong>One-liner:</strong> Exchanges raise margin requirements when volatility spikes — demanding more cash from you exactly when your positions are losing money and markets are illiquid.</p>
 </blockquote>
-<p>In calm markets (VIX 12): E-mini IM ≈ $10,000. Exchange says: "Low risk, low margin."<br />
-In volatile markets (VIX 40): E-mini IM ≈ $25,000. Exchange says: "High risk, need more collateral."</p>
-<p><strong>The problem:</strong> That $15,000 increase hits EVERY contract you hold into a spike. If you have 200 contracts: that's an additional $3M in margin needed — exactly when your positions are losing money, your credit lines are maxed, and everyone else is scrambling for cash too.</p>
+<p>In calm markets (VIX 12): E-mini IM ≈ <span class="nokatex">$</span>10,000. Exchange says: "Low risk, low margin."<br />
+In volatile markets (VIX 40): E-mini IM ≈ <span class="nokatex">$</span>25,000. Exchange says: "High risk, need more collateral."</p>
+<p><strong>The problem:</strong> That <span class="nokatex">$</span>15,000 increase hits EVERY contract you hold into a spike. If you have 200 contracts: that's an additional <span class="nokatex">$</span>3M in margin needed — exactly when your positions are losing money, your credit lines are maxed, and everyone else is scrambling for cash too.</p>
 <p><strong>Regulatory response:</strong> Post-2008 reforms introduced anti-procyclicality buffers — CCPs must set floors below which margin can't fall, and use longer lookback periods so margin doesn't spike as violently. But the fundamental tension remains.</p>
 <hr />
 <h1 id="part-4-repo-the-plumbing-of-financial-markets">PART 4: REPO — THE PLUMBING OF FINANCIAL MARKETS</h1>
@@ -871,13 +871,13 @@ In volatile markets (VIX 40): E-mini IM ≈ $25,000. Exchange says: "High risk, 
 </blockquote>
 <h2 id="how-repo-works">How Repo Works</h2>
 <div class="highlight"><pre><span></span><code>Day 1 (trading):
-  Fund A: sells $100M of Treasuries to Dealer B
-  Dealer B: pays Fund A $99M (haircut = $1M = 1%)
-  Fund A now has $99M cash to deploy
+  Fund A: sells &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;100M of Treasuries to Dealer B
+  Dealer B: pays Fund A &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;99M (haircut = &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;1M = 1%)
+  Fund A now has &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;99M cash to deploy
 
 Day 2 (maturity):
   Fund A: buys back Treasuries from Dealer B
-  Fund A: pays $99M + interest ($99M × repo rate × days/360)
+  Fund A: pays &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;99M + interest (&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;99M × repo rate × days/360)
   Dealer B: returns the Treasuries
 </code></pre></div>
 
@@ -899,7 +899,7 @@ Day 2 (maturity):
 </tr>
 <tr>
 <td><strong>Haircut</strong></td>
-<td>% discount applied to collateral value. $100M bonds → receive $99M cash.</td>
+<td>% discount applied to collateral value. <span class="nokatex">$</span>100M bonds → receive <span class="nokatex">$</span>99M cash.</td>
 <td>UST: 1-2%. IG corporates: 3-5%. HY: 10-25%. Equities: 15-25%.</td>
 </tr>
 <tr>
@@ -920,14 +920,14 @@ Day 2 (maturity):
 </tbody>
 </table>
 <h2 id="reverse-repo">Reverse Repo</h2>
-<p>The mirror image: you LEND cash and receive securities as collateral. The Fed's Reverse Repo Facility (ON RRP) became a $2T+ parking facility — money market funds lent cash to the Fed overnight and received Treasuries as collateral, effectively setting a floor on short-term rates.</p>
+<p>The mirror image: you LEND cash and receive securities as collateral. The Fed's Reverse Repo Facility (ON RRP) became a <span class="nokatex">$</span>2T+ parking facility — money market funds lent cash to the Fed overnight and received Treasuries as collateral, effectively setting a floor on short-term rates.</p>
 <h2 id="why-repo-matters-for-risk">Why Repo Matters for Risk</h2>
 <p><strong>Leverage via repo — how basis trades work:</strong><br />
-1. Buy $100M cash Treasuries<br />
-2. Repo them out → receive $99M cash<br />
-3. Use the $99M to buy $99M MORE Treasuries<br />
-4. Repo those out → receive $98M cash<br />
-5. Repeat → you now have $500M+ of Treasury exposure on maybe $10M of equity<br />
+1. Buy <span class="nokatex">$</span>100M cash Treasuries<br />
+2. Repo them out → receive <span class="nokatex">$</span>99M cash<br />
+3. Use the <span class="nokatex">$</span>99M to buy <span class="nokatex">$</span>99M MORE Treasuries<br />
+4. Repo those out → receive <span class="nokatex">$</span>98M cash<br />
+5. Repeat → you now have <span class="nokatex">$</span>500M+ of Treasury exposure on maybe <span class="nokatex">$</span>10M of equity<br />
 6. Leverage = 50x. A 2% adverse move wipes out your equity 10 times over.</p>
 <p><strong>Repo market stress signals:</strong><br />
 - <strong>Repo rate spikes above SOFR/Fed Funds:</strong> Indicates collateral shortage or cash hoarding. September 2019: overnight repo rate spiked to 10% (from ~2%) → Fed launched repo operations.<br />
@@ -992,9 +992,9 @@ Day 2 (maturity):
 <h3 id="notional-leverage">Notional Leverage</h3>
 <p><strong>Gross leverage</strong> = (Long notional + |Short notional|) / NAV</p>
 <p><strong>Net leverage</strong> = (Long notional − |Short notional|) / NAV</p>
-<p><strong>Example:</strong> Fund NAV = $100M. Long $200M equities, short $150M equities.<br />
-- Gross = ($200M + $150M) / $100M = <strong>3.5x</strong> → total market exposure<br />
-- Net = ($200M − $150M) / $100M = <strong>0.5x</strong> → directional exposure</p>
+<p><strong>Example:</strong> Fund NAV = <span class="nokatex">$</span>100M. Long <span class="nokatex">$</span>200M equities, short <span class="nokatex">$</span>150M equities.<br />
+- Gross = (<span class="nokatex">$</span>200M + <span class="nokatex">$</span>150M) / <span class="nokatex">$</span>100M = <strong>3.5x</strong> → total market exposure<br />
+- Net = (<span class="nokatex">$</span>200M − <span class="nokatex">$</span>150M) / <span class="nokatex">$</span>100M = <strong>0.5x</strong> → directional exposure</p>
 <table>
 <thead>
 <tr>
@@ -1032,7 +1032,7 @@ Day 2 (maturity):
 </tbody>
 </table>
 <h3 id="better-leverage-measures">Better Leverage Measures</h3>
-<p>Notional alone is misleading. $100M notional in 2Y Treasuries (DV01 ≈ $200/bp) is NOT the same risk as $100M notional in 30Y Treasuries (DV01 ≈ $2,000/bp). Better measures:</p>
+<p>Notional alone is misleading. <span class="nokatex">$</span>100M notional in 2Y Treasuries (DV01 ≈ <span class="nokatex">$</span>200/bp) is NOT the same risk as <span class="nokatex">$</span>100M notional in 30Y Treasuries (DV01 ≈ <span class="nokatex">$</span>2,000/bp). Better measures:</p>
 <table>
 <thead>
 <tr>
@@ -1045,12 +1045,12 @@ Day 2 (maturity):
 <tr>
 <td><strong>Risk-adjusted leverage</strong></td>
 <td>Notional × risk factor (e.g., vol, duration) / NAV</td>
-<td>$100M in SPY (vol 15%) vs $100M in MSTR (vol 80%) → wildly different risk despite same notional</td>
+<td><span class="nokatex">$</span>100M in SPY (vol 15%) vs <span class="nokatex">$</span>100M in MSTR (vol 80%) → wildly different risk despite same notional</td>
 </tr>
 <tr>
 <td><strong>DV01/NAV</strong></td>
 <td>Total portfolio DV01 relative to NAV</td>
-<td>Captures rate risk regardless of notional. A $500M 2Y position and a $50M 30Y position may have similar DV01.</td>
+<td>Captures rate risk regardless of notional. A <span class="nokatex">$</span>500M 2Y position and a <span class="nokatex">$</span>50M 30Y position may have similar DV01.</td>
 </tr>
 <tr>
 <td><strong>Marginal VaR leverage</strong></td>
@@ -1060,7 +1060,7 @@ Day 2 (maturity):
 <tr>
 <td><strong>Effective leverage</strong></td>
 <td>Gross exposure × average beta / NAV</td>
-<td>A $200M portfolio of beta-0.5 stocks has effective leverage of only 1x on $100M NAV, even though notional leverage is 2x.</td>
+<td>A <span class="nokatex">$</span>200M portfolio of beta-0.5 stocks has effective leverage of only 1x on <span class="nokatex">$</span>100M NAV, even though notional leverage is 2x.</td>
 </tr>
 </tbody>
 </table>
@@ -1094,7 +1094,7 @@ Day 2 (maturity):
 <tr>
 <td><strong>Bid-ask spread</strong></td>
 <td>Cost of immediate execution. The "tax" for transacting.</td>
-<td>Tight spread = liquid. Wide = illiquid. SPY bid-ask ≈ $0.01 (1bp). Distressed corporate bond ≈ $2 (200bps).</td>
+<td>Tight spread = liquid. Wide = illiquid. SPY bid-ask ≈ <span class="nokatex">$</span>0.01 (1bp). Distressed corporate bond ≈ <span class="nokatex">$</span>2 (200bps).</td>
 </tr>
 <tr>
 <td><strong>Depth</strong></td>
@@ -1258,19 +1258,19 @@ Day 2 (maturity):
 <div class="highlight"><pre><span></span><code>    SELL SIDE (ASKS/OFFERS)
     ┌──────────────┬──────────┐
     │  Price       │  Size    │
-    │  $50.05      │  2,000   │  ← Best ask (best offer)
-    │  $50.06      │  8,000   │
-    │  $50.07      │  15,000  │
-    │  $50.08      │  5,000   │
-    │  $50.10      │  20,000  │
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.05      │  2,000   │  ← Best ask (best offer)
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.06      │  8,000   │
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.07      │  15,000  │
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.08      │  5,000   │
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.10      │  20,000  │
     └──────────────┴──────────┘
-        SPREAD = $0.02 (2 cents)
+        SPREAD = &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;0.02 (2 cents)
     ┌──────────────┬──────────┐
-    │  $50.03      │  3,000   │  ← Best bid
-    │  $50.02      │  10,000  │
-    │  $50.01      │  7,000   │
-    │  $50.00      │  25,000  │
-    │  $49.98      │  12,000  │
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.03      │  3,000   │  ← Best bid
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.02      │  10,000  │
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.01      │  7,000   │
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50.00      │  25,000  │
+    │  &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;49.98      │  12,000  │
     └──────────────┴──────────┘
     BUY SIDE (BIDS)
 </code></pre></div>
@@ -1326,8 +1326,8 @@ Day 2 (maturity):
 <p><strong>Reg NMS (US) / MiFID II (Europe):</strong> Mandates best execution — brokers must route orders to the venue offering the best price. Creates competition between venues but also fragments liquidity.</p>
 <h3 id="maker-taker-fee-model">Maker-Taker Fee Model</h3>
 <p>Exchanges incentivize liquidity provision:<br />
-- <strong>Maker</strong> (adds liquidity — posts limit order): RECEIVES a rebate (~$0.002/share)<br />
-- <strong>Taker</strong> (removes liquidity — sends market order that hits a resting limit): PAYS a fee (~$0.003/share)</p>
+- <strong>Maker</strong> (adds liquidity — posts limit order): RECEIVES a rebate (~<span class="nokatex">$</span>0.002/share)<br />
+- <strong>Taker</strong> (removes liquidity — sends market order that hits a resting limit): PAYS a fee (~<span class="nokatex">$</span>0.003/share)</p>
 <p>This creates a perverse incentive: some HFTs post fake limit orders to earn rebates, creating "phantom liquidity" that disappears when you try to trade against it.</p>
 <h2 id="dealer-positioning-gamma-effects">Dealer Positioning &amp; Gamma Effects</h2>
 <blockquote>
@@ -1358,7 +1358,7 @@ Day 2 (maturity):
 <p><strong>Gamma flip level:</strong> The spot price where dealers' aggregate gamma switches from positive to negative. BELOW this level, dealers are short gamma → they sell into declines → moves accelerate → this is why sell-offs speed up past a certain point.</p>
 <p><strong>Dealer hedging flows that matter:</strong><br />
 - <strong>Monthly/quarterly OpEx:</strong> Options expiring removes the associated delta hedges. Large open interest at a strike can "pin" the stock there as dealers adjust hedges. After expiry, the pin releases and the stock moves freely.<br />
-- <strong>End-of-month rebalancing:</strong> Pension funds, target-date funds rebalance to fixed allocation targets. If stocks rose, they sell stocks and buy bonds at month-end. These flows are predictable and large (estimated $5-15B on big months).<br />
+- <strong>End-of-month rebalancing:</strong> Pension funds, target-date funds rebalance to fixed allocation targets. If stocks rose, they sell stocks and buy bonds at month-end. These flows are predictable and large (estimated <span class="nokatex">$</span>5-15B on big months).<br />
 - <strong>0DTE (zero-days-to-expiry) options:</strong> Rapidly growing volume. Gamma is enormous (tiny time value, huge sensitivity to price). Creates intraday volatility spikes as dealers constantly rebalance.</p>
 <h2 id="intraday-patterns">Intraday Patterns</h2>
 <table>
@@ -1393,7 +1393,7 @@ Day 2 (maturity):
 <tr>
 <td><strong>3:50–4:00 PM</strong></td>
 <td>MOC (Market on Close) imbalance published at 3:50. Rebalancing flow. Closing auction.</td>
-<td>Can create large last-minute moves. $2B+ MOC imbalance on rebalancing days is common.</td>
+<td>Can create large last-minute moves. <span class="nokatex">$</span>2B+ MOC imbalance on rebalancing days is common.</td>
 </tr>
 <tr>
 <td><strong>4:00–8:00 PM &amp; pre-market</strong></td>
@@ -1468,12 +1468,12 @@ Step 5: COVER — buy back shares in the open market and return to lender
 <tr>
 <td><strong>Short sale proceeds</strong></td>
 <td>When you sell borrowed shares, cash goes into your account — but it's RESTRICTED. Can't withdraw it.</td>
-<td>Sell 10,000 shares at $50 → $500K proceeds. This collateralizes the borrow.</td>
+<td>Sell 10,000 shares at <span class="nokatex">$</span>50 → <span class="nokatex">$</span>500K proceeds. This collateralizes the borrow.</td>
 </tr>
 <tr>
 <td><strong>Short rebate</strong></td>
 <td>You earn interest on the restricted cash proceeds (at a rate below SOFR)</td>
-<td>$500K × (SOFR − spread) = ~$18K/year income</td>
+<td><span class="nokatex">$</span>500K × (SOFR − spread) = ~<span class="nokatex">$</span>18K/year income</td>
 </tr>
 <tr>
 <td><strong>Borrow fee</strong></td>
@@ -1488,7 +1488,7 @@ Step 5: COVER — buy back shares in the open market and return to lender
 <tr>
 <td><strong>Dividends</strong></td>
 <td>If the stock pays a dividend while you're short, YOU pay the dividend to the lender.</td>
-<td>Short $500K of a 3% dividend stock = $15K/year cost on top of borrow.</td>
+<td>Short <span class="nokatex">$</span>500K of a 3% dividend stock = <span class="nokatex">$</span>15K/year cost on top of borrow.</td>
 </tr>
 <tr>
 <td><strong>Buy-in risk</strong></td>
@@ -1542,7 +1542,7 @@ Step 5: COVER — buy back shares in the open market and return to lender
             → Remaining shorts capitulate → cover at massive losses
 </code></pre></div>
 
-<p><strong>GameStop (Jan 2021):</strong> 140% short interest (more shares sold short than existed — possible because of rehypothecation in the borrow chain). Coordinated retail buying via r/WallStreetBets triggered the squeeze. Stock went from $17 to $483. Melvin Capital lost 53% in January alone.</p>
+<p><strong>GameStop (Jan 2021):</strong> 140% short interest (more shares sold short than existed — possible because of rehypothecation in the borrow chain). Coordinated retail buying via r/WallStreetBets triggered the squeeze. Stock went from <span class="nokatex">$</span>17 to <span class="nokatex">$</span>483. Melvin Capital lost 53% in January alone.</p>
 <p><strong>VW (Oct 2008):</strong> Porsche disclosed it controlled 74% of VW shares + 31.5% via options = 95.5%. Only 5% of float was available. Shorts couldn't cover. VW briefly became the world's most valuable company at €1,000/share (from €200). A classic "infinite squeeze."</p>
 <h2 id="regulatory-constraints-on-shorting">Regulatory Constraints on Shorting</h2>
 <table>
@@ -1669,6 +1669,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

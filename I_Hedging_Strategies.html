@@ -408,7 +408,7 @@ body {
 <p>At Squarepoint, PMs are paid to take risk. The RM's job is NOT to eliminate risk — it's to ensure risk is INTENTIONAL, SIZED CORRECTLY, and SURVIVABLE. Hedging is the mechanism that converts "we're exposed and hoping" into "we're exposed and protected at defined cost."</p>
 <p>The RM adds value in three ways:</p>
 <ol>
-<li><strong>Making hidden costs explicit</strong> — "This collar is 'free' but you're giving up $3M of potential upside. Is that the trade?"</li>
+<li><strong>Making hidden costs explicit</strong> — "This collar is 'free' but you're giving up <span class="nokatex">$</span>3M of potential upside. Is that the trade?"</li>
 <li><strong>Challenging false hedges</strong> — "Your SPX put covers 7% of a 15% loss on your tech-heavy book. You're 53% hedged. Is that acceptable?"</li>
 <li><strong>Timing the hedge</strong> — "Vol is at the 15th percentile. Protection is cheap. NOW is when to buy — not after the sell-off when VIX is 35 and puts cost 3×."</li>
 </ol>
@@ -646,7 +646,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>If premium budget = $0:</strong> The PM is choosing between (a) upside surrender (collar), (b) accepting basis risk (imperfect hedge), or (c) no hedge at all. There is no fourth option. Make this explicit.</p>
+<p><strong>If premium budget = <span class="nokatex">$</span>0:</strong> The PM is choosing between (a) upside surrender (collar), (b) accepting basis risk (imperfect hedge), or (c) no hedge at all. There is no fourth option. Make this explicit.</p>
 <h3 id="5-what-basis-risk-am-i-accepting">5. What basis risk am I accepting?</h3>
 <p><strong>Basis risk hierarchy — from best to worst hedge precision:</strong></p>
 <table>
@@ -704,10 +704,10 @@ body {
 
 <p><strong>Worked example — SPX at 5,400:</strong><br />
 - Buy SPX 5,300 put (1.9% OTM), 3-month expiry, IV = 16%<br />
-- Cost: ~$45 per contract (~$4,500 per contract at 100 multiplier)<br />
-- 100 contracts protecting $54M of equity → cost = $450K = <strong>0.83% of protected notional</strong> (annualized ~3.3%)<br />
-- Protection: below 5,300, every $1 of SPX drop → $100 per contract recovered (100 contracts = $10K per point)<br />
-- Maximum loss on protected portfolio: (5,400 − 5,300) × $100 × 100 + $450K premium = <strong>$1,450K</strong> instead of unlimited</p>
+- Cost: ~<span class="nokatex">$</span>45 per contract (~<span class="nokatex">$</span>4,500 per contract at 100 multiplier)<br />
+- 100 contracts protecting <span class="nokatex">$</span>54M of equity → cost = <span class="nokatex">$</span>450K = <strong>0.83% of protected notional</strong> (annualized ~3.3%)<br />
+- Protection: below 5,300, every <span class="nokatex">$</span>1 of SPX drop → <span class="nokatex">$</span>100 per contract recovered (100 contracts = <span class="nokatex">$</span>10K per point)<br />
+- Maximum loss on protected portfolio: (5,400 − 5,300) × <span class="nokatex">$</span>100 × 100 + <span class="nokatex">$</span>450K premium = <strong><span class="nokatex">$</span>1,450K</strong> instead of unlimited</p>
 <table>
 <thead>
 <tr>
@@ -750,9 +750,9 @@ body {
 </code></pre></div>
 
 <p><strong>Worked example — SPX at 5,400:</strong><br />
-- Buy SPX 5,300 put ($45), sell SPX 5,100 put ($20). Net cost = $25 per contract ($2,500).<br />
-- Protection: 200 points between 5,300 and 5,100 = $20K per contract<br />
-- Max payout: $20K − $2.5K = <strong>$17.5K per contract</strong> (7:1 payoff ratio)<br />
+- Buy SPX 5,300 put (<span class="nokatex">$</span>45), sell SPX 5,100 put (<span class="nokatex">$</span>20). Net cost = <span class="nokatex">$</span>25 per contract (<span class="nokatex">$</span>2,500).<br />
+- Protection: 200 points between 5,300 and 5,100 = <span class="nokatex">$</span>20K per contract<br />
+- Max payout: <span class="nokatex">$</span>20K − <span class="nokatex">$</span>2.5K = <strong><span class="nokatex">$</span>17.5K per contract</strong> (7:1 payoff ratio)<br />
 - Below 5,100: <strong>no additional protection</strong> — you're exposed again<br />
 - Cost: 55% cheaper than outright put</p>
 <table>
@@ -791,12 +791,12 @@ body {
   │
 </code></pre></div>
 
-<p><strong>Worked example — XOM at $113:</strong><br />
-- Buy $108 put ($3.20), sell $120 call ($2.80). Net cost = <strong>$0.40</strong> (nearly zero-cost)<br />
-- Below $108: hedged. Max loss = $5.40/share ($113 − $108 + $0.40 premium)<br />
-- Above $120: capped. Even if XOM → $150, you get $120<br />
-- Between $108-$120: normal exposure minus the $0.40 cost</p>
-<p><strong>Zero-cost collar:</strong> Adjust strikes until put cost = call premium. E.g., buy $107 put, sell $119 call → exactly zero cost. The cost is ENTIRELY in upside surrender.</p>
+<p><strong>Worked example — XOM at <span class="nokatex">$</span>113:</strong><br />
+- Buy <span class="nokatex">$</span>108 put (<span class="nokatex">$</span>3.20), sell <span class="nokatex">$</span>120 call (<span class="nokatex">$</span>2.80). Net cost = <strong><span class="nokatex">$</span>0.40</strong> (nearly zero-cost)<br />
+- Below <span class="nokatex">$</span>108: hedged. Max loss = <span class="nokatex">$</span>5.40/share (<span class="nokatex">$</span>113 − <span class="nokatex">$</span>108 + <span class="nokatex">$</span>0.40 premium)<br />
+- Above <span class="nokatex">$</span>120: capped. Even if XOM → <span class="nokatex">$</span>150, you get <span class="nokatex">$</span>120<br />
+- Between <span class="nokatex">$</span>108-<span class="nokatex">$</span>120: normal exposure minus the <span class="nokatex">$</span>0.40 cost</p>
+<p><strong>Zero-cost collar:</strong> Adjust strikes until put cost = call premium. E.g., buy <span class="nokatex">$</span>107 put, sell <span class="nokatex">$</span>119 call → exactly zero cost. The cost is ENTIRELY in upside surrender.</p>
 <table>
 <thead>
 <tr>
@@ -820,21 +820,21 @@ body {
 </tbody>
 </table>
 <p><strong>When to use:</strong> PM says "I don't want to pay for protection." Collar makes the tradeoff explicit: protection costs upside, not premium.</p>
-<p><strong>RM warning:</strong> "A 'free' collar isn't free — you're paying with the gain between $120 and wherever XOM would have gone. If XOM rallies to $130, this collar cost you $10/share. That's $500K on 50,000 shares."</p>
+<p><strong>RM warning:</strong> "A 'free' collar isn't free — you're paying with the gain between <span class="nokatex">$</span>120 and wherever XOM would have gone. If XOM rallies to <span class="nokatex">$</span>130, this collar cost you <span class="nokatex">$</span>10/share. That's <span class="nokatex">$</span>500K on 50,000 shares."</p>
 <h2 id="4-futures-hedging">4. Futures Hedging</h2>
 <p><strong>What:</strong> Sell index or sector futures to reduce portfolio delta/beta. Linear instrument — no convexity.</p>
 <p><strong>Beta hedge sizing:</strong></p>
-<p>$$N_{\text{contracts}} = \frac{V_p \times (\beta_{\text{current}} - \beta_{\text{target}})}{V_f}$$</p>
-<p>Where $V_p$ = portfolio value, $V_f$ = futures notional per contract.</p>
+<p>$<span class="nokatex">$</span>N_{\text{contracts}} = \frac{V_p \times (\beta_{\text{current}} - \beta_{\text{target}})}{V_f}$$</p>
+<p>Where <span class="nokatex">$</span>V_p$ = portfolio value, <span class="nokatex">$</span>V_f$ = futures notional per contract.</p>
 <p><strong>Worked example:</strong><br />
-- Portfolio: $80M, β = 1.3. Target: β = 0.5. Reduction: 0.8<br />
-- ES futures (E-mini SPX): SPX at 5,400 → $50 × 5,400 = $270K per contract<br />
-- Contracts = ($80M × 0.8) / $270K = <strong>237 contracts short</strong><br />
-- Cost: margin only (~$15K per contract initial margin = $3.6M). No premium.</p>
+- Portfolio: <span class="nokatex">$</span>80M, β = 1.3. Target: β = 0.5. Reduction: 0.8<br />
+- ES futures (E-mini SPX): SPX at 5,400 → <span class="nokatex">$</span>50 × 5,400 = <span class="nokatex">$</span>270K per contract<br />
+- Contracts = (<span class="nokatex">$</span>80M × 0.8) / <span class="nokatex">$</span>270K = <strong>237 contracts short</strong><br />
+- Cost: margin only (~<span class="nokatex">$</span>15K per contract initial margin = <span class="nokatex">$</span>3.6M). No premium.</p>
 <p><strong>DV01 hedging (for rates):</strong></p>
-<p>$$N_{\text{contracts}} = \frac{\text{Portfolio DV01}}{\text{Futures DV01 per contract}}$$</p>
-<p>Example: Portfolio DV01 = $50K/bp. 10Y Treasury futures DV01 = $75/bp per contract.<br />
-Contracts = $50K / $75 = <strong>667 contracts short</strong></p>
+<p>$<span class="nokatex">$</span>N_{\text{contracts}} = \frac{\text{Portfolio DV01}}{\text{Futures DV01 per contract}}$$</p>
+<p>Example: Portfolio DV01 = <span class="nokatex">$</span>50K/bp. 10Y Treasury futures DV01 = <span class="nokatex">$</span>75/bp per contract.<br />
+Contracts = <span class="nokatex">$</span>50K / <span class="nokatex">$</span>75 = <strong>667 contracts short</strong></p>
 <table>
 <thead>
 <tr>
@@ -868,11 +868,11 @@ Contracts = $50K / $75 = <strong>667 contracts short</strong></p>
 <p><strong>Hedge ratio for a pair:</strong></p>
 <p>$$h^* = \frac{\text{Cov}(R_{\text{long}}, R_{\text{short}})}{\text{Var}(R_{\text{short}})} = \beta_{\text{long vs short}}$$</p>
 <p><strong>Worked example — Long XOM / Short CVX (oil pair):</strong><br />
-- Long $10M XOM, β_XOM_vs_CVX = 0.85<br />
-- Hedge: Short $8.5M CVX (= $10M × 0.85)<br />
+- Long <span class="nokatex">$</span>10M XOM, β_XOM_vs_CVX = 0.85<br />
+- Hedge: Short <span class="nokatex">$</span>8.5M CVX (= <span class="nokatex">$</span>10M × 0.85)<br />
 - The pair is MARKET-NEUTRAL on oil — moves in crude affect both positions similarly<br />
 - Alpha bet: XOM will outperform CVX (better management, better assets, etc.)<br />
-- $1.5M of "unhedged" residual = the idiosyncratic bet the PM is making</p>
+- <span class="nokatex">$</span>1.5M of "unhedged" residual = the idiosyncratic bet the PM is making</p>
 <table>
 <thead>
 <tr>
@@ -1051,12 +1051,12 @@ Contracts = $50K / $75 = <strong>667 contracts short</strong></p>
 <p><strong>Expected value framework:</strong></p>
 <p>$$\text{EV} = P(\text{tail event}) \times \text{Hedge payoff} - (1 - P(\text{tail event})) \times \text{Annual cost}$$</p>
 <p><strong>Example:</strong><br />
-- Annual cost of tail program: $3M (1.5% of $200M fund)<br />
+- Annual cost of tail program: <span class="nokatex">$</span>3M (1.5% of <span class="nokatex">$</span>200M fund)<br />
 - Probability of 3σ+ event per year: ~5% (historically)<br />
-- Hedge payoff in 3σ event: $60M (10× cost, protecting against $80M+ drawdown)<br />
-- EV = 5% × $60M − 95% × $3M = $3.0M − $2.85M = <strong>+$0.15M</strong> → slightly positive expected value<br />
+- Hedge payoff in 3σ event: <span class="nokatex">$</span>60M (10× cost, protecting against <span class="nokatex">$</span>80M+ drawdown)<br />
+- EV = 5% × <span class="nokatex">$</span>60M − 95% × <span class="nokatex">$</span>3M = <span class="nokatex">$</span>3.0M − <span class="nokatex">$</span>2.85M = <strong>+<span class="nokatex">$</span>0.15M</strong> → slightly positive expected value<br />
 - PLUS: the hedge prevents forced liquidation, keeps PMs in seats, preserves investor relationships → unquantifiable survival value</p>
-<p><strong>The RM's pitch to the CIO:</strong> "The tail hedge costs us ~40bp of Sharpe annually. But it prevents the −30% drawdown that would trigger $100M of redemptions, cost two PMs their jobs, and take 3 years to recover from. The math is almost break-even on direct EV, but the survival value is enormous."</p>
+<p><strong>The RM's pitch to the CIO:</strong> "The tail hedge costs us ~40bp of Sharpe annually. But it prevents the −30% drawdown that would trigger <span class="nokatex">$</span>100M of redemptions, cost two PMs their jobs, and take 3 years to recover from. The math is almost break-even on direct EV, but the survival value is enormous."</p>
 <hr />
 <h1 id="part-4-dynamic-hedging-adjusting-as-the-market-moves">PART 4: DYNAMIC HEDGING — ADJUSTING AS THE MARKET MOVES</h1>
 <blockquote>
@@ -1098,7 +1098,7 @@ If it moves LESS → short gamma wins (collects theta).</p>
 <td><strong>Delta-band</strong></td>
 <td>Rebalance when</td>
 <td>Δ drift</td>
-<td>&gt; $X or X%</td>
+<td>&gt; <span class="nokatex">$</span>X or X%</td>
 <td>Responsive to big moves</td>
 </tr>
 <tr>
@@ -1287,33 +1287,33 @@ If it moves LESS → short gamma wins (collects theta).</p>
 <tbody>
 <tr>
 <td><strong>No hedge</strong></td>
-<td>−$4.0M</td>
-<td>−$8.0M</td>
-<td>−$16.0M</td>
+<td>−<span class="nokatex">$</span>4.0M</td>
+<td>−<span class="nokatex">$</span>8.0M</td>
+<td>−<span class="nokatex">$</span>16.0M</td>
 </tr>
 <tr>
 <td><strong>Futures hedge (50%)</strong></td>
-<td>−$2.0M</td>
-<td>−$4.0M</td>
-<td>−$8.0M</td>
+<td>−<span class="nokatex">$</span>2.0M</td>
+<td>−<span class="nokatex">$</span>4.0M</td>
+<td>−<span class="nokatex">$</span>8.0M</td>
 </tr>
 <tr>
 <td><strong>ATM put</strong></td>
-<td>−$1.5M</td>
-<td>−$1.0M</td>
-<td><strong>+$2.0M</strong> (put in the money, vega spike helps)</td>
+<td>−<span class="nokatex">$</span>1.5M</td>
+<td>−<span class="nokatex">$</span>1.0M</td>
+<td><strong>+<span class="nokatex">$</span>2.0M</strong> (put in the money, vega spike helps)</td>
 </tr>
 <tr>
 <td><strong>5% OTM put spread (200pt wide)</strong></td>
-<td>−$3.5M</td>
-<td>−$2.0M</td>
-<td>−$6.0M (protection capped at 200 pts)</td>
+<td>−<span class="nokatex">$</span>3.5M</td>
+<td>−<span class="nokatex">$</span>2.0M</td>
+<td>−<span class="nokatex">$</span>6.0M (protection capped at 200 pts)</td>
 </tr>
 <tr>
 <td><strong>Collar</strong></td>
-<td>−$2.2M</td>
-<td>−$1.8M</td>
-<td>−$1.8M (floor at put strike)</td>
+<td>−<span class="nokatex">$</span>2.2M</td>
+<td>−<span class="nokatex">$</span>1.8M</td>
+<td>−<span class="nokatex">$</span>1.8M (floor at put strike)</td>
 </tr>
 </tbody>
 </table>
@@ -1427,7 +1427,7 @@ If it moves LESS → short gamma wins (collects theta).</p>
 </blockquote>
 <h2 id="measuring-hedge-effectiveness">Measuring Hedge Effectiveness</h2>
 <h3 id="r2-variance-reduction">R² (Variance Reduction)</h3>
-<p>$$R^2 = 1 - \frac{\text{Var(hedged portfolio)}}{\text{Var(unhedged portfolio)}}$$</p>
+<p>$<span class="nokatex">$</span>R^2 = 1 - \frac{\text{Var(hedged portfolio)}}{\text{Var(unhedged portfolio)}}$$</p>
 <table>
 <thead>
 <tr>
@@ -1461,7 +1461,7 @@ If it moves LESS → short gamma wins (collects theta).</p>
 </table>
 <h3 id="conditional-hedge-effectiveness">Conditional Hedge Effectiveness</h3>
 <p>More important than overall R²: <strong>how does the hedge perform specifically in the tail?</strong></p>
-<p>$$R^2_{\text{stress}} = 1 - \frac{\text{Var(hedged P\&amp;L} \mid \text{stress days)}}{\text{Var(unhedged P\&amp;L} \mid \text{stress days)}}$$</p>
+<p>$<span class="nokatex">$</span>R^2_{\text{stress}} = 1 - \frac{\text{Var(hedged P\&amp;L} \mid \text{stress days)}}{\text{Var(unhedged P\&amp;L} \mid \text{stress days)}}$$</p>
 <p>A hedge with R² = 0.85 overall but R²_stress = 0.40 is MISLEADING — it works in normal markets but fails when you need it most. This is the typical failure mode of cross-asset hedges (stocks-bonds in 2022).</p>
 <h3 id="hit-rate-and-payoff-ratio">Hit Rate and Payoff Ratio</h3>
 <p>For options hedges:<br />
@@ -1507,7 +1507,7 @@ If it moves LESS → short gamma wins (collects theta).</p>
 </tr>
 <tr>
 <td><strong>"Free" hedges that aren't free</strong></td>
-<td>Zero-cost collar caps $5M of upside on a $50M position. PM blames RM when stock rallies past cap.</td>
+<td>Zero-cost collar caps <span class="nokatex">$</span>5M of upside on a <span class="nokatex">$</span>50M position. PM blames RM when stock rallies past cap.</td>
 <td>Quantify upside surrender in DOLLARS. Get PM's written acknowledgment.</td>
 </tr>
 <tr>
@@ -1681,11 +1681,11 @@ If it moves LESS → short gamma wins (collects theta).</p>
 <p><strong>"How would you hedge a concentrated equity position?"</strong></p>
 <p>"I'd start with the framework: what specific risk, what horizon, what premium budget, and how much upside is the PM willing to surrender.</p>
 <p>For a single-name concentration — say 15% of NAV in XOM — the cleanest hedge is a single-name XOM put. That's delta + gamma + vega in one instrument — the hedge IMPROVES as the crash deepens because gamma kicks in and vol spikes. But it's expensive: roughly 3-4% annualized for an ATM put.</p>
-<p>To reduce cost: a put spread — buy the $108 put, sell the $100 put — halves the premium but caps protection at $8 per share. Or a collar — buy $108 put, sell $120 call — near-zero cost but caps upside at $120.</p>
+<p>To reduce cost: a put spread — buy the <span class="nokatex">$</span>108 put, sell the <span class="nokatex">$</span>100 put — halves the premium but caps protection at <span class="nokatex">$</span>8 per share. Or a collar — buy <span class="nokatex">$</span>108 put, sell <span class="nokatex">$</span>120 call — near-zero cost but caps upside at <span class="nokatex">$</span>120.</p>
 <p>If the PM refuses both premium and upside surrender, we can partially beta-hedge with SPX futures, but I'd flag the basis risk: XOM-to-SPX R² is about 0.6, so 40% of XOM's risk isn't covered by the SPX hedge. In a scenario where XOM drops 15% on company-specific news while SPX drops only 2%, the futures hedge covers 2 of 15 percentage points.</p>
-<p>The key value I add is making the tradeoff explicit: 'You can pay $400K for full protection, pay zero but cap upside at 6%, or accept 40% basis risk with a free futures hedge. Which do you prefer?' That's a conscious decision, not a hope."</p>
+<p>The key value I add is making the tradeoff explicit: 'You can pay <span class="nokatex">$</span>400K for full protection, pay zero but cap upside at 6%, or accept 40% basis risk with a free futures hedge. Which do you prefer?' That's a conscious decision, not a hope."</p>
 <p><strong>"When would you NOT hedge?"</strong></p>
-<p>"Three situations. First, when the hedge costs more than the risk warrants — if a tail event would cost the fund $2M but protecting against it costs $1.5M annually, the expected value is negative. Second, when the hedge introduces MORE risk than it removes — a cross-asset hedge relying on a correlation that's unstable can turn a $5M loss into a $10M loss if the correlation flips. I'd rather size the position smaller than rely on a fragile hedge. Third, when the PM's thesis IS the risk — if the PM is explicitly making a directional bet and it's within risk limits, hedging the direction removes the trade itself. The RM's job isn't to eliminate risk — it's to ensure risk is intentional and survivable."</p>
+<p>"Three situations. First, when the hedge costs more than the risk warrants — if a tail event would cost the fund <span class="nokatex">$</span>2M but protecting against it costs <span class="nokatex">$</span>1.5M annually, the expected value is negative. Second, when the hedge introduces MORE risk than it removes — a cross-asset hedge relying on a correlation that's unstable can turn a <span class="nokatex">$</span>5M loss into a <span class="nokatex">$</span>10M loss if the correlation flips. I'd rather size the position smaller than rely on a fragile hedge. Third, when the PM's thesis IS the risk — if the PM is explicitly making a directional bet and it's within risk limits, hedging the direction removes the trade itself. The RM's job isn't to eliminate risk — it's to ensure risk is intentional and survivable."</p>
 <p><strong>"How do you evaluate whether a hedge is working?"</strong></p>
 <p>"Two levels. First, statistical: I'd compute R² — the proportion of position variance explained by the hedge. If R² is below 0.70, the hedge is covering less than 70% of the risk — it might not justify its cost. Second, and more importantly, CONDITIONAL R² — how does the hedge perform specifically on stress days? A hedge with R² = 0.85 overall but R² = 0.40 on days when SPX is down &gt;2% is a false promise. It works in normal markets and fails in crises. I'd also track cumulative hedge P&amp;L versus cumulative position P&amp;L over time — if the hedge is consistently LOSING without the position GAINING, the basis has drifted and the instrument needs to be reassessed."</p>
 <p><strong>"Explain the tradeoff between puts and futures as hedges."</strong></p>
@@ -1712,6 +1712,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

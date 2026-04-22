@@ -418,15 +418,15 @@ body {
 <th>#</th>
 <th>Name</th>
 <th>Dir</th>
-<th>Notional ($M)</th>
+<th>Notional (<span class="nokatex">$</span>M)</th>
 <th>% NAV</th>
 <th>Sector</th>
 <th>Delta</th>
 <th>Gamma</th>
 <th>Vega</th>
-<th>DV01 ($K)</th>
-<th>P&amp;L Today ($K)</th>
-<th>P&amp;L MTD ($K)</th>
+<th>DV01 (<span class="nokatex">$</span>K)</th>
+<th>P&amp;L Today (<span class="nokatex">$</span>K)</th>
+<th>P&amp;L MTD (<span class="nokatex">$</span>K)</th>
 <th>Days Held</th>
 </tr>
 </thead>
@@ -554,63 +554,63 @@ body {
 </tbody>
 </table>
 <p><strong>Portfolio summary:</strong><br />
-- Gross: $262M | Net long: $182M (net/gross = 69% long-biased)<br />
-- NAV: $1,000M<br />
-- VaR (95%, 1d): $8.2M (limit: $10M)<br />
+- Gross: <span class="nokatex">$</span>262M | Net long: <span class="nokatex">$</span>182M (net/gross = 69% long-biased)<br />
+- NAV: <span class="nokatex">$</span>1,000M<br />
+- VaR (95%, 1d): <span class="nokatex">$</span>8.2M (limit: <span class="nokatex">$</span>10M)<br />
 - Margin utilization: 72%<br />
-- MTD P&amp;L: +$330K</p>
+- MTD P&amp;L: +<span class="nokatex">$</span>330K</p>
 <h3 id="the-systematic-scan-8-checks-in-5-minutes">The Systematic Scan — 8 Checks in 5 Minutes</h3>
 <p><strong>1. CONCENTRATION (30 seconds)</strong><br />
 - XOM at 8.0% NAV → large single-name. Combined with CVX at 3.5% → 11.5% in energy. Any energy-specific shock (oil reversal, earnings miss) causes 10%+ portfolio impact.<br />
 - Rule of thumb: &gt;5% NAV in one name = flag. &gt;15% in one sector = escalate.</p>
 <p><strong>2. DIRECTION (30 seconds)</strong><br />
-- Net long $182M on $1B NAV → 18.2% net equity exposure<br />
+- Net long <span class="nokatex">$</span>182M on <span class="nokatex">$</span>1B NAV → 18.2% net equity exposure<br />
 - But the short puts ADD to effective long when market falls. At SPX -5%, those puts' delta increases → effective long exposure could reach 25%+<br />
 - Question: is this intentional directional allocation or drift?</p>
 <p><strong>3. GREEKS — ACCELERATION RISK (45 seconds)</strong><br />
 - Short gamma via SPX puts (-0.04) = PM gets LONGER as market falls. This is the toxic convexity profile.<br />
-- Short vega (-180) via puts + long vega (+95 + 65) via calls = net short vega -20. Manageable, but if vol spikes 5 points, that's -$100K from vega alone.<br />
+- Short vega (-180) via puts + long vega (+95 + 65) via calls = net short vega -20. Manageable, but if vol spikes 5 points, that's -<span class="nokatex">$</span>100K from vega alone.<br />
 - Key calculation: if SPX drops 3% in a day:</p>
 <p>$$\text{New put delta} \approx 0.35 + 0.04 \times \frac{0.03 \times 5200}{1} \approx 0.35 + 6.24 = \text{capped at } {\sim}0.65$$</p>
-<p>Put delta roughly doubles → adds ~$9M to effective long exposure → total portfolio gets 50% longer at the worst possible time.</p>
+<p>Put delta roughly doubles → adds ~<span class="nokatex">$</span>9M to effective long exposure → total portfolio gets 50% longer at the worst possible time.</p>
 <p><strong>4. CORRELATION — ARE "DIFFERENT" POSITIONS THE SAME BET? (45 seconds)</strong><br />
 - XOM + CVX = both long oil → obvious energy concentration<br />
 - But also: BRL/USD short → Brazil is an oil exporter → if oil rallies, BRL strengthens → the short BRL position LOSES money. So this is partially hedging the energy longs... or is it an independent macro view?<br />
 - TLT long = supposed equity hedge → but in a stagflation scenario, equities AND bonds sell off. The "hedge" becomes additional loss. Check: is the stock-bond correlation currently positive or negative?</p>
 <p><strong>5. P&amp;L TRAJECTORY — WHAT'S BLEEDING? (30 seconds)</strong><br />
-- AAPL: -$850K MTD, held 22 days. That's -1.9% on the position. Modest, but what's the thesis? Is this a conviction hold or a stale position?<br />
-- NVDA calls: -$500K MTD in only 10 days, with 0.55 delta on a long call = time decay is eating this. At what point does the PM cut?<br />
-- BRL: -$200K, held 28 days. No signs of thesis working. Time-horizon question.</p>
+- AAPL: -<span class="nokatex">$</span>850K MTD, held 22 days. That's -1.9% on the position. Modest, but what's the thesis? Is this a conviction hold or a stale position?<br />
+- NVDA calls: -<span class="nokatex">$</span>500K MTD in only 10 days, with 0.55 delta on a long call = time decay is eating this. At what point does the PM cut?<br />
+- BRL: -<span class="nokatex">$</span>200K, held 28 days. No signs of thesis working. Time-horizon question.</p>
 <p><strong>6. HEDGE EFFECTIVENESS (30 seconds)</strong><br />
-- TLT hedge: $25M notional with DV01 of $38K. For a $182M net equity portfolio, this provides partial duration offset but minimal equity hedge UNLESS stock-bond ρ &lt; 0.<br />
+- TLT hedge: <span class="nokatex">$</span>25M notional with DV01 of <span class="nokatex">$</span>38K. For a <span class="nokatex">$</span>182M net equity portfolio, this provides partial duration offset but minimal equity hedge UNLESS stock-bond ρ &lt; 0.<br />
 - Quick check: rolling 21d SPX/TLT correlation. If ρ &gt; 0 (currently likely due to oil shock), TLT is NOT hedging — it's an independent risk source.</p>
 <p><strong>7. LIQUIDITY (30 seconds)</strong><br />
 - All names are liquid large-cap or deep options markets. No liquidity flags today.<br />
 - But: in a stress scenario, bid-ask on deep OTM puts widens 3-5x. The short puts become harder to close at fair value.</p>
 <p><strong>8. STRESS — WORST SINGLE DAY (30 seconds)</strong><br />
 - Scenario: SPX -5%, oil -10%, rates +20bp (stagflation shock)<br />
-- Quick estimate: Equity: -$182M × 5% × beta(~1.1) = -$10M. Energy: XOM+CVX -$115M × 5% extra = -$5.8M. Puts: gamma adds $9M long exposure, then loses on that too. TLT: -$38K × 20 = -$760K.<br />
-- Combined worst case: -$16M+ → BREACHES $10M VaR limit. Flag.</p>
+- Quick estimate: Equity: -<span class="nokatex">$</span>182M × 5% × beta(~1.1) = -<span class="nokatex">$</span>10M. Energy: XOM+CVX -<span class="nokatex">$</span>115M × 5% extra = -<span class="nokatex">$</span>5.8M. Puts: gamma adds <span class="nokatex">$</span>9M long exposure, then loses on that too. TLT: -<span class="nokatex">$</span>38K × 20 = -<span class="nokatex">$</span>760K.<br />
+- Combined worst case: -<span class="nokatex">$</span>16M+ → BREACHES <span class="nokatex">$</span>10M VaR limit. Flag.</p>
 <h3 id="the-output-one-page-morning-summary">The Output: One-Page Morning Summary</h3>
 <p>After the 5-minute scan, you produce:</p>
 <div class="highlight"><pre><span></span><code>MORNING RISK SNAPSHOT — [Date]
-PM: [Name] | NAV: $1,000M | VaR: $8.2M/$10M (82%)
+PM: [Name] | NAV: &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;1,000M | VaR: &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;8.2M/&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;10M (82%)
 
 TOP 3 RISKS:
 1. Energy concentration: XOM + CVX = 11.5% NAV. Oil reversal -10%
-   → estimated -$5.8M (58% of VaR limit consumed by ONE factor).
+   → estimated -&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;5.8M (58% of VaR limit consumed by ONE factor).
 2. Short gamma: SPX puts → effective exposure increases 50% on SPX -3%.
    Book gets longest at the worst time.
 3. TLT hedge may not work: stock-bond ρ is currently positive.
-   In stagflation scenario, TLT adds $760K loss, not protection.
+   In stagflation scenario, TLT adds &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;760K loss, not protection.
 
 KEY EVENTS TODAY: CPI release 08:30. Consensus core MoM +0.3%.
 If hot (&gt;0.35%): expect rates +10bp, SPX -1-2%, oil impact ambiguous.
 PM EXPOSURE: Long equities + short puts = max pain on a sell-off day.
 
 MY RECOMMENDATION: Consider rolling SPX puts down 100 strikes to
-reduce gamma exposure ahead of CPI. Cost: ~$200K in premium.
-Benefit: VaR drops to $7.5M, tail exposure capped.
+reduce gamma exposure ahead of CPI. Cost: ~&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;200K in premium.
+Benefit: VaR drops to &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;7.5M, tail exposure capped.
 </code></pre></div>
 
 <hr />
@@ -627,19 +627,19 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 </thead>
 <tbody>
 <tr>
-<td><strong>High impact (&gt;$5M)</strong></td>
+<td><strong>High impact (&gt;<span class="nokatex">$</span>5M)</strong></td>
 <td>MONITOR — stress tests, contingency plans. Don't dismiss because "unlikely." These are the cases that end careers.</td>
 <td>PREPARE — active hedge, position size review, IC discussion within 24h</td>
 <td><strong>ACT NOW</strong> — reduce, hedge, or get explicit IC sign-off. No debate.</td>
 </tr>
 <tr>
-<td><strong>Medium impact ($1-5M)</strong></td>
+<td><strong>Medium impact (<span class="nokatex">$</span>1-5M)</strong></td>
 <td>ACCEPT — standard operating risk</td>
 <td>WATCH — daily monitoring, pre-defined action triggers</td>
 <td>ADDRESS — within 1-2 days, ensure intentional</td>
 </tr>
 <tr>
-<td><strong>Low impact (&lt;$1M)</strong></td>
+<td><strong>Low impact (&lt;<span class="nokatex">$</span>1M)</strong></td>
 <td>IGNORE — don't waste bandwidth</td>
 <td>ACCEPT — limits handle this</td>
 <td>ROUTINE — manage through standing limits</td>
@@ -738,14 +738,14 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td>2</td>
 <td>Overnight EM crisis → BRL gap open -4%</td>
-<td>Small ($400K)</td>
+<td>Small (<span class="nokatex">$</span>400K)</td>
 <td>Already happened</td>
 <td><strong>GREEN</strong> — inform PM, it's small</td>
 </tr>
 <tr>
 <td>3</td>
 <td>SPX -2% in first 45 min, gamma adding exposure</td>
-<td>High ($3M+ at risk)</td>
+<td>High (<span class="nokatex">$</span>3M+ at risk)</td>
 <td>Real-time</td>
 <td><strong>ORANGE</strong> — prepare recommendation now</td>
 </tr>
@@ -783,7 +783,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>Level 1: Compliance</strong></td>
 <td>Reports limit breaches after they happen</td>
-<td>"Your VaR is $12M against a $10M limit. You need to reduce."</td>
+<td>"Your VaR is <span class="nokatex">$</span>12M against a <span class="nokatex">$</span>10M limit. You need to reduce."</td>
 <td>"Useless. I already know."</td>
 </tr>
 <tr>
@@ -795,19 +795,19 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>Level 3: Diagnosis</strong></td>
 <td>Decomposes risk and explains where it comes from</td>
-<td>"Your VaR is $12M. 60% is from short gamma, 30% from energy concentration, 10% from FX."</td>
+<td>"Your VaR is <span class="nokatex">$</span>12M. 60% is from short gamma, 30% from energy concentration, 10% from FX."</td>
 <td>"OK, that's helpful."</td>
 </tr>
 <tr>
 <td><strong>Level 4: Solutions</strong></td>
 <td>Provides actionable alternatives with trade-offs</td>
-<td>"To get VaR to $10M: Option A — roll puts down 100 (saves $2.5M VaR, costs $200K premium). Option B — trim XOM by 20% (saves $1.8M VaR, reduces your best thesis). Your call."</td>
+<td>"To get VaR to <span class="nokatex">$</span>10M: Option A — roll puts down 100 (saves <span class="nokatex">$</span>2.5M VaR, costs <span class="nokatex">$</span>200K premium). Option B — trim XOM by 20% (saves <span class="nokatex">$</span>1.8M VaR, reduces your best thesis). Your call."</td>
 <td>"This person makes me better."</td>
 </tr>
 <tr>
 <td><strong>Level 5: Anticipation</strong></td>
 <td>Identifies risks before they materialize and builds frameworks to prevent them</td>
-<td>"CPI is in 2 hours. If core prints &gt;0.4%, your short gamma + energy concentration creates a -$8M scenario. I recommend a pre-CPI adjustment: [specific trade]. Here's the cost-benefit."</td>
+<td>"CPI is in 2 hours. If core prints &gt;0.4%, your short gamma + energy concentration creates a -<span class="nokatex">$</span>8M scenario. I recommend a pre-CPI adjustment: [specific trade]. Here's the cost-benefit."</td>
 <td>"I won't trade without them."</td>
 </tr>
 </tbody>
@@ -824,19 +824,19 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tbody>
 <tr>
 <td>"Oil is up 8%. Here's the P&amp;L."</td>
-<td>"Oil up 8%. Your net P&amp;L is +$900K, mostly XOM/CVX. But here are two second-order risks you should know about:"</td>
+<td>"Oil up 8%. Your net P&amp;L is +<span class="nokatex">$</span>900K, mostly XOM/CVX. But here are two second-order risks you should know about:"</td>
 </tr>
 <tr>
 <td>(Stops there)</td>
-<td>"1. Your short SPX puts are now deeper short gamma — if the market sells off on stagflation fear, your puts add $9M to your long exposure at exactly the wrong moment."</td>
+<td>"1. Your short SPX puts are now deeper short gamma — if the market sells off on stagflation fear, your puts add <span class="nokatex">$</span>9M to your long exposure at exactly the wrong moment."</td>
 </tr>
 <tr>
 <td></td>
-<td>"2. TIPS breakevens widened 8bp, which means the market is repricing rate cut expectations. If fed funds futures reprice to 'no cuts this year,' your TLT and BUND positions lose another $500K."</td>
+<td>"2. TIPS breakevens widened 8bp, which means the market is repricing rate cut expectations. If fed funds futures reprice to 'no cuts this year,' your TLT and BUND positions lose another <span class="nokatex">$</span>500K."</td>
 </tr>
 <tr>
 <td></td>
-<td>"Recommendation: roll the SPX puts down 100 strikes to flatten gamma. Cost: $200K. Or add a 5100/5000 put spread as a crash hedge — cost: $350K."</td>
+<td>"Recommendation: roll the SPX puts down 100 strikes to flatten gamma. Cost: <span class="nokatex">$</span>200K. Or add a 5100/5000 put spread as a crash hedge — cost: <span class="nokatex">$</span>350K."</td>
 </tr>
 </tbody>
 </table>
@@ -851,11 +851,11 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tbody>
 <tr>
 <td>"That will breach your concentration limit."</td>
-<td>"I want to understand the thesis first. When you entered AAPL at $185, the thesis was iPhone cycle + AI services. It's now at $172 — what's changed in the fundamental story?"</td>
+<td>"I want to understand the thesis first. When you entered AAPL at <span class="nokatex">$</span>185, the thesis was iPhone cycle + AI services. It's now at <span class="nokatex">$</span>172 — what's changed in the fundamental story?"</td>
 </tr>
 <tr>
 <td>(End of conversation)</td>
-<td><em>[If PM says nothing has changed]:</em> "OK, I can support adding if the thesis is intact. But let me show you the portfolio impact: VaR goes from $8.2M to $9.7M. You'll be at 97% of limit. And if AAPL reports earnings and misses, combined with your existing positions, max loss is $4.2M on that name alone — that's 42% of your VaR budget on one event. Alternative: add $15M instead of $45M, which captures 80% of the thesis with half the concentration risk."</td>
+<td><em>[If PM says nothing has changed]:</em> "OK, I can support adding if the thesis is intact. But let me show you the portfolio impact: VaR goes from <span class="nokatex">$</span>8.2M to <span class="nokatex">$</span>9.7M. You'll be at 97% of limit. And if AAPL reports earnings and misses, combined with your existing positions, max loss is <span class="nokatex">$</span>4.2M on that name alone — that's 42% of your VaR budget on one event. Alternative: add <span class="nokatex">$</span>15M instead of <span class="nokatex">$</span>45M, which captures 80% of the thesis with half the concentration risk."</td>
 </tr>
 <tr>
 <td></td>
@@ -965,7 +965,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>P&amp;L monitoring</strong></td>
 <td>Continuous</td>
-<td>Any position losing &gt; $1M or &gt; 2% of entry → flag</td>
+<td>Any position losing &gt; <span class="nokatex">$</span>1M or &gt; 2% of entry → flag</td>
 </tr>
 <tr>
 <td><strong>Greeks monitoring</strong></td>
@@ -985,7 +985,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>PM requests</strong></td>
 <td>As they come</td>
-<td>"Can I add $20M?" → Run pre-trade check → "Impact: VaR +$1.2M, 90% of limit. Margin +5%. Proceed?"</td>
+<td>"Can I add <span class="nokatex">$</span>20M?" → Run pre-trade check → "Impact: VaR +<span class="nokatex">$</span>1.2M, 90% of limit. Margin +5%. Proceed?"</td>
 </tr>
 <tr>
 <td><strong>Anomaly detection</strong></td>
@@ -1037,7 +1037,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td>17:30</td>
 <td><strong>PM debrief (if needed)</strong></td>
-<td>"Today we gained/lost $X. The key risk going into tomorrow is [Y]."</td>
+<td>"Today we gained/lost <span class="nokatex">$</span>X. The key risk going into tomorrow is [Y]."</td>
 </tr>
 </tbody>
 </table>
@@ -1088,17 +1088,17 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <h3 id="how-to-talk-to-traders-pms">How to Talk to Traders / PMs</h3>
 <p><strong>Rule 1: Lead with P&amp;L impact, not Greek letters.</strong><br />
 - ❌ "Your gamma is -0.04 on the SPX puts"<br />
-- ✅ "If SPX drops 2%, your short gamma adds $9M to your long exposure and your P&amp;L swing is -$3.5M"</p>
+- ✅ "If SPX drops 2%, your short gamma adds <span class="nokatex">$</span>9M to your long exposure and your P&amp;L swing is -<span class="nokatex">$</span>3.5M"</p>
 <p><strong>Rule 2: Speak their language.</strong><br />
 - ❌ "The portfolio's standard deviation is elevated"<br />
-- ✅ "Your book moves $2.3M per 1% SPX move — that's up from $1.5M last week"</p>
+- ✅ "Your book moves <span class="nokatex">$</span>2.3M per 1% SPX move — that's up from <span class="nokatex">$</span>1.5M last week"</p>
 <p><strong>Rule 3: Time it right.</strong><br />
 - 🟢 Pre-market and post-close: deep conversations, thesis reviews, structural adjustments<br />
 - 🟡 During market hours: alerts, quick answers, pre-trade checks<br />
 - 🔴 During active trading/execution: only urgent alerts (limit breach, margin call, system failure)</p>
 <p><strong>Rule 4: Be definitive, not wishy-washy.</strong><br />
 - ❌ "Maybe we should think about potentially reducing some of the energy exposure..."<br />
-- ✅ "I'd recommend reducing XOM by $15M. Here's why: [30 seconds]. Your call."</p>
+- ✅ "I'd recommend reducing XOM by <span class="nokatex">$</span>15M. Here's why: [30 seconds]. Your call."</p>
 <p><strong>Rule 5: Pick your battles. Seriously.</strong><br />
 - If you flag 10 things a day, you get tuned out by day 3<br />
 - Flag the 1-2 things that TRULY matter. Earn credibility through precision, not volume.<br />
@@ -1109,11 +1109,11 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <p><strong>Step 2: Add the risk dimension</strong><br />
 "My concern isn't the thesis — it's the sizing relative to what else is in the book."</p>
 <p><strong>Step 3: Bring data, not opinions</strong><br />
-"Under the current scenario set, this position alone generates a -$15M loss in a March 2020 replay. Combined with the rest of the book, total drawdown is -$22M, which breaches your 5% NAV limit."</p>
+"Under the current scenario set, this position alone generates a -<span class="nokatex">$</span>15M loss in a March 2020 replay. Combined with the rest of the book, total drawdown is -<span class="nokatex">$</span>22M, which breaches your 5% NAV limit."</p>
 <p><strong>Step 4: Offer alternatives</strong><br />
-"Instead of $45M notional, what about $25M plus a call spread overlay? You get 80% of the upside thesis with 55% of the risk. VaR stays within limit."</p>
+"Instead of <span class="nokatex">$</span>45M notional, what about <span class="nokatex">$</span>25M plus a call spread overlay? You get 80% of the upside thesis with 55% of the risk. VaR stays within limit."</p>
 <p><strong>Step 5: Escalate with documentation if needed</strong><br />
-"If you want to proceed at $45M, I respect your judgment, but I need to flag this to the desk head with the scenario numbers. Not blocking — just ensuring visibility."</p>
+"If you want to proceed at <span class="nokatex">$</span>45M, I respect your judgment, but I need to flag this to the desk head with the scenario numbers. Not blocking — just ensuring visibility."</p>
 <h3 id="talking-to-senior-risk-cro-head-of-risk-constantine">Talking to Senior Risk (CRO / Head of Risk / Constantine)</h3>
 <p><strong>Format:</strong> Situation → Quantification → Recommendation → Trade-offs. 90 seconds max.</p>
 <p><strong>Template:</strong></p>
@@ -1122,10 +1122,10 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 </blockquote>
 <p><strong>Example:</strong></p>
 <blockquote>
-<p>"PM Chen is at 4.2% drawdown against a 5% limit. Concentrated in energy — XOM + CVX = 11.5% NAV — and short SPX gamma. If oil reverses 10% and SPX drops 5% simultaneously, estimated loss is $16M, which breaches the VaR limit and approaches the drawdown limit. I recommend trimming energy by 25% and rolling the puts. PM disagrees — believes oil hasn't peaked. Requesting IC review before the close."</p>
+<p>"PM Chen is at 4.2% drawdown against a 5% limit. Concentrated in energy — XOM + CVX = 11.5% NAV — and short SPX gamma. If oil reverses 10% and SPX drops 5% simultaneously, estimated loss is <span class="nokatex">$</span>16M, which breaches the VaR limit and approaches the drawdown limit. I recommend trimming energy by 25% and rolling the puts. PM disagrees — believes oil hasn't peaked. Requesting IC review before the close."</p>
 </blockquote>
 <p><strong>What they want to hear:</strong><br />
-1. <strong>Numbers</strong> — not "it's getting risky" but "$16M loss scenario"<br />
+1. <strong>Numbers</strong> — not "it's getting risky" but "<span class="nokatex">$</span>16M loss scenario"<br />
 2. <strong>Context</strong> — how does this compare to limits, historical, other PMs<br />
 3. <strong>Your judgment</strong> — are you concerned or just reporting? If concerned, say so explicitly<br />
 4. <strong>What you need</strong> — a decision, visibility, or approval. Be specific.</p>
@@ -1146,7 +1146,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>VaR impact</strong></td>
 <td>Marginal VaR: ΔVaR from adding this position</td>
-<td>"VaR goes from $8.2M → $9.7M. You're at 97% of limit."</td>
+<td>"VaR goes from <span class="nokatex">$</span>8.2M → <span class="nokatex">$</span>9.7M. You're at 97% of limit."</td>
 </tr>
 <tr>
 <td><strong>Concentration</strong></td>
@@ -1166,22 +1166,22 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>Factor overlap</strong></td>
 <td>Does this add new factor exposure or amplify existing?</td>
-<td>"This adds another $800K of oil beta. You already have $2.1M."</td>
+<td>"This adds another <span class="nokatex">$</span>800K of oil beta. You already have <span class="nokatex">$</span>2.1M."</td>
 </tr>
 <tr>
 <td><strong>Liquidity</strong></td>
 <td>Can we exit this position in 1 day at &lt;1% impact?</td>
-<td>"ADV is $50M. $35M position = 70% ADV. Exit takes 2-3 days."</td>
+<td>"ADV is <span class="nokatex">$</span>50M. <span class="nokatex">$</span>35M position = 70% ADV. Exit takes 2-3 days."</td>
 </tr>
 <tr>
 <td><strong>Worst case</strong></td>
 <td>If this position goes wrong, what's the max loss?</td>
-<td>"If it gaps -15%, that's -$5.3M. Combined with existing book: -$21M."</td>
+<td>"If it gaps -15%, that's -<span class="nokatex">$</span>5.3M. Combined with existing book: -<span class="nokatex">$</span>21M."</td>
 </tr>
 </tbody>
 </table>
 <p><strong>The delivery:</strong><br />
-"Adding $35M long in [name]. Here's the impact: VaR +$1.5M to $9.7M (97% of limit). Energy concentration goes to 14.5% (above 12% soft limit). Margin to 81%. The position is correlated 0.7 with your existing energy book — so you're amplifying, not diversifying. If you still want to proceed, I'd recommend either (a) trimming CVX by $15M to make room, or (b) getting IC sign-off on the limit exception. Which do you prefer?"</p>
+"Adding <span class="nokatex">$</span>35M long in [name]. Here's the impact: VaR +<span class="nokatex">$</span>1.5M to <span class="nokatex">$</span>9.7M (97% of limit). Energy concentration goes to 14.5% (above 12% soft limit). Margin to 81%. The position is correlated 0.7 with your existing energy book — so you're amplifying, not diversifying. If you still want to proceed, I'd recommend either (a) trimming CVX by <span class="nokatex">$</span>15M to make room, or (b) getting IC sign-off on the limit exception. Which do you prefer?"</p>
 <h3 id="pm-says-what-if-i-restructure-it-as-options">PM Says: "What if I restructure it as options?"</h3>
 <p><strong>You should be able to immediately respond:</strong></p>
 <table>
@@ -1195,7 +1195,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 </thead>
 <tbody>
 <tr>
-<td><strong>Long stock ($35M)</strong></td>
+<td><strong>Long stock (<span class="nokatex">$</span>35M)</strong></td>
 <td>Full delta, no optionality</td>
 <td>Full upside, no time decay</td>
 <td>Full downside, max margin</td>
@@ -1204,7 +1204,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td><strong>Long call (ATM, 3M)</strong></td>
 <td>Delta ~0.5, long gamma, long vega</td>
 <td>Defined loss, less margin</td>
-<td>Premium cost ($1.5M), time decay</td>
+<td>Premium cost (<span class="nokatex">$</span>1.5M), time decay</td>
 </tr>
 <tr>
 <td><strong>Call spread (ATM/+15%)</strong></td>
@@ -1243,7 +1243,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>Position &gt; 5% NAV in single name</strong></td>
 <td>Concentration risk — one event can cause significant damage</td>
-<td>"At 8% NAV, this is your largest position. An earnings miss could cost you $4M. Is this size intentional?"</td>
+<td>"At 8% NAV, this is your largest position. An earnings miss could cost you <span class="nokatex">$</span>4M. Is this size intentional?"</td>
 <td>If &gt;8% and PM won't reduce, document and flag to desk head</td>
 </tr>
 <tr>
@@ -1261,7 +1261,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>Stop-loss moved lower repeatedly</strong></td>
 <td>Discipline breakdown</td>
-<td>"The stop was originally at $165, then $155, now $148. The original risk/reward assumed a $165 stop. At $148, the trade has a very different risk/reward."</td>
+<td>"The stop was originally at <span class="nokatex">$</span>165, then <span class="nokatex">$</span>155, now <span class="nokatex">$</span>148. The original risk/reward assumed a <span class="nokatex">$</span>165 stop. At <span class="nokatex">$</span>148, the trade has a very different risk/reward."</td>
 <td>Yes — this pattern ends in blow-ups</td>
 </tr>
 <tr>
@@ -1273,7 +1273,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tr>
 <td><strong>PM trading much larger after a win streak</strong></td>
 <td>Overconfidence bias</td>
-<td>Don't say "you're overconfident." Instead: "Your position sizes have grown 40% this month. The average trade is $40M vs $28M last month. Is this a deliberate strategy shift or should we recalibrate?"</td>
+<td>Don't say "you're overconfident." Instead: "Your position sizes have grown 40% this month. The average trade is <span class="nokatex">$</span>40M vs <span class="nokatex">$</span>28M last month. Is this a deliberate strategy shift or should we recalibrate?"</td>
 <td>Flag in weekly review if persistent</td>
 </tr>
 <tr>
@@ -1427,10 +1427,10 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 - Short gamma: moderate (within Greeks limit)<br />
 - Margin: 78% (fine individually)</p>
 <p><strong>BUT:</strong> In a stagflation scenario (oil -10%, SPX -5%, rates +20bp):<br />
-- Energy concentration → -$6M<br />
-- Short gamma adds effective long exposure → -$4M more<br />
-- Margin call triggered → forced to sell at worst prices → -$2M additional slippage<br />
-- Total: -$12M on a $10M VaR limit → breach</p>
+- Energy concentration → -<span class="nokatex">$</span>6M<br />
+- Short gamma adds effective long exposure → -<span class="nokatex">$</span>4M more<br />
+- Margin call triggered → forced to sell at worst prices → -<span class="nokatex">$</span>2M additional slippage<br />
+- Total: -<span class="nokatex">$</span>12M on a <span class="nokatex">$</span>10M VaR limit → breach</p>
 <p><strong>Lesson:</strong> The RM's job is to check limits INDIVIDUALLY and IN COMBINATION. The scenario analysis catches what individual limits miss.</p>
 <h3 id="monthly-limit-calibration">Monthly Limit Calibration</h3>
 <p>Limits should not be static. Review monthly:</p>
@@ -1523,27 +1523,27 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 </thead>
 <tbody>
 <tr>
-<td>Sell AAPL ($45M, liquid)</td>
-<td>$12M margin</td>
+<td>Sell AAPL (<span class="nokatex">$</span>45M, liquid)</td>
+<td><span class="nokatex">$</span>12M margin</td>
 <td>Low (0.1% ADV)</td>
 <td>Moderate — removes a conviction position</td>
 </tr>
 <tr>
-<td>Close SPX puts ($30M, liquid)</td>
-<td>$18M margin</td>
+<td>Close SPX puts (<span class="nokatex">$</span>30M, liquid)</td>
+<td><span class="nokatex">$</span>18M margin</td>
 <td>Low</td>
 <td>Low — reduces risk and margin simultaneously</td>
 </tr>
 <tr>
-<td>Trim XOM by 30% ($24M)</td>
-<td>$8M margin</td>
+<td>Trim XOM by 30% (<span class="nokatex">$</span>24M)</td>
+<td><span class="nokatex">$</span>8M margin</td>
 <td>Medium (1.5% ADV)</td>
 <td>High — reduces best-performing position</td>
 </tr>
 </tbody>
 </table>
 <ol>
-<li><strong>Recommend</strong> — "I'd close the SPX puts first — frees $18M margin, reduces our biggest risk (short gamma), and has minimal market impact. That covers the margin call with buffer. If we need more, trim AAPL $15M."</li>
+<li><strong>Recommend</strong> — "I'd close the SPX puts first — frees <span class="nokatex">$</span>18M margin, reduces our biggest risk (short gamma), and has minimal market impact. That covers the margin call with buffer. If we need more, trim AAPL <span class="nokatex">$</span>15M."</li>
 <li><strong>Execute</strong> — coordinate with PM and trading desk</li>
 <li><strong>Document</strong> — timestamp everything. Post-mortem: why did we get here? How do we prevent recurrence?</li>
 </ol>
@@ -1595,31 +1595,31 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <tbody>
 <tr>
 <td>XOM</td>
-<td>$80M</td>
-<td>$2.5B</td>
+<td><span class="nokatex">$</span>80M</td>
+<td><span class="nokatex">$</span>2.5B</td>
 <td>0.3</td>
 <td>0.2</td>
 <td>Highly liquid</td>
 </tr>
 <tr>
 <td>AAPL</td>
-<td>$45M</td>
-<td>$10B</td>
+<td><span class="nokatex">$</span>45M</td>
+<td><span class="nokatex">$</span>10B</td>
 <td>0.05</td>
 <td>0.02</td>
 <td>Ultra-liquid</td>
 </tr>
 <tr>
 <td>Small-cap name</td>
-<td>$15M</td>
-<td>$25M</td>
+<td><span class="nokatex">$</span>15M</td>
+<td><span class="nokatex">$</span>25M</td>
 <td>6.0</td>
 <td>3.0</td>
 <td><strong>ILLIQUID — flag</strong></td>
 </tr>
 <tr>
 <td>SPX puts</td>
-<td>$30M</td>
+<td><span class="nokatex">$</span>30M</td>
 <td>Deep market</td>
 <td>0.1</td>
 <td>0.05</td>
@@ -1627,7 +1627,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 </tr>
 </tbody>
 </table>
-<p><strong>Key insight:</strong> Liquidity is a fair-weather friend. A position that trades $25M/day normally might trade $5M/day in a crisis as market-makers pull back. Always stress-test liquidity:</p>
+<p><strong>Key insight:</strong> Liquidity is a fair-weather friend. A position that trades <span class="nokatex">$</span>25M/day normally might trade <span class="nokatex">$</span>5M/day in a crisis as market-makers pull back. Always stress-test liquidity:</p>
 <p>$$\text{Stressed days to exit} = \text{Normal days} \times \frac{1}{\text{liquidity stress factor (0.3-0.5)}}$$</p>
 <p>That small-cap position that's "6 days to exit" in normal conditions could be <strong>15-20 days</strong> in a crisis. If the PM needs to get out during a sell-off, they're trapped.</p>
 <hr />
@@ -1699,7 +1699,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>0%</td>
 <td>0%</td>
 <td>0</td>
-<td>$0</td>
+<td><span class="nokatex">$</span>0</td>
 <td>—</td>
 </tr>
 <tr>
@@ -1710,7 +1710,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>-3%</td>
 <td>-1%</td>
 <td>-15bp</td>
-<td>+$2.1M</td>
+<td>+<span class="nokatex">$</span>2.1M</td>
 <td>Disinflation continuation</td>
 </tr>
 <tr>
@@ -1721,7 +1721,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>-8%</td>
 <td>+2%</td>
 <td>+50bp</td>
-<td>-$6.3M</td>
+<td>-<span class="nokatex">$</span>6.3M</td>
 <td>Late-cycle rollover</td>
 </tr>
 <tr>
@@ -1732,7 +1732,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>+5%</td>
 <td>+1.5%</td>
 <td>+25bp</td>
-<td>-$4.7M</td>
+<td>-<span class="nokatex">$</span>4.7M</td>
 <td>Stagflation entry</td>
 </tr>
 <tr>
@@ -1743,7 +1743,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>-25%</td>
 <td>-0.5%</td>
 <td>+10bp</td>
-<td>-$8.2M</td>
+<td>-<span class="nokatex">$</span>8.2M</td>
 <td>Energy-specific tail</td>
 </tr>
 <tr>
@@ -1754,7 +1754,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>+30%</td>
 <td>+3%</td>
 <td>+75bp</td>
-<td>-$3.4M</td>
+<td>-<span class="nokatex">$</span>3.4M</td>
 <td>Energy buffer helps, but gamma kills</td>
 </tr>
 <tr>
@@ -1765,7 +1765,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>-20%</td>
 <td>+4%</td>
 <td>+200bp</td>
-<td>-$18.5M</td>
+<td>-<span class="nokatex">$</span>18.5M</td>
 <td>Liquidity crisis</td>
 </tr>
 <tr>
@@ -1776,7 +1776,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>+10%</td>
 <td>+3%</td>
 <td>+80bp</td>
-<td>-$11.2M</td>
+<td>-<span class="nokatex">$</span>11.2M</td>
 <td>Correlation regime shift</td>
 </tr>
 <tr>
@@ -1787,7 +1787,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <td>-5%</td>
 <td>+1%</td>
 <td>+30bp</td>
-<td>-$7.8M</td>
+<td>-<span class="nokatex">$</span>7.8M</td>
 <td>Short gamma gets killed</td>
 </tr>
 <tr>
@@ -1809,8 +1809,8 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <p>Instead:</p>
 <blockquote>
 <p>"I ran 10 scenarios. Three things stood out:</p>
-<p>First, your biggest single risk isn't a market crash — it's an oil reversal. Scenario 5 (oil -25%) costs you $8.2M. That's worse than a 12% equity crash because your portfolio is so concentrated in energy.</p>
-<p>Second, in the inflation shock scenario, your TLT hedge COSTS you $760K instead of helping, because stock-bond correlation is positive in that regime. Your effective hedge ratio is about 30% of what you think it is.</p>
+<p>First, your biggest single risk isn't a market crash — it's an oil reversal. Scenario 5 (oil -25%) costs you <span class="nokatex">$</span>8.2M. That's worse than a 12% equity crash because your portfolio is so concentrated in energy.</p>
+<p>Second, in the inflation shock scenario, your TLT hedge COSTS you <span class="nokatex">$</span>760K instead of helping, because stock-bond correlation is positive in that regime. Your effective hedge ratio is about 30% of what you think it is.</p>
 <p>Third, the short gamma on SPX puts creates asymmetric exposure: you get longer as the market falls. In any scenario with SPX -5% or more, your effective portfolio delta is 50% higher than what the blotter currently shows.</p>
 <p>My recommendation: [specific trade adjustments]."</p>
 </blockquote>
@@ -1818,16 +1818,16 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <h1 id="part-11-the-risk-management-toolbox-situational-playbook">PART 11: THE RISK MANAGEMENT TOOLBOX — SITUATIONAL PLAYBOOK</h1>
 <h3 id="playbook-1-approaching-drawdown-limit">Playbook 1: Approaching Drawdown Limit</h3>
 <p><strong>Situation:</strong> PM is at 4.2% drawdown against 5% limit.</p>
-<p><strong>Step 1 — Quantify remaining budget:</strong> $1B × (5% - 4.2%) = $8M remaining risk budget. At current VaR ($8.2M), one average bad day could breach the limit.</p>
+<p><strong>Step 1 — Quantify remaining budget:</strong> <span class="nokatex">$</span>1B × (5% - 4.2%) = <span class="nokatex">$</span>8M remaining risk budget. At current VaR (<span class="nokatex">$</span>8.2M), one average bad day could breach the limit.</p>
 <p><strong>Step 2 — Identify P&amp;L drivers:</strong> What positions are causing the drawdown? Where is P&amp;L concentrated?</p>
 <p><strong>Step 3 — Present options:</strong><br />
 | Option | Risk reduction | P&amp;L impact | PM acceptance |<br />
 |---|---|---|---|<br />
-| Reduce all positions pro-rata by 20% | VaR: $8.2M → $6.6M | Reduces recovery potential equally | Low — blunt instrument |<br />
+| Reduce all positions pro-rata by 20% | VaR: <span class="nokatex">$</span>8.2M → <span class="nokatex">$</span>6.6M | Reduces recovery potential equally | Low — blunt instrument |<br />
 | Cut losing positions only | VaR: variable | Crystallizes losses but stops bleeding | Medium — emotional resistance |<br />
-| Hedge with index puts | VaR: $8.2M → $6.0M | Costs $300K premium but preserves upside | High — retains thesis |<br />
+| Hedge with index puts | VaR: <span class="nokatex">$</span>8.2M → <span class="nokatex">$</span>6.0M | Costs <span class="nokatex">$</span>300K premium but preserves upside | High — retains thesis |<br />
 | Cut the position most correlated with primary loss driver | VaR: targeted reduction | Most efficient risk reduction per $ | High — surgical, smart |</p>
-<p><strong>Step 4 — Recommend:</strong> "I'd recommend reducing XOM by 25% (cuts VaR by $1.5M, low market impact) and buying a 2-week put spread on SPX ($300K cost, caps tail at -$5M). This preserves your oil thesis at reduced sizing while capping your drawdown exposure. Total cost: $300K in premium. Budget freed: $2.3M in VaR."</p>
+<p><strong>Step 4 — Recommend:</strong> "I'd recommend reducing XOM by 25% (cuts VaR by <span class="nokatex">$</span>1.5M, low market impact) and buying a 2-week put spread on SPX (<span class="nokatex">$</span>300K cost, caps tail at -<span class="nokatex">$</span>5M). This preserves your oil thesis at reduced sizing while capping your drawdown exposure. Total cost: <span class="nokatex">$</span>300K in premium. Budget freed: <span class="nokatex">$</span>2.3M in VaR."</p>
 <h3 id="playbook-2-event-day-cpi-fomc-nfp">Playbook 2: Event Day (CPI, FOMC, NFP)</h3>
 <p><strong>T-minus 1 day:</strong><br />
 - Map PM exposures to potential outcomes (beat, meet, miss)<br />
@@ -1835,11 +1835,11 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 - Identify: "If [X], which positions gain/lose the most?"<br />
 - Prepare recommendations for each outcome: "If hot CPI: [action]. If cold CPI: [no action needed]."</p>
 <p><strong>T-minus 30 minutes:</strong><br />
-- Send PM the scenario summary: "In 30 minutes, CPI prints. Your exposure: [summary]. If hot, estimated impact: -$X. If cold: +$Y. I recommend [Z] if you want to de-risk ahead."</p>
+- Send PM the scenario summary: "In 30 minutes, CPI prints. Your exposure: [summary]. If hot, estimated impact: -<span class="nokatex">$</span>X. If cold: +<span class="nokatex">$</span>Y. I recommend [Z] if you want to de-risk ahead."</p>
 <p><strong>T-zero:</strong><br />
 - Watch the number. Immediately compare to consensus.<br />
 - Within 2 minutes, estimate PM-specific P&amp;L impact.<br />
-- If the print is in the tail (&gt;2σ surprise), reach out immediately: "Core CPI +0.5%. This is a 2σ miss. Your estimated hit is -$4.7M across [positions]. Recommend: [action]."</p>
+- If the print is in the tail (&gt;2σ surprise), reach out immediately: "Core CPI +0.5%. This is a 2σ miss. Your estimated hit is -<span class="nokatex">$</span>4.7M across [positions]. Recommend: [action]."</p>
 <p><strong>T-plus 15 minutes:</strong><br />
 - Check if the reaction is following the "expected" cross-asset pattern or something unusual<br />
 - If unusual (markets not reacting as expected to the data), that's information — the narrative may be shifting</p>
@@ -1850,7 +1850,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <li><strong>Assess second-order (15 min):</strong> Cross-asset cascade: oil → rates → equities → credit → FX. Run stagflation scenario.</li>
 <li><strong>Check liquidity (5 min):</strong> Will markets open normally? Any positions in affected regions? Circuit breaker risk?</li>
 <li><strong>Prepare 1-page brief (15 min):</strong></li>
-<li>Direct P&amp;L impact: +$Y (energy) / -$Z (equity, FX)</li>
+<li>Direct P&amp;L impact: +<span class="nokatex">$</span>Y (energy) / -<span class="nokatex">$</span>Z (equity, FX)</li>
 <li>Net impact: $[number]</li>
 <li>Scenarios: escalation path vs de-escalation path</li>
 <li>Recommendations: "Hold energy longs (thesis confirmed). Reduce SPX short gamma immediately (dangerous in vol spike). Consider adding USDJPY hedge for carry unwind risk."</li>
@@ -1863,7 +1863,7 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <li><strong>Size the problem:</strong> What % of NAV is this position? At current liquidity, how many days to exit?</li>
 <li><strong>Impact estimate:</strong> If we sell into this market, what's the expected slippage?</li>
 <li><strong>Alternatives:</strong> Can we hedge the exposure synthetically (correlated ETF, index, options) rather than selling the illiquid position directly?</li>
-<li><strong>Communicate:</strong> "The bid-ask on [name] has widened from 5bp to 25bp. We can't exit our $15M position without significant impact (~100bp = $150K slippage). I recommend hedging with [ETF/index] at 10bp cost while we wait for liquidity to normalize."</li>
+<li><strong>Communicate:</strong> "The bid-ask on [name] has widened from 5bp to 25bp. We can't exit our <span class="nokatex">$</span>15M position without significant impact (~100bp = <span class="nokatex">$</span>150K slippage). I recommend hedging with [ETF/index] at 10bp cost while we wait for liquidity to normalize."</li>
 </ol>
 <hr />
 <h1 id="part-12-interview-answers">PART 12: INTERVIEW ANSWERS</h1>
@@ -1878,10 +1878,10 @@ Benefit: VaR drops to $7.5M, tail exposure capped.
 <p>Seventh, liquidity — can we exit every position in less than 2 days at under 50bp impact?</p>
 <p>Eighth, stress — what's the worst plausible single-day scenario? I'd run it through the current book and check: does it breach any limits?</p>
 <p>The output of all this is a 1-page morning summary for the PM with the top 3 risks and my specific recommendation for each."</p>
-<h3 id="q2-a-pm-wants-to-add-40m-to-a-losing-energy-position-what-do-you-do">Q2: "A PM wants to add $40M to a losing energy position. What do you do?"</h3>
+<h3 id="q2-a-pm-wants-to-add-40m-to-a-losing-energy-position-what-do-you-do">Q2: "A PM wants to add <span class="nokatex">$</span>40M to a losing energy position. What do you do?"</h3>
 <p><strong>Answer:</strong> "First, I'd want to understand the thesis — not challenge it, but genuinely understand it. What was the entry thesis, and what has changed? If the stock is down 15% and the PM says 'nothing has changed, the thesis is intact, and the market is mispricing this,' that's one conversation. If the PM says 'it has to come back,' that's a very different conversation — that's hope, not a thesis, and I'd flag it.</p>
-<p>Assuming the thesis is intact, I'd run the numbers. Adding $40M takes this name to [X]% of NAV — is that within concentration limits? It takes energy sector exposure to [Y]% — within sector limits? What's the VaR impact — how much risk budget does this consume? And critically, what's the portfolio impact if this position AND the rest of the energy book move against us? I'd present the correlated tail loss.</p>
-<p>Then I'd offer alternatives. 'Instead of $40M in stock, what about $20M in stock plus a $20M-notional call spread? You get 80% of the upside conviction with 55% of the downside risk, and VaR stays within budget.' Or: 'If you want the full $40M, I'd recommend trimming CVX by $15M to make room — you're effectively concentrating the energy bet in your highest-conviction name.'</p>
+<p>Assuming the thesis is intact, I'd run the numbers. Adding <span class="nokatex">$</span>40M takes this name to [X]% of NAV — is that within concentration limits? It takes energy sector exposure to [Y]% — within sector limits? What's the VaR impact — how much risk budget does this consume? And critically, what's the portfolio impact if this position AND the rest of the energy book move against us? I'd present the correlated tail loss.</p>
+<p>Then I'd offer alternatives. 'Instead of <span class="nokatex">$</span>40M in stock, what about <span class="nokatex">$</span>20M in stock plus a <span class="nokatex">$</span>20M-notional call spread? You get 80% of the upside conviction with 55% of the downside risk, and VaR stays within budget.' Or: 'If you want the full <span class="nokatex">$</span>40M, I'd recommend trimming CVX by <span class="nokatex">$</span>15M to make room — you're effectively concentrating the energy bet in your highest-conviction name.'</p>
 <p>If the PM wants to proceed at full size and it breaches a limit, I'd say: 'I respect your conviction, but this triggers a limit discussion. I need to flag it to the desk head with the scenario numbers. Not blocking, but ensuring visibility.'"</p>
 <h3 id="q3-how-do-you-distinguish-between-a-genuine-risk-issue-and-normal-noise">Q3: "How do you distinguish between a genuine risk issue and normal noise?"</h3>
 <p><strong>Answer:</strong> "Three filters.</p>
@@ -1906,6 +1906,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

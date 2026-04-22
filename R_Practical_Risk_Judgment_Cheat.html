@@ -431,13 +431,13 @@ MY RECOMMENDATION: [specific trade + cost-benefit]
 </thead>
 <tbody>
 <tr>
-<td><strong>High impact (&gt;$5M)</strong></td>
+<td><strong>High impact (&gt;<span class="nokatex">$</span>5M)</strong></td>
 <td>MONITOR</td>
 <td>PREPARE (hedge/IC)</td>
 <td><strong>ACT NOW</strong></td>
 </tr>
 <tr>
-<td><strong>Med impact ($1-5M)</strong></td>
+<td><strong>Med impact (<span class="nokatex">$</span>1-5M)</strong></td>
 <td>ACCEPT</td>
 <td>WATCH</td>
 <td>ADDRESS (1-2 days)</td>
@@ -462,8 +462,8 @@ MY RECOMMENDATION: [specific trade + cost-benefit]
 <li>Compliance: "You breached the limit"</li>
 <li>Monitoring: "You're at 92%"</li>
 <li>Diagnosis: "60% from gamma, 30% from energy"</li>
-<li><strong>Solutions: "Option A: roll puts (saves $2.5M VaR, costs $200K). Option B: trim XOM 20%. Your call."</strong></li>
-<li><strong>Anticipation: "CPI in 2hrs. If hot, your gamma + energy = $8M loss scenario. Pre-adjust?"</strong></li>
+<li><strong>Solutions: "Option A: roll puts (saves <span class="nokatex">$</span>2.5M VaR, costs <span class="nokatex">$</span>200K). Option B: trim XOM 20%. Your call."</strong></li>
+<li><strong>Anticipation: "CPI in 2hrs. If hot, your gamma + energy = <span class="nokatex">$</span>8M loss scenario. Pre-adjust?"</strong></li>
 </ol>
 <h2 id="core-principle">Core Principle</h2>
 <p><strong>Maximize INFORMED risk-taking.</strong> Every $ of risk must be:<br />
@@ -656,6 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

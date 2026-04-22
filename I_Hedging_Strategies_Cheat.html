@@ -559,11 +559,11 @@ body {
 <hr />
 <h2 id="key-formulas">KEY FORMULAS</h2>
 <p><strong>Beta hedge sizing:</strong><br />
-$$N = \frac{V_p \times (\beta_{\text{current}} - \beta_{\text{target}})}{V_f}$$</p>
+$<span class="nokatex">$</span>N = \frac{V_p \times (\beta_{\text{current}} - \beta_{\text{target}})}{V_f}$$</p>
 <p><strong>Optimal hedge ratio:</strong><br />
 $$h^* = \rho \times \frac{\sigma_{\text{position}}}{\sigma_{\text{hedge}}}$$</p>
 <p><strong>Hedge effectiveness:</strong><br />
-$$R^2 = 1 - \frac{\text{Var(hedged)}}{\text{Var(unhedged)}}$$</p>
+$<span class="nokatex">$</span>R^2 = 1 - \frac{\text{Var(hedged)}}{\text{Var(unhedged)}}$$</p>
 <p><strong>Delta-hedged P&amp;L:</strong><br />
 $$\text{P\&amp;L} = \frac{1}{2}\Gamma(\Delta S)^2 - \Theta \Delta t$$</p>
 <p><strong>Breakeven daily move:</strong><br />
@@ -673,7 +673,7 @@ $$\text{EV} = P(\text{tail}) \times \text{Payoff} - (1 - P(\text{tail})) \times 
 </table>
 <p><strong>Rule:</strong> Roll at ~2 weeks before expiry (monthlies), ~3 weeks (quarterlies).</p>
 <hr />
-<h2 id="stress-comparison-on-80m-equity-book-spx">STRESS COMPARISON (on $80M equity book, SPX)</h2>
+<h2 id="stress-comparison-on-80m-equity-book-spx">STRESS COMPARISON (on <span class="nokatex">$</span>80M equity book, SPX)</h2>
 <table>
 <thead>
 <tr>
@@ -688,27 +688,27 @@ $$\text{EV} = P(\text{tail}) \times \text{Payoff} - (1 - P(\text{tail})) \times 
 <tbody>
 <tr>
 <td>SPX −5%</td>
-<td>−$4.0M</td>
-<td>−$2.0M</td>
-<td>−$1.5M</td>
-<td>−$3.5M</td>
-<td>−$2.2M</td>
+<td>−<span class="nokatex">$</span>4.0M</td>
+<td>−<span class="nokatex">$</span>2.0M</td>
+<td>−<span class="nokatex">$</span>1.5M</td>
+<td>−<span class="nokatex">$</span>3.5M</td>
+<td>−<span class="nokatex">$</span>2.2M</td>
 </tr>
 <tr>
 <td>SPX −10%</td>
-<td>−$8.0M</td>
-<td>−$4.0M</td>
-<td>−$1.0M</td>
-<td>−$2.0M</td>
-<td>−$1.8M</td>
+<td>−<span class="nokatex">$</span>8.0M</td>
+<td>−<span class="nokatex">$</span>4.0M</td>
+<td>−<span class="nokatex">$</span>1.0M</td>
+<td>−<span class="nokatex">$</span>2.0M</td>
+<td>−<span class="nokatex">$</span>1.8M</td>
 </tr>
 <tr>
 <td>SPX −20%</td>
-<td>−$16.0M</td>
-<td>−$8.0M</td>
-<td><strong>+$2.0M</strong></td>
-<td>−$6.0M</td>
-<td>−$1.8M</td>
+<td>−<span class="nokatex">$</span>16.0M</td>
+<td>−<span class="nokatex">$</span>8.0M</td>
+<td><strong>+<span class="nokatex">$</span>2.0M</strong></td>
+<td>−<span class="nokatex">$</span>6.0M</td>
+<td>−<span class="nokatex">$</span>1.8M</td>
 </tr>
 </tbody>
 </table>
@@ -822,6 +822,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

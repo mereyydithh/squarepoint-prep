@@ -408,8 +408,8 @@ body {
 <p>At Squarepoint, every morning starts with the same question: <strong>"Why did we make or lose money yesterday?"</strong> The number is not what matters. The DECOMPOSITION is everything. P&amp;L attribution is the bridge between risk measures (VaR, Greeks, factor exposures) and real-world money. It turns abstract risk into concrete dollars.</p>
 <p>As a Junior Risk Manager, P&amp;L attribution is how you:</p>
 <ol>
-<li><strong>Diagnose risk</strong> — "The $3M gain was 80% vega. The PM thinks they're a stock picker — they're actually a vol trader."</li>
-<li><strong>Validate models</strong> — "Our Greeks predicted −$1.5M. Actual was −$3.2M. The $1.7M unexplained means the model is missing a risk factor."</li>
+<li><strong>Diagnose risk</strong> — "The <span class="nokatex">$</span>3M gain was 80% vega. The PM thinks they're a stock picker — they're actually a vol trader."</li>
+<li><strong>Validate models</strong> — "Our Greeks predicted −<span class="nokatex">$</span>1.5M. Actual was −<span class="nokatex">$</span>3.2M. The <span class="nokatex">$</span>1.7M unexplained means the model is missing a risk factor."</li>
 <li><strong>Challenge PMs</strong> — "Your Sharpe is 2.0, but 70% of your return is theta collection on short gamma. You're earning premium with hidden tail risk."</li>
 <li><strong>Detect fraud or error</strong> — "Persistent large unexplained P&amp;L = stale marks, wrong Greeks, hidden positions, or something worse."</li>
 </ol>
@@ -482,8 +482,8 @@ body {
 - Short options → positive theta (collecting rent, but exposed to gamma/vega)<br />
 - Theta is the MOST PREDICTABLE component of P&amp;L — you know roughly what it will be before the day starts</p>
 <p><strong>Daily theta as a P&amp;L constraint:</strong><br />
-- If theta = −$80K/day, the PM needs to earn $80K/day from delta/gamma/vega just to break even<br />
-- Over 250 trading days, that's −$20M of theta drag<br />
+- If theta = −<span class="nokatex">$</span>80K/day, the PM needs to earn <span class="nokatex">$</span>80K/day from delta/gamma/vega just to break even<br />
+- Over 250 trading days, that's −<span class="nokatex">$</span>20M of theta drag<br />
 - If realized vol &lt; implied vol → theta OVERPAYS for the gamma you receive → net loss on the options position<br />
 - If realized vol &gt; implied vol → gamma gains exceed theta cost → net gain</p>
 <p><strong>Theta-Gamma breakeven:</strong> The daily move needed for gamma P&amp;L to offset theta:</p>
@@ -495,13 +495,13 @@ body {
 <p><strong>What it tells you:</strong><br />
 - If vega P&amp;L dominates, the PM is a VOL TRADER whether they know it or not<br />
 - A PM who "buys options for hedging" but makes all their money from vol expansion is running a vol strategy — they should be evaluated on vol forecasting, not directional views<br />
-- Vega P&amp;L can swamp delta P&amp;L: a 5-vol-point move in IV on a $50M vega book = $250K, regardless of what the stock did</p>
+- Vega P&amp;L can swamp delta P&amp;L: a 5-vol-point move in IV on a <span class="nokatex">$</span>50M vega book = <span class="nokatex">$</span>250K, regardless of what the stock did</p>
 <p><strong>Bucketed vega P&amp;L (important for vol surfaces):</strong></p>
 <table>
 <thead>
 <tr>
 <th>Tenor bucket</th>
-<th>Vega ($K/vol pt)</th>
+<th>Vega (<span class="nokatex">$</span>K/vol pt)</th>
 <th>ΔIV</th>
 <th>Vega P&amp;L</th>
 </tr>
@@ -509,33 +509,33 @@ body {
 <tbody>
 <tr>
 <td>1M expiry</td>
-<td>+$30K</td>
+<td>+<span class="nokatex">$</span>30K</td>
 <td>+2 pts</td>
-<td>+$60K</td>
+<td>+<span class="nokatex">$</span>60K</td>
 </tr>
 <tr>
 <td>3M expiry</td>
-<td>+$50K</td>
+<td>+<span class="nokatex">$</span>50K</td>
 <td>+3 pts</td>
-<td>+$150K</td>
+<td>+<span class="nokatex">$</span>150K</td>
 </tr>
 <tr>
 <td>6M expiry</td>
-<td>−$20K</td>
+<td>−<span class="nokatex">$</span>20K</td>
 <td>+4 pts</td>
-<td>−$80K</td>
+<td>−<span class="nokatex">$</span>80K</td>
 </tr>
 <tr>
 <td>1Y expiry</td>
-<td>+$10K</td>
+<td>+<span class="nokatex">$</span>10K</td>
 <td>+5 pts</td>
-<td>+$50K</td>
+<td>+<span class="nokatex">$</span>50K</td>
 </tr>
 <tr>
 <td><strong>Total vega P&amp;L</strong></td>
 <td></td>
 <td></td>
-<td><strong>+$180K</strong></td>
+<td><strong>+<span class="nokatex">$</span>180K</strong></td>
 </tr>
 </tbody>
 </table>
@@ -656,9 +656,9 @@ body {
 </table>
 <p><strong>Worked example of ratio diagnosis:</strong></p>
 <blockquote>
-<p>PM's monthly P&amp;L = +$2.4M. Decomposition: Delta = +$600K (25%), Gamma = +$200K (8%), <strong>Theta = +$1.8M (75%)</strong>, Vega = −$200K.</p>
-<p><strong>Diagnosis:</strong> Theta is 75% of total P&amp;L → this PM is a short gamma collector. They're earning $90K/day in theta. On a 3σ day with +10 vol points, gamma + vega loss could be $8M+. The PM has collected $1.8M to risk $8M — a 4.4:1 ratio against them. The Sharpe looks great (theta is smooth), but the P&amp;L distribution is negatively skewed. <strong>Action:</strong> stress-test the book against a tail event, verify drawdown limits cover the $8M scenario, and flag to CRO.</p>
-<p>PM's monthly P&amp;L = +$1.5M. Decomposition: Delta = +$300K (20%), Gamma = −$100K, <strong>Vega = +$1.3M (87%)</strong>, Theta = $0.</p>
+<p>PM's monthly P&amp;L = +<span class="nokatex">$</span>2.4M. Decomposition: Delta = +<span class="nokatex">$</span>600K (25%), Gamma = +<span class="nokatex">$</span>200K (8%), <strong>Theta = +<span class="nokatex">$</span>1.8M (75%)</strong>, Vega = −<span class="nokatex">$</span>200K.</p>
+<p><strong>Diagnosis:</strong> Theta is 75% of total P&amp;L → this PM is a short gamma collector. They're earning <span class="nokatex">$</span>90K/day in theta. On a 3σ day with +10 vol points, gamma + vega loss could be <span class="nokatex">$</span>8M+. The PM has collected <span class="nokatex">$</span>1.8M to risk <span class="nokatex">$</span>8M — a 4.4:1 ratio against them. The Sharpe looks great (theta is smooth), but the P&amp;L distribution is negatively skewed. <strong>Action:</strong> stress-test the book against a tail event, verify drawdown limits cover the <span class="nokatex">$</span>8M scenario, and flag to CRO.</p>
+<p>PM's monthly P&amp;L = +<span class="nokatex">$</span>1.5M. Decomposition: Delta = +<span class="nokatex">$</span>300K (20%), Gamma = −<span class="nokatex">$</span>100K, <strong>Vega = +<span class="nokatex">$</span>1.3M (87%)</strong>, Theta = <span class="nokatex">$</span>0.</p>
 <p><strong>Diagnosis:</strong> Vega is 87% of P&amp;L → this PM is an implied-vol trader. They're long vol and it's been expanding. If vol compresses, they give it all back AND potentially lose on delta too. <strong>Action:</strong> "Is the vol expansion trade your thesis, or a side-effect of your position structure?"</p>
 </blockquote>
 <hr />
@@ -710,7 +710,7 @@ If daily unexplained P&amp;L is consistently 10%+, your RISK MODEL IS WRONG. The
 <p><strong>One-liner:</strong> Greek-based attribution tells you WHICH INSTRUMENTS drove P&amp;L. Factor-based attribution tells you WHICH BETS drove P&amp;L — market direction, sector rotation, style tilt, or genuine stock selection.</p>
 </blockquote>
 <h2 id="the-framework">The Framework</h2>
-<p>$$R_p = \underbrace{\alpha}<em>{\text{skill (residual)}} + \underbrace{\beta</em>{\text{MKT}} \times R_{\text{MKT}}}<em>{\text{market}} + \underbrace{\beta</em>{\text{SECT}} \times R_{\text{SECT}}}<em>{\text{sector}} + \underbrace{\beta</em>{\text{STYLE}} \times R_{\text{STYLE}}}<em>{\text{style factors}} + \underbrace{\epsilon}</em>{\text{idiosyncratic}}$$</p>
+<p>$<span class="nokatex">$</span>R_p = \underbrace{\alpha}<em>{\text{skill (residual)}} + \underbrace{\beta</em>{\text{MKT}} \times R_{\text{MKT}}}<em>{\text{market}} + \underbrace{\beta</em>{\text{SECT}} \times R_{\text{SECT}}}<em>{\text{sector}} + \underbrace{\beta</em>{\text{STYLE}} \times R_{\text{STYLE}}}<em>{\text{style factors}} + \underbrace{\epsilon}</em>{\text{idiosyncratic}}$$</p>
 <h2 id="decomposition-layers">Decomposition Layers</h2>
 <h3 id="layer-1-asset-allocation-effect">Layer 1: Asset Allocation Effect</h3>
 <p>How much P&amp;L came from market/sector exposure (beta) vs stock selection (alpha)?</p>
@@ -755,7 +755,7 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <th>Factor</th>
 <th>Portfolio β</th>
 <th>Factor return</th>
-<th>Factor P&amp;L ($100M fund)</th>
+<th>Factor P&amp;L (<span class="nokatex">$</span>100M fund)</th>
 </tr>
 </thead>
 <tbody>
@@ -763,59 +763,59 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <td>Market</td>
 <td>+0.25</td>
 <td>−1.2%</td>
-<td>−$300K</td>
+<td>−<span class="nokatex">$</span>300K</td>
 </tr>
 <tr>
 <td>Momentum</td>
 <td>+0.40</td>
 <td>+0.8%</td>
-<td>+$320K</td>
+<td>+<span class="nokatex">$</span>320K</td>
 </tr>
 <tr>
 <td>Value</td>
 <td>−0.15</td>
 <td>+0.3%</td>
-<td>−$45K</td>
+<td>−<span class="nokatex">$</span>45K</td>
 </tr>
 <tr>
 <td>Size (small)</td>
 <td>+0.10</td>
 <td>−0.5%</td>
-<td>−$50K</td>
+<td>−<span class="nokatex">$</span>50K</td>
 </tr>
 <tr>
-<td>Rates (DV01=$20K/bp)</td>
+<td>Rates (DV01=<span class="nokatex">$</span>20K/bp)</td>
 <td>N/A</td>
 <td>+3bp</td>
-<td>−$60K</td>
+<td>−<span class="nokatex">$</span>60K</td>
 </tr>
 <tr>
-<td>VIX (vega=$50K/pt)</td>
+<td>VIX (vega=<span class="nokatex">$</span>50K/pt)</td>
 <td>N/A</td>
 <td>+1.5 pts</td>
-<td>−$75K</td>
+<td>−<span class="nokatex">$</span>75K</td>
 </tr>
 <tr>
 <td><strong>Total factor</strong></td>
 <td></td>
 <td></td>
-<td><strong>−$210K</strong></td>
+<td><strong>−<span class="nokatex">$</span>210K</strong></td>
 </tr>
 <tr>
 <td><strong>Specific (stock selection)</strong></td>
 <td></td>
 <td></td>
-<td><strong>+$450K</strong></td>
+<td><strong>+<span class="nokatex">$</span>450K</strong></td>
 </tr>
 <tr>
 <td><strong>TOTAL</strong></td>
 <td></td>
 <td></td>
-<td><strong>+$240K</strong></td>
+<td><strong>+<span class="nokatex">$</span>240K</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Diagnosis:</strong> "You made $240K. But factor P&amp;L was −$210K — the market went against you, and your momentum/size/rates/vol exposures all dragged. Your ACTUAL stock-picking P&amp;L was +$450K — that's genuine alpha. Today, the factor headwinds masked your skill."</p>
+<p><strong>Diagnosis:</strong> "You made <span class="nokatex">$</span>240K. But factor P&amp;L was −<span class="nokatex">$</span>210K — the market went against you, and your momentum/size/rates/vol exposures all dragged. Your ACTUAL stock-picking P&amp;L was +<span class="nokatex">$</span>450K — that's genuine alpha. Today, the factor headwinds masked your skill."</p>
 <p><strong>Why this matters at Squarepoint:</strong> A systematic-at-its-core fund KNOWS the factor exposures. The RM's job is to verify that the alpha component (specific return) is real and persistent, and that the factor exposures are intentional and within limits.</p>
 <h3 id="layer-3-timing-vs-carrying-attribution">Layer 3: Timing vs Carrying Attribution</h3>
 <p>Separate P&amp;L into decisions that require TIMING (active bets) versus returns from simply holding the position (carry/dividend/roll):</p>
@@ -831,7 +831,7 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <tr>
 <td><strong>Carry</strong></td>
 <td>Coupon income, dividend yield, theta income, roll yield</td>
-<td>Bond pays 4.5% coupon → daily carry = $12.3K</td>
+<td>Bond pays 4.5% coupon → daily carry = <span class="nokatex">$</span>12.3K</td>
 </tr>
 <tr>
 <td><strong>Rolldown</strong></td>
@@ -846,7 +846,7 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <tr>
 <td><strong>Active trading</strong></td>
 <td>Intraday/intraweek repositioning — buy/sell decisions</td>
-<td>PM traded around the position → $X gain from timing</td>
+<td>PM traded around the position → <span class="nokatex">$</span>X gain from timing</td>
 </tr>
 </tbody>
 </table>
@@ -856,12 +856,12 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <h1 id="part-3-worked-examples-three-scenarios">PART 3: WORKED EXAMPLES — THREE SCENARIOS</h1>
 <h2 id="scenario-1-equity-options-book">Scenario 1: Equity + Options Book</h2>
 <p><strong>Setup:</strong> PM runs long-short equity with options overlay.<br />
-- Long 10,000 shares XOM at $110 (δ = +10,000 shares, $1.1M dollar delta)<br />
-- Short 5,000 shares CVX at $155 (δ = −5,000 shares, −$775K dollar delta)<br />
-- Long 50 XOM Jun $115 calls (δ per contract = 0.45, γ = 0.03, θ = −$0.15/day, ν = $0.22/vol pt, each contract = 100 shares)</p>
+- Long 10,000 shares XOM at <span class="nokatex">$</span>110 (δ = +10,000 shares, <span class="nokatex">$</span>1.1M dollar delta)<br />
+- Short 5,000 shares CVX at <span class="nokatex">$</span>155 (δ = −5,000 shares, −<span class="nokatex">$</span>775K dollar delta)<br />
+- Long 50 XOM Jun <span class="nokatex">$</span>115 calls (δ per contract = 0.45, γ = 0.03, θ = −<span class="nokatex">$</span>0.15/day, ν = <span class="nokatex">$</span>0.22/vol pt, each contract = 100 shares)</p>
 <p><strong>Yesterday's moves:</strong><br />
-- XOM: $110 → $113 (+$3, +2.7%)<br />
-- CVX: $155 → $157 (+$2, +1.3%)<br />
+- XOM: <span class="nokatex">$</span>110 → <span class="nokatex">$</span>113 (+<span class="nokatex">$</span>3, +2.7%)<br />
+- CVX: <span class="nokatex">$</span>155 → <span class="nokatex">$</span>157 (+<span class="nokatex">$</span>2, +1.3%)<br />
 - XOM IV: 28% → 31% (+3 vol points)</p>
 <table>
 <thead>
@@ -874,62 +874,62 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <tbody>
 <tr>
 <td><strong>Delta — XOM shares</strong></td>
-<td>+10,000 × $3</td>
-<td><strong>+$30,000</strong></td>
+<td>+10,000 × <span class="nokatex">$</span>3</td>
+<td><strong>+<span class="nokatex">$</span>30,000</strong></td>
 </tr>
 <tr>
 <td><strong>Delta — CVX shares</strong></td>
-<td>−5,000 × $2</td>
-<td><strong>−$10,000</strong></td>
+<td>−5,000 × <span class="nokatex">$</span>2</td>
+<td><strong>−<span class="nokatex">$</span>10,000</strong></td>
 </tr>
 <tr>
 <td><strong>Delta — XOM calls</strong></td>
-<td>50 × 100 × 0.45 × $3</td>
-<td><strong>+$6,750</strong></td>
+<td>50 × 100 × 0.45 × <span class="nokatex">$</span>3</td>
+<td><strong>+<span class="nokatex">$</span>6,750</strong></td>
 </tr>
 <tr>
 <td><strong>Gamma — XOM calls</strong></td>
-<td>50 × 100 × ½ × 0.03 × $3²</td>
-<td><strong>+$675</strong></td>
+<td>50 × 100 × ½ × 0.03 × <span class="nokatex">$</span>3²</td>
+<td><strong>+<span class="nokatex">$</span>675</strong></td>
 </tr>
 <tr>
 <td><strong>Theta — XOM calls</strong></td>
-<td>50 × 100 × (−$0.15)</td>
-<td><strong>−$750</strong></td>
+<td>50 × 100 × (−<span class="nokatex">$</span>0.15)</td>
+<td><strong>−<span class="nokatex">$</span>750</strong></td>
 </tr>
 <tr>
 <td><strong>Vega — XOM calls</strong></td>
-<td>50 × 100 × $0.22 × 3</td>
-<td><strong>+$3,300</strong></td>
+<td>50 × 100 × <span class="nokatex">$</span>0.22 × 3</td>
+<td><strong>+<span class="nokatex">$</span>3,300</strong></td>
 </tr>
 <tr>
 <td><strong>Rho</strong></td>
 <td>Negligible (short-dated, no rate move)</td>
-<td>~$0</td>
+<td>~<span class="nokatex">$</span>0</td>
 </tr>
 <tr>
 <td><strong>Cross-effects</strong></td>
 <td>Vanna/charm small (moderate move, mid-life option)</td>
-<td>~+$50</td>
+<td>~+<span class="nokatex">$</span>50</td>
 </tr>
 <tr>
 <td><strong>TOTAL ATTRIBUTED</strong></td>
 <td></td>
-<td><strong>+$30,025</strong></td>
+<td><strong>+<span class="nokatex">$</span>30,025</strong></td>
 </tr>
 </tbody>
 </table>
 <p><strong>What you tell the PM (30 seconds):</strong><br />
-"You're up $30K. Main driver: delta — XOM rallied $3, your net long paid off. You also picked up $3.3K from vol expanding on XOM, which offset the $750 theta cost. Gamma added $675. One flag: your effective XOM delta grew via gamma — you're now long ~12,600 share-equivalents of XOM vs 12,250 yesterday. And the XOM-CVX pair spread widened — XOM outperformed CVX by $1 ratio — your 'pair trade' is becoming a directional oil bet."</p>
+"You're up <span class="nokatex">$</span>30K. Main driver: delta — XOM rallied <span class="nokatex">$</span>3, your net long paid off. You also picked up <span class="nokatex">$</span>3.3K from vol expanding on XOM, which offset the <span class="nokatex">$</span>750 theta cost. Gamma added <span class="nokatex">$</span>675. One flag: your effective XOM delta grew via gamma — you're now long ~12,600 share-equivalents of XOM vs 12,250 yesterday. And the XOM-CVX pair spread widened — XOM outperformed CVX by <span class="nokatex">$</span>1 ratio — your 'pair trade' is becoming a directional oil bet."</p>
 <p><strong>What you flag internally:</strong><br />
-- Net delta grew automatically (gamma). If XOM rallies another $3, delta grows further → exposure is self-reinforcing<br />
+- Net delta grew automatically (gamma). If XOM rallies another <span class="nokatex">$</span>3, delta grows further → exposure is self-reinforcing<br />
 - XOM IV jumped 3 pts → is there a catalyst? Earnings? Geopolitical? If vol is pricing an event, gamma exposure changes around the event<br />
 - The "pair trade" (long XOM / short CVX) isn't hedging well — XOM outperformed by 1.4% → basis risk</p>
 <h2 id="scenario-2-rates-desk">Scenario 2: Rates Desk</h2>
 <p><strong>Setup:</strong> PM runs a curve steepener: long 2Y, short 10Y.<br />
-- Long $100M 2Y UST, DV01 = $18K/bp<br />
-- Short $40M 10Y UST, DV01 = $34K/bp<br />
-- Net DV01 = $18K − $34K = <strong>−$16K/bp (net short duration)</strong></p>
+- Long <span class="nokatex">$</span>100M 2Y UST, DV01 = <span class="nokatex">$</span>18K/bp<br />
+- Short <span class="nokatex">$</span>40M 10Y UST, DV01 = <span class="nokatex">$</span>34K/bp<br />
+- Net DV01 = <span class="nokatex">$</span>18K − <span class="nokatex">$</span>34K = <strong>−<span class="nokatex">$</span>16K/bp (net short duration)</strong></p>
 <p><strong>Yesterday's curve move:</strong><br />
 - 2Y yield: 4.20% → 4.15% (−5bp)<br />
 - 10Y yield: 4.50% → 4.55% (+5bp)<br />
@@ -945,45 +945,45 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <tbody>
 <tr>
 <td><strong>2Y position</strong></td>
-<td>$18K/bp × (−5bp) = price UP</td>
-<td><strong>+$90,000</strong></td>
+<td><span class="nokatex">$</span>18K/bp × (−5bp) = price UP</td>
+<td><strong>+<span class="nokatex">$</span>90,000</strong></td>
 </tr>
 <tr>
 <td><strong>10Y position</strong></td>
-<td>−$34K/bp × (+5bp) = price DOWN, you're short → GAIN</td>
-<td><strong>+$170,000</strong></td>
+<td>−<span class="nokatex">$</span>34K/bp × (+5bp) = price DOWN, you're short → GAIN</td>
+<td><strong>+<span class="nokatex">$</span>170,000</strong></td>
 </tr>
 <tr>
 <td><strong>Carry</strong></td>
 <td>Net coupon (2Y yield − 10Y yield × position sizes) / 252</td>
-<td><strong>+$2,500</strong></td>
+<td><strong>+<span class="nokatex">$</span>2,500</strong></td>
 </tr>
 <tr>
 <td><strong>Convexity</strong></td>
 <td>Small — rates move not large enough</td>
-<td><strong>+$500</strong></td>
+<td><strong>+<span class="nokatex">$</span>500</strong></td>
 </tr>
 <tr>
 <td><strong>TOTAL</strong></td>
 <td></td>
-<td><strong>+$263,000</strong></td>
+<td><strong>+<span class="nokatex">$</span>263,000</strong></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Factor decomposition:</strong><br />
 | Factor | P&amp;L |<br />
 |---|---|<br />
-| Parallel rates move (avg = 0bp) | ~$0 (parallel was ~0) |<br />
-| Curve steepening (+10bp 2s10s) | <strong>+$260K</strong> (the active bet) |<br />
-| Carry | +$2.5K |<br />
-| Convexity + residual | +$0.5K |</p>
-<p><strong>What you tell the PM:</strong> "You made $263K. Essentially all of it is from the curve steepening — 2s10s went from 30 to 40bp, your steepener paid off. Your parallel duration risk was roughly neutral, so you weren't exposed to the level moving — just the shape. Net DV01 is still −$16K/bp, so you'd lose $160K on a 10bp parallel selloff."</p>
+| Parallel rates move (avg = 0bp) | ~<span class="nokatex">$</span>0 (parallel was ~0) |<br />
+| Curve steepening (+10bp 2s10s) | <strong>+<span class="nokatex">$</span>260K</strong> (the active bet) |<br />
+| Carry | +<span class="nokatex">$</span>2.5K |<br />
+| Convexity + residual | +<span class="nokatex">$</span>0.5K |</p>
+<p><strong>What you tell the PM:</strong> "You made <span class="nokatex">$</span>263K. Essentially all of it is from the curve steepening — 2s10s went from 30 to 40bp, your steepener paid off. Your parallel duration risk was roughly neutral, so you weren't exposed to the level moving — just the shape. Net DV01 is still −<span class="nokatex">$</span>16K/bp, so you'd lose <span class="nokatex">$</span>160K on a 10bp parallel selloff."</p>
 <h2 id="scenario-3-short-gamma-the-quiet-bleed-and-the-crisis">Scenario 3: Short Gamma — The Quiet Bleed and the Crisis</h2>
 <p><strong>Setup:</strong> PM sells 1-month ATM straddles on SPX.<br />
 - Sold 200 SPX straddles (100 calls + 100 puts)<br />
-- Total theta collected: +$150K/day<br />
-- Total gamma exposure: −$500K per 1% SPX move (dollar gamma)<br />
-- Total vega: −$800K per vol point</p>
+- Total theta collected: +<span class="nokatex">$</span>150K/day<br />
+- Total gamma exposure: −<span class="nokatex">$</span>500K per 1% SPX move (dollar gamma)<br />
+- Total vega: −<span class="nokatex">$</span>800K per vol point</p>
 <p><strong>Day 1-19: calm market (SPX moves ±0.3% daily, IV steady)</strong></p>
 <table>
 <thead>
@@ -999,19 +999,19 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <tbody>
 <tr>
 <td>Each calm day</td>
-<td>±$15K</td>
-<td>−$5K</td>
-<td><strong>+$150K</strong></td>
-<td>~$0</td>
-<td><strong>~+$130K/day</strong></td>
+<td>±<span class="nokatex">$</span>15K</td>
+<td>−<span class="nokatex">$</span>5K</td>
+<td><strong>+<span class="nokatex">$</span>150K</strong></td>
+<td>~<span class="nokatex">$</span>0</td>
+<td><strong>~+<span class="nokatex">$</span>130K/day</strong></td>
 </tr>
 <tr>
 <td><strong>19-day total</strong></td>
-<td>~$0 (random walk)</td>
-<td>−$95K</td>
-<td><strong>+$2,850K</strong></td>
-<td>~$0</td>
-<td><strong>~+$2,470K</strong></td>
+<td>~<span class="nokatex">$</span>0 (random walk)</td>
+<td>−<span class="nokatex">$</span>95K</td>
+<td><strong>+<span class="nokatex">$</span>2,850K</strong></td>
+<td>~<span class="nokatex">$</span>0</td>
+<td><strong>~+<span class="nokatex">$</span>2,470K</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1027,37 +1027,37 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <tbody>
 <tr>
 <td><strong>Delta</strong></td>
-<td>Approximately −$200K (delta was near-flat but gamma creates delta during the move)</td>
-<td><strong>−$200K</strong></td>
+<td>Approximately −<span class="nokatex">$</span>200K (delta was near-flat but gamma creates delta during the move)</td>
+<td><strong>−<span class="nokatex">$</span>200K</strong></td>
 </tr>
 <tr>
 <td><strong>Gamma</strong></td>
-<td>−$500K × (4%)² / (1%)² = −$500K × 16 =</td>
-<td><strong>−$8,000K</strong></td>
+<td>−<span class="nokatex">$</span>500K × (4%)² / (1%)² = −<span class="nokatex">$</span>500K × 16 =</td>
+<td><strong>−<span class="nokatex">$</span>8,000K</strong></td>
 </tr>
 <tr>
 <td><strong>Theta</strong></td>
-<td>+$150K (still collect one day's theta)</td>
-<td><strong>+$150K</strong></td>
+<td>+<span class="nokatex">$</span>150K (still collect one day's theta)</td>
+<td><strong>+<span class="nokatex">$</span>150K</strong></td>
 </tr>
 <tr>
 <td><strong>Vega</strong></td>
-<td>−$800K × 12 pts</td>
-<td><strong>−$9,600K</strong></td>
+<td>−<span class="nokatex">$</span>800K × 12 pts</td>
+<td><strong>−<span class="nokatex">$</span>9,600K</strong></td>
 </tr>
 <tr>
 <td><strong>Cross</strong></td>
 <td>Vanna + Volga (significant in crash + vol spike)</td>
-<td><strong>−$1,200K</strong></td>
+<td><strong>−<span class="nokatex">$</span>1,200K</strong></td>
 </tr>
 <tr>
 <td><strong>Day 20 total</strong></td>
 <td></td>
-<td><strong>−$18,850K</strong></td>
+<td><strong>−<span class="nokatex">$</span>18,850K</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Running total: +$2,470K − $18,850K = −$16,380K</strong></p>
+<p><strong>Running total: +<span class="nokatex">$</span>2,470K − <span class="nokatex">$</span>18,850K = −<span class="nokatex">$</span>16,380K</strong></p>
 <p><strong>One bad day wiped out 19 good days and then some.</strong> The Sharpe ratio for days 1-19 was stellar (~3.0+). Including day 20, cumulative P&amp;L is deeply negative. This is the prototypical short-gamma/short-vol strategy that P&amp;L attribution reveals.</p>
 <p><strong>RM lesson:</strong> When you see a PM with consistently positive theta, low delta P&amp;L, and near-zero gamma P&amp;L for weeks → they're short gamma/short vol. The P&amp;L attribution is SCREAMING the risk profile. The blowup is a matter of WHEN, not IF. Monitor theta/gamma ratio, stress-test the position against a 3σ + vol-spike day, and ensure the drawdown limits can absorb the tail event.</p>
 <hr />
@@ -1182,21 +1182,21 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 <p><strong>Signature:</strong> PM buys options "for hedging" but 60%+ of monthly P&amp;L is from vega, not delta.</p>
 <p><strong>Diagnosis:</strong> They're not hedging — they're running a vol book they don't recognize as a vol book. Their delta views may be wrong, but they're making money because vol is expanding.</p>
 <p><strong>Risk:</strong> When vol COMPRESSES, they'll lose on vega AND potentially on their wrong delta view simultaneously. Double hit.</p>
-<p><strong>RM action:</strong> "80% of your month's return came from vol expansion. Is that the trade you intended? If vol hadn't moved, you'd be down $X from delta alone."</p>
+<p><strong>RM action:</strong> "80% of your month's return came from vol expansion. Is that the trade you intended? If vol hadn't moved, you'd be down <span class="nokatex">$</span>X from delta alone."</p>
 <h2 id="pattern-2-the-theta-bleed">Pattern 2: "The Theta Bleed"</h2>
-<p><strong>Signature:</strong> Consistently negative daily attribution from theta: −$80K/day. Monthly cost: −$1.6M.</p>
-<p><strong>Diagnosis:</strong> PM holds long options. The carry cost is significant. They need delta/gamma/vega to earn $1.6M/month just to BREAK EVEN.</p>
+<p><strong>Signature:</strong> Consistently negative daily attribution from theta: −<span class="nokatex">$</span>80K/day. Monthly cost: −<span class="nokatex">$</span>1.6M.</p>
+<p><strong>Diagnosis:</strong> PM holds long options. The carry cost is significant. They need delta/gamma/vega to earn <span class="nokatex">$</span>1.6M/month just to BREAK EVEN.</p>
 <p><strong>Key question:</strong> Is realized vol higher than implied vol? If yes → gamma gains offset theta → option position is well-priced. If no → PM is paying above fair value for the optionality.</p>
-<p><strong>RM action:</strong> "Your option book costs $80K/day in theta. SPX would need to move ±$X daily for your gamma to offset this. Over the last 20 days, actual daily moves averaged $Y. You're [above/below] breakeven."</p>
+<p><strong>RM action:</strong> "Your option book costs <span class="nokatex">$</span>80K/day in theta. SPX would need to move ±<span class="nokatex">$</span>X daily for your gamma to offset this. Over the last 20 days, actual daily moves averaged <span class="nokatex">$</span>Y. You're [above/below] breakeven."</p>
 <h2 id="pattern-3-the-short-gamma-collector">Pattern 3: "The Short Gamma Collector"</h2>
-<p><strong>Signature:</strong> Daily P&amp;L: +$100K, +$110K, +$95K, +$105K... then suddenly −$2M. Small consistent gains followed by sharp losses.</p>
+<p><strong>Signature:</strong> Daily P&amp;L: +<span class="nokatex">$</span>100K, +<span class="nokatex">$</span>110K, +<span class="nokatex">$</span>95K, +<span class="nokatex">$</span>105K... then suddenly −<span class="nokatex">$</span>2M. Small consistent gains followed by sharp losses.</p>
 <p><strong>Diagnosis:</strong> Classic short gamma/short vol profile. Theta income is steady and positive. Gamma P&amp;L is slightly negative on normal days, catastrophically negative on big-move days.</p>
 <p><strong>The give-away metrics:</strong><br />
 - Sharpe looks excellent (2.0+) before the blowup<br />
-- Theta P&amp;L is consistently +$100K/day → PM is SHORT options<br />
-- Gamma P&amp;L is −$5K/day on calm days → tolerable<br />
-- BUT tail gamma P&amp;L on a 3σ day: −$3M+</p>
-<p><strong>RM action:</strong> Track the cumulative theta collected vs worst-case gamma/vega loss. "You've collected $1.5M in theta YTD. A 4% SPX drop with +15 vol points costs you $18M. Your risk/reward on this position is asymmetric — you're earning $1.5M to risk $18M."</p>
+- Theta P&amp;L is consistently +<span class="nokatex">$</span>100K/day → PM is SHORT options<br />
+- Gamma P&amp;L is −<span class="nokatex">$</span>5K/day on calm days → tolerable<br />
+- BUT tail gamma P&amp;L on a 3σ day: −<span class="nokatex">$</span>3M+</p>
+<p><strong>RM action:</strong> Track the cumulative theta collected vs worst-case gamma/vega loss. "You've collected <span class="nokatex">$</span>1.5M in theta YTD. A 4% SPX drop with +15 vol points costs you <span class="nokatex">$</span>18M. Your risk/reward on this position is asymmetric — you're earning <span class="nokatex">$</span>1.5M to risk <span class="nokatex">$</span>18M."</p>
 <h2 id="pattern-4-unexplained-is-growing">Pattern 4: "Unexplained Is Growing"</h2>
 <p><strong>Signature:</strong> Unexplained P&amp;L is 2% of total in month 1, 5% in month 2, 12% in month 3.</p>
 <p><strong>Diagnosis:</strong> Progressive model deterioration. Either:<br />
@@ -1205,7 +1205,7 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 - Data feed degradation (stale prices, missing marks)</p>
 <p><strong>RM action:</strong> Escalate. Formally document the trend. Request quant/model review.</p>
 <h2 id="pattern-5-factor-dress-up">Pattern 5: "Factor Dress-Up"</h2>
-<p><strong>Signature:</strong> PM's gross alpha is +$2M/month. Factor attribution shows: momentum factor contributed +$1.8M. Genuine alpha = +$200K.</p>
+<p><strong>Signature:</strong> PM's gross alpha is +<span class="nokatex">$</span>2M/month. Factor attribution shows: momentum factor contributed +<span class="nokatex">$</span>1.8M. Genuine alpha = +<span class="nokatex">$</span>200K.</p>
 <p><strong>Diagnosis:</strong> The PM is charging alpha fees for delivering momentum exposure. A momentum ETF would deliver roughly the same return at 1/10th the cost.</p>
 <p><strong>RM action:</strong> Not a risk issue per se — but the CIO/allocators should know. "Your returns decompose as 90% momentum factor, 10% idiosyncratic alpha. Your information ratio on the alpha component alone is 0.15."</p>
 <h2 id="pattern-6-the-basis-drift">Pattern 6: "The Basis Drift"</h2>
@@ -1219,7 +1219,7 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 </blockquote>
 <h2 id="the-template">The Template</h2>
 <blockquote>
-<p><strong>"[PM], you're [up/down] [$X] today. Main driver: [delta on NAME moving $Y / vol expansion-compression / theta / curve steepener-flattener]. Your [key exposure metric] is now [$Z], [up/from/unchanged] vs yesterday. One flag: [specific risk — growing position, approaching limit, upcoming catalyst, basis drift, correlation shift]."</strong></p>
+<p><strong>"[PM], you're [up/down] [<span class="nokatex">$</span>X] today. Main driver: [delta on NAME moving <span class="nokatex">$</span>Y / vol expansion-compression / theta / curve steepener-flattener]. Your [key exposure metric] is now [<span class="nokatex">$</span>Z], [up/from/unchanged] vs yesterday. One flag: [specific risk — growing position, approaching limit, upcoming catalyst, basis drift, correlation shift]."</strong></p>
 </blockquote>
 <h2 id="what-pms-want">What PMs Want</h2>
 <table>
@@ -1280,7 +1280,7 @@ $$\text{Interaction effect} = \sum_j (w_{p,j} - w_{b,j}) \times (R_{p,j} - R_{b,
 </tr>
 <tr>
 <td>"You're bleeding theta"</td>
-<td>"The options book is costing $80K/day. What's the thesis for continuing to hold?"</td>
+<td>"The options book is costing <span class="nokatex">$</span>80K/day. What's the thesis for continuing to hold?"</td>
 </tr>
 <tr>
 <td>"You're just running momentum"</td>
@@ -1425,7 +1425,7 @@ RM DASHBOARD → morning meeting
 <tr>
 <td><strong>Barings (1995)</strong></td>
 <td>Nick Leeson hid losses in error account 88888. Reported profits from "arbitrage" that required no risk.</td>
-<td>P&amp;L showed profit but NO CORRESPONDING RISK EXPOSURES. Attribution would show: "You're making $X/day but your Greeks are zero — where is this coming from?"</td>
+<td>P&amp;L showed profit but NO CORRESPONDING RISK EXPOSURES. Attribution would show: "You're making <span class="nokatex">$</span>X/day but your Greeks are zero — where is this coming from?"</td>
 </tr>
 <tr>
 <td><strong>SocGen (2008)</strong></td>
@@ -1485,7 +1485,7 @@ RM DASHBOARD → morning meeting
 - FX exposure (spot delta + forward points P&amp;L)<br />
 - Commodity trades (spot delta + roll P&amp;L)</p>
 <p>The attribution must capture the CROSS-ASSET INTERACTION:<br />
-- "SPX dropped 3% and your equity delta lost $1.5M. But your SPX put hedge gained $800K (delta + gamma + vega). Your rate hedge gained $200K (flight to quality). Your commodity short gained $100K (risk-off). Net: −$400K — the PM was RIGHT to have the hedge structure."</p>
+- "SPX dropped 3% and your equity delta lost <span class="nokatex">$</span>1.5M. But your SPX put hedge gained <span class="nokatex">$</span>800K (delta + gamma + vega). Your rate hedge gained <span class="nokatex">$</span>200K (flight to quality). Your commodity short gained <span class="nokatex">$</span>100K (risk-off). Net: −<span class="nokatex">$</span>400K — the PM was RIGHT to have the hedge structure."</p>
 <p>Without the integrated multi-asset attribution, each asset class would show a different story, and the PM's actual risk management (the hedge structure) would be invisible.</p>
 <h2 id="intraday-pl-attribution">Intraday P&amp;L Attribution</h2>
 <p>EOD attribution is the standard. But for significant intraday moves (SPX opens −2%, or a name gaps on news), intraday attribution can be critical:</p>
@@ -1549,7 +1549,7 @@ RM DASHBOARD → morning meeting
 <p><strong>"Short gamma P&amp;L profile — how do you identify and manage it?"</strong></p>
 <p>"The P&amp;L signature is diagnostic: small consistent daily gains from positive theta, near-zero gamma P&amp;L on calm days, then a massive single-day loss when the market moves sharply.</p>
 <p>I'd identify it through attribution: if theta P&amp;L is consistently positive and represents &gt;80% of daily P&amp;L, the PM is short options — short gamma, short vega. The Sharpe ratio will look attractive, maybe 2.0+, but it's misleading because the return distribution is negatively skewed.</p>
-<p>To manage it, I'd track the ratio of cumulative theta collected to worst-case tail loss. If the PM has collected $2M in theta YTD but a 4σ day with 15 vol-point spike costs $20M, the risk-reward is 10:1 against them. I'd run that scenario daily and ensure either the position is sized so the tail loss stays within drawdown limits, or the PM has tail hedges — long OTM puts or VIX calls — that cap the downside."</p>
+<p>To manage it, I'd track the ratio of cumulative theta collected to worst-case tail loss. If the PM has collected <span class="nokatex">$</span>2M in theta YTD but a 4σ day with 15 vol-point spike costs <span class="nokatex">$</span>20M, the risk-reward is 10:1 against them. I'd run that scenario daily and ensure either the position is sized so the tail loss stays within drawdown limits, or the PM has tail hedges — long OTM puts or VIX calls — that cap the downside."</p>
 <hr />
 <p><strong>Related files:</strong><br />
 → <a href="D_Greeks.html">Greeks</a> — the sensitivities that drive Greek-based P&amp;L attribution<br />
@@ -1569,6 +1569,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

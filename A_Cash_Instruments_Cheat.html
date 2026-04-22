@@ -421,7 +421,7 @@ body {
 </tr>
 <tr>
 <td><strong>FX rate</strong></td>
-<td>The price of one currency in terms of another — EUR/USD = 1.08 means one euro costs $1.08.</td>
+<td>The price of one currency in terms of another — EUR/USD = 1.08 means one euro costs <span class="nokatex">$</span>1.08.</td>
 </tr>
 <tr>
 <td><strong>Commodity</strong></td>
@@ -877,7 +877,7 @@ body {
 <tr>
 <td>Natural Gas</td>
 <td>Weather, storage, LNG</td>
-<td>Extremely volatile. Amaranth blew up here ($6B loss).</td>
+<td>Extremely volatile. Amaranth blew up here (<span class="nokatex">$</span>6B loss).</td>
 </tr>
 <tr>
 <td>Gold</td>
@@ -905,7 +905,7 @@ body {
 <li><strong>Spread widening</strong> = more default risk = bearish.</li>
 <li><strong>CDS-bond basis</strong> = CDS spread minus cash bond spread. Large gap = liquidity stress or structural issue.</li>
 </ul>
-<p><strong>Example:</strong> 5yr CDS at 200bps on $10M notional → buyer pays $200K/yr. If default with 40% recovery → buyer receives $6M.</p>
+<p><strong>Example:</strong> 5yr CDS at 200bps on <span class="nokatex">$</span>10M notional → buyer pays <span class="nokatex">$</span>200K/yr. If default with 40% recovery → buyer receives <span class="nokatex">$</span>6M.</p>
 <hr />
 <h2 id="rm-red-flags-by-asset-class">RM RED FLAGS BY ASSET CLASS</h2>
 <table>
@@ -949,6 +949,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

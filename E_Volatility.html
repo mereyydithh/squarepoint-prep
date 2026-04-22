@@ -506,7 +506,7 @@ body {
 <p><strong>One-liner:</strong> Implied vol is the market's consensus forecast of future volatility — backed out of option prices. It's the weather forecast, not the weather.</p>
 </blockquote>
 <p>You observe an option's market price. You have all Black-Scholes inputs except σ. Solve for σ:</p>
-<p>$$C_{\text{market}} = \text{BS}(S, K, T, r, q, \sigma_{\text{implied}})$$</p>
+<p>$<span class="nokatex">$</span>C_{\text{market}} = \text{BS}(S, K, T, r, q, \sigma_{\text{implied}})$$</p>
 <p>Newton-Raphson or bisection → you get σ_implied. This single number tells you what vol the market is collectively pricing.</p>
 <p><strong>Critical distinction:</strong><br />
 - <strong>Implied vol is FORWARD-LOOKING.</strong> It reflects expectations + risk premium for the FUTURE period until expiry.<br />
@@ -530,7 +530,7 @@ body {
 <p><strong>Worked example — the VRP trade:</strong><br />
 - Sell 1-month ATM SPX straddle at 18% IV, delta-hedge daily<br />
 - Over the month, SPX realizes 14% vol<br />
-- Your P&amp;L ≈ vega × (IV − RV) ≈ $300K × 4 = <strong>+$1.2M</strong> (simplified)<br />
+- Your P&amp;L ≈ vega × (IV − RV) ≈ <span class="nokatex">$</span>300K × 4 = <strong>+<span class="nokatex">$</span>1.2M</strong> (simplified)<br />
 - You "harvested" the VRP</p>
 <p><strong>When it inverts (the blowup):</strong><br />
 - February 5, 2018 ("Volmageddon"): VIX went from 17 to 50 in one day. XIV ETN lost 96% of value OVERNIGHT and was terminated. Realized vol hit ~100% annualized for that day. Anyone short vol at 17 IV ate a 5σ+ loss.<br />
@@ -761,7 +761,7 @@ body {
 <h2 id="the-full-surface-strike-time-together">The Full Surface — Strike × Time Together</h2>
 <p>Every point on the vol surface $\sigma(K, T)$ is an implied vol. The surface must satisfy <strong>no-arbitrage conditions:</strong></p>
 <ol>
-<li><strong>Calendar spread arbitrage:</strong> Total implied variance must be non-decreasing in time: $\sigma^2(K, T_2) \times T_2 \geq \sigma^2(K, T_1) \times T_1$ for $T_2 &gt; T_1$</li>
+<li><strong>Calendar spread arbitrage:</strong> Total implied variance must be non-decreasing in time: $\sigma^2(K, T_2) \times T_2 \geq \sigma^2(K, T_1) \times T_1$ for <span class="nokatex">$</span>T_2 &gt; T_1$</li>
 <li><strong>Butterfly arbitrage:</strong> The risk-neutral density must be non-negative everywhere → constrains how fast vol can change across strikes</li>
 <li><strong>Put-call parity:</strong> Calls and puts at same strike/expiry must imply the same vol (otherwise direct arbitrage)</li>
 </ol>
@@ -921,7 +921,7 @@ $$dW_S dW_v = \rho \, dt$$</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Feller condition:</strong> $2\kappa\theta &gt; \xi^2$ guarantees variance stays positive. If violated, variance can hit zero — numerically problematic.</p>
+<p><strong>Feller condition:</strong> <span class="nokatex">$</span>2\kappa\theta &gt; \xi^2$ guarantees variance stays positive. If violated, variance can hit zero — numerically problematic.</p>
 <p><strong>Semi-analytic pricing:</strong> Heston has a characteristic function solution → Fast Fourier Transform (FFT) pricing → much faster than Monte Carlo for vanillas. Exotics still need MC.</p>
 <hr />
 <h1 id="part-4-volatility-regimes-the-risk-managers-framework">PART 4: VOLATILITY REGIMES — THE RISK MANAGER'S FRAMEWORK</h1>
@@ -1206,11 +1206,11 @@ Fut M4   ·  20               Fut M4   ·  29
 - Payoff = Notional × (σ²_realized − K²_var)<br />
 - Quote convention: strike in vol terms (e.g., "strike 20 var swap" → K²_var = 400)</p>
 <p><strong>Worked example:</strong><br />
-- Buy $100K vega notional variance swap struck at 20 vol<br />
-- Scenario A: Market realizes 25% vol → Payoff = $100K × (25² − 20²) / (2 × 20) = $100K × 225/40 = <strong>+$562,500</strong><br />
-- Scenario B: Market realizes 40% vol → Payoff = $100K × (40² − 20²) / (2 × 20) = $100K × 1200/40 = <strong>+$3,000,000</strong><br />
-- Scenario C: Market realizes 15% vol → Payoff = $100K × (15² − 20²) / (2 × 20) = $100K × −175/40 = <strong>−$437,500</strong></p>
-<p><strong>Key insight — nonlinearity:</strong> Going from 20→25 realized (5pts higher) = +$562K. Going from 20→40 (20pts higher) = +$3M (not 4×$562K = $2.25M, but $3M). The squaring amplifies moves. This is why long variance swaps are MUCH more profitable in true crises than straddles — and why short variance swaps can blow up spectacularly.</p>
+- Buy <span class="nokatex">$</span>100K vega notional variance swap struck at 20 vol<br />
+- Scenario A: Market realizes 25% vol → Payoff = <span class="nokatex">$</span>100K × (25² − 20²) / (2 × 20) = <span class="nokatex">$</span>100K × 225/40 = <strong>+<span class="nokatex">$</span>562,500</strong><br />
+- Scenario B: Market realizes 40% vol → Payoff = <span class="nokatex">$</span>100K × (40² − 20²) / (2 × 20) = <span class="nokatex">$</span>100K × 1200/40 = <strong>+<span class="nokatex">$</span>3,000,000</strong><br />
+- Scenario C: Market realizes 15% vol → Payoff = <span class="nokatex">$</span>100K × (15² − 20²) / (2 × 20) = <span class="nokatex">$</span>100K × −175/40 = <strong>−<span class="nokatex">$</span>437,500</strong></p>
+<p><strong>Key insight — nonlinearity:</strong> Going from 20→25 realized (5pts higher) = +<span class="nokatex">$</span>562K. Going from 20→40 (20pts higher) = +<span class="nokatex">$</span>3M (not 4×<span class="nokatex">$</span>562K = <span class="nokatex">$</span>2.25M, but <span class="nokatex">$</span>3M). The squaring amplifies moves. This is why long variance swaps are MUCH more profitable in true crises than straddles — and why short variance swaps can blow up spectacularly.</p>
 <p><strong>Variance vs volatility swap payoff comparison:</strong></p>
 <table>
 <thead>
@@ -1768,6 +1768,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

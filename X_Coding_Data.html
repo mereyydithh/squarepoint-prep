@@ -2202,7 +2202,7 @@ body {
         <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
         <span class="n">returns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">))</span>
         <span class="n">var</span> <span class="o">=</span> <span class="n">historical_var</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">portfolio_value</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">)</span>
-        <span class="c1"># 99% VaR of N(0, 0.01) ≈ 0.01 * 2.326 * 1M = $23,260</span>
+        <span class="c1"># 99% VaR of N(0, 0.01) ≈ 0.01 * 2.326 * 1M = &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;23,260</span>
         <span class="k">assert</span> <span class="mi">20_000</span> <span class="o">&lt;</span> <span class="n">var</span> <span class="o">&lt;</span> <span class="mi">27_000</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;VaR </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> outside expected range&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">test_var_increases_with_vol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2506,6 +2506,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

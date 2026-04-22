@@ -450,7 +450,7 @@ body {
 <tr>
 <td>Managed account</td>
 <td>Investor custody</td>
-<td>$500M+ allocators</td>
+<td><span class="nokatex">$</span>500M+ allocators</td>
 <td>Full transparency, LP controls</td>
 </tr>
 <tr>
@@ -506,31 +506,31 @@ body {
 <tbody>
 <tr>
 <td>1</td>
-<td>$100→$120</td>
-<td>+$20</td>
-<td>$120</td>
-<td>$4.00</td>
+<td><span class="nokatex">$</span>100→<span class="nokatex">$</span>120</td>
+<td>+<span class="nokatex">$</span>20</td>
+<td><span class="nokatex">$</span>120</td>
+<td><span class="nokatex">$</span>4.00</td>
 </tr>
 <tr>
 <td>2</td>
-<td>$116→$102</td>
-<td>−$14</td>
-<td>$120</td>
-<td>$0</td>
+<td><span class="nokatex">$</span>116→<span class="nokatex">$</span>102</td>
+<td>−<span class="nokatex">$</span>14</td>
+<td><span class="nokatex">$</span>120</td>
+<td><span class="nokatex">$</span>0</td>
 </tr>
 <tr>
 <td>3</td>
-<td>$102→$115</td>
-<td>+$13</td>
-<td>$120</td>
-<td>$0 (still below)</td>
+<td><span class="nokatex">$</span>102→<span class="nokatex">$</span>115</td>
+<td>+<span class="nokatex">$</span>13</td>
+<td><span class="nokatex">$</span>120</td>
+<td><span class="nokatex">$</span>0 (still below)</td>
 </tr>
 <tr>
 <td>4</td>
-<td>$115→$130</td>
-<td>+$15</td>
-<td>$130</td>
-<td>$2.00 (on $120→$130 only)</td>
+<td><span class="nokatex">$</span>115→<span class="nokatex">$</span>130</td>
+<td>+<span class="nokatex">$</span>15</td>
+<td><span class="nokatex">$</span>130</td>
+<td><span class="nokatex">$</span>2.00 (on <span class="nokatex">$</span>120→<span class="nokatex">$</span>130 only)</td>
 </tr>
 </tbody>
 </table>
@@ -730,11 +730,11 @@ body {
 </tbody>
 </table>
 <h2 id="multi-strat-pod-economics">Multi-Strat Pod Economics</h2>
-<p><strong>PM payout example ($500M allocation):</strong><br />
-- Gross P&amp;L: +$30M<br />
-- Less costs (financing, tech, data, infra): −$14M<br />
-- Net P&amp;L: +$16M<br />
-- PM payout (15%): <strong>$2.4M</strong></p>
+<p><strong>PM payout example (<span class="nokatex">$</span>500M allocation):</strong><br />
+- Gross P&amp;L: +<span class="nokatex">$</span>30M<br />
+- Less costs (financing, tech, data, infra): −<span class="nokatex">$</span>14M<br />
+- Net P&amp;L: +<span class="nokatex">$</span>16M<br />
+- PM payout (15%): <strong><span class="nokatex">$</span>2.4M</strong></p>
 <p><strong>Pod termination triggers:</strong><br />
 - −5% drawdown → 50% de-risk, warning<br />
 - −10% → full liquidation, stop-out<br />
@@ -801,6 +801,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

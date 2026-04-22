@@ -449,12 +449,12 @@ body {
 <h2 id="1-anchoring">1. Anchoring</h2>
 <p><strong>What it is:</strong> Over-weighting a reference point — usually the FIRST piece of information — even when it's irrelevant to the current decision. The brain treats the anchor as meaningful even when logic says it isn't.</p>
 <p><strong>In PMs:</strong><br />
-- "I bought XOM at $110. I won't sell below my cost." → The market doesn't know or care what you paid. Entry price is irrelevant to forward risk/reward.<br />
-- "Fair value is $150 — my DCF says so." → But the DCF was built 3 months ago with different earnings assumptions. The anchor is stale.<br />
-- "This stock is cheap — it was $200 last year." → Past price ≠ fair value. It could have been overvalued at $200.</p>
+- "I bought XOM at <span class="nokatex">$</span>110. I won't sell below my cost." → The market doesn't know or care what you paid. Entry price is irrelevant to forward risk/reward.<br />
+- "Fair value is <span class="nokatex">$</span>150 — my DCF says so." → But the DCF was built 3 months ago with different earnings assumptions. The anchor is stale.<br />
+- "This stock is cheap — it was <span class="nokatex">$</span>200 last year." → Past price ≠ fair value. It could have been overvalued at <span class="nokatex">$</span>200.</p>
 <p><strong>In traders:</strong><br />
-- "I got filled at $112.50 earlier. I'm not taking a loss on this." → The execution price creates an anchor that distorts exit timing.<br />
-- "Brent traded at $92 last week, so $85 feels cheap." → Last week's price has zero predictive power. The trader anchors to recent levels.<br />
+- "I got filled at <span class="nokatex">$</span>112.50 earlier. I'm not taking a loss on this." → The execution price creates an anchor that distorts exit timing.<br />
+- "Brent traded at <span class="nokatex">$</span>92 last week, so <span class="nokatex">$</span>85 feels cheap." → Last week's price has zero predictive power. The trader anchors to recent levels.<br />
 - "This name usually trades at 30 vol — 22 vol must be too low." → Anchoring to historical vol average without asking if the regime has changed.</p>
 <p><strong>The data:</strong> Kahneman &amp; Tversky's anchor experiments show that even RANDOM numbers affect subsequent estimates. In a landmark study, spinning a roulette wheel before asking "what percentage of UN countries are African?" moved estimates by 20+ percentage points. The anchor doesn't have to be related to the decision to distort it.</p>
 <p><strong>RM detection signals:</strong></p>
@@ -525,7 +525,7 @@ body {
 </table>
 <hr />
 <h2 id="3-loss-aversion">3. Loss Aversion</h2>
-<p><strong>What it is:</strong> Losses feel approximately <strong>2× as painful as equivalent gains feel good</strong> (Kahneman &amp; Tversky, 1979). A $1M loss hurts more than a $1M gain satisfies. This asymmetry distorts EVERY risk decision.</p>
+<p><strong>What it is:</strong> Losses feel approximately <strong>2× as painful as equivalent gains feel good</strong> (Kahneman &amp; Tversky, 1979). A <span class="nokatex">$</span>1M loss hurts more than a <span class="nokatex">$</span>1M gain satisfies. This asymmetry distorts EVERY risk decision.</p>
 <p><strong>In PMs:</strong><br />
 - Holding losers too long: "It's not a loss until I sell." Yes, it is. The market has re-priced the asset. Your unrealized loss IS real.<br />
 - Cutting winners too early: "Better take profit before it reverses." This caps upside while leaving downside unlimited.<br />
@@ -546,13 +546,13 @@ body {
 <tbody>
 <tr>
 <td>Avg winning trade</td>
-<td>+$150K</td>
-<td>+$80K (cut too early)</td>
+<td>+<span class="nokatex">$</span>150K</td>
+<td>+<span class="nokatex">$</span>80K (cut too early)</td>
 </tr>
 <tr>
 <td>Avg losing trade</td>
-<td>−$120K</td>
-<td>−$350K (held too long)</td>
+<td>−<span class="nokatex">$</span>120K</td>
+<td>−<span class="nokatex">$</span>350K (held too long)</td>
 </tr>
 <tr>
 <td>Win rate</td>
@@ -561,8 +561,8 @@ body {
 </tr>
 <tr>
 <td>Expected value per trade</td>
-<td><strong>+$12K</strong></td>
-<td><strong>−$70K</strong></td>
+<td><strong>+<span class="nokatex">$</span>12K</strong></td>
+<td><strong>−<span class="nokatex">$</span>70K</strong></td>
 </tr>
 </tbody>
 </table>
@@ -582,8 +582,8 @@ body {
 - The fund's <strong>realized P&amp;L</strong> looks fine (recording small wins). The <strong>unrealized P&amp;L</strong> is a crater.</p>
 <p><strong>The data:</strong> Odean (1998) studied 10,000 brokerage accounts and found that investors sell winners at a 50% higher rate than losers. The winners they sold outperformed the losers they held by 3.4% over the following year.</p>
 <p><strong>In traders:</strong><br />
-- Trader scalps 5 small wins ($20K each = $100K) and lets one loss run to −$180K. Net: −$80K.<br />
-- Trader has a good morning (+$200K), gets cautious in the afternoon ("don't give it back"), misses a clear setup worth $150K.<br />
+- Trader scalps 5 small wins (<span class="nokatex">$</span>20K each = <span class="nokatex">$</span>100K) and lets one loss run to −<span class="nokatex">$</span>180K. Net: −<span class="nokatex">$</span>80K.<br />
+- Trader has a good morning (+<span class="nokatex">$</span>200K), gets cautious in the afternoon ("don't give it back"), misses a clear setup worth <span class="nokatex">$</span>150K.<br />
 - Trader manages to take profit on the one position that was building momentum, while averaging down on the one that's bleeding.</p>
 <p><strong>RM detection dashboard:</strong></p>
 <table>
@@ -623,7 +623,7 @@ body {
 </tbody>
 </table>
 <p><strong>RM intervention:</strong><br />
-- "Your last 20 closed trades: avg winner = +$85K, avg loser = −$240K. Win rate is 70%. Net expected value per trade is negative. You're cutting winners too fast and holding losers too long."<br />
+- "Your last 20 closed trades: avg winner = +<span class="nokatex">$</span>85K, avg loser = −<span class="nokatex">$</span>240K. Win rate is 70%. Net expected value per trade is negative. You're cutting winners too fast and holding losers too long."<br />
 - Forced portfolio audit: "Close your screen. If you could only keep 5 of your 15 positions, which 5? Why?" The positions they DON'T pick should be exited.</p>
 <hr />
 <h2 id="5-overconfidence">5. Overconfidence</h2>
@@ -641,7 +641,7 @@ body {
 <tr>
 <td><strong>Overprecision</strong></td>
 <td>Confidence intervals too narrow</td>
-<td>"This stock is worth $145-$155." (Real range: $110-$180)</td>
+<td>"This stock is worth <span class="nokatex">$</span>145-<span class="nokatex">$</span>155." (Real range: <span class="nokatex">$</span>110-<span class="nokatex">$</span>180)</td>
 </tr>
 <tr>
 <td><strong>Overplacement</strong></td>
@@ -670,7 +670,7 @@ body {
 - If "high confidence" trades perform WORSE (due to larger sizing and larger losses when wrong) → overconfidence is actively destroying P&amp;L</p>
 <p><strong>RM role:</strong><br />
 - Position limits exist BECAUSE of overconfidence. They are the structural check.<br />
-- Push back on concentration with data: "You may be right. But if you're wrong, this single position is a $600K drawdown — that's 15% of your monthly budget. Is the edge large enough to justify that?"</p>
+- Push back on concentration with data: "You may be right. But if you're wrong, this single position is a <span class="nokatex">$</span>600K drawdown — that's 15% of your monthly budget. Is the edge large enough to justify that?"</p>
 <hr />
 <h2 id="6-recency-bias">6. Recency Bias</h2>
 <p><strong>What it is:</strong> Over-weighting recent events in probability assessment. The last thing that happened feels like the most likely thing to happen next.</p>
@@ -731,8 +731,8 @@ body {
 <tbody>
 <tr>
 <td>Week 1</td>
-<td>Long XOM @ $110</td>
-<td>"Oil to $120 on supply constraints"</td>
+<td>Long XOM @ <span class="nokatex">$</span>110</td>
+<td>"Oil to <span class="nokatex">$</span>120 on supply constraints"</td>
 <td>Thesis entered</td>
 </tr>
 <tr>
@@ -745,7 +745,7 @@ body {
 <td>Week 8</td>
 <td>Still long, now −3%</td>
 <td>"Short-term pullback. Supply thesis intact."</td>
-<td>Oil at $85 — cracks forming</td>
+<td>Oil at <span class="nokatex">$</span>85 — cracks forming</td>
 </tr>
 <tr>
 <td>Week 12</td>
@@ -808,11 +808,11 @@ body {
 <h2 id="8-revenge-trading">8. Revenge Trading</h2>
 <p><strong>What it is:</strong> After a loss, the trader increases position size, takes a lower-quality setup, or trades impulsively — driven by the psychological need to "make it back." This is loss aversion + action bias + ego.</p>
 <p><strong>The pattern:</strong><br />
-1. Trader loses $150K on a clean trade that went wrong. Pain is intense.<br />
+1. Trader loses <span class="nokatex">$</span>150K on a clean trade that went wrong. Pain is intense.<br />
 2. Instead of taking a break: sees the next semi-reasonable setup and trades 2× normal size.<br />
-3. The setup fails. Now down $350K.<br />
+3. The setup fails. Now down <span class="nokatex">$</span>350K.<br />
 4. Now REALLY needs to make it back. Trades 3× normal size. No thesis, just aggression.<br />
-5. Day ends −$600K. A $150K loss became a $600K loss through revenge trading.</p>
+5. Day ends −<span class="nokatex">$</span>600K. A <span class="nokatex">$</span>150K loss became a <span class="nokatex">$</span>600K loss through revenge trading.</p>
 <p><strong>P&amp;L signature:</strong> Look for intraday P&amp;L curves that show "good morning, cliff in the afternoon" or "orderly losses followed by a sudden deep hole." The cliff is almost always the revenge trade.</p>
 <p><strong>RM intervention:</strong><br />
 - Mandatory cooling-off period after a daily loss exceeds a threshold (e.g., &gt;50% of daily budget consumed → 30-minute pause)<br />
@@ -905,7 +905,7 @@ body {
 <td>Aug 2007 Quant Meltdown</td>
 <td>Market-neutral equity factors (value, momentum)</td>
 <td>Everyone in same trades → correlated unwind over 4 days</td>
-<td>~$100B across industry</td>
+<td>~<span class="nokatex">$</span>100B across industry</td>
 </tr>
 <tr>
 <td>GME Jan 2021</td>
@@ -917,13 +917,13 @@ body {
 <td>Archegos Mar 2021</td>
 <td>Concentrated longs via TRS, multiple PBs</td>
 <td>PBs liquidated simultaneously</td>
-<td>$10B across CS, Nomura</td>
+<td><span class="nokatex">$</span>10B across CS, Nomura</td>
 </tr>
 <tr>
 <td>2022 Crypto</td>
 <td>Identical liquidity-mining positions</td>
 <td>Correlated unwind: LUNA → 3AC → FTX contagion</td>
-<td>~$2T market cap lost</td>
+<td>~<span class="nokatex">$</span>2T market cap lost</td>
 </tr>
 </tbody>
 </table>
@@ -933,13 +933,13 @@ body {
 - CDS basis: are we on the same side as the market in credit?<br />
 - "If 50 funds hold this same position and 5 decide to exit, what happens to our P&amp;L?"</p>
 <h2 id="12-sunk-cost-fallacy-escalation-of-commitment">12. Sunk Cost Fallacy (Escalation of Commitment)</h2>
-<p><strong>What it is:</strong> Continuing to invest in a losing position because of the resources already committed ("I've already spent $200K of premium on this options structure — I can't close it now").</p>
+<p><strong>What it is:</strong> Continuing to invest in a losing position because of the resources already committed ("I've already spent <span class="nokatex">$</span>200K of premium on this options structure — I can't close it now").</p>
 <p><strong>Distinct from loss aversion:</strong> Loss aversion is about avoiding the PAIN of a loss. Sunk cost is about JUSTIFYING past spending by continuing.</p>
 <p><strong>Examples:</strong><br />
 - PM spent 6 months building a thesis and meeting management. Stock is down 25%. Cutting would "waste" 6 months of work.<br />
-- Trader has rolled a losing options structure 3 times, spending $350K in roll costs. "I can't close it now — I've invested too much."<br />
+- Trader has rolled a losing options structure 3 times, spending <span class="nokatex">$</span>350K in roll costs. "I can't close it now — I've invested too much."<br />
 - Research team produced a 40-page report recommending the trade. Admitting it's wrong "wastes" the research.</p>
-<p><strong>RM role:</strong> "The $350K in roll costs is GONE whether you close or keep rolling. The only question is: at today's price and vol, is another $120K roll the best use of $120K? Or would you spend $120K on something else?"</p>
+<p><strong>RM role:</strong> "The <span class="nokatex">$</span>350K in roll costs is GONE whether you close or keep rolling. The only question is: at today's price and vol, is another <span class="nokatex">$</span>120K roll the best use of <span class="nokatex">$</span>120K? Or would you spend <span class="nokatex">$</span>120K on something else?"</p>
 <hr />
 <h1 id="part-3-biases-in-the-rm-themselves">PART 3: BIASES IN THE RM THEMSELVES</h1>
 <blockquote>
@@ -976,7 +976,7 @@ body {
 </tr>
 <tr>
 <td><strong>Anchoring to models</strong></td>
-<td>"VaR says $4M, so $4M is the risk"</td>
+<td>"VaR says <span class="nokatex">$</span>4M, so <span class="nokatex">$</span>4M is the risk"</td>
 <td>VaR is ONE number. Stress tests, ES, correlation, concentration — triangulate. No single metric captures reality.</td>
 </tr>
 <tr>
@@ -996,7 +996,7 @@ body {
 </tr>
 </tbody>
 </table>
-<p><strong>The most dangerous RM bias: outcome bias.</strong> If a PM runs 20% concentration, breaches VaR three times, and makes $5M → the temptation is "they were right." But the PROCESS was reckless. Next time, the same behavior produces −$10M. Evaluate the process, not the outcome.</p>
+<p><strong>The most dangerous RM bias: outcome bias.</strong> If a PM runs 20% concentration, breaches VaR three times, and makes <span class="nokatex">$</span>5M → the temptation is "they were right." But the PROCESS was reckless. Next time, the same behavior produces −<span class="nokatex">$</span>10M. Evaluate the process, not the outcome.</p>
 <hr />
 <h1 id="part-4-the-behavioral-early-warning-system">PART 4: THE BEHAVIORAL EARLY-WARNING SYSTEM</h1>
 <blockquote>
@@ -1255,7 +1255,7 @@ body {
 <tbody>
 <tr>
 <td>PM holding a loser</td>
-<td>"If you had no position, would you buy this today at $88?"</td>
+<td>"If you had no position, would you buy this today at <span class="nokatex">$</span>88?"</td>
 <td>Strips out anchoring without accusing</td>
 </tr>
 <tr>
@@ -1316,7 +1316,7 @@ body {
 <p><strong>"How do you identify when a PM or trader is making a biased decision?"</strong></p>
 <p>"I look for patterns in the DATA, not in the conversation. Three specific things:</p>
 <p>First, thesis refitting — I'd document the original thesis, catalyst, and exit conditions at inception. If I see the thesis change more than once while the position stays the same, that's a flag. Each thesis change is the PM inventing a new narrative to avoid admitting the original thesis is broken.</p>
-<p>Second, P&amp;L distribution — I'd track the average winning trade vs average losing trade. If wins cluster at +$80K and losses at +$300K, the PM is cutting winners early and holding losers too long. That's the disposition effect. The win rate might be 60%, but the expected value is negative.</p>
+<p>Second, P&amp;L distribution — I'd track the average winning trade vs average losing trade. If wins cluster at +<span class="nokatex">$</span>80K and losses at +<span class="nokatex">$</span>300K, the PM is cutting winners early and holding losers too long. That's the disposition effect. The win rate might be 60%, but the expected value is negative.</p>
 <p>Third, post-loss behavior. I'd check whether position sizing increases after a losing day — that's revenge trading. And whether the trader's size correlates with their recent streak — that's recency bias contaminating sizing decisions.</p>
 <p>The key is to surface these patterns without being accusatory. I wouldn't say 'you're biased.' I'd say 'I notice your average hold period for losers is 3× longer than for winners — does that match your intention?'"</p>
 <p><strong>"What's the difference between a PM who's right-and-early vs wrong-and-stubborn?"</strong></p>
@@ -1324,7 +1324,7 @@ body {
 <p>A PM who's wrong-and-stubborn has changed their thesis at least once. The original catalyst has come and gone — or the data contradicted it — but the position remains. Often their language shifts from specific ('I expect EPS beat of 15% on margin expansion') to vague ('it's just cheap' or 'the market doesn't understand'). That vagueness is a tell.</p>
 <p>As an RM, I'd use the fresh-eyes test: 'Forget the history. No position exists. Would you put this on today at this price with this information?' If the PM can't articulate a clear, current, SPECIFIC reason — not a vague narrative — the position should be cut or significantly reduced."</p>
 <p><strong>"How do you handle your OWN biases as an RM?"</strong></p>
-<p>"The biggest one is outcome bias — evaluating a PM's risk-taking based on whether they made money, rather than whether the process was sound. A PM who runs 20% concentration, breaches VaR three times, and makes $5M looks like a hero. But the process was reckless — next time, the same approach produces −$10M. I need to evaluate whether the risk-adjusted process was sound, not whether the coin flip came up heads.</p>
+<p>"The biggest one is outcome bias — evaluating a PM's risk-taking based on whether they made money, rather than whether the process was sound. A PM who runs 20% concentration, breaches VaR three times, and makes <span class="nokatex">$</span>5M looks like a hero. But the process was reckless — next time, the same approach produces −<span class="nokatex">$</span>10M. I need to evaluate whether the risk-adjusted process was sound, not whether the coin flip came up heads.</p>
 <p>The second is authority bias. If a senior PM pushes back on my risk concern, I need to hold my ground — not because I'm always right, but because my job is to surface the risk. I'd document my concern in writing, present the data, and let the IC decide. If they overrule me, that's their prerogative — but the flag is on record.</p>
 <p>And normalcy bias — the tendency to think that because nothing bad has happened recently, nothing bad will happen. I'd counter this by running 'what if' scenarios proactively, not just reacting to problems. The best time to prepare for a vol spike is when VIX is at 12."</p>
 <hr />
@@ -1345,6 +1345,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

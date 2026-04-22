@@ -842,7 +842,7 @@ body {
 </tr>
 <tr>
 <td><strong>AUM</strong></td>
-<td>~$11B+ (as of recent reports). Global operations.</td>
+<td>~<span class="nokatex">$</span>11B+ (as of recent reports). Global operations.</td>
 </tr>
 </tbody>
 </table>
@@ -932,12 +932,12 @@ body {
 <tr>
 <td>PM → CRO</td>
 <td>PM conviction into quantitative risk language</td>
-<td>"PM wants to go 8% in NVDA" → "This adds $3.5M incremental VaR, 25% tech concentration, and increases portfolio beta from 0.15 to 0.35"</td>
+<td>"PM wants to go 8% in NVDA" → "This adds <span class="nokatex">$</span>3.5M incremental VaR, 25% tech concentration, and increases portfolio beta from 0.15 to 0.35"</td>
 </tr>
 <tr>
 <td>CRO → PM</td>
 <td>Firm-level risk constraints into actionable guidance</td>
-<td>"CRO wants disc VaR under $5M" → "You can keep current positions but need to hedge the beta or reduce your 3 most correlated names"</td>
+<td>"CRO wants disc VaR under <span class="nokatex">$</span>5M" → "You can keep current positions but need to hedge the beta or reduce your 3 most correlated names"</td>
 </tr>
 <tr>
 <td>Systematic → PM</td>
@@ -1064,10 +1064,10 @@ body {
 |---|---|<br />
 | Aug 6 (Mon) | Unusual losses across quant equity funds. −3 to −5σ day. |<br />
 | Aug 7 (Tue) | Losses accelerate. Goldman Global Alpha down 10% in a week. |<br />
-| Aug 8 (Wed) | Goldman injects $3B of capital into Global Alpha. |<br />
+| Aug 8 (Wed) | Goldman injects <span class="nokatex">$</span>3B of capital into Global Alpha. |<br />
 | Aug 9 (Thu) | Worst day — many funds see −10σ to −12σ returns (should be impossible under normal distributions). |<br />
 | Aug 10 (Fri) | Partial recovery as selling exhausts. |</p>
-<p><strong>Total industry losses:</strong> ~$100B across quantitative equity funds in one week.</p>
+<p><strong>Total industry losses:</strong> ~<span class="nokatex">$</span>100B across quantitative equity funds in one week.</p>
 <p><strong>Root cause:</strong> CROWDING. Everyone owned the same positions because they were running the same models. When one unwinds, everyone unwinds. The diversification across 3,000 positions was an ILLUSION — they were diversified across stocks but CONCENTRATED in factors.</p>
 <p><strong>Systematic RM lessons:</strong><br />
 1. Monitor strategy overlap with the industry (13F analysis, factor return correlation)<br />
@@ -1076,7 +1076,7 @@ body {
 4. The model's "worst case" isn't actually the worst case — tail events exceed model assumptions</p>
 <h2 id="archegos-capital-march-2021-discretionary-failure">Archegos Capital (March 2021) — Discretionary Failure</h2>
 <p><strong>What happened:</strong><br />
-- Bill Hwang ran a family office (~$20B in exposure from $10B equity through TRS leverage)<br />
+- Bill Hwang ran a family office (~<span class="nokatex">$</span>20B in exposure from <span class="nokatex">$</span>10B equity through TRS leverage)<br />
 - Concentrated in &lt;10 names: ViacomCBS, Discovery, Baidu, Tencent Music, etc.<br />
 - Positions were held via Total Return Swaps at multiple prime brokers → invisible to the market (no 13F filing required)<br />
 - ViacomCBS did a secondary offering on March 22. Stock dropped. Margin calls triggered.<br />
@@ -1084,10 +1084,10 @@ body {
 <p><strong>Losses:</strong><br />
 | Bank | Loss |<br />
 |---|---|<br />
-| Credit Suisse | $5.5B |<br />
-| Nomura | $2.9B |<br />
-| Morgan Stanley | $911M (got out faster) |<br />
-| Goldman Sachs | ~$0 (liquidated first) |</p>
+| Credit Suisse | <span class="nokatex">$</span>5.5B |<br />
+| Nomura | <span class="nokatex">$</span>2.9B |<br />
+| Morgan Stanley | <span class="nokatex">$</span>911M (got out faster) |<br />
+| Goldman Sachs | ~<span class="nokatex">$</span>0 (liquidated first) |</p>
 <p><strong>Root cause:</strong> CONCENTRATION + OPACITY + LEVERAGE. One PM with extreme conviction, no diversification, massive leverage, and zero transparency to counterparties.</p>
 <p><strong>Discretionary RM lessons:</strong><br />
 1. Concentration limits are non-negotiable — no single name &gt;5–8% of NAV<br />
@@ -1346,7 +1346,7 @@ body {
 <h1 id="part-10-interview-application">PART 10: INTERVIEW APPLICATION</h1>
 <p><strong>"Why do you want to do discretionary risk management specifically, especially at a systematic firm?"</strong></p>
 <p>"Discretionary RM is where judgment matters most day-to-day. In a systematic setup, the model handles most real-time risk decisions — position sizing, factor neutrality, stop-losses. The RM monitors systems. Important, but much of the value is in model construction, not daily risk dialogue.</p>
-<p>In discretionary, I'm the PM's risk counterpart. I'm running factor decomposition on their portfolio to surface exposures they might not see — 'you think you're running 8 independent stock picks, but 60% of your variance is explained by momentum and beta.' I'm tracking behavioral patterns against data — 'your average loser is held 3× longer than your average winner, and the thesis changed twice. Is this position alive because of the idea, or because of loss aversion?' And I'm running scenario analysis that's specific and actionable: not 'if a recession, VaR goes to $8M,' but 'if a recession, HERE are the 3 positions that would lose $2M each, and here's how I'd hedge or trim.'</p>
+<p>In discretionary, I'm the PM's risk counterpart. I'm running factor decomposition on their portfolio to surface exposures they might not see — 'you think you're running 8 independent stock picks, but 60% of your variance is explained by momentum and beta.' I'm tracking behavioral patterns against data — 'your average loser is held 3× longer than your average winner, and the thesis changed twice. Is this position alive because of the idea, or because of loss aversion?' And I'm running scenario analysis that's specific and actionable: not 'if a recession, VaR goes to <span class="nokatex">$</span>8M,' but 'if a recession, HERE are the 3 positions that would lose <span class="nokatex">$</span>2M each, and here's how I'd hedge or trim.'</p>
 <p>Doing this at Squarepoint is uniquely valuable because the infrastructure exists. The factor engines, the scenario tools, the data pipelines — they're already built for the systematic side. I get to apply that quantitative toolkit to a 40-position discretionary book where each position has a STORY, a CATALYST, and a THESIS that I can audit. It's the intersection of quantitative rigor and human judgment. That's where I want to be."</p>
 <p><strong>"How would you handle a situation where the discretionary PM's positions are correlated with the systematic book?"</strong></p>
 <p>"This is the central risk of running both engines under one roof, and it's actually one of the most important things the discretionary RM monitors.</p>
@@ -1377,6 +1377,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

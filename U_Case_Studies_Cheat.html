@@ -417,14 +417,14 @@ body {
 <td>1</td>
 <td>LTCM</td>
 <td>1998</td>
-<td>$4.6B (100%)</td>
+<td><span class="nokatex">$</span>4.6B (100%)</td>
 <td>Leverage + illusory diversification + model trust</td>
 </tr>
 <tr>
 <td>2</td>
 <td>Archegos</td>
 <td>2021</td>
-<td>$10B (across PBs)</td>
+<td><span class="nokatex">$</span>10B (across PBs)</td>
 <td>Counterparty blind spots + concentration</td>
 </tr>
 <tr>
@@ -438,14 +438,14 @@ body {
 <td>4</td>
 <td>London Whale</td>
 <td>2012</td>
-<td>$6.2B</td>
+<td><span class="nokatex">$</span>6.2B</td>
 <td>Model gaming + hedge drift</td>
 </tr>
 <tr>
 <td>5</td>
 <td>Amaranth</td>
 <td>2006</td>
-<td>$6B (65% NAV)</td>
+<td><span class="nokatex">$</span>6B (65% NAV)</td>
 <td>Concentration + limits raised for "star trader"</td>
 </tr>
 <tr>
@@ -460,7 +460,7 @@ body {
 <td>Negative Oil</td>
 <td>2020</td>
 <td>Varies</td>
-<td>Model assumption failure ($0 floor)</td>
+<td>Model assumption failure (<span class="nokatex">$</span>0 floor)</td>
 </tr>
 <tr>
 <td>8</td>
@@ -473,7 +473,7 @@ body {
 <td>9</td>
 <td>Volmageddon</td>
 <td>2018</td>
-<td>$6B+</td>
+<td><span class="nokatex">$</span>6B+</td>
 <td>Mechanical amplification — rebalancing loop</td>
 </tr>
 <tr>
@@ -499,7 +499,7 @@ body {
 <p><strong>Survival test:</strong><br />
 $$\text{Survival} = f\left(\frac{\text{Equity cushion}}{\text{Max drawdown path}}\right)$$</p>
 <p><strong>Leverage kill math (basis trade):</strong><br />
-$$50\text{x leverage} \times 25\text{bp adverse} = 12.5\% \text{ notional loss} \gg 1\text{-}2\% \text{ equity}$$</p>
+$<span class="nokatex">$</span>50\text{x leverage} \times 25\text{bp adverse} = 12.5\% \text{ notional loss} \gg 1\text{-}2\% \text{ equity}$$</p>
 <p><strong>Concentration check:</strong><br />
 - Position as % of float → &gt;10% = dangerous<br />
 - Days to exit = position / (ADV × participation rate) → &gt;20 = illiquid</p>
@@ -557,7 +557,7 @@ $$50\text{x leverage} \times 25\text{bp adverse} = 12.5\% \text{ notional loss} 
 <h2 id="quick-interview-lines">Quick Interview Lines</h2>
 <ul>
 <li><strong>LTCM:</strong> "Leverage is a liquidation timer. Their trades converged by 2000 — but the fund was dead in Sep 1998."</li>
-<li><strong>Archegos:</strong> "You can't manage risk you can't see. Each PB saw their slice; no one saw the $30B aggregate."</li>
+<li><strong>Archegos:</strong> "You can't manage risk you can't see. Each PB saw their slice; no one saw the <span class="nokatex">$</span>30B aggregate."</li>
 <li><strong>Barings:</strong> "Trader ran front AND back office. £827M hidden in Error Account 88888 for 3 years."</li>
 <li><strong>London Whale:</strong> "VaR halved overnight with no position change. That's guaranteed model gaming."</li>
 <li><strong>Amaranth:</strong> "'He's earned the right to size up' is the most dangerous sentence in fund management."</li>
@@ -575,6 +575,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

@@ -406,7 +406,7 @@ body {
 <hr />
 <h1 id="why-this-is-the-spine-of-your-job">WHY THIS IS THE SPINE OF YOUR JOB</h1>
 <p>At Squarepoint, individual position risk is table stakes. Every PM manages their own book. Your job as Junior Risk Manager is the PORTFOLIO level — aggregating across desks, detecting hidden commonalities, and ensuring the whole fund survives scenarios no single PM is thinking about. This file covers the intellectual framework for doing that.</p>
-<p>The core reality: <strong>risk is not additive.</strong> A fund with four $3M-VaR desks doesn't have $12M of total VaR. It could be $6M (diversification) or $11M (hidden correlation). Understanding WHY — and monitoring the transition between those states — is the entire job.</p>
+<p>The core reality: <strong>risk is not additive.</strong> A fund with four <span class="nokatex">$</span>3M-VaR desks doesn't have <span class="nokatex">$</span>12M of total VaR. It could be <span class="nokatex">$</span>6M (diversification) or <span class="nokatex">$</span>11M (hidden correlation). Understanding WHY — and monitoring the transition between those states — is the entire job.</p>
 <hr />
 <h1 id="part-1-correlation-the-most-dangerous-number-in-finance">PART 1: CORRELATION — THE MOST DANGEROUS NUMBER IN FINANCE</h1>
 <blockquote>
@@ -607,7 +607,7 @@ body {
 <p>$$\sigma_p = \sigma \sqrt{\frac{1}{N} + \frac{N-1}{N} \bar{\rho}}$$</p>
 <p>Where σ = average individual asset vol, $\bar{\rho}$ = average pairwise correlation.</p>
 <p><strong>Key insight from this formula:</strong><br />
-- As $N \to \infty$: $\sigma_p \to \sigma \sqrt{\bar{\rho}}$<br />
+- As <span class="nokatex">$</span>N \to \infty$: $\sigma_p \to \sigma \sqrt{\bar{\rho}}$<br />
 - You can NEVER diversify below $\sigma \sqrt{\bar{\rho}}$ — this is the <strong>systematic risk floor</strong><br />
 - If $\bar{\rho} = 0.30$ and σ = 25%: floor = 25% × √0.30 = <strong>13.7%</strong> — no matter how many stocks you hold</p>
 <p><strong>Diversification benefit table (assuming σ = 25%, equal weight):</strong></p>
@@ -899,10 +899,10 @@ $$\text{PC}_2 = \text{direction of maximum remaining variance, orthogonal to PC}
 </tr>
 <tr>
 <td>Rates (DV01)</td>
-<td>$0K</td>
-<td>−$5K</td>
-<td>+$3K</td>
-<td><strong>−$2K</strong></td>
+<td><span class="nokatex">$</span>0K</td>
+<td>−<span class="nokatex">$</span>5K</td>
+<td>+<span class="nokatex">$</span>3K</td>
+<td><strong>−<span class="nokatex">$</span>2K</strong></td>
 </tr>
 </tbody>
 </table>
@@ -941,7 +941,7 @@ $$\text{PC}_2 = \text{direction of maximum remaining variance, orthogonal to PC}
 </table>
 <p><strong>Action:</strong> Momentum is &gt;50% of risk. Either (a) the CIO consciously wants this as the house view, or (b) it's unintentional and needs to be reduced. The RM's job is to surface this and have the conversation.</p>
 <h2 id="alpha-vs-factor-return-decomposition">Alpha vs Factor Return Decomposition</h2>
-<p>$$R_p = \underbrace{\alpha}<em>{\text{skill}} + \underbrace{\sum_k \beta_k f_k}</em>{\text{factor exposure}} + \underbrace{\epsilon}_{\text{residual}}$$</p>
+<p>$<span class="nokatex">$</span>R_p = \underbrace{\alpha}<em>{\text{skill}} + \underbrace{\sum_k \beta_k f_k}</em>{\text{factor exposure}} + \underbrace{\epsilon}_{\text{residual}}$$</p>
 <table>
 <thead>
 <tr>
@@ -1112,7 +1112,7 @@ $$\text{PC}_2 = \text{direction of maximum remaining variance, orthogonal to PC}
 <td>Long Brent crude</td>
 <td>Short WTI futures</td>
 <td>Brent − WTI spread</td>
-<td>Spread blew to $25 in 2011 (Libya). Normally $2-3.</td>
+<td>Spread blew to <span class="nokatex">$</span>25 in 2011 (Libya). Normally <span class="nokatex">$</span>2-3.</td>
 </tr>
 <tr>
 <td>Long IG corp bond</td>
@@ -1130,7 +1130,7 @@ $$\text{PC}_2 = \text{direction of maximum remaining variance, orthogonal to PC}
 <td>Long physical commodity</td>
 <td>Short front-month future</td>
 <td>Spot − future (calendar basis)</td>
-<td>COVID: oil futures went NEGATIVE while physical was still $20+</td>
+<td>COVID: oil futures went NEGATIVE while physical was still <span class="nokatex">$</span>20+</td>
 </tr>
 <tr>
 <td>Long EM equity</td>
@@ -1142,7 +1142,7 @@ $$\text{PC}_2 = \text{direction of maximum remaining variance, orthogonal to PC}
 </table>
 <h2 id="measuring-basis-risk">Measuring Basis Risk</h2>
 <p><strong>Hedge effectiveness (R²):</strong></p>
-<p>$$R^2 = 1 - \frac{\text{Var}(\text{hedged portfolio})}{\text{Var}(\text{unhedged portfolio})}$$</p>
+<p>$<span class="nokatex">$</span>R^2 = 1 - \frac{\text{Var}(\text{hedged portfolio})}{\text{Var}(\text{unhedged portfolio})}$$</p>
 <table>
 <thead>
 <tr>
@@ -1173,10 +1173,10 @@ $$\text{PC}_2 = \text{direction of maximum remaining variance, orthogonal to PC}
 <p>$$h^* = \rho \times \frac{\sigma_{\text{position}}}{\sigma_{\text{hedge}}}$$</p>
 <p>If the position and hedge aren't perfectly correlated or don't have the same volatility, the hedge ratio ≠ 1.0. A naive 1:1 hedge leaves basis risk.</p>
 <h2 id="why-basis-risk-can-be-worse-than-no-hedge">Why Basis Risk Can Be Worse Than No Hedge</h2>
-<p><strong>Scenario:</strong> PM is long $50M of corporate bonds, hedges with $50M short in Treasury futures.<br />
-- Rates rise 50bp: Treasury hedge gains $1.6M ✓<br />
-- BUT credit spreads also widen 80bp: corporate bond loses ADDITIONAL $2.0M from credit<br />
-- Net: hedge gained $1.6M, position lost $1.6M (rate) + $2.0M (credit) = <strong>net loss $2.0M</strong><br />
+<p><strong>Scenario:</strong> PM is long <span class="nokatex">$</span>50M of corporate bonds, hedges with <span class="nokatex">$</span>50M short in Treasury futures.<br />
+- Rates rise 50bp: Treasury hedge gains <span class="nokatex">$</span>1.6M ✓<br />
+- BUT credit spreads also widen 80bp: corporate bond loses ADDITIONAL <span class="nokatex">$</span>2.0M from credit<br />
+- Net: hedge gained <span class="nokatex">$</span>1.6M, position lost <span class="nokatex">$</span>1.6M (rate) + <span class="nokatex">$</span>2.0M (credit) = <strong>net loss <span class="nokatex">$</span>2.0M</strong><br />
 - PM thought they were hedged. They were hedged against RATES but not CREDIT. The hedge created false confidence.</p>
 <p><strong>RM lesson:</strong> Always ask: "What is this hedge ACTUALLY hedging? What risks remain?"</p>
 <hr />
@@ -1337,10 +1337,10 @@ $$\text{PC}_2 = \text{direction of maximum remaining variance, orthogonal to PC}
 </tbody>
 </table>
 <p><strong>The RM's tail-hedge conversation:</strong><br />
-- "The tail hedge costs $3M/year in premium decay."<br />
-- "The scenario it protects against: SPX −25%, all desks hit simultaneously, forced liquidation → $80M loss."<br />
-- "Is $3M/year good insurance against an $80M loss with, say, 3-5% annual probability?"<br />
-- Expected tail loss = $80M × 4% = $3.2M → break-even. The hedge is WORTH it on expected value alone, before considering survival value.</p>
+- "The tail hedge costs <span class="nokatex">$</span>3M/year in premium decay."<br />
+- "The scenario it protects against: SPX −25%, all desks hit simultaneously, forced liquidation → <span class="nokatex">$</span>80M loss."<br />
+- "Is <span class="nokatex">$</span>3M/year good insurance against an <span class="nokatex">$</span>80M loss with, say, 3-5% annual probability?"<br />
+- Expected tail loss = <span class="nokatex">$</span>80M × 4% = <span class="nokatex">$</span>3.2M → break-even. The hedge is WORTH it on expected value alone, before considering survival value.</p>
 <hr />
 <h1 id="part-7-liquidity-risk-the-risk-of-not-being-able-to-exit">PART 7: LIQUIDITY RISK — THE RISK OF NOT BEING ABLE TO EXIT</h1>
 <blockquote>
@@ -1441,25 +1441,25 @@ SPIRAL: Funding liquidity ↔ Market liquidity FEEDBACK LOOP
 <tbody>
 <tr>
 <td><strong>1</strong></td>
-<td>Listed, ADV &gt;$100M, spread &lt;5bp</td>
+<td>Listed, ADV &gt;<span class="nokatex">$</span>100M, spread &lt;5bp</td>
 <td>&lt;1 day</td>
 <td>Standard 1-day VaR</td>
 </tr>
 <tr>
 <td><strong>2</strong></td>
-<td>Listed, ADV $10-100M, spread 5-20bp</td>
+<td>Listed, ADV <span class="nokatex">$</span>10-100M, spread 5-20bp</td>
 <td>1-5 days</td>
 <td>LVaR = VaR × √DTL</td>
 </tr>
 <tr>
 <td><strong>3</strong></td>
-<td>listed/OTC, ADV $1-10M, spread 20-100bp</td>
+<td>listed/OTC, ADV <span class="nokatex">$</span>1-10M, spread 20-100bp</td>
 <td>5-20 days</td>
 <td>LVaR + stress spread + concentration haircut</td>
 </tr>
 <tr>
 <td><strong>4</strong></td>
-<td>OTC, bespoke, ADV &lt;$1M or no market</td>
+<td>OTC, bespoke, ADV &lt;<span class="nokatex">$</span>1M or no market</td>
 <td>20+ days</td>
 <td>Full notional at risk in stress. May need side-pocket.</td>
 </tr>
@@ -1553,14 +1553,14 @@ SPIRAL: Funding liquidity ↔ Market liquidity FEEDBACK LOOP
 <p><strong>RM consideration:</strong> Vol targeting creates PROCYCLICAL behavior in the short term (selling into drops, buying into rallies) but STRUCTURAL risk management (lower leverage in high-vol regimes where tail events are more likely).</p>
 <h2 id="risk-budget-architecture">Risk Budget Architecture</h2>
 <p>The fund's total risk budget flows down through layers:</p>
-<div class="highlight"><pre><span></span><code>FUND LEVEL:          Total VaR ≤ $15M (99%, 1-day)
+<div class="highlight"><pre><span></span><code>FUND LEVEL:          Total VaR ≤ &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;15M (99%, 1-day)
                      Max Drawdown ≤ −15% from HWM
                      Gross Leverage ≤ 5×
                           │
         ┌─────────────────┼─────────────────┐
         ▼                 ▼                 ▼
    DESK A            DESK B            DESK C
-  VaR ≤ $5M        VaR ≤ $4M        VaR ≤ $3M
+  VaR ≤ &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;5M        VaR ≤ &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;4M        VaR ≤ &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;3M
   DD ≤ −8%          DD ≤ −6%          DD ≤ −5%
   (Equity Vol)      (Macro Rates)     (Credit)
         │                 │                │
@@ -1568,7 +1568,7 @@ SPIRAL: Funding liquidity ↔ Market liquidity FEEDBACK LOOP
    ▼         ▼       ▼         ▼      ▼       ▼
  Single-   Greeks   DV01     Curve  CS01   Single-
   name    limits   limits   limits limits  name JTD
-  ≤5%               ±$50K/bp               ≤$10M
+  ≤5%               ±&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;50K/bp               ≤&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;10M
 </code></pre></div>
 
 <p><strong>Reserve / unallocated:</strong> Typically 10-15% of fund VaR budget is held in RESERVE for:<br />
@@ -1812,7 +1812,7 @@ Layer 6: CAN WE GET OUT?
 </tr>
 <tr>
 <td>20</td>
-<td>Net vega ($000s per 1 vol pt)</td>
+<td>Net vega (<span class="nokatex">$</span>000s per 1 vol pt)</td>
 <td>Vol exposure</td>
 <td>Within limits</td>
 </tr>
@@ -1830,7 +1830,7 @@ Layer 6: CAN WE GET OUT?
 7:30 AM  → Pre-market risk meeting:
            - &quot;Desk A at 87% VaR utilization after yesterday&#39;s move&quot;
            - &quot;Aggregate momentum factor exposure increased 20% — two PMs added same direction&quot;
-           - &quot;If VIX hits 30, margin requirement increases $12M — we have $15M headroom&quot;
+           - &quot;If VIX hits 30, margin requirement increases &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;12M — we have &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;15M headroom&quot;
 
 8:00 AM  → Markets open. Intraday monitoring begins.
          → Real-time P&amp;L. Alert if any PM hits soft drawdown limit.
@@ -1931,6 +1931,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

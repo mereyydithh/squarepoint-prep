@@ -327,7 +327,7 @@ body {
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],ignoredClasses:['nokatex']})"></script>
 </head>
 <body>
 
@@ -411,7 +411,7 @@ body {
 <h2 id="greeks-options">Greeks &amp; Options</h2>
 <h3 id="delta">Delta</h3>
 <ul>
-<li><strong>Definition</strong>: ∂V/∂S — change in option value per $1 move in underlying</li>
+<li><strong>Definition</strong>: ∂V/∂S — change in option value per <span class="nokatex">$</span>1 move in underlying</li>
 <li><strong>Range</strong>: Long Call 0→+1 | Long Put −1→0 | Short = opposite</li>
 <li><strong>Dollar delta</strong> = Δ × contracts × multiplier × spot</li>
 </ul>
@@ -536,7 +536,7 @@ body {
 <p>$$\Delta S_{BE} = \sqrt{\frac{2|\theta|}{\gamma}}$$</p>
 <p>Market move needed for gamma gains to offset theta decay.</p>
 <h3 id="put-call-parity">Put-Call Parity</h3>
-<p>$$C - P = S \cdot e^{-qT} - K \cdot e^{-rT} = \text{Forward}$$</p>
+<p>$<span class="nokatex">$</span>C - P = S \cdot e^{-qT} - K \cdot e^{-rT} = \text{Forward}$$</p>
 <hr />
 <h2 id="volatility-sabr">Volatility &amp; SABR</h2>
 <h3 id="realized-vol">Realized Vol</h3>
@@ -1075,12 +1075,12 @@ Positive ~85% of months | Average: +2–4 bps SPX</p>
 <h3 id="concentration-hhi">Concentration (HHI)</h3>
 <p>$$HHI = \sum w_i^2 \qquad \text{Effective N} = 1/HHI$$</p>
 <h3 id="hedge-effectiveness">Hedge Effectiveness</h3>
-<p>$$R^2 = 1 - \frac{\text{Var(hedged)}}{\text{Var(unhedged)}}$$</p>
+<p>$<span class="nokatex">$</span>R^2 = 1 - \frac{\text{Var(hedged)}}{\text{Var(unhedged)}}$$</p>
 <p>R² &gt; 0.95 = excellent | &lt;0.50 = not a hedge</p>
 <h3 id="optimal-hedge-ratio">Optimal Hedge Ratio</h3>
 <p>$$h^* = \rho \times \frac{\sigma_{\text{position}}}{\sigma_{\text{hedge}}}$$</p>
 <h3 id="beta-hedge-sizing">Beta Hedge Sizing</h3>
-<p>$$N = \frac{V_p \times (\beta_{current} - \beta_{target})}{V_f}$$</p>
+<p>$<span class="nokatex">$</span>N = \frac{V_p \times (\beta_{current} - \beta_{target})}{V_f}$$</p>
 <h3 id="kelly-criterion">Kelly Criterion</h3>
 <p>$$f^* = \frac{p \cdot b - q}{b}$$</p>
 <p>In practice: use ¼ or ½ Kelly</p>
@@ -1101,7 +1101,7 @@ Positive ~85% of months | Average: +2–4 bps SPX</p>
 <h3 id="crush-spread-soy">Crush Spread (Soy)</h3>
 <p>$$\text{Crush} = (\text{Meal} + \text{Oil}) - \text{Beans}$$</p>
 <h3 id="futures-pricing">Futures Pricing</h3>
-<p>$$F = S \times e^{(r-q)T}$$</p>
+<p>$<span class="nokatex">$</span>F = S \times e^{(r-q)T}$$</p>
 <hr />
 <h2 id="pricing-models">Pricing Models</h2>
 <h3 id="black-scholes">Black-Scholes</h3>
@@ -1112,7 +1112,7 @@ Positive ~85% of months | Average: +2–4 bps SPX</p>
 <hr />
 <h2 id="macro-scenarios">Macro &amp; Scenarios</h2>
 <h3 id="gdp">GDP</h3>
-<p>$$Y = C + I + G + (X - M)$$</p>
+<p>$<span class="nokatex">$</span>Y = C + I + G + (X - M)$$</p>
 <h3 id="output-gap">Output Gap</h3>
 <p>$$\text{Gap} = \frac{Y_{actual} - Y_{potential}}{Y_{potential}} \times 100\%$$</p>
 <h3 id="okuns-law">Okun's Law</h3>
@@ -1302,6 +1302,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

@@ -551,7 +551,7 @@ body {
 <h1 id="integration-test">INTEGRATION TEST</h1>
 <p>Once you've studied all domains, you should be able to handle this in 90 seconds without notes:</p>
 <blockquote>
-<p>"I'm long $80M in a single energy name, short $30M in index puts, and oil just spiked 8%. Walk me through what I should be thinking about."</p>
+<p>"I'm long <span class="nokatex">$</span>80M in a single energy name, short <span class="nokatex">$</span>30M in index puts, and oil just spiked 8%. Walk me through what I should be thinking about."</p>
 </blockquote>
 <p>That requires: A (commodities), D (delta/gamma on the short puts), G (concentration + correlation), I (is the index put acting as a hedge or adding risk?), S (prioritize what to flag first), and U (scenario: what if oil goes to +15%?) — all at once, in real time.</p>
 <p>If you can do that, you're ready.</p>
@@ -566,6 +566,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

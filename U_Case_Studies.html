@@ -425,15 +425,15 @@ body {
 <tbody>
 <tr>
 <td>1994</td>
-<td>Fund launches. Meriwether + Scholes + Merton (Nobel laureates). Initial capital: $1.25B.</td>
+<td>Fund launches. Meriwether + Scholes + Merton (Nobel laureates). Initial capital: <span class="nokatex">$</span>1.25B.</td>
 </tr>
 <tr>
 <td>1994-97</td>
-<td>Annualized returns ~40%. Capital grows to $4.7B. Strategy: convergence/relative value across global bonds.</td>
+<td>Annualized returns ~40%. Capital grows to <span class="nokatex">$</span>4.7B. Strategy: convergence/relative value across global bonds.</td>
 </tr>
 <tr>
 <td>Early 1998</td>
-<td>Leverage: ~25:1. $4.7B equity → $125B assets → $1.25T notional derivatives.</td>
+<td>Leverage: ~25:1. <span class="nokatex">$</span>4.7B equity → <span class="nokatex">$</span>125B assets → <span class="nokatex">$</span>1.25T notional derivatives.</td>
 </tr>
 <tr>
 <td>Aug 17, 1998</td>
@@ -445,11 +445,11 @@ body {
 </tr>
 <tr>
 <td>Sep 23, 1998</td>
-<td>Fed-organized rescue: 14 banks contribute $3.6B. LTCM wound down over 12 months.</td>
+<td>Fed-organized rescue: 14 banks contribute <span class="nokatex">$</span>3.6B. LTCM wound down over 12 months.</td>
 </tr>
 <tr>
 <td>Final loss</td>
-<td>~$4.6B — essentially 100% of equity.</td>
+<td>~<span class="nokatex">$</span>4.6B — essentially 100% of equity.</td>
 </tr>
 </tbody>
 </table>
@@ -468,7 +468,7 @@ Margin calls → can&#39;t liquidate without moving the market
     ↓
 Every other convergence fund has the same positions → no buyers
     ↓
-$4.6B loss, systemic bailout required
+&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;4.6B loss, systemic bailout required
 </code></pre></div>
 
 <h2 id="quantitative-anatomy">Quantitative Anatomy</h2>
@@ -484,21 +484,21 @@ $4.6B loss, systemic bailout required
 <tr>
 <td>Leverage</td>
 <td>25:1 (assets/equity)</td>
-<td>$1 of equity supporting $25 of positions</td>
+<td><span class="nokatex">$</span>1 of equity supporting <span class="nokatex">$</span>25 of positions</td>
 </tr>
 <tr>
 <td>Effective leverage (notional)</td>
-<td>~250:1 ($1.25T / $4.7B)</td>
+<td>~250:1 (<span class="nokatex">$</span>1.25T / <span class="nokatex">$</span>4.7B)</td>
 <td>True risk exposure was astronomical</td>
 </tr>
 <tr>
 <td>Daily VaR (their model)</td>
-<td>$45M at 99%</td>
-<td>Model said max daily loss ~$45M</td>
+<td><span class="nokatex">$</span>45M at 99%</td>
+<td>Model said max daily loss ~<span class="nokatex">$</span>45M</td>
 </tr>
 <tr>
 <td>Actual daily losses in Aug-Sep</td>
-<td>$100-500M</td>
+<td><span class="nokatex">$</span>100-500M</td>
 <td>VaR was off by 3-10x</td>
 </tr>
 <tr>
@@ -508,7 +508,7 @@ $4.6B loss, systemic bailout required
 </tr>
 <tr>
 <td>Monthly loss (August 1998)</td>
-<td>-$1.85B (-44% of equity)</td>
+<td>-<span class="nokatex">$</span>1.85B (-44% of equity)</td>
 <td>VaR model said this was ~20σ — "impossible"</td>
 </tr>
 </tbody>
@@ -599,7 +599,7 @@ $4.6B loss, systemic bailout required
 </tr>
 <tr>
 <td>Mar 26 (Fri)</td>
-<td>Goldman, Morgan Stanley, Deutsche begin liquidating $20B+ in block trades.</td>
+<td>Goldman, Morgan Stanley, Deutsche begin liquidating <span class="nokatex">$</span>20B+ in block trades.</td>
 </tr>
 <tr>
 <td>Mar 29 (Mon)</td>
@@ -607,7 +607,7 @@ $4.6B loss, systemic bailout required
 </tr>
 <tr>
 <td>Final losses</td>
-<td>Credit Suisse: $5.5B. Nomura: $2.9B. Goldman/MS: minimal (sold first). Total: ~$10B.</td>
+<td>Credit Suisse: <span class="nokatex">$</span>5.5B. Nomura: <span class="nokatex">$</span>2.9B. Goldman/MS: minimal (sold first). Total: ~<span class="nokatex">$</span>10B.</td>
 </tr>
 </tbody>
 </table>
@@ -616,7 +616,7 @@ $4.6B loss, systemic bailout required
     ↓
 Total Return Swaps → positions don&#39;t appear in equity filings
     ↓
-6 PBs, each seeing only their slice → no one sees the aggregate ($30B+ notional)
+6 PBs, each seeing only their slice → no one sees the aggregate (&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;30B+ notional)
     ↓
 Massive concentrated position: 50%+ of float in some names
     ↓
@@ -626,7 +626,7 @@ Hwang can&#39;t meet margin → forced liquidation
     ↓
 ALL PBs need to sell the SAME stocks simultaneously
     ↓
-First-mover advantage: Goldman exits fast (Fri), CS exits slow (Mon) → $5.5B loss
+First-mover advantage: Goldman exits fast (Fri), CS exits slow (Mon) → &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;5.5B loss
 </code></pre></div>
 
 <h2 id="critical-counterparty-risk-dimensions">Critical Counterparty Risk Dimensions</h2>
@@ -673,11 +673,11 @@ First-mover advantage: Goldman exits fast (Fri), CS exits slow (Mon) → $5.5B l
 </table>
 <h2 id="worked-example-measuring-concentration-risk">Worked Example — Measuring Concentration Risk</h2>
 <blockquote>
-<p>Archegos held ~$10B of ViacomCBS through TRS across 6 PBs.<br />
-ViacomCBS market cap at peak: ~$60B. Free float: ~$30B. ADV: ~$500M.</p>
-<p>Position as % of float: $10B / $30B = <strong>33%</strong><br />
-Days to exit at 10% participation: $10B / ($500M × 0.10) = <strong>200 days</strong><br />
-Days to exit at 25% participation: $10B / ($500M × 0.25) = <strong>80 days</strong></p>
+<p>Archegos held ~<span class="nokatex">$</span>10B of ViacomCBS through TRS across 6 PBs.<br />
+ViacomCBS market cap at peak: ~<span class="nokatex">$</span>60B. Free float: ~<span class="nokatex">$</span>30B. ADV: ~<span class="nokatex">$</span>500M.</p>
+<p>Position as % of float: <span class="nokatex">$</span>10B / <span class="nokatex">$</span>30B = <strong>33%</strong><br />
+Days to exit at 10% participation: <span class="nokatex">$</span>10B / (<span class="nokatex">$</span>500M × 0.10) = <strong>200 days</strong><br />
+Days to exit at 25% participation: <span class="nokatex">$</span>10B / (<span class="nokatex">$</span>500M × 0.25) = <strong>80 days</strong></p>
 <p><strong>Conclusion:</strong> This position is fundamentally unliquidatable in a stress scenario. At any meaningful participation rate, the selling pressure would destroy the stock. This alone should have been a red flag at EVERY prime broker.</p>
 </blockquote>
 <h2 id="the-deep-lesson_1">The Deep Lesson</h2>
@@ -763,7 +763,7 @@ Bank collapses. 233-year institution → sold for £1.
 <tr>
 <td>Error account with £50M balance</td>
 <td>Error accounts should be near-zero, reconciled daily</td>
-<td><strong>Error account policy</strong>: any balance &gt; $X requires sign-off within 24 hours</td>
+<td><strong>Error account policy</strong>: any balance &gt; <span class="nokatex">$</span>X requires sign-off within 24 hours</td>
 </tr>
 <tr>
 <td>Leeson requested £742M in "financing" from London</td>
@@ -796,15 +796,15 @@ Bank collapses. 233-year institution → sold for £1.
 </tr>
 <tr>
 <td>Q4 2011</td>
-<td>Position grows to ~$51B notional in CDX IG and HY tranches.</td>
+<td>Position grows to ~<span class="nokatex">$</span>51B notional in CDX IG and HY tranches.</td>
 </tr>
 <tr>
 <td>Jan 2012</td>
-<td>CIO changes VaR model → reported VaR drops from $129M to $67M overnight.</td>
+<td>CIO changes VaR model → reported VaR drops from <span class="nokatex">$</span>129M to <span class="nokatex">$</span>67M overnight.</td>
 </tr>
 <tr>
 <td>Mar 2012</td>
-<td>Position grows to ~$157B notional. Market participants notice → "London Whale."</td>
+<td>Position grows to ~<span class="nokatex">$</span>157B notional. Market participants notice → "London Whale."</td>
 </tr>
 <tr>
 <td>Apr 6, 2012</td>
@@ -812,11 +812,11 @@ Bank collapses. 233-year institution → sold for £1.
 </tr>
 <tr>
 <td>May 10, 2012</td>
-<td>JPM discloses $2B in losses (later grows to $6.2B). Dimon: "egregious mistakes."</td>
+<td>JPM discloses <span class="nokatex">$</span>2B in losses (later grows to <span class="nokatex">$</span>6.2B). Dimon: "egregious mistakes."</td>
 </tr>
 <tr>
 <td>CIO total loss</td>
-<td>$6.2B</td>
+<td><span class="nokatex">$</span>6.2B</td>
 </tr>
 </tbody>
 </table>
@@ -827,11 +827,11 @@ Position starts as legitimate hedge → generates P&amp;L
     ↓
 Management likes the P&amp;L → position treated as profit center
     ↓
-Position grows: $51B → $157B notional (200% increase in 3 months)
+Position grows: &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;51B → &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;157B notional (200% increase in 3 months)
     ↓
 Size becomes too large → market participants front-run it
     ↓
-VaR model changed (Jan 2012): $129M → $67M overnight
+VaR model changed (Jan 2012): &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;129M → &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;67M overnight
     ↓
 New model hides true risk → limits not breached on paper
     ↓
@@ -839,7 +839,7 @@ Market moves against position → losses accelerate
     ↓
 CIO marks positions using favorable internal prices (mark-to-model gaming)
     ↓
-$6.2B loss + regulatory action + CEO credibility destroyed
+&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;6.2B loss + regulatory action + CEO credibility destroyed
 </code></pre></div>
 
 <h2 id="model-gaming-the-critical-lesson">Model Gaming — The Critical Lesson</h2>
@@ -864,7 +864,7 @@ $6.2B loss + regulatory action + CEO credibility destroyed
 </tr>
 <tr>
 <td>P&amp;L marks moved from external to internal pricing</td>
-<td>Losses understated by $660M</td>
+<td>Losses understated by <span class="nokatex">$</span>660M</td>
 <td>Independent price verification (IPV) must use external/market prices, not trader marks</td>
 </tr>
 </tbody>
@@ -885,30 +885,30 @@ $6.2B loss + regulatory action + CEO credibility destroyed
 <tbody>
 <tr>
 <td>1 — Hedge</td>
-<td>$20B</td>
+<td><span class="nokatex">$</span>20B</td>
 <td>Offset bank's credit exposure</td>
-<td>~$0 (hedge works)</td>
+<td>~<span class="nokatex">$</span>0 (hedge works)</td>
 <td>"Fine — hedge ratio is appropriate."</td>
 </tr>
 <tr>
 <td>2 — Profitable hedge</td>
-<td>$51B</td>
+<td><span class="nokatex">$</span>51B</td>
 <td>Hedge + some P&amp;L on basis</td>
-<td>+$400M</td>
+<td>+<span class="nokatex">$</span>400M</td>
 <td>"Hedge is now generating P&amp;L. Size exceeds hedge need by 2x. Re-justify."</td>
 </tr>
 <tr>
 <td>3 — Profit center</td>
-<td>$100B+</td>
+<td><span class="nokatex">$</span>100B+</td>
 <td>Actively trading credit for P&amp;L</td>
-<td>+$1B cumulative</td>
+<td>+<span class="nokatex">$</span>1B cumulative</td>
 <td><strong>"This is NOT a hedge. It's a proprietary position. Apply full risk limits."</strong></td>
 </tr>
 <tr>
 <td>4 — Trapped position</td>
-<td>$157B</td>
+<td><span class="nokatex">$</span>157B</td>
 <td>Too big to exit, market is front-running</td>
-<td>-$6.2B</td>
+<td>-<span class="nokatex">$</span>6.2B</td>
 <td>Crisis management.</td>
 </tr>
 </tbody>
@@ -927,19 +927,19 @@ $6.2B loss + regulatory action + CEO credibility destroyed
 <tbody>
 <tr>
 <td>2005</td>
-<td>Brian Hunter makes $1B+ from NG calendar spreads post-Hurricane Katrina. Star trader.</td>
+<td>Brian Hunter makes <span class="nokatex">$</span>1B+ from NG calendar spreads post-Hurricane Katrina. Star trader.</td>
 </tr>
 <tr>
 <td>Jan 2006</td>
-<td>Amaranth AUM: ~$9B. Multi-strategy fund. NG positions grow.</td>
+<td>Amaranth AUM: ~<span class="nokatex">$</span>9B. Multi-strategy fund. NG positions grow.</td>
 </tr>
 <tr>
 <td>Aug 2006</td>
-<td>Hunter's NG positions: ~$30B notional. Fund risk: &gt;50% in one strategy.</td>
+<td>Hunter's NG positions: ~<span class="nokatex">$</span>30B notional. Fund risk: &gt;50% in one strategy.</td>
 </tr>
 <tr>
 <td>Sep 14-20, 2006</td>
-<td>NG winter-summer spread collapses. Losses: ~$6B in one week.</td>
+<td>NG winter-summer spread collapses. Losses: ~<span class="nokatex">$</span>6B in one week.</td>
 </tr>
 <tr>
 <td>Sep 29, 2006</td>
@@ -948,11 +948,11 @@ $6.2B loss + regulatory action + CEO credibility destroyed
 </tbody>
 </table>
 <h2 id="the-risk-failure-chain_4">The Risk Failure Chain</h2>
-<div class="highlight"><pre><span></span><code>Hunter makes $1B in 2005 (Katrina) → management treats him as superstar
+<div class="highlight"><pre><span></span><code>Hunter makes &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;1B in 2005 (Katrina) → management treats him as superstar
     ↓
 &quot;He&#39;s earned the right to size up&quot; → limits RAISED to accommodate him
     ↓
-$30B notional in NG calendar spreads → 50%+ of fund risk in one strategy
+&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;30B notional in NG calendar spreads → 50%+ of fund risk in one strategy
     ↓
 Position = significant % of NG futures open interest → CAN&#39;T EXIT
     ↓
@@ -962,7 +962,7 @@ Can&#39;t exit because position IS the market
     ↓
 Other liquid positions sold to meet margin → those positions also lose
     ↓
-$6B loss in one week → fund dead
+&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;6B loss in one week → fund dead
 </code></pre></div>
 
 <h2 id="concentration-metrics-that-should-have-screamed">Concentration Metrics That Should Have Screamed</h2>
@@ -1003,7 +1003,7 @@ $6B loss in one week → fund dead
 <tr>
 <td>Prior P&amp;L used to justify current risk?</td>
 <td>Never</td>
-<td>"He made $1B last year"</td>
+<td>"He made <span class="nokatex">$</span>1B last year"</td>
 <td><strong>TEXTBOOK FAILURE</strong></td>
 </tr>
 </tbody>
@@ -1021,25 +1021,25 @@ $6B loss in one week → fund dead
 <tbody>
 <tr>
 <td>Jan 2005</td>
-<td>$500M VaR</td>
+<td><span class="nokatex">$</span>500M VaR</td>
 <td>Initial allocation</td>
 <td>"Appropriate for NG allocation."</td>
 </tr>
 <tr>
 <td>Jun 2005</td>
-<td>$750M VaR</td>
+<td><span class="nokatex">$</span>750M VaR</td>
 <td>"Hunter is performing, deserves more"</td>
 <td>"Performance doesn't change risk. Market liquidity hasn't grown."</td>
 </tr>
 <tr>
 <td>Dec 2005</td>
-<td>$1.5B VaR</td>
-<td>"He made $1B this year"</td>
-<td><strong>"STOP. Past profits are not risk capital. Limit stays at $750M."</strong></td>
+<td><span class="nokatex">$</span>1.5B VaR</td>
+<td>"He made <span class="nokatex">$</span>1B this year"</td>
+<td><strong>"STOP. Past profits are not risk capital. Limit stays at <span class="nokatex">$</span>750M."</strong></td>
 </tr>
 <tr>
 <td>Jun 2006</td>
-<td>$2.5B VaR</td>
+<td><span class="nokatex">$</span>2.5B VaR</td>
 <td>"This is our best strategy"</td>
 <td><strong>"ESCALATE. We're a multi-strat fund with single-strat risk. IC override required."</strong></td>
 </tr>
@@ -1080,7 +1080,7 @@ $6B loss in one week → fund dead
 </tr>
 <tr>
 <td>Mar 15, 2020</td>
-<td>Fed cuts to 0% + announces $700B QE. Not enough.</td>
+<td>Fed cuts to 0% + announces <span class="nokatex">$</span>700B QE. Not enough.</td>
 </tr>
 <tr>
 <td>Mar 23, 2020</td>
@@ -1122,8 +1122,8 @@ The &quot;safest&quot; asset class nearly broke the financial system
 <tbody>
 <tr>
 <td>10Y Treasury bid-ask</td>
-<td>1/32 ($312.50 per $1M face)</td>
-<td>4-8/32 (up to $2,500)</td>
+<td>1/32 (<span class="nokatex">$</span>312.50 per <span class="nokatex">$</span>1M face)</td>
+<td>4-8/32 (up to <span class="nokatex">$</span>2,500)</td>
 </tr>
 <tr>
 <td>Basis spread (cash-futures)</td>
@@ -1142,14 +1142,14 @@ The &quot;safest&quot; asset class nearly broke the financial system
 </tr>
 <tr>
 <td>Market depth (10Y)</td>
-<td>$300M per 1bp</td>
-<td>&lt; $50M per 1bp</td>
+<td><span class="nokatex">$</span>300M per 1bp</td>
+<td>&lt; <span class="nokatex">$</span>50M per 1bp</td>
 </tr>
 </tbody>
 </table>
 <p><strong>The lethal formula:</strong><br />
 $$\text{Leverage} \times \text{Adverse basis move} &gt; \text{Equity}$$<br />
-$$50\text{x} \times 25\text{bp adverse} = 12.5\% \text{ of notional loss} \gg 1\text{-}2\% \text{ equity}$$</p>
+$<span class="nokatex">$</span>50\text{x} \times 25\text{bp adverse} = 12.5\% \text{ of notional loss} \gg 1\text{-}2\% \text{ equity}$$</p>
 <p>The fund is dead 5x over before the position has a CHANCE to converge.</p>
 <h2 id="the-deep-lesson_4">The Deep Lesson</h2>
 <p><strong>Path risk — not terminal risk — kills levered trades.</strong> The basis trade converges at maturity BY DEFINITION. Every fund that blew up would have been profitable if they could have held to maturity. But they couldn't, because margin calls forced them out. The RM question is always: "Can we survive the worst path to the destination?" If the answer requires "markets stay liquid" or "correlations stay stable," the answer is NO.</p>
@@ -1170,19 +1170,19 @@ $$50\text{x} \times 25\text{bp adverse} = 12.5\% \text{ of notional loss} \gg 1\
 </tr>
 <tr>
 <td>Mar 2020</td>
-<td>Saudi-Russia price war adds supply. Oil collapses from $65 to $20.</td>
+<td>Saudi-Russia price war adds supply. Oil collapses from <span class="nokatex">$</span>65 to <span class="nokatex">$</span>20.</td>
 </tr>
 <tr>
 <td>Apr 2-17, 2020</td>
-<td>Cushing, OK storage fills to 80%+. Front-month WTI at $20.</td>
+<td>Cushing, OK storage fills to 80%+. Front-month WTI at <span class="nokatex">$</span>20.</td>
 </tr>
 <tr>
 <td>Apr 17 (Fri)</td>
-<td>May WTI futures: $18.27. Expiry: April 21.</td>
+<td>May WTI futures: <span class="nokatex">$</span>18.27. Expiry: April 21.</td>
 </tr>
 <tr>
 <td>Apr 20 (Mon)</td>
-<td>May WTI crashes to <strong>-$37.63</strong> — the first negative commodity price in history.</td>
+<td>May WTI crashes to <strong>-<span class="nokatex">$</span>37.63</strong> — the first negative commodity price in history.</td>
 </tr>
 <tr>
 <td>Apr 21 (Tue)</td>
@@ -1205,7 +1205,7 @@ Buyers know sellers are desperate → bid collapses
     ↓
 Price goes BELOW ZERO → you PAY someone to take oil
     ↓
-Risk models with $0 floor: BROKEN. P&amp;L calculations: WRONG. Greeks: UNDEFINED.
+Risk models with &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;0 floor: BROKEN. P&amp;L calculations: WRONG. Greeks: UNDEFINED.
 </code></pre></div>
 
 <h2 id="model-failure-anatomy">Model Failure Anatomy</h2>
@@ -1220,7 +1220,7 @@ Risk models with $0 floor: BROKEN. P&amp;L calculations: WRONG. Greeks: UNDEFINE
 </thead>
 <tbody>
 <tr>
-<td>"Oil can't go below $0"</td>
+<td>"Oil can't go below <span class="nokatex">$</span>0"</td>
 <td>Commodity has intrinsic value</td>
 <td>Storage at capacity → holding cost &gt; commodity value</td>
 <td>Remove hard floors; model storage cost as negative option</td>
@@ -1246,10 +1246,10 @@ Risk models with $0 floor: BROKEN. P&amp;L calculations: WRONG. Greeks: UNDEFINE
 </tbody>
 </table>
 <h2 id="uso-etf-the-amplifier">USO ETF: The Amplifier</h2>
-<p>USO (United States Oil Fund) held ~80,000 near-month WTI futures contracts ($4B notional). It was forced to roll from May to June in a 4-day window. The market KNEW this.</p>
+<p>USO (United States Oil Fund) held ~80,000 near-month WTI futures contracts (<span class="nokatex">$</span>4B notional). It was forced to roll from May to June in a 4-day window. The market KNEW this.</p>
 <p><strong>Impact:</strong><br />
-- Market makers sold May and bought June ahead of USO → widened the calendar spread by $15+<br />
-- USO's rolling losses were approximately $1.5B+ over the roll period<br />
+- Market makers sold May and bought June ahead of USO → widened the calendar spread by <span class="nokatex">$</span>15+<br />
+- USO's rolling losses were approximately <span class="nokatex">$</span>1.5B+ over the roll period<br />
 - Retail investors holding USO thought they were "buying cheap oil" — they were actually funding market-maker spread extraction</p>
 <p><strong>RM lesson:</strong> Any position large enough that its MECHANICS (roll, rebalance, expiry) are predictable to the market is at risk of being front-run. Track position as % of open interest AND as % of daily volume.</p>
 <hr />
@@ -1416,11 +1416,11 @@ These funds were managing <strong>pension money</strong> for millions of UK work
 </tr>
 <tr>
 <td>Feb 6, 2018</td>
-<td>Credit Suisse terminates XIV. $1.9B in investor capital → ~$100M.</td>
+<td>Credit Suisse terminates XIV. <span class="nokatex">$</span>1.9B in investor capital → ~<span class="nokatex">$</span>100M.</td>
 </tr>
 <tr>
 <td>Broader impact</td>
-<td>Short vol funds globally wiped out. $6B+ in total losses across short-vol strategies.</td>
+<td>Short vol funds globally wiped out. <span class="nokatex">$</span>6B+ in total losses across short-vol strategies.</td>
 </tr>
 </tbody>
 </table>
@@ -1437,9 +1437,9 @@ FEEDBACK LOOP: short vol rebalancing AMPLIFIES the vol spike
     ↓
 VIX reaches 50 intraday (from 17 → 194% increase)
     ↓
-XIV NAV goes to ~$0 (inverse product: 2x levered × 194% VIX increase &gt; 100% loss)
+XIV NAV goes to ~&lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;0 (inverse product: 2x levered × 194% VIX increase &gt; 100% loss)
     ↓
-Product terminates. $1.9B → $100M.
+Product terminates. &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;1.9B → &lt;span class=&quot;nokatex&quot;&gt;$&lt;/span&gt;100M.
 </code></pre></div>
 
 <h2 id="the-mechanical-death">The Mechanical Death</h2>
@@ -1626,7 +1626,7 @@ Recovery in 3 days once forced selling exhausts itself
 <th>Whale</th>
 <th>Amaranth</th>
 <th>Mar 2020</th>
-<th>Oil -$37</th>
+<th>Oil -<span class="nokatex">$</span>37</th>
 <th>UK Gilts</th>
 <th>Volmageddon</th>
 <th>Aug 2024</th>
@@ -1740,9 +1740,9 @@ Recovery in 3 days once forced selling exhausts itself
 <h3 id="q-walk-me-through-a-risk-management-failure-that-youve-studied-and-what-you-learned">Q: "Walk me through a risk management failure that you've studied and what you learned."</h3>
 <blockquote>
 <p>"I'll use LTCM because it illustrates three overlapping failures that are directly relevant to a multi-PM fund.</p>
-<p>LTCM ran convergence trades across global bond markets at 25:1 leverage with $1.25 trillion in notional derivatives. Their models showed diversified positions — different instruments, different countries, different maturities. But in August 1998, when Russia defaulted and triggered a global flight to quality, every single spread widened simultaneously. Correlation jumped from 0.2 to 0.95. Their 'diversified' portfolio was actually one trade: spread compression.</p>
+<p>LTCM ran convergence trades across global bond markets at 25:1 leverage with <span class="nokatex">$</span>1.25 trillion in notional derivatives. Their models showed diversified positions — different instruments, different countries, different maturities. But in August 1998, when Russia defaulted and triggered a global flight to quality, every single spread widened simultaneously. Correlation jumped from 0.2 to 0.95. Their 'diversified' portfolio was actually one trade: spread compression.</p>
 <p>What kills me about LTCM is that their trades were mostly RIGHT. Many of those positions converged by 2000 and would have been profitable. But you can't profit if you're dead. Leverage is a liquidation timer — 25:1 on illiquid assets means you survive maybe 4% against you before margin calls force liquidation. And when every other convergence fund has the same positions, there are no buyers when you need to sell.</p>
-<p>The RM lessons I take: First, factor decomposition is non-negotiable — 'how many independent bets do we actually have?' usually reveals the real number is 2-3, not 20. Second, leverage limits must be liquidity-adjusted — 10:1 on liquid instruments is fine; 3:1 on illiquid is already dangerous. Third, VaR is necessary but insufficient — it told LTCM their max daily loss was $45M; they lost $500M in a day. You need stress tests with stressed correlations, not just point-in-time VaR."</p>
+<p>The RM lessons I take: First, factor decomposition is non-negotiable — 'how many independent bets do we actually have?' usually reveals the real number is 2-3, not 20. Second, leverage limits must be liquidity-adjusted — 10:1 on liquid instruments is fine; 3:1 on illiquid is already dangerous. Third, VaR is necessary but insufficient — it told LTCM their max daily loss was <span class="nokatex">$</span>45M; they lost <span class="nokatex">$</span>500M in a day. You need stress tests with stressed correlations, not just point-in-time VaR."</p>
 </blockquote>
 <h3 id="q-how-would-you-apply-the-lessons-from-these-case-studies-in-your-daily-work">Q: "How would you apply the lessons from these case studies in your daily work?"</h3>
 <blockquote>
@@ -1777,6 +1777,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });

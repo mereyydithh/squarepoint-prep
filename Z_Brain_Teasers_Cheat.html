@@ -509,7 +509,7 @@ body {
 <td>8</td>
 <td>Gambler's ruin: P(broke), you=$a, opponent=$b</td>
 <td><strong>b/(a+b)</strong></td>
-<td>You $10 vs casino $990 → 99% ruin</td>
+<td>You <span class="nokatex">$</span>10 vs casino <span class="nokatex">$</span>990 → 99% ruin</td>
 </tr>
 <tr>
 <td>9</td>
@@ -539,7 +539,7 @@ body {
 <td>13</td>
 <td>St. Petersburg: E[payout]</td>
 <td><strong>∞</strong></td>
-<td>But median → 0. Expected utility is finite (~$4)</td>
+<td>But median → 0. Expected utility is finite (~<span class="nokatex">$</span>4)</td>
 </tr>
 <tr>
 <td>14</td>
@@ -625,8 +625,8 @@ body {
 </tr>
 <tr>
 <td>33</td>
-<td>Binomial option pricing ($100 stock, $120/$80, K=$100, r=5%)</td>
-<td><strong>$11.90</strong></td>
+<td>Binomial option pricing (<span class="nokatex">$</span>100 stock, <span class="nokatex">$</span>120/<span class="nokatex">$</span>80, K=<span class="nokatex">$</span>100, r=5%)</td>
+<td><strong><span class="nokatex">$</span>11.90</strong></td>
 <td>Risk-neutral prob p* = (1.05−0.8)/(1.2−0.8) = 0.625</td>
 </tr>
 <tr>
@@ -686,8 +686,8 @@ body {
 </tr>
 <tr>
 <td>Gas station revenue</td>
-<td>400 fill-ups/day × 10 gal × $3.50 × 365 + 30% convenience</td>
-<td><strong>~$6.6M</strong></td>
+<td>400 fill-ups/day × 10 gal × <span class="nokatex">$</span>3.50 × 365 + 30% convenience</td>
+<td><strong>~<span class="nokatex">$</span>6.6M</strong></td>
 </tr>
 <tr>
 <td>NYSE trades/day</td>
@@ -695,9 +695,9 @@ body {
 <td><strong>~50M</strong></td>
 </tr>
 <tr>
-<td>Fund daily VaR (multi-strat $12B)</td>
-<td>5% annual vol → 0.32% daily → × 2.326 → 0.74% × $12B</td>
-<td><strong>~$90M</strong></td>
+<td>Fund daily VaR (multi-strat <span class="nokatex">$</span>12B)</td>
+<td>5% annual vol → 0.32% daily → × 2.326 → 0.74% × <span class="nokatex">$</span>12B</td>
+<td><strong>~<span class="nokatex">$</span>90M</strong></td>
 </tr>
 </tbody>
 </table>
@@ -955,6 +955,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {left: '$$', right: '$$', display: true},
       {left: '$', right: '$', display: false}
     ],
+    ignoredClasses: ['nokatex'],
     throwOnError: false
   });
 });
