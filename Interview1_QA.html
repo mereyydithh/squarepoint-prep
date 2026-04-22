@@ -414,14 +414,14 @@ body {
 <p>Squarepoint is building out its discretionary arm and applying quantitative rigor to it — that combination is unusual and genuinely interesting from a risk perspective. The infrastructure, the research platform, the calibre of the traders and quants — it's the environment where I can grow the fastest. And frankly, I've been watching Squarepoint since I lived across the street from the NYC office. It's been a goal.</p>
 <hr />
 <p><strong>Q4. What do you know about Squarepoint's discretionary business?</strong></p>
-<p>Squarepoint traces back to nQuant, founded inside Lehman in 2000, then absorbed by Barclays after the 2008 acquisition. It was spun out as an independent firm in December 2014, founded by four École Polytechnique alumni — Durantel, Schneider, Fillet, and Fortin. It's grown to over $125bn AUM as of recent filings, predominantly systematic, with offices in NYC, London, Paris, Bangalore, Hong Kong and others. The discretionary arm is more recent and expanding cross-asset. What makes it interesting from a risk standpoint is applying quantitative risk frameworks to strategies driven by human judgment — a more complex monitoring challenge than purely systematic books.</p>
+<p>Squarepoint traces back to nQuant, founded inside Lehman in 2000, then absorbed by Barclays after the 2008 acquisition. It was spun out as an independent firm in December 2014, founded by four École Polytechnique alumni — Durantel, Schneider, Fillet, and Fortin. It's grown to over \$125bn AUM as of recent filings, predominantly systematic, with offices in NYC, London, Paris, Bangalore, Hong Kong and others. The discretionary arm is more recent and expanding cross-asset. What makes it interesting from a risk standpoint is applying quantitative risk frameworks to strategies driven by human judgment — a more complex monitoring challenge than purely systematic books.</p>
 <hr />
 <p><strong>Q5. Where do you see yourself in 3 years?</strong></p>
 <p>Senior risk manager, owning a book of discretionary strategies end-to-end — limits, monitoring, escalation — and actively contributing to building out the risk framework for the discretionary business. I want to be the person traders come to when they need a risk perspective, not just the person who sends breach alerts.</p>
 <hr />
 <h2 id="risk-concepts">Risk Concepts</h2>
 <p><strong>Q6. What is VaR? How do you compute it?</strong></p>
-<p>VaR is the maximum loss not exceeded at a given confidence level over a given horizon. 95% 1-day VaR of $1M means: on 95% of days, losses won't exceed $1M — but on the remaining 5% they will, and VaR says nothing about how bad those days are.</p>
+<p>VaR is the maximum loss not exceeded at a given confidence level over a given horizon. 95% 1-day VaR of \$1M means: on 95% of days, losses won't exceed \$1M — but on the remaining 5% they will, and VaR says nothing about how bad those days are.</p>
 <p>Three methods:<br />
 - <strong>Historical</strong>: sort past returns, take the 5th percentile directly. No distributional assumption.<br />
 - <strong>Parametric</strong>: assume normality, compute mean and std, apply z-score (1.645 for 95%).<br />
@@ -438,7 +438,7 @@ body {
 </ul>
 <hr />
 <p><strong>Q8. What is CVaR / Expected Shortfall? Why is it better?</strong></p>
-<p>CVaR is the average loss in the cases where VaR is breached — the expected value of the tail. If 95% VaR is -$1M, CVaR tells you: on the 5% of bad days, you lose on average $X. It's more informative because it characterises the shape of the tail, not just the threshold. It's also sub-additive (coherent). Limitation: still model-dependent and harder to backtest than VaR.</p>
+<p>CVaR is the average loss in the cases where VaR is breached — the expected value of the tail. If 95% VaR is -\$1M, CVaR tells you: on the 5% of bad days, you lose on average \$X. It's more informative because it characterises the shape of the tail, not just the threshold. It's also sub-additive (coherent). Limitation: still model-dependent and harder to backtest than VaR.</p>
 <hr />
 <p><strong>Q9. What is the difference between market risk and operational risk?</strong></p>
 <ul>
@@ -472,9 +472,9 @@ body {
 <h2 id="options-greeks">Options &amp; Greeks</h2>
 <p><strong>Q16. What is delta? What does a delta of 0.6 mean?</strong></p>
 <p>Delta has two interpretations:<br />
-- <strong>Hedge ratio</strong>: for every $1 move in the underlying, the option value moves $0.60. To delta-hedge, you take an offsetting position of 0.60 shares per option.<br />
+- <strong>Hedge ratio</strong>: for every \$1 move in the underlying, the option value moves \$0.60. To delta-hedge, you take an offsetting position of 0.60 shares per option.<br />
 - <strong>Moneyness proxy</strong>: roughly approximates the probability the option expires in-the-money. Strictly, the risk-neutral ITM probability is N(d2), but delta = N(d1) is commonly used as a quick approximation since they're close for short-dated ATM options.</p>
-<p>Net portfolio delta = total dollar move of the portfolio per $1 move in spot. A risk manager monitors net delta to ensure the book is within its directional exposure limit.</p>
+<p>Net portfolio delta = total dollar move of the portfolio per \$1 move in spot. A risk manager monitors net delta to ensure the book is within its directional exposure limit.</p>
 <hr />
 <p><strong>Q17. What is gamma? Why does a risk manager care?</strong></p>
 <p>Gamma is the rate of change of delta — how much delta shifts when spot moves. It determines how quickly your hedge goes stale.</p>
