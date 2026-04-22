@@ -473,7 +473,7 @@ body {
 <p><strong>Q16. What is delta? What does a delta of 0.6 mean?</strong></p>
 <p>Delta has two interpretations:<br />
 - <strong>Hedge ratio</strong>: for every $1 move in the underlying, the option value moves $0.60. To delta-hedge, you take an offsetting position of 0.60 shares per option.<br />
-- <strong>Moneyness proxy</strong>: roughly a 60% probability the option expires in-the-money (from the N(d1) term in Black-Scholes).</p>
+- <strong>Moneyness proxy</strong>: roughly approximates the probability the option expires in-the-money. Strictly, the risk-neutral ITM probability is N(d2), but delta = N(d1) is commonly used as a quick approximation since they're close for short-dated ATM options.</p>
 <p>Net portfolio delta = total dollar move of the portfolio per $1 move in spot. A risk manager monitors net delta to ensure the book is within its directional exposure limit.</p>
 <hr />
 <p><strong>Q17. What is gamma? Why does a risk manager care?</strong></p>
