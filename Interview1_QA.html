@@ -765,6 +765,144 @@ body {
 <p><strong>Q65. What is slippage?</strong></p>
 <p>Difference between expected execution price and actual fill. Sources: bid-ask spread, market impact, latency, adverse selection on resting orders. A risk manager looks at slippage as a hidden cost that erodes strategy P&amp;L over time — strategies that look profitable on paper can be unprofitable after realistic execution costs.</p>
 <hr />
+<h2 id="factor-models-beta">Factor Models &amp; Beta</h2>
+<p><strong>Q66. What is beta? How do you compute it?</strong></p>
+<p>Beta = Cov(r_asset, r_market) / Var(r_market). Slope of the regression of asset returns on market returns. Interpretation:<br />
+- β = 1: moves with the market<br />
+- β &gt; 1: amplifies market moves (high-beta stocks: tech, cyclicals)<br />
+- β &lt; 1: dampens (utilities, staples)<br />
+- β &lt; 0: inverse (gold sometimes, VIX always)</p>
+<p>Risk manager use: a "market-neutral" book should have aggregate beta near zero. If beta drifts, the book has unintended directional exposure.</p>
+<hr />
+<p><strong>Q67. What's a factor model? Name the standard ones.</strong></p>
+<p>A model decomposing asset returns into systematic factor exposures + idiosyncratic. r_i = α_i + Σ β_ij × F_j + ε_i.</p>
+<ul>
+<li><strong>CAPM (1-factor)</strong>: market only</li>
+<li><strong>Fama-French 3-factor</strong>: market + size (SMB) + value (HML)</li>
+<li><strong>Carhart 4-factor</strong>: + momentum</li>
+<li><strong>Fama-French 5-factor</strong>: + profitability + investment</li>
+<li><strong>Barra-style risk models</strong>: 50+ factors (industry, country, style)</li>
+</ul>
+<p>For a discretionary equity book, factor decomposition tells you: how much of P&amp;L is alpha vs beta exposure? A trader who claims alpha but has 80% of returns explained by momentum factor isn't picking stocks, they're riding a factor.</p>
+<hr />
+<p><strong>Q68. What is PCA in a risk context?</strong></p>
+<p>Principal Component Analysis: decompose the covariance matrix of returns into orthogonal components ranked by variance explained. For a yield curve, typically:<br />
+- PC1 (~80-90%): level shift (parallel)<br />
+- PC2 (~5-10%): slope (steepening/flattening)<br />
+- PC3 (~1-5%): curvature (butterfly)</p>
+<p>Used to: reduce dimensionality (hedge with 2-3 instruments instead of 10), build factor-based risk limits, identify regime changes (eigenvalue distribution shifts in crisis).</p>
+<hr />
+<h2 id="backtesting-strategy-validation">Backtesting &amp; Strategy Validation</h2>
+<p><strong>Q69. What biases ruin a backtest?</strong></p>
+<ul>
+<li><strong>Look-ahead bias</strong>: using info not available at the time (e.g., today's revised earnings to trade yesterday)</li>
+<li><strong>Survivorship bias</strong>: testing only on companies still listed today (delisted = bankrupt = your strategy "avoided" them by accident)</li>
+<li><strong>Data snooping / p-hacking</strong>: testing 1000 strategies, picking the best — guaranteed to find spurious "alpha"</li>
+<li><strong>Overfitting</strong>: too many parameters relative to sample size — fits noise, not signal</li>
+<li><strong>In-sample vs OOS leakage</strong>: tuning on the test set</li>
+<li><strong>Transaction cost omission</strong>: ignoring slippage, market impact, financing</li>
+<li><strong>Regime bias</strong>: strategy backtested only in bull markets</li>
+</ul>
+<p>A risk manager validating a new strategy demands an out-of-sample test with realistic costs and an explanation of why the strategy should work (economic rationale), not just "the numbers look good."</p>
+<hr />
+<p><strong>Q70. What's overfitting? How do you detect it?</strong></p>
+<p>A model that captures noise rather than signal — high in-sample fit, poor out-of-sample. Detection:<br />
+- Train/test split with degraded test performance<br />
+- Cross-validation<br />
+- Penalised regression (Lasso, Ridge) — punish large coefficients<br />
+- Number of parameters vs sample size (rule of thumb: &lt;1 parameter per 10 obs)<br />
+- Robustness checks: small data perturbation should not change conclusions</p>
+<p>Every quant strategy is at risk. Overfit risk in a backtest = model risk in production. Risk managers ask: "show me the equity curve on data the model has never seen."</p>
+<hr />
+<h2 id="hedging-strategies-cost">Hedging Strategies &amp; Cost</h2>
+<p><strong>Q71. How do you hedge a long equity book?</strong></p>
+<p>Options ordered by cost and precision:<br />
+- <strong>Index futures short</strong> (ES, SX5E): cheapest, removes broad market beta. Residual = stock-specific risk + factor tilt.<br />
+- <strong>Sector ETF shorts</strong>: hedges sector concentration if your longs are clustered<br />
+- <strong>Single-name shorts</strong> (pair trade): if you have idiosyncratic conviction<br />
+- <strong>Index put options</strong>: defined cost, kicks in only on downside, leaves upside. Premium drag in calm markets.<br />
+- <strong>VIX calls</strong>: convex payoff in vol spikes — but VIX futures are in contango most of the time → bleed<br />
+- <strong>Tail hedge funds / structured products</strong>: outsource the hedge, pay an explicit fee</p>
+<p>Risk manager perspective: every hedge has a cost (spread, theta, basis risk). The right hedge depends on what risk you're trying to remove and at what price.</p>
+<hr />
+<p><strong>Q72. What is a tail hedge? Pros and cons of long puts vs long VIX?</strong></p>
+<p>Tail hedge = position designed to pay off in extreme downside, not normal moves.<br />
+- <strong>Long OTM SPX puts</strong>: precise downside payoff, expensive theta bleed if nothing happens. Cost ~1-2% of notional/year for 25-delta puts.<br />
+- <strong>Long VIX calls or futures</strong>: convex payoff in vol spikes, but VIX futures in persistent contango → roll cost ~5-15%/year. You pay for the optionality.<br />
+- <strong>Long gold / long Treasuries</strong>: cheap "soft" hedges that work in some crises (deflationary) but fail in others (stagflation)</p>
+<p>Universa-style tail hedging argues you should accept the bleed because the payoff in a tail event funds decades of losses. But for a discretionary book, the bleed is real P&amp;L that competes with active strategy returns — most funds don't run permanent tail hedges.</p>
+<hr />
+<h2 id="crisis-case-studies">Crisis Case Studies</h2>
+<p><strong>Q73. What lessons did Archegos teach risk managers?</strong></p>
+<p>Archegos (March 2021) — Bill Hwang's family office blew up, took <span class="nokatex">$</span>10B+ from prime brokers (Credit Suisse, Nomura, Morgan Stanley).</p>
+<p>Mechanics: held massive concentrated long positions in a few names (ViacomCBS, Discovery, Chinese ADRs) via Total Return Swaps (TRS) across multiple prime brokers. Each PB only saw their slice — none saw the aggregate exposure. When the names started falling, margin calls hit simultaneously, Archegos couldn't meet them, PBs unwound the TRS positions into a falling market.</p>
+<p>Lessons:<br />
+- TRS hide leverage from public disclosure (no 13F filing required)<br />
+- Prime brokers had no visibility into total client exposure across the street<br />
+- Concentration risk: single positions were 10%+ of float<br />
+- Margin models underestimated correlation in stress<br />
+- Post-Archegos: SEC pushing for swap position disclosure, PBs raised IM significantly</p>
+<hr />
+<p><strong>Q74. LTCM 1998 — what happened and what's the takeaway?</strong></p>
+<p>Long-Term Capital Management ran arbitrage trades (convergence) at 25-30x leverage. Russia defaulted Aug 1998 → flight to quality → spreads widened instead of converging → losses → margin calls → forced unwinds in illiquid markets → death spiral. NY Fed organised a <span class="nokatex">$</span>3.6B bailout to prevent systemic contagion.</p>
+<p>Lessons:<br />
+- Liquidity dries up exactly when you need to exit<br />
+- Models assuming normal correlations fail in crisis (correlations → 1)<br />
+- Leverage amplifies survivable losses into terminal ones<br />
+- Even Nobel laureates with PhDs blow up<br />
+- Position size matters more than position quality</p>
+<hr />
+<p><strong>Q75. UK LDI crisis 2022 — what happened?</strong></p>
+<p>UK pension funds used Liability-Driven Investment strategies — long Gilts + leveraged via repo to match long-duration liabilities. Sept 2022 mini-budget caused Gilt yields to spike 100bps in days → mark-to-market losses → margin calls → forced Gilt selling → yields spiked further → death spiral. BoE intervened with emergency Gilt purchases.</p>
+<p>Lessons:<br />
+- Levered duration trades have non-linear blow-up risk in rate spikes<br />
+- "Hedging" liabilities with leverage adds new risk<br />
+- Coordinated forced selling creates feedback loops<br />
+- Risk managers must model the funding side, not just the asset side</p>
+<hr />
+<h2 id="behavioural-situational">Behavioural / Situational</h2>
+<p><strong>Q76. A senior trader pushes back hard on your risk view. How do you handle it?</strong></p>
+<p>Don't escalate emotionally; escalate analytically. Steps:<br />
+1. Listen — they may know something you don't (e.g., a hedge offsetting the position you flagged)<br />
+2. Restate their argument back to them to confirm understanding<br />
+3. Show your data — exact position, the limit, the breach calculation<br />
+4. Ask: "If you're right, what would change my numbers?" Test their thesis against the model<br />
+5. If still in disagreement, escalate jointly to senior risk — not behind their back</p>
+<p>A risk manager isn't there to be liked or to win arguments. The job is to be right and to make the firm's risk explicit. Traders respect risk managers who do their homework and don't fold under pressure.</p>
+<hr />
+<p><strong>Q77. Tell me about a time you made a mistake.</strong></p>
+<p>[FILL IN WITH REAL STORY — STAR format]<br />
+- <strong>Situation</strong>: brief context (project, role)<br />
+- <strong>Task</strong>: what you were responsible for<br />
+- <strong>Action</strong>: what you did wrong, when you realised, how you responded<br />
+- <strong>Result</strong>: outcome + what you learned + what you do differently now</p>
+<p>Key: own it cleanly, don't blame, focus on the lesson and the change in behaviour. Interviewers want to see self-awareness and growth, not perfection.</p>
+<hr />
+<p><strong>Q78. Why are you leaving Natixis?</strong></p>
+<p>[Natixis is a strong cross-asset shop and I've learned a lot]. Two reasons: I want to be on the buy side where risk decisions tie directly to P&amp;L, not regulatory capital. And Squarepoint specifically — the combination of systematic infrastructure with the growing discretionary book is a research environment that doesn't exist on the sell side. This isn't away-from, it's toward-something.</p>
+<hr />
+<h2 id="brain-teasers">Brain Teasers</h2>
+<p><strong>Q79. You flip a fair coin until you see two heads in a row. Expected number of flips?</strong></p>
+<p>Let E = expected flips. Two states by progress:<br />
+- From "0 heads in a row": flip → with p=½ go to "1 head", with p=½ stay at 0. E₀ = 1 + ½ E₁ + ½ E₀<br />
+- From "1 head in a row": flip → with p=½ done, with p=½ back to 0. E₁ = 1 + ½ × 0 + ½ E₀</p>
+<p>Solve: E₁ = 1 + ½ E₀. Substitute: E₀ = 1 + ½(1 + ½ E₀) + ½ E₀ = 1.5 + ¾ E₀ → ¼ E₀ = 1.5 → E₀ = 6.</p>
+<p>Answer: <strong>6 flips</strong>.</p>
+<hr />
+<p><strong>Q80. Two assets, both with Sharpe 1, correlation 0.5 — what's the Sharpe of an equal-weighted portfolio?</strong></p>
+<p>Equal weights w = ½. Both have same μ and σ (since same Sharpe). Portfolio:<br />
+- Mean return: μ_p = μ<br />
+- Variance: σ²_p = ½ σ² + ½ × 0.5 × σ² = 0.75 σ² → σ_p = σ × √0.75 ≈ 0.866σ</p>
+<p>Sharpe_p = μ / (0.866σ) = 1 / 0.866 ≈ <strong>1.155</strong>.</p>
+<p>Generalises: combining uncorrelated equal-Sharpe strategies improves Sharpe by √n. With correlation 0.5, you get less than √2 lift but still a real improvement. This is the math behind multi-strat funds.</p>
+<hr />
+<p><strong>Q81. A stock is at 100, you sell a 105 call for <span class="nokatex">$</span>2 and buy a 95 put for <span class="nokatex">$</span>1. What's your max loss and max gain?</strong></p>
+<p>This is a "risk reversal" (synthetic short with band):<br />
+- If stock at expiry &gt; 105: short call assigned → lose (S − 105) on call, +<span class="nokatex">$</span>2 premium, put expires → -<span class="nokatex">$</span>1. Net: -(S − 105) + 1. Loss grows linearly above 105 — <strong>unlimited max loss</strong>.<br />
+- If 95 ≤ S ≤ 105: both options expire worthless. Net P&amp;L = +<span class="nokatex">$</span>2 − <span class="nokatex">$</span>1 = <strong>+<span class="nokatex">$</span>1 (max gain region)</strong>.<br />
+- If S &lt; 95: long put pays (95 − S), call expires, premiums net +<span class="nokatex">$</span>1. Net: (95 − S) + 1. Gains as stock falls — <strong>max gain unbounded on downside</strong> (if no stock position).</p>
+<p>Note: this is a payoff question, not a directional bet — interviewer wants to see you draw the payoff cleanly. If asked the same with long stock + this collar overlay, max loss = stock @ 100 → put @ 95 = -<span class="nokatex">$</span>5 + <span class="nokatex">$</span>1 net premium = <strong>-<span class="nokatex">$</span>4</strong>, max gain = stock @ 100 → call @ 105 = +<span class="nokatex">$</span>5 + <span class="nokatex">$</span>1 = <strong>+<span class="nokatex">$</span>6</strong>.</p>
+<hr />
 <h2 id="questions-to-ask-suhas">Questions to Ask Suhas</h2>
 <ol>
 <li>How does the risk team interact day-to-day with the discretionary traders — is it reactive (breach alerts) or proactive (regular risk reviews)?</li>
