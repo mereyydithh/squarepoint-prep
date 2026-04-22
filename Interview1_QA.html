@@ -651,6 +651,120 @@ body {
 <p><strong>Q47. What's a variance swap?</strong></p>
 <p>A swap that pays the difference between realised variance over a period and a strike variance, multiplied by a notional. Pure exposure to realised vol — no path dependency, no daily delta hedging required (unlike a vol-traded straddle). Long var swap = long realised vol. Used by vol traders to express clean vol views without strike or skew exposure. Replication uses a strip of OTM puts and calls weighted 1/K² — which is why the VIX index methodology looks the way it does.</p>
 <hr />
+<h2 id="volatility-surface">Volatility Surface</h2>
+<p><strong>Q48. What is the volatility smile / skew?</strong></p>
+<p>Empirically, implied vol is not constant across strikes (as Black-Scholes assumes) — it varies. In equity indices, OTM puts trade at higher IV than OTM calls (a downward-sloping curve in strike) — that's "skew," priced in since the 1987 crash. In FX and single-name equities you see a more symmetric "smile." The shape of the surface tells you what the market is pricing for tail risk. Risk managers monitor skew because a steepening skew often precedes vol spikes — it's a market-implied stress signal.</p>
+<hr />
+<p><strong>Q49. What's the term structure of vol? Contango vs backwardation in vol?</strong></p>
+<p>The IV curve across maturities at fixed moneyness (usually ATM).<br />
+- <strong>Contango (upward-sloping)</strong>: long-dated vol &gt; short-dated vol. The "normal" regime — calm now, more uncertainty later. VIX futures usually in contango → systematic short-vol strategies earn the roll.<br />
+- <strong>Backwardation (downward-sloping)</strong>: short-dated vol &gt; long-dated. Stress regime — market expects the storm to pass. Happens during crises (March 2020, Aug 2024).</p>
+<p>Inversion of the VIX curve is a real-time stress indicator.</p>
+<hr />
+<p><strong>Q50. What is realised vs implied vol? When does the spread matter?</strong></p>
+<ul>
+<li><strong>Realised vol</strong>: backward-looking, computed from historical price moves (typically annualised stdev of log returns).</li>
+<li><strong>Implied vol</strong>: forward-looking, extracted from option prices.</li>
+</ul>
+<p>The spread (IV − RV) is the variance risk premium — what option sellers earn on average for taking on tail risk. Persistently positive (option buyers overpay for protection). When IV &lt;&lt; RV, options are cheap relative to actual market chop — buying gamma is attractive. Risk managers track this because a book that's systematically short vol is collecting the premium but exposed to the tail.</p>
+<hr />
+<p><strong>Q51. What's vanna and volga? Why do they matter?</strong></p>
+<p>Second-order Greeks:<br />
+- <strong>Vanna</strong> = ∂Delta/∂Vol = ∂Vega/∂Spot. How delta moves when vol changes (or vega when spot changes). Matters for skewed positions — a vol spike shifts your delta.<br />
+- <strong>Volga (vomma)</strong> = ∂Vega/∂Vol. Convexity of vega. OTM options have high volga — they gain value disproportionately in a vol spike.</p>
+<p>A risk manager monitoring an exotic or barrier book needs vanna/volga because BS Greeks alone don't capture how the position behaves through a stress event.</p>
+<hr />
+<h2 id="liquidity-funding">Liquidity &amp; Funding</h2>
+<p><strong>Q52. Market liquidity vs funding liquidity — what's the difference?</strong></p>
+<ul>
+<li><strong>Market liquidity</strong>: ability to exit a position without moving the price against you. Measured by bid-ask spread, depth, ADV.</li>
+<li><strong>Funding liquidity</strong>: ability to finance positions — access to cash, repo, prime brokerage. Margin calls, haircut increases, withdrawal of credit lines.</li>
+</ul>
+<p>The two are linked: a funding liquidity squeeze (e.g., LTCM 1998, Bear Stearns 2008) forces fire-sales, which destroys market liquidity, which forces more sales — the doom loop. A risk manager has to monitor both: position-level liquidity (how fast can I exit) and firm-level funding (can I survive a margin call).</p>
+<hr />
+<p><strong>Q53. What is initial margin vs variation margin?</strong></p>
+<ul>
+<li><strong>Variation margin (VM)</strong>: daily MTM movement. If you lose <span class="nokatex">$</span>1M today, you post <span class="nokatex">$</span>1M cash to the counterparty/CCP overnight. Settles the realised exposure.</li>
+<li><strong>Initial margin (IM)</strong>: a buffer posted upfront to cover potential losses between the last VM settlement and the close-out of the position if you default. Sized as a quantile (e.g., 99% 5-day VaR for cleared swaps; SIMM for uncleared).</li>
+</ul>
+<p>Risk implication: a vol spike inflates IM requirements (margin call) even if you haven't lost money — that's a funding shock. Archegos partly blew up because IM doubled across multiple prime brokers simultaneously.</p>
+<hr />
+<p><strong>Q54. What is repo? Why does it matter for risk?</strong></p>
+<p>Repo = sale of a security with agreement to buy it back later at a higher price. Economically, a collateralised loan: cash for bonds for a few days. The "haircut" is the lender's protection — lend <span class="nokatex">$</span>98 against <span class="nokatex">$</span>100 of collateral.</p>
+<p>Why it matters: hedge funds finance long bond positions via repo. If repo rates spike, or haircuts widen, the levered bond carry trade implodes (basis trade in March 2020, again in 2023). The September 2019 repo spike (rates to 10%) was a flash funding crisis with no obvious trigger — this is why the Fed runs the standing repo facility now.</p>
+<hr />
+<p><strong>Q55. What's the basis trade and why is it a systemic risk concern?</strong></p>
+<p>Hedge funds buy cash Treasuries, sell Treasury futures, and capture the basis (cash trades cheap to futures because futures embed financing). Levered ~50-100x via repo. Profitable in normal times — tiny spread × massive leverage. In March 2020, when futures sold off and repo seized up, funds were forced to unwind, dumping cash Treasuries → Treasury market broke → Fed had to intervene with <span class="nokatex">$</span>1T+ in purchases. SEC and Fed are now scrutinising it. For a discretionary book, the lesson: levered convergence trades can destroy you in a liquidity event even if the trade is "right."</p>
+<hr />
+<h2 id="pl-attribution-validation">P&amp;L Attribution &amp; Validation</h2>
+<p><strong>Q56. What is P&amp;L attribution? Why does a risk manager care?</strong></p>
+<p>Decomposing daily P&amp;L into the contributions from each risk factor:<br />
+- <strong>Delta P&amp;L</strong>: spot move × delta<br />
+- <strong>Gamma P&amp;L</strong>: ½ × gamma × (spot move)²<br />
+- <strong>Vega P&amp;L</strong>: vol move × vega<br />
+- <strong>Theta</strong>: -theta × dt<br />
+- <strong>Carry/financing</strong>: rates accrual<br />
+- <strong>Residual</strong>: unexplained</p>
+<p>A clean attribution should leave a small residual. A large residual means either the model is wrong, the Greeks are stale, or there's a position you don't know about. P&amp;L attribution is a daily sanity check that the risk view of the book matches the actual P&amp;L — a key control on rogue trading and model error.</p>
+<hr />
+<p><strong>Q57. What is VaR backtesting?</strong></p>
+<p>Compare ex-ante VaR forecasts to actual realised P&amp;L. For 95% 1-day VaR, you expect ~5% of days to breach (12-13 days/year). Count the breaches:<br />
+- <strong>Too few</strong> → VaR is too conservative (capital inefficient)<br />
+- <strong>Too many</strong> → model underestimates risk</p>
+<p>Formal tests: Kupiec POF (number of breaches), Christoffersen (independence — breaches shouldn't cluster). Basel "traffic light": green (≤4 breaches/year), yellow (5-9), red (10+) → capital multiplier increases. A red zone forces model review and regulatory escalation.</p>
+<hr />
+<p><strong>Q58. What's a model risk? How do you manage it?</strong></p>
+<p>Model risk = the risk that a model produces wrong answers and drives bad decisions. Sources: wrong assumptions (normality), bad calibration (stale data), implementation bugs, misuse outside the model's domain.</p>
+<p>Management:<br />
+- <strong>Independent validation</strong>: a separate team revalues using a different model<br />
+- <strong>Backtesting</strong>: compare model output to realised<br />
+- <strong>Benchmarking</strong>: compare to industry standard or alternative model<br />
+- <strong>Reserves</strong>: hold capital against model uncertainty<br />
+- <strong>Use limits</strong>: cap exposure to instruments where model confidence is low</p>
+<p>The 2012 JP Morgan "London Whale" loss involved a VaR model swap that halved reported risk — classic model governance failure.</p>
+<hr />
+<h2 id="math-stats">Math &amp; Stats</h2>
+<p><strong>Q59. Why annualise vol by √T (square root of time)?</strong></p>
+<p>Under Brownian motion, returns are independent and identically distributed, so variance scales linearly with time: Var(r_T) = T × Var(r_1). Standard deviation scales with √T. So daily vol × √252 ≈ annual vol.</p>
+<p>Caveat: assumes IID returns — breaks down with autocorrelation (momentum/mean-reversion) or fat tails. In practice the √T rule is a useful approximation but not exact.</p>
+<hr />
+<p><strong>Q60. If returns are normal, what's the probability of a 3-sigma move?</strong></p>
+<p>About 0.27% (two-tailed) — roughly once every 370 trading days, ~1.5x per year. A 4-sigma move: 0.006%, once every ~16,000 days, ~63 years. A 5-sigma: once in ~3.5 million days.</p>
+<p>Punchline: real markets see "5-sigma events" several times per decade. Returns are NOT normal — they have fat tails. Risk managers know that the normal distribution underestimates tail probabilities by orders of magnitude, which is why historical and Monte Carlo VaR with realistic distributions matter.</p>
+<hr />
+<p><strong>Q61. Two assets each with vol 20%, correlation 0.5, equal-weighted — portfolio vol?</strong></p>
+<p>σ²_p = w₁²σ₁² + w₂²σ₂² + 2 w₁ w₂ ρ σ₁ σ₂<br />
+= 0.25(0.04) + 0.25(0.04) + 2(0.5)(0.5)(0.5)(0.2)(0.2)<br />
+= 0.01 + 0.01 + 0.01 = 0.03<br />
+σ_p = √0.03 ≈ 17.3%</p>
+<p>If correlation were 1: portfolio vol = 20% (no diversification). If 0: ~14.1%. If -1: 0%. The diversification benefit comes entirely from correlation &lt; 1.</p>
+<hr />
+<p><strong>Q62. What's a Brownian motion? Why use it for asset prices?</strong></p>
+<p>Continuous-time random process with: starts at 0, independent increments, normally distributed increments with variance proportional to time, continuous paths. Geometric Brownian Motion (GBM) for prices: dS/S = μ dt + σ dW. Used because:<br />
+- Tractable (closed-form solutions like Black-Scholes)<br />
+- Captures drift + volatility cleanly<br />
+- Log-normal prices ⇒ no negative prices</p>
+<p>Limitations: constant vol (no smile), normal log returns (no jumps), continuous paths (no gaps). Real markets jump and have stochastic vol — modern models (Heston, SABR, jump-diffusion) extend GBM to address these.</p>
+<hr />
+<h2 id="markets-microstructure">Markets &amp; Microstructure</h2>
+<p><strong>Q63. What's the bid-ask spread? What drives it?</strong></p>
+<p>Spread = ask − bid. The compensation a market maker requires to take the other side of your trade. Drivers:<br />
+- <strong>Adverse selection</strong>: risk that you're informed → spread widens<br />
+- <strong>Inventory risk</strong>: market maker holds the position until they offset → vol drives spread<br />
+- <strong>Order processing cost</strong>: fixed minimum<br />
+- <strong>Competition</strong>: more market makers → tighter spreads</p>
+<p>In stress, spreads explode (March 2020 Treasury market: 10x normal). For a risk manager, position sizing must account for execution cost in stress, not just normal-day spread.</p>
+<hr />
+<p><strong>Q64. What is market impact? How do you size around it?</strong></p>
+<p>Market impact = the price move you cause by trading. Square-root law (empirical): impact ≈ k × σ × √(volume / ADV). Trading 10% of ADV in a name with 30% vol moves the price ~10%×30%/√10 ≈ 1% against you. Implications:<br />
+- Large positions can't be exited at "screen price"<br />
+- Liquidation cost is a separate risk, not captured by market vol<br />
+- Liquidity-adjusted VaR adds an exit-cost component</p>
+<p>Squarepoint runs systematic strategies — market impact modelling is core to their alpha capture.</p>
+<hr />
+<p><strong>Q65. What is slippage?</strong></p>
+<p>Difference between expected execution price and actual fill. Sources: bid-ask spread, market impact, latency, adverse selection on resting orders. A risk manager looks at slippage as a hidden cost that erodes strategy P&amp;L over time — strategies that look profitable on paper can be unprofitable after realistic execution costs.</p>
+<hr />
 <h2 id="questions-to-ask-suhas">Questions to Ask Suhas</h2>
 <ol>
 <li>How does the risk team interact day-to-day with the discretionary traders — is it reactive (breach alerts) or proactive (regular risk reviews)?</li>
